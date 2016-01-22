@@ -131,3 +131,4 @@ websupport@colorado.edu');
 function cu_core_update_7001() {
   module_enable(array('express_add_content'));
 }
+
