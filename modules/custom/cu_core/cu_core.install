@@ -123,12 +123,3 @@ websupport@colorado.edu');
   variable_set('syslog_format','!base_url !timestamp "!type" !ip !request_uri !referer !uid "!link" "!message"');
 }
 
-/**
- * Implements hook_update_N().
- *
- * Enable express_add_content module.
- */
-function cu_core_update_7001() {
-  module_enable(array('express_add_content'));
-}
-
