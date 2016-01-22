@@ -252,7 +252,7 @@ function _express_layout_default_settings() {
   $types = array(
     'article',
     'article_list_page',
-    'faq',
+    'faqs',
     'page',
     'people_list_page',
     'person',
