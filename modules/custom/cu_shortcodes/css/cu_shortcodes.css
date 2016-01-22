@@ -405,7 +405,7 @@ div.image-caption  p:first-child {
   display: block;
 }
 .layout-responsive .image-full-width .image-caption p:nth-child(n+2) {
-  max-width:1160px;
+  max-width:1200px;
   margin-left: auto;
   margin-right: auto;
   display: block;
