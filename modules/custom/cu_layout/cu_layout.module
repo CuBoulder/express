@@ -1,0 +1,81 @@
+<?php
+/**
+ * @file
+ * Code for the CU Block Layout feature.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function cu_layout_menu() {
+
+  // Migrate to layout
+  $items['admin/config/content/layout/migrate'] = array(
+    'title' => 'Migrate to Block Layout',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('cu_layout_migrate_form'),
+    'access arguments' => array('administer software updates'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 0,
+    'file' => 'cu_layout.admin.inc',
+  );
+
+  // Migrate to layout
+  $items['layout/field-test'] = array(
+    'title' => 'Check for layout fields',
+    'page callback' => '_layout_field_test',
+    'access arguments' => array('access content'),
+    'type' => MENU_NORMAL_ITEM,
+    'weight' => 0,
+  );
+
+  return $items;
+}
+
+function _layout_field_test() {
+  $fields = field_info_instances('express_layout', 'express_layout');
+
+  foreach ($fields as $key => $field) {
+    $data_field = 'field_data_' . $field['field_name'];
+    $node_result = db_query("SELECT count(entity_type) FROM {$data_field} WHERE entity_type = 'node'")->fetchField();
+    $entity_result = db_query("SELECT count(entity_type) FROM {$data_field} WHERE entity_type = 'express_layout'")->fetchField();
+    print "<p>" . $data_field . " block_selector: " . $node_result . "<br/>" . $data_field .  " express_layout: " . $entity_result . "</p>";
+  }
+
+  foreach ($fields as $key => $field) {
+    $data_field = 'field_revision_' . $field['field_name'];
+    $node_result = db_query("SELECT count(entity_type) FROM {$data_field} WHERE entity_type = 'node'")->fetchField();
+    $entity_result = db_query("SELECT count(entity_type) FROM {$data_field} WHERE entity_type = 'express_layout'")->fetchField();
+    print "<p>" . $data_field . " block_selector: " . $node_result . "<br/>" . $data_field .  " express_layout: " . $entity_result . "</p>";
+  }
+}
+
+/**
+ * Implements hook_menu_alter.
+ * Check access for forum menu item.
+ */
+function cu_layout_menu_alter(&$items) {
+  $items['node/%node/layout']['title'] = 'Edit Blocks';
+}
+
+
+/**
+ * Implements hook_form_alter().
+ * Remove block selector fields from node edit forms
+ */
+function cu_layout_form_alter(&$form, &$form_state, $form_id) {
+
+  if (isset($form['#node_edit_form']) && $form['#node_edit_form'] == TRUE) {
+    $form['field_sidebar_first'] = FALSE;
+    $form['field_sidebar_second'] = FALSE;
+    $form['field_header'] = FALSE;
+    $form['field_footer'] = FALSE;
+    $form['field_inner_content_right'] = FALSE;
+    $form['field_inner_content_left'] = FALSE;
+    $form['field_intro'] = FALSE;
+    $form['field_slider'] = FALSE;
+    $form['field_wide_2'] = FALSE;
+    $form['field_override_sidebar_first'] = FALSE;
+    $form['field_override_sidebar_first'] = FALSE;
+  }
+}

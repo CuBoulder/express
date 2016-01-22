@@ -1,0 +1,202 @@
+<?php
+
+/**
+ * @file
+ * Alters grouping in admin/modules using hook_system_info_alter
+ */
+
+
+/**
+ * Define site permissions in code.
+ *
+ * Create a secure_permissions_data module directory and place this function
+ * in secure_permissions_data.module.
+ *
+ * @param $role
+ *   The role for which the permissions are being requested.
+ *
+ * @return
+ *   An array defining all the permissions for the site.
+ */
+function cu_module_manager_secure_permissions($role) {
+  $permissions = array(
+    'administrator' => array(
+      'enable module bundles',
+    ),
+    'anonymous user' => array(),
+    'authenticated user' => array(),
+    'content_editor' => array(),
+    'developer' => array(
+      'enable module bundles',
+    ),
+    'site_owner' => array(
+      'enable module bundles',
+    ),
+  );
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
+ * Implements hook_system_info_alter().
+ */
+function cu_module_manager_system_info_alter(&$info, $file, $type) {
+
+
+  // define array of modules for each grouping
+
+  // all modules being removed should be listed here first
+  $cu_legacy = array('cu_video');
+
+  // all modules being removed should be listed here first
+  $cu_deprecated = array();
+  
+  //deleted in 1.7.6
+  // auto_content_anchors
+  // block_titlelink
+  // blockcache_alter
+  // ckeditor',
+  // collapse_text
+  // defaultcontent
+  // elements
+  // field_boxes
+  // field_slideshow
+  // field_collection_table
+  // imagemagick
+  // linkit
+  // menu_icons
+  // maxlength
+  // nodeformcols
+  // nodeblock
+  // references
+  // save_draft
+  // semanticviews
+  // simplehtmldom
+  // taxonomy_menu
+  // term_reference_tree
+  // uuid
+  // variable
+  
+  //deleted in 1.7.5
+  // auto_node_title
+  // media
+  // migrate
+
+  // cu_clicktrack
+  // cu_article_lists
+  // cu_helpers
+  // cu_site_notifications
+  // cu_table_sorter
+  // cu_override
+
+  // deleted in 1.7.7
+  // typogrify
+
+
+  // these shouldn't change very often
+  $cu_tests = array('cu_test_content');
+  $cu_development = array('cu_local', 'devel', 'cu_styleguide');
+  $cu_site_building = array('clone', 'feeds', 'scheduler', 'cu_featherweight', 'cu_heavyweight');
+
+  if($type == 'module' && $info['package'] == 'CU-Boulder') {
+    $info['package'] = 'CU-Core';
+  }
+  
+  if($type == 'module' && $info['package'] == 'CU-Active') {
+    $info['package'] = 'CU-Core';
+  }
+
+  if($type == 'module' && in_array($file->name, $cu_site_building)) {
+    $info['package'] = 'CU-Site Building';
+  }
+
+  if($type == 'module' && in_array($file->name, $cu_legacy)) {
+    $info['package'] = 'CU-Legacy';
+  }
+
+  if($type == 'module' && in_array($file->name, $cu_deprecated)) {
+    $info['package'] = 'CU-Deprecated';
+  }
+
+  if($type == 'module' && in_array($file->name, $cu_tests)) {
+    $info['package'] = 'CU-Tests';
+  }
+
+  if($type == 'module' && in_array($file->name, $cu_development)) {
+    $info['package'] = 'CU-Development';
+  }
+
+}
+
+function cu_module_manager_is_config_ideal(){
+  $reality = module_list();
+  $ideal = cu_module_manager_should_be_enabled();
+
+  //is the reality ideal?
+  $diff1 = array_diff_assoc($reality, $ideal);
+  $diff2 = array_diff_assoc($ideal, $reality);
+  $diff = array_merge($diff1, $diff2);
+
+  //$enabled_themes = list_themes();
+  //dsm($enabled_themes);
+  return $diff;
+}
+
+// only what we can't get from profile and bundle .info files
+function cu_module_manager_should_be_enabled() {
+
+  //cu_debug?
+  if (module_exists('cu_debug')) {
+	$debug_projects = array();
+    $project = drupal_parse_info_file(drupal_get_path('module', 'cu_debug') . '/cu_debug.info');
+    foreach( $project['dependencies'] as $dependency) {
+      $debug_projects[$dependency] = $dependency;
+    }
+    $debug_projects['cu_debug'] = 'cu_debug';
+    $projects = array_merge($projects, $debug_projects);
+    // unset the modules cu_debug disables
+    unset($projects['varnish']);
+    unset($projects['cu_cache']);
+    unset($projects['memcache']);
+  }
+
+  //cu_preview?
+  if (module_exists('cu_preview')) {
+    $preview_projects = array();
+    //$project = drupal_parse_info_file(drupal_get_path('module', 'cu_preview') . '/cu_preview.info');
+    //foreach( $project['dependencies'] as $dependency) {
+    //  $preview_projects[$dependency] = $dependency;
+    //}
+    $preview_projects['cu_preview'] = 'cu_preview';
+    $preview_projects['navbar'] = 'navbar';
+    $preview_projects['cu_help'] = 'cu_help';
+
+    $projects = array_merge($projects, $preview_projects);
+    // unset the modules cu_debug disables
+    unset($projects['environment_indicator']);
+    unset($projects['cu_version']);
+    unset($projects['overlay']);
+    unset($projects['toolbar']);
+  }
+
+  // Express+
+  $sid = variable_get('cu_sid', NULL);
+  if ($sid) {
+    $site = cu_inventory_get_site($sid);
+
+    if (isset($site['packages']['custom'][0])) {
+	  //@TODO: for each if there are more than one custom
+	  $name = $site['packages']['custom'][0];
+	  $plus_projects = array();
+      $project = drupal_parse_info_file(drupal_get_path('module', $name) . '/' . $name . '.info');
+      foreach( $project['dependencies'] as $dependency) {
+        $plus_projects[$dependency] = $dependency;
+      }
+      $plus_projects[$name] = $name;
+      $projects = array_merge($projects, $plus_projects);
+    }
+  }
+  
+ return $projects;
+}

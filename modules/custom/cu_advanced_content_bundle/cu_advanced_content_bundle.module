@@ -1,0 +1,120 @@
+<?php
+
+/**
+ * Define site permissions in code.
+ *
+ * Create a secure_permissions_data module directory and place this function
+ * in secure_permissions_data.module.
+ *
+ * @param $role
+ *   The role for which the permissions are being requested.
+ *
+ * @return
+ *   An array defining all the permissions for the site.
+ */
+  
+function cu_advanced_content_bundle_secure_permissions($role) {
+
+  $permissions = array(
+    'administrator' => array(
+      'create any video_reveal bean',
+      'delete any video_reveal bean',
+      'edit any video_reveal bean',
+      'view any video_reveal bean',
+      'create any feature_callout bean',
+      'edit any feature_callout bean',
+      'delete any feature_callout bean',
+      'view any feature_callout bean',
+      'administer quicktabs',
+    ),
+    'anonymous user' => array(
+      'view any video_reveal bean',
+      'view any feature_callout bean',
+    ),
+    'authenticated user' => array(
+      'view any video_reveal bean',
+      'view any feature_callout bean',
+    ),
+    'content_editor' => array(
+      'create any video_reveal bean',
+      'delete any video_reveal bean',
+      'edit any video_reveal bean',
+      'view any video_reveal bean',
+      'create any feature_callout bean',
+      'delete any feature_callout bean',
+      'edit any feature_callout bean',
+      'view any feature_callout bean',
+      'administer quicktabs',
+    ),
+    'developer' => array(
+      'create any video_reveal bean',
+      'delete any video_reveal bean',
+      'edit any video_reveal bean',
+      'create any feature_callout bean',
+      'delete any feature_callout bean',
+      'edit any feature_callout bean',
+      'view any feature_callout bean',
+      'administer quicktabs',
+    ),
+    'edit_my_content' => array(
+      'view any video_reveal bean',
+      'view any feature_callout bean',
+    ),
+    'site_owner' => array(
+      'create any video_reveal bean',
+      'delete any video_reveal bean',
+      'edit any video_reveal bean',
+      'view any video_reveal bean',
+      'create any feature_callout bean',
+      'delete any feature_callout bean',
+      'edit any feature_callout bean',
+      'view any feature_callout bean',
+      'administer quicktabs',
+    ),
+  );
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
+ * Implements hook_express_help()
+ *
+ * Add contextual help for the Advanced content like Quicktabs.
+ *
+ * @param $variables
+ *   Array with information about help hooks
+ * @return $variables
+ */
+function cu_advanced_content_bundle_express_help($variables) {
+  $variables['admin/structure/quicktabs/%'][] = array(
+    'title' => 'Quicktabs Help',
+    'short_title' => 'Quicktabs',
+    'url' => 'http://www.colorado.edu/webcentral/tutorial/v2/quicktabs',
+  );
+  $variables['block/add/feature-callout'][] = array(
+    'title' => 'Content Grid Block Help',
+    'short_title' => 'Content Grid',
+    'url' => 'http://www.colorado.edu/webcentral/tutorial/v2/content-grid-block',
+  );
+  $variables['block/add/video-reveal'][] = array(
+    'title' => 'Adding Video Reveal Block Help',
+    'short_title' => 'Video Reveal Block',
+    'url' => 'http://www.colorado.edu/webcentral/tutorial/v2/video-reveal',
+  );
+
+  $variables['admin/structure/quicktabs/add'][] = array(
+    'title' => 'Quicktab Tutorial',
+    'short_title' => 'Quicktab Tutorial',
+    'url' => 'http://www.colorado.edu/webcentral/node/430',
+  );
+
+  $variables['admin/structure/quicktabs'][] = array(
+    'title' => 'Quicktab Tutorial',
+    'short_title' => 'Quicktab Tutorial',
+    'url' => 'http://www.colorado.edu/webcentral/node/430',
+  );
+
+  return $variables;
+}
