@@ -7,7 +7,6 @@ project = photo_gallery
 dependencies[] = colorbox
 dependencies[] = context
 dependencies[] = ctools
-dependencies[] = cu_video
 dependencies[] = ds
 dependencies[] = eva
 dependencies[] = features

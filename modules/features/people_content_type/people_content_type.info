@@ -7,7 +7,6 @@ project = people_content_type
 dependencies[] = advanced_link
 dependencies[] = auto_entitylabel
 dependencies[] = bean_admin_ui
-dependencies[] = cu_video
 dependencies[] = email
 dependencies[] = eva
 dependencies[] = features
