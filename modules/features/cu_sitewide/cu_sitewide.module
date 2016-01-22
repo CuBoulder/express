@@ -115,11 +115,6 @@ function cu_sitewide_form_ctools_export_ui_edit_item_form_alter(&$form, &$form_s
  */
 function cu_sitewide_form_alter(&$form, &$form_state, $form_id) {
   switch($form_id) {
-    case 'block_admin_configure':
-    case 'bean_form':
-    case 'quicktabs_form':
-      $form['#submit'][] = '_cu_sitewide_clear_cache';
-      break;
     case 'ctools_export_ui_edit_item_form':
       // Rename bean to blocks
       $form['reactions']['plugins']['block']['selector']['bean']['#title'] = 'blocks';
