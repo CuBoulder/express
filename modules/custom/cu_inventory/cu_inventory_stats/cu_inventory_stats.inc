@@ -146,7 +146,10 @@
      $site_data['statistics']['users'][$role_name] = $email_list;
    }
 
-   // Funtion defaults to true.
+   // Add report of overridden features.
+   $site_data['statistics']['overriden_features'] = _get_features_statuses();
+
+   // Function defaults to true.
    if ($process) {
      // Ready to patch.
      cu_inventory_update_site($site_data);
