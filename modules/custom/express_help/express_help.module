@@ -133,10 +133,12 @@ function _express_help_list() {
     )),
   );
   foreach ($express_help as $help) {
-    $help_list['items'][$help['short_title']] = l($help['short_title'], $help['url'], array('attributes' => array('target'=>'_blank')));
+    foreach ($help as $key => $value) {
+      $help_list['items'][$value['short_title']] = l($value['short_title'], $value['url'], array('attributes' => array('target'=>'_blank')));
+    }
   }
-  foreach ($help_fields as $form) {
-    foreach ($form['fields'] as $field) {
+  foreach ($help_fields as $form_id => $form) {
+    foreach ($form['fields'] as $field_name => $field) {
       $help_list['items'][$field['short_title']] = l($field['short_title'], $field['url'], array('attributes' => array('target'=>'_blank')));
     }
   }
@@ -258,7 +260,7 @@ function express_help_form_alter(&$form, &$form_state, $form_id) {
   if (array_key_exists($form_id, $help_fields)) {
     foreach ($form as $key =>  $field) {
       if (!empty($help_fields[$form_id]['fields'][$key])) {
-        $help_link = l('<span class="element-invisible">' . $help_fields[$form_id]['fields'][$key]['title'] . '</span>', $help_fields[$form_id]['fields'][$key]['url'], array('attributes' => array('target'=>'_blank', 'class' => 'field-help-link'), 'html' => TRUE));
+        $help_link = l('<span class="element-invisible1">' . $help_fields[$form_id]['fields'][$key]['title'] . '</span>', $help_fields[$form_id]['fields'][$key]['url'], array('attributes' => array('target'=>'_blank', 'class' => 'field-help-link'), 'html' => TRUE));
         // If description is set at this level (i.e. a fieldset), add help
         if ($form[$key]['#type'] == 'fieldset') {
           if (isset($form[$key]['#description'])) {
