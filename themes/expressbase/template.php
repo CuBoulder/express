@@ -225,49 +225,7 @@ function expressbase_preprocess_node(&$vars) {
 
   // Making comments appear at the bottom of $content
   $vars['content']['comments']['#weight'] = 1000;
-  // add inner sidebar regions to nodes
-  if ($plugin = context_get_plugin('reaction', 'block')) {
-    if ($context_content_sidebar_left_blocks = $plugin->block_get_blocks_by_region('content_sidebar_left')) {
-      $vars['content_sidebar_left'] = $context_content_sidebar_left_blocks;
-      $vars['content_sidebar_left']['#theme_wrappers'] = array('region');
-      $vars['content_sidebar_left']['#region'] = 'content_sidebar_left';
-      $vars['classes_array'][] = 'content-sidebar-left';
-    }
-    if ($context_content_sidebar_right_blocks = $plugin->block_get_blocks_by_region('content_sidebar_right')) {
-      $vars['content_sidebar_right'] = $context_content_sidebar_right_blocks;
-      $vars['content_sidebar_right']['#theme_wrappers'] = array('region');
-      $vars['content_sidebar_right']['#region'] = 'content_sidebar_right';
-      $vars['classes_array'][] = 'content-sidebar-right';
-    }
-    if ($context_content_bottom_blocks = $plugin->block_get_blocks_by_region('content_bottom')) {
-      $vars['content_bottom'] = $context_content_bottom_blocks;
-      $vars['content_bottom']['#theme_wrappers'] = array('region');
-      $vars['content_bottom']['#region'] = 'content_bottom';
-      $vars['classes_array'][] = 'content-bottom';
-    }
-  }
-  if ($content_sidebar_left_blocks = block_get_blocks_by_region('content_sidebar_left')) {
-    $vars['content_sidebar_left'] = $content_sidebar_left_blocks;
-    $vars['content_sidebar_left']['#theme_wrappers'] = array('region');
-    $vars['content_sidebar_left']['#region'] = 'content_sidebar_left';
-    $vars['classes_array'][] = 'content-sidebar-left';
-  }
-  if ($content_sidebar_right_blocks = block_get_blocks_by_region('content_sidebar_right')) {
-    $vars['content_sidebar_right'] = $content_sidebar_right_blocks;
-    $vars['content_sidebar_right']['#theme_wrappers'] = array('region');
-    $vars['content_sidebar_right']['#region'] = 'content_sidebar_right';
-    $vars['classes_array'][] = 'content-sidebar-right';
-  }
-  if ($context_content_bottom_blocks = block_get_blocks_by_region('content_bottom')) {
-    $vars['content_bottom'] = $context_content_bottom_blocks;
-    $vars['content_bottom']['#theme_wrappers'] = array('region');
-    $vars['content_bottom']['#region'] = 'content_bottom';
-    $vars['classes_array'][] = 'content-bottom';
-  }
-  if (!empty($vars['content_sidebar_left']) && !empty($vars['content_sidebar_right'])) {
-    $vars['content_sidebar_left']['#region'] = 'content_sidebars';
-    $vars['content_sidebar_right']['#region'] = 'content_sidebars';
-  }
+  
   // Don't print link variables
   unset($vars['content']['links']);
 }
