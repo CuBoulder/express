@@ -353,6 +353,9 @@ h2 { font-size: 160%; font-weight: 200; }
 h2.block-title { font-size: 160%; font-weight: 200; }
 
 .sidebars h2, .sidebars h2.block-title { font-size: 125%; }
+.sidebars h3 { font-size: 120%; }
+.sidebars h4 { font-size: 115%; }
+.sidebars h5 { font-size: 110%; }
 
 .headings-bold h1#page-title, .headings-bold h1#page-title-image-title, .headings-bold .page-title-section h1, .headings-bold h2, .headings-bold h3, .headings-bold h4 { font-weight: 700; }
 .headings-bold h1#page-title strong, .headings-bold h1#page-title-image-title strong, .headings-bold .page-title-section h1 strong, .headings-bold h2 strong, .headings-bold h3 strong, .headings-bold h4 strong { font-weight: 700; }

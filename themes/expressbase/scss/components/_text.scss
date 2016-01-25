@@ -111,10 +111,21 @@ h2.block-title {
   font-size: 160%;
   font-weight: 200;
 }
-// Block titles in sidebars are smaller
-.sidebars h2,
-.sidebars h2.block-title {
-  font-size: 125%;
+// Sidebar h tags are smaller
+.sidebars {
+  h2,
+  h2.block-title {
+    font-size: 125%;
+  }
+  h3 {
+    font-size:120%;
+  }
+  h4 {
+    font-size:115%;
+  }
+  h5 {
+    font-size: 110%;
+  }
 }
 // Bold headings
 .headings-bold {
