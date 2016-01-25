@@ -183,17 +183,6 @@ function profile_module_manager_build_ideal() {
 }
 
 function profile_module_manager_process_batch($modules, &$context) {
-  // Put bundle name in results to pass to the finished operation.
-  /*
-  if (in_array('_bundle', $modules)) {
-    foreach ($modules as $module) {
-      dpm($module);
-      if (strpos('_bundle', $module)) {
-        $context['results']['bundle'] = $module;
-      }
-    }
-  }
-  */
 
   // Enable modules.
   module_enable($modules);
