@@ -192,10 +192,24 @@ function profile_module_manager_bundle_list() {
 
   // Get all bundles
   $bundles = profile_module_manager_get_bundles('all');
+
+  // Get hidden bundles to compare to $bundles array.
+  $hidden_bundles = array();
+  $hidden_bundles_list = variable_get('profile_module_manager_bundle_ignore');
+  foreach ($hidden_bundles_list as $bundle) {
+    if ($bundle !== 0) {
+      $hidden_bundles[] = $bundle;
+    }
+  }
+
   // check for _bundle in the machine name, but also look for something in the info
   // to avoid false positives from contrib?
   foreach ($bundles as $key => $bundle) {
     if (!strpos($bundle->name, '_bundle')) {
+      unset($bundles[$key]);
+    }
+    // Remove bundles if set to hidden in config form.
+    if (in_array($bundle->name, $hidden_bundles)) {
       unset($bundles[$key]);
     }
   }
@@ -243,6 +257,7 @@ function profile_module_manager_bundle_list() {
   }
   return $output;
 }
+
 /**
  * Callback function for admin/settings/bundles/list/enable/%
  */
@@ -252,19 +267,42 @@ function profile_module_manager_bundle_enable($bundle) {
     // look up depenencies & enable those first
     $path = drupal_get_path('module', $bundle) . '/' . $bundle . '.info';
     $info = drupal_parse_info_file($path);
+    $modules_to_enable = array();
     if (isset($info['dependencies'])) {
       foreach ($info['dependencies'] as $module) {
         if(!module_exists($module)) {
-          module_enable(array($module), FALSE);
+          //module_enable(array($module), FALSE);
+          $modules_to_enable[] = $module;
         }
       }
     }
     // enable the bundle last
     if(!module_exists($bundle)) {
-      module_enable(array($bundle), FALSE);
+      //module_enable(array($bundle), FALSE);
+      $modules_to_enable[] = $bundle;
     }
-    // Set message and return to admin/settings/bundles/list
-    drupal_set_message(t('@bundle is being enabled.', array('@bundle' => $info['name'])));
-    drupal_goto('admin/settings/bundles/list');
+
+    // Size of modules to enable in each batch.
+    $limit = 3;
+    $module_chunks = array_chunk($modules_to_enable, $limit, TRUE);
+
+    // Chunk modules into groups.
+    $operations = array();
+    foreach ($module_chunks as $chunk) {
+      dpm($chunk);
+      $operations[] = array('profile_module_manager_process_batch', array($chunk));
+    }
+
+    // Set batch operation and redirect to bundles list when done.
+    $batch = array(
+      'title' => t('Enabling Bundle'),
+      'operations' => $operations,
+      'finished' => 'profile_module_manager_batch_finished',
+      'init_message' => t('Initializing...'),
+      'progress_message' => t('Operation @current out of @total.'),
+      'error_message' => t('Bundle failed to be enabled.'),
+    );
+    batch_set($batch);
+    batch_process('admin/settings/bundles/list');
   }
 }
