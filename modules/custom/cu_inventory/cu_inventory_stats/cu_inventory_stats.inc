@@ -95,7 +95,7 @@
    $site_data['statistics']['cu_fit_schema_version'] = (int)$version;
 
    // Module Manager
-   if ($diff = cu_module_manager_is_config_ideal()) {
+   if ($diff = profile_module_manager_is_config_ideal()) {
      $checks =  implode(", ", $diff);
      $site_data['statistics']['module_manager'] = $checks;
    } else {

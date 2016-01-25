@@ -43,7 +43,7 @@ function cu_core_install() {
   variable_set('site_name_1', 'University of Colorado Boulder');
   variable_set('site_slogan', 'University of Colorado Boulder');
 
-  variable_set('profile_module_manager_ignore', "secure_permissions, express_permissions, cu_users, cu_core, cu_help, express_final");
+  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final');
 
   // Set SEO bundle to be hidden in bundle list form.
   variable_set('profile_module_manager_bundle_ignore', array('cu_seo_bundle' => 'cu_seo_bundle'));

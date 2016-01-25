@@ -14,7 +14,13 @@ function express_final_install() {
     'cuswatch',
   ));
 
-  module_enable(array('cu_users', 'cu_core', 'cu_help'));
+  module_enable(array(
+    'cu_users',
+    'cu_core',
+    'cu_help',
+    'cu_inventory',
+    'cu_inventory_stats',
+  ));
 
   // also set these to be ignored by profile_module_manager's report
 
