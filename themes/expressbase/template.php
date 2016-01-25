@@ -178,6 +178,21 @@ function expressbase_preprocess_page(&$vars) {
   $vars['main_content_classes'] = join(' ', $main_content_classes);
   $vars['sidebar_first_classes'] = join(' ', $sidebar_first_classes);
   $vars['sidebar_second_classes'] = join(' ', $sidebar_second_classes);
+
+  // Page title image settings
+  if (isset($vars['title_image'])) {
+    $vars['classes_array'][] = 'has-page-title-image';
+  }
+  $page_title_image_width = theme_get_setting('page_title_image_width') ? theme_get_setting('page_title_image_width') : 'page-title-image-width-content';
+  if ($page_title_image_width == 'page-title-image-width-content') {
+    $vars['title_image_wrapper_class'] = 'element-max-width-padding';
+    $vars['title_image_title_class'] = '';
+    $vars['title_image_width'] = 'title-image-content-width';
+  } else {
+    $vars['title_image_wrapper_class'] = 'full-width';
+    $vars['title_image_title_class'] = 'element-max-width-padding';
+    $vars['title_image_width'] = 'title-image-full-width';
+  }
 }
 
 /**
@@ -203,11 +218,11 @@ function expressbase_image_style(&$vars) {
  */
 function expressbase_breadcrumb($vars) {
   $breadcrumb = $vars['breadcrumb'];
-  if (!empty($breadcrumb)) {
+  if (!empty($breadcrumb) && theme_get_setting('use_breadcrumbs', $theme)) {
     // Replace the Home breadcrumb with a Home icon
     //$breadcrumb[0] = str_replace('Home','<i class="fa fa-home"></i> <span class="home-breadcrumb element-invisible">Home</span>',$breadcrumb[0]);
     // Get current page title and add to breadcrumb array
-    $breadcrumb[] = drupal_get_title();
+    $breadcrumb[] = '<span class="current-breadcrumb">' . drupal_get_title() . '</span>';
     // Provide a navigational heading to give context for breadcrumb links to
     // screen-reader users. Make the heading invisible with .element-invisible.
     $output = '<h2 class="element-invisible">' . t('You are here') . '</h2>';
@@ -311,8 +326,11 @@ function expressbase_preprocess_region(&$vars) {
  * Implements hook_preprocess_block).
  */
 function expressbase_preprocess_block(&$vars) {
+
   // Add class for block titles
   $vars['title_attributes_array']['class'][] = 'block-title';
+  $vars['classes_array'][] = !empty($vars['block']->subject) ? 'has-block-title'
+  : '';
   // If the block is a bean, add bundle as a class
   if ($vars['block']->module == 'bean') {
     // Get the bean elements.
@@ -335,40 +353,46 @@ function expressbase_preprocess_block(&$vars) {
   // Get region column settings
   if (theme_get_setting('after_content_columns')) {
     $after_content_columns = theme_get_setting('after_content_columns') ? theme_get_setting('after_content_columns') : 1;
+    $after_content_columns = (isset($vars['column_override'])) ? $vars['column_override'] : $after_content_columns;
   }
   if (theme_get_setting('lower_columns')) {
     $lower_columns = theme_get_setting('lower_columns') ? theme_get_setting('lower_columns') : 1;
+    $lower_columns = (isset($vars['column_override'])) ? $vars['column_override'] : $lower_columns;
   }
   if (theme_get_setting('footer_columns')) {
     $footer_columns = theme_get_setting('footer_columns') ? theme_get_setting('footer_columns') : 1;
+    $footer_columns = (isset($vars['column_override'])) ? $vars['column_override'] : $footer_columns;
   }
-
-  // Add column classes to blocks
-  $classes = expressbase_size_column_classes();
-  switch ($vars['block']->region) {
-    case 'after_content':
-      $vars['classes_array'][] = 'col-lg-' . 12/$after_content_columns;
-      $vars['classes_array'][] = 'col-md-' . 12/$after_content_columns;
-      $vars['classes_array'][] = 'col-sm-' . 12/$after_content_columns;
-      $vars['classes_array'][] = 'col-xs-12';
-      break;
-    case 'lower':
-      $vars['classes_array'][] = 'col-lg-' . 12/$lower_columns;
-      $vars['classes_array'][] = 'col-md-' . 12/$lower_columns;
-      $vars['classes_array'][] = 'col-sm-' . 12/$lower_columns;
-      $vars['classes_array'][] = 'col-xs-12';
-      break;
-    case 'footer':
-      //$vars['classes_array'][] = 'col-lg-' . 12/$footer_columns;
-      //$vars['classes_array'][] = 'col-md-' . 12/$footer_columns;
-      //$vars['classes_array'][] = 'col-sm-' . 12/$footer_columns;
-      //$vars['classes_array'][] = 'col-xs-12';
-
-      $vars['classes_array'][] = $classes['xs'][$footer_columns];
-      $vars['classes_array'][] = $classes['sm'][$footer_columns];
-      $vars['classes_array'][] = $classes['md'][$footer_columns];
-      $vars['classes_array'][] = $classes['lg'][$footer_columns];
-      break;
+  // Check to see if block has custom column size first
+  if (!empty($vars['grid_size_blocks'])) {
+    $grid_classes = expressbase_grid_blocks($vars['grid_size_blocks']);
+    foreach ($grid_classes as $grid_class) {
+      $vars['classes_array'][] = $grid_class;
+    }
+  }
+  else {
+    // Add column classes to blocks
+    $classes = expressbase_size_column_classes();
+    switch ($vars['block']->region) {
+      case 'after_content':
+        $vars['classes_array'][] = $classes['xs'][$after_content_columns];
+        $vars['classes_array'][] = $classes['sm'][$after_content_columns];
+        $vars['classes_array'][] = $classes['md'][$after_content_columns];
+        $vars['classes_array'][] = $classes['lg'][$after_content_columns];
+        break;
+      case 'lower':
+        $vars['classes_array'][] = $classes['xs'][$lower_columns];
+        $vars['classes_array'][] = $classes['sm'][$lower_columns];
+        $vars['classes_array'][] = $classes['md'][$lower_columns];
+        $vars['classes_array'][] = $classes['lg'][$lower_columns];
+        break;
+      case 'footer':
+        $vars['classes_array'][] = $classes['xs'][$footer_columns];
+        $vars['classes_array'][] = $classes['sm'][$footer_columns];
+        $vars['classes_array'][] = $classes['md'][$footer_columns];
+        $vars['classes_array'][] = $classes['lg'][$footer_columns];
+        break;
+    }
   }
 }
 
@@ -657,4 +681,29 @@ function expressbase_size_column_classes() {
     6 => 'col-lg-2'
   );
   return $classes;
+}
+
+/**
+ * Translate grid_size_blocks classes into epressbase grid classes.
+ */
+ function expressbase_grid_blocks($class) {
+   $parts = explode('-', $class);
+   $size = $parts[1];
+   $classes = array();
+   $classes[] = 'col-xs-12';
+   $classes[] = 'col-sm-12';
+   $classes[] = 'col-md-' . $size;
+   $classes[] = 'col-lg-' . $size;
+
+   return $classes;
+ }
+
+ function expressbase_theme(&$existing, $type, $theme, $path) {
+  $registry = array();
+  $template_dir = drupal_get_path('theme', 'expressbase') . '/templates';
+  $registry['page_title_image'] = array(
+    'template' => 'page-title-image',
+    'path' => $template_dir,
+  );
+  return $registry;
 }

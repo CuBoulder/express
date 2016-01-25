@@ -395,73 +395,97 @@ a .icon-color-gray {
 }
 
 /* PAGE TITLE IMAGE */
+.has-title-image h1#page-title {
+  display: none;
+}
+#page-title-image-section {
+  background-color: #fff;
+}
+.page-title-image-boxed {
+  padding-top: 20px;
+}
 #page-title-image-wrapper {
   background-position: center center;
   background-size: cover;
+  background-color: #fff;
+
 }
-#page-title-image {
+#page-title-image-overlay {
+  padding-left:20px;
+  padding-right:20px;
+}
+#page-title-image-wrapper {
   padding-top: 60px;
+  background-color: #000;
 }
 
-#page-title-image h1 {
+#page-title-image-wrapper h1 {
   max-width:60%;
   font-size:220%;
   display: inline-block;
-  margin: 0;
+  margin: 0 ;
 }
 .page-title-image-background-white {
-  #page-title-image h1 {
+  #page-title-image-wrapper h1 {
     background:#fff;
     padding:10px;
     color:#363636;
   }
 }
 .page-title-image-background-black {
-  #page-title-image h1 {
+  #page-title-image-wrapper h1 {
     background:#000;
     padding:10px;
     color:#fff;
   }
 }
 .page-title-image-background-transparent {
-  #page-title-image h1 {
+  #page-title-image-overlay {
+    padding: 30px 20px 20px;
+    @include gradient($color: rgba(0,0,0,0), $color2: rgba(0,0,0,.75));
+  }
+  #page-title-image-wrapper h1 {
     background:transparent;
-    padding:10px 0;
+    padding:10px 0px;
     color:#fff;
   }
+  .page-title-image-width-full #page-title-image h1 {
+    padding:10px 0;
+  }
 }
+
 @media all and (min-width: 720px) and (max-width: 959px) {
-  #page-title-image {
+  #page-title-image-wrapper {
     padding-top: 100px;
   }
 }
 @media all and (min-width: 960px) and (max-width: 1199px) {
-  #page-title-image {
+  #page-title-image-wrapper {
     padding-top: 140px;
   }
 }
 @media all and (min-width: 1200px) and (max-width: 1499px) {
-  #page-title-image {
+  #page-title-image-wrapper {
     padding-top: 200px;
   }
   .layout-boxed {
-    #page-title-image {
+    #page-title-image-wrapper {
       padding-top: 160px;
     }
   }
 }
 @media all and (min-width: 1500px) {
-  #page-title-image {
+  #page-title-image-wrapper {
     padding-top: 240px;
   }
   .layout-boxed {
-    #page-title-image {
+    #page-title-image-wrapper {
       padding-top: 200px;
     }
   }
 }
 .layout-fixed.layout-boxed {
-  #page-title-image {
+  #page-title-image-wrapper {
     padding-top: 140px;
   }
 }
@@ -490,4 +514,7 @@ a .icon-color-gray {
 /* Shadows */
 .has-shadow {
   @include rgbashadow(0, 1px, 2px, #000000, .20);
+}
+.feature-layout-title-image-overlay {
+  @include gradient($color: rgba(0,0,0,0), $color2: rgba(0,0,0,.85));
 }

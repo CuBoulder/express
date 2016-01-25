@@ -114,3 +114,13 @@ img.image-small[style*="float:left"] {
     width:110px;
   }
 }
+
+.square-image-circles {
+  img.image-large_square_thumbnail,
+  img.image-square_thumbnail,
+  img.image-square,
+  img.image-small_square,
+  .soc li .socicon {
+    @include rounded($radius: 50%);
+  }
+}

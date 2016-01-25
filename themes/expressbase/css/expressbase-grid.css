@@ -1,11 +1,11 @@
 /* Max width classes for elements */
-.layout-responsive .element-max-width { max-width: 1200px; margin-right: auto; margin-left: auto; overflow: hidden; }
+.layout-responsive .element-max-width { max-width: 1200px; margin-right: auto; margin-left: auto; overflow: hidden; clear: both; }
 
-.layout-responsive .element-max-width-gutter, .layout-responsive .element-max-width-padding { max-width: 1160px; margin-right: auto; margin-left: auto; overflow: hidden; }
+.layout-responsive .element-max-width-gutter, .layout-responsive .element-max-width-padding { max-width: 1160px; margin-right: auto; margin-left: auto; overflow: hidden; clear: both; }
 
-.layout-fixed .element-max-width { max-width: 960px; margin-right: auto; margin-left: auto; overflow: hidden; }
+.layout-fixed .element-max-width { max-width: 960px; margin-right: auto; margin-left: auto; overflow: hidden; clear: both; }
 
-.layout-fixed .element-max-width-gutter, .layout-fixed .element-max-width-padding { max-width: 920px; margin-right: auto; margin-left: auto; overflow: hidden; }
+.layout-fixed .element-max-width-gutter, .layout-fixed .element-max-width-padding { max-width: 920px; margin-right: auto; margin-left: auto; overflow: hidden; clear: both; }
 
 .container { padding-right: 20px; padding-left: 20px; margin-right: auto; margin-left: auto; }
 
