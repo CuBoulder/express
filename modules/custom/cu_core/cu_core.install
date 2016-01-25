@@ -39,6 +39,10 @@ function cu_core_install() {
   variable_set('express_help_find', 'http://www.');
   variable_set('express_help_replace', 'https://www-dev.');
 
+  // change for #FIT-583 for https://www.drupal.org/node/2172293
+  // Must be set before cu_forms_bundle is enabled
+  variable_set('webform_install_add_body_field', TRUE);
+
   variable_set('site_name', 'University of Colorado Boulder');
   variable_set('site_name_1', 'University of Colorado Boulder');
   variable_set('site_slogan', 'University of Colorado Boulder');
