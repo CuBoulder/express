@@ -1,19 +1,31 @@
 <?php
 
+
 /**
  * Implements hook_enable().
  */
 function cu_transition_enable() {
 
 }
-
 /**
  * Implements hook_install().
  */
-function cu_transition_install() {
+function cu_transition_express_install() {
+  // all old modules should have been disabled and uninstalled
+  // by cu_transition_fit
 
-  // Revert files feature.
-  cu_transition_revert_features('files');
+  drupal_get_schema(NULL, TRUE);
+  system_rebuild_module_data();
+  drupal_flush_all_caches();
+
+  // force express to be enabled... this will get set to 0 again if any of the dependencies
+  // defined in the epxress.info can't be enabled
+  db_update('system')
+  ->fields(array(
+    'status' => 1,
+   ))
+  ->condition('name', 'express', '=')
+  ->execute();
 
   module_enable(array('disable_messages'));
   // Set variable for disabling certain Metatag messages.
@@ -21,26 +33,26 @@ function cu_transition_install() {
   variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .*?');
 
 }
-
-/**
- * Implements hook_update_N().
- *
- * Turn on view_unpublished, cu_colorbox, express_add_content modules.
- */
-function cu_transition_update_7001() {
+  // enable new modules
   module_enable(array(
+    'cu_core',
     'view_unpublished',
     'cu_colorbox',
     'express_add_content',
+    'express_settings',
+    'express_permissions'
   ));
   node_access_rebuild(TRUE);
-}
 
+  // revert all features
+  cu_transition_express_revert_features('files');
+
+}
 
 /**
  * Revert features by passing features in an array.
  */
-function cu_transition_revert_features($features) {
+function cu_transition_express_revert_features($features) {
   foreach ($features as $feature) {
     $f = features_get_features($feature);
     $components = array_keys($f->info['features']);
