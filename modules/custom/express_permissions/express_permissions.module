@@ -401,6 +401,9 @@ function express_permissions_secure_permissions($role) {
       'access navbar',
       'enable module bundles',
       'enable admin bundles',
+      'view status messages',
+      'view warning messages',
+      'view error messages',
       'exclude from message filtering',
     ),
     'edit_my_content' => array(

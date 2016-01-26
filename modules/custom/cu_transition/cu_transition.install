@@ -17,7 +17,8 @@ function cu_transition_install() {
 
   module_enable(array('disable_messages'));
   // Set variable for disabling certain Metatag messages.
-  variable_set('disable_messages_ignore_regex', array('/^Metatag support has been enabled for the$/i'));
+  variable_set('disable_messages_ignore_regex', array('/^Metatag support has been enabled for the .*?$/i'));
+  variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .*?');
 
 }
 
