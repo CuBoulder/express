@@ -83,21 +83,20 @@
           );
           print theme('page_title_image', $vars);
         ?>
+      <?php else: ?>
+        <div id="page-title-wrapper" class="section-wrapper <?php if (isset($title_hidden)) { print 'element-invisible'; } ?>">
+          <div class="page-title-inner element-max-width-padding">
+            <h1 id="page-title"><?php print drupal_get_title(); ?></h1>
+            <?php print $breadcrumb; ?>
+          </div>
+        </div>
+        <div class="clear"></div>
       <?php endif; ?>
 
       <div id="content-wrapper" class="section-wrapper">
         <div id="main" class="clearfix container-max">
-          <div class="breadcrum-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <?php print $breadcrumb; ?>
-          </div>
           <div id="content" class="<?php print $main_content_classes; ?>" role="main">
-
             <a id="main-content"></a>
-            <?php print render($title_prefix); ?>
-            <?php if ($title): ?>
-              <h1 class="page__title title <?php if (isset($title_hidden)) { print 'element-invisible'; } ?>" id="page-title"><?php print $title; ?></h1>
-            <?php endif; ?>
-            <?php print render($title_suffix); ?>
             <?php print $messages; ?>
             <div class="tabs"><?php print render($tabs); ?></div>
             <?php print render($page['help']); ?>

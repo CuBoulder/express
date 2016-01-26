@@ -15,8 +15,8 @@
 }
 
 /* BUTTON */
-
-a.button {
+a.button,
+.button {
   color: #fff !important;
   display: inline-block;
   padding:5px 10px;
@@ -28,28 +28,33 @@ a.button {
   @include rgbashadow(0, 1px, 2px, #000000, .20);
   margin-bottom: 5px;
 }
-a.button-blue {
+a.button-blue,
+.button-blue {
   @extend .button;
   @include buttons($color: $blue);
 }
 
-a.button-white {
+a.button-white,
+.button-white {
   @extend .button;
   color:#363636 !important;
   border:1px solid #e7e7e7;
   @include buttons($color: #fff);
 }
 
-a.button-gray {
+a.button-gray,
+.button-gray {
   @extend .button;
   @include buttons($color: $gray);
 }
 
-a.button-black {
+a.button-black,
+.button-black {
   @extend .button;
   @include buttons($color: #202020);
 }
-a.button-gold {
+a.button-gold,
+.button-gold {
   @extend .button;
   @include buttons($color: $cugold);
   color:#000 !important;
