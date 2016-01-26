@@ -21,10 +21,14 @@ function cu_transition_install() {
 /**
  * Implements hook_update_N().
  *
- * Turn on view_unpublished, express_add_content modules.
+ * Turn on view_unpublished, cu_colorbox, express_add_content modules.
  */
 function cu_transition_update_7001() {
-  module_enable(array('view_unpublished', 'express_add_content'));
+  module_enable(array(
+    'view_unpublished',
+    'cu_colorbox',
+    'express_add_content',
+  ));
   node_access_rebuild(TRUE);
 }
 
@@ -39,4 +43,3 @@ function cu_transition_revert_features($features) {
     features_revert(array($feature => $components));
   }
 }
-

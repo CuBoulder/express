@@ -5,6 +5,7 @@ function expressbase_form_system_theme_settings_alter(&$form, &$form_state) {
 	$form['expressbase_theme_settings'] = array(
 		'#type' => 'fieldset',
 		'#title' => t('Theme Settings'),
+    '#description' => 'Customizable options for the design and layout of site content.',
 	);
   $form['expressbase_theme_settings']['responsive'] = array(
 		'#type' => 'fieldset',
@@ -35,7 +36,7 @@ function expressbase_form_system_theme_settings_alter(&$form, &$form_state) {
 	);
 
 	$form['expressbase_theme_settings']['typography']['headings'] = array(
-	  '#type' => 'radios',
+	  '#type' => 'select',
 	  '#title' => t('Heading Style'),
 	  '#default_value' => theme_get_setting('headings', $theme) ? theme_get_setting('headings', $theme) : 'headings-bold',
 	  '#description' => t('Pick a style for your sites headings.'),
@@ -52,7 +53,7 @@ function expressbase_form_system_theme_settings_alter(&$form, &$form_state) {
   		'#collapsed' => TRUE,
   	);
   	$form['expressbase_theme_settings']['page_title_image']['page_title_image_background'] = array(
-  	  '#type' => 'radios',
+  	  '#type' => 'select',
   	  '#title' => t('Page Title Image Style'),
   	  '#default_value' => theme_get_setting('page_title_image_background', $theme) ? theme_get_setting('page_title_image_background', $theme) : 'page-title-image-background-white',
   	  '#description' => t('Pick a style for page title image text.'),
@@ -62,13 +63,13 @@ function expressbase_form_system_theme_settings_alter(&$form, &$form_state) {
       ),
   	);
   	$form['expressbase_theme_settings']['page_title_image']['page_title_image_width'] = array(
-  	  '#type' => 'radios',
+  	  '#type' => 'select',
   	  '#title' => t('Page Title Image Width'),
   	  '#default_value' => theme_get_setting('page_title_image_width', $theme) ? theme_get_setting('page_title_image_width', $theme) : 'page-title-image-width-content',
   	  '#description' => t('Pick a width for page title image. The effect is more dramatic when the theme layout option is set to wide.'),
   	  '#options' => array(
-        'page-title-image-width-full' => t('Browser Width'),
-        'page-title-image-width-content' => t('Content Width'),
+        'page-title-image-width-full' => t('Wide'),
+        'page-title-image-width-content' => t('Boxed'),
       ),
   	);
 	}
@@ -80,7 +81,7 @@ function expressbase_form_system_theme_settings_alter(&$form, &$form_state) {
 		'#collapsed' => TRUE,
 	);
 	$form['expressbase_theme_settings']['columns']['after_content_columns'] = array(
-	  '#type' => 'radios',
+	  '#type' => 'select',
 	  '#title' => t('After Content Columns'),
 	  '#default_value' => theme_get_setting('after_content_columns', $theme) ? theme_get_setting('after_content_columns', $theme) : '3',
 	  '#description' => t('Pick how many columns for blocks after the content'),
@@ -93,7 +94,7 @@ function expressbase_form_system_theme_settings_alter(&$form, &$form_state) {
     ),
 	);
 	 $form['expressbase_theme_settings']['columns']['lower_columns'] = array(
-	  '#type' => 'radios',
+	  '#type' => 'select',
 	  '#title' => t('After Content 2 Columns'),
 	  '#default_value' => theme_get_setting('lower_columns', $theme) ? theme_get_setting('lower_columns', $theme) : '2',
 	  '#description' => t('Pick how many columns for blocks in the second after content region'),
@@ -106,7 +107,7 @@ function expressbase_form_system_theme_settings_alter(&$form, &$form_state) {
     ),
 	);
   $form['expressbase_theme_settings']['columns']['footer_columns'] = array(
-	  '#type' => 'radios',
+	  '#type' => 'select',
 	  '#title' => t('Footer Columns'),
 	  '#default_value' => theme_get_setting('footer_columns', $theme) ? theme_get_setting('footer_columns', $theme) : '4',
 	  '#description' => t('Pick how many columns for blocks in the footer'),
@@ -144,7 +145,7 @@ function expressbase_form_system_theme_settings_alter(&$form, &$form_state) {
     '#description' => t('Place secondary menu above or inline with the main menu. Secondary menu label does not display when placed inline.'),
   );
   $form['expressbase_theme_settings']['action_menu']['action_menu_color'] = array(
-	  '#type' => 'radios',
+	  '#type' => 'select',
 	  '#title' => t('Color'),
 	  '#default_value' => theme_get_setting('action_menu_color', $theme) ? theme_get_setting('action_menu_color', $theme) : 'action-none',
 	  '#description' => t('Pick color for inline secondary menu'),
@@ -162,7 +163,7 @@ function expressbase_form_system_theme_settings_alter(&$form, &$form_state) {
     '#collapsed' => TRUE,
   );
   $form['expressbase_theme_settings']['footer_menu']['footer_menu_color'] = array(
-	  '#type' => 'radios',
+	  '#type' => 'select',
 	  '#title' => t('Color'),
 	  '#default_value' => theme_get_setting('footer_menu_color', $theme) ? theme_get_setting('footer_menu_color', $theme) : 'footer-menu-gray',
 	  '#description' => t('Pick color for footer menu.'),
@@ -179,7 +180,7 @@ function expressbase_form_system_theme_settings_alter(&$form, &$form_state) {
     '#collapsed' => TRUE,
   );
   $form['expressbase_theme_settings']['block_icons']['block_icons_color'] = array(
-	  '#type' => 'radios',
+	  '#type' => 'select',
 	  '#title' => t('Color'),
 	  '#default_value' => theme_get_setting('block_icons_color', $theme) ? theme_get_setting('block_icons_color', $theme) : 'block-icons-inherit',
 	  '#description' => t('Pick color for block title icons.'),

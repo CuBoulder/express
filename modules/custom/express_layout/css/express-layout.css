@@ -19,7 +19,7 @@ p.tags {
 .layout-responsive .feature-story-wrapper p.date,
 .layout-responsive .feature-story-wrapper .author-meta,
 .layout-responsive .feature-story-wrapper .article-meta-wrapper,
-.layout-responsive .feature-story-wrapper .region-inner > .block,
+.layout-responsive .feature-story-wrapper .region > .block,
 .layout-responsive .feature-story-sidebars,
 .layout-responsive .feature-story-wrapper p.article-image {
     max-width: 1200px;
@@ -32,7 +32,7 @@ p.tags {
 .layout-fixed .feature-story-wrapper p.date,
 .layout-fixed .feature-story-wrapper .author-meta,
 .layout-fixed .feature-story-wrapper .article-meta-wrapper,
-.layout-fixed .feature-story-wrapper .region-inner > .block,
+.layout-fixed .feature-story-wrapper .region > .block,
 .layout-fixed .feature-story-sidebars,
 .layout-fixed .feature-story-wrapper p.article-image {
   max-width: 960px;
@@ -46,7 +46,7 @@ p.tags {
     .layout-responsive .feature-story-wrapper p.date,
     .layout-responsive .feature-story-wrapper .author-meta,
     .layout-responsive .feature-story-wrapper .article-meta-wrapper,
-    .layout-responsive .feature-story-wrapper .region-inner > .block,
+    .layout-responsive .feature-story-wrapper .region > .block,
     .layout-responsive .feature-story-wrapper p.article-image {
         max-width: 1200px;
         padding:0 280px 0 20px;
