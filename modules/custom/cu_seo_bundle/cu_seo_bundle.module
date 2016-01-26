@@ -71,3 +71,4 @@ function cu_seo_bundle_express_help($variables) {
 
   return $variables;
 }
+
