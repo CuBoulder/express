@@ -8,7 +8,6 @@ stylesheets[screen][] = css/reset.css
 stylesheets[screen][] = css/btn.css
 stylesheets[screen][] = css/styles.css
 stylesheets[screen][] = css/expressadmin-grid.css
-stylesheets[screen][] = css/wysiwyg-styles.css
 
 settings[shortcut_module_link] = 1
 regions[content] = Content
