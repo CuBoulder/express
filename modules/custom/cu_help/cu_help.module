@@ -29,18 +29,6 @@ function cu_help_express_help($variables) {
     'url' => 'http://www.colorado.edu/webcentral/node/632',
   );
 
-  $variables['node/add/article'][] = array(
-    'title' => 'Title',
-    'short_title' => 'Title',
-    'url' => 'http://www.colorado.edu/webcentral/node/618',
-  );
-
-  $variables['node/add/article-list-page'][] = array(
-    'title' => 'Title',
-    'short_title' => 'Title',
-    'url' => 'http://www.colorado.edu/webcentral/node/618',
-  );
-
   $variables['node/add/page'][] = array(
     'title' => 'Adding Basic Page Help',
     'short_title' => 'Basic Page',
@@ -71,12 +59,6 @@ function cu_help_express_help($variables) {
     'url' => 'http://www.colorado.edu/webcentral/node/542',
   );
 
-  $variables['node/add/webform'][] = array(
-    'title' => 'Creating a Webform Help',
-    'short_title' => 'Creating a Webform Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/610',
-  );
-
   $variables['node/%/blocks'][] = array(
     'title' => 'Editing Blocks Help',
     'short_title' => 'Editing Blocks',
@@ -99,24 +81,6 @@ function cu_help_express_help($variables) {
     'title' => 'Blocks Tutorial',
     'short_title' => 'Blocks Tutorial',
     'url' => 'http://www.colorado.edu/webcentral/node/602',
-  );
-
-  $variables['block/add/article-grid'][] = array(
-    'title' => 'Article Grid Block Help',
-    'short_title' => 'Article Grid Block Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/470',
-  );
-
-  $variables['block/add/articles'][] = array(
-    'title' => 'Aticle List Block Help',
-    'short_title' => 'Article List Block Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/472',
-  );
-
-  $variables['block/add/article-slider'][] = array(
-    'title' => 'Article Slider Block Help',
-    'short_title' => 'Article Slider Block Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/474',
   );
 
   $variables['block/add/block-section'][] = array(
@@ -153,12 +117,6 @@ function cu_help_express_help($variables) {
     'title' => 'Files Help',
     'short_title' => 'Files Help',
     'url' => 'http://www.colorado.edu/webcentral/node/424',
-  );
-
-  $variables['admin/content/webform'][] = array(
-    'title' => 'Webform Help',
-    'short_title' => 'Webform Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/610',
   );
 
   $variables['admin/structure/menu'][] = array(
@@ -255,12 +213,6 @@ function cu_help_express_help($variables) {
     'title' => 'Adding Bundles',
     'short_title' => 'Adding Bundles',
     'url' => 'http://www.colorado.edu/webcentral/node/632',
-  );
-
-  $variables['admin/settings/feedback/settings'][] = array(
-    'title' => 'Feedback Form Help',
-    'short_title' => 'Feedback Form Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/640',
   );
 
   return $variables;
