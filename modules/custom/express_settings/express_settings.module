@@ -223,7 +223,7 @@ function express_settings_google_analytics_form($form, &$form_state) {
 }
 
 /**
- * Submit handler for express_settings_google_analytics_form().
+ * Validation handler for express_settings_google_analytics_form().
  */
 function express_settings_google_analytics_form_validate($form, &$form_state) {
   // Ensure ga-account looks like a real account value.
