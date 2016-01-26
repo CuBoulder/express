@@ -230,7 +230,7 @@ function profile_module_manager_bundle_list() {
       $actions[] = '<span class="btn btn-default btn-disabled active-theme">Enabled</span>';
     }
     else {
-      $actions[] = l('<i class="fa fa-plus-circle"></i> Enable', current_path() . '/enable/' . $bundle->name, array('attributes' => array('class' => array('btn btn-info')), 'html' => TRUE));
+      $actions[] = l('<i class="fa fa-plus-circle"></i> Enable', current_path() . '/enable/' . $bundle->name, array('attributes' => array('class' => array('btn btn-primary')), 'html' => TRUE));
       if (isset($info['project_demo_url'])) {
         $actions[] = l('<i class="fa fa-info-circle"></i> Demonstration', $info['project_demo_url'], array('attributes' => array('class' => array('btn btn-default'), 'target' => '_blank'), 'html' => TRUE));
       }
