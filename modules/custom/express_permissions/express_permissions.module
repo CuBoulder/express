@@ -138,6 +138,9 @@ function express_permissions_secure_permissions($role) {
       'view the administration theme',
       'access navbar',
       'enable module bundles',
+      'view status messages',
+      'view warning messages',
+      'view error messages',
     ),
     'anonymous user' => array(
       'access content',
@@ -158,6 +161,8 @@ function express_permissions_secure_permissions($role) {
       'view any hero_unit bean',
       'view any quicktab bean',
       'view any slider bean',
+      'view status messages',
+      'view warning messages',
     ),
     'content_editor' => array(
       'access administration pages',
@@ -234,6 +239,9 @@ function express_permissions_secure_permissions($role) {
       'view revisions',
       'view the administration theme',
       'access navbar',
+      'view status messages',
+      'view warning messages',
+      'view error messages',
     ),
     'developer' => array(
       'access administration pages',
@@ -275,7 +283,6 @@ function express_permissions_secure_permissions($role) {
       'administer google analytics',
       'administer honeypot',
       'administer image styles',
-
       'administer menu',
       'administer meta tags',
       'administer modernizr',
@@ -394,6 +401,7 @@ function express_permissions_secure_permissions($role) {
       'access navbar',
       'enable module bundles',
       'enable admin bundles',
+      'exclude from message filtering',
     ),
     'edit_my_content' => array(
       'access ckeditor link',
@@ -413,6 +421,9 @@ function express_permissions_secure_permissions($role) {
       'view any slider bean',
       'view the administration theme',
       'access navbar',
+      'view status messages',
+      'view warning messages',
+      'view error messages',
     ),
     'site_owner' => array(
       'access administration pages',
@@ -508,6 +519,9 @@ function express_permissions_secure_permissions($role) {
       'view the administration theme',
       'access navbar',
       'enable module bundles',
+      'view status messages',
+      'view warning messages',
+      'view error messages',
     ),
   );
   if (isset($permissions[$role])) {

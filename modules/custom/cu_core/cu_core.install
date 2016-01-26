@@ -125,5 +125,9 @@ websupport@colorado.edu');
   // Key for 'LOG_LOCAL0' in the form.
   variable_set('syslog_facility','128');
   variable_set('syslog_format','!base_url !timestamp "!type" !ip !request_uri !referer !uid "!link" "!message"');
+
+  // Set variable for disabling certain Metatag messages.
+  variable_set('disable_messages_ignore_regex', array('/^Metatag support has been enabled for the .*?$/i'));
+  variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .*?');
 }
 
