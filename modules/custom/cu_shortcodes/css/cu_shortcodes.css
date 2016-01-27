@@ -394,11 +394,10 @@ a.expand-title:focus {
 }
 div.image-caption img {
   display: block;
-  margin-bottom: -20px;
 }
 div.image-caption  p:first-child {
   display: block;
-  margin: 0;
+  margin: 0 !important;
   padding: 0;
 }
 .image-caption p:last-child {
