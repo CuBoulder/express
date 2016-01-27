@@ -1,7 +1,7 @@
 @import "../../expressbase/scss/modules/_colors.scss";
 @import "../../expressbase/scss/modules/_global.scss";
 body {
-  background-color: $bg_dark3;
+  background-color: $bg_dark2;
 }
 #backstretch {
   display: none;
@@ -168,7 +168,6 @@ body {
 #footer-section {
   background-color: $bg_dark1;
   color: #fff;
-  padding-top: 40px;
 
   a {
     color:$cugold;
@@ -178,6 +177,7 @@ body {
   }
 }
 #footer-wrapper {
+  padding-top: 40px;
   padding-bottom: 20px;
 }
 #site-info-wrapper {

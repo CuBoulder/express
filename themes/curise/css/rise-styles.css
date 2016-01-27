@@ -1,4 +1,4 @@
-body { background-color: #454545; }
+body { background-color: #1e1e1e; }
 
 #backstretch { display: none; }
 
@@ -53,11 +53,11 @@ body { background-color: #454545; }
 
 .footer-menu-gold #footer-navigation { background-color: #cfb87c; }
 
-#footer-section { background-color: #272727; color: #fff; padding-top: 40px; }
+#footer-section { background-color: #272727; color: #fff; }
 #footer-section a { color: #cfb87c; }
 #footer-section a:hover { color: #fff; }
 
-#footer-wrapper { padding-bottom: 20px; }
+#footer-wrapper { padding-top: 40px; padding-bottom: 20px; }
 
 #site-info-wrapper { background-color: #1e1e1e; }
 
