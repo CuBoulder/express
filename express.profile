@@ -77,6 +77,10 @@ function express_final() {
     module_enable(array('express_final'));
   }
 
+  // rebuild list of content types for disable_node_menu_item
+  $types = node_type_get_names();
+  variable_set('dnmi_content_types', array_flip($types));
+
   drupal_flush_all_caches();
   secure_permissions_rebuild();
   
@@ -117,16 +121,26 @@ function express_themes_enabled() {
  */
 function express_node_type_insert($info) {
   // rebuild list of content types for disable_node_menu_item
-  $types = node_type_get_types;
-  variable_set('dnmi_content_types', $types);
+  $types = node_type_get_names();
+  // Add webform to $types array when inserted since it wasn't being included
+  // in node_type_get_type_names().
+  if ($info->type == 'webform') {
+    $types['webform'] = 'webform';
+  }
+  variable_set('dnmi_content_types', array_flip($types));
 }
 
 /**
  * Implements hook_node_type_delete().
  */
 function express_node_type_delete($info) {
-  $types = node_type_get_types;
-  variable_set('dnmi_content_types', $types);
+  $types = node_type_get_names();
+  // Add webform to $types array when inserted since it wasn't being included
+  // in node_type_get_type_names().
+  if ($info->type == 'webform') {
+    $types['webform'] = 'webform';
+  }
+  variable_set('dnmi_content_types', array_flip($types));
 }
 
 /**
