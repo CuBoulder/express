@@ -97,7 +97,6 @@ function cu_people_bundle_secure_permissions($role) {
       'delete any person content',
       'delete own people_list_page content',
       'delete own person content',
-      'delete own photo_gallery content',
       'edit any people_list_block bean',
       'edit any people_list_page content',
       'edit any person content',
