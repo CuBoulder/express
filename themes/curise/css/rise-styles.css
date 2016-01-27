@@ -31,7 +31,7 @@ body { background-color: #1e1e1e; }
 
 .layout-responsive #slider { max-width: 1200px; }
 
-.layout-foxed #slider { max-width: 960px; }
+.layout-fixed #slider { max-width: 1200px; }
 
 @media screen and (min-width: 960px) { #content-wrapper { padding-top: 60px; }
   .top-content #slider-wrapper { padding-top: 60px; }

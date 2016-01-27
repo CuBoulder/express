@@ -12,7 +12,7 @@ body {
 .layout-boxed {
   background-color: #333;
     #page {
-    width:960px;
+    width:1200px;
     margin: 20px auto;
     @include rgbashadow(0,0,10px,#000, .25);
     overflow: hidden;

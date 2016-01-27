@@ -11,7 +11,7 @@ body.layout-wide {
   }
 }
 .layout-boxed #page {
-  width:960px;
+  width:1200px;
   margin: 0 auto;
   @include rgbashadow(0px, 0px, 80px, #000, .25);
   overflow: hidden;

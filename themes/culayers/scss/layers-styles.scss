@@ -10,7 +10,7 @@ body {
 .layout-boxed {
   background-color:#111;
   #page-wrapper {
-    width:960px;
+    width:1200px;
     margin: 0 auto;
     @include rgbashadow(0,0,80px,#000, .5);
   }
@@ -74,7 +74,7 @@ body {
   background-color: #fff;
 }
 .layout-fixed .top-content {
-  width: 960px;
+  width: 1200px;
   margin: 0 auto;
 }
 .layout-responsive .top-content {
