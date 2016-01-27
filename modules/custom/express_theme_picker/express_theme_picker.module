@@ -5,7 +5,7 @@
  */
 function express_theme_picker_permission() {
   return array(
-    'administer cu theme picker' => array(
+    'administer express theme picker' => array(
       'title' => 'Use the Theme Picker',
       'description' => 'Choose and configure themes',
     ),
@@ -43,7 +43,7 @@ function express_theme_picker_menu() {
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'express_theme_picker_list',
     //'page arguments' => array('express_theme_picker_settings_form'),
-    'access arguments' => array('administer cu theme picker'),
+    'access arguments' => array('administer express theme picker'),
     'weight' => 8,
   );
   $items['admin/theme/config/%'] = array(
@@ -53,14 +53,24 @@ function express_theme_picker_menu() {
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'express_theme_picker_config',
     'page arguments' => array(3),
-    'access arguments' => array('administer cu theme picker'),
+    'access arguments' => array('administer express theme picker'),
     'weight' => 8,
   );
   $items['admin/theme/active/%'] = array(
     'title' => 'Set active theme',
     'page arguments' => array(3),
     'page callback' => 'express_theme_picker_set_active',
-    'access arguments' => array('administer cu theme picker'),
+    'access arguments' => array('administer express theme picker'),
+  );
+
+
+  $items['admin/config/system/theme-picker'] = array(
+    'title' => 'Express Theme Picker',
+    'description' =>  'Configure Theme Picker',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('express_theme_picker_admin_settings'),
+    'file' => 'express_theme_picker.admin.inc',
+    'access arguments' => array('administer themes'),
   );
   return $items;
 }
@@ -138,10 +148,12 @@ function express_theme_picker_settings_form() {
 function express_theme_picker_list() {
   global $base_url;
   $active_theme = variable_get('theme_default');
+  $hidden_themes = variable_get('express_theme_picker_theme_ignore', array());
   $output = array();
   $output['description']['#markup'] = '<h2>Choose a theme.</h2>';
   foreach (list_themes() as $theme => $data) {
-    if ($data->status) {
+    if ($data->status && !$hidden_themes[$data->name]) {
+
       // Theme machine name
       $machine_name = $data->name;
       // Theme display name

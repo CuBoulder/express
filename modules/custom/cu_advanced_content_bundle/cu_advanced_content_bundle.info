@@ -1,5 +1,5 @@
 name = Advanced Content
-description = The Advanced content feature set includes the ability for tabbed content, video reveal feature, content lists, and content grids.
+description = This bundle allows you to add tabbed content, content lists, content grids, and video reveal functionality to your site.
 core = 7.x
 package = CU-Advanced Content
 project_demo_url = http://www.colorado.edu/webcentral/node/668

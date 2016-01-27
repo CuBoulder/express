@@ -263,12 +263,12 @@ function cu_help_page_alter(&$page) {
   $path = current_path();
   // If on node/add page
   if ($path == 'node/add') {
-    $link = l(t('<i class="fa fa-plus-square"></i> Add Content Types'), '/admin/settings/bundles/list', array('attributes' => array('class' => array('btn', 'btn-info')), 'html' => TRUE));
+    $link = l(t('<i class="fa fa-plus-circle"></i> Add Content Types'), '/admin/settings/bundles/list', array('attributes' => array('class' => array('btn', 'btn-info')), 'html' => TRUE));
     $page['content']['system_main']['main']['#suffix'] = '<p>' . $link . '</p>';
   }
   // If on block/add page
   if ($path == 'block/add') {
-    $link = l(t('<i class="fa fa-plus-square"></i> Add Block Types'), '/admin/settings/bundles/list', array('attributes' => array('class' => array('btn', 'btn-info')), 'html' => TRUE));
+    $link = l(t('<i class="fa fa-plus-circle"></i> Add Block Types'), '/admin/settings/bundles/list', array('attributes' => array('class' => array('btn', 'btn-info')), 'html' => TRUE));
     $page['content']['system_main']['main']['#suffix'] = '<p>' . $link . '</p>';
   }
 
