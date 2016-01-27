@@ -4,7 +4,7 @@ body.layout-boxed { background: #272727; background: #e7e7e7; }
 
 .layout-wide #backstretch { display: none; }
 
-.layout-fixed.layout-boxed #page-wrapper { margin-bottom: 20px; width: 960px; margin: 0 auto; -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); }
+.layout-fixed.layout-boxed #page-wrapper { margin-bottom: 20px; width: 1200px; margin: 0 auto; -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); }
 
 .layout-responsive.layout-boxed #page-wrapper { margin-bottom: 20px; max-width: 1200px; margin: 0 auto; -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); }
 

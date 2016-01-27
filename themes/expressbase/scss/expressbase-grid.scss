@@ -1,6 +1,6 @@
 // variables
 $responsiveMax: 1200px;
-$fixedMax: 960px;
+$fixedMax: 1200px;
 $gutter: 40px;
 $padding: 20px;
 
@@ -73,11 +73,11 @@ $padding: 20px;
 .layout-fixed .container-max {
   margin-right: auto;
   margin-left: auto;
-  width:960px;
+  width:1200px;
   overflow: hidden;
 }
 .layout-fixed {
-  min-width: 960px;
+  min-width: 1200px;
 }
 .row {
   margin-right: -$padding;
