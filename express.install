@@ -8,6 +8,7 @@ function express_install() {
   // Enable some express blocks.
   //$default_theme = 'express_modern';
   //$admin_theme = 'express_admin_theme';
+
   $default_theme = 'cumodern';
   $admin_theme = 'expressadmin';
 

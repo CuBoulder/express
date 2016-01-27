@@ -64,13 +64,14 @@ function express_add_content_bean_bundles() {
   $bundles['social']['types'][] = 'Twitter Block';
 
   $bundles['advanced_content']['title'] = 'Advanced Content';
-  $bundles['advanced_content']['types'][] = 'Block Row';
   $bundles['advanced_content']['types'][] = 'Content Grid';
   $bundles['advanced_content']['types'][] = 'Quicktab';
+  $bundles['advanced_content']['types'][] = 'Video Reveal';
 
   $bundles['advanced_layout']['title'] = 'Advanced Layout';
+  $bundles['advanced_layout']['types'][] = 'Block Row';
   $bundles['advanced_layout']['types'][] = 'Block Section';
-  $bundles['advanced_layout']['types'][] = 'Video Reveal';
+
 
   return $bundles;
 }
