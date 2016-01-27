@@ -577,8 +577,6 @@ function cu_article_preprocess_node(&$vars) {
     if (!empty($vars['field_article_byline'])) {
       // For bylines at top of article
       $bylines = array();
-      // For bios below article
-      $bios = array();
       // Load bylines terms
       foreach ($vars['field_article_byline'][LANGUAGE_NONE] as $byline) {
         $term = taxonomy_term_load($byline['tid']);
@@ -591,8 +589,6 @@ function cu_article_preprocess_node(&$vars) {
         elseif (!empty($term->field_article_byline_person_id)) {
           $person_id = $term->field_article_byline_person_id[LANGUAGE_NONE][0]['value'];
           $bylines[] = l($term->name, 'node/' . $person_id);
-          // Bios are only for terms that have a person id
-          $bios[$person_id] = $person_id;
         }
         // Otherwise just print term name
         else {
@@ -601,17 +597,6 @@ function cu_article_preprocess_node(&$vars) {
       }
       // Add bylines terms to author meta section
       $vars['author_meta']['byline'] = 'By ' . join(', ', $bylines);
-
-      // If there are bios, render them below article
-      if (!empty($bios)) {
-        $nodes = node_load_multiple($bios);
-        $vars['content']['bios'] = node_view_multiple($nodes, 'teaser');
-        $vars['content']['bios']['#weight'] = 100;
-        $vars['content']['bios']['#prefix'] = '<div class="article-bios">';
-        $vars['content']['bios']['#suffix'] = '</div>';
-
-
-      }
     }
   }
   if ($vars['node']->type == 'article_list_page') {

@@ -24,7 +24,6 @@ function cu_core_module_implements_alter(&$implementations, $hook) {
  * @param  $form_state
  */
 function cu_core_form_system_logging_settings_alter(&$form, &$form_state) {
-  dpm($form);
   $form['syslog_identity']['#disabled'] = TRUE;
   $form['syslog_facility']['#disabled'] = TRUE;
   $form['syslog_format']['#disabled'] = TRUE;

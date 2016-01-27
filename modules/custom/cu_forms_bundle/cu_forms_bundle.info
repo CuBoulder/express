@@ -1,7 +1,8 @@
 name = Forms
-description = The webform feature allows you to easily create contact forms, requests for appointments,  questionnaires and surveys. <a href="http://www.colorado.edu/webcentral/node/674">See how these features work &gt;&gt;</a> 
+description = This bundle allows you to easily create contact forms, requests for appointments, questionnaires, and surveys.
 core = 7.x
 package = CU-Forms
+project_demo_url = http://www.colorado.edu/webcentral/node/674
 
 dependencies[] = cu_webform
 dependencies[] = cu_feedback

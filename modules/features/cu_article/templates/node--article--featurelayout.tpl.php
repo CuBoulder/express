@@ -1,6 +1,7 @@
 <?php hide($content['field_tags']); ?>
 <?php hide($content['article_tags']); ?>
 <?php hide($content['field_article_categories']); ?>
+<?php hide($content['article_meta']); ?>
 <?php $tag = isset($heading_tag['#tag']) ? $heading_tag['#tag'] : 'h2'; ?>
 <?php if (!empty($author_meta)): ?>
   <div class="author-meta element-max-width">
@@ -20,4 +21,6 @@
 <?php print render($content['body']); ?>
 <div class="element-max-width">
   <?php print render($content); ?>
+  <?php print render($content_bottom); ?>
+  <?php print render($content['article_meta']); ?>
 </div>

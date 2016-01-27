@@ -28,6 +28,8 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_slider bean',
     ),
     'administrator' => array(
+      'administer category vocabulary terms',
+      'administer byline vocabulary terms',
       'create any articles bean',
       'create any article_feature bean',
       'create any article_grid bean',
@@ -56,6 +58,8 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_slider bean',
     ),
     'content_editor' => array(
+      'administer category vocabulary terms',
+      'administer byline vocabulary terms',
       'create any articles bean',
       'create any article_feature bean',
       'create any article_grid bean',
@@ -84,6 +88,8 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_slider bean',
     ),
     'developer' => array(
+      'administer category vocabulary terms',
+      'administer byline vocabulary terms',
       'create any articles bean',
       'create any article_feature bean',
       'create any article_grid bean',
@@ -118,6 +124,8 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_slider bean',
     ),
     'site_owner' => array(
+      'administer category vocabulary terms',
+      'administer byline vocabulary terms',
       'create any articles bean',
       'create any article_feature bean',
       'create any article_grid bean',

@@ -21,12 +21,13 @@ function cu_transition_install() {
 /**
  * Implements hook_update_N().
  *
- * Turn on view_unpublished, cu_colorbox module.
+ * Turn on view_unpublished, cu_colorbox, express_add_content modules.
  */
 function cu_transition_update_7001() {
   module_enable(array(
     'view_unpublished',
     'cu_colorbox',
+    'express_add_content',
   ));
   node_access_rebuild(TRUE);
 }
