@@ -77,6 +77,13 @@ function express_final() {
     module_enable(array('express_final'));
   }
 
+  // rebuild list of content types for disable_node_menu_item
+  $types = node_type_get_names();
+  foreach ($types as $key => $type) {
+    $types[$key] = $key;
+  }
+  variable_set('dnmi_content_types', $types);
+
   drupal_flush_all_caches();
   secure_permissions_rebuild();
   
@@ -117,7 +124,14 @@ function express_themes_enabled() {
  */
 function express_node_type_insert($info) {
   // rebuild list of content types for disable_node_menu_item
-  $types = node_type_get_types;
+  $types = node_type_get_names();
+  foreach ($types as $key => $type) {
+    $types[$key] = $key;
+  }
+  // Add webform to types array because it isn't included for some reason.
+  if ($info->type == 'webform') {
+    $types['webform'] = 'webform';
+  }
   variable_set('dnmi_content_types', $types);
 }
 
@@ -125,7 +139,10 @@ function express_node_type_insert($info) {
  * Implements hook_node_type_delete().
  */
 function express_node_type_delete($info) {
-  $types = node_type_get_types;
+  $types = node_type_get_names();
+  foreach ($types as $key => $type) {
+    $types[$key] = $key;
+  }
   variable_set('dnmi_content_types', $types);
 }
 
@@ -140,3 +157,12 @@ function express_menu_alter(&$items) {
   // tried but didn't work.  Not sure why, but out of time.
   $items['admin/people']['title'] = 'Users';
 }
+/*
+function express_form_alter(&$form, &$form_state, $form_id) {
+  $types = node_type_get_names();
+  foreach ($types as $key => $type) {
+    $types[$key] = $key;
+  }
+  dpm($types);
+}
+*/
