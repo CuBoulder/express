@@ -392,6 +392,10 @@ a.expand-title:focus {
   background: #f0f0f0;
   margin: 0;
 }
+div.image-caption img {
+  display: block;
+  margin-bottom: -20px;
+}
 div.image-caption  p:first-child {
   display: block;
   margin: 0;
