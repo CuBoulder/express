@@ -5,13 +5,17 @@
  */
 function express_final_install() {
   theme_enable(array(
+    'cuhighlight',
     'cuivory',
     'culayers',
     'cuminimal',
     'cumodern',
+    'curise',
     'cushadow',
     'cusimple',
+    'cuspirit',
     'cuswatch',
+    'cutradition',
   ));
 
   module_enable(array(

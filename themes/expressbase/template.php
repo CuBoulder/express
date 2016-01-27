@@ -240,7 +240,7 @@ function expressbase_preprocess_node(&$vars) {
 
   // Making comments appear at the bottom of $content
   $vars['content']['comments']['#weight'] = 1000;
-  
+
   // Don't print link variables
   unset($vars['content']['links']);
 }
@@ -349,6 +349,7 @@ function expressbase_preprocess_block(&$vars) {
     $the_bean = current($children);
     $bean_type = $the_bean['#bundle'];
     $vars['classes_array'][] = 'bean-type-' . $bean_type;
+    $vars['classes_array'][] = drupal_html_class('block-bean-type-' . $bean_type);
   }
   // Get region column settings
   if (theme_get_setting('after_content_columns')) {

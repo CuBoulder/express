@@ -124,6 +124,6 @@ websupport@colorado.edu');
   variable_set('syslog_identity', $syslog_identity);
   // Key for 'LOG_LOCAL0' in the form.
   variable_set('syslog_facility','128');
-  variable_set('syslog_format','!base_url !timestamp "!type" !ip !request_uri !referer !uid "!link" "!message"');
+  variable_set('syslog_format','!base_url|!timestamp|!type|!ip|!request_uri|!referer|!uid|!link|!message');
 }
 
