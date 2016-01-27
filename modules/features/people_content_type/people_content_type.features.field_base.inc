@@ -10,25 +10,6 @@
 function people_content_type_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_extra'.
-  $field_bases['field_extra'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_extra',
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'text',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'text_long',
-  );
-
   // Exported field_base: 'field_people_block_thumbnail'.
   $field_bases['field_people_block_thumbnail'] = array(
     'active' => 1,
@@ -409,27 +390,6 @@ function people_content_type_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_person_bio'.
-  $field_bases['field_person_bio'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_person_bio',
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'text',
-    'settings' => array(
-      'profile2_private' => FALSE,
-    ),
-    'translatable' => 0,
-    'type' => 'text_long',
-  );
-
   // Exported field_base: 'field_person_department'.
   $field_bases['field_person_department'] = array(
     'active' => 1,
@@ -572,25 +532,6 @@ function people_content_type_field_default_field_bases() {
     ),
     'translatable' => 0,
     'type' => 'text',
-  );
-
-  // Exported field_base: 'field_person_interests'.
-  $field_bases['field_person_interests'] = array(
-    'active' => 1,
-    'cardinality' => 1,
-    'deleted' => 0,
-    'entity_types' => array(),
-    'field_name' => 'field_person_interests',
-    'indexes' => array(
-      'format' => array(
-        0 => 'format',
-      ),
-    ),
-    'locked' => 0,
-    'module' => 'text',
-    'settings' => array(),
-    'translatable' => 0,
-    'type' => 'text_long',
   );
 
   // Exported field_base: 'field_person_job_type'.
