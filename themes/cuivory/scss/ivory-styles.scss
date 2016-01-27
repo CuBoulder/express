@@ -131,7 +131,6 @@ ul#main-menu {
   background-image: url(../images/content-shadow.png);
   background-repeat: repeat-x;
   color: #fff;
-  padding-top: 20px;
   a:link, a:visited {
     color:$cugold;
     &:hover,
@@ -159,6 +158,9 @@ ul#main-menu {
   width: -moz-calc(100% - 40px);
   width: -webkit-calc(100% - 40px);
   width: calc(100% - 40px);
+}
+#footer {
+  padding-top: 20px;
 }
 #site-info-wrapper {
   background-color: #000;
