@@ -192,27 +192,50 @@ function profile_module_manager_bundle_list() {
 
   // Get all bundles
   $bundles = profile_module_manager_get_bundles('all');
+  $admin_bundles = array();
   // check for _bundle in the machine name, but also look for something in the info
   // to avoid false positives from contrib?
   foreach ($bundles as $key => $bundle) {
     if (!strpos($bundle->name, '_bundle')) {
       unset($bundles[$key]);
     }
+    // Separate admin bundles from list.
+    if (strpos($bundle->name, '_admin_bundle')) {
+      unset($bundles[$key]);
+      $admin_bundles[$key] = $bundle;
+    }
   }
+
+  // Put admin bundles last in bundle array.
+  foreach ($admin_bundles as $key => $bundle) {
+    $bundles[$key] = $bundle;
+  }
+
   // Wrapper markup for all bundles
   $output['bundles'] = array(
     '#prefix' => '<div class="module-bundles-wrapper block-column-container row">',
     '#suffix' => '</div>',
   );
   // Step through bundles
+  $first_admin_bundle = TRUE;
   foreach ($bundles as $key => $bundle) {
     $enabled = module_exists($bundle->name) ? 1 : 0;
     $enabled_class = $enabled ? 'bundle-enabled' : 'bundle-disabled';
-    $output['bundles']['bundle_group_' . $key] = array(
-      '#markup' => '',
-      '#prefix' => '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 module-bundle-wrapper '. $enabled_class . '"><div class="module-bundle">',
-      '#suffix' => '</div></div>',
-    );
+    // Add admin bundle break if admin bundle.
+    if (strpos($bundle->name, '_admin_bundle') && $first_admin_bundle == TRUE) {
+      $output['bundles']['bundle_group_' . $key] = array(
+        '#markup' => '',
+        '#prefix' => '</div><div class="row admin-bundle-separator"><h2>Admin Bundles</h2></div><div class="module-bundles-wrapper block-column-container row"><div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 module-bundle-wrapper '. $enabled_class . '"><div class="module-bundle">',
+        '#suffix' => '</div></div>',
+      );
+      $first_admin_bundle = FALSE;
+    } else {
+      $output['bundles']['bundle_group_' . $key] = array(
+        '#markup' => '',
+        '#prefix' => '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 module-bundle-wrapper ' . $enabled_class . '"><div class="module-bundle">',
+        '#suffix' => '</div></div>',
+      );
+    }
     $info_file = str_replace(".module", ".info", $bundle->filename);
     $info = drupal_parse_info_file($info_file);
 
