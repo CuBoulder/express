@@ -287,20 +287,24 @@ function profile_module_manager_bundle_confirm($bundle_name) {
   $bundle_path = drupal_get_path('module', $bundle_name);
   $bundle = drupal_parse_info_file($bundle_path . '/' . $bundle_name . '.info');
 
-  // List all currently logged in users
-  $interval = REQUEST_TIME - 900;
-  $items = db_query('SELECT u.uid, u.name, MAX(s.timestamp) AS max_timestamp FROM {users} u INNER JOIN {sessions} s ON u.uid = s.uid WHERE s.timestamp >= :interval AND s.uid > 0 GROUP BY u.uid, u.name ORDER BY max_timestamp DESC', array(':interval' => $interval))->fetchAll();
-  $users = '';
-  $users_count = count($items) -1;
-  foreach ($items as $key => $item) {
-    if ($key == $users_count && $users_count != 0) {
-      $users .= 'and ' . $item->name . ',';
-    } else {
-      $users .= $item->name . ', ';
+  // Only tell users about logout if bundle requires logout.
+  if (isset($bundle['bundle_logout']) && $bundle['bundle_logout'] == 1) {
+    // List all currently logged in users
+    $interval = REQUEST_TIME - 900;
+    $items = db_query('SELECT u.uid, u.name, MAX(s.timestamp) AS max_timestamp FROM {users} u INNER JOIN {sessions} s ON u.uid = s.uid WHERE s.timestamp >= :interval AND s.uid > 0 GROUP BY u.uid, u.name ORDER BY max_timestamp DESC', array(':interval' => $interval))->fetchAll();
+    $users = '';
+    $users_count = count($items) -1;
+    foreach ($items as $key => $item) {
+      if ($key == $users_count && $users_count != 0) {
+        $users .= 'and ' . $item->name . ',';
+      } else {
+        $users .= $item->name . ', ';
+      }
     }
+    $output = '<p>You are about to enable the ' . $bundle['name'] . ' Bundle. <strong>NOTE: When this process starts it will logout all users, except: ' . $users . ' from editing the site until the process is complete.</strong></p>';
+  } else {
+    $output = '<p>You are about to enable the ' . $bundle['name'] . ' Bundle.</p>';
   }
-
-  $output = '<p>You are about to enable the ' . $bundle['name'] . ' Bundle. When this process starts it will logout all users, except: ' . $users . ' from editing the site until the process is complete.</p>';
   $output .= '<a href="' . $GLOBALS['base_url'] . '/admin/settings/bundles/list/enable/' . $bundle_name . '" title="Confirm"><div class="btn btn-primary">Confirm</div></a>';
   $output .= '<a href="' . $GLOBALS['base_url'] . '/admin/settings/bundles/list/" title="Cancel"><div class="btn btn-default">Cancel</div></a>';
   return $output;
@@ -310,18 +314,6 @@ function profile_module_manager_bundle_confirm($bundle_name) {
  * Callback function for admin/settings/bundles/list/enable/%
  */
 function profile_module_manager_bundle_enable($bundle) {
-  // Get all logged in users based on timestamp of being logged in since 900 seconds ago.
-  $interval = REQUEST_TIME - 900;
-  $items = db_query('SELECT u.uid, u.name, MAX(s.timestamp) AS max_timestamp FROM {users} u INNER JOIN {sessions} s ON u.uid = s.uid WHERE s.timestamp >= :interval AND s.uid > 0 GROUP BY u.uid, u.name ORDER BY max_timestamp DESC', array(':interval' => $interval))->fetchAll();
-  $uids = array();
-  foreach ($items as $item) {
-    $uids[] = $item->uid;
-  }
-
-  // Log out all other users.
-  $deleted_users = db_delete('sessions')
-    ->condition('uid', $uids, 'NOT IN')
-    ->execute();
 
   // Make sure this is a bundle
   if (strpos($bundle, '_bundle')) {
@@ -363,6 +355,23 @@ function profile_module_manager_bundle_enable($bundle) {
       'error_message' => t('Bundle failed to be enabled.'),
     );
     batch_set($batch);
+
+    // Logout all users except currently using site if lgout flag is set.
+    if (isset($info['bundle_logout']) && $info['bundle_logout'] == 1) {
+      // Get all logged in users based on timestamp of being logged in since 900 seconds ago.
+      $interval = REQUEST_TIME - 900;
+      $items = db_query('SELECT u.uid, u.name, MAX(s.timestamp) AS max_timestamp FROM {users} u INNER JOIN {sessions} s ON u.uid = s.uid WHERE s.timestamp >= :interval AND s.uid > 0 GROUP BY u.uid, u.name ORDER BY max_timestamp DESC', array(':interval' => $interval))->fetchAll();
+      $uids = array();
+      foreach ($items as $item) {
+        $uids[] = $item->uid;
+      }
+      // Log out all other users.
+      $deleted_users = db_delete('sessions')
+        ->condition('uid', $uids, 'NOT IN')
+        ->execute();
+    }
+
     batch_process('admin/settings/bundles/list');
   }
 }
+
