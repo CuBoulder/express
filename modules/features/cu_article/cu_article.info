@@ -8,7 +8,6 @@ dependencies[] = advanced_link
 dependencies[] = bean_admin_ui
 dependencies[] = ctools
 dependencies[] = cu_test_content_context
-dependencies[] = cu_video
 dependencies[] = cu_view_modes
 dependencies[] = ds
 dependencies[] = eva

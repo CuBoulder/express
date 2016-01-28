@@ -185,13 +185,13 @@ function cu_help_express_help($variables) {
     'url' => 'http://www.colorado.edu/webcentral/node/626',
   );
 
-  $variables['admin/settings/getting-started/contact'][] = array(
+  $variables['admin/settings/site-configuration/contact'][] = array(
     'title' => 'Site Name and Contact Information Help',
     'short_title' => 'Site Name & Contact Information',
     'url' => 'http://www.colorado.edu/webcentral/node/408',
   );
 
-  $variables['admin/settings/getting-started/error'][] = array(
+  $variables['admin/settings/site-configuration/error'][] = array(
     'title' => 'Error Pages Help',
     'short_title' => 'Error Pages',
     'url' => 'http://www.colorado.edu/webcentral/node/402',
@@ -203,10 +203,16 @@ function cu_help_express_help($variables) {
     'url' => 'http://www.colorado.edu/webcentral/node/584',
   );
 
-  $variables['admin/settings/getting-started/site'][] = array(
+  $variables['admin/settings/site-configuration/site-name'][] = array(
     'title' => 'Site Name and Contact Information Help',
     'short_title' => 'Site Name and Contact Information',
     'url' => 'http://www.colorado.edu/webcentral/node/408',
+  );
+
+  $variables['admin/settings/site-configuration/google-analytics'][] = array(
+    'title' => 'Google Analytics Help',
+    'short_title' => 'Google Analytics',
+    'url' => 'http://www.colorado.edu/webcentral/node/400',
   );
 
   $variables['admin/settings/bundles/list'][] = array(
@@ -228,13 +234,6 @@ function cu_help_express_help_fields($variables) {
       'title' => 'Content Grid Columns Help',
       'short_title' => 'Content Grid Columns',
       'url' => 'http://www.colorado.edu/webcentral/node/428',
-    ),
-  );
-  $variables['cu_settings_admin_settings_form']['fields'] = array(
-    'ga' => array(
-      'title' => 'Google Analytics Help',
-      'short_title' => 'Google Analytics',
-      'url' => 'http://www.colorado.edu/webcentral/node/400',
     ),
   );
   $variables['page_node_form']['fields'] = array(
