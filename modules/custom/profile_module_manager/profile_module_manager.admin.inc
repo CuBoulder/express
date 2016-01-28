@@ -289,7 +289,7 @@ function profile_module_manager_bundle_confirm($bundle_name) {
 
   // List all currently logged in users
   $interval = REQUEST_TIME - 900;
-  //$items = db_query('SELECT u.uid, u.name, MAX(s.timestamp) AS max_timestamp FROM {users} u INNER JOIN {sessions} s ON u.uid = s.uid WHERE s.timestamp >= :interval AND s.uid > 0 GROUP BY u.uid, u.name ORDER BY max_timestamp DESC', array(':interval' => $interval))->fetchAll();
+  $items = db_query('SELECT u.uid, u.name, MAX(s.timestamp) AS max_timestamp FROM {users} u INNER JOIN {sessions} s ON u.uid = s.uid WHERE s.timestamp >= :interval AND s.uid > 0 GROUP BY u.uid, u.name ORDER BY max_timestamp DESC', array(':interval' => $interval))->fetchAll();
   $users = '';
   $users_count = count($items) -1;
   foreach ($items as $key => $item) {
@@ -300,7 +300,7 @@ function profile_module_manager_bundle_confirm($bundle_name) {
     }
   }
 
-  $output = '<p>You are about to enable the ' . $bundle['name'] . ' bundle. When this process starts it will log all users, except: ' . $users . ' from editing the site until the process is complete.</p>';
+  $output = '<p>You are about to enable the ' . $bundle['name'] . ' bundle. When this process starts it will logout all users, except: ' . $users . ' from editing the site until the process is complete.</p>';
   $output .= '<a href="' . $GLOBALS['base_url'] . '/admin/settings/bundles/list/enable/' . $bundle_name . '" title="Confirm"><div class="btn btn-primary">Confirm</div></a>';
   $output .= '<a href="' . $GLOBALS['base_url'] . '/admin/settings/bundles/list/" title="Cancel"><div class="btn btn-default">Cancel</div></a>';
   return $output;
