@@ -43,6 +43,14 @@ function express_settings_menu() {
     'access arguments' => array('administer express settings'),
     'weight' => -25,
   );
+  $items['admin/settings/site-configuration/google-analytics'] = array(
+    'title' => 'Google Analytics',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('express_settings_google_analytics_form'),
+    'access arguments' => array('administer express settings'),
+    'weight' => -30,
+  );
   $items['admin/settings/site-configuration/redirects'] = array(
     'title' => 'URL Redirects',
     'type' => MENU_NORMAL_ITEM,
@@ -120,7 +128,7 @@ function express_settings_navbar() {
 }
 
 /**
- * Page callback for admin/settings.
+ * Page callback for admin/site-configuration/site-name.
  */
 function express_settings_site_name_form($form, &$form_state) {
   global $base_url;
@@ -146,7 +154,7 @@ function express_settings_site_name_form($form, &$form_state) {
 }
 
 /**
- * Submit handler for admin_settings_form.
+ * Submit handler for express_settings_site_name_form.
  */
 function express_settings_site_name_form_submit($form, &$form_state) {
 
@@ -157,7 +165,7 @@ function express_settings_site_name_form_submit($form, &$form_state) {
 }
 
 /**
- * Page callback for admin/settings.
+ * Page callback for admin/site-configuration/frontpage.
  */
 function express_settings_frontpage_form($form, &$form_state) {
   global $base_url;
@@ -194,6 +202,52 @@ function express_settings_frontpage_validate($form, &$form_state) {
   }
 }
 
+/**
+ * Page callback for admin/site-configuration/google-analytics.
+ */
+function express_settings_google_analytics_form($form, &$form_state) {
+  $form = array();
+
+  $form['ga_account'] = array(
+    '#title' => t('Google Analytics Account ID'),
+    '#type' => 'textfield',
+    '#default_value' => variable_get('ga_account', ''),
+    '#description' => t('Example: UA-123456-1'),
+  );
+
+  $form['#validate'][] = 'express_settings_google_analytics_form_validate';
+  // Let system_settings_form_submit run first to variable_set vars.
+  $form = system_settings_form($form);
+  $form['#submit'][] = 'express_settings_google_analytics_form_submit';
+  return $form;
+}
+
+/**
+ * Validation handler for express_settings_google_analytics_form().
+ */
+function express_settings_google_analytics_form_validate($form, &$form_state) {
+  // Ensure ga-account looks like a real account value.
+  if (!empty($form_state['values']['ga_account'])) {
+    $pattern = '/(UA|ua)-[0-9]*-[0-9]*/';
+    $match = preg_match($pattern, $form_state['values']['ga_account']);
+    if (!$match) {
+      form_set_error('ga_account', t('Please enter your google account in the form of "UA-123456-1"'));
+    }
+  }
+}
+
+/**
+ * Submit handler for express_settings_google_analytics_form().
+ */
+function express_settings_google_analytics_form_submit($form, &$form_state) {
+  if (variable_get('ga_account', '')) {
+    $js_code = format_string("ga('create', '@ga_account', 'auto', {'name':'customTracker'});  ga('customTracker.send', 'pageview');", array('@ga_account' => variable_get('ga_account', '')));
+    variable_set('googleanalytics_codesnippet_after', $js_code);
+  }
+  else {
+    variable_set('googleanalytics_codesnippet_after', '');
+  }
+}
 
 /**
  * Page callback for admin/settings/contact.
