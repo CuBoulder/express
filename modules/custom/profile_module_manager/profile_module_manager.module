@@ -181,3 +181,50 @@ function profile_module_manager_build_ideal() {
 
   return $new_ideal;
 }
+
+function profile_module_manager_process_batch($modules, &$context) {
+
+  // Enable modules.
+  module_enable($modules);
+}
+
+function profile_module_manager_batch_finished($success, $results, $operations) {
+  if ($success) {
+
+    // List all currently logged in users
+    $interval = REQUEST_TIME - 900;
+    $items = db_query('SELECT u.uid, u.name, MAX(s.timestamp) AS max_timestamp FROM {users} u INNER JOIN {sessions} s ON u.uid = s.uid WHERE s.timestamp >= :interval AND s.uid > 0 GROUP BY u.uid, u.name ORDER BY max_timestamp DESC', array(':interval' => $interval))->fetchAll();
+    $users = '';
+    $uids = array();
+    foreach ($items as $item) {
+      $users .= $item->name . ', ';
+      $uids[] = $item->uid;
+    }
+    $users = substr($users, 0, -2);
+    $users .= '.';
+    drupal_set_message('Users currently logged in: ' . $users);
+    drupal_set_message('All other users are being logged out now for updates.');
+
+    // Log out all other users.
+    $deleted_users = db_delete('sessions')
+      ->condition('uid', $uids, 'NOT IN')
+      ->execute();
+
+    // Would be good to grab bundle name from $results
+    drupal_set_message('Enabled bundle.');
+
+    // Rebuild permissions and flush caches to make sure
+    secure_permissions_rebuild();
+    drupal_flush_all_caches();
+
+  } else {
+    _revert_bundle_on_error();
+  }
+}
+
+/**
+ * Function to handle bundle enabling errors.
+ */
+function _revert_bundle_on_error() {
+
+}
