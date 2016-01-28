@@ -21,6 +21,7 @@ function express_layout_form($form, &$form_state, $op = 'edit', $express_layout 
 
   // Hide regions if they aren't allowed to be included by the settings form
   if ($express_layout) {
+    $form_state['#express_layout_node_type'] = $express_layout->node_type;
     $settings = variable_get('express_layout_settings_' . $express_layout->node_type, NULL);
     foreach ($settings as $key => $setting) {
       if (!$setting) {
@@ -45,17 +46,16 @@ function express_layout_form($form, &$form_state, $op = 'edit', $express_layout 
  */
 function _express_layout_validate($form, &$form_state) {
   // Load layout enity
-  $express_layout = entity_load_single('express_layout', arg(1));
 
   // Hide regions if they aren't allowed to be included by the settings form
-  if ($express_layout) {
-    $settings = variable_get('express_layout_settings_' . $express_layout->node_type, NULL);
-    foreach ($settings as $key => $setting) {
-      if (!$setting) {
-        $form_state['complete form'][$key]['#access'] = FALSE;
-      }
+  $type = $form_state['#express_layout_node_type'];
+  $settings = variable_get('express_layout_settings_' . $type, NULL);
+  foreach ($settings as $key => $setting) {
+    if (!$setting) {
+      $form_state['complete form'][$key]['#access'] = FALSE;
     }
   }
+
 
 }
 /**
