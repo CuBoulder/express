@@ -206,17 +206,11 @@ function profile_module_manager_process_batch($modules, &$context) {
 
 function profile_module_manager_batch_finished($success, $results, $operations) {
   if ($success) {
-
     // Get bundle name from $results and print message.
     $bundle_name = $results['bundle'];
     $bundle_path = drupal_get_path('module', $bundle_name);
     $bundle = drupal_parse_info_file($bundle_path . '/' . $bundle_name . '.info');
     drupal_set_message('The ' . $bundle['name'] . ' Bundle has been successfully enabled on your site. You may now begin using this functionality and go back to editing your site.');
-
-    // Rebuild permissions and flush caches to make sure everything is ready to go.
-    secure_permissions_rebuild();
-    drupal_flush_all_caches();
-
   } else {
     _revert_bundle_on_error();
   }
