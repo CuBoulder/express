@@ -265,7 +265,7 @@ function profile_module_manager_bundle_list() {
       $actions[] = '<span class="btn btn-default btn-disabled active-theme">Enabled</span>';
     }
     else {
-      $actions[] = l('<i class="fa fa-plus-circle"></i> Enable', current_path() . '/enable/' . $bundle->name, array('attributes' => array('class' => array('btn btn-primary')), 'html' => TRUE));
+      $actions[] = l('<i class="fa fa-plus-circle"></i> Enable', current_path() . '/confirm/' . $bundle->name, array('attributes' => array('class' => array('btn btn-primary')), 'html' => TRUE));
       if (isset($info['project_demo_url'])) {
         $actions[] = l('<i class="fa fa-info-circle"></i> More Information', $info['project_demo_url'], array('attributes' => array('class' => array('btn btn-default'), 'target' => '_blank'), 'html' => TRUE));
       }
@@ -280,9 +280,49 @@ function profile_module_manager_bundle_list() {
 }
 
 /**
+ * Callback function for admin/settings/bundles/list/confirm/%
+ */
+function profile_module_manager_bundle_confirm($bundle_name) {
+  $output = '';
+  $bundle_path = drupal_get_path('module', $bundle_name);
+  $bundle = drupal_parse_info_file($bundle_path . '/' . $bundle_name . '.info');
+
+  // List all currently logged in users
+  $interval = REQUEST_TIME - 900;
+  //$items = db_query('SELECT u.uid, u.name, MAX(s.timestamp) AS max_timestamp FROM {users} u INNER JOIN {sessions} s ON u.uid = s.uid WHERE s.timestamp >= :interval AND s.uid > 0 GROUP BY u.uid, u.name ORDER BY max_timestamp DESC', array(':interval' => $interval))->fetchAll();
+  $users = '';
+  $users_count = count($items) -1;
+  foreach ($items as $key => $item) {
+    if ($key == $users_count && $users_count != 0) {
+      $users .= 'and ' . $item->name . ',';
+    } else {
+      $users .= $item->name . ', ';
+    }
+  }
+
+  $output = '<p>You are about to enable the ' . $bundle['name'] . ' bundle. When this process starts it will log all users, except: ' . $users . ' from editing the site until the process is complete.</p>';
+  $output .= '<a href="' . $GLOBALS['base_url'] . '/admin/settings/bundles/list/enable/' . $bundle_name . '" title="Confirm"><div class="btn btn-primary">Confirm</div></a>';
+  $output .= '<a href="' . $GLOBALS['base_url'] . '/admin/settings/bundles/list/" title="Cancel"><div class="btn btn-default">Cancel</div></a>';
+  return $output;
+}
+
+/**
  * Callback function for admin/settings/bundles/list/enable/%
  */
 function profile_module_manager_bundle_enable($bundle) {
+  // Get all logged in users based on timestamp of being logged in since 900 seconds ago.
+  $interval = REQUEST_TIME - 900;
+  $items = db_query('SELECT u.uid, u.name, MAX(s.timestamp) AS max_timestamp FROM {users} u INNER JOIN {sessions} s ON u.uid = s.uid WHERE s.timestamp >= :interval AND s.uid > 0 GROUP BY u.uid, u.name ORDER BY max_timestamp DESC', array(':interval' => $interval))->fetchAll();
+  $uids = array();
+  foreach ($items as $item) {
+    $uids[] = $item->uid;
+  }
+
+  // Log out all other users.
+  $deleted_users = db_delete('sessions')
+    ->condition('uid', $uids, 'NOT IN')
+    ->execute();
+
   // Make sure this is a bundle
   if (strpos($bundle, '_bundle')) {
     // look up depenencies & enable those first
@@ -310,7 +350,6 @@ function profile_module_manager_bundle_enable($bundle) {
     // Chunk modules into groups.
     $operations = array();
     foreach ($module_chunks as $chunk) {
-      dpm($chunk);
       $operations[] = array('profile_module_manager_process_batch', array($chunk));
     }
 

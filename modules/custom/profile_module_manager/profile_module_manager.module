@@ -44,6 +44,15 @@ function profile_module_manager_menu() {
     'access arguments' => array('enable module bundles'),
   );
 
+  $items['admin/settings/bundles/list/confirm/%'] = array(
+    'title' => 'Confirm Enabling Bundle',
+    'description' =>  'Enable a bundle.',
+    'page callback' => 'profile_module_manager_bundle_confirm',
+    'page arguments' => array(5),
+    'file' => 'profile_module_manager.admin.inc',
+    'access arguments' => array('enable module bundles'),
+  );
+
   $items['admin/config/system/module-manager'] = array(
     'title' => 'Profile Module Manager',
     'description' =>  'Configure Module Manager',
@@ -186,34 +195,25 @@ function profile_module_manager_process_batch($modules, &$context) {
 
   // Enable modules.
   module_enable($modules);
+
+  // Pass bundle name to batch finished function.
+  foreach ($modules as $module) {
+    if (strpos($module, '_bundle')) {
+      $context['results']['bundle'] = $module;
+    }
+  }
 }
 
 function profile_module_manager_batch_finished($success, $results, $operations) {
   if ($success) {
 
-    // List all currently logged in users
-    $interval = REQUEST_TIME - 900;
-    $items = db_query('SELECT u.uid, u.name, MAX(s.timestamp) AS max_timestamp FROM {users} u INNER JOIN {sessions} s ON u.uid = s.uid WHERE s.timestamp >= :interval AND s.uid > 0 GROUP BY u.uid, u.name ORDER BY max_timestamp DESC', array(':interval' => $interval))->fetchAll();
-    $users = '';
-    $uids = array();
-    foreach ($items as $item) {
-      $users .= $item->name . ', ';
-      $uids[] = $item->uid;
-    }
-    $users = substr($users, 0, -2);
-    $users .= '.';
-    drupal_set_message('Users currently logged in: ' . $users);
-    drupal_set_message('All other users are being logged out now for updates.');
+    // Get bundle name from $results and print message.
+    $bundle_name = $results['bundle'];
+    $bundle_path = drupal_get_path('module', $bundle_name);
+    $bundle = drupal_parse_info_file($bundle_path . '/' . $bundle_name . '.info');
+    drupal_set_message('The ' . $bundle['name'] . ' Bundle has been successfully enabled on your site. You may now begin using this functionality and go back to editing your site.');
 
-    // Log out all other users.
-    $deleted_users = db_delete('sessions')
-      ->condition('uid', $uids, 'NOT IN')
-      ->execute();
-
-    // Would be good to grab bundle name from $results
-    drupal_set_message('Enabled bundle.');
-
-    // Rebuild permissions and flush caches to make sure
+    // Rebuild permissions and flush caches to make sure everything is ready to go.
     secure_permissions_rebuild();
     drupal_flush_all_caches();
 
