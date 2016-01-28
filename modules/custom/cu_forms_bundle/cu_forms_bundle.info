@@ -9,3 +9,5 @@ dependencies[] = cu_feedback
 dependencies[] = captcha
 dependencies[] = recaptcha
 dependencies[] = captcha_webform
+
+bundle_cache_clear = 1
