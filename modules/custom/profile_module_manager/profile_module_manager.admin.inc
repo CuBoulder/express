@@ -374,3 +374,4 @@ function profile_module_manager_bundle_enable($bundle) {
     batch_process('admin/settings/bundles/list');
   }
 }
+
