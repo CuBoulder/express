@@ -53,7 +53,6 @@
      $type_count = 'node_type_' . $object->type;
      $type_counts[$type_count] = $object->count_type;
    }
-   // Removed until the inventory can accept unknowns.
    $site_data['statistics']['node_types'] = $type_counts;
 
    // Total up the number of nodes.
@@ -82,7 +81,6 @@
      $bean_count = 'bean_type_' . $object->type;
      $bean_counts[$bean_count] = $object->count_bean;
    }
-   // Removed until the inventory can accept unknowns.
    $site_data['statistics']['bean_types'] = $bean_counts;
 
    // Total the bean counts.
