@@ -2,7 +2,7 @@ body { background-color: #1e1e1e; }
 
 .layout-wide #backstretch { display: none; }
 
-.layout-boxed.layout-fixed #page { width: 960px; margin: 0 auto; }
+.layout-boxed.layout-fixed #page { width: 1200px; margin: 0 auto; }
 
 .layout-boxed.layout-responsive #page { max-width: 1200px; margin: 0 auto; }
 

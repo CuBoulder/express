@@ -3,7 +3,7 @@ body { background: none; background-color: #1e1e1e; background-color: #f2f2f2; b
 @media screen and (min-width: 960px) { #page-wrapper { padding: 20px 0; } }
 #page { -webkit-box-shadow: 0 0 80px rgba(0, 0, 0, 0.25); -moz-box-shadow: 0 0 80px rgba(0, 0, 0, 0.25); box-shadow: 0 0 80px rgba(0, 0, 0, 0.25); }
 
-.layout-fixed #page { width: 960px; margin: 0 auto; }
+.layout-fixed #page { width: 1200px; margin: 0 auto; }
 
 .layout-responsive #page { width: auto; max-width: 1200px; margin: 0 auto; }
 

@@ -3,7 +3,7 @@ body { background-color: #333; }
 .layout-wide #backstretch { display: none; }
 
 .layout-boxed { background-color: #111; }
-.layout-boxed #page-wrapper { width: 960px; margin: 0 auto; -webkit-box-shadow: 0 0 80px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 0 80px rgba(0, 0, 0, 0.5); box-shadow: 0 0 80px rgba(0, 0, 0, 0.5); }
+.layout-boxed #page-wrapper { width: 1200px; margin: 0 auto; -webkit-box-shadow: 0 0 80px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 0 80px rgba(0, 0, 0, 0.5); box-shadow: 0 0 80px rgba(0, 0, 0, 0.5); }
 
 .layout-boxed.layout-responsive #page-wrapper { width: auto; max-width: 1200px; }
 
@@ -28,7 +28,7 @@ body { background-color: #333; }
 
 .top-content { background-color: #fff; }
 
-.layout-fixed .top-content { width: 960px; margin: 0 auto; }
+.layout-fixed .top-content { width: 1200px; margin: 0 auto; }
 
 .layout-responsive .top-content { max-width: 1200px; margin: 0 auto; }
 
