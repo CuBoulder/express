@@ -207,7 +207,6 @@ dependencies[] = stringoverrides
 dependencies[] = express_linkit_profiles
 
 ; REMOVE IN FUTURE
-dependencies[] = cu_video
 dependencies[] = grid_size_blocks
 dependencies[] = cu_livechat
 
