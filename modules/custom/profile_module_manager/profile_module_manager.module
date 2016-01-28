@@ -228,3 +228,4 @@ function profile_module_manager_batch_finished($success, $results, $operations) 
 function _revert_bundle_on_error() {
 
 }
+
