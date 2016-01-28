@@ -31,6 +31,10 @@ function expressadmin_preprocess_html(&$vars) {
     'dir' => $vars['language']->dir,
   );
   $vars['html_attributes'] = drupal_attributes($vars['html_attributes_array']);
+
+  // Skip variables
+  $vars['skip_link_text'] = 'Skip to content';
+  $vars['skip_link_anchor'] = 'admin-top';
 }
 
 /**

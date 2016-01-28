@@ -26,8 +26,8 @@
 </head>
 <body class="<?php print $classes; ?>" <?php print $attributes;?>>
   <?php if ($skip_link_text && $skip_link_anchor): ?>
-    <p id="skip-link">
-      <a href="#<?php print $skip_link_anchor; ?>" class="element-invisible element-focusable"><?php print $skip_link_text; ?></a>
+    <p id="skip-link" class="element-invisible">
+      <a href="#<?php print $skip_link_anchor; ?>" class="element-focusable"><?php print $skip_link_text; ?></a>
     </p>
   <?php endif; ?>
   <?php print $page_top; ?>
