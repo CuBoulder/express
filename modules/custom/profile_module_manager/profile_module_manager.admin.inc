@@ -300,7 +300,7 @@ function profile_module_manager_bundle_confirm($bundle_name) {
     }
   }
 
-  $output = '<p>You are about to enable the ' . $bundle['name'] . ' bundle. When this process starts it will logout all users, except: ' . $users . ' from editing the site until the process is complete.</p>';
+  $output = '<p>You are about to enable the ' . $bundle['name'] . ' Bundle. When this process starts it will logout all users, except: ' . $users . ' from editing the site until the process is complete.</p>';
   $output .= '<a href="' . $GLOBALS['base_url'] . '/admin/settings/bundles/list/enable/' . $bundle_name . '" title="Confirm"><div class="btn btn-primary">Confirm</div></a>';
   $output .= '<a href="' . $GLOBALS['base_url'] . '/admin/settings/bundles/list/" title="Cancel"><div class="btn btn-default">Cancel</div></a>';
   return $output;
