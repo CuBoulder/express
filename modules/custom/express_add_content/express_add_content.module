@@ -200,7 +200,7 @@ function express_add_content_bean_add($vars) {
       $types = '<ul class="admin-list">';
       foreach ($links as $link) {
         $types .= '<li class="clearfix">';
-        $types .= '<span class="label">' . l($link['title'], $links[$type]['href']) . '</span>';
+        $types .= '<span class="label">' . l($link['title'], $link['href']) . '</span>';
         $types .= '<div class="description">' . filter_xss_admin($link['description']) . '</div>';
         $types .= '</li>';
       }
