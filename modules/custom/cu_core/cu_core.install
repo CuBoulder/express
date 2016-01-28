@@ -13,7 +13,7 @@ function cu_core_enable() {
 function cu_core_install() {
 
   //set default variables for user_external_invite
-  if (db_table_exists('user_external_invite') && !db_field_exists('user_external_invite','message')) {
+  if (db_table_exists('user_external_invite') && !db_field_exists('user_external_invite', 'message')) {
     $spec = array(
       'type' => 'text',
       'description' => "Custom message included with invite",
@@ -23,7 +23,7 @@ function cu_core_install() {
   }
 
   // Add id and drop mail as primary key.
-  if (db_table_exists('user_external_invite') && !db_field_exists('user_external_invite','id')) {
+  if (db_table_exists('user_external_invite') && !db_field_exists('user_external_invite', 'id')) {
     db_drop_primary_key('user_external_invite');
     $spec = array(
       'type' => 'serial',
@@ -57,7 +57,11 @@ function cu_core_install() {
   $content_editor_role = user_role_load_by_name('content_editor');
   $edit_my_content_role = user_role_load_by_name('edit_my_content');
 
-  variable_set('user_external_invite_roles', array($site_owner_role->rid, $content_editor_role->rid, $edit_my_content_role->rid));
+  variable_set('user_external_invite_roles', array(
+    $site_owner_role->rid,
+    $content_editor_role->rid,
+    $edit_my_content_role->rid
+  ));
   variable_set('user_external_invite_days_valid_for', 5);
 
   variable_set('user_external_invite_invite_template', '[user_external_invite:invite_custom]
@@ -123,7 +127,12 @@ websupport@colorado.edu');
   }
   variable_set('syslog_identity', $syslog_identity);
   // Key for 'LOG_LOCAL0' in the form.
-  variable_set('syslog_facility','128');
-  variable_set('syslog_format','!base_url|!timestamp|!type|!ip|!request_uri|!referer|!uid|!link|!message');
+  variable_set('syslog_facility', '128');
+  variable_set('syslog_format', '!base_url !timestamp "!type" !ip !request_uri !referer !uid "!link" "!message"');
+
+  // Set variable for disabling certain Metatag messages.
+  variable_set('disable_messages_ignore_regex', array('/^Metatag support has been enabled for the .*?$/i'));
+  variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .*?');
+
 }
 
