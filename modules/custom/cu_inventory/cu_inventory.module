@@ -506,11 +506,12 @@ function cu_inventory_request($resource, $query = NULL, $method = 'GET', $data =
     $cu_sid = variable_get('cu_sid');
     watchdog(
       'cu_inventory',
-      '%method sent to %resource for %sid',
+      '%method sent to %resource for %sid - %site_data',
       array(
         '%method' => $method,
         '%resource' => $resource,
         '%sid' => $cu_sid,
+        '%site_data' => $data,
       ),
       WATCHDOG_INFO,
       NULL
