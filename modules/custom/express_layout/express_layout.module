@@ -296,7 +296,7 @@ function express_layout_page_alter(&$page) {
     // Load node layout
     if ($layout = entity_load_single('express_layout', $node->nid)) {
       // Add cover image
-      if (!empty($layout->field_feature_title_image[LANGUAGE_NONE][0]['uri']) && isset($settings['field_feature_title_image'])) {
+      if (!empty($layout->field_feature_title_image[LANGUAGE_NONE][0]['uri']) && !empty($settings['field_feature_title_image'])) {
         // Get url of hero image style
         $img = image_style_url('el_hero', $layout->field_feature_title_image [LANGUAGE_NONE][0]['uri']);
         $block['el_hero_cover_image'] = array(
