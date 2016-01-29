@@ -12,6 +12,12 @@ function profile_module_manager_admin_settings() {
     '#title' => t('Disable UI Lock'),
     '#description' => t('Disables the lock on ability enable or disable modules required by install profile through the user interface.  This also impacts drush.'),
   );
+  $form['profile_module_manager_disable_enabling'] = array(
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('profile_module_manager_disable_enabling', 0),
+    '#title' => t('Disable the ability for users to enable bundles'),
+    '#description' => t('Turns off the ability for users to enable bundles on the bundles list page.'),
+  );
 
   $form['profile_module_manager_ignore'] = array(
     '#type' => 'textarea',
@@ -169,9 +175,7 @@ function profile_module_manager_bundle_form_submit(&$form, &$form_state) {
             module_enable(array($module), FALSE);
           }
         }
-
       }
-
       if(!module_exists($key)) {
 	      module_enable(array($key), FALSE);
       }
@@ -184,6 +188,11 @@ function profile_module_manager_bundle_form_submit(&$form, &$form_state) {
 
 function profile_module_manager_bundle_list() {
   $output = array();
+
+  if (variable_get('profile_module_manager_disable_enabling', 0) == 1) {
+    $output = '<p>The ability to enable bundles has been turned off.</p>';
+    return $output;
+  }
   $output['help'] = array(
     '#markup' => t('Bundles add functionality to your site, but this also adds complexity.  Bundles cannot be removed once enabled.'),
     '#prefix' => '<div class="modules-bundle-description">',
@@ -284,6 +293,12 @@ function profile_module_manager_bundle_list() {
  */
 function profile_module_manager_bundle_confirm($bundle_name) {
   $output = '';
+
+  if (variable_get('profile_module_manager_disable_enabling', 0) == 1) {
+    $output = '<p>The ability to enable bundles has been turned off.</p>';
+    return $output;
+  }
+
   $bundle_path = drupal_get_path('module', $bundle_name);
   $bundle = drupal_parse_info_file($bundle_path . '/' . $bundle_name . '.info');
 
@@ -314,6 +329,11 @@ function profile_module_manager_bundle_confirm($bundle_name) {
  * Callback function for admin/settings/bundles/list/enable/%
  */
 function profile_module_manager_bundle_enable($bundle) {
+
+  if (variable_get('profile_module_manager_disable_enabling', 0) == 1) {
+    $output = '<p>The ability to enable bundles has been turned off.</p>';
+    return $output;
+  }
 
   // Make sure this is a bundle
   if (strpos($bundle, '_bundle')) {
@@ -370,7 +390,6 @@ function profile_module_manager_bundle_enable($bundle) {
         ->condition('uid', $uids, 'NOT IN')
         ->execute();
     }
-
     batch_process('admin/settings/bundles/list');
   }
 }
