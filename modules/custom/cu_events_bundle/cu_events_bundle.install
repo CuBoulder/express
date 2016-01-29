@@ -4,7 +4,6 @@
  * Implements hook_enable()
  */
 function cu_events_bundle_enable() {
-  //module_enable(FROM .INFO?);
 
 }
 

@@ -82,33 +82,6 @@ function cu_users_permission() {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
- *
- * Rebuilds permissions on every load of the features admin form.  @TODO: This
- * hackishly solves FIT-80 because after you turn on a feature, you are taken
- * back to the features page which then executes this.
- */
-function cu_users_form_features_admin_form_alter(&$form, &$form_state, $form_id) {
-  secure_permissions_rebuild();
-}
-
-/**
- * legacy functions???
- */
-//function _cu_users_invite_roles() {
-//  return _user_external_invite_roles();
-//}
-
-//function  _cu_users_pending_invites($mail = NULL) {
-// return _user_external_invite_pending_invites($mail);
-//}
-
-//function  _cu_users_add_invite($rid, $emails, $uid) {
-//  return _user_external_invite_add_invite($rid, $emails, $uid);
-//}
-
-
-/**
  * Implements hook_cron().
  *
  * Expire user sessions nightly between 2AM and 3AM.
