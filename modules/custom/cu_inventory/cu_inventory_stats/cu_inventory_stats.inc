@@ -1,7 +1,12 @@
 <?php
 /**
+ * Empty the 'statistics' list in the inventory.
  *
  */
+function cu_inventory_stats_empty_site_stats() {
+  $site_empty_data['statistics']= new stdClass();
+  $site_empty_data['statistics'] = array($site_empty_data['statistics']);
+  cu_inventory_update_site($site_empty_data, FALSE);
  }
 
  /**
@@ -152,6 +157,11 @@
 
     // Add report of overridden features.
     $site_data['statistics']['overriden_features'] = _get_features_statuses();
+
+    // Last, add the wrapper array. This adds a wrapper Python list which allows
+    // us to null Statistics.
+    $site_data['statistics'] = array($site_data['statistics']);
+
     // Funtion defaults to true.
     if ($process) {
       // Ready to patch. We do not want to use the cached site object.
