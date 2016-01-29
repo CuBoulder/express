@@ -211,6 +211,12 @@ function profile_module_manager_batch_finished($success, $results, $operations) 
     $bundle_path = drupal_get_path('module', $bundle_name);
     $bundle = drupal_parse_info_file($bundle_path . '/' . $bundle_name . '.info');
     drupal_set_message('The ' . $bundle['name'] . ' Bundle has been successfully enabled on your site. You may now begin using this functionality and go back to editing your site.');
+
+    // Log bundle enable time.
+    $start_time = variable_get('profile_module_manager_enable_timer', 0);
+    $end_time = microtime(TRUE);
+    $total_time = $end_time - $start_time;
+    watchdog('profile_module_manager', '!bundle enable time: !time seconds.', array('!bundle' => $bundle['name'], '!time' => $total_time));
   } else {
     _revert_bundle_on_error();
   }
