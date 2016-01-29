@@ -52,14 +52,16 @@ function cu_article_menu() {
  */
 function cu_article_global_settings_form($form, &$form_state) {
   $settings = variable_get('cu_article_global_settings', '');
-  $form['date_display'] = array(
+  $form['published_date'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Article Published Date Display',
+  );
+  $form['published_date']['date_display'] = array(
     '#type' => 'radios',
-    '#name' => 'Date Display',
-    '#description' => 'Choose to display dates on articles.',
     '#options' => array(
-      'custom' => 'Article specific (Choose on each article if date should be displayed)',
-      'show' => 'Show',
-      'hide' => 'Hide',
+      'custom' => 'Choose on each article if publish date should be displayed',
+      'show' => 'Show publish date on all articles',
+      'hide' => 'Hide publish date on all articles',
     ),
     '#default_value' => $settings['date_display'] ? $settings['date_display'] : 'custom',
   );
