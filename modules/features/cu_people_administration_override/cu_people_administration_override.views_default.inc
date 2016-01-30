@@ -22,7 +22,7 @@ function cu_people_administration_override_views_default_views() {
 
   /* Display: Master */
   $handler = $view->new_display('default', 'Master', 'default');
-  $handler->display->display_options['title'] = 'People';
+  $handler->display->display_options['title'] = 'Users';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'perm';
   $handler->display->display_options['access']['perm'] = 'access users overview';
@@ -230,13 +230,13 @@ function cu_people_administration_override_views_default_views() {
   $handler->display->display_options['defaults']['hide_admin_links'] = FALSE;
   $handler->display->display_options['path'] = 'admin/people';
   $handler->display->display_options['menu']['type'] = 'normal';
-  $handler->display->display_options['menu']['title'] = 'People';
+  $handler->display->display_options['menu']['title'] = 'Users';
   $handler->display->display_options['menu']['weight'] = '-5';
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
   $handler->display->display_options['tab_options']['type'] = 'normal';
-  $handler->display->display_options['tab_options']['title'] = 'People';
+  $handler->display->display_options['tab_options']['title'] = 'Users';
   $handler->display->display_options['tab_options']['weight'] = '0';
   $handler->display->display_options['tab_options']['name'] = 'management';
   $export['clone_of_cu_people_administration_override'] = $view;
