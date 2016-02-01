@@ -254,7 +254,8 @@ function express_layout_preprocess_html(&$vars) {
   }
 }
 
-function express_layout_image_styles_alter(&$styles) {
+function express_layout_default_image_styles() {
+  $styles = array();
   $styles['el_hero'] = array(
     'label' => 'Express Layout Hero Image',
     'effects' => array(
