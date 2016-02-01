@@ -177,8 +177,8 @@ function express_theme_picker_list() {
       $output['themes'][$machine_name]['info']['title']['#markup'] = '<h3>' . $name . '</h3>';
       // Theme screenshot
       $output['themes'][$machine_name]['info']['screenshot']['#markup'] = $screenshot;
-      $output['themes'][$machine_name]['info']['#prefix'] = '<div class="theme-info">';
-      $output['themes'][$machine_name]['info']['#suffix'] = '</div>';
+      $output['themes'][$machine_name]['info']['#prefix'] = '<div class="theme-info"><div>';
+      $output['themes'][$machine_name]['info']['#suffix'] = '</div></div>';
       // Theme description
       $output['themes'][$machine_name]['description']['#markup'] = '<p>' . $description . '</p>';
       // Theme links
