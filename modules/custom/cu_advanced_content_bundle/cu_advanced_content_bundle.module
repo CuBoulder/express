@@ -2,8 +2,16 @@
 /**
  * Implements hook_menu().
  */
-function cu_advanced_content_bundle_settings_menu() {
-
+function cu_advanced_content_bundle_menu() {
+  $items['admin/settings/adv-content'] = array(
+    'title' => 'Advanced Content',
+    'position' => 'right',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer express settings'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+    'weight' => 5,
+  );
   $items['admin/settings/adv-content/error'] = array(
     'title' => 'Error Pages',
     'type' => MENU_NORMAL_ITEM,
