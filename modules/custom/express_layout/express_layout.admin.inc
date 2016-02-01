@@ -21,6 +21,7 @@ function express_layout_form($form, &$form_state, $op = 'edit', $express_layout 
 
   // Hide regions if they aren't allowed to be included by the settings form
   if ($express_layout) {
+    $form_state['#express_layout_node_type'] = $express_layout->node_type;
     $settings = variable_get('express_layout_settings_' . $express_layout->node_type, NULL);
     foreach ($settings as $key => $setting) {
       if (!$setting) {
@@ -35,9 +36,28 @@ function express_layout_form($form, &$form_state, $op = 'edit', $express_layout 
       '#value' => t('Update layout'),
     ),
   );
+  $form['#validate'][] = '_express_layout_validate';
   return $form;
 }
 
+/**
+ * Validate fonction for express_layout_form.
+ * Add #access alters from original form on validation.
+ */
+function _express_layout_validate($form, &$form_state) {
+  // Load layout enity
+
+  // Hide regions if they aren't allowed to be included by the settings form
+  $type = $form_state['#express_layout_node_type'];
+  $settings = variable_get('express_layout_settings_' . $type, NULL);
+  foreach ($settings as $key => $setting) {
+    if (!$setting) {
+      $form_state['complete form'][$key]['#access'] = FALSE;
+    }
+  }
+
+
+}
 /**
  * Submit handler for Express Layout form
  */
@@ -66,7 +86,7 @@ function express_layout_form_submit($form, &$form_state) {
     '@layout_title' => $express_layout->title,
   )));
   $form_state['redirect'] = 'node/' . arg(1);
-  
+
   if (module_exists('varnish')) {
     // Purge this node's path to reflect layout changes
     $path = base_path() . drupal_get_path_alias('node/' . arg(1));

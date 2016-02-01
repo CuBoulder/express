@@ -95,7 +95,7 @@
    $site_data['statistics']['cu_fit_schema_version'] = (int)$version;
 
    // Module Manager
-   if ($diff = cu_module_manager_is_config_ideal()) {
+   if ($diff = profile_module_manager_is_config_ideal()) {
      $checks =  implode(", ", $diff);
      $site_data['statistics']['module_manager'] = $checks;
    } else {
@@ -145,6 +145,9 @@
      }
      $site_data['statistics']['users'][$role_name] = $email_list;
    }
+
+   // Add report of overridden features.
+   $site_data['statistics']['overriden_features'] = _get_features_statuses();
 
    // Funtion defaults to true.
    if ($process) {

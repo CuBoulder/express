@@ -1,5 +1,5 @@
 name = Advanced Design
-description = The features in this bundle allow you to add visual elements to your site, such as background images, title images, menu icons, block title icons, and sticky menus.
+description = This bundle allows you to add visual elements to your site, such as background images, title images, menu icons, block title icons, and sticky menus.
 core = 7.x
 package = CU-Advanced Design
 project_demo_url = http://www.colorado.edu/webcentral/node/670
@@ -9,3 +9,6 @@ dependencies[] = cu_menu_icon
 dependencies[] = cu_sticky_menu
 dependencies[] = cu_title_image
 dependencies[] = block_title_icons
+
+bundle_cache_clear = 1
+bundle_context_clear = 1

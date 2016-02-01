@@ -85,8 +85,8 @@ function cu_wysiwyg_wysiwyg_default_profiles() {
       'resize_enabled' => 1,
       'default_toolbar_grouping' => 1,
       'simple_source_formatting' => 0,
-      'css_setting' => 'theme',
-      'css_path' => '',
+      'css_setting' => 'self',
+      'css_path' => '%bprofiles/express/modules/features/cu_wysiwyg/ckeditor-wysiwyg.css',
       'stylesSet' => 'Small=small
 Lead=p.lead
 Hero=p.hero

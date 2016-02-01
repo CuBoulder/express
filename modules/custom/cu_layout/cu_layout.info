@@ -1,5 +1,0 @@
-name = CU Layout
-core = 7.x
-package = CU-Active
-dependencies[] = express_layout
-

@@ -1869,7 +1869,7 @@ function cu_article_field_default_field_instances() {
     'entity_type' => 'node',
     'fences_wrapper' => 'no_wrapper',
     'field_name' => 'field_article_page_category',
-    'label' => 'Filter by category',
+    'label' => 'Filter by Category',
     'required' => 0,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -2209,6 +2209,7 @@ function cu_article_field_default_field_instances() {
   t('Enter a comma-separated list of words to describe your content. Categories are general topics for broad grouping of articles.');
   t('Enter a comma-separated list of words to describe your content. Tags describe the specific details of your article.');
   t('External URL');
+  t('Filter by Category');
   t('Filter by Tag');
   t('Filter by category');
   t('Filter by tag');

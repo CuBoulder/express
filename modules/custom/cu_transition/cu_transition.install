@@ -5,7 +5,6 @@
  */
 function cu_transition_enable() {
 
-  module_enable(array('cu_core'));
 }
 
 /**
@@ -16,17 +15,23 @@ function cu_transition_install() {
   // Revert files feature.
   cu_transition_revert_features('files');
 
+  module_enable(array('disable_messages'));
+  // Set variable for disabling certain Metatag messages.
+  variable_set('disable_messages_ignore_regex', array('/^Metatag support has been enabled for the .*?$/i'));
+  variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .*?');
+
 }
 
 /**
  * Implements hook_update_N().
  *
- * Turn on view_unpublished, cu_colorbox module.
+ * Turn on view_unpublished, cu_colorbox, express_add_content modules.
  */
 function cu_transition_update_7001() {
   module_enable(array(
     'view_unpublished',
     'cu_colorbox',
+    'express_add_content',
   ));
   node_access_rebuild(TRUE);
 }
