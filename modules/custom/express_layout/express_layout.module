@@ -254,7 +254,13 @@ function express_layout_preprocess_html(&$vars) {
   }
 }
 
-function express_layout_default_image_styles() {
+/**
+ * Implements hook_image_default_styles().
+ *
+ * @return array
+ *   An array of image styles.
+ */
+function express_layout_image_default_styles() {
   $styles = array();
   $styles['el_hero'] = array(
     'label' => 'Express Layout Hero Image',
