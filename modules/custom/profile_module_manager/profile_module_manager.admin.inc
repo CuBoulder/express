@@ -315,6 +315,9 @@ function profile_module_manager_bundle_confirm($bundle_name) {
  */
 function profile_module_manager_bundle_enable($bundle) {
 
+  // Start bundle enable timer.
+  variable_set('profile_module_manager_enable_timer', microtime(TRUE));
+
   // Make sure this is a bundle
   if (strpos($bundle, '_bundle')) {
     // look up depenencies & enable those first
