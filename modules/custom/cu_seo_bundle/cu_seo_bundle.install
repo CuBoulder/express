@@ -1,10 +1,10 @@
 <?php
-/*
- * Implements hook_enable()
- */
 
+/**
+ * Implements hook_enable().
+ */
 function cu_seo_bundle_enable() {
-  secure_permissions_rebuild();
+
 }
 
 
