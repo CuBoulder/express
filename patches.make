@@ -21,3 +21,6 @@ projects[navbar][patch][] = "https://www.drupal.org/files/issues/navbar-shortcut
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-1375
 projects[video_embed_field][patch][] = "https://www.drupal.org/files/issues/video_embed_field-youtube_options_not_applied-2580459-7.patch"
+
+; @see https://cuboulder.atlassian.net/browse/FIT-968
+projects[quicktabs][patch][] = "https://www.drupal.org/files/issues/quicktabs-invalid-argument-foreach-2661436-2-7.patch"
