@@ -17,7 +17,6 @@ dependencies[] = express_settings
 dependencies[] = cu_colorbox
 ;dependencies[] = express_permissions
 
-;dependencies[] = cu_layout
 ;dependencies[] = cu_settings
 ;dependencies[] = cu_permissions
 

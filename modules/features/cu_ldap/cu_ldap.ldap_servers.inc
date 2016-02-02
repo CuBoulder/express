@@ -20,7 +20,7 @@ function cu_ldap_default_ldap_servers() {
   $ldap_servers_conf->address = 'directory.colorado.edu';
   $ldap_servers_conf->port = 389;
   $ldap_servers_conf->tls = TRUE;
-  $ldap_servers_conf->bind_method = 2;
+  $ldap_servers_conf->bind_method = TRUE;
   $ldap_servers_conf->binddn = '';
   $ldap_servers_conf->bindpw = '';
   $ldap_servers_conf->basedn = array(

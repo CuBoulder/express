@@ -17,15 +17,13 @@ function profile_module_manager_page_alter(&$page) {
  */
 function profile_module_manager_menu() {
   // admin/settings ui provided by express_admin or custom solution
-  $items['admin/settings/bundles'] = array(
-      'title' => 'Bundles',
-      'description' => 'Extend Fucntionality with Bundles',
-      'position' => 'left',
-      'page callback' => 'system_admin_menu_block_page',
+  $items['admin/settings/site-configuration/bundles'] = array(
+      'title' => 'Enable Bundles',
+      'description' => 'Adds fucntionality to your site',
+      'page callback' => 'drupal_goto',
+      'page arguments' => array('admin/settings/bundles/list'),
       'access arguments' => array('enable module bundles'),
-      'file' => 'system.admin.inc',
-      'file path' => drupal_get_path('module', 'system'),
-      'weight' => 5,
+      'weight' => 50,
   );
 
   if (variable_get('profile_module_manager_disable_enabling', 1) == 1) {
@@ -213,6 +211,12 @@ function profile_module_manager_batch_finished($success, $results, $operations) 
     $bundle_path = drupal_get_path('module', $bundle_name);
     $bundle = drupal_parse_info_file($bundle_path . '/' . $bundle_name . '.info');
     drupal_set_message('The ' . $bundle['name'] . ' Bundle has been successfully enabled on your site. You may now begin using this functionality and go back to editing your site.');
+
+    // Log bundle enable time.
+    $start_time = variable_get('profile_module_manager_enable_timer', 0);
+    $end_time = microtime(TRUE);
+    $total_time = $end_time - $start_time;
+    watchdog('profile_module_manager', '!bundle enable time: !time seconds.', array('!bundle' => $bundle['name'], '!time' => $total_time));
   } else {
     _revert_bundle_on_error();
   }

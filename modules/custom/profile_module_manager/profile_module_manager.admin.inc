@@ -330,10 +330,12 @@ function profile_module_manager_bundle_confirm($bundle_name) {
  */
 function profile_module_manager_bundle_enable($bundle) {
 
-  if (variable_get('profile_module_manager_disable_enabling', 0) == 1) {
+  if (variable_get('profile_module_manager_disable_enabling', 1) == 0) {
     $output = '<p>The ability to enable bundles has been turned off.</p>';
     return $output;
   }
+  // Start bundle enable timer.
+  variable_set('profile_module_manager_enable_timer', microtime(TRUE));
 
   // Make sure this is a bundle
   if (strpos($bundle, '_bundle')) {
@@ -393,4 +395,3 @@ function profile_module_manager_bundle_enable($bundle) {
     batch_process('admin/settings/bundles/list');
   }
 }
-
