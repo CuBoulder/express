@@ -18,7 +18,7 @@ Feature: CU Extended Content Search Menu
       And I should see the link "Design"
       And I should see the link "Help"
 
-  @api @extended_search @current
+  @api @extended_search
   Scenario Outline: As a site_owner or an administrator I should see a partial menu
     Given I am logged in as a user with the <role> role
     When I go to "user"
