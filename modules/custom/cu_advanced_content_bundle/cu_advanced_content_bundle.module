@@ -14,6 +14,7 @@ function cu_advanced_content_bundle_menu() {
   );
   $items['admin/settings/adv-content/error'] = array(
     'title' => 'Error Pages',
+    'description' => 'Create your own \'404 Not Found\' or \'Access Denied\' page',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('cu_advanced_content_bundle_error_form'),
@@ -22,6 +23,7 @@ function cu_advanced_content_bundle_menu() {
   );
   $items['admin/settings/adv-content/frontpage'] = array(
     'title' => 'Set Homepage',
+    'description' => 'Change the default homepage',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('cu_advanced_content_bundle_frontpage_form'),

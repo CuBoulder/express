@@ -29,6 +29,7 @@ function express_settings_menu() {
   );
   $items['admin/settings/site-configuration/site-name'] = array(
     'title' => 'Site Name',
+    'description' => 'Edit the text for the top brand banner of the website',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_settings_site_name_form'),
@@ -37,6 +38,7 @@ function express_settings_menu() {
   );
   $items['admin/settings/site-configuration/contact'] = array(
     'title' => 'Contact Information',
+    'description' => 'Edit the Contact Information which appears in the footer region',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_settings_contact_info_form'),
@@ -45,6 +47,7 @@ function express_settings_menu() {
   );
   $items['admin/settings/site-configuration/google-analytics'] = array(
     'title' => 'Google Analytics',
+    'description' => 'Add your Google Analytics account number (i.e. UA-123456-1)',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_settings_google_analytics_form'),
@@ -63,7 +66,7 @@ function express_settings_menu() {
   );
   $items['admin/settings/url-management/redirects'] = array(
     'title' => 'URL Redirects',
-    'description' => 'Change your site\'s URL paths by aliasing them.',
+    'description' => 'Change your site\'s URL paths by aliasing them',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_goto',
     'page arguments' => array('admin/config/search/redirect'),

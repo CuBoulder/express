@@ -82,12 +82,13 @@ function cu_feedback_menu() {
 
   $items['admin/settings/forms/feedback'] = array(
     'title' => 'Feedback Form',
+    'description' => 'Set a Feedback Form button for your site',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('cu_feedback_admin_settings_form'),
     'access arguments' => array('administer express settings'),
   );
-  
+
   $items['node/ajax/%'] = array(
     'page callback' => 'cu_feedback_get_webform',
     'page arguments' => array(2),
@@ -195,7 +196,7 @@ function cu_feedback_preprocess_html(&$variables) {
       drupal_add_js('misc/ajax.js');
       $path = 'node/' . $nid;
       $button_path = $base_url . '/' . drupal_get_path('module', 'cu_feedback') . '/images/' . $text . '.png';
-      
+
       $link_class[] = 'cu-feedback-link';
       $link_class[] = 'cu-feedback-link-' . $color;
       $link_class[] = $embed == 'embed' ? 'cu-feedback-link-embed' : '';
