@@ -12,7 +12,7 @@
  * @return
  *   An array defining all the permissions for the site.
  */
-  
+
 function cu_events_bundle_secure_permissions($role) {
   // INSERT PERMISSIONS FOR THIS BUNDLE
   $permissions = array(
@@ -87,14 +87,14 @@ function cu_events_bundle_secure_permissions($role) {
 function cu_events_bundle_express_help($variables) {
 
   $variables['block/add/cu-events-calendar-block'][] = array(
-    'title' => 'Events Calendar Block Help',
-    'short_title' => 'Events Calendar Block Help',
+    'title' => 'Events calendar block help',
+    'short_title' => 'Events calendar block help',
     'url' => 'http://www.colorado.edu/webcentral/node/484',
   );
 
   $variables['block/add/events-calendar-grid'][] = array(
-    'title' => 'Events Calendar Grid Block Help',
-    'short_title' => 'Events Calendar Grid Block Help',
+    'title' => 'Events calendar grid block help',
+    'short_title' => 'Events calendar grid block help',
     'url' => 'http://www.colorado.edu/webcentral/node/500',
   );
 
