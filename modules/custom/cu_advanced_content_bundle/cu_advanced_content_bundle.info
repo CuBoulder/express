@@ -8,3 +8,5 @@ dependencies[] = cu_feature_callout
 dependencies[] = quicktabs
 dependencies[] = quicktab_beans
 dependencies[] = cu_quicktab_styles
+
+bundle_cache_clear = 1

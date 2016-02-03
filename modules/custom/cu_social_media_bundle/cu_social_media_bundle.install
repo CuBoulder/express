@@ -4,7 +4,7 @@
  * Implements hook_enable().
  */
 function cu_social_media_bundle_enable() {
-  secure_permissions_rebuild();
+
 }
 
 /**

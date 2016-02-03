@@ -143,6 +143,7 @@ function cu_sitewide_form_alter(&$form, &$form_state, $form_id) {
         $blocks['shortcut']['#access'] = FALSE;
         $blocks['system']['#access'] = FALSE;
         $blocks['user']['#access'] = FALSE;
+        $blocks['express_layout']['#access'] = FALSE;
 
         // Unset which regions are available to place blocks in
         $regions = &$form['reactions']['plugins']['block']['blocks'];

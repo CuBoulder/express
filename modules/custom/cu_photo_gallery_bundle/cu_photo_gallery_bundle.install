@@ -1,10 +1,10 @@
 <?php
 
-/*
+/**
  * Implements hook_enable()
  */
 function cu_photo_gallery_bundle_enable() {
-  secure_permissions_rebuild();
+
 }
 
 

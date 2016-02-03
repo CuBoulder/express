@@ -130,9 +130,15 @@ websupport@colorado.edu');
   variable_set('syslog_facility', '128');
   variable_set('syslog_format', '!base_url !timestamp "!type" !ip !request_uri !referer !uid "!link" "!message"');
 
-  // Set variable for disabling certain Metatag messages.
-  variable_set('disable_messages_ignore_regex', array('/^Metatag support has been enabled for the .*?$/i'));
-  variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .*?');
+  // Set variable for disabling certain messages from users.
+  variable_set('disable_messages_ignore_regex', array(
+    '/^Metatag support has been enabled for the .*?$/i',
+    '/^You can now .+configure the CAPTCHA module.+ for your site.$/i',
+    '/^Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.$/i',
+  ));
+  variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .+
+You can now .+configure the CAPTCHA module.+ for your site.
+Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
 
 }
 

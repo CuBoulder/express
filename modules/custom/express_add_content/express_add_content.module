@@ -95,7 +95,7 @@ function express_add_content_node_add($vars) {
     foreach ($bundles as $key => $bundle) {
       $output[$key]['title']['#markup'] = '<h2>' . $bundle['title'] . '</h2>';
       $bundle_class = 'bundle-type-' . _express_add_content_string_to_machine($bundle['title']);
-      $output[$key]['#prefix'] = '<div class="express-add-group ' . $bundle_class . '">';
+      $output[$key]['#prefix'] = '<div class="admin-panel express-add-group ' . $bundle_class . '">';
       $output[$key]['#suffix'] = '</div>';
       // Add content types for each bundle
       $types = '';

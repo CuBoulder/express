@@ -1,8 +1,8 @@
 <?php
-/*
+
+/**
  * Implements hook_enable()
  */
-
 function cu_debug_admin_bundle_enable() {
   module_enable(_cu_debug_admin_bundle_enable_modules());
   drupal_set_message('Enabling ' . join(', ', _cu_debug_admin_bundle_enable_modules()));
@@ -23,7 +23,6 @@ function cu_debug_admin_bundle_enable() {
   } else {
     drupal_set_message('Debugging on dev, test, or prod with minimum configuration changes.');
   }
-  secure_permissions_rebuild();
 }
 
 

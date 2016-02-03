@@ -807,7 +807,7 @@ a.help-more-link:before {
 /* Admin Lists */
 
 ul.admin-list {
-  margin:0 0 20px 0;
+  margin:0;
   padding:0;
   line-height: 125%;
   .label {
@@ -816,6 +816,15 @@ ul.admin-list {
   .description {
     font-size: 85%;
   }
+}
+div.admin .left {
+  margin-left: 0;
+}
+div.admin .right {
+  margin-right: 0;
+}
+div.admin-panel {
+  padding: 5px 0 15px;
 }
 
 /* Filter */
