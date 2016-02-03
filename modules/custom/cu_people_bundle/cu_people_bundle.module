@@ -124,7 +124,7 @@ function cu_people_bundle_express_help($variables) {
   $variables['admin/settings/people/settings'][] = array(
     'title' => 'People Filter Labels Help',
     'short_title' => 'People Filter Labels Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/638',
+    'url' => 'http://www.colorado.edu/webcentral/node/556',
   );
   $variables['block/add/people-list-block'][] = array(
     'title' => 'People List Block Help',
