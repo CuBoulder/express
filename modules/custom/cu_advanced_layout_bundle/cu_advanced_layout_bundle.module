@@ -71,8 +71,8 @@ function cu_advanced_layout_bundle_express_help($variables) {
     'url' => 'http://www.colorado.edu/webcentral/node/444',
   );
   $variables['admin/structure/context'][] = array(
-    'title' => 'Context help',
-    'short_title' => 'Context help',
+    'title' => 'Context Help',
+    'short_title' => 'Context Help',
     'url' => 'http://www.colorado.edu/webcentral/node/444',
   );
   $variables['block/add/block-row'][] = array(
