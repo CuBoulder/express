@@ -16,7 +16,7 @@ function cu_advanced_content_bundle_menu() {
     'title' => 'Error Pages',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('cu_advanced_content_error_form'),
+    'page arguments' => array('cu_advanced_content_bundle_error_form'),
     'access arguments' => array('administer express settings'),
     'weight' => 25,
   );
@@ -24,7 +24,7 @@ function cu_advanced_content_bundle_menu() {
     'title' => 'Set Homepage',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('cu_advanced_content_frontpage_form'),
+    'page arguments' => array('cu_advanced_content_bundle_frontpage_form'),
     'access arguments' => array('administer express settings'),
     'weight' => 50,
   );
