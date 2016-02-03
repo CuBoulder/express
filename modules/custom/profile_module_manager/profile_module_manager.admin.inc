@@ -73,7 +73,7 @@ function profile_module_manager_export($form, $form_state) {
 function profile_module_manager_bundle_form($form, $form_state) {
   $form = array();
   $form['help'] = array(
-    '#markup' => t('Bundles add functionality to your site, but this also adds complexity.  Bundles cannot be removed once enabled.'),
+    '#markup' => t('<p>Add-on Bundles are additional features and functionality that you can enable. Before enabling a bundle, review the examples and documentation to see how it works. Once a bundle is enabled you cannot disable it. </p>'),
     '#prefix' => '<div class="module-bundle-description">',
     '#suffix' => '</div>',
   );
@@ -185,7 +185,7 @@ function profile_module_manager_bundle_form_submit(&$form, &$form_state) {
 function profile_module_manager_bundle_list() {
   $output = array();
   $output['help'] = array(
-    '#markup' => t('Bundles add functionality to your site, but this also adds complexity.  Bundles cannot be removed once enabled.'),
+    '#markup' => t('<p>Add-on Bundles are additional features and functionality that you can enable. Before enabling a bundle, review the examples and documentation to see how it works. Once a bundle is enabled you cannot disable it. </p>'),
     '#prefix' => '<div class="modules-bundle-description">',
     '#suffix' => '</div>',
   );
@@ -377,4 +377,3 @@ function profile_module_manager_bundle_enable($bundle) {
     batch_process('admin/settings/bundles/list');
   }
 }
-
