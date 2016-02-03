@@ -9,7 +9,7 @@ function express_install() {
   //$default_theme = 'express_modern';
   //$admin_theme = 'express_admin_theme';
 
-  $default_theme = 'cumodern';
+  $default_theme = 'cuspirit';
   $admin_theme = 'expressadmin';
 
   // disable all themes
