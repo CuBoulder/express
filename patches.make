@@ -18,3 +18,5 @@ projects[video_filter][patch][] = "https://www.drupal.org/files/issues/video_fil
 projects[video_filter][patch][] = "https://www.drupal.org/files/issues/video_filter-https_support-786774-7.x-3.1.patch"
 
 projects[navbar][patch][] = "https://www.drupal.org/files/issues/navbar-shortcut_switch_menu_display-2653122-2-7.patch"
+
+projects[ldap_servers][patch][] =  "https://www.drupal.org/files/issues/ldap-changed_ldap_servers_bind_method_field-1839798-17.patch"
