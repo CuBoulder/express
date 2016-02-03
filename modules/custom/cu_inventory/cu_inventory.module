@@ -338,7 +338,7 @@ function cu_inventory_validate_invite($form, &$form_state)  {
   $site_array = cu_inventory_get_site($cu_sid);
   if ($site_array && $site_array['status'] == 'available') {
     $site_data = $site_array;
-	$site_data['status'] = 'installed';
+    $site_data['status'] = 'installed';
     cu_inventory_update_site($site_data);
     drupal_set_message('Site status updated to Installed');
   }
@@ -434,14 +434,14 @@ function cu_inventory_request($resource, $query = NULL, $method = 'GET', $data =
   // If error code is returned
   if (in_array($response->code, array(412))) {
 
-	// In most cases the site was the last to update the data,
-	// so the cached site array should have the most recent etag
-	// If not, try updating the etag and resubmitting the data
-	$cu_sid = variable_get('cu_sid', FALSE);
-	$site_array = cu_inventory_request('sites', $cu_sid);
+    // In most cases the site was the last to update the data,
+    // so the cached site array should have the most recent etag
+    // If not, try updating the etag and resubmitting the data
+    $cu_sid = variable_get('cu_sid', FALSE);
+    $site_array = cu_inventory_request('sites', $cu_sid);
 
-	// confirm path, status, sid are still in sync with the cache
-	if (isset($options['data']['path']) != $site_array['path']) {
+    // confirm path, status, sid are still in sync with the cache
+    if (isset($options['data']['path']) != $site_array['path']) {
       $sync_error = TRUE;
     }
     if (isset($options['data']['status']) != $site_array['status']) {
@@ -453,13 +453,13 @@ function cu_inventory_request($resource, $query = NULL, $method = 'GET', $data =
 
     //either in sync or not passing key data that is out of sych
     if ($sync_error) {
-	  cache_clear_all('cu_inventory_site_array', 'cache', TRUE);
+      cache_clear_all('cu_inventory_site_array', 'cache', TRUE);
       drupal_set_message(t('Key data is local site cache does not match.  Cache has been cleared.  Please try again.'), 'error');
-	}
-	else {
-	  // update the
-	  $options['data']['_etag'] = $site_array['_etag'];
-	  // Make the request again
+    }
+    else {
+      // update the
+      $options['data']['_etag'] = $site_array['_etag'];
+      // Make the request again
       $response = drupal_http_request($url, $options);
 
       // If error code is still returned
@@ -470,13 +470,13 @@ function cu_inventory_request($resource, $query = NULL, $method = 'GET', $data =
   }
 
   if (in_array($response->code, array(500))) {
-	//@TODO: clean up the error text
+    //@TODO: clean up the error text
     drupal_set_message('Inventory response: ' . $response->error, 'error');
   }
 
   // If success code is returned.
   if (in_array($response->code, array(200, 201))) {
-	// Clear the Drupal cache for $site_array because we just updated something.
+    // Clear the Drupal cache for $site_array because we just updated something.
     cache_clear_all('cu_inventory_site_array', 'cache', TRUE);
 
     if ($response->headers['content-type'] == 'application/json') {
@@ -506,11 +506,12 @@ function cu_inventory_request($resource, $query = NULL, $method = 'GET', $data =
     $cu_sid = variable_get('cu_sid');
     watchdog(
       'cu_inventory',
-      '%method sent to %resource for %sid',
+      '%method sent to %resource for %sid - %site_data',
       array(
         '%method' => $method,
         '%resource' => $resource,
         '%sid' => $cu_sid,
+        '%site_data' => $data,
       ),
       WATCHDOG_INFO,
       NULL
@@ -537,7 +538,7 @@ function cu_inventory_get_site($cu_sid = FALSE, $use_cache = TRUE) {
 
   // if the cu_sid wasn't passed and we can't look it up, we can't do anything else
   if (!$cu_sid) {
-	drupal_set_message(t("<em>cu_sid</em> is not defined in the request"), 'error');
+    drupal_set_message(t("<em>cu_sid</em> is not defined in the request"), 'error');
     return FALSE;
   }
 
