@@ -52,7 +52,7 @@ function cu_core_install() {
   // Set SEO bundle to be hidden in bundle list form.
   variable_set('profile_module_manager_bundle_ignore', array('cu_seo_bundle' => 'cu_seo_bundle'));
   // Set message for when enabling of bundles is turned off.
-  variable_set('profile_module_manager_disable_enabling', 'Due to unexpectedly high load on the servers, the option to enable bundles has temporarily been disabled.  Please check back tomorrow.');
+  variable_set('profile_module_manager_disable_enabling_text', 'Due to unexpectedly high load on the servers, the option to enable bundles has temporarily been disabled.  Please check back tomorrow.');
 
   // Set default variables for user_external_invite.
   $site_owner_role = user_role_load_by_name('site_owner');
