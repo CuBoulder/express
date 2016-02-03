@@ -521,6 +521,8 @@ html { box-sizing: border-box; }
 
 #after-content-wrapper { padding-top: 20px; }
 
+.clear { clear: both; }
+
 /* TABLES */
 table { border-collapse: collapse; border: none; border: 1px solid #e0e0e0; }
 table tbody { border: none; }
