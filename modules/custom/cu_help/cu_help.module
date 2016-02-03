@@ -5,22 +5,16 @@
  */
 function cu_help_express_help($variables) {
 
-  $variables['admin/config/user-interface/shortcut'][] = array(
-    'title' => 'Toolbars and Shortcuts',
-    'short_title' => 'Toolbars and Shortcuts',
-    'url' => 'http://www.colorado.edu/webcentral/node/414',
+  $variables['/admin/config/user-interface/shortcut/shortcut-set-1'][] = array(
+    'title' => 'Shortcuts Help',
+    'short_title' => 'Shortcuts Help',
+    'url' => 'http://www.colorado.edu/webcentral/node/16',
   );
 
   $variables['admin/content'][] = array(
-    'title' => 'Content Tutorials',
-    'short_title' => 'Content Tutorials',
-    'url' => 'http://www.colorado.edu/webcentral/node/604',
-  );
-
-  $variables['admin/content'][] = array(
-    'title' => 'Content Tutorials - Advanced',
-    'short_title' => 'Content Tutorials - Advanced',
-    'url' => 'http://www.colorado.edu/webcentral/node/606',
+    'title' => 'Find Content Help',
+    'short_title' => 'Find Content',
+    'url' => 'http://www.colorado.edu/webcentral/node/412',
   );
 
   $variables['node/add'][] = array(
@@ -30,33 +24,21 @@ function cu_help_express_help($variables) {
   );
 
   $variables['node/add/page'][] = array(
-    'title' => 'Adding Basic Page Help',
-    'short_title' => 'Basic Page',
+    'title' => 'Basic Page Help',
+    'short_title' => 'Basic Page Help',
     'url' => 'http://www.colorado.edu/webcentral/node/452',
   );
 
   $variables['node/add/file'][] = array(
-    'title' => 'Uploading Files Help',
-    'short_title' => 'Uploading Files',
+    'title' => 'Upload File Help',
+    'short_title' => 'Upload File Help',
     'url' => 'http://www.colorado.edu/webcentral/node/424',
   );
 
   $variables['node/add/faqs'][] = array(
-    'title' => 'Adding FAQs Help',
-    'short_title' => 'FAQs',
+    'title' => 'FAQs Help',
+    'short_title' => 'FAQs Help',
     'url' => 'http://www.colorado.edu/webcentral/node/478',
-  );
-
-  $variables['node/add/person'][] = array(
-    'title' => 'How to Add a Person',
-    'short_title' => 'How to Add a Person',
-    'url' => 'http://www.colorado.edu/webcentral/node/398',
-  );
-
-  $variables['node/add/person'][] = array(
-    'title' => 'How to Create People List Categories & Filters',
-    'short_title' => 'How to Create People List Categories & Filters',
-    'url' => 'http://www.colorado.edu/webcentral/node/542',
   );
 
   $variables['node/%/blocks'][] = array(
@@ -81,18 +63,6 @@ function cu_help_express_help($variables) {
     'title' => 'Blocks Tutorial',
     'short_title' => 'Blocks Tutorial',
     'url' => 'http://www.colorado.edu/webcentral/node/602',
-  );
-
-  $variables['block/add/block-section'][] = array(
-    'title' => 'Block Section Block Help',
-    'short_title' => 'Block Section Block Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/560',
-  );
-
-  $variables['block/add/feature-callout'][] = array(
-    'title' => 'Content Grid Block Help',
-    'short_title' => 'Content Grid Block Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/428',
   );
 
   $variables['block/add/hero-unit'][] = array(
@@ -162,20 +132,14 @@ function cu_help_express_help($variables) {
   );
 
   $variables['admin/people'][] = array(
-    'title' => 'People',
-    'short_title' => 'People',
-    'url' => 'http://www.colorado.edu/webcentral/node/620',
-  );
-
-  $variables['admin/people'][] = array(
-    'title' => 'Permissions and Access',
-    'short_title' => 'Permissions and Access',
+    'title' => 'Access & Roles Help',
+    'short_title' => 'Access & Roles',
     'url' => 'http://www.colorado.edu/webcentral/node/622',
   );
 
   $variables['admin/theme'][] = array(
-    'title' => 'Design Tutorial',
-    'short_title' => 'Design Tutorial',
+    'title' => 'Design/Theme Help',
+    'short_title' => 'Design/Theme Help',
     'url' => 'http://www.colorado.edu/webcentral/node/628',
   );
 
@@ -186,8 +150,8 @@ function cu_help_express_help($variables) {
   );
 
   $variables['admin/settings/site-configuration/contact'][] = array(
-    'title' => 'Site Name and Contact Information Help',
-    'short_title' => 'Site Name & Contact Information',
+    'title' => 'Contact Information Help',
+    'short_title' => 'Contact Information',
     'url' => 'http://www.colorado.edu/webcentral/node/408',
   );
 
@@ -204,8 +168,8 @@ function cu_help_express_help($variables) {
   );
 
   $variables['admin/settings/site-configuration/site-name'][] = array(
-    'title' => 'Site Name and Contact Information Help',
-    'short_title' => 'Site Name and Contact Information',
+    'title' => 'Site Name Help',
+    'short_title' => 'Site Name',
     'url' => 'http://www.colorado.edu/webcentral/node/408',
   );
 

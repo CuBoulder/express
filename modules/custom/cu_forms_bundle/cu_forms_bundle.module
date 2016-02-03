@@ -95,9 +95,9 @@ function cu_forms_bundle_secure_permissions($role) {
  */
 function cu_forms_bundle_express_help($variables) {
   $variables['node/add/webform'][] = array(
-    'title' => 'Create Webform Help',
-    'short_title' => 'Create Webform',
-    'url' => 'http://www.colorado.edu/webcentral/tutorial/v2/create-webform',
+    'title' => 'Webform Help',
+    'short_title' => 'Webform Help',
+    'url' => 'http://www.colorado.edu/node/610',
   );
   $variables['node/add/webform'][] = array(
     'title' => 'Webform Overview Help',
@@ -142,7 +142,7 @@ function cu_forms_bundle_express_help($variables) {
   $variables['admin/settings/feedback/settings'][] = array(
     'title' => 'Feedback Form Help',
     'short_title' => 'Feedback Form Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/640',
+    'url' => 'http://www.colorado.edu/webcentral/node/16',
   );
   return $variables;
 }
