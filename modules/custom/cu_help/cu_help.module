@@ -83,18 +83,6 @@ function cu_help_express_help($variables) {
     'url' => 'http://www.colorado.edu/webcentral/node/602',
   );
 
-  $variables['block/add/block-section'][] = array(
-    'title' => 'Block Section Block Help',
-    'short_title' => 'Block Section Block Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/560',
-  );
-
-  $variables['block/add/feature-callout'][] = array(
-    'title' => 'Content Grid Block Help',
-    'short_title' => 'Content Grid Block Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/428',
-  );
-
   $variables['block/add/hero-unit'][] = array(
     'title' => 'Hero Unit Block Help',
     'short_title' => 'Hero Unit',
