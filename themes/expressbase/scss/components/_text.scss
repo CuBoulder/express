@@ -2,7 +2,8 @@
 @import "../modules/_colors.scss";
 
 body {
-  font-size:62.5%;
+  font-size: 17px;
+  line-height: 1.5;
   font-family: $base_font;
   color:$text_black;
   -webkit-font-smoothing: antialiased;
@@ -13,19 +14,24 @@ body {
   font-variant:normal;
   -webkit-text-size-adjust: none;
 }
-// Set page font size and line height
-#page {
-  font-size: 1.6em;
-  line-height: 140%;
+
+body.layout-responsive {
+  font-size: 17px;
+}
+@media all and (min-width: 480px) {
+  body.layout-responsive {
+    font-size: 16px;
+  }
 }
 @media all and (min-width: 1200px) {
-  .layout-responsive #page {
-    font-size: 1.8em;
+  body.layout-responsive {
+    font-size: 17px;
   }
 }
 // Make the footer text smaller
 #footer-section{
   font-size:90%;
+  line-height: 1.5;
 }
 // Paragraphs
 .content p:last-child {
@@ -77,8 +83,13 @@ textarea {
 
 // Typography
 h1, h2, h3, h4, h5, h6 {
-  line-height: 120%;
+  line-height: 1.3;
   margin: 0 0 10px 0;
+}
+#footer-section {
+  h1, h2, h3, h4, h5, h6 {
+    margin: 0 0 10px 0;
+  }
 }
 h1#page-title,
 h1#page-title-image-title,
@@ -110,6 +121,10 @@ h2 {
 h2.block-title {
   font-size: 160%;
   font-weight: 200;
+}
+.headings-bold .hero-unit h2,
+ .hero-unit h2 {
+  font-weight: 900;
 }
 // Sidebar h tags are smaller
 .sidebars {
@@ -387,14 +402,14 @@ strong {
 }
 .lead {
   font-size: 130%;
-  line-height: 125%;
+  line-height: 1.4;
   strong {
     font-weight: 600;
   }
 }
 .hero {
   font-size:200%;
-  line-height: 125%;
+  line-height: 1.3;
   font-weight: 100;
   strong {
     font-weight: 900;
@@ -402,7 +417,7 @@ strong {
 }
 .supersize {
   font-size:320%;
-  line-height: 125%;
+  line-height: 1.3;
   font-weight: 100;
   strong {
     font-weight: 900;
