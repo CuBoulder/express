@@ -23,7 +23,7 @@ Feature: Article Content Type
     Then I should see "Access denied"
 
   # @Todo: Add check for external URL
-  @api @current
+  @api
   Scenario: An authenticated user should be able to create article node
     Given I am logged in as a user with the "content_editor" role
       And am on "node/add/article"
