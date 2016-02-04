@@ -22,21 +22,23 @@ Feature: Article Content Type
     When I go to "node/add/article"
     Then I should see "Access denied"
 
-  # @Todo: Add check for external URL
-  @api
+  @api @javascript @current
   Scenario: An authenticated user should be able to create article node
     Given I am logged in as a user with the "content_editor" role
       And am on "node/add/article"
       And fill in "Title" with "New article"
+      And I click "Disable rich-text"
       And fill in "Body" with "Demo body content"
-      #And fill in "field_external_url" with "www.google.com"
-      #And fill in "Tags" with "Tag1, Tag with lots of parts"
+      And I click "External Link"
+      And fill in "edit-field-article-external-url-und-0-url" with "www.google.com"
+      And I click "Tags"
+      And fill in "Tags" with "Tag1, Tag with lots of parts"
     When I press the "Save" button
     Then the "#page-title" element should contain "New Article"
       And I should see the text "Demo body content"
-      #And I should see the link "Tag1"
-      #And I should see the link "Tag with lots of parts"
-    #   And I should see the following success messages:
-    #   | messages |
-    #   | The taxonomy term has been linked to this page. |
-    #   | An Article List Page has been created for the tags on the article node you just created/updated. |
+      And I should see the link "Tag1"
+      And I should see the link "Tag with lots of parts"
+      And I should see the following success messages:
+       | success messages |
+       | The taxonomy term has been linked to this page. |
+       | An Article List Page has been created for the tags on the article node you just created/updated. |
