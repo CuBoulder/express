@@ -23,6 +23,7 @@ function cu_article_menu() {
   );
   $items['admin/settings/news/article-settings'] = array(
     'title' => 'Article Settings',
+    'description' => 'Global setting to show or hide the Article publication date on all articles',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('cu_article_global_settings_form'),
     'access arguments' => array('administer express settings'),
