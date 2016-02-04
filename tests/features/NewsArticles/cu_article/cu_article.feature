@@ -23,7 +23,7 @@ Feature: Article Content Type
     Then I should see "Access denied"
 
   # @Todo: Add check for external URL
-  @api
+  @api @current
   Scenario: An authenticated user should be able to create article node
     Given I am logged in as a user with the "content_editor" role
       And am on "node/add/article"
@@ -32,7 +32,7 @@ Feature: Article Content Type
       #And fill in "field_external_url" with "www.google.com"
       #And fill in "Tags" with "Tag1, Tag with lots of parts"
     When I press the "Save" button
-    Then the "h1" element should contain "New Article"
+    Then the "#page-title" element should contain "New Article"
       And I should see the text "Demo body content"
       #And I should see the link "Tag1"
       #And I should see the link "Tag with lots of parts"
