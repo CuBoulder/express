@@ -146,7 +146,7 @@ Scenario: Content editors can create person nodes
         And I press the "Save" button
       Then I should see "John Doe" in the "Secondary Menu" region
 
-  @api @people @people-filters @current
+  @api @people @people-filters
   Scenario: Adding a label to the filter terms should result in the label showing up on the people list page.
     Given I am logged in as a user with the "site_owner" role
       And am on "node/add/person"
