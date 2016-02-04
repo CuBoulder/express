@@ -144,8 +144,8 @@ function cu_help_express_help($variables) {
   );
 
   $variables['admin/settings'][] = array(
-    'title' => 'Settings Tutorial Set',
-    'short_title' => 'Settings Tutorial Set',
+    'title' => 'Settings Help',
+    'short_title' => 'Settings Help',
     'url' => 'http://www.colorado.edu/webcentral/node/626',
   );
 
