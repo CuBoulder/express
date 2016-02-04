@@ -10,7 +10,7 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
-    advanced_content:
+    cu_advanced_content_bundle:
       paths: [ %paths.base%/features/AdvancedContent ]
       contexts:
         - AdvancedContentContext
@@ -18,7 +18,15 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
-    advanced_layout:
+    cu_advanced_design_bundle:
+      paths: [ %paths.base%/features/AdvancedDesign ]
+      contexts:
+        - AdvancedContentContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrushContext
+    cu_advanced_layout_bundle:
       paths: [ %paths.base%/features/AdvancedLayout ]
       contexts:
         - AdvancedLayoutContext
@@ -26,7 +34,7 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
-    events:
+    cu_events_bundle:
       paths: [%paths.base%/features/Events]
       contexts:
         - EventsContext
@@ -34,7 +42,7 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
-    forms:
+    cu_forms_bundle:
       paths: [%paths.base%/features/Forms]
       contexts:
         - FormsContext
@@ -42,7 +50,7 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
-    news_articles:
+    cu_news_bundle:
       paths: [%paths.base%/features/NewsArticles]
       contexts:
         - NewsArticlesContext
@@ -50,7 +58,7 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
-    people:
+    cu_people_bundle:
       paths: [%paths.base%/features/People]
       contexts:
         - PeopleContext
@@ -58,7 +66,7 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
-    photo_gallery:
+    cu_photo_gallery_bundle:
       paths: [%paths.base%/features/PhotoGallery]
       contexts:
         - PhotoGalleryContext
@@ -66,7 +74,7 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
-    seo:
+    cu_seo_bundle:
       paths: [%paths.base%/features/SEO]
       contexts:
         - SEOContext
@@ -74,7 +82,7 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
-    social_media:
+    cu_social_media_bundle:
       paths: [%paths.base%/features/SocialMedia]
       contexts:
         - SocialMediaContext
