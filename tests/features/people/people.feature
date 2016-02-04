@@ -146,7 +146,7 @@ Scenario: Content editors can create person nodes
         And I press the "Save" button
       Then I should see "John Doe" in the "Secondary Menu" region
 
-  @api @people @people-filters
+  @api @people @people-filters @current
   Scenario: Adding a label to the filter terms should result in the label showing up on the people list page.
     Given I am logged in as a user with the "site_owner" role
       And am on "node/add/person"
@@ -169,7 +169,7 @@ Scenario: Content editors can create person nodes
       And fill in "edit-field-person-filter-2-und" with "dogs"
       And fill in "edit-field-person-filter-3-und" with "shrubs"
     When I press the "Save" button
-      And am on "admin/settings/people"
+      And am on "admin/settings/people/settings"
       And I fill in "Department Label" with "Group"
       And I fill in "Type Label" with "type 2"
       And I fill in "Filter One Label" with "filter one label"
