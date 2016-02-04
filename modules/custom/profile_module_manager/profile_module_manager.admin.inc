@@ -12,7 +12,25 @@ function profile_module_manager_admin_settings() {
     '#title' => t('Disable UI Lock'),
     '#description' => t('Disables the lock on ability enable or disable modules required by install profile through the user interface.  This also impacts drush.'),
   );
-
+  $form['profile_module_manager_disable_enabling'] = array(
+    '#type' => 'checkbox',
+    '#default_value' => variable_get('profile_module_manager_disable_enabling', 0),
+    '#title' => t('Disable the ability for users to enable bundles'),
+    '#description' => t('Turns off the ability for users to enable bundles on the bundles list page.'),
+  );
+  $form['profile_module_manager_disable_enabling_text'] = array(
+    '#type' => 'textarea',
+    '#cols' => 40,
+    '#rows' => 5,
+    '#default_value' => variable_get('profile_module_manager_disable_enabling_text'),
+    '#title' => t('Bundles Disabled Text'),
+    '#description' => t('Message that is displayed for users when they can\'t enable bundles.'),
+    '#states' => array(
+      'visible' => array(
+        ':input[name="profile_module_manager_disable_enabling"]' => array('checked' => TRUE),
+      ),
+    ),
+  );
   $form['profile_module_manager_ignore'] = array(
     '#type' => 'textarea',
     '#cols' => 40,
@@ -169,9 +187,7 @@ function profile_module_manager_bundle_form_submit(&$form, &$form_state) {
             module_enable(array($module), FALSE);
           }
         }
-
       }
-
       if(!module_exists($key)) {
 	      module_enable(array($key), FALSE);
       }
@@ -184,6 +200,11 @@ function profile_module_manager_bundle_form_submit(&$form, &$form_state) {
 
 function profile_module_manager_bundle_list() {
   $output = array();
+
+  if (variable_get('profile_module_manager_disable_enabling', 0) == 1) {
+    $output = '<p>' . variable_get('profile_module_manager_disable_enabling_text', 'The ability to enable bundles has been turned off.') . '</p>';
+    return $output;
+  }
   $output['help'] = array(
     '#markup' => t('<p>Add-on Bundles are additional features and functionality that you can enable. Before enabling a bundle, review the examples and documentation to see how it works. Once a bundle is enabled you cannot disable it. </p>'),
     '#prefix' => '<div class="modules-bundle-description">',
@@ -284,6 +305,12 @@ function profile_module_manager_bundle_list() {
  */
 function profile_module_manager_bundle_confirm($bundle_name) {
   $output = '';
+
+  if (variable_get('profile_module_manager_disable_enabling', 0) == 1) {
+    $output = '<p>' . variable_get('profile_module_manager_disable_enabling_text', 'The ability to enable bundles has been turned off.') . '</p>';
+    return $output;
+  }
+
   $bundle_path = drupal_get_path('module', $bundle_name);
   $bundle = drupal_parse_info_file($bundle_path . '/' . $bundle_name . '.info');
 
@@ -315,6 +342,10 @@ function profile_module_manager_bundle_confirm($bundle_name) {
  */
 function profile_module_manager_bundle_enable($bundle) {
 
+  if (variable_get('profile_module_manager_disable_enabling', 1) == 0) {
+    $output = '<p>' . variable_get('profile_module_manager_disable_enabling_text', 'The ability to enable bundles has been turned off.') . '</p>';
+    return $output;
+  }
   // Start bundle enable timer.
   variable_set('profile_module_manager_enable_timer', microtime(TRUE));
 
@@ -373,7 +404,6 @@ function profile_module_manager_bundle_enable($bundle) {
         ->condition('uid', $uids, 'NOT IN')
         ->execute();
     }
-
     batch_process('admin/settings/bundles/list');
   }
 }
