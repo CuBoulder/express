@@ -17,8 +17,10 @@ function cu_transition_fit_install() {
     'cu_video',
     'cu_permissions',
     'cu_layout',
-    'cu_theme_picker'
-    'memecache'
+    'cu_theme_picker',
+    'memcache',
+    'varnish',
+    'cu_module_manager',
   ));
 
   //uninstall modules
@@ -29,11 +31,4 @@ function cu_transition_fit_install() {
     'cu_help',
     'profile_module_manager',
   ));
-
-  // additional new modules enabled by cu_transition
-
-  // switch profile
-
 }
-
-
