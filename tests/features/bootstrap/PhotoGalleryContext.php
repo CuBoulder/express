@@ -248,5 +248,44 @@ class PhotoGalleryContext extends RawDrupalContext implements SnippetAcceptingCo
     }
   }
 
+  /**
+   * @When /^I create a "(?P<content_type>(?:[^"]|\\")*)" node with the title "(?P<title>(?:[^"]|\\")*)"$/
+   */
+  public function imAtAWithTheTitle($content_type, $title) {
+    // Create Node.
+    $node = new stdClass();
+    $node->title = $title;
+    $node->type = $content_type;
+    node_object_prepare($node);
+    node_save($node);
+
+    // Go to node page
+    $session = $this->getSession();
+    $session->visit('node/' . $node->nid);
+  }
+
+  /*
+  /**
+   * @AfterScenario
+   *
+   * @todo Get this working to cleanup node creation
+   */
+  /*
+  public function afterNodeCreation($event) {
+    $steps = $event->getScenario()->getSteps();
+    $tags = $event->getScenario()->getTags();
+
+    if (in_array('node_creation', $tags)) {
+      foreach ($steps as $step) {
+        $step = (array) $step;
+        //print_r($step);
+        if (strpos($step[Behat\Gherkin\Node\StepNodetext], 'I create a' && strpos($step[Behat\Gherkin\Node\StepNodetext], 'node'))) {
+          $step_pieces = explode('"', $step[Behat\Gherkin\Node\StepNodetext]);
+          print_r($step_pieces);
+        }
+      }
+    }
+  }
+  */
 }
 

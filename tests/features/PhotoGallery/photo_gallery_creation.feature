@@ -1,7 +1,7 @@
 Feature: Photo Gallery Creation
   Create different configurations of Photo Galleries.
 
-  @api @javascript @current
+  @api @javascript
   Scenario: Create a basic photo gallery.
     Given I am logged in as a user with the "content_editor" role
       And I am on "node/add/photo-gallery"
@@ -27,5 +27,3 @@ Feature: Photo Gallery Creation
     Then I should see "alt two"
     When I click the "#cboxClose" element
     Then I should see "Test Photo Gallery"
-
-
