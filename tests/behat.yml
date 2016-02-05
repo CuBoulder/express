@@ -110,7 +110,7 @@ default:
         Content: ".region.region-content"
         Branding: "#branding"
         Search: ".region-search-box"
-        Secondary Menu: ".region-secondary-menu"
+        Secondary Menu: "#secondary-menu"
         Menu: "#navigation"
         Sidebar First: ".region-sidebar-first"
         Sidebar Second: "#region-sidebar-second"
