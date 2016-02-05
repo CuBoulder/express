@@ -32,7 +32,6 @@ function cu_transition_express_install() {
   variable_set('disable_messages_ignore_regex', array('/^Metatag support has been enabled for the .*?$/i'));
   variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .*?');
 
-}
   // enable new modules
   module_enable(array(
     'cu_core',
