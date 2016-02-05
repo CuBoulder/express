@@ -8,9 +8,9 @@ projects[drupal][version] = "7.36"
 ; Modules
 ; Please fill the following out. Type may be one of get, git, bzr or svn,
 ; and url is the url of the download.
-projects[cu_fit][download][type] = ""
-projects[cu_fit][download][url] = ""
-projects[cu_fit][type] = "module"
+projects[express][download][type] = ""
+projects[express][download][url] = ""
+projects[express][type] = "module"
 
 projects[views_bulk_operations][version] = "3.1"
 
@@ -258,12 +258,6 @@ projects[cores][type] = "module"
 
 ; Please fill the following out. Type may be one of get, git, bzr or svn,
 ; and url is the url of the download.
-projects[cu_fit-1.6][download][type] = ""
-projects[cu_fit-1.6][download][url] = ""
-projects[cu_fit-1.6][type] = "module"
-
-; Please fill the following out. Type may be one of get, git, bzr or svn,
-; and url is the url of the download.
 projects[custom][download][type] = ""
 projects[custom][download][url] = ""
 projects[custom][type] = "module"
@@ -359,4 +353,3 @@ libraries[custom][download][type] = ""
 libraries[custom][download][url] = ""
 libraries[custom][directory_name] = "custom"
 libraries[custom][type] = "library"
-
