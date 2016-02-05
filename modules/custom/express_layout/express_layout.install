@@ -44,10 +44,12 @@ function express_layout_install() {
   // add fields to Layout entity
   include 'express_layout.field_bases.inc';
   include 'express_layout.field_instances.inc';
+  include 'express_layout.admin.inc';
 
   $add = TRUE;
   _express_layout_variables($add);
   _express_layout_default_settings();
+  express_attach_layouts();
 }
 
 /**
