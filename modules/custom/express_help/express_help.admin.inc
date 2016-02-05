@@ -14,13 +14,20 @@ function express_help_admin_settings() {
     '#description' => t('This allow you to rewrite urls to point a dev or test instance at the corresponding help if it exists'),
   );
 
-
   $form['express_help_replace'] = array(
     '#type' => 'textfield',
     '#size' => 100,
     '#default_value' => variable_get('express_help_replace'),
     '#title' => t('Replace with'),
     '#description' => t('If you found http://www, you could replace it with https://www-dev'),
+  );
+
+  $form['express_help_base_url'] = array(
+    '#type' => 'textfield',
+    '#size' => 100,
+    '#default_value' => variable_get('express_help_base_url'),
+    '#title' => t('Base Help URL'),
+    '#description' => t('If your help fields are fragments, then this base url will be added to them. e.g "http://www.google.com" Don\'t add a trailing slash.'),
   );
 
   return system_settings_form($form);
