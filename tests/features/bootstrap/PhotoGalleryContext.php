@@ -183,6 +183,32 @@ class PhotoGalleryContext extends RawDrupalContext implements SnippetAcceptingCo
   }
 
   /**
+   * @When /^I click the "(?P<element>(?:[^"]|\\")*)" element with "(?P<value>(?:[^"]|\\")*)" for "(?P<attribute>(?:[^"]|\\")*)"$/
+   */
+  public function iClickTheElementWithFor($element, $value, $attribute) {
+    $page_elements = $this->getSession()
+      ->getPage()
+      ->findAll("css", $element);
+
+    if ($page_elements == NULL) {
+      throw new \Exception(sprintf('Couldn\'t find "%s" elements', $element));
+    }
+
+    foreach ($page_elements as $element) {
+      if ($page_attribute = $element->getAttribute($attribute)) {
+        if ($page_attribute == $value) {
+          $element->click();
+          return;
+        }
+      }
+    }
+
+    if ($page_attribute == NULL) {
+      throw new \Exception(sprintf('Couldn\'t find "%s" attribute', $attribute));
+    }
+  }
+
+  /**
    * @Then /^The "(?P<element>(?:[^"]|\\")*)" link should have "(?P<text>(?:[^"]|\\")*)" in the "(?P<attribute>(?:[^"]|\\")*)" attribute$/
    *
    */
@@ -208,5 +234,19 @@ class PhotoGalleryContext extends RawDrupalContext implements SnippetAcceptingCo
       throw new \Exception(sprintf('The "%s" attribute did not contain "%s"', $page_attribute, $text));
     }
   }
+
+  /**
+   * @AfterStep
+   */
+  public function takeScreenShotAfterFailedStep($scope) {
+    if (99 === $scope->getTestResult()->getResultCode()) {
+      $driver = $this->getSession()->getDriver();
+      if (!($driver instanceof Selenium2Driver)) {
+        return;
+      }
+      file_put_contents('/data/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
+    }
+  }
+
 }
 
