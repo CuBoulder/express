@@ -8,7 +8,7 @@ version = 2.0
 ; ----------
 ; Dependencies
 ; ----------
-
+dependencies[] = express_field_bases
 dependencies[] = express_add_content
 dependencies[] = express_help
 dependencies[] = express_theme_picker
