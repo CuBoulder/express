@@ -55,6 +55,9 @@ function cu_transition_express_install() {
     'cutradition',
   ));
 
+  // Get saved theme from database
+  $current_theme = variable_get('express_current_theme', '');
+  variable_set('theme_default', $current_theme);
 }
 
 /**
