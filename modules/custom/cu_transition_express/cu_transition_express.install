@@ -39,7 +39,8 @@ function cu_transition_express_install() {
     'cu_colorbox',
     'express_add_content',
     'express_settings',
-    'express_permissions'
+    'express_permissions',
+    'express_help',
   ));
   node_access_rebuild(TRUE);
 
