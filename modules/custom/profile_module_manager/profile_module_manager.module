@@ -242,10 +242,10 @@ function profile_module_manager_modules_installed($modules) {
       $info = drupal_parse_info_file($path);
       // Clear caches
       if ($info['bundle_cache_clear']) {
-        drupal_flush_all_caches();
+        node_types_rebuild();
       }
       if ($info['bundle_context_clear']) {
-        drupal_flush_all_caches();
+        context_flush_caches();
       }
     }
   }
