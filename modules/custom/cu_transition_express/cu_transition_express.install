@@ -47,6 +47,14 @@ function cu_transition_express_install() {
   // revert all features
   cu_transition_express_revert_features('files');
 
+  // enable new themes
+  theme_enable(array(
+    'cuhighlight',
+    'curise',
+    'cuspirit',
+    'cutradition',
+  ));
+
 }
 
 /**
