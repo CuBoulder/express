@@ -13,6 +13,7 @@ default:
     advanced_content:
       paths: [ %paths.base%/features/AdvancedContent ]
       contexts:
+        - CoreContext
         - AdvancedContentContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -21,6 +22,7 @@ default:
     advanced_layout:
       paths: [ %paths.base%/features/AdvancedLayout ]
       contexts:
+        - CoreContext
         - AdvancedLayoutContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -29,6 +31,7 @@ default:
     events:
       paths: [%paths.base%/features/Events]
       contexts:
+        - CoreContext
         - EventsContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -37,6 +40,7 @@ default:
     forms:
       paths: [%paths.base%/features/Forms]
       contexts:
+        - CoreContext
         - FormsContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -45,6 +49,7 @@ default:
     news_articles:
       paths: [%paths.base%/features/NewsArticles]
       contexts:
+        - CoreContext
         - NewsArticlesContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -53,6 +58,7 @@ default:
     people:
       paths: [%paths.base%/features/People]
       contexts:
+        - CoreContext
         - PeopleContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -61,6 +67,7 @@ default:
     photo_gallery:
       paths: [%paths.base%/features/PhotoGallery]
       contexts:
+        - CoreContext
         - PhotoGalleryContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -69,6 +76,7 @@ default:
     seo:
       paths: [%paths.base%/features/SEO]
       contexts:
+        - CoreContext
         - SEOContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -77,6 +85,7 @@ default:
     social_media:
       paths: [%paths.base%/features/SocialMedia]
       contexts:
+        - CoreContext
         - SocialMediaContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
