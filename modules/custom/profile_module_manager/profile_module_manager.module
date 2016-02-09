@@ -237,15 +237,19 @@ function profile_module_manager_modules_installed($modules) {
   foreach ($modules as $module) {
     // Only run these functions if module name includes _bundle
     if (strpos($module, '_bundle') !== false) {
-      // Get the info file
+      // Get the info file.
       $path = drupal_get_path('module', $module) . '/' . $module . '.info';
       $info = drupal_parse_info_file($path);
-      // Clear caches
+
+      // Rebuild node types.
+      node_types_rebuild();
+
+      // Clear caches.
       if ($info['bundle_cache_clear']) {
-        node_types_rebuild();
+        drupal_flush_all_caches();
       }
       if ($info['bundle_context_clear']) {
-        context_flush_caches();
+        drupal_flush_all_caches();
       }
     }
   }
