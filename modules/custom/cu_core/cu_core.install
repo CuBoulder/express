@@ -142,5 +142,14 @@ websupport@colorado.edu');
 You can now .+configure the CAPTCHA module.+ for your site.
 Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
 
+  // For changing help links to not include base URL.
+  variable_set('express_help_base_url', 'http://www.colorado.edu/webcentral/');
 }
 
+/**
+ * Variable sets for fit to express transition.
+ */
+function cu_core_update_7001() {
+  // For changing help links to not include base URL.
+  variable_set('express_help_base_url', 'http://www.colorado.edu/webcentral/');
+}

@@ -16,12 +16,12 @@ function hook_express_help_fields($variables) {
     'field_article_external_url' => array(
       'title' => 'External URL Help',
       'short_title' => 'External URL',
-      'url' => 'http://www.colorado.edu/webcentral/tutorials/article/external_url',
+      'url' => '/tutorials/article/external_url',
     ),
     'metatags' => array(
       'title' => 'Metatags Help',
       'short_title' => 'Metatags',
-      'url' => 'http://www.colorado.edu/webcentral/tutorials/article/external_url',
+      'url' => '/tutorials/article/external_url',
     ),
   );
   return $variables;
