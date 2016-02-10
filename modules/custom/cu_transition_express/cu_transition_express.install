@@ -33,13 +33,21 @@ function cu_transition_express_install() {
   variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .*?');
 
   // enable new modules
+  module_disable(array(
+    'advanced_link',
+  ));
+
+  drupal_uninstall_modules(array(
+    'advanced_link',
+  ));
+
+  // enable new modules
   module_enable(array(
     'cu_core',
     'view_unpublished',
     'cu_colorbox',
     'express_add_content',
     'express_settings',
-    'express_permissions',
     'express_help',
   ));
 
@@ -58,8 +66,16 @@ function cu_transition_express_install() {
   $current_theme = variable_get('express_current_theme', '');
   variable_set('theme_default', $current_theme);
 
+
+  db_delete('menu_links')
+    ->condition('menu_name', 'management')
+    ->execute();
+
+  drupal_flush_all_caches();
+
   // Rebuild access permissions last.
   node_access_rebuild();
+
 }
 
 /**

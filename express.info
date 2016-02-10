@@ -192,7 +192,6 @@ dependencies[] = smartcrop
 dependencies[] = honeypot
 dependencies[] = metatag
 dependencies[] = transliteration
-dependencies[] = advanced_link
 dependencies[] = vppr
 dependencies[] = content_menu
 dependencies[] = grid_images
