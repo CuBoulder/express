@@ -4,7 +4,7 @@
 /**
  * Implements hook_enable().
  */
-function cu_transition_enable() {
+function cu_transition_express_enable() {
 
 }
 /**
@@ -42,7 +42,6 @@ function cu_transition_express_install() {
     'express_permissions',
     'express_help',
   ));
-  node_access_rebuild(TRUE);
 
   // revert all features
   cu_transition_express_revert_features('files');
@@ -58,6 +57,9 @@ function cu_transition_express_install() {
   // Get saved theme from database
   $current_theme = variable_get('express_current_theme', '');
   variable_set('theme_default', $current_theme);
+
+  // Rebuild access permissions last.
+  node_access_rebuild();
 }
 
 /**
