@@ -9,15 +9,17 @@ body { background-color: #1e1e1e; }
 #secondary-menu-wrapper a:hover, #secondary-menu-wrapper a.active, #secondary-menu-wrapper a.active-trail { color: #cfb87c; }
 
 #main-menu-wrapper { background-color: #333; position: static; }
-#main-menu-wrapper a { color: #333; padding: 0 20px; font-weight: 600; }
+#main-menu-wrapper a { color: #333; font-weight: 600; }
 #main-menu-wrapper a:hover, #main-menu-wrapper a.active, #main-menu-wrapper a.active-trail { background-color: #cfb87c; color: #000; }
 #main-menu-wrapper a#home-link.active { background: transparent; color: #333; }
 #main-menu-wrapper nav { margin: 0 -10px; }
 
-#navigation .links a { line-height: 60px; padding: 0 10px; }
+#navigation .links a { line-height: 60px; }
 
 #navigation { height: 30px; overflow: visible; position: relative; }
 #navigation .nav-inner { position: absolute; width: 100%; background-color: #fff; z-index: 3; -webkit-box-shadow: 0 3px 1px rgba(0, 0, 0, 0.08); -moz-box-shadow: 0 3px 1px rgba(0, 0, 0, 0.08); box-shadow: 0 3px 1px rgba(0, 0, 0, 0.08); }
+
+#navigation ul.action-menu a { margin: 18px 5px; }
 
 .top-content-wrapper { background-color: #f5f5f5; padding: 0 0 20px; }
 
