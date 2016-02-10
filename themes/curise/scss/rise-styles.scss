@@ -29,7 +29,6 @@ body {
   position: static;
   a {
     color:#333;
-    padding:0 20px;
     font-weight: 600;
   }
   a:hover,
@@ -48,7 +47,6 @@ body {
 }
 #navigation .links a {
   line-height: 60px;
-  padding:0 10px;
 }
 
 #navigation {
@@ -61,6 +59,11 @@ body {
     background-color: #fff;
     z-index: 3;
     @include rgbashadow(0, 3px, 1px, #000, .08);
+  }
+}
+#navigation ul.action-menu {
+  a {
+    margin: 18px 5px;
   }
 }
 .layout-fixed {
