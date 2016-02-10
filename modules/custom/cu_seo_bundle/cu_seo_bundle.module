@@ -56,17 +56,17 @@ function cu_seo_bundle_express_help($variables) {
   $variables['admin/config/search/metatags'][] = array(
     'title' => 'Metatag Settings Help',
     'short_title' => 'Metatag Settings Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/724',
+    'url' => '/node/724',
   );
   $variables['admin/config/search/metatags/settings'][] = array(
     'title' => 'Metatag Settings Help',
     'short_title' => 'Metatag Settings Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/724',
+    'url' => '/node/724',
   );
   $variables['admin/config/search/metatags/bulk-revert'][] = array(
     'title' => 'Metatag Settings Help',
     'short_title' => 'Metatag Settings Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/724',
+    'url' => '/node/724',
   );
 
   return $variables;
