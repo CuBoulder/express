@@ -201,6 +201,9 @@ dependencies[] = cu_font_awesome
 dependencies[] = eva
 dependencies[] = smart_trim
 dependencies[] = stringoverrides
+dependencies[] = cu_content_lock
+dependencies[] = content_lock
+
 
 ; ============ FEATURE EXPORTS ============
 dependencies[] = express_linkit_profiles
