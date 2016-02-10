@@ -79,6 +79,10 @@ function cu_transition_express_install() {
   // Rebuild access permissions last.
   node_access_rebuild();
 
+  if (!db_table_exists($table)) {
+    db_rename_table('cck_field_settings_backup', 'cck_field_settings');
+  }
+
 }
 
 /**
