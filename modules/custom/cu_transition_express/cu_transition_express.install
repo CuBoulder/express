@@ -27,11 +27,6 @@ function cu_transition_express_install() {
   ->condition('name', 'express', '=')
   ->execute();
 
-  module_enable(array('disable_messages'));
-  // Set variable for disabling certain Metatag messages.
-  variable_set('disable_messages_ignore_regex', array('/^Metatag support has been enabled for the .*?$/i'));
-  variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .*?');
-
   // enable new modules
   module_disable(array(
     'advanced_link',
@@ -49,7 +44,12 @@ function cu_transition_express_install() {
     'express_add_content',
     'express_settings',
     'express_help',
+    'disable_messages',
   ));
+
+  // Set variable for disabling certain Metatag messages.
+  variable_set('disable_messages_ignore_regex', array('/^Metatag support has been enabled for the .*?$/i'));
+  variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .*?');
 
   // Enable new themes.
   theme_enable(array(
