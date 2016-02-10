@@ -45,11 +45,12 @@ function cu_transition_express_install() {
     'express_settings',
     'express_help',
     'express_theme_picker',
+    'express_field_bases',
+    'express_linkit_profiles',
     'disable_messages',
     'cu_bean_override_view',
     'cu_people_administration_override',
     'cu_content_administration_override',
-    'express_linkit_profiles'
   ));
 
   // Set variable for disabling certain Metatag messages.
