@@ -4,7 +4,7 @@
 /**
  * Implements hook_enable().
  */
-function cu_transition_enable() {
+function cu_transition_express_enable() {
 
 }
 /**
@@ -32,6 +32,15 @@ function cu_transition_express_install() {
   variable_set('disable_messages_ignore_regex', array('/^Metatag support has been enabled for the .*?$/i'));
   variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .*?');
 
+  // enable new modules
+  module_disable(array(
+    'advanced_link',
+  ));
+
+  drupal_uninstall_modules(array(
+    'advanced_link',
+  ));
+
   // Enable new modules.
   module_enable(array(
     'cu_core',
@@ -39,10 +48,8 @@ function cu_transition_express_install() {
     'cu_colorbox',
     'express_add_content',
     'express_settings',
-    'express_permissions',
     'express_help',
   ));
-  node_access_rebuild(TRUE);
 
   // Enable new themes.
   theme_enable(array(
@@ -55,6 +62,17 @@ function cu_transition_express_install() {
   // Get saved theme from database.
   $current_theme = variable_get('express_current_theme', '');
   variable_set('theme_default', $current_theme);
+
+
+  db_delete('menu_links')
+    ->condition('menu_name', 'management')
+    ->execute();
+
+  drupal_flush_all_caches();
+
+  // Rebuild access permissions last.
+  node_access_rebuild();
+
 }
 
 /**

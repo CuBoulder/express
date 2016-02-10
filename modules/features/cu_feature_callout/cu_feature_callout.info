@@ -3,7 +3,6 @@ description = A collection of text and images to callout certain features on a s
 core = 7.x
 package = CU-Active
 version = 7.x-1.0
-dependencies[] = advanced_link
 dependencies[] = bean_admin_ui
 dependencies[] = ctools
 dependencies[] = features
