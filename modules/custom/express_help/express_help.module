@@ -207,10 +207,6 @@ function express_help_preprocess_page(&$vars) {
     foreach ($express_help[$current_path] as $key => $value) {
       $title = $express_help[$current_path][$key]['title'];
       $url = $express_help[$current_path][$key]['url'];
-      // alter the url if configured
-      if (variable_get('express_help_find', 0) && variable_get('express_help_replace', 0)) {
-        $url =  str_replace(variable_get('express_help_find'), variable_get('express_help_replace'), $url);
-      }
 
       // Add base url if url is a fragment/relative.
       $parsed_url = parse_url($url);
