@@ -287,6 +287,11 @@ $border: #e0e0e0;
     padding-left: $indent * 6;
   }
 }
+#navigation ul.action-menu {
+  a {
+    margin: 18px 5px;
+  }
+}
 
 // Mobile Menu
 #mobile-navigation-wrapper{
