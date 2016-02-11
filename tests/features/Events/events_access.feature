@@ -27,18 +27,18 @@ Feature: Events Bundle Access Feature
     Then I should see <message>
 
     Examples:
-      | role            | message        |
+      | role            | message                     |
       | content_editor  | "New Event Calendar Block"  |
       | site_owner      | "New Event Calendar Block"  |
       | administrator   | "New Event Calendar Block"  |
       | developer       | "New Event Calendar Block"  |
-      | edit_my_content | "New Event Calendar Block"  |
+      | edit_my_content | "Access Denied"             |
 
   @api @events @node_creation
   Scenario: An anonymous user should be able to view Event Calendar Block content.
     Given I am an anonymous user
       And I create a "cu_events_calendar_block" block with the label "New Event Calendar Block"
-    Then I should see "New Event Calendar Block"
+    Then I should see "Access Denied"
 
   @api @events
   Scenario Outline: Certain user roles should be able to create Event Calendar Block content.
@@ -66,15 +66,15 @@ Feature: Events Bundle Access Feature
     Then I should see <message>
 
     Examples:
-      | role            | message        |
+      | role            | message                    |
       | content_editor  | "New Event Calendar Grid"  |
       | site_owner      | "New Event Calendar Grid"  |
       | administrator   | "New Event Calendar Grid"  |
       | developer       | "New Event Calendar Grid"  |
-      | edit_my_content | "New Event Calendar Grid"  |
+      | edit_my_content | "Access Denied"            |
 
   @api @events @node_creation
   Scenario: An anonymous user should be able to view Event Calendar Block content.
     Given I am an anonymous user
     And I create a "events_calendar_grid" block with the label "New Event Calendar Grid"
-    Then I should see "New Event Calendar Grid"
+    Then I should see "Access Denied"
