@@ -234,7 +234,7 @@ function cu_shortcodes_shortcode_info() {
  */
 function cu_shortcodes_anchors($attrs, $content = NULL) {
   extract(shortcode_attrs(array(
-        'selector' => '#region-content .content h2',
+        'selector' => '.region-content h2',
         'title' => 'On this page:',
         'color' => 'darkgray',
       ), $attrs));
