@@ -19,13 +19,13 @@ Feature: Cu Settings
   Scenario Outline: An site owner/administrator/developer user should be able to access the settings page
     Given I am logged in as a user with the <role> role
     When I go to "admin/settings"
-    Then I should not see <message>
+    Then I should see <message>
 
     Examples:
-    | role           | message         |
-    | site_owner     | "Access denied" |
-    | administrator  | "Access denied" |
-    | developer      | "Access denied" |
+      | role           | message               |
+      | site_owner     | "Site Configurations" |
+      | administrator  | "Site Configurations" |
+      | developer      | "Site Configurations" |
 
   @api @settings
   Scenario Outline: An site owner/administrator/developer should be able to access the settings contact page
