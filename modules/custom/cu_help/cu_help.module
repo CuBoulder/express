@@ -20,7 +20,7 @@ function cu_help_express_help($variables) {
   $variables['node/add'][] = array(
     'title' => 'Add-on Bundles',
     'short_title' => 'Add-on Bundles',
-    'url' => '/node/632',
+    'url' => '/node/658',
   );
 
   $variables['node/add/page'][] = array(
