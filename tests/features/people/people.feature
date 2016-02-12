@@ -169,7 +169,7 @@ Scenario: Content editors can create person nodes
       And fill in "edit-field-person-filter-2-und" with "dogs"
       And fill in "edit-field-person-filter-3-und" with "shrubs"
     When I press the "Save" button
-      And am on "admin/settings/people"
+      And am on "admin/settings/people/settings"
       And I fill in "Department Label" with "Group"
       And I fill in "Type Label" with "type 2"
       And I fill in "Filter One Label" with "filter one label"

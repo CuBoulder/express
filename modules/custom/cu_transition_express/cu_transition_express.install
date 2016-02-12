@@ -4,7 +4,7 @@
 /**
  * Implements hook_enable().
  */
-function cu_transition_enable() {
+function cu_transition_express_enable() {
 
 }
 /**
@@ -27,25 +27,64 @@ function cu_transition_express_install() {
   ->condition('name', 'express', '=')
   ->execute();
 
-  module_enable(array('disable_messages'));
-  // Set variable for disabling certain Metatag messages.
-  variable_set('disable_messages_ignore_regex', array('/^Metatag support has been enabled for the .*?$/i'));
-  variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .*?');
-
   // enable new modules
+  module_disable(array(
+    'advanced_link',
+  ));
+
+  drupal_uninstall_modules(array(
+    'advanced_link',
+  ));
+
+  // Enable new modules.
   module_enable(array(
     'cu_core',
     'view_unpublished',
     'cu_colorbox',
     'express_add_content',
     'express_settings',
-    'express_permissions',
     'express_help',
+    'express_theme_picker',
+    'express_field_bases',
+    'express_linkit_profiles',
+    'disable_messages',
+    'cu_bean_override_view',
+    'cu_people_administration_override',
+    'cu_content_administration_override',
   ));
-  node_access_rebuild(TRUE);
 
-  // revert all features
-  cu_transition_express_revert_features('files');
+  // Set variable for disabling certain Metatag messages.
+  variable_set('disable_messages_ignore_regex', array('/^Metatag support has been enabled for the .*?$/i'));
+  variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .*?');
+
+  // Enable new themes.
+  theme_enable(array(
+    'cuhighlight',
+    'curise',
+    'cuspirit',
+    'cutradition',
+  ));
+
+  // Get saved theme from database.
+  $current_theme = variable_get('express_current_theme', '');
+  variable_set('theme_default', $current_theme);
+
+
+  db_delete('menu_links')
+    ->condition('menu_name', 'management')
+    ->execute();
+
+  drupal_flush_all_caches();
+
+  // Rebuild access permissions last.
+  node_access_rebuild();
+
+  // some sites have errors related to this table
+  // table should exist, but be empty
+  // table is initially renamed by cu_tranistion_fit
+  if (!db_table_exists('cck_field_settings')) {
+    db_rename_table('cck_field_settings_backup', 'cck_field_settings');
+  }
 
 }
 

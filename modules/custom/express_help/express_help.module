@@ -207,10 +207,17 @@ function express_help_preprocess_page(&$vars) {
     foreach ($express_help[$current_path] as $key => $value) {
       $title = $express_help[$current_path][$key]['title'];
       $url = $express_help[$current_path][$key]['url'];
-      // alter the url if configured
-      if (variable_get('express_help_find', 0) && variable_get('express_help_find', 0)) {
-        $url =  str_replace(variable_get('express_help_find'), variable_get('express_help_replace'), $url);
+
+      // Add base url if url is a fragment/relative.
+      $parsed_url = parse_url($url);
+      if (!in_array('host', $parsed_url) && $base_help_url = variable_get('express_help_base_url', 0)) {
+        // Add beginning slash if not one there.
+        if (substr($parsed_url['path'], 0, 1) != '/') {
+          $parsed_url['path'] = '/' . $parsed_url['path'];
+        }
+        $url = $base_help_url . $parsed_url['path'];
       }
+
       if (isset($title) && isset($url)) {
         $help_link = l($title, $url, array('attributes' => array('target' => '_blank')));
           $vars['express_help'] .= $help_link . '<br/>';

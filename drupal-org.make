@@ -16,8 +16,6 @@ projects[views_bulk_operations][version] = "3.1"
 
 projects[administerusersbyrole][version] = "1.0-beta1"
 
-projects[advanced_link][version] = "1.3"
-
 projects[attachment_links][version] = "1.0+6-dev"
 
 projects[auto_entitylabel][version] = "1.2"

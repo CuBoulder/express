@@ -24,6 +24,8 @@ body { background-color: #272727; padding-bottom: 20px; }
 
 ul#action-menu a { line-height: 20px; margin: 20px 0 20px 10px; }
 
+#navigation ul.action-menu a { margin: 18px 5px; }
+
 #intro-wide-wrapper, #slider-wrapper { background-color: #171717; }
 
 #slider-wrapper { padding: 20px; }

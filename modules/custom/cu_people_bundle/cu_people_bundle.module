@@ -12,7 +12,7 @@
  * @return
  *   An array defining all the permissions for the site.
  */
-  
+
 function cu_people_bundle_secure_permissions($role) {
   // INSERT PERMISSIONS FOR THIS BUNDLE
   $permissions = array(
@@ -124,22 +124,22 @@ function cu_people_bundle_express_help($variables) {
   $variables['admin/settings/people/settings'][] = array(
     'title' => 'People Filter Labels Help',
     'short_title' => 'People Filter Labels Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/556',
+    'url' => '/node/556',
   );
   $variables['block/add/people-list-block'][] = array(
     'title' => 'People List Block Help',
     'short_title' => 'People List Block Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/586',
+    'url' => '/node/586',
   );
   $variables['node/add/person'][] = array(
     'title' => 'People Help',
     'short_title' => 'People Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/620',
+    'url' => '/node/620',
   );
   $variables['node/add/people-list-page'][] = array(
     'title' => 'People Help',
     'short_title' => 'People Help',
-    'url' => 'http://www.colorado.edu/webcentral/node/620',
+    'url' => '/node/620',
   );
 
   return $variables;

@@ -113,7 +113,7 @@ h1#site-name, h2#site-name { font-size: 18px; margin: 0; padding: 0; line-height
 #secondary-navigation { font-size: 80%; overflow: hidden; *zoom: 1; }
 #secondary-navigation nav { float: right; }
 #secondary-navigation nav ul li { display: inline; list-style: none; list-style-image: none; margin: 0; padding: 0; }
-#secondary-navigation nav ul li a { padding: 0 8px; }
+#secondary-navigation nav ul li a { padding: 0 10px; }
 #secondary-navigation h2.secondary-menu-label { display: inline; font-size: 100%; font-weight: 600; }
 
 /* Action menu, or inline secondary menu */
@@ -197,7 +197,7 @@ h1#site-name, h2#site-name { font-size: 18px; margin: 0; padding: 0; line-height
 #mobile-search .cu-search input.form-text { width: 100%; }
 
 #navigation .links li, #navigation .menu li { margin: 0; padding: 0; }
-#navigation .links a, #navigation .menu a { display: inline-block; padding: 0 8px; line-height: 40px; }
+#navigation .links a, #navigation .menu a { display: inline-block; padding: 0 12px; line-height: 40px; }
 
 /* Menu Icons - for block menus, not main, secondary, footer menus */
 .menu-icon-text { overflow: hidden; display: block; }
