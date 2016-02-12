@@ -267,7 +267,19 @@ function express_help_form_alter(&$form, &$form_state, $form_id) {
   if (array_key_exists($form_id, $help_fields)) {
     foreach ($form as $key =>  $field) {
       if (!empty($help_fields[$form_id]['fields'][$key])) {
-        $help_link = l('<span class="element-invisible1">' . $help_fields[$form_id]['fields'][$key]['title'] . '</span>', $help_fields[$form_id]['fields'][$key]['url'], array('attributes' => array('target'=>'_blank', 'class' => 'field-help-link'), 'html' => TRUE));
+
+        // Add base url if url is a fragment/relative.
+        $url = $help_fields[$form_id]['fields'][$key]['url'];
+        $parsed_url = parse_url($url);
+        if (!in_array('host', $parsed_url) && $base_help_url = variable_get('express_help_base_url', 0)) {
+          // Add beginning slash if not one there.
+          if (substr($parsed_url['path'], 0, 1) != '/') {
+            $parsed_url['path'] = '/' . $parsed_url['path'];
+          }
+          $url = $base_help_url . $parsed_url['path'];
+        }
+
+        $help_link = l('<span class="element-invisible1">' . $help_fields[$form_id]['fields'][$key]['title'] . '</span>', $url, array('attributes' => array('target'=>'_blank', 'class' => 'field-help-link'), 'html' => TRUE));
         // If description is set at this level (i.e. a fieldset), add help
         if ($form[$key]['#type'] == 'fieldset') {
           if (isset($form[$key]['#description'])) {
