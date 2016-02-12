@@ -86,6 +86,11 @@ function cu_transition_express_install() {
     db_rename_table('cck_field_settings_backup', 'cck_field_settings');
   }
 
+  // let users login again
+  module_disable(array(
+    'cu_logout_users',
+  ));
+
 }
 
 /**
