@@ -1,5 +1,5 @@
 name = CU Bucket
-description = Random bits of functionality associated with cu_fit install profile.
+description = Random bits of functionality associated with express install profile.
 core = 7.x
 package = CU-Boulder
 version = 7.x-1.0
@@ -22,4 +22,3 @@ features[variable][] = locale_custom_strings_en
 features[variable][] = redirect_auto_redirect
 features[variable][] = redirect_default_status_code
 features[variable][] = redirect_passthrough_querystring
-

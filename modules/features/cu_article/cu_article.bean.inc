@@ -34,7 +34,7 @@ function cu_article_bean_admin_ui_types() {
   $bean_type->name = 'article_slider';
   $bean_type->label = 'Article Slider';
   $bean_type->options = '';
-  $bean_type->description = 'A content slider of articles. For articles to appear in the slider, they must have the "Promoted to front page" option selected and a thumbnail image attached.';
+  $bean_type->description = 'A content slider of articles. For articles to appear in the slider, they must have a thumbnail image attached.';
   $export['article_slider'] = $bean_type;
 
   $bean_type = new stdClass();

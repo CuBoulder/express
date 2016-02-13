@@ -59,7 +59,8 @@ span.responsive-label {
 
 /* NODE VIEW */
 
-.person-photo img.image-medium {
+.person-photo img.image-medium,
+.person-photo img.image-small {
   float: right;
   margin: 0 0 20px 20px;
   max-width:320px;

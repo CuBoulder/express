@@ -254,7 +254,14 @@ function express_layout_preprocess_html(&$vars) {
   }
 }
 
-function express_layout_image_styles_alter(&$styles) {
+/**
+ * Implements hook_image_default_styles().
+ *
+ * @return array
+ *   An array of image styles.
+ */
+function express_layout_image_default_styles() {
+  $styles = array();
   $styles['el_hero'] = array(
     'label' => 'Express Layout Hero Image',
     'effects' => array(
@@ -296,7 +303,7 @@ function express_layout_page_alter(&$page) {
     // Load node layout
     if ($layout = entity_load_single('express_layout', $node->nid)) {
       // Add cover image
-      if (!empty($layout->field_feature_title_image[LANGUAGE_NONE][0]['uri']) && isset($settings['field_feature_title_image'])) {
+      if (!empty($layout->field_feature_title_image[LANGUAGE_NONE][0]['uri']) && !empty($settings['field_feature_title_image'])) {
         // Get url of hero image style
         $img = image_style_url('el_hero', $layout->field_feature_title_image [LANGUAGE_NONE][0]['uri']);
         $block['el_hero_cover_image'] = array(
@@ -610,6 +617,50 @@ function express_layout_preprocess_node(&$vars) {
       $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__featurelayout';
     }
   }
+
+  // add inner sidebar regions to nodes
+  if ($plugin = context_get_plugin('reaction', 'block')) {
+    if ($context_content_sidebar_left_blocks = $plugin->block_get_blocks_by_region('content_sidebar_left')) {
+      $vars['content_sidebar_left'] = $context_content_sidebar_left_blocks;
+      $vars['content_sidebar_left']['#theme_wrappers'] = array('region');
+      $vars['content_sidebar_left']['#region'] = 'content_sidebar_left';
+      $vars['classes_array'][] = 'content-sidebar-left';
+    }
+    if ($context_content_sidebar_right_blocks = $plugin->block_get_blocks_by_region('content_sidebar_right')) {
+      $vars['content_sidebar_right'] = $context_content_sidebar_right_blocks;
+      $vars['content_sidebar_right']['#theme_wrappers'] = array('region');
+      $vars['content_sidebar_right']['#region'] = 'content_sidebar_right';
+      $vars['classes_array'][] = 'content-sidebar-right';
+    }
+    if ($context_content_bottom_blocks = $plugin->block_get_blocks_by_region('content_bottom')) {
+      $vars['content_bottom'] = $context_content_bottom_blocks;
+      $vars['content_bottom']['#theme_wrappers'] = array('region');
+      $vars['content_bottom']['#region'] = 'content_bottom';
+      $vars['classes_array'][] = 'content-bottom';
+    }
+  }
+  if ($content_sidebar_left_blocks = block_get_blocks_by_region('content_sidebar_left')) {
+    $vars['content_sidebar_left'] = $content_sidebar_left_blocks;
+    $vars['content_sidebar_left']['#theme_wrappers'] = array('region');
+    $vars['content_sidebar_left']['#region'] = 'content_sidebar_left';
+    $vars['classes_array'][] = 'content-sidebar-left';
+  }
+  if ($content_sidebar_right_blocks = block_get_blocks_by_region('content_sidebar_right')) {
+    $vars['content_sidebar_right'] = $content_sidebar_right_blocks;
+    $vars['content_sidebar_right']['#theme_wrappers'] = array('region');
+    $vars['content_sidebar_right']['#region'] = 'content_sidebar_right';
+    $vars['classes_array'][] = 'content-sidebar-right';
+  }
+  if ($context_content_bottom_blocks = block_get_blocks_by_region('content_bottom')) {
+    $vars['content_bottom'] = $context_content_bottom_blocks;
+    $vars['content_bottom']['#theme_wrappers'] = array('region');
+    $vars['content_bottom']['#region'] = 'content_bottom';
+    $vars['classes_array'][] = 'content-bottom';
+  }
+  if (!empty($vars['content_sidebar_left']) && !empty($vars['content_sidebar_right'])) {
+    $vars['content_sidebar_left']['#region'] = 'content_sidebars';
+    $vars['content_sidebar_right']['#region'] = 'content_sidebars';
+  }
 }
 
 /*
@@ -699,5 +750,154 @@ function express_layout_bean_access_check($type) {
   $perm = 'create any ' . $type . ' bean';
   if (user_access($perm)) {
     return TRUE;
+  }
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function express_layout_theme_registry_alter(&$registry) {
+  $registry['inline_entity_form_entity_table']['function'] = 'express_layout_inline_entity_form_entity_table';
+}
+
+/**
+ * Copied from inline_entity_form.module.
+ * Overrides how beans are displayed in the IEF table for title/label.
+ *
+ * Themes the table showing existing entity references in the widget.
+ *
+ * @param $variables
+ *   Contains the form element data from $element['entities'].
+ */
+function express_layout_inline_entity_form_entity_table($variables) {
+  $form = $variables['form'];
+  $entity_type = $form['#entity_type'];
+  $fields = $form['#table_fields'];
+  // Sort the fields by weight.
+  uasort($fields, 'drupal_sort_weight');
+  // If one of the rows is in form context, disable tabledrag.
+  $has_tabledrag = TRUE;
+  foreach (element_children($form) as $key) {
+    if (!empty($form[$key]['form'])) {
+      $has_tabledrag = FALSE;
+    }
+  }
+
+  $header = array();
+  if ($has_tabledrag) {
+    $header[] = array('data' => '', 'class' => array('ief-tabledrag-header'));
+    $header[] = array('data' => t('Sort order'), 'class' => array('ief-sort-order-header'));
+  }
+  // Add header columns for each field.
+  $first = TRUE;
+  foreach ($fields as $field_name => $field) {
+    $column = array('data' => $field['label']);
+    // The first column gets a special class.
+    if ($first) {
+      $column['class'] = array('ief-first-column-header');
+      $first = FALSE;
+    }
+    $header[] = $column;
+  }
+  $header[] = t('Operations');
+
+  // Build an array of entity rows for the table.
+  $rows = array();
+  foreach (element_children($form) as $key) {
+    $entity = $form[$key]['#entity'];
+    list($entity_id) = entity_extract_ids($entity_type, $entity);
+    // Many field formatters (such as the ones for files and images) need
+    // certain data that might be missing on unsaved entities because the field
+    // load hooks haven't run yet. Because of that, those hooks are invoked
+    // explicitly. This is the same trick used by node_preview().
+    if ($form[$key]['#needs_save']) {
+      _field_invoke_multiple('load', $entity_type, array($entity_id => $entity));
+    }
+
+    $row_classes = array('ief-row-entity');
+    $cells = array();
+    if ($has_tabledrag) {
+      $cells[] = array('data' => '', 'class' => array('ief-tabledrag-handle'));
+      $cells[] = drupal_render($form[$key]['delta']);
+      $row_classes[] = 'draggable';
+    }
+    // Add a special class to rows that have a form underneath, to allow
+    // for additional styling.
+    if (!empty($form[$key]['form'])) {
+      $row_classes[] = 'ief-row-entity-form';
+    }
+
+    // Add fields that represent the entity.
+    $wrapper = entity_metadata_wrapper($entity_type, $entity);
+    foreach ($fields as $field_name => $field) {
+      $data = '';
+      if ($field['type'] == 'property') {
+        // Small 'hack' for beans to correctly get title/label.
+        if ($entity_type == 'bean') {
+          $data = $entity->{$field_name};
+        }
+        else {
+          $property = $wrapper->{$field_name};
+          // label() returns human-readable versions of token and list properties.
+          $data = $property->label() ? $property->label() : $property->value();
+        }
+        $data = empty($field['sanitized']) ? check_plain($data) : $data;
+      }
+      elseif ($field['type'] == 'field' && isset($entity->{$field_name})) {
+        $display = array(
+            'label' => 'hidden',
+          ) + $field;
+        // The formatter needs to be under the 'type' key.
+        if (isset($display['formatter'])) {
+          $display['type'] = $display['formatter'];
+          unset($display['formatter']);
+        }
+
+        $renderable_data = field_view_field($entity_type, $entity, $field_name, $display);
+        // The field has specified an exact delta to display.
+        if (isset($field['delta'])) {
+          if (!empty($renderable_data[$field['delta']])) {
+            $renderable_data = $renderable_data[$field['delta']];
+          }
+          else {
+            // The field has no value for the specified delta, show nothing.
+            $renderable_data = array();
+          }
+        }
+        $data = drupal_render($renderable_data);
+      }
+      elseif ($field['type'] == 'callback' && isset($field['render_callback']) && function_exists($field['render_callback'])) {
+        $data = call_user_func($field['render_callback'], $entity_type, $entity);
+      }
+
+      $cells[] = array('data' => $data, 'class' => array('inline-entity-form-' . $entity_type . '-' . $field_name));
+    }
+    // Add the buttons belonging to the "Operations" column.
+    $cells[] = drupal_render($form[$key]['actions']);
+    // Create the row.
+    $rows[] = array('data' => $cells, 'class' => $row_classes);
+
+    // If the current entity array specifies a form, output it in the next row.
+    if (!empty($form[$key]['form'])) {
+      $row = array(
+        array('data' => drupal_render($form[$key]['form']), 'colspan' => count($fields) + 1),
+      );
+      $rows[] = array('data' => $row, 'class' => array('ief-row-form'), 'no_striping' => TRUE);
+    }
+  }
+
+  if (!empty($rows)) {
+    $id = 'ief-entity-table-' . $form['#id'];
+    if ($has_tabledrag) {
+      // Add the tabledrag JavaScript.
+      drupal_add_tabledrag($id, 'order', 'sibling', 'ief-entity-delta');
+    }
+
+    // Return the themed table.
+    $table_attributes = array(
+      'id' => $id,
+      'class' => array('ief-entity-table'),
+    );
+    return theme('table', array('header' => $header, 'rows' => $rows, 'sticky' => FALSE, 'attributes' => $table_attributes));
   }
 }

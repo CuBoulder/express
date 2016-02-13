@@ -31,6 +31,10 @@ function expressadmin_preprocess_html(&$vars) {
     'dir' => $vars['language']->dir,
   );
   $vars['html_attributes'] = drupal_attributes($vars['html_attributes_array']);
+
+  // Skip variables
+  $vars['skip_link_text'] = 'Skip to content';
+  $vars['skip_link_anchor'] = 'admin-top';
 }
 
 /**
@@ -391,6 +395,12 @@ function expressadmin_preprocess_admin_block(&$vars) {
     'user-interface' => 'laptop',
     'development' => 'code',
     'web-services' => 'globe',
+    'news' => 'newspaper-o',
+    'site-configurations' => 'cog',
+    'bundles' => 'gift',
+    'forms' => 'check-square-o',
+    'url-management' => 'link',
+    'advanced-content' => 'th-list',
   );
   $key = strtolower(str_replace(' ','-', $vars['block']['link_title']));
   if (array_key_exists($key, $titles)) {

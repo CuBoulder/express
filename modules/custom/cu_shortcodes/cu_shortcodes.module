@@ -190,6 +190,13 @@ function cu_shortcodes_shortcode_info() {
     'default settings' => array(),
     'demo callback' => 'cu_shortcodes_map_demo',
   );
+  $shortcodes['masonry-images'] = array(
+    'title' => t('Masonry Images'),
+    'description' => t('Display images in a masonry layout'),
+    'process callback' => 'cu_shortcodes_masonry_images',
+    'tips callback' => 'cu_shortcodes_masonry_images_tips',
+    'default settings' => array(),
+  );
   $shortcodes['print'] = array(
     'title' => t('Print'),
     'description' => t('Print page button'),
@@ -227,7 +234,7 @@ function cu_shortcodes_shortcode_info() {
  */
 function cu_shortcodes_anchors($attrs, $content = NULL) {
   extract(shortcode_attrs(array(
-        'selector' => '#region-content .content h2',
+        'selector' => '.region-content h2',
         'title' => 'On this page:',
         'color' => 'darkgray',
       ), $attrs));
@@ -669,6 +676,16 @@ function cu_shortcodes_map_tips($format, $long) {
  */
 function cu_shortcodes_map_demo() {
   $output = '<iframe width="100%" height="325" src="https://maps.google.com/?ll=40.079122,-105.088348&spn=0.166286,0.245132&t=m&z=12&amp;ie=UTF8&amp;output=embed"></iframe><br /><a href="https://maps.google.com/?ll=40.079122,-105.088348&spn=0.166286,0.245132&t=m&z=12&amp;ie=UTF8&amp;output=embed">View Larger Map</a>';
+  return $output;
+}
+/**
+ * Masonry Images shortcode.
+ */
+function cu_shortcodes_masonry_images($attrs, $content = NULL) {
+  extract(shortcode_attrs(array(
+        'columns'       => 2,
+      ), $attrs));
+  $output = '<div class="masonry-images masonry-columns-' . $columns . '">' . $content . '</div>';
   return $output;
 }
 

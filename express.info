@@ -8,15 +8,15 @@ version = 2.0
 ; ----------
 ; Dependencies
 ; ----------
-
+dependencies[] = express_field_bases
 dependencies[] = express_add_content
 dependencies[] = express_help
 dependencies[] = express_theme_picker
 dependencies[] = express_layout
 dependencies[] = express_settings
+dependencies[] = cu_colorbox
 ;dependencies[] = express_permissions
 
-;dependencies[] = cu_layout
 ;dependencies[] = cu_settings
 ;dependencies[] = cu_permissions
 
@@ -51,7 +51,7 @@ dependencies[] = bean
 dependencies[] = bean_admin_ui
 dependencies[] = context
 
-; Express Core Contib Dependencies
+; Express Core Contrib Dependencies
 dependencies[] = ctools
 dependencies[] = cck
 dependencies[] = email
@@ -67,6 +67,7 @@ dependencies[] = user_external_invite
 dependencies[] = libraries
 dependencies[] = views
 dependencies[] = view_unpublished
+dependencies[] = disable_messages
 
 ; Path management
 dependencies[] = globalredirect
@@ -93,7 +94,6 @@ dependencies[] = jquery_update
 dependencies[] = cu_accessibility
 
 dependencies[] = profile_module_manager
-dependencies[] = cu_inventory
 
 ; ============ CU AUTHENTICATION AND PERMISSIONS ============
 dependencies[] = cu_ldap
@@ -192,7 +192,6 @@ dependencies[] = smartcrop
 dependencies[] = honeypot
 dependencies[] = metatag
 dependencies[] = transliteration
-dependencies[] = advanced_link
 dependencies[] = vppr
 dependencies[] = content_menu
 dependencies[] = grid_images
@@ -202,12 +201,14 @@ dependencies[] = cu_font_awesome
 dependencies[] = eva
 dependencies[] = smart_trim
 dependencies[] = stringoverrides
+dependencies[] = cu_content_lock
+dependencies[] = content_lock
+
 
 ; ============ FEATURE EXPORTS ============
 dependencies[] = express_linkit_profiles
 
 ; REMOVE IN FUTURE
-dependencies[] = cu_video
 dependencies[] = grid_size_blocks
 dependencies[] = cu_livechat
 

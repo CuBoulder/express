@@ -52,10 +52,22 @@ function cu_inventory_stats_form_cu_inventory_admin_settings_alter(&$form, &$for
     '#value' => t('Send statistics'),
     '#submit' => array('cu_inventory_stats_update_statistics_submit'),
   );
+
+  $form['statistics']['empty_statistics'] = array(
+    '#type' => 'submit',
+    '#value' => t('Empty Statistics'),
+    '#submit' => array('cu_inventory_stats_empty_statistics_submit'),
+  );
 }
 
 function cu_inventory_stats_update_statistics_submit(&$form, &$form_state) {
   module_load_include('inc', 'cu_inventory_stats');
   cu_inventory_stats_process_site_stats();
   drupal_set_message(t('Updated Statistics sent.'));
+}
+
+function cu_inventory_stats_empty_statistics_submit(&$form, &$form_state) {
+  module_load_include('inc', 'cu_inventory_stats');
+  cu_inventory_stats_empty_site_stats();
+  drupal_set_message(t('Reqeust to empty Statistics sent.'));
 }

@@ -18,3 +18,10 @@ projects[video_filter][patch][] = "https://www.drupal.org/files/issues/video_fil
 projects[video_filter][patch][] = "https://www.drupal.org/files/issues/video_filter-https_support-786774-7.x-3.1.patch"
 
 projects[navbar][patch][] = "https://www.drupal.org/files/issues/navbar-shortcut_switch_menu_display-2653122-2-7.patch"
+
+projects[ldap_servers][patch][] =  "https://www.drupal.org/files/issues/ldap-changed_ldap_servers_bind_method_field-1839798-17.patch"
+
+projects[video_embed_field][patch][] = "https://www.drupal.org/files/issues/video_embed_field-youtube_options_not_applied-2580459-7.patch"
+
+; @see https://cuboulder.atlassian.net/browse/FIT-968
+projects[quicktabs][patch][] = "https://www.drupal.org/files/issues/quicktabs-invalid-argument-foreach-2661436-2-7.patch"

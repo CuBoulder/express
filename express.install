@@ -8,7 +8,8 @@ function express_install() {
   // Enable some express blocks.
   //$default_theme = 'express_modern';
   //$admin_theme = 'express_admin_theme';
-  $default_theme = 'cumodern';
+
+  $default_theme = 'cuspirit';
   $admin_theme = 'expressadmin';
 
   // disable all themes
@@ -22,12 +23,7 @@ function express_install() {
     ->condition('type', 'theme')
     ->condition('name', $default_theme)
     ->execute();
-  // enable $admin_theme
-  db_update('system')
-    ->fields(array('status' => 1))
-    ->condition('type', 'theme')
-    ->condition('name', $admin_theme)
-    ->execute();
+
   variable_set('theme_default', $default_theme);
   variable_set('admin_theme', $admin_theme);
   // activate admin theme when editing a node

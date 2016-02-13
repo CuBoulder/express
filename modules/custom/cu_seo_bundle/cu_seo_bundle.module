@@ -44,23 +44,6 @@ function cu_seo_bundle_secure_permissions($role) {
 }
 
 /**
- * Implements function hook_express_help_fields().
- *
- * @param array $variables
- */
-/*
-function cu_seo_bundle_express_help_fields($variables) {
-  $variables['page_node_form']['fields'] = array(
-    'metatags' => array(
-      'title' => 'Metatags Help',
-      'short_title' => 'Metatags',
-      'url' => 'http://www.colorado.edu/webcentral/tutorials/article/external_url',
-    ),
-  );
-}
-*/
-
-/**
  * Implements hook_express_help().
  *
  * Add contextual help for the SEO Bundle.
@@ -89,6 +72,3 @@ function cu_seo_bundle_express_help($variables) {
   return $variables;
 }
 
-function cu_seo_bundle_form_alter(&$form, &$form_state, $form_id) {
-  dpm($form);
-}

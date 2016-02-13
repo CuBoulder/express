@@ -23,6 +23,7 @@ function cu_article_menu() {
   );
   $items['admin/settings/news/article-settings'] = array(
     'title' => 'Article Settings',
+    'description' => 'Global setting to show or hide the Article publication date on all articles',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('cu_article_global_settings_form'),
     'access arguments' => array('administer express settings'),
@@ -52,14 +53,16 @@ function cu_article_menu() {
  */
 function cu_article_global_settings_form($form, &$form_state) {
   $settings = variable_get('cu_article_global_settings', '');
-  $form['date_display'] = array(
+  $form['published_date'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Article Published Date Display',
+  );
+  $form['published_date']['date_display'] = array(
     '#type' => 'radios',
-    '#name' => 'Date Display',
-    '#description' => 'Choose to display dates on articles.',
     '#options' => array(
-      'custom' => 'Article specific (Choose on each article if date should be displayed)',
-      'show' => 'Show',
-      'hide' => 'Hide',
+      'custom' => 'Choose on each article if publish date should be displayed',
+      'show' => 'Show publish date on all articles',
+      'hide' => 'Hide publish date on all articles',
     ),
     '#default_value' => $settings['date_display'] ? $settings['date_display'] : 'custom',
   );
@@ -577,8 +580,6 @@ function cu_article_preprocess_node(&$vars) {
     if (!empty($vars['field_article_byline'])) {
       // For bylines at top of article
       $bylines = array();
-      // For bios below article
-      $bios = array();
       // Load bylines terms
       foreach ($vars['field_article_byline'][LANGUAGE_NONE] as $byline) {
         $term = taxonomy_term_load($byline['tid']);
@@ -591,8 +592,6 @@ function cu_article_preprocess_node(&$vars) {
         elseif (!empty($term->field_article_byline_person_id)) {
           $person_id = $term->field_article_byline_person_id[LANGUAGE_NONE][0]['value'];
           $bylines[] = l($term->name, 'node/' . $person_id);
-          // Bios are only for terms that have a person id
-          $bios[$person_id] = $person_id;
         }
         // Otherwise just print term name
         else {
@@ -601,17 +600,6 @@ function cu_article_preprocess_node(&$vars) {
       }
       // Add bylines terms to author meta section
       $vars['author_meta']['byline'] = 'By ' . join(', ', $bylines);
-
-      // If there are bios, render them below article
-      if (!empty($bios)) {
-        $nodes = node_load_multiple($bios);
-        $vars['content']['bios'] = node_view_multiple($nodes, 'teaser');
-        $vars['content']['bios']['#weight'] = 100;
-        $vars['content']['bios']['#prefix'] = '<div class="article-bios">';
-        $vars['content']['bios']['#suffix'] = '</div>';
-
-
-      }
     }
   }
   if ($vars['node']->type == 'article_list_page') {

@@ -13,6 +13,10 @@ function cu_test_content_blocks_install() {
   _cu_test_content_blocks_hero();
   _cu_test_content_blocks_social();
   _cu_test_content_blocks_content_grid();
+  _cu_test_content_blocks_slider();
+  _cu_test_content_blocks_article_slider();
+  _cu_test_content_blocks_article_feature();
+  _cu_test_content_blocks_video_reveal();
   _cu_test_content_blocks_blocktheme();
   _cu_test_content_blocks_icons();
   _cu_test_content_articles_create_blocks_node();
@@ -327,6 +331,115 @@ function _cu_test_content_create_grid_field_collection_item($bean, $title, $imag
   return TRUE;
 }
 
+function _cu_test_content_blocks_slider() {
+  $temp_beans = variable_get('cu_test_content_beans', array());
+
+
+  $bean = bean_create(array('type' => 'slider'));
+  $bean->label = 'slider';
+  $bean->title = '';
+  $bean->delta = 'slider';
+
+  $title_salt = _cu_test_content_grid_titles_dummy_text();
+  $titles = explode('.', $title_salt);
+
+  _cu_test_content_create_slider_field_collection_item($bean, $titles[0], 1);
+  _cu_test_content_create_slider_field_collection_item($bean, $titles[1], 2);
+  _cu_test_content_create_slider_field_collection_item($bean, $titles[2], 3);
+
+
+  $bean->save();
+
+  $title = $bean->title . '|' . $bean->label;
+  $temp_beans[$bean->bid] = $title;
+  drupal_set_message("Bean $title - $bean->bid created");
+  variable_set('cu_test_content_beans', $temp_beans);
+}
+
+function _cu_test_content_create_slider_field_collection_item($bean, $title, $order) {
+  $fc_item = entity_create('field_collection_item', array('field_name' => 'field_slider_slide'));
+  $fc_item->setHostEntity('bean', $bean);
+  $text = _cu_test_content_grid_titles_dummy_text();
+  $fc_item->field_slider_caption[LANGUAGE_NONE][$order]['value'] = $title;
+  $fc_item->field_slider_teaser[LANGUAGE_NONE][$order]['value'] = $text;
+  $fc_item->field_slider_teaser[LANGUAGE_NONE][$order]['format'] = 'wysiwyg';
+
+  $file_path = system_retrieve_file('https://unsplash.it/1500/1000?random');
+  $file = (object) array(
+    'uid' => 1,
+    'uri' => $file_path,
+    'filemime' => file_get_mimetype($file_path),
+    'status' => 1,
+  );
+  // You can specify a subdirectory, e.g. public://foo/
+  $file = file_copy($file, 'public://');
+  $fc_item->field_slider_image[LANGUAGE_NONE][$order] = (array) $file;
+  $fc_item->field_slider_image[LANGUAGE_NONE][$order]['alt'] = 'Photo Alt Text';
+
+  $fc_item->save();
+  return TRUE;
+}
+
+function _cu_test_content_blocks_article_slider() {
+  $temp_beans = variable_get('cu_test_content_beans', array());
+  $bean = bean_create(array('type' => 'article_slider'));
+  $bean->label = 'article_slider';
+  $bean->title = 'Latest News';
+  $bean->delta = 'article_slider';
+  $bean->save();
+  $title = $bean->title . '|' . $bean->label;
+  $temp_beans[$bean->bid] = $title;
+  drupal_set_message("Bean $title - $bean->bid created");
+  variable_set('cu_test_content_beans', $temp_beans);
+}
+
+function _cu_test_content_blocks_article_feature() {
+  $temp_beans = variable_get('cu_test_content_beans', array());
+  $bean = bean_create(array('type' => 'article_feature'));
+  $bean->label = 'article_feature';
+  $bean->title = 'Latest News';
+  $bean->delta = 'article_feature';
+  $bean->field_article_feature_display[LANGUAGE_NONE][0]['value'] = 'article-feature-inline-2';
+  $bean->field_article_feature_image_size[LANGUAGE_NONE][0]['value'] = 'slider';
+  $bean->save();
+  $title = $bean->title . '|' . $bean->label;
+  $temp_beans[$bean->bid] = $title;
+  drupal_set_message("Bean $title - $bean->bid created");
+  variable_set('cu_test_content_beans', $temp_beans);
+}
+
+function _cu_test_content_blocks_video_reveal() {
+  //https://www.youtube.com/watch?v=AHNAgyyXiOI
+  $temp_beans = variable_get('cu_test_content_beans', array());
+  $bean = bean_create(array('type' => 'video_reveal'));
+  $bean->label = 'video_reveal';
+  $bean->title = '';
+  $bean->delta = 'video_reveal';
+  $bean->field_video_reveal_url[LANGUAGE_NONE][0]['video_url'] = 'https://www.youtube.com/watch?v=AHNAgyyXiOI';
+  $bean->field_video_reveal_text[LANGUAGE_NONE][0]['value'] = _cu_test_content_grid_titles_dummy_text();
+  $bean->field_video_reveal_text[LANGUAGE_NONE][0]['format'] = 'wysiwyg';
+
+  $file_path = system_retrieve_file('https://unsplash.it/1500/1000?random');
+  $file = (object) array(
+    'uid' => 1,
+    'uri' => $file_path,
+    'filemime' => file_get_mimetype($file_path),
+    'status' => 1,
+  );
+  // You can specify a subdirectory, e.g. public://foo/
+  $file = file_copy($file, 'public://');
+  $bean->field_video_reveal_image[LANGUAGE_NONE][0] = (array) $file;
+  $bean->field_video_reveal_image[LANGUAGE_NONE][0]['alt'] = 'Photo Alt Text';
+
+  $bean->save();
+  $title = $bean->title . '|' . $bean->label;
+  $temp_beans[$bean->bid] = $title;
+  drupal_set_message("Bean $title - $bean->bid created");
+  variable_set('cu_test_content_beans', $temp_beans);
+
+
+}
+
 
 
 
@@ -369,7 +482,7 @@ function _cu_test_content_grid_dummy_text() {
  * Grid Titles Dummy text.
  */
 function _cu_test_content_grid_titles_dummy_text() {
-  $response = drupal_http_request('http://loripsum.net/api/1/long/plaintext');
+  $response = drupal_http_request('http://loripsum.net/api/1/short/plaintext');
   if ($response->code == '200') {
     return $response->data;
   } else {

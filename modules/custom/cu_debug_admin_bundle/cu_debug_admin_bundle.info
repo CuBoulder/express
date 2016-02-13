@@ -1,5 +1,5 @@
 name = CU Debug
-description = Enables/disables modules and configures default settings 
+description = This bundle enables/disables modules and configures default settings.
 core = 7.x
 package = CU-Development
 

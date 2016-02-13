@@ -1,5 +1,5 @@
 name = Events
-description = Simple integration of your campus events calendar feed. Your events feed can be placed anywhere throughout your site.
+description = This bundle allows simple integration of your campus events calendar feed. Your events feed can be placed anywhere throughout your site.
 
 core = 7.x
 package = CU-Events

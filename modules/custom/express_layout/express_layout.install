@@ -44,10 +44,12 @@ function express_layout_install() {
   // add fields to Layout entity
   include 'express_layout.field_bases.inc';
   include 'express_layout.field_instances.inc';
+  include 'express_layout.admin.inc';
 
   $add = TRUE;
   _express_layout_variables($add);
   _express_layout_default_settings();
+  express_attach_layouts();
 }
 
 /**
@@ -91,7 +93,7 @@ function _express_layout_variables($add = TRUE) {
 function _express_layout_default_settings() {
   $settings = array();
   $settings['express_layout_settings_article'] = array(
-    'field_feature_layout_toggle' => 0,
+    'field_feature_layout_toggle' => 'field_feature_layout_toggle',
     'field_feature_title_image' => 0,
     'field_footer' => 'field_footer',
     'field_header' => 'field_header',
@@ -161,7 +163,7 @@ function _express_layout_default_settings() {
     'field_content_bottom' => 0,
   );
   $settings['express_layout_settings_page'] = array(
-    'field_feature_layout_toggle' => 0,
+    'field_feature_layout_toggle' => 'field_feature_layout_toggle',
     'field_feature_title_image' => 0,
     'field_footer' => 'field_footer',
     'field_header' => 'field_header',
@@ -252,7 +254,7 @@ function _express_layout_default_settings() {
   $types = array(
     'article',
     'article_list_page',
-    'faq',
+    'faqs',
     'page',
     'people_list_page',
     'person',
@@ -271,5 +273,11 @@ function _express_layout_default_settings() {
 function express_layout_update_7001() {
   include 'express_layout.field_bases.inc';
   include 'express_layout.field_instances.inc';
+  _express_layout_default_settings();
+}
+/**
+ * Update layout configs.
+ */
+function express_layout_update_7002() {
   _express_layout_default_settings();
 }

@@ -28,6 +28,9 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_slider bean',
     ),
     'administrator' => array(
+      'administer category vocabulary terms',
+      'administer byline vocabulary terms',
+      'administer tags vocabulary terms',
       'create any articles bean',
       'create any article_feature bean',
       'create any article_grid bean',
@@ -56,6 +59,9 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_slider bean',
     ),
     'content_editor' => array(
+      'administer category vocabulary terms',
+      'administer byline vocabulary terms',
+      'administer tags vocabulary terms',
       'create any articles bean',
       'create any article_feature bean',
       'create any article_grid bean',
@@ -84,6 +90,9 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_slider bean',
     ),
     'developer' => array(
+      'administer category vocabulary terms',
+      'administer byline vocabulary terms',
+      'administer tags vocabulary terms',
       'create any articles bean',
       'create any article_feature bean',
       'create any article_grid bean',
@@ -118,6 +127,9 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_slider bean',
     ),
     'site_owner' => array(
+      'administer category vocabulary terms',
+      'administer byline vocabulary terms',
+      'administer tags vocabulary terms',
       'create any articles bean',
       'create any article_feature bean',
       'create any article_grid bean',
@@ -165,29 +177,54 @@ function cu_news_bundle_secure_permissions($role) {
 function cu_news_bundle_express_help($variables) {
 
   $variables['node/add/article'][] = array(
-    'title' => 'Adding Article Help',
-    'short_title' => 'Article',
-    'url' => 'http://www.colorado.edu/webcentral/tutorial/v2/add-article',
+    'title' => 'Article help',
+    'short_title' => 'Article help',
+    'url' => '/tutorial/v2/add-article',
   );
   $variables['node/add/article-list-page'][] = array(
-    'title' => 'Adding Article List Page Help',
+    'title' => 'Article list page help',
     'short_title' => 'Article List Page',
-    'url' => 'http://www.colorado.edu/webcentral/tutorial/v2/add-article-list-page',
+    'url' => '/tutorial/v2/add-article-list-page',
   );
   $variables['block/add/article-grid'][] = array(
-    'title' => 'Adding Article Grid Block Help',
-    'short_title' => 'Article Grid Block',
-    'url' => 'http://www.colorado.edu/webcentral/tutorial/v2/article-grid-block',
+    'title' => 'Article grid block help',
+    'short_title' => 'Article grid block help',
+    'url' => '/node/470',
+  );
+  $variables['block/edit/article-grid'][] = array(
+    'title' => 'Article grid block help',
+    'short_title' => 'Article grid block help',
+    'url' => '/node/470',
   );
   $variables['block/add/articles'][] = array(
-    'title' => 'Adding Article List Block Help',
-    'short_title' => 'Article List Block',
-    'url' => 'http://www.colorado.edu/webcentral/tutorial/v2/article-list-block',
+    'title' => 'Article list block help',
+    'short_title' => 'Article list block help',
+    'url' => '/node/464',
+  );
+  $variables['block/edit/articles'][] = array(
+    'title' => 'Article list block help',
+    'short_title' => 'Article list block help',
+    'url' => '/node/464',
   );
   $variables['block/add/article-slider'][] = array(
-    'title' => 'Adding Article Slider Block Help',
-    'short_title' => 'Article Slider Block',
-    'url' => 'http://www.colorado.edu/webcentral/tutorial/v2/article-slider-block',
+    'title' => 'Article slider block help',
+    'short_title' => 'Article slider block help',
+    'url' => '/node/474',
+  );
+  $variables['block/edit/article-slider'][] = array(
+    'title' => 'Article slider block help',
+    'short_title' => 'Article slider block help',
+    'url' => '/node/474',
+  );
+  $variables['block/add/article-feature'][] = array(
+    'title' => 'Article feature block help',
+    'short_title' => 'Article feature block help',
+    'url' => '/node/742',
+  );
+  $variables['block/edit/article-feature'][] = array(
+    'title' => 'Article feature block help',
+    'short_title' => 'Article feature block help',
+    'url' => '/node/742',
   );
 
   return $variables;
@@ -207,17 +244,17 @@ function cu_news_bundle_express_help_fields($variables) {
     'field_image' => array(
       'title' => 'Adding Images Help',
       'short_title' => 'Images',
-      'url' => 'http://www.colorado.edu/webcentral/tutorial/v2/add-images',
+      'url' => '/tutorial/v2/add-images',
     ),
     'author' => array(
       'title' => 'Change Article Order',
       'short_title' => 'Article Order',
-      'url' => 'http://www.colorado.edu/webcentral/tutorial/v2/change-article-order',
+      'url' => '/tutorial/v2/change-article-order',
     ),
     'field_article_external_url' => array(
       'title' => 'Including External Articles',
       'short_title' => 'External Articles',
-      'url' => 'http://www.colorado.edu/webcentral/tutorial/v2/including-external-articles-your-news-feed',
+      'url' => '/tutorial/v2/including-external-articles-your-news-feed',
     ),
   );
 

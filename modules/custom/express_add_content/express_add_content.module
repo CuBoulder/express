@@ -64,13 +64,14 @@ function express_add_content_bean_bundles() {
   $bundles['social']['types'][] = 'Twitter Block';
 
   $bundles['advanced_content']['title'] = 'Advanced Content';
-  $bundles['advanced_content']['types'][] = 'Block Row';
   $bundles['advanced_content']['types'][] = 'Content Grid';
   $bundles['advanced_content']['types'][] = 'Quicktab';
+  $bundles['advanced_content']['types'][] = 'Video Reveal';
 
   $bundles['advanced_layout']['title'] = 'Advanced Layout';
+  $bundles['advanced_layout']['types'][] = 'Block Row';
   $bundles['advanced_layout']['types'][] = 'Block Section';
-  $bundles['advanced_layout']['types'][] = 'Video Reveal';
+
 
   return $bundles;
 }
@@ -94,7 +95,7 @@ function express_add_content_node_add($vars) {
     foreach ($bundles as $key => $bundle) {
       $output[$key]['title']['#markup'] = '<h2>' . $bundle['title'] . '</h2>';
       $bundle_class = 'bundle-type-' . _express_add_content_string_to_machine($bundle['title']);
-      $output[$key]['#prefix'] = '<div class="express-add-group ' . $bundle_class . '">';
+      $output[$key]['#prefix'] = '<div class="admin-panel express-add-group ' . $bundle_class . '">';
       $output[$key]['#suffix'] = '</div>';
       // Add content types for each bundle
       $types = '';
@@ -199,7 +200,7 @@ function express_add_content_bean_add($vars) {
       $types = '<ul class="admin-list">';
       foreach ($links as $link) {
         $types .= '<li class="clearfix">';
-        $types .= '<span class="label">' . l($link['title'], $links[$type]['href']) . '</span>';
+        $types .= '<span class="label">' . l($link['title'], $link['href']) . '</span>';
         $types .= '<div class="description">' . filter_xss_admin($link['description']) . '</div>';
         $types .= '</li>';
       }

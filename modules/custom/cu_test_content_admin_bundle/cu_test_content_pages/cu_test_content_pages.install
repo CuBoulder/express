@@ -181,7 +181,7 @@ function _cu_test_content_recursive_tree_of_pages($nodes, $menu_name, $plid = 0)
     $node->language = LANGUAGE_NONE;
     if (isset($elem['body']) && isset($elem['image'])) {
       $float = ($style == 'medium') ? 'style="float:right;"' : '';
-      $elem['body'] = '<p><img src="' . $img . '" alt="alt text" ' . $float .' /></p>' . $elem['body'];
+      $elem['body'] = '<p><img class="image-' . $style . '" src="' . $img . '" alt="alt text" ' . $float .' /></p>' . $elem['body'];
     }
     $node->body[$node->language][0]['value'] = $elem['body'];
     $node->body[$node->language][0]['safe_value'] = $elem['body'];

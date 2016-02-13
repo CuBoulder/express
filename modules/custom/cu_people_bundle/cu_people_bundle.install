@@ -4,7 +4,7 @@
  * Implements hook_enable().
  */
 function cu_people_bundle_enable() {
-  secure_permissions_rebuild();
+
 }
 
 /**
