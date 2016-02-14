@@ -243,6 +243,9 @@ function expressbase_preprocess_node(&$vars) {
 
   // Don't print link variables
   unset($vars['content']['links']);
+
+  // Add node title class to node titles
+  $vars['title_attributes_array']['class'][] = 'node-title';
 }
 
 /**
