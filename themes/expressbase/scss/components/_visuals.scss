@@ -10,13 +10,28 @@ hr {
 }
 
 /* Pagers Positioning */
-
+#pager-full {
+  display: none;
+  font-size: 90%;
+}
+#pager-mobile {
+  font-weight: 600;
+  font-size: 75%;
+}
+@media screen and (min-width:768px) {
+  #pager-mobile {
+    display: none;
+  }
+  #pager-full {
+    display: block;
+  }
+}
 .item-list .pager {
   overflow: visible;
   margin: 0;
   margin-bottom: 20px;
   padding: 0;
-  font-size: 90%;
+
   overflow: hidden;
 
   li {
