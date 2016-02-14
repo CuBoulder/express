@@ -375,9 +375,11 @@ h2.block-title { font-size: 160%; font-weight: 200; }
 
 #footer-section h2.block-title { font-size: 110%; font-weight: 500; }
 
-h2.node-title { font-size: 160%; font-weight: 200; }
+h2.node-title { font-size: 130%; font-weight: 200; }
 
 h3 { font-size: 140%; font-weight: 200; }
+
+h3.node-title { font-size: 120%; }
 
 h4 { font-size: 126%; font-weight: 200; }
 
@@ -437,6 +439,8 @@ ol.list-style-roman-upper, ol.list-style-roman-upper > li { list-style: upper-ro
 ol.list-style-roman-lower, ol.list-style-roman-lower > li { list-style: lower-roman; }
 
 p, dl, hr, ol, ul, pre, table, address, fieldset { margin: 0 0 20px 0; }
+
+p:empty { margin: 0; }
 
 dt, .admin h3 { font-weight: 600; margin: 0; }
 

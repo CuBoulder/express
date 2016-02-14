@@ -172,13 +172,16 @@ h2.block-title {
   font-weight: 500;
 }
 h2.node-title {
-  font-size: 160%;
+  font-size: 130%;
   font-weight: 200;
 }
 
 h3 {
   font-size: 140%;
   font-weight: 200;
+}
+h3.node-title {
+  font-size: 120%;
 }
 h4 {
   font-size: 126%;
@@ -338,6 +341,9 @@ ol.list-style-roman-lower, ol.list-style-roman-lower > li {
 // Add margin to bottom of some elements
 p, dl, hr, ol, ul, pre, table, address, fieldset {
   margin: 0 0 20px 0;
+}
+p:empty {
+  margin: 0;
 }
 .content p:last-child {
   //margin-bottom: 0;
