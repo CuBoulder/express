@@ -123,3 +123,11 @@ function express_install() {
   // ignore any other install messages
   drupal_get_messages();
 }
+
+/**
+ * Express 2.0.1 Updates
+ */
+function express_update_7001() {
+  // Registry rebuild due to contrib module updates.
+  registry_rebuild();
+}
