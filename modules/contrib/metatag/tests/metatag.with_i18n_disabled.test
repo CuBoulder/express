@@ -4,14 +4,14 @@
  * Tests for the Metatag module to ensure i18n integration doesn't break.
  */
 
-class MetatagCoreWithI18nOutputTest extends MetatagTestHelper {
+class MetatagCoreWithI18nDisabledTest extends MetatagTestHelper {
   /**
    * {@inheritdoc}
    */
   public static function getInfo() {
     return array(
-      'name' => 'Metatag core tests with i18n: output',
-      'description' => 'Test Metatag integration with the i18n module.',
+      'name' => 'Metatag core tests with i18n disabled',
+      'description' => 'Test Metatag integration with the i18n module enabled but the integration disabled.',
       'group' => 'Metatag',
     );
   }
@@ -38,6 +38,9 @@ class MetatagCoreWithI18nOutputTest extends MetatagTestHelper {
     $this->adminUser = $this->createAdminUser($perms);
     $this->setupLocales();
 
+    // Turn off i18n integration.
+    variable_set('metatag_i18n_disabled', TRUE);
+
     // Reload the translations.
     drupal_flush_all_caches();
     module_load_include('admin.inc', 'i18n_string');
@@ -51,12 +54,12 @@ class MetatagCoreWithI18nOutputTest extends MetatagTestHelper {
     // Plan out the different translation string tests.
     $string_en = 'Welcome to the homepage!';
     $string_fr = 'Bonjour pour le homepage!';
-    $string_context = 'output:frontpage:title';
+    $config_name = 'metatag:frontpage:title';
 
-    $this->searchTranslationPage('', $string_context);
+    $this->searchTranslationPage('', $config_name);
 
     // Confirm the string is not present yet.
-    $this->searchTranslationPage($string_en, $string_context, FALSE);
+    $this->searchTranslationPage($string_en, $config_name, FALSE);
 
     // Load the front page's meta tags.
     $instance = 'global:frontpage';
@@ -73,41 +76,19 @@ class MetatagCoreWithI18nOutputTest extends MetatagTestHelper {
     // Confirm the page's title is what we set it to.
     $this->assertTitle($string_en);
 
-    // Confirm the string is translatable.
-    $this->searchTranslationPage($string_en, $string_context);
+    // Confirm the string is still not translatable.
+    $this->searchTranslationPage($string_en, $config_name, FALSE);
 
     // Get the translation string lid for the front page's title.
-    $lid = $this->getTranslationLidByContext($string_context);
-    $this->assertNotEqual($lid, 0, 'Found the locales_source string for the front page output title tag.');
-
-    // Save the translation string.
-    $this->saveTranslationString($lid, $string_context, 'fr', $string_en, $string_fr);
-
-    // Load the English front page again.
-    $this->drupalGet('');
-    $this->assertResponse(200, 'Loaded the default homepage.');
-
-    // Confirm the page's title is what we set it to.
-    $this->assertTitle($string_en);
+    $lid = $this->getTranslationLidByContext($config_name);
+    $this->assertEqual($lid, 0, 'Did not find a locales_source string for the front page output title tag.');
 
     // Load the French front page.
     $this->drupalGet('fr');
     $this->assertResponse(200, 'Loaded the French homepage.');
 
     // Confirm the page's title is what we set it to.
-    $this->assertTitle($string_fr);
-  }
-
-  public function testMenuPaths() {
-    $paths = metatag_test_menu();
-    $test_string = 'read-more-books-every-day';
-    foreach ($paths as $path => $menu_item) {
-      if (substr($path, -1) == '%') {
-        $path = substr($path, 0, -1) . $test_string;
-      }
-      $this->drupalGet($path);
-      $this->assertResponse(200, 'Loaded a page: ' . $path);
-    }
+    $this->assertTitle($string_en);
   }
 
 }
