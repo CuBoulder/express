@@ -272,7 +272,7 @@ function _user_external_invite_pending_invites_table() {
  */
 function user_external_invite_form($form, &$form_state) {
 
-  drupal_set_title('Invite New User');
+  drupal_set_title(t('Invite New User'));
 
   $rids = variable_get('user_external_invite_roles', NULL);
 
