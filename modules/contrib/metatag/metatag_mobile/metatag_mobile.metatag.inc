@@ -108,7 +108,7 @@ function metatag_mobile_metatag_info() {
 
   $info['tags']['format-detection'] = array(
     'label' => t('Format detection'),
-    'description' => t('If set to "telephone=no" the page will not be checked for phone numbers, which would be presented .'),
+    'description' => t('If set to "telephone=no" the page will not be checked for phone numbers, which would be presented.'),
     'weight' => ++$weight,
   ) + $tag_info_defaults;
 
