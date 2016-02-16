@@ -613,18 +613,6 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: #e0e
 .item-list .pager li.first { -webkit-border-radius: 3px 0 0 3px; -moz-border-radius: 3px 0 0 3px; border-radius: 3px 0 0 3px; -webkit-background-clip: padding-box; -moz-background-clip: padding; background-clip: padding-box; }
 .item-list .pager li.last { -webkit-border-radius: 0 3px 3px 0; -moz-border-radius: 0 3px 3px 0; border-radius: 0 3px 3px 0; -webkit-background-clip: padding-box; -moz-background-clip: padding; background-clip: padding-box; }
 
-table { border: 1px solid #CCC; }
-table thead th, table th { background: #f7f7f7; border-bottom: 1px solid #ccc; color: #333; }
-table thead th a, table th a { text-decoration: none; display: block; }
-table thead th a img, table th a img { margin: 0 0 0 5px; }
-table td, table th { padding: 4px 8px; vertical-align: middle; }
-table th.active { background: #DDD; border-left: 1px solid #CCC; border-right: 1px solid #CCC; }
-table tr.even td { background: #F1F5FA; }
-table tr.even td.active { background: #e5e9ed; }
-table tr.odd td { background: #fff; }
-table tr.odd tr.odd td.active { background: #f2f2f2; }
-table td ul.links { margin-bottom: 0; }
-
 .comment { border: 1px solid #e0e0e0; padding: 20px; margin-bottom: 20px; }
 
 .comment-links { margin-bottom: 0px; }
