@@ -206,6 +206,8 @@ h1#site-name, h2#site-name { font-size: 18px; margin: 0; padding: 0; line-height
 /* Menu Icons - for block menus, not main, secondary, footer menus */
 .menu-icon-text { overflow: hidden; display: block; }
 
+.hide-text { position: absolute !important; clip: rect(1px 1px 1px 1px); /* IE6, IE7 */ clip: rect(1px, 1px, 1px, 1px); }
+
 a.menu__link { display: block; overflow: hidden; }
 a.menu__link i.fa { float: left; margin-right: 5px; margin-top: 3px; font-size: 120%; }
 
@@ -610,18 +612,6 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: #e0e
 .item-list .pager li.pager-current { background-color: #007bc8; border: 1px solid #007bc8; color: #fff; }
 .item-list .pager li.first { -webkit-border-radius: 3px 0 0 3px; -moz-border-radius: 3px 0 0 3px; border-radius: 3px 0 0 3px; -webkit-background-clip: padding-box; -moz-background-clip: padding; background-clip: padding-box; }
 .item-list .pager li.last { -webkit-border-radius: 0 3px 3px 0; -moz-border-radius: 0 3px 3px 0; border-radius: 0 3px 3px 0; -webkit-background-clip: padding-box; -moz-background-clip: padding; background-clip: padding-box; }
-
-table { border: 1px solid #CCC; }
-table thead th, table th { background: #f7f7f7; border-bottom: 1px solid #ccc; color: #333; }
-table thead th a, table th a { text-decoration: none; display: block; }
-table thead th a img, table th a img { margin: 0 0 0 5px; }
-table td, table th { padding: 4px 8px; vertical-align: middle; }
-table th.active { background: #DDD; border-left: 1px solid #CCC; border-right: 1px solid #CCC; }
-table tr.even td { background: #F1F5FA; }
-table tr.even td.active { background: #e5e9ed; }
-table tr.odd td { background: #fff; }
-table tr.odd tr.odd td.active { background: #f2f2f2; }
-table td ul.links { margin-bottom: 0; }
 
 .comment { border: 1px solid #e0e0e0; padding: 20px; margin-bottom: 20px; }
 
