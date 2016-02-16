@@ -37,7 +37,7 @@ ul#action-menu a { line-height: 20px; margin: 20px 0 20px 10px; }
 
 .page-title-breadcrumbs { background-color: #fff; }
 
-#content-wrapper, #after-content-wrapper { background-color: #fff; }
+#content-wrapper, #post-wide-wrapper, #after-content-wrapper { background-color: #fff; }
 
 #after-content2-wrapper { background-color: #fafafa; border-top: 1px solid #f7f7f7; padding: 40px 0 20px; }
 
