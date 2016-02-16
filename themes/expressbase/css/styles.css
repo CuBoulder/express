@@ -204,6 +204,8 @@ h1#site-name, h2#site-name { font-size: 18px; margin: 0; padding: 0; line-height
 #navigation .links a, #navigation .menu a { display: inline-block; padding: 0 12px; line-height: 40px; }
 
 /* Menu Icons - for block menus, not main, secondary, footer menus */
+.menu-icon-text { overflow: hidden; display: block; }
+
 .hide-text { position: absolute !important; clip: rect(1px 1px 1px 1px); /* IE6, IE7 */ clip: rect(1px, 1px, 1px, 1px); }
 
 a.menu__link { display: block; overflow: hidden; }
