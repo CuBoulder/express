@@ -230,11 +230,11 @@ function cu_core_revert_features($features = NULL) {
 
   foreach ($features as $feature) {
     // check against features that currently can't be reverted
-    $protexted_features = array(
+    $protected_features = array(
       'cu_home_page',
       'cu_sitewide',
     );
-    if (!in_array($feature, $protexted_features)) {
+    if (!in_array($feature, $protected_features)) {
       $f = features_get_features($feature);
       $components = array_keys($f->info['features']);
       features_revert(array($feature => $components));
