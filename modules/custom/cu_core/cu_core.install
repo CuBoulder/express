@@ -139,6 +139,8 @@ websupport@colorado.edu');
 You can now .+configure the CAPTCHA module.+ for your site.
 Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
 
+  // Set old URL aliases to be kept after updating an alias.
+  variable_set('pathauto_update_action', PATHAUTO_UPDATE_ACTION_LEAVE);
 }
 
 /**
@@ -164,4 +166,12 @@ function cu_core_update_7001() {
   variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .+
 You can now .+configure the CAPTCHA module.+ for your site.
 Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
+}
+
+/**
+ * Variable sets for Express 2.0.1.
+ */
+function cu_core_update_7002() {
+  // Set old URL aliases to be kept after updating an alias.
+  variable_set('pathauto_update_action', PATHAUTO_UPDATE_ACTION_LEAVE);
 }
