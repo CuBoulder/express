@@ -186,7 +186,7 @@ function people_content_type_field_group_info() {
       'instance_settings' => array(
         'required_fields' => 1,
         'classes' => 'group-people-list-filter field-group-fieldset',
-        'description' => 'Customize which people are listed on the page.',
+        'description' => 'Customize which people are listed on the page. In order for filter values to show up they must be added during the creation or editing of a person.',
       ),
       'formatter' => 'collapsed',
     ),

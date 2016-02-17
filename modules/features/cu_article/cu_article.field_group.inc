@@ -407,7 +407,7 @@ function cu_article_field_group_info() {
       'instance_settings' => array(
         'required_fields' => 1,
         'classes' => 'group-taxonomy-filters field-group-fieldset',
-        'description' => '',
+        'description' => 'Choose which articles you want to appear in the list. Categories and tags must be added when creating or editing an article for them to show up here.',
       ),
       'formatter' => 'collapsed',
     ),
