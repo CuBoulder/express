@@ -172,12 +172,17 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
  */
 function cu_core_update_7003() {
 
+  module_disable(array(
+    'cu_custom_logo',
+  ));
+
   // Uninstall unused modules.
   drupal_uninstall_modules(array(
     'cu_block_selector',
     'cu_cache',
     'cu_transition_express',
     'overlay',
+    'cu_custom_logo',
   ));
 
   // Uninstall modules that had dependencies on modules above.
