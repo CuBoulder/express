@@ -194,7 +194,6 @@ dependencies[] = metatag
 dependencies[] = transliteration
 dependencies[] = vppr
 dependencies[] = content_menu
-dependencies[] = grid_images
 dependencies[] = cu_back_to_top
 dependencies[] = cu_give_buttons
 dependencies[] = cu_font_awesome

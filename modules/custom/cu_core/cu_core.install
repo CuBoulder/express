@@ -165,3 +165,18 @@ function cu_core_update_7001() {
 You can now .+configure the CAPTCHA module.+ for your site.
 Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
 }
+
+/**
+ * Updates for Express 2.0.1.
+ */
+function cu_core_update_7002() {
+  //Disable grid_images module.
+  module_disable(array('grid_images'));
+
+  // Uninstall grid_images module.
+  drupal_uninstall_modules(array('grid_images'));
+
+  //do at the end of every update
+  module_load_include('inc', 'cu_inventory');
+  cu_inventory_process_profile_version('2.0.1');
+}
