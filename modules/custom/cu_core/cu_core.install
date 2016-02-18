@@ -177,6 +177,7 @@ function cu_core_update_7003() {
     'cu_block_selector',
     'cu_cache',
     'cu_transition_express',
+    'overlay',
   ));
 
   // Uninstall modules that had dependencies on modules above.
