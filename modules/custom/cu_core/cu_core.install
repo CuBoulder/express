@@ -165,3 +165,11 @@ function cu_core_update_7001() {
 You can now .+configure the CAPTCHA module.+ for your site.
 Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
 }
+
+
+/**
+ * Updates for Express 2.0.2.
+ */
+function cu_core_update_7003() {
+
+}
