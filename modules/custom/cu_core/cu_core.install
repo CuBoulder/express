@@ -172,4 +172,8 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
  */
 function cu_core_update_7003() {
 
+  // Uninstall unused modules.
+  drupal_uninstall_modules(array(
+    'cu_block_selector',
+  ));
 }
