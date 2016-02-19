@@ -1,174 +1,510 @@
 <?php
 
 /**
- * Implements hook_libraries_info().
- *
- * Informs libraries module about backstretch.
+ * @file
+ * Main file for Backstretch Formatter module.
  */
-function backstretch_libraries_info() {
-  $libraries['backstretch'] = array(
-    'name' => 'Backstretch',
-    'vendor url' => 'http://srobbin.com/blog/jquery-plugins/jquery-backstretch/',
-    'download url' => 'https://nodeload.github.com/srobbin/jquery-backstretch/zipball/1.2.5',
-    'version arguments' => array(
-      'file' => 'jquery.backstretch.js',
-      // Version 1.2.5
-      'pattern' => '/Version ([\d\.]+)/',
-      'lines' => 5,
-    ),
-    'files' => array(
-      'js' => array('jquery.backstretch.js'),
-    ),
-  );
-  $libraries['scrollto'] = array(
-    'name' => 'ScrollTo',
-    'vener url' => 'http://flesler.blogspot.com/2007/10/jqueryscrollto.html',
-    'download url' => 'http://flesler-plugins.googlecode.com/files/jquery.scrollTo-1.4.2.zip',
-    'version arguments' => array(
-      'file' => 'jquery.scrollTo.js',
-      //@version 1.4.2
-      'pattern' => '/@version ([\d\.]+)/',
-      'lines' => 25,
-    ),
-    'files' => array(
-      'js' => array('jquery.scrollTo-min.js'),
-    ),
-  );
-  $libraries['waypoints'] = array(
-    'name' => 'Waypoints',
-    'vener url' => 'http://imakewebthings.com/jquery-waypoints/',
-    'download url' => 'https://github.com/imakewebthings/jquery-waypoints/zipball/v1.1.6',
-    'version arguments' => array(
-      'file' => 'waypoints.js',
-      'pattern' => '/v([\d\.]+)/',
-      'lines' => 5,
-    ),
-    'files' => array(
-      'js' => array('waypoints.min.js'),
-    ),
-  );
-  return $libraries;
-}
-
 
 /**
- * Implements hook_menu().
+ * Maximal delta when using 'unlimited' as field cardinality.
  */
-function backstretch_menu() {
-  $items['admin/appearance/backstretch'] = array(
-    'title' => 'Backstretch',
-    'description' =>  'Configure backstretch background photo.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('backstretch_admin_settings'),
-    'file' => 'backstretch.admin.inc',
-    'access arguments' => array('administer backstretch'),
-    'type' => MENU_LOCAL_TASK,
-  );
-  return $items;
+define('BACKSTRETCH_MAX_DELTA', '10');
+
+// Include context integration if Context module exists.
+if (module_exists('context')) {
+  module_load_include('inc', 'backstretch', 'backstretch.context');
 }
 
 /**
- * Implements hook_page_alter().
- *
- * Loads the backstretch library and adds stretched image to page.
+ * Implements hook_field_formatter_info().
  */
-function backstretch_page_alter(&$page) {
-  if (($library = libraries_load('backstretch')) && !empty($library['loaded'])) {
-    
-    drupal_add_css(drupal_get_path('module', 'backstretch') . '/backstretch.css');
-
-    if (module_exists('context')) { 
-      if ($plugin = context_get_plugin('reaction', 'backstretch')) {
-        $plugin->execute();
-      }
-    }
-
-    if ($url = variable_get('backstretch_image_url', '') || $plugin) {
-      $settings = array(
-        'backstretchURL' => variable_get('backstretch_image_url', ''),
-        'backstretchMinWidth' => variable_get('backstretch_min_width', 0),
-      );
-
-      if (variable_get('backstretch_scroller', FALSE)) {
-        $settings['backstretchScroller'] = TRUE;
-        $settings['backstretchScrollerAdj'] = variable_get('backstretch_scroller_adjustment', 0);
-      } 
-      drupal_add_js($settings, 'setting');
-      drupal_add_js(drupal_get_path('module', 'backstretch') .'/bs.js', array('scope' => 'footer'));
-    } 
-  }
-  
-  if (variable_get('backstretch_scrollto', FALSE)) {
-    $waypoints = libraries_load('waypoints');
-    $scrollto = libraries_load('scrollto');
-     
-    if (!empty($waypoints['loaded']) && !empty($scrollto['loaded'])) {
-      // Enable ScrollTo.
-      $settings['backstretchScrollTo'] = TRUE;
-      drupal_add_js($settings, 'setting');
-
-      // Add footer link.
-      $page['page_bottom']['scrollto'] = array(
-        '#theme' => 'links',
-        '#attributes' => array(
-          'class' => array(
-            'footer-links',
-            'links',
-          ),
-        ),
-        '#links' => array(
-          array(
-            'title' => t('View Photo'),
-            'href' => '<front>',
-            'attributes' => array(
-              'id' => 'backstretch-scrollto',
-            ),
-            'fragment' => 'backstretchmargin',
-          ),
-        ),
-      );
-    }
-  }
-}
-
-/**
- * Implements hook_permission().
- */
-function backstretch_permission() {
+function backstretch_field_formatter_info() {
   return array(
-    'administer backstretch' => array(
-      'title' => t('Administer backstretch'),
-      'description' => t('Administer the backstretch background image.'),
-    ),
-  );
-}
-
-/**
- * Implements hook_context_registry().
- */
-function backstretch_context_registry() {
-  return array(
-    'reactions' => array(
-      'backstretch' => array(
-        'title' => t('Backstretch'),
-        'plugin' => 'backstretch',
+    'backstretch' => array(
+      'label' => t('Backstretch'),
+      'field types' => array('image', 'entityreference'),
+      'settings' => array(
+        'field' => '',
+        'image_style' => '',
+        'element' => '',
+        'element_other' => '',
+        'duration' => 5000,
+        'fade' => 0,
+        'delta' => '',
+        'center_x' => TRUE,
+        'center_y' => TRUE,
+        'random' => FALSE,
       ),
     ),
   );
 }
 
 /**
- * Implmenets hook_context_plugins().
+ * Implements hook_field_formatter_settings_form().
  */
-function backstretch_context_plugins() {
-  $plugins = array();
-  $plugins['backstretch'] = array(
-    'handler' => array(
-      'path' => drupal_get_path('module', 'backstretch') . '/plugins',
-      'file' => 'backstretch_context_reaction_backstretch.inc',
-      'class' => 'backstretch_context_reaction_backstretch',
-      'parent' => 'context_reaction',
+function backstretch_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  // This gets the view mode where the settings are stored.
+  $display = $instance['display'][$view_mode];
+  // This gets the settings.
+  $settings = $display['settings'];
+
+  $element = array();
+
+  if ($field['type'] == 'entityreference') {
+    $entity_type = $field['settings']['target_type'];
+    $bundles = isset($field['settings']['handler_settings']['target_bundles']) ? $field['settings']['handler_settings']['target_bundles'] : NULL;
+
+    $instances = array();
+    $fields = array();
+
+    if (is_array($bundles)) {
+      foreach (array_keys($bundles) as $bundle_name) {
+        $fields_info = field_info_instances($entity_type, $bundle_name);
+        foreach ($fields_info as $field_name => &$value) {
+          $field_info = field_info_field($field_name);
+          $value['type'] = $field_info['type'];
+          // Remove non image fields.
+          if ($value['type'] != 'image') {
+            unset($value);
+            continue;
+          }
+          $fields[$field_name] = $value['label'] . ' (' . $field_name . ')';
+        }
+      }
+    }
+    else {
+      $fields_info = field_info_instances($entity_type);
+      foreach ($fields_info as $bundle_name => $field) {
+        foreach ($field as $field_name => &$value) {
+          $field_info = field_info_field($field_name);
+          $value['type'] = $field_info['type'];
+          // Remove non image fields.
+          if ($value['type'] != 'image') {
+            unset($value);
+            continue;
+          }
+          $fields[$field_name] = $value['label'] . ' (' . $field_name . ')';
+        }
+      }
+    }
+
+    // Display all image fields in a select list.
+    if (count($fields) > 1) {
+      $element['field'] = array(
+        '#title' => t('Image field'),
+        '#type' => 'select',
+        '#required' => TRUE,
+        '#default_value' => $settings['field'],
+        '#options' => $fields,
+        '#description' => t('Select the image field which should be used for Backstretch.'),
+      );
+    }
+    // Use the only available image field.
+    elseif (count($fields)) {
+      $field = array_keys($fields);
+      $field = reset($field);
+
+      $element['field_info'] = array(
+        '#markup' => '<div class="form-item"><label>' . t('Image field') . '</label><div>' . t('Using: %name', array('%name' => $field)) . '</div></div>',
+      );
+
+      $element['field'] = array(
+        '#type' => 'value',
+        '#value' => $field,
+      );
+    }
+    // Display an error when no image fields are available.
+    else {
+      drupal_set_message(t('There is no image field in @entity_type.', array('@entity_type' => $entity_type)), 'error');
+      return array();
+    }
+  }
+
+  $image_styles = image_style_options(FALSE);
+  $element['image_style'] = array(
+    '#title' => t('Image style'),
+    '#type' => 'select',
+    '#default_value' => $settings['image_style'],
+    '#options' => $image_styles,
+    '#empty_option' => t('None (original image)'),
+    '#description' => t('Image style for the images.'),
+  );
+
+  $element['element'] = array(
+    '#type' => 'select',
+    '#title' => t('Attach to'),
+    '#default_value' => $settings['element'],
+    '#options' => array(
+      'other' => t('Other element'),
+    ),
+    '#empty_option' => t('Whole page'),
+    '#description' => t('Where the Backstretch should be attached to.'),
+  );
+
+  $element['element_other'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Other element'),
+    '#default_value' => $settings['element_other'],
+    '#description' => t('Enter the CSS selector for the element.'),
+    '#states' => array(
+      'visible' => array(
+        ':input[name$="[element]"]' => array('value' => 'other'),
+      ),
     ),
   );
-  return $plugins;
+
+  $element['tokens'] = array(
+    '#type' => 'container',
+    '#theme' => 'token_tree',
+    '#token_types' => array($instance['entity_type']),
+    '#dialog' => TRUE,
+    '#states' => array(
+      'visible' => array(
+        ':input[name$="[element]"]' => array('value' => 'other'),
+      ),
+    ),
+  );
+
+  $element['duration'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Duration'),
+    '#default_value' => $settings['duration'],
+    '#description' => t('Amount of time in between slides.'),
+    '#size' => 10,
+    '#field_suffix' => 'ms',
+    '#element_validate' => array('element_validate_integer_positive'),
+  );
+
+  // Disable duration setting if it is a one value field.
+  if ($field['cardinality'] == '1') {
+    $element['duration']['#disabled'] = TRUE;
+    $element['duration']['#description'] = '<strong>' . t('Duration setting is only allowed for multi value fields.') . '</strong>';
+  }
+
+  $element['fade'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Fade'),
+    '#default_value' => $settings['fade'],
+    '#description' => t('Speed of fade transition between slides.'),
+    '#size' => 10,
+    '#field_suffix' => 'ms',
+    '#element_validate' => array('backstretch_element_validate_duration'),
+  );
+
+  // Make cardinality setting only available for multiple value field.
+  if ($field['cardinality'] != '1') {
+    $element['delta'] = array(
+      '#type' => 'select',
+      '#title' => t('Which image should be displayed?'),
+      '#default_value' => $settings['delta'],
+      '#options' => ($field['cardinality'] != FIELD_CARDINALITY_UNLIMITED) ? drupal_map_assoc(range(1, $field['cardinality'])) : drupal_map_assoc(range(1, BACKSTRETCH_MAX_DELTA)),
+      '#empty_option' => t('All images'),
+    );
+  }
+
+  $element['center_x'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Horizontal centered'),
+    '#default_value' => $settings['center_x'],
+    '#description' => t('Should we center the image on the X axis?'),
+  );
+
+  $element['center_y'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Vertically centered'),
+    '#default_value' => $settings['center_y'],
+    '#description' => t('Should we center the image on the Y axis?'),
+  );
+
+  $element['random'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Random'),
+    '#default_value' => $settings['random'],
+    '#description' => t('Check when a random image should be displayed instead of a slideshow.'),
+    '#access' => $field['cardinality'] != 1,
+  );
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function backstretch_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+
+  $options_info = backstretch_formatter_options();
+  $options = array();
+
+  foreach ($settings as $name => $value) {
+    if (array_key_exists($name, $options_info)) {
+      $option = $options_info[$name];
+      $label = $option['label'];
+      $suffix = isset($option['suffix']) ? $option['suffix'] : '';
+      $type = isset($option['type']) ? $option['type'] : '';
+
+      // We need some special handling with the element setting.
+      if ($name == 'element') {
+        continue;
+      }
+      if ($name == 'element_other') {
+        $value = ($settings['element'] == '') ? t('Whole page') : $value;
+      }
+      if ($name == 'image_style' && $value == '') {
+        continue;
+      }
+      if ($name == 'duration' || $name == 'fade') {
+        $value .= ' ms';
+      }
+      if ($name == 'delta' && $value == '') {
+        continue;
+      }
+      if ($name == 'delta') {
+        switch ($value) {
+          case '1':
+            $suffix = 'st';
+            break;
+
+          case '2':
+            $suffix = 'nd';
+            break;
+
+          case '3':
+            $suffix = 'rd';
+            break;
+
+          default:
+            $suffix = 'th';
+            break;
+        }
+      }
+      // Display just the label when the setting is a boolean.
+      if ($type != 'bool') {
+        $options[$name] = $label . ': ' . $value . $suffix;
+      }
+      else {
+        $options[$name] = $label . $suffix;
+      }
+    }
+  }
+
+  // Remove slideshow specific settings when only one image is allowed.
+  if ($field['cardinality'] == '1') {
+    unset($options['duration'], $options['delta']);
+  }
+
+  // Remove image field setting when field type is not entityreference.
+  if ($field['type'] != 'entityreference') {
+    unset($options['field']);
+  }
+
+  $summary = '<h3>jQuery Backstretch</h3>';
+  $summary .= theme('item_list', array('items' => $options));
+
+  return $summary;
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function backstretch_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  if (!count($items)) {
+    return '';
+  }
+
+  // This is where the output will be.
+  $element = array();
+  // Store the field formatter settings.
+  $settings = $display['settings'];
+
+  // We store the default values from Backstretch formatter here.
+  $formatters = backstretch_field_formatter_info();
+  $default = $formatters['backstretch']['settings'];
+
+  // We need the js variable name.
+  $options_info = backstretch_formatter_options();
+  // Here we store all options later.
+  $options = array();
+
+  foreach ($settings as $name => $value) {
+    if (array_key_exists($name, $options_info)) {
+      $option = $options_info[$name];
+      $js = isset($option['js']) ? $option['js'] : '';
+
+      // We need some special handling with the element settings.
+      if ($name == 'element' || ($name == 'element_other' && $settings['element'] == '')) {
+        continue;
+      }
+
+      // Replace tokens in the "Other element" field.
+      if ($name == 'element_other') {
+        $value = token_replace($value, array($entity_type => $entity));
+      }
+
+      // We only put the setting into $options when it is
+      // not the default value.
+      if ($value != $default[$name] && $js) {
+        $options[$js] = $value;
+      }
+
+      // The fade option has to be an integer otherwise it doesn't work.
+      if ($name == 'fade' && $value != $default[$name] && is_numeric($value) && intval($value) == $value) {
+        $options[$name] = (int) $options[$name];
+      }
+    }
+  }
+
+  // We need the entity id here because there could be multiple images with
+  // Backstretch.
+  $ids = entity_extract_ids($entity_type, $entity);
+  $id = drupal_clean_css_identifier($entity_type . '-' . $ids[0]);
+
+  if ($settings['random']) {
+    $random_key = array_rand($items);
+    $items = array($items[$random_key]);
+  }
+
+  // Special handling for entity reference fields.
+  if ($field['type'] == 'entityreference') {
+    // Store the set entity type.
+    $target_entity_type = $field['settings']['target_type'];
+
+    // We store all images from referenced entities here temporary.
+    $new_items = array();
+
+    // Iterate all entity references.
+    foreach ($items as $item) {
+      $target_id = $item['target_id'];
+      $target_entity = entity_load($target_entity_type, array($target_id));
+      $target_entity = $target_entity[$target_id];
+      // The image field values are here.
+      $target_items = field_get_items($target_entity_type, $target_entity, $settings['field']);
+
+      // Iterate and put them into temporary array.
+      foreach ($target_items as $target_item) {
+        $new_items[] = $target_item;
+      }
+    }
+
+    // Finally put collected items in real items array.
+    $items = $new_items;
+  }
+
+  // If a delta was set we only use that one image.
+  if ($settings['delta']) {
+    $key = $settings['delta'] - 1;
+    if (array_key_exists($key, $items)) {
+      $items = array($items[$key]);
+    }
+  }
+
+  // Iterate all items and store the absolute url to it.
+  foreach ($items as &$item) {
+    $uri = $item['uri'];
+    // Get url to image.
+    if ($settings['image_style']) {
+      $url = image_style_url($settings['image_style'], $uri);
+    }
+    else {
+      $url = file_create_url($uri);
+    }
+    $options['items'][] = $url;
+  }
+
+  // Prepare a renderable array.
+  $element[0] = array(
+    '#theme' => 'backstretch',
+    '#id' => $id,
+    '#options' => $options,
+  );
+
+  return $element;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function backstretch_theme() {
+  return array(
+    'backstretch' => array(
+      'variables' => array('id' => 0, 'options' => array()),
+    ),
+  );
+}
+
+/**
+ * Theme function for a Backstretch.
+ */
+function theme_backstretch($variables) {
+  // Normalize the variables.
+  $id = $variables['id'];
+  $options = $variables['options'];
+
+  drupal_add_js(drupal_get_path('module', 'backstretch') . '/js/jquery.backstretch.min.js');
+  drupal_add_js(drupal_get_path('module', 'backstretch') . '/js/backstretch.js');
+  drupal_add_js(array('backstretch' => array($id => $options)), 'setting');
+
+  return '';
+}
+
+/**
+ * Helper function which returns the options.
+ *
+ * @return array
+ *   An array which contains the options.
+ *   Every item has a label and their Javascript name.
+ *   Optionally with a suffix which will be append to the value in summary.
+ */
+function backstretch_formatter_options() {
+  return array(
+    'field' => array(
+      'label' => t('Image field'),
+    ),
+    'image_style' => array(
+      'label' => t('Image style'),
+      'js' => '',
+    ),
+    'element_other' => array(
+      'label' => t('Attach to'),
+      'js' => 'selector',
+    ),
+    'duration' => array(
+      'label' => t('Time between slides'),
+      'js' => 'duration',
+      'suffix' => 'ms',
+    ),
+    'fade' => array(
+      'label' => t('Fade speed'),
+      'js' => 'fade',
+    ),
+    'delta' => array(
+      'label' => t('Image to show'),
+    ),
+    'center_x' => array(
+      'label' => t('Horizontally centerd'),
+      'js' => 'centeredX',
+      'type' => 'bool',
+    ),
+    'center_y' => array(
+      'label' => t('Vertically centered'),
+      'js' => 'centeredY',
+      'type' => 'bool',
+    ),
+    'random' => array(
+      'label' => t('Random'),
+      'type' => 'bool',
+    ),
+  );
+}
+
+/**
+ * Form element validation handler for elements that must be a duration.
+ */
+function backstretch_element_validate_duration($element, &$form_state) {
+  $value = $element['#value'];
+  // A duration can be an integer or a string like 'slow' or 'fast'.
+  if ($value !== '' && !is_numeric($value) && intval($value) == $value && $value >= 0) {
+    form_error($element, t('%name must be an integer.', array('%name' => $element['#title'])));
+  }
 }

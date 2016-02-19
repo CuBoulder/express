@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Contains install and update functions for Backstretch module.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function backstretch_enable() {
+  // Clear Context's cache so we can see the reaction immediately.
+  if (module_exists('context')) {
+    context_invalidate_cache();
+  }
+}
