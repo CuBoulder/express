@@ -145,6 +145,15 @@ function express_layout_permission() {
  * Create layout entity each time a node is created.
  */
 function express_layout_node_insert($node) {
+  // Restrict content types that don't need layouts.
+  $restricted_node_types = array(
+    'file',
+  );
+
+  if (in_array($node->type, $restricted_node_types)) {
+    return;
+  }
+
   $nid = $node->nid;
 
   $values = array(
@@ -663,10 +672,10 @@ function express_layout_preprocess_node(&$vars) {
   }
 }
 
-/*
- * Implements hook_secure_permissions
+/**
+ * Implements hook_secure_permissions().
  *
- * Adding permissions for express layouts
+ * Adding permissions for express layouts.
  */
 function express_layout_secure_permissions($role) {
   $permissions = array(
