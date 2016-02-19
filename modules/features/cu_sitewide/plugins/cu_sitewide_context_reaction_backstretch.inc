@@ -5,29 +5,30 @@
  * Backstretch reaction class for Context integration.
  */
 
-class backstretch_context_reaction_backstretch extends context_reaction {
+class cu_sitewide_context_reaction_backstretch extends context_reaction {
   function options_form($context) {
     // Fetching saved values.
     $values = $this->fetch_from_context($context);
     $form = array();
 
+    /*
     $form['source'] = array(
       '#type' => 'fieldset',
       '#title' => t('Source'),
     );
+    */
 
     $sources = array(
-      'entity' => t('Entity'),
+      //'entity' => t('Entity'),
       'path' => t('Path'),
     );
 
     $form['source']['type'] = array(
-      '#type' => 'select',
-      '#title' => t('Type'),
-      '#options' => $sources,
-      '#default_value' => isset($values['source']) ? $values['source'] : '',
+      '#type' => 'hidden',
+      '#value' => 'path',
     );
 
+    /*
     // Getting all entity types.
     $entities = entity_get_info();
     $entity_types = array();
@@ -152,22 +153,15 @@ class backstretch_context_reaction_backstretch extends context_reaction {
       ),
       // @TODO: Add element_validate for comma seperated IDs.
     );
+    */
 
     $form['source']['path'] = array(
-      '#type' => 'textarea',
-      '#title' => t('Path'),
+      '#type' => 'textfield',
+      '#title' => t('Backstretch URL'),
+      '#size' => 90,
       '#default_value' => isset($values['source']['path']) ? $values['source']['path'] : '',
-      '#description' => t('Enter one path per line. It can be relative to Drupal root or absolute.'),
-      '#states' => array(
-        'visible' => array(
-          ':input[name$="[backstretch][source][type]"]' => array('value' => 'path'),
-        ),
-        'required' => array(
-          ':input[name$="[backstretch][source][type]"]' => array('value' => 'path'),
-        ),
-      ),
     );
-
+    /*
     $image_styles = image_style_options(FALSE);
     $form['image_style'] = array(
       '#title' => t('Image style'),
@@ -218,6 +212,7 @@ class backstretch_context_reaction_backstretch extends context_reaction {
       ),
     );*/
 
+    /*
     $form['duration'] = array(
       '#type' => 'textfield',
       '#title' => t('Duration'),
@@ -258,6 +253,7 @@ class backstretch_context_reaction_backstretch extends context_reaction {
       '#default_value' => isset($values['random']) ? $values['random'] : FALSE,
       '#description' => t('Check when a random image should be displayed instead of a slideshow.'),
     );
+    */
 
     return $form;
   }

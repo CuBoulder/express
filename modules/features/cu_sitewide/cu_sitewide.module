@@ -164,3 +164,37 @@ function cu_sitewide_form_alter(&$form, &$form_state, $form_id) {
       break;
   }
 }
+
+/**
+ * Implements hook_context_registry_alter().
+ *
+ * Change Backstretch reaction to alter form output.
+ *
+ * @param $registry
+ *   The registry, passed by reference.
+ */
+function cu_sitewide_context_registry_alter(&$registry) {
+  if (isset($registry['reactions']['backstretch'])) {
+    $registry['reactions']['backstretch']['plugin'] = 'cu_sitewide_backstretch_reaction';
+  }
+}
+
+/**
+ * Implements hook_context_plugins().
+ *
+ * Add reaction to alter Backstretch reaction form on Context UI page.
+ */
+function cu_sitewide_context_plugins() {
+  $plugins = array();
+
+  $plugins['cu_sitewide_backstretch_reaction'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'cu_sitewide') . '/plugins',
+      'file' => 'cu_sitewide_context_reaction_backstretch.inc',
+      'class' => 'cu_sitewide_context_reaction_backstretch',
+      'parent' => 'context_reaction',
+    ),
+  );
+
+  return $plugins;
+}
