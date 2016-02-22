@@ -486,6 +486,7 @@ function cu_article_preprocess_node(&$vars) {
   if ($vars['node']->type == 'article') {
     // Load global article settings
     $settings = variable_get('cu_article_global_settings', '');
+    $global_date_display = isset($settings['date_display']) ? $settings['date_display'] : 'custom';
 
     // Add article metadata element. Other modules can add to this.
     $vars['content']['article_meta']['#prefix'] = '<div class="article-meta-wrapper"><div class="article-meta">';
@@ -498,7 +499,7 @@ function cu_article_preprocess_node(&$vars) {
     // Show/hide publish date
     $article_date_settings = !empty($vars['node']->field_article_date_display) ? $vars['node']->field_article_date_display[LANGUAGE_NONE][0]['value'] : NULL;
     if (
-      ($article_date_settings == 'hide' || $settings['date_display'] == 'hide') && $settings['date_display'] != 'show'
+      ($article_date_settings == 'hide' || $global_date_display == 'hide') && $global_date_display != 'show'
     ) {
       unset($vars['author_meta']['date']);
     }
