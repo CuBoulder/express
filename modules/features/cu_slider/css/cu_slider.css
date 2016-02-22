@@ -48,6 +48,7 @@
 .cu-slider-caption { font-weight: 900; font-size: 100%; }
 
 .cu-slider-teaser { font-size: 75%; }
+.cu-slider-teaser p:last-child { margin: 0; }
 
 @media screen and (min-width: 768px) { .cu-slider-caption { font-size: 130%; }
   .cu-slider-teaser { font-size: 100%; } }
