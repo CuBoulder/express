@@ -158,10 +158,12 @@ function cu_inventory_stats_empty_site_stats() {
     // Add report of overridden features.
     $site_data['statistics']['overriden_features'] = _get_features_statuses();
 
-    // Add Identikeys
+    // Add Identikeys.
     $users = entity_load('user');
     foreach ($users as $user) {
-      $site_data['statistics']['user Identikeys'][] = $user->name;
+      foreach ($user->roles as $role) {
+        $site_data['statistics']['user_identikeys'][$role][] = $user->name;
+      }
     }
 
     // Last, add the wrapper array. This adds a wrapper Python list which allows
