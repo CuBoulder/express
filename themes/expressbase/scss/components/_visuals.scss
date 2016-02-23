@@ -469,3 +469,9 @@ a .icon-color-gray {
 .feature-layout-title-image-overlay {
   @include gradient($color: rgba(0,0,0,0), $color2: rgba(0,0,0,.85));
 }
+
+/* Colorbox */
+
+#cboxTitle {
+  font-size: 11px;
+}
