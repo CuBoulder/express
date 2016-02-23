@@ -218,6 +218,10 @@ function express_attach_layouts() {
  * Migrate function to create layouts for each node.
  */
 function express_layout_create_layout($node) {
+  // Restrict content types that don't need layouts.
+  if (in_array($node->type, variable_get('express_layout_node_type_ignore', array()))) {
+    return;
+  }
   $nid = $node->nid;
   if (!entity_load_single('express_layout', $nid)) {
     $values = array(
@@ -290,4 +294,22 @@ function _express_layout_region_diagram() {
   }
 </style>';
   return $html;
+}
+
+/**
+ * Form callback for advanced settings.
+ */
+function express_layout_advanced_configuration_form() {
+  $form = array();
+
+  $node_types = node_type_get_names();
+  $form['express_layout_node_type_ignore_text'] = array(
+    '#markup' => 'Exclude the content types that don\'t need layout entites.',
+  );
+  $form['express_layout_node_type_ignore'] = array(
+    '#type' => 'checkboxes',
+    '#options' => $node_types,
+    '#default_value' => variable_get('express_layout_node_type_ignore', array()),
+  );
+  return system_settings_form($form);
 }
