@@ -1,0 +1,90 @@
+language: php
+php:
+  - '5.3'
+
+mysql:
+  database: drupal
+  username: root
+  encoding: utf8
+
+sudo: required
+
+install:
+  - sudo apt-get update > /dev/null
+  - "mysql -e 'create database drupal;'"
+
+  # Install latest Drush 6.
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  - composer global require --no-interaction --prefer-source drush/drush:6.*
+  - drush cc drush
+
+  # Build Behat dependencies
+  - cd ./tests
+  - composer install --no-interaction --prefer-source
+  - cd ../../
+
+  # Setting Behat environment
+  - DISTRO=`echo $TRAVIS_BUILD_DIR | sed -e "s/\/[^\/]*$//"`
+  - export BEHAT_PARAMS="{\"extensions\":{\"Drupal\\\DrupalExtension\":{\"drupal\":{\"drupal_root\":\"$DISTRO/drupal\"}}}}"
+
+  # Build Codebase
+  - mkdir profiles
+  - mv express profiles/
+  - mkdir drupal
+  - mv profiles drupal/
+
+  # Build the current branch
+  - cd drupal
+  - drush make --yes profiles/express/drupal-org-core.make --prepare-install
+  - drush make --yes profiles/express/drupal-org.make --no-core --contrib-destination=profiles/express
+  - cd ../
+
+  # Verify that all the .make files will work on Drupal.org.
+  - drush verify-makefile drupal/profiles/express/drupal-org.make
+  - find drupal/profiles/express/modules -name \*.make -print0 | xargs -0 -n1 drush verify-makefile
+
+  # Setup files
+  - sudo chmod -R 777 drupal/sites/all
+
+  # Setup display for Selenium
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - sleep 5
+
+  # Get Selenium
+  - wget http://selenium-release.storage.googleapis.com/2.42/selenium-server-standalone-2.42.1.jar
+  - java -jar selenium-server-standalone-2.42.1.jar > /dev/null 2>&1 &
+  - until netstat -an 2>/dev/null | grep '4444.*LISTEN'; do true; done
+
+   # Disable sendmail
+  - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+before_script:
+  # Add memcache and apc
+  - echo "extension = apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+  # Do the site install (either the current revision or old for the upgrade).
+  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
+  - cd ../drupal
+
+  # Start server
+  - drush runserver --server=builtin 8888 > /dev/null 2>&1 &
+  - until netstat -an 2>/dev/null | grep '8888.*LISTEN'; do true; done
+  - cd profiles/express/tests
+
+script:
+
+  # If this isn't an upgrade, we test if any features are overridden.
+  #- ../../scripts/check-overridden.sh
+
+  # Run Behat tests.
+  - ./bin/behat --config behat.yml
+
+notifications:
+  slack:
+      rooms:
+          secure: JLbGq+lYE2iumkjnb8Ul0360c2ZmDW5TOc8xjQ0wGRlQDZj5ZPpDwZHDykJ/PKsZhtGxYgKIeQDgTtRG3eYbuaw64+2h4oqYc8CEGzpMPduNDptoenKF7+hY05wiD0fDtAmTN2lLAe/sBz60kvlyJ4psGrllJRr7zkrG+n1hr1Zn5xNivo3sKHxHdeguI3nrDRHKuRUxNv+kgMRwLL6LFJQbLaiWMGHlUxRKE+vloAVjshBNphvIFLKzCjpAEOX5H2k0ZHAO49adDCmyurlEB9Z5dB4/VI5nl9MC67LmVAMjhi45N4CmTYZbc3HEe7PEj5N9xJyXs7dWKm2tT1hNe2Sm4Lq5yREY/lzMmWCE2LT2FVJtrMg+qElCeHEm8He/+4s1+1tsOSS5VmQRHdMjZWB+5kPUjtBGq62Jx3cbVAh2xeAcq3ncuSJqR43GCtwXm+4rPpJ6TUTVlvt1cTOoiOVR0bazcHCIlQ9lQD8hqzQaj30DCxo4WYnr3Pw7UteEsmEm5ohbkpqbmyljkDqjn4Tvdv4bxY+qmlVmXRdwaNohO3bIzZNcgjUzwyO6JLNyloACWuQfxhdQuFeThIroq1xZ5v1C72vV3P9OyrHSeFVGZoy8JExwwDJqN/EHS/jNeSw+2m3WI4cFUFa0JgL1kdUCuGsEYOebDbpmC6mmU74=
+      on_start: always
+      on_success: always
+      on_failure: always
