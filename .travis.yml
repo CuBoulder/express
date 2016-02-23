@@ -16,7 +16,6 @@ install:
   # Install latest Drush 6.
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
   - composer global require --no-interaction --prefer-source drush/drush:6.*
-  - drush dl -y drupalorg_drush-7.x-1.x-dev --destination=$HOME/.drush
   - drush cc drush
 
   # Build Behat dependencies
@@ -29,11 +28,20 @@ install:
   - export BEHAT_PARAMS="{\"extensions\":{\"Drupal\\\DrupalExtension\":{\"drupal\":{\"drupal_root\":\"$DISTRO/drupal\"}}}}"
 
   # Build Codebase
+  - mkdir profiles
+  - mv express profiles/
+  - mkdir drupal
+  - mv profiles drupal/
 
+  # Build the current branch
+  - cd drupal
+  - drush make --yes profiles/express/drupal-org-core.make --prepare-install
+  - drush make --yes profiles/express/drupal-org.make --no-core --contrib-destination=profiles/express
+  - cd ../
 
   # Verify that all the .make files will work on Drupal.org.
-  # - drush verify-makefile drupal/profiles/express/drupal-org.make
-  # - find drupal/profiles/express/modules -name \*.make -print0 | xargs -0 -n1 drush verify-makefile
+  - drush verify-makefile drupal/profiles/express/drupal-org.make
+  - find drupal/profiles/express/modules -name \*.make -print0 | xargs -0 -n1 drush verify-makefile
 
   # Setup files
   - sudo chmod -R 777 drupal/sites/all
@@ -65,10 +73,10 @@ before_script:
 script:
 
   # If this isn't an upgrade, we test if any features are overridden.
-  - ../../scripts/check-overridden.sh
+  #- ../../scripts/check-overridden.sh
 
   # Run Behat tests.
-  - ./bin/behat --config behat.travis.yml
+  - ./bin/behat --config behat.yml
 
 notifications:
   slack:
