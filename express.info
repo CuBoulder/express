@@ -192,7 +192,6 @@ dependencies[] = smartcrop
 dependencies[] = honeypot
 dependencies[] = metatag
 dependencies[] = transliteration
-dependencies[] = advanced_link
 dependencies[] = vppr
 dependencies[] = content_menu
 dependencies[] = grid_images
@@ -202,6 +201,9 @@ dependencies[] = cu_font_awesome
 dependencies[] = eva
 dependencies[] = smart_trim
 dependencies[] = stringoverrides
+dependencies[] = cu_content_lock
+dependencies[] = content_lock
+
 
 ; ============ FEATURE EXPORTS ============
 dependencies[] = express_linkit_profiles

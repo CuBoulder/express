@@ -10,13 +10,28 @@ hr {
 }
 
 /* Pagers Positioning */
-
+#pager-full {
+  display: none;
+  font-size: 90%;
+}
+#pager-mobile {
+  font-weight: 600;
+  font-size: 75%;
+}
+@media screen and (min-width:768px) {
+  #pager-mobile {
+    display: none;
+  }
+  #pager-full {
+    display: block;
+  }
+}
 .item-list .pager {
   overflow: visible;
   margin: 0;
   margin-bottom: 20px;
   padding: 0;
-  font-size: 90%;
+
   overflow: hidden;
 
   li {
@@ -60,70 +75,6 @@ hr {
 }
 
 
-table {
-  border: 1px solid #CCC;
-  //width: 100%;
-
-
-  thead th,
-  th {
-    background: #f7f7f7;
-    border-bottom: 1px solid #ccc;
-    color: #333;
-
-    a {
-      text-decoration: none;
-      display: block;
-
-      img {
-        margin: 0 0 0 5px;
-      }
-    }
-  }
-
-  td, th {
-    padding: 4px 8px;
-    vertical-align: middle;
-  }
-
-  th.active {
-    background: #DDD;
-    border-left: 1px solid #CCC;
-    border-right: 1px solid #CCC;
-  }
-
-  tr.even {
-
-    td {
-      background: #F1F5FA;
-    }
-    td.active {
-      background: #e5e9ed;
-    }
-
-  }
-
-  tr.odd {
-
-    td {
-      background: #fff;
-    }
-    tr.odd td.active {
-      background: #f2f2f2;
-    }
-  }
-
-  tr:hover td,
-  tr.even:hover td.active,
-  tr.odd:hover td.active {
-    //background: #FFFEEE;
-  }
-  td {
-    ul.links {
-      margin-bottom: 0;
-    }
-  }
-}
 
 
 #comments {
