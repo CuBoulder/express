@@ -60,7 +60,9 @@ install:
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 before_script:
+  # Add memcache and apc
   - echo "extension = apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "extension = memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Do the site install (either the current revision or old for the upgrade).
   - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
@@ -81,6 +83,8 @@ script:
 
 notifications:
   slack:
-      cu-boulder: qohsxtQ67L1pAVFPj8ArP6Wo
+      rooms:
+          secure: JLbGq+lYE2iumkjnb8Ul0360c2ZmDW5TOc8xjQ0wGRlQDZj5ZPpDwZHDykJ/PKsZhtGxYgKIeQDgTtRG3eYbuaw64+2h4oqYc8CEGzpMPduNDptoenKF7+hY05wiD0fDtAmTN2lLAe/sBz60kvlyJ4psGrllJRr7zkrG+n1hr1Zn5xNivo3sKHxHdeguI3nrDRHKuRUxNv+kgMRwLL6LFJQbLaiWMGHlUxRKE+vloAVjshBNphvIFLKzCjpAEOX5H2k0ZHAO49adDCmyurlEB9Z5dB4/VI5nl9MC67LmVAMjhi45N4CmTYZbc3HEe7PEj5N9xJyXs7dWKm2tT1hNe2Sm4Lq5yREY/lzMmWCE2LT2FVJtrMg+qElCeHEm8He/+4s1+1tsOSS5VmQRHdMjZWB+5kPUjtBGq62Jx3cbVAh2xeAcq3ncuSJqR43GCtwXm+4rPpJ6TUTVlvt1cTOoiOVR0bazcHCIlQ9lQD8hqzQaj30DCxo4WYnr3Pw7UteEsmEm5ohbkpqbmyljkDqjn4Tvdv4bxY+qmlVmXRdwaNohO3bIzZNcgjUzwyO6JLNyloACWuQfxhdQuFeThIroq1xZ5v1C72vV3P9OyrHSeFVGZoy8JExwwDJqN/EHS/jNeSw+2m3WI4cFUFa0JgL1kdUCuGsEYOebDbpmC6mmU74=
+      on_start: always
       on_success: always
       on_failure: always
