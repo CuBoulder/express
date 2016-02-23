@@ -5,30 +5,13 @@
  */
 function express_add_content_modules_enabled($modules) {
   $bundles = array();
-  $bundles = module_invoke_all('node_bundles', $variables = NULL);
+  $bundles = module_invoke_all('express_node_list_groups', $variables = NULL);
   // Save this for 30 days - it should only be cleared on a code update
-  cache_set('express_add_content_node_bundles', $bundles, 'cache', time() + 60 * 60 * 24 * 30);
+  cache_set('express_add_content_express_node_list_groups', $bundles, 'cache', time() + 60 * 60 * 24 * 30);
   $bundles = array();
-  $bundles = module_invoke_all('bean_bundles', $variables = NULL);
+  $bundles = module_invoke_all('express_bean_list_groups', $variables = NULL);
   // Save this for 30 days - it should only be cleared on a code update
-  cache_set('express_add_content_bean_bundles', $bundles, 'cache', time() + 60 * 60 * 24 * 30);
-}
-
-/**
- * Example hook_node_bundles().
- */
-function hook_node_bundles($bundles) {
-  $bundles['news']['title'] = 'News and Articles';
-  $bundles['news']['types'][] = 'Article';
-  return $bundles;
-}
-/**
- * Example hook_bean_bundles().
- */
-function hook_bean_bundles($bundles) {
-  $bundles['news']['title'] = 'News and Articles';
-  $bundles['news']['types'][] = 'Article List';
-  return $bundles;
+  cache_set('express_add_content_express_bean_list_groups', $bundles, 'cache', time() + 60 * 60 * 24 * 30);
 }
 
 function express_add_content_node_add($vars) {
@@ -36,12 +19,12 @@ function express_add_content_node_add($vars) {
   if ($vars['content']) {
     $output = array();
     // Get node bundles
-    if ($cache = cache_get('express_add_content_node_bundles')) {
+    if ($cache = cache_get('express_add_content_express_node_list_groups')) {
       $bundles = $cache->data;
     } else {
-      $bundles = module_invoke_all('node_bundles', $variables = NULL);
+      $bundles = module_invoke_all('express_node_list_groups', $variables = NULL);
       // Save this for 30 days - it should only be cleared on a code update
-      cache_set('express_add_content_node_bundles', $bundles, 'cache', time() + 60 * 60 * 24 * 30);
+      cache_set('express_add_content_express_node_list_groups', $bundles, 'cache', time() + 60 * 60 * 24 * 30);
     }
     uasort($bundles, '_express_add_content_sort_types');
     // Links fromt node_add_list().
@@ -106,12 +89,12 @@ function express_add_content_bean_add($vars) {
   if ($vars['content']) {
     $output = array();
     // Get bean bundles
-    if ($cache = cache_get('express_add_content_bean_bundles')) {
+    if ($cache = cache_get('express_add_content_express_bean_list_groups')) {
       $bundles = $cache->data;
     } else {
-      $bundles = module_invoke_all('bean_bundles', $variables = NULL);
+      $bundles = module_invoke_all('express_bean_list_groups', $variables = NULL);
       // Save this for 30 days - it should only be cleared on a code update
-      cache_set('express_add_content_bean_bundles', $bundles, 'cache', time() + 60 * 60 * 24 * 30);
+      cache_set('express_add_content_express_bean_list_groups', $bundles, 'cache', time() + 60 * 60 * 24 * 30);
     }
     // Links fromt node_add_list().
     $content = $vars['content'];

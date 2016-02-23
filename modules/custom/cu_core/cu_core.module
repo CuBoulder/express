@@ -59,10 +59,10 @@ function cu_core_modules_installed($modules) {
 }
 
 /**
- * Implements hook_node_bundles().
- * Provided by express_add_content.module.
+ * Implements hook_express_node_list_groups().
+ * Provided by express_add_content.api.php.
  */
-function cu_core_node_bundles($bundles) {
+function cu_core_express_node_list_groups($bundles) {
   $bundles['express_core']['title'] = 'Express Core';
   $bundles['express_core']['weight'] = -99;
   $bundles['express_core']['types'][] = 'Basic page';
@@ -86,10 +86,10 @@ function cu_core_node_bundles($bundles) {
 }
 
 /**
- * Implements hook_bean_bundles().
- * Provided by express_add_content.module.
+ * Implements hook_express_bean_list_groups().
+ * Provided by express_add_content.api.php.
  */
-function cu_core_bean_bundles($bundles) {
+function cu_core_express_bean_list_groups($bundles) {
   $bundles['express_core']['title'] = 'Express Core';
   $bundles['express_core']['weight'] = -99;
   $bundles['express_core']['types'][] = 'Hero Unit';
