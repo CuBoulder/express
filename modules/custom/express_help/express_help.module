@@ -198,7 +198,7 @@ function express_help_preprocess_page(&$vars) {
     $current_path = 'node/%/webform-results';
   } elseif (arg(0) == 'admin' && arg(1) == 'structure' && arg(2) == 'quicktabs') {
     $current_path = 'admin/structure/quicktabs/%';
-  } elseif ((arg(0) == 'node' && is_numeric(arg(1)))) {
+  } elseif (arg(0) == 'node' && is_numeric(arg(1))) {
     $current_path = explode('/', $current_path);
     $current_path[1] = '%';
     $current_path = implode('/', $current_path);
