@@ -1,9 +1,8 @@
 <?php
+
 /**
  * Implements hook_image_default_styles().
  */
-
-
 function cu_image_styles_image_default_styles() {
   $styles = array();
 
@@ -226,4 +225,56 @@ function cu_image_styles_image_default_styles() {
   );
 
   return $styles;
+}
+
+function cu_image_styles_image_styles_alter(&$styles) {
+  if (isset ($styles['large']['storage'])) {
+    if ($styles['large']['storage'] == IMAGE_STORAGE_DEFAULT) {
+      $styles['large']['label'] = 'Large';
+      // Check that we only affect a default style.
+      $styles['large']['effects'][0] = array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 1200,
+          'height' => '',
+          'upscale' => 1,
+        ),
+        'weight' => 1,
+      );
+    }
+  }
+  if (isset ($styles['medium']['storage'])) {
+    if ($styles['medium']['storage'] == IMAGE_STORAGE_DEFAULT) {
+      // Check that we only affect a default style.
+      $styles['medium']['label'] = 'Medium';
+      $styles['medium']['effects'][0] = array(
+        'label' => 'Scale',
+        'help' => 'Scaling will maintain the aspect-ratio of the original image. If only a single dimension is specified, the other dimension will be calculated.',
+        'effect callback' => 'image_scale_effect',
+        'dimensions callback' => 'image_scale_dimensions',
+        'form callback' => 'image_scale_form',
+        'summary theme' => 'image_scale_summary',
+        'module' => 'image',
+        'name' => 'image_scale',
+        'data' => array(
+          'width' => 600,
+          'height' => '',
+          'upscale' => 1,
+        ),
+        'weight' => 1,
+      );
+    }
+  }
+  if (isset ($styles['thumbnail']['storage'])) {
+    if ($styles['thumbnail']['storage'] == IMAGE_STORAGE_DEFAULT) {
+      $styles['thumbnail']['label'] = 'Thumbnail';
+    }
+  }
 }
