@@ -132,7 +132,6 @@ dependencies[] = files_undo_remove
 ; ============ IMAGES ============
 dependencies[] = focal_point
 dependencies[] = cu_image_styles
-dependencies[] = cu_default_image_style_override
 dependencies[] = image_url_formatter
 
 ; ============ DATE ============
