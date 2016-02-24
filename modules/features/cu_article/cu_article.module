@@ -498,9 +498,7 @@ function cu_article_preprocess_node(&$vars) {
 
     // Show/hide publish date
     $article_date_settings = !empty($vars['node']->field_article_date_display) ? $vars['node']->field_article_date_display[LANGUAGE_NONE][0]['value'] : NULL;
-    if (
-      ($article_date_settings == 'hide' || $global_date_display == 'hide') && $global_date_display != 'show'
-    ) {
+    if (($article_date_settings == 'hide' || $global_date_display == 'hide') && $global_date_display != 'show') {
       unset($vars['author_meta']['date']);
     }
 
