@@ -123,3 +123,41 @@ function express_install() {
   // ignore any other install messages
   drupal_get_messages();
 }
+
+/**
+ * Express Update 7001.
+ * Removing cu_default_image_style_override.
+ */
+function express_update_7001() {
+  // Disable
+  module_disable(array(
+    'cu_default_image_style_override',
+  ));
+  // Uninstall
+  drupal_uninstall_modules(array(
+    'cu_default_image_style_override',
+  ));
+
+  // Run on every update
+  express_inventory_update('7001');
+}
+
+/**
+ * Updates inventory with profile version.
+ */
+function express_inventory_update($version) {
+  // Do at the end of every update.
+  module_load_include('inc', 'cu_inventory');
+  cu_inventory_process_profile_version($version);
+}
+
+/**
+ * Revert features by passing features in an array.
+ */
+function express_revert_features($features) {
+  foreach ($features as $feature) {
+    $f = features_get_features($feature);
+    $components = array_keys($f->info['features']);
+    features_revert(array($feature => $components));
+  }
+}
