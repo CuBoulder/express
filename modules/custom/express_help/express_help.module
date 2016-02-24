@@ -204,7 +204,6 @@ function express_help_preprocess_page(&$vars) {
     $current_path = implode('/', $current_path);
   } elseif (arg(0) == 'block' && arg(2) == 'edit') {
     $current_path = 'block/edit/' . $bean_type;
-    dpm($current_path);
   }
   // If there is a $key for the current path, add the help link variable
   if (!empty($express_help[$current_path])) {
