@@ -227,6 +227,11 @@ function cu_image_styles_image_default_styles() {
   return $styles;
 }
 
+/**
+ * Implements hook)image_styles_alter().
+ *
+ * @param $styles
+ */
 function cu_image_styles_image_styles_alter(&$styles) {
   if (isset ($styles['large']['storage'])) {
     if ($styles['large']['storage'] == IMAGE_STORAGE_DEFAULT) {
