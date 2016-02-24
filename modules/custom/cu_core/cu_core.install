@@ -165,3 +165,30 @@ function cu_core_update_7001() {
 You can now .+configure the CAPTCHA module.+ for your site.
 Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
 }
+
+/**
+ * Express Update 7002.
+ * Removing cu_default_image_style_override.
+ */
+function cu_core_update_7002() {
+  // Disable
+  module_disable(array(
+    'cu_default_image_style_override',
+  ));
+  // Uninstall
+  drupal_uninstall_modules(array(
+    'cu_default_image_style_override',
+  ));
+
+  // Run on every update
+  express_inventory_update('7002');
+}
+
+/**
+ * Updates inventory with profile version.
+ */
+function express_inventory_update($version) {
+  // Do at the end of every update.
+  module_load_include('inc', 'cu_inventory');
+  cu_inventory_process_profile_version($version);
+}
