@@ -112,14 +112,14 @@ function cu_feedback_admin_settings_form($form, &$form_state) {
   $options = _cu_feedback_options();
   $form['cu_feedback_settings']['cu_feedback_path'] = array(
     '#type' => 'select',
-    '#title' => 'Published WebForms',
+    '#title' => 'Available Webforms',
     '#default_value' => $path ? $path : 'none',
     '#options' => _cu_feedback_webforms(),
-    '#description' => 'Enter the node id of the node you would like the button to link to. Leave blank for no button',
+    '#description' => 'Choose the webform you would like to use.',
   );
   $form['cu_feedback_settings']['cu_feedback_label'] = array(
     '#type' => 'textfield',
-    '#title' => 'Form Button Label',
+    '#title' => 'Feedback Button Label',
     '#default_value' => $label ? $label : 'Contact Us',
     '#description' => 'Text for label/button.',
   );
@@ -131,10 +131,10 @@ function cu_feedback_admin_settings_form($form, &$form_state) {
   );
   $form['cu_feedback_settings']['cu_feedback_embed'] = array(
     '#type' => 'radios',
-    '#title' => 'Feedback Button Embed',
-    '#options' => array('redirect' => 'No', 'embed' => 'Yes'),
+    '#title' => 'Feedback Form Presentation',
+    '#options' => array('redirect' => 'Go to Webform (better for complex forms)', 'embed' => 'Pop-up Webform (better for simple forms)'),
     '#default_value' => $embed ? $embed : 'embed',
-    '#description' => 'Clicking the link will either embed the form on the page, or redirect you to the form.',
+    '#description' => 'Choose what happens with the Feedback Button is pressed.',
   );
   $form['submit'] = array('#type' => 'submit', '#value' => t('Save'));
   $form['#submit'][] = 'cu_feedback_settings_submit';
