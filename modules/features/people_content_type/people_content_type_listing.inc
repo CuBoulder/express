@@ -197,17 +197,21 @@ function _people_content_type_listing($view_mode, $type, $department, $filter_1,
         );
       }
 
-      // If there were no photos, unset the column
-      if ($photos == FALSE) {
-        foreach ($rows as $key => $row) {
-          unset($rows[$key]['photo']);
-        }
-      }
+      // Table headers
       $headers = array(
         'photo' => array('data' => '<span class="element-invisible">Photo</span>'),
         'name' => array('data' => t('Name')),
         'contact' => array('data' => t('Contact Information'))
       );
+
+      // If there were no photos, unset the column, remove header
+      if ($photos == FALSE) {
+        foreach ($rows as $key => $row) {
+          unset($rows[$key]['photo']);
+        }
+        unset($headers['photo']);
+      }
+
       $output = array(
         '#theme' => 'table',
         '#rows' => $rows,
