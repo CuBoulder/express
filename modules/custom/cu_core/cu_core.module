@@ -37,6 +37,12 @@ function cu_core_form_alter(&$form, $form_state, $form_id) {
   if (isset($form['type']) && isset($form['#node']) && $form['type']['#value'] .'_node_form' == $form_id) {
     unset($form['options']['promote']);
   }
+
+  // Turn cancel button into a submit type.
+  if (isset($form['actions']['cancel']) && $form['actions']['cancel']['#type'] == 'button') {
+    $form['actions']['cancel']['#type'] = 'submit';
+  }
+
 }
 
 /**
