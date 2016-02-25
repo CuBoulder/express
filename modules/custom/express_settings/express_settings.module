@@ -38,7 +38,7 @@ function express_settings_menu() {
   );
   $items['admin/settings/site-configuration/contact'] = array(
     'title' => 'Contact Information',
-    'description' => 'Edit the Contact Information which appears in the footer region',
+    'description' => 'Edit the Contact Information which appears at the bottom of the page',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_settings_contact_info_form'),
