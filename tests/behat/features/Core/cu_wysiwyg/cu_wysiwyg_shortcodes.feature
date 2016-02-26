@@ -117,7 +117,7 @@ I should be able to use the full functionality of the WYSIWYG editor
     # TODO make switch frame work or make step to grab "src" attribute and compare it to the following
     #Then the "iframe" element should contain "src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3055.782574009197!2d-105.25404084826329!3d40.0133039793131!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876bedc53ea9c665%3A0x2927ccc033644a4b!2s3100+Marine+St%2C+Boulder%2C+CO+80303!5e0!3m2!1sen!2sus!4v1445292423584&ie=UTF8&output=embed\""
 
-  @api @javascript @wysiwyg @current
+  @api @javascript @wysiwyg
   Scenario: A content editor should be able to add a box shortcode
     Given I am logged in as a user with the "content_editor" role
     When I go to "node/add/page"
