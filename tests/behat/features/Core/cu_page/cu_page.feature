@@ -26,7 +26,7 @@ Feature: Page Content Type
   Scenario: An authenticated user should be able to create page node
     Given I am logged in as a user with the "content_editor" role
       And I am on "node/add/page"
-      And for "Title" I enter "New page"
+      And for "Title" I enter "New Page"
       And for "Body" I enter "Demo body content"
       And for "Menu link title" I enter "New Menu Item"
     # When I attach the file "../../../assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
@@ -34,7 +34,7 @@ Feature: Page Content Type
     #   And for "Alternate text" I enter "Ralphie running with people"
     #   And I press the "Insert" button
     When I press the "Save" button
-    Then the "h1" element should contain "New Page"
+    Then the "#page-title" element should contain "New Page"
       And I should see the text "Demo body content"
       # And I should see an image in the "Content" region
       # And I should see the image alt "Ralphie running with people" in the "Content" region

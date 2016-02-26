@@ -119,7 +119,7 @@ default:
         Secondary Menu: "#secondary-menu"
         Menu: "#navigation"
         Sidebar First: ".region-sidebar-first"
-        Sidebar Second: "#region-sidebar-second"
+        Sidebar Second: ".region-sidebar-second"
         Wide Intro: "#intro-wide-wrapper"
         Slider: ""
         Help: ""
