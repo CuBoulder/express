@@ -161,6 +161,38 @@ function people_content_type_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_people_list_filter|bean|people_list_block|form';
+  $field_group->group_name = 'group_people_list_filter';
+  $field_group->entity_type = 'bean';
+  $field_group->bundle = 'people_list_block';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Filter',
+    'weight' => '5',
+    'children' => array(
+      0 => 'field_people_filter_1',
+      1 => 'field_people_filter_2',
+      2 => 'field_people_filter_3',
+      3 => 'field_people_list_department',
+      4 => 'field_people_list_person_type',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'label' => 'Filter',
+      'instance_settings' => array(
+        'required_fields' => 1,
+        'classes' => 'group-people-list-filter field-group-fieldset',
+        'description' => 'Choose which people will appear by selecting from the options below.',
+      ),
+      'formatter' => 'collapsed',
+    ),
+  );
+  $export['group_people_list_filter|bean|people_list_block|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_people_list_filter|node|people_list_page|form';
   $field_group->group_name = 'group_people_list_filter';
   $field_group->entity_type = 'node';
@@ -171,12 +203,12 @@ function people_content_type_field_group_info() {
     'label' => 'Filter/Group/Order',
     'weight' => '5',
     'children' => array(
-      0 => 'field_people_list_department',
-      1 => 'field_people_list_person_type',
-      2 => 'field_people_filter_1',
-      3 => 'field_people_filter_2',
-      4 => 'field_people_filter_3',
-      5 => 'field_people_group_by',
+      0 => 'field_people_filter_1',
+      1 => 'field_people_filter_2',
+      2 => 'field_people_filter_3',
+      3 => 'field_people_group_by',
+      4 => 'field_people_list_department',
+      5 => 'field_people_list_person_type',
       6 => 'field_people_order_by',
       7 => 'group_people_filter_display',
     ),
