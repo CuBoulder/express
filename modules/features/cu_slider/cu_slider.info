@@ -4,7 +4,6 @@ core = 7.x
 package = CU-Core
 version = 7.x-1.0
 project = cu_slider
-dependencies[] = advanced_link
 dependencies[] = bean_admin_ui
 dependencies[] = ctools
 dependencies[] = eva

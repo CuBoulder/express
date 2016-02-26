@@ -3,6 +3,7 @@ default:
     pretty: true
   suites:
     core:
+      # %paths.base% is the location of this file.
       paths: [ %paths.base%/features/Core ]
       contexts:
         - CoreContext
@@ -96,15 +97,12 @@ default:
       selenium2: ~
       javascript_session: selenium2
       browser_name: firefox
-      base_url: http://express.local/testing
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: 'drupal'
-      drupal:
-        drupal_root: '/data/web/express/testing'
       subcontexts:
         paths:
-          - "/data/web/express/testing/profiles/express/tests"
+          - "./profiles/express/tests/behat"
       text:
         username_field: "CU Login Name"
         password_field: "IdentiKey Password"
@@ -118,7 +116,7 @@ default:
         Content: ".region.region-content"
         Branding: "#branding"
         Search: ".region-search-box"
-        Secondary Menu: ".region-secondary-menu"
+        Secondary Menu: "#secondary-menu"
         Menu: "#navigation"
         Sidebar First: ".region-sidebar-first"
         Sidebar Second: "#region-sidebar-second"
