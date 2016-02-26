@@ -27,13 +27,6 @@ function cu_googleanalytics_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'googleanalytics_codesnippet_after';
-  $strongarm->value = '';
-  $export['googleanalytics_codesnippet_after'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'googleanalytics_codesnippet_before';
   $strongarm->value = '';
   $export['googleanalytics_codesnippet_before'] = $strongarm;
@@ -111,10 +104,15 @@ function cu_googleanalytics_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'googleanalytics_pages';
   $strongarm->value = 'admin
+
 admin/*
+
 batch
+
 node/add*
+
 node/*/*
+
 user/*/*';
   $export['googleanalytics_pages'] = $strongarm;
 

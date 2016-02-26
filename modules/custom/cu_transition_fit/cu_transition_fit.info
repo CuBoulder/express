@@ -1,4 +1,4 @@
-name = CU Transition
+name = CU Transition Fit
 description = Functions for enabling and disabling modules for transition to 2.0
 core = 7.x
 package = CU-Core

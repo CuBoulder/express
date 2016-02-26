@@ -25,6 +25,8 @@ body { background-color: #272727; padding-bottom: 20px; }
 #main-menu-wrapper #navigation #main-menu a#home-link:after { background: transparent !important; }
 
 #action-menu { padding: 10px 0; }
+#action-menu a { color: #656565; }
+#action-menu a.active, #action-menu a.active-trail, #action-menu a:hover { color: #111; }
 
 #content-wrapper { background-color: #fff; padding: 20px 0; }
 
@@ -44,7 +46,7 @@ body { background-color: #272727; padding-bottom: 20px; }
 .breadcrumb .current-crumb { display: inline-block; background-color: #cfb87c; padding: 3px 10px 3px 10px; background-image: none; }
 
 @media screen and (min-width: 720px) { .breadcrumb .current-crumb { padding: 3px 10px 3px 20px; background-image: url(../images/breadcrumb-arrow.png); background-position: left center; background-repeat: no-repeat; } }
-#after-content-wrapper { background-color: #fff; }
+#post-wide-wrapper, #after-content-wrapper { background-color: #fff; }
 
 #after-content2-wrapper { background-color: #f4f4f4; padding-top: 20px; }
 
