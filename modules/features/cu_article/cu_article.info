@@ -9,6 +9,7 @@ dependencies[] = ctools
 dependencies[] = cu_view_modes
 dependencies[] = ds
 dependencies[] = eva
+dependencies[] = express_field_bases
 dependencies[] = features
 dependencies[] = fences
 dependencies[] = field_group
