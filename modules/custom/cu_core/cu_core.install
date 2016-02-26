@@ -127,7 +127,7 @@ websupport@colorado.edu');
   variable_set('syslog_identity', $syslog_identity);
   // Key for 'LOG_LOCAL0' in the form.
   variable_set('syslog_facility', '128');
-  variable_set('syslog_format', '!base_url !timestamp "!type" !ip !request_uri !referer !uid "!link" "!message"');
+  variable_set('syslog_format','!base_url|!timestamp|!type|!ip|!request_uri|!referer|!uid|!link|!message');
 
   // Set variable for disabling certain messages from users.
   variable_set('disable_messages_ignore_regex', array(
@@ -171,12 +171,26 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
  */
 function cu_core_update_7002() {
   //Disable grid_images module.
-  module_disable(array('grid_images'));
+  module_disable(array(
+    'grid_images',
+    'cu_default_image_style_override',
+  ));
 
   // Uninstall grid_images module.
-  drupal_uninstall_modules(array('grid_images'));
+  drupal_uninstall_modules(array(
+    'grid_images',
+    'cu_default_image_style_override',
+  ));
 
-  //do at the end of every update
+  // Run on every update
+  express_inventory_update('7002');
+}
+
+/**
+ * Updates inventory with profile version.
+ */
+function express_inventory_update($version) {
+  // Do at the end of every update.
   module_load_include('inc', 'cu_inventory');
-  cu_inventory_process_profile_version('2.0.1');
+  cu_inventory_process_profile_version($version);
 }
