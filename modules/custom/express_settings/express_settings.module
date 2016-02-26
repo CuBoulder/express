@@ -38,7 +38,7 @@ function express_settings_menu() {
   );
   $items['admin/settings/site-configuration/contact'] = array(
     'title' => 'Contact Information',
-    'description' => 'Edit the Contact Information which appears in the footer region',
+    'description' => 'Edit the Contact Information which appears at the bottom of the page',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_settings_contact_info_form'),
@@ -66,7 +66,7 @@ function express_settings_menu() {
   );
   $items['admin/settings/url-management/redirects'] = array(
     'title' => 'URL Redirects',
-    'description' => 'Change your site\'s URL paths by aliasing them',
+    'description' => 'Redirect users from one URL to another',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_goto',
     'page arguments' => array('admin/config/search/redirect'),
