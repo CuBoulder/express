@@ -13,7 +13,7 @@ use Behat\Behat\Context\Step\Given;
 /**
  * Defines application features from the specific context.
  */
-class CoreContext extends RawDrupalContext implements SnippetAcceptingContext {
+class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
    * Initializes context.
