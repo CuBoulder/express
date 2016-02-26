@@ -156,8 +156,7 @@ function express_add_content_bean_add($vars) {
       $key = $bean->getLabel();
       // build bean add path and check access
       $path = 'block/add/' . $bean->buildURL();
-      $item = menu_get_item($path);
-      if (drupal_valid_path($item)) {
+      if (drupal_valid_path($path)) {
         $links[$key] = array(
           'title' => $key,
           'href' => $path,
