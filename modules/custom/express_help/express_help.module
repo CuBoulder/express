@@ -191,7 +191,7 @@ function express_help_preprocess_page(&$vars) {
   }
   // Get current path and change it to reflect help links.
   $current_path = current_path();
-  $bean_type = str_replace('_', '-', $vars['page']['content']['system_main']['bean']['#value']->type);
+
   if ((arg(0) == 'node') && (arg(2) == 'edit')) {
     $current_path = 'node/add/' . $vars['node']->type;
   } elseif (arg(0) == 'node' && arg(2) == 'webform-results') {
@@ -203,6 +203,7 @@ function express_help_preprocess_page(&$vars) {
     $current_path[1] = '%';
     $current_path = implode('/', $current_path);
   } elseif (arg(0) == 'block' && arg(2) == 'edit') {
+    $bean_type = str_replace('_', '-', $vars['page']['content']['system_main']['bean']['#value']->type);
     $current_path = 'block/edit/' . $bean_type;
   }
   // If there is a $key for the current path, add the help link variable
