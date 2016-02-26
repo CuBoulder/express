@@ -8,7 +8,7 @@ version = 2.0
 ; ----------
 ; Dependencies
 ; ----------
-
+dependencies[] = express_field_bases
 dependencies[] = express_add_content
 dependencies[] = express_help
 dependencies[] = express_theme_picker
@@ -132,7 +132,6 @@ dependencies[] = files_undo_remove
 ; ============ IMAGES ============
 dependencies[] = focal_point
 dependencies[] = cu_image_styles
-dependencies[] = cu_default_image_style_override
 dependencies[] = image_url_formatter
 
 ; ============ DATE ============
@@ -192,7 +191,6 @@ dependencies[] = smartcrop
 dependencies[] = honeypot
 dependencies[] = metatag
 dependencies[] = transliteration
-dependencies[] = advanced_link
 dependencies[] = vppr
 dependencies[] = content_menu
 dependencies[] = grid_images
@@ -202,6 +200,9 @@ dependencies[] = cu_font_awesome
 dependencies[] = eva
 dependencies[] = smart_trim
 dependencies[] = stringoverrides
+dependencies[] = cu_content_lock
+dependencies[] = content_lock
+
 
 ; ============ FEATURE EXPORTS ============
 dependencies[] = express_linkit_profiles

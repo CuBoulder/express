@@ -14,6 +14,7 @@ function cu_advanced_content_bundle_menu() {
   );
   $items['admin/settings/adv-content/error'] = array(
     'title' => 'Error Pages',
+    'description' => 'Create your own \'404 Not Found\' or \'Access Denied\' page',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('cu_advanced_content_bundle_error_form'),
@@ -22,6 +23,7 @@ function cu_advanced_content_bundle_menu() {
   );
   $items['admin/settings/adv-content/frontpage'] = array(
     'title' => 'Set Homepage',
+    'description' => 'Change the default homepage',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('cu_advanced_content_bundle_frontpage_form'),
@@ -201,31 +203,41 @@ function cu_advanced_content_bundle_secure_permissions($role) {
  */
 function cu_advanced_content_bundle_express_help($variables) {
   $variables['admin/structure/quicktabs/%'][] = array(
-    'title' => 'Quicktabs Help',
-    'short_title' => 'Quicktabs',
-    'url' => 'http://www.colorado.edu/webcentral/tutorial/v2/quicktabs',
+    'title' => 'Quicktabs help',
+    'short_title' => 'Quicktabs help',
+    'url' => '/node/430',
   );
   $variables['block/add/feature-callout'][] = array(
-    'title' => 'Content Grid Block Help',
-    'short_title' => 'Content Grid',
-    'url' => 'http://www.colorado.edu/webcentral/tutorial/v2/content-grid-block',
+    'title' => 'Content grid block help',
+    'short_title' => 'Content grid block help',
+    'url' => '/node/428',
+  );
+  $variables['block/edit/feature-callout'][] = array(
+    'title' => 'Content grid block help',
+    'short_title' => 'Content grid block help',
+    'url' => '/node/428',
   );
   $variables['block/add/video-reveal'][] = array(
-    'title' => 'Adding Video Reveal Block Help',
-    'short_title' => 'Video Reveal Block',
-    'url' => 'http://www.colorado.edu/webcentral/tutorial/v2/video-reveal',
+    'title' => 'Video reveal block help',
+    'short_title' => 'Video reveal block help',
+    'url' => '/node/582',
+  );
+  $variables['block/edit/video-reveal'][] = array(
+    'title' => 'Video reveal block help',
+    'short_title' => 'Video reveal block help',
+    'url' => '/node/582',
   );
 
   $variables['admin/structure/quicktabs/add'][] = array(
-    'title' => 'Quicktab Tutorial',
-    'short_title' => 'Quicktab Tutorial',
-    'url' => 'http://www.colorado.edu/webcentral/node/430',
+    'title' => 'Quicktabs Help',
+    'short_title' => 'Quicktabs Help',
+    'url' => '/node/430',
   );
 
   $variables['admin/structure/quicktabs'][] = array(
-    'title' => 'Quicktab Tutorial',
-    'short_title' => 'Quicktab Tutorial',
-    'url' => 'http://www.colorado.edu/webcentral/node/430',
+    'title' => 'Quicktabs Help',
+    'short_title' => 'Quicktabs Help',
+    'url' => '/node/430',
   );
 
   return $variables;

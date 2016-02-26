@@ -34,6 +34,7 @@ function people_content_type_menu() {
   );
   $items['admin/settings/people/settings'] = array(
 	'title' => 'People Filter Labels',
+	'description' => 'Create text labels for People filters',
 	'type' => MENU_NORMAL_ITEM,
 	'page callback' => 'drupal_get_form',
 	'page arguments' => array('people_content_type_admin_settings_form'),

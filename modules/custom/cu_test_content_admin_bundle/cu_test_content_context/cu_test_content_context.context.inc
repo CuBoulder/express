@@ -326,6 +326,176 @@ function cu_test_content_context_context_default_contexts() {
   $export['cu_test_content_home'] = $context;
 
   $context = new stdClass();
+  $context->disabled = TRUE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
+  $context->name = 'cu_test_content_home_2';
+  $context->description = '';
+  $context->tag = 'testing';
+  $context->conditions = array(
+    'path' => array(
+      'values' => array(
+        '<front>' => '<front>',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'block' => array(
+      'blocks' => array(
+        'bean-article_feature' => array(
+          'module' => 'bean',
+          'delta' => 'article_feature',
+          'region' => 'content',
+          'weight' => '10',
+        ),
+        'bean-events_list_block' => array(
+          'module' => 'bean',
+          'delta' => 'events_list_block',
+          'region' => 'sidebar_second',
+          'weight' => '-10',
+        ),
+        'bean-slider' => array(
+          'module' => 'bean',
+          'delta' => 'slider',
+          'region' => 'slider',
+          'weight' => '-10',
+        ),
+        'bean-video_reveal' => array(
+          'module' => 'bean',
+          'delta' => 'video_reveal',
+          'region' => 'wide_2',
+          'weight' => '-10',
+        ),
+        'bean-text_block_one' => array(
+          'module' => 'bean',
+          'delta' => 'text_block_one',
+          'region' => 'after_content',
+          'weight' => '-10',
+        ),
+        'bean-text_block_two' => array(
+          'module' => 'bean',
+          'delta' => 'text_block_two',
+          'region' => 'after_content',
+          'weight' => '-9',
+        ),
+        'bean-text_block_three' => array(
+          'module' => 'bean',
+          'delta' => 'text_block_three',
+          'region' => 'lower',
+          'weight' => '-10',
+        ),
+        'bean-text_block_four' => array(
+          'module' => 'bean',
+          'delta' => 'text_block_four',
+          'region' => 'lower',
+          'weight' => '-9',
+        ),
+        'bean-text_block_five' => array(
+          'module' => 'bean',
+          'delta' => 'text_block_five',
+          'region' => 'lower',
+          'weight' => '-8',
+        ),
+      ),
+    ),
+    'column_override' => array(
+      'column_override_after_content_columns' => '2',
+      'column_override_after_content_2_columns' => '3',
+      'column_override_footer_columns' => 'no-change',
+    ),
+  );
+  $context->condition_mode = 0;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('testing');
+  $export['cu_test_content_home_2'] = $context;
+
+  $context = new stdClass();
+  $context->disabled = TRUE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
+  $context->name = 'cu_test_content_home_3';
+  $context->description = '';
+  $context->tag = 'testing';
+  $context->conditions = array(
+    'path' => array(
+      'values' => array(
+        '<front>' => '<front>',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'block' => array(
+      'blocks' => array(
+        'bean-article_slider' => array(
+          'module' => 'bean',
+          'delta' => 'article_slider',
+          'region' => 'content',
+          'weight' => '9',
+        ),
+        'bean-video_reveal' => array(
+          'module' => 'bean',
+          'delta' => 'video_reveal',
+          'region' => 'content',
+          'weight' => '10',
+        ),
+        'bean-twitter_block' => array(
+          'module' => 'bean',
+          'delta' => 'twitter_block',
+          'region' => 'sidebar_second',
+          'weight' => '-10',
+        ),
+        'bean-hero_unit' => array(
+          'module' => 'bean',
+          'delta' => 'hero_unit',
+          'region' => 'intro',
+          'weight' => '-10',
+        ),
+        'bean-content_grid' => array(
+          'module' => 'bean',
+          'delta' => 'content_grid',
+          'region' => 'after_content',
+          'weight' => '-6',
+        ),
+        'bean-text_block_one' => array(
+          'module' => 'bean',
+          'delta' => 'text_block_one',
+          'region' => 'lower',
+          'weight' => '-10',
+        ),
+        'bean-text_block_two' => array(
+          'module' => 'bean',
+          'delta' => 'text_block_two',
+          'region' => 'lower',
+          'weight' => '-9',
+        ),
+        'bean-text_block_three' => array(
+          'module' => 'bean',
+          'delta' => 'text_block_three',
+          'region' => 'lower',
+          'weight' => '-8',
+        ),
+        'bean-text_block_four' => array(
+          'module' => 'bean',
+          'delta' => 'text_block_four',
+          'region' => 'lower',
+          'weight' => '-7',
+        ),
+      ),
+    ),
+    'column_override' => array(
+      'column_override_after_content_columns' => '1',
+      'column_override_after_content_2_columns' => '2',
+      'column_override_footer_columns' => 'no-change',
+    ),
+  );
+  $context->condition_mode = 0;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('testing');
+  $export['cu_test_content_home_3'] = $context;
+
+  $context = new stdClass();
   $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
   $context->api_version = 3;
   $context->name = 'cu_test_content_pages';

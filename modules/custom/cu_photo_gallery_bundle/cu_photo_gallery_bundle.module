@@ -51,3 +51,15 @@ function cu_photo_gallery_bundle_secure_permissions($role) {
     return $permissions[$role];
   }
 }
+
+/**
+ * Implements hook_express_help().
+ */
+function cu_photo_gallery_express_help($variables) {
+  $variables['/node/add/photo-gallery'][] = array(
+    'title' => 'Photo Gallery Help',
+    'short_title' => 'Photo Gallery Help',
+    'url' => '/node/700',
+  );
+  return $variables;
+}

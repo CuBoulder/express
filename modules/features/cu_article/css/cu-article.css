@@ -209,3 +209,7 @@ p.tags {
   margin:0 5px 5px 0;
   font-weight: 600;
 }
+
+.field-name-field-article-grid-more-link {
+  text-align: center;
+}

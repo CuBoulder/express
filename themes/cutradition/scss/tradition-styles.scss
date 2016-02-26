@@ -100,6 +100,14 @@ body {
 }
 #action-menu {
   padding:10px 0;
+  a {
+    color: #656565;
+  }
+  a.active,
+  a.active-trail,
+  a:hover {
+    color:#111;
+  }
 }
 
 // Intro, Slider, Main backgrounds
@@ -158,6 +166,7 @@ body {
 }
 
 // Bottom Regions
+#post-wide-wrapper,
 #after-content-wrapper {
   background-color: #fff;
 }
