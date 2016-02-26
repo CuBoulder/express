@@ -183,7 +183,7 @@ function cu_core_update_7002() {
   ));
 
   // Run on every update
-  express_inventory_update('7002');
+  express_inventory_update('201');
 }
 
 /**
