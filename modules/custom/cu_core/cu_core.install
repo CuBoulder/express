@@ -42,7 +42,7 @@ function cu_core_install() {
   variable_set('site_name_1', 'University of Colorado Boulder');
   variable_set('site_slogan', 'University of Colorado Boulder');
 
-  variable_set('express_help_base_url', 'https://www-dev.colorado.edu/webcentral');
+  variable_set('express_help_base_url', 'http://www.colorado.edu/webcentral');
 
   variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final');
 
@@ -127,7 +127,7 @@ websupport@colorado.edu');
   variable_set('syslog_identity', $syslog_identity);
   // Key for 'LOG_LOCAL0' in the form.
   variable_set('syslog_facility', '128');
-  variable_set('syslog_format', '!base_url !timestamp "!type" !ip !request_uri !referer !uid "!link" "!message"');
+  variable_set('syslog_format','!base_url|!timestamp|!type|!ip|!request_uri|!referer|!uid|!link|!message');
 
   // Set variable for disabling certain messages from users.
   variable_set('disable_messages_ignore_regex', array(
@@ -146,11 +146,7 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
  */
 function cu_core_update_7001() {
 
-  variable_set('site_name', 'University of Colorado Boulder');
-  variable_set('site_name_1', 'University of Colorado Boulder');
-  variable_set('site_slogan', 'University of Colorado Boulder');
-
-  variable_set('express_help_base_url', 'https://www-dev.colorado.edu/webcentral');
+  variable_set('express_help_base_url', 'https://www.colorado.edu/webcentral');
 
   variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final');
 
@@ -168,4 +164,31 @@ function cu_core_update_7001() {
   variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .+
 You can now .+configure the CAPTCHA module.+ for your site.
 Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
+}
+
+/**
+ * Express Update 7002.
+ * Removing cu_default_image_style_override.
+ */
+function cu_core_update_7002() {
+  // Disable
+  module_disable(array(
+    'cu_default_image_style_override',
+  ));
+  // Uninstall
+  drupal_uninstall_modules(array(
+    'cu_default_image_style_override',
+  ));
+
+  // Run on every update
+  express_inventory_update('7002');
+}
+
+/**
+ * Updates inventory with profile version.
+ */
+function express_inventory_update($version) {
+  // Do at the end of every update.
+  module_load_include('inc', 'cu_inventory');
+  cu_inventory_process_profile_version($version);
 }
