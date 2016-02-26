@@ -77,6 +77,11 @@ ul#action-menu a {
   line-height: 20px;
   margin:20px 0 20px 10px;
 }
+#navigation ul.action-menu {
+  a {
+    margin: 18px 5px;
+  }
+}
 
 
 #intro-wide-wrapper,
@@ -104,6 +109,7 @@ ul#action-menu a {
   background-color: #fff;
 }
 #content-wrapper,
+#post-wide-wrapper,
 #after-content-wrapper {
   background-color: #fff;
 }
