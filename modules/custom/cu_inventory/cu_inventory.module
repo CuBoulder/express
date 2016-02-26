@@ -536,9 +536,10 @@ function cu_inventory_get_site($cu_sid = FALSE, $use_cache = TRUE) {
     $cu_sid = variable_get('cu_sid', FALSE);
   }
 
-  // if the cu_sid wasn't passed and we can't look it up, we can't do anything else
+  // If the cu_sid wasn't passed and we can't look it up, we can't do anything else.
+  // This needs to be a warning so that the install doesn't error when testing.
   if (!$cu_sid) {
-    drupal_set_message(t("<em>cu_sid</em> is not defined in the request"), 'error');
+    drupal_set_message(t("<em>cu_sid</em> is not defined in the request"), 'warning');
     return FALSE;
   }
 

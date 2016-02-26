@@ -41,3 +41,21 @@ function people_content_type_update_7101() {
     drupal_write_record('field_revision_body', $record);
   }
 }
+/**
+ * Delete legacy fields from person node type:
+ * field_extra, field_person_interests,field_person_bio.
+ */
+function people_content_type_update_7102() {
+  // Get fields
+  $fields = array(
+    'field_extra',
+    'field_person_interests',
+    'field_person_bio',
+  );
+  // Delete fields from person nodes
+  foreach ($fields as $field) {
+    if ($instance = field_info_instance('node', $field, 'person')) {
+      field_delete_instance($instance);
+    }
+  }
+}
