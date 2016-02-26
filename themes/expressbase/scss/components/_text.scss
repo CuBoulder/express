@@ -250,6 +250,11 @@ ul.list-style-nobullet {
   list-style-image: none;
   padding-left: 0;
 }
+ul.list-style-nobullet > li {
+  list-style: none;
+  list-style-image: none;
+}
+
 ul.list-style-underline > li {
   list-style: none;
 }

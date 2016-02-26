@@ -218,6 +218,7 @@ function expressbase_image_style(&$vars) {
  */
 function expressbase_breadcrumb($vars) {
   $breadcrumb = $vars['breadcrumb'];
+  $theme = variable_get('theme_default','');
   if (!empty($breadcrumb) && theme_get_setting('use_breadcrumbs', $theme)) {
     // Replace the Home breadcrumb with a Home icon
     //$breadcrumb[0] = str_replace('Home','<i class="fa fa-home"></i> <span class="home-breadcrumb element-invisible">Home</span>',$breadcrumb[0]);
@@ -426,6 +427,7 @@ function expressbase_menu_link(array $vars) {
   if ($element['#below']) {
     $sub_menu = drupal_render($element['#below']);
   }
+  $element['#localized_options']['attributes']['class'][] = 'menu__link';
   $output = l($element['#title'], $element['#href'], $element['#localized_options']);
   return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
