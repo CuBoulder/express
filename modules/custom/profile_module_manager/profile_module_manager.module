@@ -26,32 +26,33 @@ function profile_module_manager_menu() {
       'weight' => 50,
   );
 
-  $items['admin/settings/bundles/list'] = array(
-    'title' => 'Configure Bundles',
-    'description' =>  'List of bundles.',
-    'page callback' => 'profile_module_manager_bundle_list',
-    'file' => 'profile_module_manager.admin.inc',
-    'access arguments' => array('enable module bundles'),
-  );
+  if (variable_get('profile_module_manager_disable_enabling', 1) == 1) {
+    $items['admin/settings/bundles/list'] = array(
+      'title' => 'Configure Bundles',
+      'description' => 'List of bundles.',
+      'page callback' => 'profile_module_manager_bundle_list',
+      'file' => 'profile_module_manager.admin.inc',
+      'access arguments' => array('enable module bundles'),
+    );
 
-  $items['admin/settings/bundles/list/enable/%'] = array(
-    'title' => 'Enable Bundle',
-    'description' =>  'Enable a bundle.',
-    'page callback' => 'profile_module_manager_bundle_enable',
-    'page arguments' => array(5),
-    'file' => 'profile_module_manager.admin.inc',
-    'access arguments' => array('enable module bundles'),
-  );
+    $items['admin/settings/bundles/list/enable/%'] = array(
+      'title' => 'Enable Bundle',
+      'description' => 'Enable a bundle.',
+      'page callback' => 'profile_module_manager_bundle_enable',
+      'page arguments' => array(5),
+      'file' => 'profile_module_manager.admin.inc',
+      'access arguments' => array('enable module bundles'),
+    );
 
-  $items['admin/settings/bundles/list/confirm/%'] = array(
-    'title' => 'Confirm Enabling Bundle',
-    'description' =>  'Enable a bundle.',
-    'page callback' => 'profile_module_manager_bundle_confirm',
-    'page arguments' => array(5),
-    'file' => 'profile_module_manager.admin.inc',
-    'access arguments' => array('enable module bundles'),
-  );
-
+    $items['admin/settings/bundles/list/confirm/%'] = array(
+      'title' => 'Confirm Enabling Bundle',
+      'description' => 'Enable a bundle.',
+      'page callback' => 'profile_module_manager_bundle_confirm',
+      'page arguments' => array(5),
+      'file' => 'profile_module_manager.admin.inc',
+      'access arguments' => array('enable module bundles'),
+    );
+  }
   $items['admin/config/system/module-manager'] = array(
     'title' => 'Profile Module Manager',
     'description' =>  'Configure Module Manager',
@@ -236,10 +237,14 @@ function profile_module_manager_modules_installed($modules) {
   foreach ($modules as $module) {
     // Only run these functions if module name includes _bundle
     if (strpos($module, '_bundle') !== false) {
-      // Get the info file
+      // Get the info file.
       $path = drupal_get_path('module', $module) . '/' . $module . '.info';
       $info = drupal_parse_info_file($path);
-      // Clear caches
+
+      // Rebuild node types.
+      node_types_rebuild();
+
+      // Clear caches.
       if ($info['bundle_cache_clear']) {
         drupal_flush_all_caches();
       }

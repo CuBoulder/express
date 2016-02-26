@@ -62,7 +62,7 @@ function cu_feature_callout_preprocess_entity(&$vars) {
       }
       // Get URL.
       if (!empty($fc_item['field_callout_title']['#items'][0]['url'])) {
-        $url = $fc_item['field_callout_title']['#items'][0]['url'];
+        $url = $fc_item['field_callout_title']['#items'][0];
       }
 
       // Get text content.
@@ -96,12 +96,12 @@ function cu_feature_callout_preprocess_entity(&$vars) {
       // Make links if $url is set.
       if (isset($url)) {
         if (isset($title)) {
-          $title = '<h3 class="feature-callout-title">' . l($title, $url, array('html' => TRUE)) . '</h3>';
+          $title = '<h3 class="feature-callout-title">' . l($title, $url['url'], array('html' => TRUE, 'query' => $url['query'], 'fragment' => $url['fragment'])) . '</h3>';
         } else {
           $title = '';
         }
         if (isset($image)) {
-          $image = l($image, $url, array('html' => TRUE));
+          $image = l($image, $url, array('html' => TRUE, 'query' => $url['query'], 'fragment' => $url['fragment']));
         } else {
           $image = '';
         }

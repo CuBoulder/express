@@ -67,9 +67,11 @@ function expressadmin_button($variables) {
 function expressadmin_preprocess_button(&$vars) {
   if (arg(2) != 'views') {
     $element = &$vars['element'];
-
     // Set the element's attributes.
     element_set_attributes($element, array('id', 'name', 'value', 'type'));
+
+    // Make sure submit buttons are really submit buttons
+    $element['#attributes']['type'] = 'submit';
 
     // Add the base Bootstrap button class.
     $element['#attributes']['class'][] = 'btn';
