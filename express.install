@@ -123,3 +123,14 @@ function express_install() {
   // ignore any other install messages
   drupal_get_messages();
 }
+
+/**
+ * Revert features by passing features in an array.
+ */
+function express_revert_features($features) {
+  foreach ($features as $feature) {
+    $f = features_get_features($feature);
+    $components = array_keys($f->info['features']);
+    features_revert(array($feature => $components));
+  }
+}

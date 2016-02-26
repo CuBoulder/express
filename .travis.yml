@@ -1,0 +1,123 @@
+language: php
+# We want to avoid sudo. This allow us to use Travis docker infrastructure, which means builds start faster and have more CPU available.
+sudo: false
+
+php:
+  - '5.3'
+
+# We need LDAP as long as it is in express_core. Need CGI for runserver in PHP 5.3.
+addons:
+  apt:
+    packages:
+    - ldap-utils
+    - curl
+    - php5-ldap
+    - php5-cgi
+    - php5-mysql
+    - php5-curl
+
+mysql:
+  database: drupal
+  username: root
+  encoding: utf8
+
+# Cache Composer & Drush directories.
+cache:
+  directories:
+    - $HOME/.composer/cache
+    - $HOME/.drush/cache
+
+# Order of operations is: before_install, install, before_script, script,
+# after_success or after_failure, OPTIONAL before_deploy, OPTIONAL deploy,
+# OPTIONAL after_deploy, after_script.
+
+install:
+  # Install latest Drush 6.
+  - travis_retry composer self-update && composer --version
+  - travis_retry composer global require "drush/drush:6.*"
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+
+  # Drupal.org verify tool
+  #- drush dl -y drupalorg_drush-7.x-1.x-dev --destination=$HOME/.drush
+  #- drush cc drush
+
+  # Build Behat dependencies
+  - cd ./tests/behat
+  - travis_retry composer install --prefer-dist --no-interaction
+  - cd ../../../
+
+  # Build Codebase
+  - mkdir profiles
+  - mv express profiles/
+  - mkdir drupal
+  - mv profiles drupal/
+
+  # Build the current branch
+  - cd drupal
+  - drush make --yes profiles/express/drupal-org-core.make --prepare-install
+  #- drush make --yes profiles/express/drupal-org.make --no-core --contrib-destination=profiles/express
+  - cd ../
+
+  # Verify that all the .make files will work on Drupal.org.
+  #- drush verify-makefile drupal/profiles/express/drupal-org.make
+  #- find drupal/profiles/express/modules -name \*.make -print0 | xargs -0 -n1 drush verify-makefile
+
+  # Setup files
+  - chmod -R 777 drupal/sites/all
+
+  # Setup display for Selenium
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - sleep 5
+
+  # Get Selenium
+  - wget http://selenium-release.storage.googleapis.com/2.42/selenium-server-standalone-2.42.1.jar
+  - java -jar selenium-server-standalone-2.42.1.jar > /dev/null 2>&1 &
+  - nc -zvv localhost 4444; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 4444..."; nc -zvv localhost 4444; out=$?; sleep 5; done
+
+  # Disable sendmail
+  - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  # Add memcache, APC, and LDAP
+  - echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "apc.shm_size=256M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "extension=memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+  # Increase the MySQL connection timeout on the PHP end.
+  - echo "mysql.connect_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "default_socket_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+  # Increase the MySQL server timetout and packet size.
+  - mysql -e "SET GLOBAL wait_timeout = 36000;"
+  - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
+
+before_script:
+
+  - mysql -e 'create database drupal;'
+
+  # Do the site install (either the current revision or old for the upgrade).
+  - cd drupal
+  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
+
+  # Start server.
+  - drush runserver 127.0.0.1:8080 &
+  - nc -zvv 127.0.0.1 8080; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8080..."; nc -zvv localhost 8080; out=$?; sleep 5; done
+  - cd profiles/express/tests/behat
+
+  # Setting Behat environment
+  - BUILD_TOP=`dirname $TRAVIS_BUILD_DIR`
+  - BEHAT_PARAMS='{"extensions":{"Drupal\\DrupalExtension":{"drupal":{"drupal_root":"BUILD_TOP/drupal"}},"Behat\\MinkExtension":{"base_url":"http://127.0.0.1:8080/"}}}'
+  - BEHAT_PARAMS=`echo $BEHAT_PARAMS | sed -e s#BUILD_TOP#$BUILD_TOP#`
+  - export BEHAT_PARAMS
+
+script:
+  # Run Behat tests.
+  - ./bin/behat --config behat.yml
+
+notifications:
+  slack:
+      rooms:
+        secure: "oVRI1SIimdJc8YETA/0guq0laOJkygSmw9IDjyNsX51dptt+S8PL9iDJlKqFeaqpsU4DMIHht2pHxwJMeQLWJVQZK5MQLG2QsUs9ibDnp3w5Y/DWwI7zGiHVZ2FEEwPItJxDTAtmsplx3nA97GKttewe7+G/OcnzCT8gwId2ITrWtW8xzOdE1/vdQhd3hANWyfhK845+oAI6Jez54uBrBJuhJGuETixrVP3qm33RZ0MTBCmDRGJNGpLMYhc9Lzl8ItVGkNtu5ju3b3SkypySPTIHy0W18PyGvNe3efIHeRAMCrgzetLb7g1jc5YtUC+SH0LqWjJsifqgsuN0b4F02zhMZnT23ekwfCEvO65yfviOas44BdWsWhZIPwGdv8cKBdSDF69tkc1d7QodiSUl5kwRkFbsVyQs8ow6z2aIm0I3FvPmmKBZXuOZaBCXArRnDXlRwFo4KwKrGaD/K2fBAeCvqX4OGowIgptF8bjDKs5207mPyV7T2vbFbQzHbZlN41k7NT+JcKIloBTn+1VSMXa4Mb1JcRUKhdPOUC9BxX5HO8C/x+2e/BANWOZGkoDGCuKGQwPWpcy/8JaMwJTTHCEmXqCDxBhB8EfVkHvNB5k6Ll/Rjg8WP48FEXKNQpnJUJF7uqvdsnuso4B9l30Imlh4LWOWkSMGNZ6tSprMGtU="
+      on_start: always
+      on_success: always
+      on_failure: always

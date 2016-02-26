@@ -140,6 +140,9 @@ function express_permissions_secure_permissions($role) {
       'view any hero_unit bean',
       'view any quicktab bean',
       'view any slider bean',
+      'view status messages',
+      'view warning messages',
+      'view error messages',
     ),
     'authenticated user' => array(
       'access content',
@@ -153,6 +156,7 @@ function express_permissions_secure_permissions($role) {
       'view any slider bean',
       'view status messages',
       'view warning messages',
+      'view error messages',
     ),
     'content_editor' => array(
       'access administration pages',
