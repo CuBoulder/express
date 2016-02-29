@@ -13,7 +13,7 @@ use Behat\Behat\Context\Step\Given;
 /**
  * Defines application features from the specific context.
  */
-class PhotoGalleryContext extends RawDrupalContext implements SnippetAcceptingContext {
+class AdvancedDesignContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
    * Initializes context.
@@ -32,7 +32,7 @@ class PhotoGalleryContext extends RawDrupalContext implements SnippetAcceptingCo
     $data = array(
       'sids' => array (
         'directory' => 'directory',
-        ),
+      ),
       'authenticationMode' => 1,
       'loginConflictResolve' => 2,
       'acctCreation' => 4,
@@ -53,7 +53,7 @@ class PhotoGalleryContext extends RawDrupalContext implements SnippetAcceptingCo
     );
     variable_set('ldap_authentication_conf', $data);
 
-    //module_enable(array('cu_photo_gallery_bundle'));
+    //module_enable(array('cu_advanced_content_bundle'));
     //drupal_flush_all_caches();
   }
 
@@ -62,8 +62,8 @@ class PhotoGalleryContext extends RawDrupalContext implements SnippetAcceptingCo
    * Disable bundle modules.
    */
   public static function tearDown($scope) {
-    //module_disable(array('cu_photo_gallery_bundle'));
-    //drupal_uninstall_modules(array('cu_photo_gallery_bundle'));
+    //module_disable(array('cu_advanced_content_bundle'));
+    //drupal_uninstall_modules(array('cu_advanced_content_bundle'));
     //drupal_flush_all_caches();
   }
 
@@ -183,32 +183,6 @@ class PhotoGalleryContext extends RawDrupalContext implements SnippetAcceptingCo
   }
 
   /**
-   * @When /^I click the "(?P<element>(?:[^"]|\\")*)" element with "(?P<value>(?:[^"]|\\")*)" for "(?P<attribute>(?:[^"]|\\")*)"$/
-   */
-  public function iClickTheElementWithFor($element, $value, $attribute) {
-    $page_elements = $this->getSession()
-      ->getPage()
-      ->findAll("css", $element);
-
-    if ($page_elements == NULL) {
-      throw new \Exception(sprintf('Couldn\'t find "%s" elements', $element));
-    }
-
-    foreach ($page_elements as $element) {
-      if ($page_attribute = $element->getAttribute($attribute)) {
-        if ($page_attribute == $value) {
-          $element->click();
-          return;
-        }
-      }
-    }
-
-    if ($page_attribute == NULL) {
-      throw new \Exception(sprintf('Couldn\'t find "%s" attribute', $attribute));
-    }
-  }
-
-  /**
    * @Then /^The "(?P<element>(?:[^"]|\\")*)" link should have "(?P<text>(?:[^"]|\\")*)" in the "(?P<attribute>(?:[^"]|\\")*)" attribute$/
    *
    */
@@ -234,58 +208,5 @@ class PhotoGalleryContext extends RawDrupalContext implements SnippetAcceptingCo
       throw new \Exception(sprintf('The "%s" attribute did not contain "%s"', $page_attribute, $text));
     }
   }
-
-  /**
-   * @AfterStep
-   */
-  public function takeScreenShotAfterFailedStep($scope) {
-    if (99 === $scope->getTestResult()->getResultCode()) {
-      $driver = $this->getSession()->getDriver();
-      if (!($driver instanceof Selenium2Driver)) {
-        return;
-      }
-      file_put_contents('/data/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
-    }
-  }
-
-  /**
-   * @When /^I create a "(?P<content_type>(?:[^"]|\\")*)" node with the title "(?P<title>(?:[^"]|\\")*)"$/
-   */
-  public function imAtAWithTheTitle($content_type, $title) {
-    // Create Node.
-    $node = new stdClass();
-    $node->title = $title;
-    $node->type = $content_type;
-    node_object_prepare($node);
-    node_save($node);
-
-    // Go to node page
-    $session = $this->getSession();
-    $session->visit('node/' . $node->nid);
-  }
-
-  /*
-  /**
-   * @AfterScenario
-   *
-   * @todo Get this working to cleanup node creation
-   */
-  /*
-  public function afterNodeCreation($event) {
-    $steps = $event->getScenario()->getSteps();
-    $tags = $event->getScenario()->getTags();
-
-    if (in_array('node_creation', $tags)) {
-      foreach ($steps as $step) {
-        $step = (array) $step;
-        //print_r($step);
-        if (strpos($step[Behat\Gherkin\Node\StepNodetext], 'I create a' && strpos($step[Behat\Gherkin\Node\StepNodetext], 'node'))) {
-          $step_pieces = explode('"', $step[Behat\Gherkin\Node\StepNodetext]);
-          print_r($step_pieces);
-        }
-      }
-    }
-  }
-  */
 }
 

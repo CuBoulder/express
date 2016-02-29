@@ -272,4 +272,33 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
       throw new \Exception(sprintf('The "%s" attribute did not contain "%s"', $page_attribute, $text));
     }
   }
+
+  /**
+   * @AfterStep
+   */
+  public function takeScreenShotAfterFailedStep($scope) {
+    if (99 === $scope->getTestResult()->getResultCode()) {
+      $driver = $this->getSession()->getDriver();
+      if (!($driver instanceof Selenium2Driver)) {
+        return;
+      }
+      file_put_contents('/data/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
+    }
+  }
+
+  /**
+   * @When /^I create a "(?P<content_type>(?:[^"]|\\")*)" node with the title "(?P<title>(?:[^"]|\\")*)"$/
+   */
+  public function imAtAWithTheTitle($content_type, $title) {
+    // Create Node.
+    $node = new stdClass();
+    $node->title = $title;
+    $node->type = $content_type;
+    node_object_prepare($node);
+    node_save($node);
+
+    // Go to node page
+    $session = $this->getSession();
+    $session->visit('node/' . $node->nid);
+  }
 }

@@ -18,6 +18,14 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
+    cu_advanced_design_bundle:
+      paths: [ %paths.base%/features/AdvancedDesign ]
+      contexts:
+        - AdvancedContentContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+        - Drupal\DrupalExtension\Context\DrushContext
     cu_advanced_layout_bundle:
       paths: [ %paths.base%/features/AdvancedLayout ]
       contexts:
@@ -113,7 +121,7 @@ default:
         Secondary Menu: "#secondary-menu"
         Menu: "#navigation"
         Sidebar First: ".region-sidebar-first"
-        Sidebar Second: "#region-sidebar-second"
+        Sidebar Second: ".region-sidebar-second"
         Wide Intro: "#intro-wide-wrapper"
         Slider: ""
         Help: ""

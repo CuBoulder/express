@@ -9,7 +9,7 @@ Feature: Authentication tasks
     When I press "Log in"
     Then I should see the following error messages:
     | error messages                        |
-    | CU Login Name field is required. |
+    | CU Login Name field is required.      |
     | IdentiKey Password field is required. |
     And I should not see the following error messages:
     | error messages                                                                |
@@ -50,11 +50,11 @@ Feature: Authentication tasks
     Given I fill in "username" for "CU Login Name"
     When I press "Log in"
     Then I should see the following error messages:
-    | error messages |
+    | error messages                            |
     | Sorry, unrecognized username or password. |
     And I should not see the following error messages:
-    | error messages |
+    | error messages                        |
     | IdentiKey Password field is required. |
-    | CU Login Name field is required. |
+    | CU Login Name field is required.      |
     | Unable to send e-mail. Contact the site administrator if the problem persists |
 
