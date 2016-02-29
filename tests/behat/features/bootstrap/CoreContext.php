@@ -297,6 +297,19 @@ class CoreContext extends RawDrupalContext implements SnippetAcceptingContext {
   }
 
   /**
+   * @AfterStep
+   */
+  public function takeScreenShotAfterFailedStep($scope) {
+    if (99 === $scope->getTestResult()->getResultCode()) {
+      $driver = $this->getSession()->getDriver();
+      if (!($driver instanceof Selenium2Driver)) {
+        return;
+      }
+      file_put_contents('/data/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
+    }
+  }
+
+  /**
    * @When /^I create a "(?P<content_type>(?:[^"]|\\")*)" node with the title "(?P<title>(?:[^"]|\\")*)"$/
    */
   public function imAtAWithTheTitle($content_type, $title) {
@@ -306,8 +319,49 @@ class CoreContext extends RawDrupalContext implements SnippetAcceptingContext {
     $node->type = $content_type;
     node_object_prepare($node);
     node_save($node);
+
     // Go to node page
     $session = $this->getSession();
     $session->visit('node/' . $node->nid);
   }
+
+  /**
+   * @When /^I create a "(?P<bean_type>(?:[^"]|\\")*)" block with the label "(?P<label>(?:[^"]|\\")*)"$/
+   */
+  public function imAtAWithTheLabel($bean_type, $label) {
+    // Create Block.
+    $values = array(
+      'label' => $label,
+      'type'  => $bean_type,
+    );
+    $entity = entity_create('bean', $values);
+    $saved_entity = entity_save('bean', $entity);
+    // Go to bean page.
+    $session = $this->getSession();
+    $session->visit('block/' . $entity->delta);
+  }
+
+  /*
+  /**
+   * @AfterScenario
+   *
+   * @todo Get this working to cleanup node creation
+   */
+  /*
+  public function afterNodeCreation($event) {
+    $steps = $event->getScenario()->getSteps();
+    $tags = $event->getScenario()->getTags();
+
+    if (in_array('node_creation', $tags)) {
+      foreach ($steps as $step) {
+        $step = (array) $step;
+        //print_r($step);
+        if (strpos($step[Behat\Gherkin\Node\StepNodetext], 'I create a' && strpos($step[Behat\Gherkin\Node\StepNodetext], 'node'))) {
+          $step_pieces = explode('"', $step[Behat\Gherkin\Node\StepNodetext]);
+          print_r($step_pieces);
+        }
+      }
+    }
+  }
+  */
 }

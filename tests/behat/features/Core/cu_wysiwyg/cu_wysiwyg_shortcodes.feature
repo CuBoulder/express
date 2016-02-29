@@ -123,6 +123,7 @@ I should be able to use the full functionality of the WYSIWYG editor
     When I go to "node/add/page"
       And I fill in "Title" with "My Box Shortcode"
       And I press the "Box Shortcode Generator" button
+      And I wait for AJAX
       And I fill in "Title (optional)" with "Box Shortcode"
       And I fill in "Box Text" with "Box Shortcode Text"
       And I select "black" from "Box Color"

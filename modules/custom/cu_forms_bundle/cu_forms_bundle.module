@@ -99,11 +99,6 @@ function cu_forms_bundle_express_help($variables) {
     'short_title' => 'Webform Help',
     'url' => 'http://www.colorado.edu/node/610',
   );
-  $variables['node/add/webform'][] = array(
-    'title' => 'Webform Overview Help',
-    'short_title' => 'Webform Overview',
-    'url' => '/tutorial/v2/webform-overview',
-  );
   $variables['node/%/webform'][] = array(
     'title' => 'Adding Webform Components',
     'short_title' => 'Webform Components',
@@ -115,19 +110,9 @@ function cu_forms_bundle_express_help($variables) {
     'url' => '/tutorial/v2/checkboxes-radio-buttons-select-lists',
   );
   $variables['node/%/webform/configure'][] = array(
-    'title' => 'Add Spam Prevention to Webforms',
-    'short_title' => 'Webform Spam Prevention',
-    'url' => '/tutorial/v2/add-spam-prevention-webforms',
-  );
-  $variables['node/%/webform/configure'][] = array(
     'title' => 'Adjust Webform Settings',
     'short_title' => 'Webform Settings',
     'url' => '/tutorial/v2/fourth-adjust-webform-settings',
-  );
-  $variables['node/%/webform/emails'][] = array(
-    'title' => 'Configure Email for Webforms',
-    'short_title' => 'Webform Emails',
-    'url' => '/tutorial/v2/third-configure-email-submissions',
   );
   $variables['node/%/webform/emails'][] = array(
     'title' => 'Configure Email Templates for Webforms',
@@ -143,6 +128,20 @@ function cu_forms_bundle_express_help($variables) {
     'title' => 'Feedback Form Help',
     'short_title' => 'Feedback Form Help',
     'url' => '/node/16',
+  );
+  return $variables;
+}
+
+/**
+ * Implements hook_express_help_field().
+ */
+function cu_forms_bundle_express_help_fields($variables) {
+  $variables['webform_configure_form']['fields'] = array(
+    'webform-captcha' => array(
+      'title' => 'Add Spam Prevention to Webforms',
+      'short_title' => 'Webform Spam Prevention',
+      'url' => '/tutorial/v2/add-spam-prevention-webforms',
+    ),
   );
   return $variables;
 }
