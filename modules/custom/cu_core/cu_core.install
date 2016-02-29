@@ -167,9 +167,19 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
 }
 
 /**
+ * Express Update 7002.
+ * Removing cu_default_image_style_override.
  * Cleanup sites migrated for Express transition.
  */
 function cu_core_update_7002() {
+  // Disable
+  module_disable(array(
+    'cu_default_image_style_override',
+  ));
+  // Uninstall
+  drupal_uninstall_modules(array(
+    'cu_default_image_style_override',
+  ));
 
   module_disable(array('diff', 'quicktabs_tabstyles', 'views_ui', 'environment', 'client_ui_control', 'color'));
 
@@ -206,9 +216,8 @@ function cu_core_update_7002() {
 
   cu_core_revert_features();
 
-    // Do at the end of every update.
-  module_load_include('inc', 'cu_inventory');
-  cu_inventory_process_profile_version('7002');
+  // Run on every update
+  express_inventory_update('7002');
 }
 
 /**
@@ -225,8 +234,6 @@ function cu_core_revert_features($features = NULL) {
       }
     }
   }
-
-  //dsm($features);
 
   foreach ($features as $feature) {
     // check against features that currently can't be reverted
