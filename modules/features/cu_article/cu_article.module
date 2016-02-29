@@ -486,6 +486,7 @@ function cu_article_preprocess_node(&$vars) {
   if ($vars['node']->type == 'article') {
     // Load global article settings
     $settings = variable_get('cu_article_global_settings', '');
+    $global_date_display = isset($settings['date_display']) ? $settings['date_display'] : 'custom';
 
     // Add article metadata element. Other modules can add to this.
     $vars['content']['article_meta']['#prefix'] = '<div class="article-meta-wrapper"><div class="article-meta">';
@@ -497,9 +498,7 @@ function cu_article_preprocess_node(&$vars) {
 
     // Show/hide publish date
     $article_date_settings = !empty($vars['node']->field_article_date_display) ? $vars['node']->field_article_date_display[LANGUAGE_NONE][0]['value'] : NULL;
-    if (
-      ($article_date_settings == 'hide' || $settings['date_display'] == 'hide') && $settings['date_display'] != 'show'
-    ) {
+    if (($article_date_settings == 'hide' || $global_date_display == 'hide') && $global_date_display != 'show') {
       unset($vars['author_meta']['date']);
     }
 
@@ -682,35 +681,37 @@ function cu_article_node_update($node) {
     // Get tags on article node.
     $tags = $node->field_tags;
 
-    // Let's step through one tag at a time.
-    foreach ($tags[LANGUAGE_NONE] as $tag) {
-      $tid = $tag['tid'];
+    if (isset($tags[LANGUAGE_NONE])) {
+      // Let's step through one tag at a time.
+      foreach ($tags[LANGUAGE_NONE] as $tag) {
+        $tid = $tag['tid'];
 
-      // Build query of article list pages to see if one already exists with
-      // this term.
-      $query = db_select('node', 'n');
-      $query->condition('n.type', 'article_list_page', '=');
-      $query->fields('n', array('nid', 'title'));
+        // Build query of article list pages to see if one already exists with
+        // this term.
+        $query = db_select('node', 'n');
+        $query->condition('n.type', 'article_list_page', '=');
+        $query->fields('n', array('nid', 'title'));
 
-      // Join to see if the article_list_page node has the same tid.
-      $query->join("field_data_field_article_page_filter", "tags", "n.nid = tags.entity_id");
-      $query->fields('tags', array('field_article_page_filter_tid'));
-      $query->condition('tags.field_article_page_filter_tid', $tid, '=');
+        // Join to see if the article_list_page node has the same tid.
+        $query->join("field_data_field_article_page_filter", "tags", "n.nid = tags.entity_id");
+        $query->fields('tags', array('field_article_page_filter_tid'));
+        $query->condition('tags.field_article_page_filter_tid', $tid, '=');
 
-      $nids = $query->execute()->fetchCol();
+        $nids = $query->execute()->fetchCol();
 
-      // Create a article list page node if one doesn't already exist.
-      if (empty($nids)) {
-        _cu_article_create_list_page($tid);
+        // Create a article list page node if one doesn't already exist.
+        if (empty($nids)) {
+          _cu_article_create_list_page($tid);
+        }
       }
     }
 
     // Get categories on article node.
-    if (isset ($node->field_article_categories)) {
-      $categories = $node->field_article_categories;
+    if (isset ($node->field_article_categories[LANGUAGE_NONE])) {
+      $categories = $node->field_article_categories[LANGUAGE_NONE];
 
       // Let's step through one category at a time.
-      foreach ($categories[LANGUAGE_NONE] as $category) {
+      foreach ($categories as $category) {
         $tid = $category['tid'];
 
         // Build query of article list pages to see if one already exists with

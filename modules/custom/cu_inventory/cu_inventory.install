@@ -33,7 +33,7 @@ function cu_inventory_requirements($phase) {
       $requirements['cu_inventory_sid'] = array(
         'title' => $t('CU Inventory Site ID'),
         'value' => $t('This has no site id'),
-        'severity' => REQUIREMENT_ERROR,
+        'severity' => REQUIREMENT_WARNING,
       );
       $requirements['cu_log_link'] = array(
         'title' => $t('CU Inventory Syslog'),
@@ -54,7 +54,7 @@ function cu_inventory_requirements($phase) {
       $requirements['cu_inventory_is_up'] = array(
         'title' => $t('CU Inventory Status'),
         'value' => $t('is down.'),
-        'severity' => REQUIREMENT_ERROR,
+        'severity' => REQUIREMENT_WARNING,
       );
     }
   }

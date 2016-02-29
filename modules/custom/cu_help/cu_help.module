@@ -41,13 +41,7 @@ function cu_help_express_help($variables) {
     'url' => '/node/478',
   );
 
-  $variables['node/%/blocks'][] = array(
-    'title' => 'Editing Blocks Help',
-    'short_title' => 'Editing Blocks',
-    'url' => '/node/420',
-  );
-
-  $variables['node/%/blocks'][] = array(
+  $variables['node/%/layout'][] = array(
     'title' => 'Placing Blocks While Editing a Page',
     'short_title' => 'Placing Blocks While Editing a Page',
     'url' => '/node/436',

@@ -127,7 +127,7 @@ websupport@colorado.edu');
   variable_set('syslog_identity', $syslog_identity);
   // Key for 'LOG_LOCAL0' in the form.
   variable_set('syslog_facility', '128');
-  variable_set('syslog_format', '!base_url !timestamp "!type" !ip !request_uri !referer !uid "!link" "!message"');
+  variable_set('syslog_format','!base_url|!timestamp|!type|!ip|!request_uri|!referer|!uid|!link|!message');
 
   // Set variable for disabling certain messages from users.
   variable_set('disable_messages_ignore_regex', array(
@@ -248,4 +248,11 @@ function cu_core_revert_features($features = NULL) {
       watchdog('cu_core', 'Attempting to revert %feature', array('%feature' => $feature->name), WATCHDOG_NOTICE);
     }
   }
+/**
+ * Updates inventory with profile version.
+ */
+function express_inventory_update($version) {
+  // Do at the end of every update.
+  module_load_include('inc', 'cu_inventory');
+  cu_inventory_process_profile_version($version);
 }
