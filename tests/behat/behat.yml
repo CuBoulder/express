@@ -2,11 +2,10 @@ default:
   formatters:
     pretty: true
   suites:
-    core:
-      # %paths.base% is the location of this file.
-      paths: [ %paths.base%/features/Core ]
+    express:
+      paths: [ %paths.base%/features/Express ]
       contexts:
-        - CoreContext
+        - ExpressContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
@@ -51,7 +50,7 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
-    cu_news_bundle:
+    cu_news_articles_bundle:
       paths: [%paths.base%/features/NewsArticles]
       contexts:
         - NewsArticlesContext
