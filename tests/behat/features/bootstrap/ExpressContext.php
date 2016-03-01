@@ -247,6 +247,29 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
+   * @When /^I click the "(?P<element>(?:[^"]|\\")*)" element with "(?P<value>(?:[^"]|\\")*)" for "(?P<attribute>(?:[^"]|\\")*)"$/
+   */
+  public function iClickTheElementWithFor($element, $value, $attribute) {
+    $page_elements = $this->getSession()
+      ->getPage()
+      ->findAll("css", $element);
+    if ($page_elements == NULL) {
+      throw new \Exception(sprintf('Couldn\'t find "%s" elements', $element));
+    }
+    foreach ($page_elements as $element) {
+      if ($page_attribute = $element->getAttribute($attribute)) {
+        if ($page_attribute == $value) {
+          $element->click();
+          return;
+        }
+      }
+    }
+    if ($page_attribute == NULL) {
+      throw new \Exception(sprintf('Couldn\'t find "%s" attribute', $attribute));
+    }
+  }
+
+  /**
    * @Then /^The "(?P<element>(?:[^"]|\\")*)" link should have "(?P<text>(?:[^"]|\\")*)" in the "(?P<attribute>(?:[^"]|\\")*)" attribute$/
    *
    */
@@ -301,4 +324,44 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     $session = $this->getSession();
     $session->visit('node/' . $node->nid);
   }
+
+  /**
+   * @When /^I create a "(?P<bean_type>(?:[^"]|\\")*)" block with the label "(?P<label>(?:[^"]|\\")*)"$/
+   */
+  public function imAtAWithTheLabel($bean_type, $label) {
+    // Create Block.
+    $values = array(
+      'label' => $label,
+      'type'  => $bean_type,
+    );
+    $entity = entity_create('bean', $values);
+    $saved_entity = entity_save('bean', $entity);
+    // Go to bean page.
+    $session = $this->getSession();
+    $session->visit('block/' . $entity->delta);
+  }
+
+  /*
+  /**
+   * @AfterScenario
+   *
+   * @todo Get this working to cleanup node creation
+   */
+  /*
+  public function afterNodeCreation($event) {
+    $steps = $event->getScenario()->getSteps();
+    $tags = $event->getScenario()->getTags();
+
+    if (in_array('node_creation', $tags)) {
+      foreach ($steps as $step) {
+        $step = (array) $step;
+        //print_r($step);
+        if (strpos($step[Behat\Gherkin\Node\StepNodetext], 'I create a' && strpos($step[Behat\Gherkin\Node\StepNodetext], 'node'))) {
+          $step_pieces = explode('"', $step[Behat\Gherkin\Node\StepNodetext]);
+          print_r($step_pieces);
+        }
+      }
+    }
+  }
+  */
 }
