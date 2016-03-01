@@ -230,7 +230,7 @@ function cu_core_revert_features($features = NULL) {
     $features = features_get_features();
     foreach ($features as $feature) {
       if (features_get_storage($feature) == 0) {
-        unset($features['$feature']);
+        unset($features[$feature]);
       }
     }
   }
