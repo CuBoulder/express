@@ -101,7 +101,7 @@ function cu_feature_callout_preprocess_entity(&$vars) {
           $title = '';
         }
         if (isset($image)) {
-          $image = l($image, $url, array('html' => TRUE, 'query' => $url['query'], 'fragment' => $url['fragment']));
+          $image = l($image, $url['url'], array('html' => TRUE, 'query' => $url['query'], 'fragment' => $url['fragment']));
         } else {
           $image = '';
         }
