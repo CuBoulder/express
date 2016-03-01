@@ -251,6 +251,9 @@ body.navbar-tray-open.navbar-fixed.navbar-vertical #navbar-administration.navbar
   display: none;
   z-index: 501;
 }
+#navbar-administration .navbar-tray > .navbar-lining {
+  position: relative;
+}
 #navbar-administration.navbar-oriented .navbar-tray-vertical {
   left: -100%; /* LTR */
   position: absolute;

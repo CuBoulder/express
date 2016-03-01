@@ -426,6 +426,4 @@ class LinkTokenTest extends LinkBaseTestClass {
 
     $this->assertRaw('This &amp; That');
   }
-  
-  
 }
