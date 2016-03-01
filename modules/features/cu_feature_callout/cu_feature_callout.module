@@ -52,7 +52,7 @@ function cu_feature_callout_preprocess_entity(&$vars) {
       $count = $i + 1;
       // Grab the field_collection_item entity.
       $fc_item = array_pop($vars['content']['field_callouts'][$child]['entity']['field_collection_item']);
-
+      //kpr($fc_item);
       // Get title.
       if (!empty($fc_item['field_callout_title']['#items'])) {
         $title = $fc_item['field_callout_title']['#items'][0]['title'];
@@ -63,6 +63,7 @@ function cu_feature_callout_preprocess_entity(&$vars) {
       // Get URL.
       if (!empty($fc_item['field_callout_title']['#items'][0]['url'])) {
         $url = $fc_item['field_callout_title']['#items'][0];
+        //dpm($url);
       }
 
       // Get text content.
@@ -73,6 +74,7 @@ function cu_feature_callout_preprocess_entity(&$vars) {
       if (isset($fc_item['field_callout_image']['#items'][0]['uri'])) {
         // Get image uri.
         $image_uri = $fc_item['field_callout_image']['#items'][0]['uri'];
+        dpm($image_uri);
         $build = array(
           '#theme' => 'image_style',
           '#style_name' => $size,
@@ -101,7 +103,7 @@ function cu_feature_callout_preprocess_entity(&$vars) {
           $title = '';
         }
         if (isset($image)) {
-          $image = l($image, $url, array('html' => TRUE, 'query' => $url['query'], 'fragment' => $url['fragment']));
+          $image = l($image, $url['url'], array('html' => TRUE, 'query' => $url['query'], 'fragment' => $url['fragment']));
         } else {
           $image = '';
         }
