@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * cu_bucket.strongarm.inc
+ * cu_cache.strongarm.inc
  */
 
 /**
  * Implements hook_strongarm().
  */
-function cu_bucket_strongarm() {
+function cu_cache_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();
