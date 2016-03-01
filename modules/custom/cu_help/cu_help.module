@@ -218,15 +218,33 @@ function cu_help_express_help_fields($variables) {
  */
 function cu_help_page_alter(&$page) {
   $path = current_path();
-  // If on node/add page
-  if ($path == 'node/add') {
-    $link = l(t('<i class="fa fa-plus-circle"></i> Add Content Types'), '/admin/settings/bundles/list', array('attributes' => array('class' => array('btn', 'btn-info')), 'html' => TRUE));
-    $page['content']['system_main']['main']['#suffix'] = '<p>' . $link . '</p>';
+  switch ($path) {
+    case 'node/add':
+      $link = l(t('<i class="fa fa-plus-circle"></i> Add Content Types'), '/admin/settings/bundles/list', array(
+        'attributes' => array(
+          'class' => array(
+            'btn',
+            'btn-info'
+          )
+        ),
+        'html' => TRUE
+      ));
+      $page['content']['system_main']['main']['#suffix'] = '<p>' . $link . '</p>';
+      break;
+    case 'block/add':
+      $link = l(t('<i class="fa fa-plus-circle"></i> Add Block Types'), '/admin/settings/bundles/list', array(
+        'attributes' => array(
+          'class' => array(
+            'btn',
+            'btn-info'
+          )
+        ),
+        'html' => TRUE
+      ));
+      $page['content']['system_main']['main']['#suffix'] = '<p>' . $link . '</p>';
+      break;
+    case 'admin/structure/taxonomy':
+      $page['help']['system_help']['#markup'] = '<p>Taxonomy is the method used to classify, organize and cross-reference content.</p>';
+      break;
   }
-  // If on block/add page
-  if ($path == 'block/add') {
-    $link = l(t('<i class="fa fa-plus-circle"></i> Add Block Types'), '/admin/settings/bundles/list', array('attributes' => array('class' => array('btn', 'btn-info')), 'html' => TRUE));
-    $page['content']['system_main']['main']['#suffix'] = '<p>' . $link . '</p>';
-  }
-
 }
