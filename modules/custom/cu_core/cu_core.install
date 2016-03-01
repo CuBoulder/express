@@ -139,6 +139,7 @@ websupport@colorado.edu');
 You can now .+configure the CAPTCHA module.+ for your site.
 Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
 
+  variable_set('express_layout_node_type_ignore', array('file'));
 }
 
 /**
@@ -168,21 +169,24 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
 
 /**
  * Express Update 7002.
- * Removing cu_default_image_style_override.
+ * Removing cu_default_image_style_override and grid_images.
  * Cleanup sites migrated for Express transition.
  */
 function cu_core_update_7002() {
-  //Disable grid_images module.
+
+  // Disable grid_images, cu_default_image_style_override modules.
   module_disable(array(
     'grid_images',
     'cu_default_image_style_override',
   ));
 
-  // Uninstall grid_images module.
+  // Uninstall grid_images, cu_default_image_style_override modules.
   drupal_uninstall_modules(array(
     'grid_images',
     'cu_default_image_style_override',
   ));
+
+  variable_set('express_layout_node_type_ignore', array('file'));
 
   module_disable(array('diff', 'quicktabs_tabstyles', 'views_ui', 'environment', 'client_ui_control', 'color'));
 
@@ -224,21 +228,15 @@ function cu_core_update_7002() {
 }
 
 /**
- * Updates for Express 2.1.0.
+ * Updates for Express 2.0.1.
  */
 function cu_core_update_7003() {
-
-  module_disable(array(
-    'cu_custom_logo',
-  ));
 
   // Uninstall unused modules.
   drupal_uninstall_modules(array(
     'cu_block_selector',
-    'cu_cache',
     'cu_transition_express',
     'overlay',
-    'cu_custom_logo',
   ));
 
   // Uninstall modules that had dependencies on modules above.
@@ -247,7 +245,7 @@ function cu_core_update_7003() {
   ));
 
   // Run on every update
-  express_inventory_update('210');
+  express_inventory_update('7003');
 }
 
 /**
@@ -260,7 +258,7 @@ function cu_core_revert_features($features = NULL) {
     $features = features_get_features();
     foreach ($features as $feature) {
       if (features_get_storage($feature) == 0) {
-        unset($features['$feature']);
+        unset($features[$feature]);
       }
     }
   }

@@ -109,6 +109,11 @@ function cu_forms_bundle_express_help($variables) {
     'short_title' => 'Webform Select Options',
     'url' => '/tutorial/v2/checkboxes-radio-buttons-select-lists',
   );
+  $variables['node/%/webform/conditionals'][] = array(
+    'title' => 'Webform Conditionals Help',
+    'short_title' => 'Webform Conditionals',
+    'url' => '/tutorial/v2/webform-conditional-actions',
+  );
   $variables['node/%/webform/configure'][] = array(
     'title' => 'Adjust Webform Settings',
     'short_title' => 'Webform Settings',

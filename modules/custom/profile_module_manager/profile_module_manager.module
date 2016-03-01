@@ -18,12 +18,12 @@ function profile_module_manager_page_alter(&$page) {
 function profile_module_manager_menu() {
   // admin/settings ui provided by express_admin or custom solution
   $items['admin/settings/site-configuration/bundles'] = array(
-      'title' => 'Enable Bundles',
-      'description' => 'Enable Add-on Bundles for additional functionality',
-      'page callback' => 'drupal_goto',
-      'page arguments' => array('admin/settings/bundles/list'),
-      'access arguments' => array('enable module bundles'),
-      'weight' => 50,
+    'title' => 'Enable Bundles',
+    'description' => 'Enable Add-on Bundles for additional functionality',
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('admin/settings/bundles/list'),
+    'access arguments' => array('enable module bundles'),
+    'weight' => 50,
   );
 
   if (variable_get('profile_module_manager_disable_enabling', 1) == 1) {
