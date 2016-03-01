@@ -139,6 +139,7 @@ websupport@colorado.edu');
 You can now .+configure the CAPTCHA module.+ for your site.
 Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
 
+  variable_set('express_layout_node_type_ignore', array('file'));
 }
 
 /**
