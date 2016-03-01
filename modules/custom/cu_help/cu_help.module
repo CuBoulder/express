@@ -122,7 +122,7 @@ function cu_help_express_help($variables) {
   $variables['admin/structure/taxonomy'][] = array(
     'title' => 'Taxonomy Tutorial',
     'short_title' => 'Taxonomy Tutorial',
-    'url' => '/node/630',
+    'url' => '/node/970',
   );
 
   $variables['admin/people'][] = array(
