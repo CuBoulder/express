@@ -81,6 +81,7 @@ dependencies[] = auto_entitylabel
 dependencies[] = navbar
 dependencies[] = module_filter
 dependencies[] = escape_admin
+dependencies[] = cu_shortcuts
 
 ; Site Structure
 dependencies[] = cu_site_info
@@ -132,7 +133,6 @@ dependencies[] = files_undo_remove
 ; ============ IMAGES ============
 dependencies[] = focal_point
 dependencies[] = cu_image_styles
-dependencies[] = cu_default_image_style_override
 dependencies[] = image_url_formatter
 
 ; ============ DATE ============

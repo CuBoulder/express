@@ -80,7 +80,7 @@ class DrupalDefaultMetaTag implements DrupalMetaTagInterface {
     $value = $this->tidyValue($this->data['value']);
 
     // Translate the final output string prior to output. Use the
-    // 'metatag_output' i18n_string object type, and pass along the meta tag's
+    // 'output' i18n_string object type, and pass along the meta tag's
     // options as the context so it can be handled appropriately.
     $value = metatag_translate_metatag($value, $this->info['name'], $options, NULL, TRUE);
 
@@ -281,7 +281,7 @@ class DrupalTextMetaTag extends DrupalDefaultMetaTag {
         // If this contains embedded image tags, extract the image URLs.
         if (strip_tags($image_value) != $image_value) {
           $matches = array();
-          preg_match('/src="([^"]*)"/', $val, $matches);
+          preg_match('/src="([^"]*)"/', $image_value, $matches);
           if (!empty($matches[1])) {
             $image_value = $matches[1];
           }
@@ -299,7 +299,7 @@ class DrupalTextMetaTag extends DrupalDefaultMetaTag {
     $value = $this->tidyValue($value);
 
     // Translate the final output string prior to output. Use the
-    // 'metatag_output' i18n_string object type, and pass along the meta tag's
+    // 'output' i18n_string object type, and pass along the meta tag's
     // options as the context so it can be handled appropriately.
     $value = metatag_translate_metatag($value, $this->info['name'], $options, NULL, TRUE);
 
@@ -412,7 +412,7 @@ class DrupalListMetaTag extends DrupalDefaultMetaTag {
     $value = $this->tidyValue($value);
 
     // Translate the final output string prior to output. Use the
-    // 'metatag_output' i18n_string object type, and pass along the meta tag's
+    // 'output' i18n_string object type, and pass along the meta tag's
     // options as the context so it can be handled appropriately.
     $value = metatag_translate_metatag($value, $this->info['name'], $options, NULL, TRUE);
 
@@ -468,7 +468,7 @@ class DrupalDateIntervalMetaTag extends DrupalDefaultMetaTag {
     }
 
     // Translate the final output string prior to output. Use the
-    // 'metatag_output' i18n_string object type, and pass along the meta tag's
+    // 'output' i18n_string object type, and pass along the meta tag's
     // options as the context so it can be handled appropriately.
     $value = metatag_translate_metatag($value, $this->info['name'], $options, NULL, TRUE);
 

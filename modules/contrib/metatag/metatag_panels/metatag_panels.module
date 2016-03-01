@@ -174,9 +174,9 @@ function metatag_panels_ctools_render_alter($info, $page, $context) {
   }
 
   // Substitute Panels context variables.
-  foreach ($metatags as $metatag => &$data) {
+  foreach ($metatags as $metatag => $data) {
     if (is_string($data['value']) && strpos($data['value'], '%') !== FALSE) {
-      $data['value'] = ctools_context_keyword_substitute($data['value'], array(), $context['handler']->conf['display']->context);
+      $metatags[$metatag]['value'] = ctools_context_keyword_substitute($data['value'], array(), $context['handler']->conf['display']->context);
     }
   }
 
