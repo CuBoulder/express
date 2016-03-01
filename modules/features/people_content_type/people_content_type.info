@@ -57,6 +57,7 @@ features[field_group][] = group_information|node|person|form
 features[field_group][] = group_other|node|person|form
 features[field_group][] = group_people_filter_display|node|people_list_page|form
 features[field_group][] = group_people_list_display|node|people_list_page|form
+features[field_group][] = group_people_list_filter|bean|people_list_block|form
 features[field_group][] = group_people_list_filter|node|people_list_page|form
 features[field_group][] = group_personal|node|person|form
 features[field_instance][] = bean-people_list_block-field_people_block_thumbnail
