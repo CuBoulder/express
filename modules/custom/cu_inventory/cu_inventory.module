@@ -484,7 +484,7 @@ function cu_inventory_request($resource, $query = NULL, $method = 'GET', $data =
       if ($method == 'GET') {
         if (is_array($json_array) && array_key_exists('_items', $json_array)) {
           if (count($json_array['_items']) > 0) {
-            return $json_array['_items'];
+            return cu_inventory_normalize_site_record_data($json_array['_items']);
           }
         }
         else {
@@ -519,6 +519,23 @@ function cu_inventory_request($resource, $query = NULL, $method = 'GET', $data =
   }
 
   return FALSE;
+}
+
+/**
+ * Normalize inconsistent inventory request data.
+ *
+ * Sometimes things like the statistics array aren't the same in every site
+ * record so this function is a place to normalize the site records.
+ */
+function cu_inventory_normalize_site_record_data($site_records) {
+
+  foreach ($site_records as $key => $record) {
+    // Normalize the statistics array
+    if ($record['statistics'] && $record['statistics'][0]) {
+      $site_records[$key]['statistics'] = array_shift($record['statistics']);
+    }
+  }
+  return $site_records;
 }
 
 /**

@@ -1,5 +1,23 @@
 Feature: Webform feature
 
+  @api @webform @feedback @clean_install
+  Scenario: A site_owner should see no webforms after install on feedback form settings page
+    Given I am logged in as a user with the "site_owner" role
+    And am on "admin/settings/forms/feedback"
+    Then I should see "There are no published webforms available"
+
+  @api @webform
+  Scenario Outline: An site owner/administrator/developer should be able to access the settings feedback page
+    Given I am logged in as a user with the <role> role
+    When I go to "admin/settings/site-configuration/feedback"
+    Then I should not see <message>
+
+    Examples:
+      | role           | message         |
+      | site_owner     | "Access denied" |
+      | administrator  | "Access denied" |
+      | developer      | "Access denied" |
+
   @api @webform
   Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
     Given I am logged in as a user with the "site_owner" role
@@ -19,21 +37,3 @@ Feature: Webform feature
     When I press the "Save" button
     And I go to "admin/settings/site-configuration/feedback"
     Then I should not see "There are no published webforms available"
-
-  @api @webform @feedback @clean_install
-  Scenario: A site_owner should see no webforms after install on feedback form settings page
-    Given I am logged in as a user with the "site_owner" role
-    And am on "admin/settings/site-configuration/feedback"
-    Then I should see "There are no published webforms available"
-
-  @api @webform
-  Scenario Outline: An site owner/administrator/developer should be able to access the settings feedback page
-    Given I am logged in as a user with the <role> role
-    When I go to "admin/settings/site-configuration/feedback"
-    Then I should not see <message>
-
-    Examples:
-      | role           | message         |
-      | site_owner     | "Access denied" |
-      | administrator  | "Access denied" |
-      | developer      | "Access denied" |

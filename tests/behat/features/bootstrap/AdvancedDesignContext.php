@@ -13,7 +13,7 @@ use Behat\Behat\Context\Step\Given;
 /**
  * Defines application features from the specific context.
  */
-class CoreContext extends RawDrupalContext implements SnippetAcceptingContext {
+class AdvancedDesignContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
    * Initializes context.
@@ -26,13 +26,13 @@ class CoreContext extends RawDrupalContext implements SnippetAcceptingContext {
   }
   /**
    * @BeforeSuite
-   * Enable bundle and add authentication data.
+   * Enable bundle modules and add authentication data.
    */
   public static function prepare($scope) {
     $data = array(
       'sids' => array (
         'directory' => 'directory',
-        ),
+      ),
       'authenticationMode' => 1,
       'loginConflictResolve' => 2,
       'acctCreation' => 4,
@@ -53,13 +53,18 @@ class CoreContext extends RawDrupalContext implements SnippetAcceptingContext {
     );
     variable_set('ldap_authentication_conf', $data);
 
+    //module_enable(array('cu_advanced_content_bundle'));
+    //drupal_flush_all_caches();
   }
 
   /**
    * @AfterSuite
+   * Disable bundle modules.
    */
   public static function tearDown($scope) {
-
+    //module_disable(array('cu_advanced_content_bundle'));
+    //drupal_uninstall_modules(array('cu_advanced_content_bundle'));
+    //drupal_flush_all_caches();
   }
 
   /**
@@ -101,7 +106,7 @@ class CoreContext extends RawDrupalContext implements SnippetAcceptingContext {
    * @Given I wait for AJAX
    */
   public function iWaitForAjax() {
-    $this->getSession()->wait(5000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
+    $this->getSession()->wait(5000, 'typeof jQuery !== "undefined" && jQuery.active === 0');
   }
 
   /**
@@ -178,75 +183,6 @@ class CoreContext extends RawDrupalContext implements SnippetAcceptingContext {
   }
 
   /**
-   * @When /^I disable the "(?P<text>(?:[^"]|\\")*)" module$/
-   */
-  public function iDisableTheModule($text) {
-    module_disable(array($text));
-  }
-
-  /**
-   * @Then /^I select autosuggestion option "([^"]*)"$/
-   *
-   * @param $text Option to be selected from autosuggestion
-   * @throws \InvalidArgumentException
-   */
-  public function selectAutosuggestionOption($text) {
-    $session = $this->getSession();
-    $element = $session->getPage()->find(
-      'xpath',
-      $session->getSelectorsHandler()->selectorToXpath('xpath', '*//*[text()="'. $text .'"]')
-    );
-
-    if (null === $element) {
-      throw new \InvalidArgumentException(sprintf('Cannot find text: "%s"', $text));
-    }
-    $element->click();
-  }
-
-  /**
-   * @Given /^I wait (\d+) seconds$/
-   */
-  public function iWaitSeconds($seconds) {
-    sleep($seconds);
-  }
-
-  /**
-   * @Given I setup Pathologic local paths
-   *
-   * Save Pathologic settings for testing.
-   */
-  public function pathologic_save() {
-
-    $cu_path = 'testing';
-    $cu_sid = 'p1eb825ce549';
-
-    $pathologic_string = "/$cu_sid\r\n" .
-      "/$cu_path\r\n" .
-      "http://www.colorado.edu/$cu_sid\r\n" .
-      "http://www.colorado.edu/$cu_path\r\n" .
-      "https://www.colorado.edu/$cu_sid\r\n" .
-      "https://www.colorado.edu/$cu_path";
-
-    $format = filter_format_load("wysiwyg");
-
-    if (empty($format->filters)) {
-      // Get the filters used by this format.
-      $filters = filter_list_format($format->format);
-      // Build the $format->filters array...
-      $format->filters = array();
-      foreach($filters as $name => $filter) {
-        foreach($filter as $k => $v) {
-          $format->filters[$name][$k] = $v;
-        }
-      }
-    }
-
-    $format->filters["pathologic"]["settings"]["local_paths"] = $pathologic_string;
-
-    filter_format_save($format);
-  }
-
-  /**
    * @Then /^The "(?P<element>(?:[^"]|\\")*)" link should have "(?P<text>(?:[^"]|\\")*)" in the "(?P<attribute>(?:[^"]|\\")*)" attribute$/
    *
    */
@@ -273,3 +209,4 @@ class CoreContext extends RawDrupalContext implements SnippetAcceptingContext {
     }
   }
 }
+

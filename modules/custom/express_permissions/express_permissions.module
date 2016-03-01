@@ -219,7 +219,7 @@ function express_permissions_secure_permissions($role) {
       'view any slider bean',
       'view bean page',
       'view bean revisions',
-      'view own unpublished content',
+      'view any unpublished content',
       'view revisions',
       'view the administration theme',
       'access navbar',

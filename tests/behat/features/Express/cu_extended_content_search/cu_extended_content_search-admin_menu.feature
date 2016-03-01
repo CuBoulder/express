@@ -10,7 +10,7 @@ Feature: CU Extended Content Search Menu
     Then I should see the link "Content"
       And I should see the link "Structure"
       And I should see the link "Appearance"
-      And I should see the link "People"
+      And I should see the link "Users"
       And I should see the link "Modules"
       And I should see the link "Configuration"
       And I should see the link "Reports"
@@ -24,7 +24,7 @@ Feature: CU Extended Content Search Menu
     When I go to "user"
     Then I should see the link "Content"
       And I should see the link "Structure"
-      And I should see the link "People"
+      And I should see the link "Users"
       And I should see the link "Settings"
       And I should see the link "Design"
       And I should see the link "Help"
@@ -38,9 +38,10 @@ Feature: CU Extended Content Search Menu
   Scenario: As a content_editor I should see a limited menu
     Given I am logged in as a user with the "content_editor" role
     When I go to "user"
-    Then I should see the link "Content"
-      And I should see the link "Structure"
+    Then I should see the link "Express"
+      And I should see the link "Shortcuts"
       And I should see the link "Help"
+      And I should see the link "Log out"
 
   @api @extended_search
   Scenario Outline: As an authenticated user with a role I should see a partial menu

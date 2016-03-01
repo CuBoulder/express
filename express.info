@@ -81,6 +81,7 @@ dependencies[] = auto_entitylabel
 dependencies[] = navbar
 dependencies[] = module_filter
 dependencies[] = escape_admin
+dependencies[] = cu_shortcuts
 
 ; Site Structure
 dependencies[] = cu_site_info
