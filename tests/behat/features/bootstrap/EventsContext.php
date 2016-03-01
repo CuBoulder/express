@@ -208,5 +208,36 @@ class EventsContext extends RawDrupalContext implements SnippetAcceptingContext 
       throw new \Exception(sprintf('The "%s" attribute did not contain "%s"', $page_attribute, $text));
     }
   }
+
+  /**
+   * @When /^I create a "(?P<bean_type>(?:[^"]|\\")*)" block with the label "(?P<label>(?:[^"]|\\")*)"$/
+   */
+  public function imAtAWithTheLabel($bean_type, $label) {
+    // Create Block.
+    $values = array(
+      'label' => $label,
+      'type'  => $bean_type,
+    );
+
+    $entity = entity_create('bean', $values);
+    $saved_entity = entity_save('bean', $entity);
+    // Go to bean page.
+    $session = $this->getSession();
+    $session->visit('block/' . $entity->delta);
+  }
+
+  /**
+   * @AfterStep
+   */
+  public function takeScreenShotAfterFailedStep($scope) {
+    if (99 === $scope->getTestResult()->getResultCode()) {
+      $driver = $this->getSession()->getDriver();
+      if (!($driver instanceof Selenium2Driver)) {
+        return;
+      }
+      file_put_contents('/data/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
+    }
+  }
+
 }
 

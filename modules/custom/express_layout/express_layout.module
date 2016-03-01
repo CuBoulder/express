@@ -628,6 +628,11 @@ function _express_layout_bean_to_block($bean, $region) {
  * node--{type}--featurelayout.tpl.php
  */
 function express_layout_preprocess_node(&$vars) {
+  // Prevents content region blocks from attempting to be rendered more than once.
+  if ('node/' . $vars['nid'] != current_path()) {
+    return;
+  }
+
   //$settings = variable_get('express_layout_settings_' . $node->type, array());
   //$type = variable_get('express_layout_type_' . $node->type, NULL);
   if ($layout = entity_load_single('express_layout', $vars['nid'])) {
