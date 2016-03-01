@@ -244,7 +244,7 @@ function cu_help_page_alter(&$page) {
       $page['content']['system_main']['main']['#suffix'] = '<p>' . $link . '</p>';
       break;
     case 'admin/structure/taxonomy':
-      $page['help']['system_help']['#markup'] = '<p>Taxonomy is the science of classification. In Web Express it refers to the method by which your Articles and People are classified and organized.</p>';
+      $page['help']['system_help']['#markup'] = '<p>Taxonomy is the method used to classify, organize and cross-reference content.</p>';
       break;
   }
 }
