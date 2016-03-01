@@ -18,7 +18,7 @@ function cu_cache_form_alter(&$form, &$form_state, $form_id) {
 }
 
 /**
- * Caleld from cu_bucket_form_alter
+ * Called from cu_bucket_form_alter
  */
 function _cu_cache_clear_cache() {
   block_flush_caches();

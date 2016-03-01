@@ -7,7 +7,7 @@
 /**
  * Implements hook_strongarm().
  */
-function cu_bucket_strongarm() {
+function cu_cache_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();
