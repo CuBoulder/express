@@ -169,6 +169,7 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
 /**
  * Express Update 7002.
  * Removing cu_default_image_style_override.
+ * Cleanup sites migrated for Express transition.
  */
 function cu_core_update_7002() {
   // Disable
@@ -180,10 +181,74 @@ function cu_core_update_7002() {
     'cu_default_image_style_override',
   ));
 
+  module_disable(array('diff', 'quicktabs_tabstyles', 'views_ui', 'environment', 'client_ui_control', 'color'));
+
+  module_enable(array('cu_googleanalytics', 'escape_admin'));
+
+  // Makes sure blocks are set properly on structure/blocks for all new themes
+  // This is also in hook_themes_enabled in express.profile, but some sites may not
+  // have seen express as enabled when new themes were added
+  $query = db_update('block')
+    ->fields(array(
+      'region' => '-1',
+      'status' => '0',
+    ))
+    ->execute();
+  $query = db_update('block')
+    ->fields(array(
+      'region' => 'content',
+      'status' => '1',
+    ))
+    ->condition('delta', 'main')
+    ->execute();
+  $query = db_update('block')
+    ->fields(array(
+      'region' => 'help',
+      'status' => '1',
+    ))
+    ->condition('delta', 'help')
+    ->execute();
+
+  // revert features
+  $features = array(
+    'cu_extended_content_search',
+  );
+
+  cu_core_revert_features();
+
   // Run on every update
   express_inventory_update('7002');
 }
 
+/**
+ * Revert features by passing features in an array.
+ */
+function cu_core_revert_features($features = NULL) {
+  // if an array of specific features isn't passed, populate with all overridden features
+  if ($features == NULL) {
+    module_load_include('inc', 'features', 'features.export');
+    $features = features_get_features();
+    foreach ($features as $feature) {
+      if (features_get_storage($feature) == 0) {
+        unset($features['$feature']);
+      }
+    }
+  }
+
+  foreach ($features as $feature) {
+    // check against features that currently can't be reverted
+    $protected_features = array(
+      'cu_home_page',
+      'cu_sitewide',
+    );
+    if (!in_array($feature, $protected_features)) {
+      $f = features_get_features($feature);
+      $components = array_keys($f->info['features']);
+      features_revert(array($feature => $components));
+      watchdog('cu_core', 'Attempting to revert %feature', array('%feature' => $feature->name), WATCHDOG_NOTICE);
+    }
+  }
+}
 /**
  * Updates inventory with profile version.
  */
