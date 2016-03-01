@@ -127,3 +127,27 @@ function cu_core_express_bean_list_groups($bundles) {
 
   return $bundles;
 }
+
+/**
+ * Implements hook_permission().
+ *
+ * Add 'add taxonomy' permission.
+ */
+function cu_core_permission() {
+  $permissions = array(
+    'add taxonomy' => array(
+      'title' => t('Add Taxonomy'),
+    ),
+  );
+  return $permissions;
+}
+
+/**
+ * Implements hook_menu_alter().
+ *
+ * Add permission to admin/structure/taxonomy/add
+ */
+function cu_core_menu_alter(&$items) {
+  // Prevent users from adding taxonomies.
+  $items['admin/structure/taxonomy/add']['access arguments'] = array('add taxonomy');
+}
