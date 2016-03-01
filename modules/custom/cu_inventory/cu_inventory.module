@@ -484,7 +484,7 @@ function cu_inventory_request($resource, $query = NULL, $method = 'GET', $data =
       if ($method == 'GET') {
         if (is_array($json_array) && array_key_exists('_items', $json_array)) {
           if (count($json_array['_items']) > 0) {
-            return $json_array['_items'];
+            return cu_inventory_normalize_site_record_data($json_array['_items']);
           }
         }
         else {
@@ -522,6 +522,23 @@ function cu_inventory_request($resource, $query = NULL, $method = 'GET', $data =
 }
 
 /**
+ * Normalize inconsistent inventory request data.
+ *
+ * Sometimes things like the statistics array aren't the same in every site
+ * record so this function is a place to normalize the site records.
+ */
+function cu_inventory_normalize_site_record_data($site_records) {
+
+  foreach ($site_records as $key => $record) {
+    // Normalize the statistics array
+    if ($record['statistics'] && $record['statistics'][0]) {
+      $site_records[$key]['statistics'] = array_shift($record['statistics']);
+    }
+  }
+  return $site_records;
+}
+
+/**
  * Load a site array from the Inventory. The array is cached for up to 1 day.
  *
  * @param string $inventory_id
@@ -536,9 +553,10 @@ function cu_inventory_get_site($cu_sid = FALSE, $use_cache = TRUE) {
     $cu_sid = variable_get('cu_sid', FALSE);
   }
 
-  // if the cu_sid wasn't passed and we can't look it up, we can't do anything else
+  // If the cu_sid wasn't passed and we can't look it up, we can't do anything else.
+  // This needs to be a warning so that the install doesn't error when testing.
   if (!$cu_sid) {
-    drupal_set_message(t("<em>cu_sid</em> is not defined in the request"), 'error');
+    drupal_set_message(t("<em>cu_sid</em> is not defined in the request"), 'warning');
     return FALSE;
   }
 

@@ -405,6 +405,8 @@ ul { list-style: disc; }
 
 ul.list-style-nobullet { list-style: none; list-style-image: none; padding-left: 0; }
 
+ul.list-style-nobullet > li { list-style: none; list-style-image: none; }
+
 ul.list-style-underline > li { list-style: none; }
 
 ul.list-style-underline { list-style: none; list-style-image: none; padding-left: 0; }
@@ -769,6 +771,9 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: #e0e
 
 .feature-layout-title-image-overlay { background-color: rgba(0, 0, 0, 0); background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.85))); background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.85)); background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.85)); background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.85)); background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.85)); background-image: linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.85)); filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#00000000', EndColorStr='#D9000000'); }
 
+/* Colorbox */
+#cboxTitle { font-size: 11px; }
+
 .field-type-text-with-summary img, .field-type-text-long img, img.image-large, img.image-medium, img.image-small, img.image-large_square_thumbnail, img.image-large_wide_thumbnail, img.image-square_thumbnail, img.image-square, img.image-small_square, img.image-thumbnail, img.image-grid-9, img.image-grid-12, img.image-grid-6, img.image-grid-4, img.image-grid-3, img.image-slider { max-width: 100%; height: auto; min-width: 50px; }
 
 .region-intro img.image-large, .region-intro img.image-hero, .region-intro img.image-slider, .region-intro img[class=""], .region-wide-2 img.image-large, .region-wide-2 img.image-hero, .region-wide-2 img.image-slider, .region-wide-2 img[class=""] { width: 100%; height: auto; max-width: none; display: block; }
@@ -815,6 +820,7 @@ html.js input.form-autocomplete { background-image: url(../images/autocomplete.g
 html.js input.throbbing { background-image: url(../images/throbber.gif); background-position: 98% 45%; background-repeat: no-repeat; }
 
 fieldset { padding: 10px; border: 1px solid #e5e5e5; }
+fieldset legend { font-weight: bold; font-size: 120%; padding: 0 10px; border-left: 1px solid #e5e5e5; border-right: 1px solid #e5e5e5; }
 
 form label { font-weight: bold; }
 
