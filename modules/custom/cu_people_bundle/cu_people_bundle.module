@@ -131,6 +131,11 @@ function cu_people_bundle_express_help($variables) {
     'short_title' => 'People List Block Help',
     'url' => '/node/586',
   );
+  $variables['block/edit/people-list-block'][] = array(
+    'title' => 'People List Block Help',
+    'short_title' => 'People List Block Help',
+    'url' => '/node/586',
+  );
   $variables['node/add/person'][] = array(
     'title' => 'People Help',
     'short_title' => 'People Help',

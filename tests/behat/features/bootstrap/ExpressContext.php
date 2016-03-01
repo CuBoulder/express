@@ -13,7 +13,7 @@ use Behat\Behat\Context\Step\Given;
 /**
  * Defines application features from the specific context.
  */
-class PhotoGalleryContext extends RawDrupalContext implements SnippetAcceptingContext {
+class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
    * Initializes context.
@@ -26,7 +26,7 @@ class PhotoGalleryContext extends RawDrupalContext implements SnippetAcceptingCo
   }
   /**
    * @BeforeSuite
-   * Enable bundle modules and add authentication data.
+   * Enable bundle and add authentication data.
    */
   public static function prepare($scope) {
     $data = array(
@@ -53,18 +53,13 @@ class PhotoGalleryContext extends RawDrupalContext implements SnippetAcceptingCo
     );
     variable_set('ldap_authentication_conf', $data);
 
-    //module_enable(array('cu_photo_gallery_bundle'));
-    //drupal_flush_all_caches();
   }
 
   /**
    * @AfterSuite
-   * Disable bundle modules.
    */
   public static function tearDown($scope) {
-    //module_disable(array('cu_photo_gallery_bundle'));
-    //drupal_uninstall_modules(array('cu_photo_gallery_bundle'));
-    //drupal_flush_all_caches();
+
   }
 
   /**
@@ -106,7 +101,7 @@ class PhotoGalleryContext extends RawDrupalContext implements SnippetAcceptingCo
    * @Given I wait for AJAX
    */
   public function iWaitForAjax() {
-    $this->getSession()->wait(5000, 'typeof jQuery !== "undefined" && jQuery.active === 0');
+    $this->getSession()->wait(5000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
   }
 
   /**
@@ -183,29 +178,72 @@ class PhotoGalleryContext extends RawDrupalContext implements SnippetAcceptingCo
   }
 
   /**
-   * @When /^I click the "(?P<element>(?:[^"]|\\")*)" element with "(?P<value>(?:[^"]|\\")*)" for "(?P<attribute>(?:[^"]|\\")*)"$/
+   * @When /^I disable the "(?P<text>(?:[^"]|\\")*)" module$/
    */
-  public function iClickTheElementWithFor($element, $value, $attribute) {
-    $page_elements = $this->getSession()
-      ->getPage()
-      ->findAll("css", $element);
+  public function iDisableTheModule($text) {
+    module_disable(array($text));
+  }
 
-    if ($page_elements == NULL) {
-      throw new \Exception(sprintf('Couldn\'t find "%s" elements', $element));
+  /**
+   * @Then /^I select autosuggestion option "([^"]*)"$/
+   *
+   * @param $text Option to be selected from autosuggestion
+   * @throws \InvalidArgumentException
+   */
+  public function selectAutosuggestionOption($text) {
+    $session = $this->getSession();
+    $element = $session->getPage()->find(
+      'xpath',
+      $session->getSelectorsHandler()->selectorToXpath('xpath', '*//*[text()="'. $text .'"]')
+    );
+
+    if (null === $element) {
+      throw new \InvalidArgumentException(sprintf('Cannot find text: "%s"', $text));
     }
+    $element->click();
+  }
 
-    foreach ($page_elements as $element) {
-      if ($page_attribute = $element->getAttribute($attribute)) {
-        if ($page_attribute == $value) {
-          $element->click();
-          return;
+  /**
+   * @Given /^I wait (\d+) seconds$/
+   */
+  public function iWaitSeconds($seconds) {
+    sleep($seconds);
+  }
+
+  /**
+   * @Given I setup Pathologic local paths
+   *
+   * Save Pathologic settings for testing.
+   */
+  public function pathologic_save() {
+
+    $cu_path = 'testing';
+    $cu_sid = 'p1eb825ce549';
+
+    $pathologic_string = "/$cu_sid\r\n" .
+      "/$cu_path\r\n" .
+      "http://www.colorado.edu/$cu_sid\r\n" .
+      "http://www.colorado.edu/$cu_path\r\n" .
+      "https://www.colorado.edu/$cu_sid\r\n" .
+      "https://www.colorado.edu/$cu_path";
+
+    $format = filter_format_load("wysiwyg");
+
+    if (empty($format->filters)) {
+      // Get the filters used by this format.
+      $filters = filter_list_format($format->format);
+      // Build the $format->filters array...
+      $format->filters = array();
+      foreach($filters as $name => $filter) {
+        foreach($filter as $k => $v) {
+          $format->filters[$name][$k] = $v;
         }
       }
     }
 
-    if ($page_attribute == NULL) {
-      throw new \Exception(sprintf('Couldn\'t find "%s" attribute', $attribute));
-    }
+    $format->filters["pathologic"]["settings"]["local_paths"] = $pathologic_string;
+
+    filter_format_save($format);
   }
 
   /**
@@ -263,29 +301,4 @@ class PhotoGalleryContext extends RawDrupalContext implements SnippetAcceptingCo
     $session = $this->getSession();
     $session->visit('node/' . $node->nid);
   }
-
-  /*
-  /**
-   * @AfterScenario
-   *
-   * @todo Get this working to cleanup node creation
-   */
-  /*
-  public function afterNodeCreation($event) {
-    $steps = $event->getScenario()->getSteps();
-    $tags = $event->getScenario()->getTags();
-
-    if (in_array('node_creation', $tags)) {
-      foreach ($steps as $step) {
-        $step = (array) $step;
-        //print_r($step);
-        if (strpos($step[Behat\Gherkin\Node\StepNodetext], 'I create a' && strpos($step[Behat\Gherkin\Node\StepNodetext], 'node'))) {
-          $step_pieces = explode('"', $step[Behat\Gherkin\Node\StepNodetext]);
-          print_r($step_pieces);
-        }
-      }
-    }
-  }
-  */
 }
-
