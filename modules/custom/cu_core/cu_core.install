@@ -173,7 +173,8 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
  * Cleanup sites migrated for Express transition.
  */
 function cu_core_update_7002() {
-  //Disable grid_images, cu_default_image_style_override modules.
+
+  // Disable grid_images, cu_default_image_style_override modules.
   module_disable(array(
     'grid_images',
     'cu_default_image_style_override',
@@ -224,6 +225,27 @@ function cu_core_update_7002() {
 
   // Run on every update
   express_inventory_update('7002');
+}
+
+/**
+ * Updates for Express 2.0.1.
+ */
+function cu_core_update_7003() {
+
+  // Uninstall unused modules.
+  drupal_uninstall_modules(array(
+    'cu_block_selector',
+    'cu_transition_express',
+    'overlay',
+  ));
+
+  // Uninstall modules that had dependencies on modules above.
+  drupal_uninstall_modules(array(
+    'cu_transition_fit',
+  ));
+
+  // Run on every update
+  express_inventory_update('7003');
 }
 
 /**
