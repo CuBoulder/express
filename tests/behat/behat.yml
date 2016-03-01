@@ -13,6 +13,7 @@ default:
     cu_advanced_content_bundle:
       paths: [ %paths.base%/features/AdvancedContent ]
       contexts:
+        - CoreContext
         - AdvancedContentContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -29,6 +30,7 @@ default:
     cu_advanced_layout_bundle:
       paths: [ %paths.base%/features/AdvancedLayout ]
       contexts:
+        - CoreContext
         - AdvancedLayoutContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -37,6 +39,7 @@ default:
     cu_events_bundle:
       paths: [%paths.base%/features/Events]
       contexts:
+        - CoreContext
         - EventsContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -45,6 +48,7 @@ default:
     cu_forms_bundle:
       paths: [%paths.base%/features/Forms]
       contexts:
+        - CoreContext
         - FormsContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -53,6 +57,7 @@ default:
     cu_news_articles_bundle:
       paths: [%paths.base%/features/NewsArticles]
       contexts:
+        - CoreContext
         - NewsArticlesContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -61,6 +66,7 @@ default:
     cu_people_bundle:
       paths: [%paths.base%/features/People]
       contexts:
+        - CoreContext
         - PeopleContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -69,6 +75,7 @@ default:
     cu_photo_gallery_bundle:
       paths: [%paths.base%/features/PhotoGallery]
       contexts:
+        - CoreContext
         - PhotoGalleryContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -77,6 +84,7 @@ default:
     cu_seo_bundle:
       paths: [%paths.base%/features/SEO]
       contexts:
+        - CoreContext
         - SEOContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
@@ -85,6 +93,7 @@ default:
     cu_social_media_bundle:
       paths: [%paths.base%/features/SocialMedia]
       contexts:
+        - CoreContext
         - SocialMediaContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
