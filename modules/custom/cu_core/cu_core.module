@@ -149,5 +149,5 @@ function cu_core_permission() {
  */
 function cu_core_menu_alter(&$items) {
   // Assign quicktabs permission to quicktab bean add
-  $items['admin/structure/taxonomy/add']['access arguments'] = array('add taxonony');
+  $items['admin/structure/taxonomy/add']['access arguments'] = array('add taxonomy');
 }
