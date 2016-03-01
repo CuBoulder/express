@@ -82,14 +82,14 @@ Drupal.multipageControl = function (settings) {
   var controls = Drupal.theme('multipage', settings);
   $.extend(self, settings, controls);
 
-  this.nextLink.click(function (e) {
-    e.preventDefault();
+  this.nextLink.click(function () {
     self.nextPage();
+    return false;
   });
 
-  this.previousLink.click(function (e) {
-    e.preventDefault();
+  this.previousLink.click(function () {
     self.previousPage();
+    return false;
   });
 
 /*
