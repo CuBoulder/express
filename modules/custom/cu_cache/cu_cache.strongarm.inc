@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * cu_bucket.strongarm.inc
+ * cu_cache.strongarm.inc
  */
 
 /**

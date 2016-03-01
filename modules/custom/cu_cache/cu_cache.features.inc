@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * cu_bucket.features.inc
+ * cu_cache.features.inc
  */
 
 /**

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Controls memchace and varnish.
+ * Controls memcache and varnish.
  */
 
 include_once('cu_cache.features.inc');
