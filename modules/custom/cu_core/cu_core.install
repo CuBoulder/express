@@ -257,26 +257,26 @@ function cu_core_revert_features($features = NULL) {
     module_load_include('inc', 'features', 'features.export');
     $features = features_get_features();
     foreach ($features as $feature) {
-      if (features_get_storage($feature) == 0) {
-        unset($features[$feature]);
+      if (features_get_storage($feature->name) == 0) {
+        unset($features[$feature->name]);
       }
     }
   }
-
-  foreach ($features as $feature) {
+  foreach ($features as $key => $feature) {
     // check against features that currently can't be reverted
     $protected_features = array(
       'cu_home_page',
       'cu_sitewide',
     );
-    if (!in_array($feature, $protected_features)) {
-      $f = features_get_features($feature);
+    if (!in_array($key, $protected_features)) {
+      $f = features_get_features($key);
       $components = array_keys($f->info['features']);
-      features_revert(array($feature => $components));
+      features_revert(array($f->name => $components));
       watchdog('cu_core', 'Attempting to revert %feature', array('%feature' => $feature->name), WATCHDOG_NOTICE);
     }
   }
 }
+
 /**
  * Updates inventory with profile version.
  */
