@@ -190,7 +190,7 @@ function cu_core_update_7002() {
 
   module_disable(array('diff', 'quicktabs_tabstyles', 'views_ui', 'environment', 'client_ui_control', 'color'));
 
-  module_enable(array('cu_googleanalytics', 'escape_admin'));
+  module_enable(array('cu_googleanalytics'));
 
   // Makes sure blocks are set properly on structure/blocks for all new themes
   // This is also in hook_themes_enabled in express.profile, but some sites may not
