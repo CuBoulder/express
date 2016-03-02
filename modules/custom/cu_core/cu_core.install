@@ -271,7 +271,7 @@ function cu_core_update_7003() {
      if (!in_array($key, $protected_features)) {
        $f = features_get_features($key);
        $components = array_keys($f->info['features']);
-       //features_revert(array($feature => $components));
+       features_revert(array($feature => $components));
        watchdog('cu_core', 'Attempting to revert %feature', array('%feature' => $feature->name), WATCHDOG_NOTICE);
      }
    }
