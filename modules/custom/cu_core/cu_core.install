@@ -262,12 +262,13 @@ function cu_core_revert_features($features = NULL) {
       }
     }
   }
+  // check against features that currently can't be reverted
+  $protected_features = array(
+    'cu_home_page',
+    'cu_sitewide',
+    'cu_search',
+  );
   foreach ($features as $key => $feature) {
-    // check against features that currently can't be reverted
-    $protected_features = array(
-      'cu_home_page',
-      'cu_sitewide',
-    );
     if (!in_array($key, $protected_features)) {
       $f = features_get_features($key);
       $components = array_keys($f->info['features']);
