@@ -320,7 +320,7 @@ function cu_content_administration_override_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $export['clone_of_cu_content_administration_override'] = $view;
+  $export['cu_content_administration_override_view'] = $view;
 
   return $export;
 }
