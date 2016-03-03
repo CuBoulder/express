@@ -5,6 +5,8 @@ package = CU-Active
 version = 7.x-1.0
 project = cu_shortcuts
 dependencies[] = shortcut
+dependencies[] = features
+dependencies[] = menu
 
 features[features_api][] = api:2
 features[menu_custom][] = shortcut-set-1
