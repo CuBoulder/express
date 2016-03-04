@@ -176,7 +176,7 @@ function cu_help_express_help($variables) {
   $variables['admin/settings/bundles/list'][] = array(
     'title' => 'Adding Bundles',
     'short_title' => 'Adding Bundles',
-    'url' => '/node/632',
+    'url' => '/node/656',
   );
 
   return $variables;
