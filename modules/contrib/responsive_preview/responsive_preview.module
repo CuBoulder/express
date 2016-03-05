@@ -351,7 +351,7 @@ function responsive_preview_libraries_info() {
         ),
         'minified' => array(
           'file' => 'underscore-min.js',
-          'pattern' => '#Underscore.js\s([\d\.]+)#',
+          'pattern' => '#VERSION *\W *[\'\"]{1}(.*?)[\'\"]{1}#',
         ),
       ),
     ),
@@ -405,7 +405,7 @@ function responsive_preview_libraries_info() {
         ),
         'minified' => array(
           'file' => 'backbone-min.js',
-          'pattern' => '#Backbone.js\s([\d\.]+)#',
+          'pattern' => '#VERSION *\W *[\'\"]{1}(.*?)[\'\"]{1}#',
         ),
       ),
     ),
