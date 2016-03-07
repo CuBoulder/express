@@ -191,7 +191,7 @@ function site_navigation_menus_menu_alter(&$items) {
  * Page callback for /node page.
  */
 function _site_navigation_menus_node_page_callback() {
-  drupal_goto('<front>', $options = array(), $http_response_code = 301);
+  drupal_goto('sitemap.xml', $options = array(), $http_response_code = 301);
 }
 
 
