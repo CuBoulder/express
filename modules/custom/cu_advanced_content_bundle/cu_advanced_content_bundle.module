@@ -103,15 +103,13 @@ function cu_advanced_content_bundle_frontpage_form($form, &$form_state) {
  */
 function cu_advanced_content_bundle_frontpage_validate($form, &$form_state) {
   // Taken from system_site_information_settings_validate.
-  // Check for empty front page path.
-  if (empty($form_state['values']['site_frontpage'])) {
-    // Set to default "node".
-    form_set_value($form['home']['site_frontpage'], 'node', $form_state);
+  // No need to check for empty front page path since it's a required field.
+  // Check to see if path is valid and exists.
+  if (!drupal_valid_path($form_state['values']['site_frontpage'])) {
+    form_set_error('site_frontpage', 'Please enter a valid path.');
   }
-  else {
-    // Get the normal path of the front page.
-    form_set_value($form['home']['site_frontpage'], drupal_get_normal_path($form_state['values']['site_frontpage']), $form_state);
-  }
+  // Get the normal path of the front page.
+  form_set_value($form['site_frontpage'], drupal_get_normal_path($form_state['values']['site_frontpage']), $form_state);
 }
 
 /**
