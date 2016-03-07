@@ -1,0 +1,44 @@
+.cu-share-sidebar {
+  position: fixed;
+  top:40%;
+  left:0;
+  z-index:1;
+  display: none;
+}
+.cu-share-sidebar ul,
+.cu-share-sidebar ul li {
+  list-style: none;
+  list-style-image: none;
+  margin: 0;
+  padding: 0;
+}
+.cu-share-sidebar ul li {
+  display: block;
+}
+.cu-share-sidebar .socicon {
+  transition: all 0.5s ease;
+}
+.cu-share-sidebar a:hover .socicon {
+  width:60px;
+}
+.cu-share-inline,
+.cu-share-inline-mobile {
+  display: block;
+}
+.cu-share-inline .soc li .social-links-text,
+.cu-share-inline-mobile .soc li .social-links-text {
+  color:#fff;
+  background: #111;
+  margin:0;
+  padding:0 10px;
+  font-size: 85%;
+}
+
+@media all and (min-width: 1260px) {
+  .cu-share-sidebar {
+    display: block;
+  }
+  .cu-share-inline-mobile {
+    display: none;
+  }
+}
