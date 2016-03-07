@@ -95,6 +95,14 @@ function cu_feature_callout_preprocess_entity(&$vars) {
 
       // Make links if $url is set.
       if (isset($url)) {
+        // Set empty query and fragment variables.
+        if (!isset($url['query'])) {
+          $url['query'] = '';
+        }
+        if (!isset($url['fragment'])) {
+          $url['fragment'] = '';
+        }
+
         if (isset($title)) {
           $title = '<h3 class="feature-callout-title">' . l($title, $url['url'], array('html' => TRUE, 'query' => $url['query'], 'fragment' => $url['fragment'])) . '</h3>';
         } else {
