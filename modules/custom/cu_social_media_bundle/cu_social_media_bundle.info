@@ -6,4 +6,5 @@ project_demo_url = http://www.colorado.edu/webcentral/node/682
 dependencies[] = cu_twitter_feed
 dependencies[] = cu_facebook_activity
 dependencies[] = cu_facebook_like_button
+dependencies[] = cu_share
 dependencies[] = cu_social_links
