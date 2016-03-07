@@ -151,10 +151,7 @@ function express_theme_picker_list() {
   $output = array();
   $output['description']['#markup'] = '<h2>Choose a theme.</h2>';
   foreach (list_themes() as $theme => $data) {
-    dpm($theme);
-
     if ($data->status && !$hidden_themes[$data->name]) {
-
       // Theme machine name
       $machine_name = $data->name;
       // Theme display name
