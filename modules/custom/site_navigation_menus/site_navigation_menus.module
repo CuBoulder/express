@@ -148,6 +148,19 @@ function site_navigation_menus_page_alter(&$page) {
 }
 
 /**
+ * Implements hook_form_alter().
+ *
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
+function site_navigation_menus_form_alter(&$form, &$form_state, $form_id) {
+  if (isset($form['delta']['#value']) && strrpos($form['delta']['#value'], 'site_navigation_menus') == 0) {
+    unset($form['custom_block_theme']);
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Remove menu sources that don't make sense for main or secondary links.
