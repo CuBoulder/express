@@ -189,14 +189,10 @@ function express_settings_google_analytics_form_validate($form, &$form_state) {
   // Ensure ga-account looks like a real account value.
   if (!empty($form_state['values']['ga_account'])) {
     $ga_code = trim(filter_xss($form_state['values']['ga_account']));
-    if (strlen($ga_code) >= 12) {
-      form_set_error('ga_account', t('You have entered too many characters. Please enter your google account in the form of "UA-123456-1"'));
-    }
-    $pattern = '/(UA|ua)-[0-9]*-[0-9]*/';
-    dpm($ga_code);
+    $pattern = '/^ua-\d{4,9}-\d{1,4}$/i';
     $match = preg_match($pattern, $ga_code);
     if (!$match) {
-      form_set_error('ga_account', t('Please enter your google account in the form of "UA-123456-1"'));
+      form_set_error('ga_account', t('Please enter your google account in the form of "UA-123456-1".'));
     }
   }
 }
