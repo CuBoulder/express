@@ -3,7 +3,7 @@ name = "express"
 description = "University of Colorado Boulder"
 exclusive = "1"
 core = "7.x"
-version = 2.0
+version = 2.0.1
 
 ; ----------
 ; Dependencies
