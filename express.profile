@@ -136,15 +136,3 @@ function express_node_type_delete($info) {
     variable_set('dnmi_content_types', $types);
   }
 }
-
-/**
- * Implements hook_menu_alter.
- * Most Express sites have a People or Person content type. There is a big difference 
- * between a user and content about staff, but using People for both confuses many
- * site owners.
- */
-function express_menu_alter(&$items) {
-  //@TODO: move to express_settings?  
-  // tried but didn't work.  Not sure why, but out of time.
-  $items['admin/people']['title'] = 'Users';
-}
