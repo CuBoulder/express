@@ -209,7 +209,7 @@ For further details see the module's project page:
   https://www.drupal.org/project/smartling
 
 
-Fine Tuning & Suggestions
+Fine tuning & suggestions
 --------------------------------------------------------------------------------
 * There are many options available on the settings page to control how Metatag
   works:
@@ -261,7 +261,7 @@ The result will be a nested array of meta tag structures ready for either output
 via drupal_render(), or examining to identify the actual text values.
 
 
-Troubleshooting / Known Issues
+Troubleshooting / known issues
 --------------------------------------------------------------------------------
 * When using custom page template files, e.g., page--front.tpl.php, it is
   important to ensure that the following code is present in the template file:
@@ -342,7 +342,7 @@ Some modules are available that extend Metatag with additional functionality:
   which accept multiple items, e.g. og:audio and og:video.
 
 
-Credits / Contact
+Credits / contact
 --------------------------------------------------------------------------------
 Currently maintained by Damien McKenna [1] and Dave Reid [2]; all initial
 development was by Dave Reid.

@@ -17,10 +17,12 @@ function cu_people_bundle_secure_permissions($role) {
   // INSERT PERMISSIONS FOR THIS BUNDLE
   $permissions = array(
     'administrator' => array(
+      'administer department vocabulary terms',
       'administer people_filter_1 vocabulary terms',
       'administer people_filter_2 vocabulary terms',
       'administer people_filter_3 vocabulary terms',
       'administer person_type vocabulary terms',
+      'administer taxonomy',
       'create any people_list_block bean',
       'create people_list_page content',
       'create person content',
@@ -43,10 +45,12 @@ function cu_people_bundle_secure_permissions($role) {
       'view any people_list_block bean',
     ),
     'content_editor' => array(
+      'administer department vocabulary terms',
       'administer people_filter_1 vocabulary terms',
       'administer people_filter_2 vocabulary terms',
       'administer people_filter_3 vocabulary terms',
       'administer person_type vocabulary terms',
+      'administer taxonomy',
       'create any people_list_block bean',
       'create people_list_page content',
       'create person content',
@@ -63,9 +67,12 @@ function cu_people_bundle_secure_permissions($role) {
       'view any people_list_block bean',
     ),
     'developer' => array(
+      'administer department vocabulary terms',
       'administer people_filter_1 vocabulary terms',
       'administer people_filter_2 vocabulary terms',
       'administer people_filter_3 vocabulary terms',
+      'administer person_type vocabulary terms',
+      'administer taxonomy',
       'create any people_list_block bean',
       'create people_list_page content',
       'create person content',
@@ -85,9 +92,11 @@ function cu_people_bundle_secure_permissions($role) {
       'view any people_list_block bean',
     ),
     'site_owner' => array(
+      'administer department vocabulary terms',
       'administer people_filter_1 vocabulary terms',
       'administer people_filter_2 vocabulary terms',
       'administer people_filter_3 vocabulary terms',
+      'administer taxonomy',
       'administer person_type vocabulary terms',
       'create any people_list_block bean',
       'create people_list_page content',
@@ -127,6 +136,11 @@ function cu_people_bundle_express_help($variables) {
     'url' => '/node/556',
   );
   $variables['block/add/people-list-block'][] = array(
+    'title' => 'People List Block Help',
+    'short_title' => 'People List Block Help',
+    'url' => '/node/586',
+  );
+  $variables['block/edit/people-list-block'][] = array(
     'title' => 'People List Block Help',
     'short_title' => 'People List Block Help',
     'url' => '/node/586',

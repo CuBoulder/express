@@ -123,3 +123,22 @@ function express_install() {
   // ignore any other install messages
   drupal_get_messages();
 }
+
+/**
+ * Express 2.0.1 Updates
+ */
+function express_update_7001() {
+  // Registry rebuild due to contrib module updates.
+  registry_rebuild();
+}
+
+/**
+ * Revert features by passing features in an array.
+ */
+function express_revert_features($features) {
+  foreach ($features as $feature) {
+    $f = features_get_features($feature);
+    $components = array_keys($f->info['features']);
+    features_revert(array($feature => $components));
+  }
+}

@@ -218,6 +218,7 @@ function expressbase_image_style(&$vars) {
  */
 function expressbase_breadcrumb($vars) {
   $breadcrumb = $vars['breadcrumb'];
+  $theme = variable_get('theme_default','');
   if (!empty($breadcrumb) && theme_get_setting('use_breadcrumbs', $theme)) {
     // Replace the Home breadcrumb with a Home icon
     //$breadcrumb[0] = str_replace('Home','<i class="fa fa-home"></i> <span class="home-breadcrumb element-invisible">Home</span>',$breadcrumb[0]);

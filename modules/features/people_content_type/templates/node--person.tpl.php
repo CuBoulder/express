@@ -2,6 +2,10 @@
 <div class="person-photo"><?php print render($content['field_person_photo']); ?></div>
 
 <?php
+  // Add check for $person_title due to warning notice.
+  if (!isset($person_title)) {
+    $person_title = array();
+  }
   if (!empty($content['field_person_title'])) {
     $person_title[] = render($content['field_person_title']);
   }

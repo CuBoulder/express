@@ -195,8 +195,8 @@ function cu_article_field_group_info() {
     'children' => array(
       0 => 'field_article_feature_display',
       1 => 'field_article_feature_image_size',
-      2 => 'field_article_link',
-      3 => 'field_article_feature_show_cat',
+      2 => 'field_article_feature_show_cat',
+      3 => 'field_article_link',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -282,8 +282,8 @@ function cu_article_field_group_info() {
     'label' => 'Filters',
     'weight' => '2',
     'children' => array(
-      0 => 'field_article_feature_filter',
-      1 => 'field_article_feature_category',
+      0 => 'field_article_feature_category',
+      1 => 'field_article_feature_filter',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -291,7 +291,7 @@ function cu_article_field_group_info() {
       'instance_settings' => array(
         'required_fields' => 1,
         'classes' => 'group-taxonomy-filters field-group-fieldset',
-        'description' => '',
+        'description' => 'Choose which articles will appear by selecting from the categories or tags below.',
       ),
       'formatter' => 'collapsed',
     ),
@@ -311,8 +311,8 @@ function cu_article_field_group_info() {
     'label' => 'Filters',
     'weight' => '2',
     'children' => array(
-      0 => 'field_article_grid_filter',
-      1 => 'field_article_grid_category',
+      0 => 'field_article_grid_category',
+      1 => 'field_article_grid_filter',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -320,7 +320,7 @@ function cu_article_field_group_info() {
       'instance_settings' => array(
         'required_fields' => 1,
         'classes' => 'group-taxonomy-filters field-group-fieldset',
-        'description' => '',
+        'description' => 'Choose which articles will appear by selecting from the categories or tags below.',
       ),
       'formatter' => 'collapsed',
     ),
@@ -340,8 +340,8 @@ function cu_article_field_group_info() {
     'label' => 'Filters',
     'weight' => '2',
     'children' => array(
-      0 => 'field_article_slider_filter',
-      1 => 'field_article_slider_category',
+      0 => 'field_article_slider_category',
+      1 => 'field_article_slider_filter',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -349,7 +349,7 @@ function cu_article_field_group_info() {
       'instance_settings' => array(
         'required_fields' => 1,
         'classes' => 'group-taxonomy-filters field-group-fieldset',
-        'description' => '',
+        'description' => 'Choose which articles will appear by selecting from the categories or tags below.',
       ),
       'formatter' => 'collapsed',
     ),
@@ -369,8 +369,8 @@ function cu_article_field_group_info() {
     'label' => 'Filters',
     'weight' => '2',
     'children' => array(
-      0 => 'field_article_term',
-      1 => 'field_article_list_category',
+      0 => 'field_article_list_category',
+      1 => 'field_article_term',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -378,7 +378,7 @@ function cu_article_field_group_info() {
       'instance_settings' => array(
         'required_fields' => 1,
         'classes' => 'group-taxonomy-filters field-group-fieldset',
-        'description' => '',
+        'description' => 'Choose which articles will appear by selecting from the categories or tags below.',
       ),
       'formatter' => 'collapsed',
     ),
@@ -398,8 +398,8 @@ function cu_article_field_group_info() {
     'label' => 'Filters',
     'weight' => '4',
     'children' => array(
-      0 => 'field_article_page_filter',
-      1 => 'field_article_page_category',
+      0 => 'field_article_page_category',
+      1 => 'field_article_page_filter',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(
@@ -407,7 +407,7 @@ function cu_article_field_group_info() {
       'instance_settings' => array(
         'required_fields' => 1,
         'classes' => 'group-taxonomy-filters field-group-fieldset',
-        'description' => '',
+        'description' => 'Choose which articles will appear in the list by selecting from the categories or tags below.',
       ),
       'formatter' => 'collapsed',
     ),

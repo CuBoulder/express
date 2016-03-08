@@ -44,7 +44,7 @@ function people_content_type_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 41,
+      'weight' => 11,
     ),
   );
 
@@ -75,7 +75,7 @@ function people_content_type_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 36,
+      'weight' => 8,
     ),
   );
 
@@ -106,7 +106,7 @@ function people_content_type_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 38,
+      'weight' => 9,
     ),
   );
 
@@ -137,7 +137,7 @@ function people_content_type_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 40,
+      'weight' => 10,
     ),
   );
 
@@ -169,7 +169,7 @@ function people_content_type_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 32,
+      'weight' => 6,
     ),
   );
 
@@ -201,7 +201,7 @@ function people_content_type_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_buttons',
-      'weight' => 34,
+      'weight' => 7,
     ),
   );
 

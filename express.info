@@ -80,7 +80,7 @@ dependencies[] = auto_entitylabel
 ; Admin UI Improvements
 dependencies[] = navbar
 dependencies[] = module_filter
-dependencies[] = escape_admin
+dependencies[] = cu_shortcuts
 
 ; Site Structure
 dependencies[] = cu_site_info
@@ -132,7 +132,6 @@ dependencies[] = files_undo_remove
 ; ============ IMAGES ============
 dependencies[] = focal_point
 dependencies[] = cu_image_styles
-dependencies[] = cu_default_image_style_override
 dependencies[] = image_url_formatter
 
 ; ============ DATE ============
@@ -194,7 +193,6 @@ dependencies[] = metatag
 dependencies[] = transliteration
 dependencies[] = vppr
 dependencies[] = content_menu
-dependencies[] = grid_images
 dependencies[] = cu_back_to_top
 dependencies[] = cu_give_buttons
 dependencies[] = cu_font_awesome
