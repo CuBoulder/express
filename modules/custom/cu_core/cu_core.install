@@ -140,6 +140,10 @@ You can now .+configure the CAPTCHA module.+ for your site.
 Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
 
   variable_set('express_layout_node_type_ignore', array('file'));
+
+  // Add redirect from index.html to <front> if no redirect exists.
+  cu_core_add_redirect('index.html', '<front>');
+
 }
 
 /**
@@ -251,6 +255,14 @@ function cu_core_update_7003() {
 }
 
 /**
+ * Add redirect to front page from index.html
+ * Express 2.1.0
+ */
+function cu_core_update_7004() {
+  cu_core_add_redirect('index.html', <'front>');
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
@@ -286,4 +298,27 @@ function express_inventory_update($version) {
   // Do at the end of every update.
   module_load_include('inc', 'cu_inventory');
   cu_inventory_process_profile_version($version);
+}
+
+/**
+ * Adds a redirect if none exists.
+ */
+function cu_core_add_redirect($source = NULL, $destination = NULL) {
+  if ($source == NULL || $destination == NULL) {
+    return;
+  }
+
+  // Check to see if redirect exists.
+  $query = db_select('redirect', 'r');
+  $query->addField('r', 'source');
+  $query->condition('r.source', $source);
+  $redirect = $query->execute()->fetchCol();
+
+  // Make redirect if none exists.
+  if (empty($redirect)) {
+    $redirect = new stdClass();
+    redirect_object_prepare($redirect);
+    $redirect->source = $source;
+    $redirect->redirect = $destination;
+  }
 }
