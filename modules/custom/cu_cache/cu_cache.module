@@ -8,8 +8,8 @@
 include_once('cu_cache.features.inc');
 
 /*
-// Commenting this out for now since this module isn't on for current production
-// sites and no one has complained so far.
+// Commenting this out for now since this alter wasn't on for current production
+// sites and no one has complained so far since 2.0.0 release.
 function cu_cache_form_alter(&$form, &$form_state, $form_id) {
   switch($form_id) {
     case 'block_admin_configure':
