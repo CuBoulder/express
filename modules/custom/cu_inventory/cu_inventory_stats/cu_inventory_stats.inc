@@ -122,8 +122,8 @@ function cu_inventory_stats_empty_site_stats() {
     // TODO: Add Permissions report
 
     // We want a list of user email addresses and a list of Identikeys to use in
-    // communications. We are breaking them up by role to allow for 
-    // communication to a specific role only.
+    // communications. We are breaking them up by role to allow segmenation by
+    // role.
     $roles_to_check = array(
       'site_owner',
       'content_editor',
@@ -138,7 +138,7 @@ function cu_inventory_stats_empty_site_stats() {
       $role_query->join('users', 'u', 'ur.uid = u.uid');
       $role_query
         ->condition('ur.rid', $role->rid)
-        ->fields('u', array('mail'));
+        ->fields('u', array('mail','name'));
 
       $role_result = $role_query->execute();
       $all_role_results = $role_result->fetchAll();
@@ -156,7 +156,7 @@ function cu_inventory_stats_empty_site_stats() {
           $identikey_list = $object->name;
         }
       }
-      $site_data['statistics']['users'][$role_name] = $email_list;
+      $site_data['statistics']['users']['email'][$role_name] = $email_list;
       $site_data['statistics']['users']['identikey'][$role_name] = $email_list;
     }
 
