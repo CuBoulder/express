@@ -157,7 +157,7 @@ function cu_inventory_stats_empty_site_stats() {
         }
       }
       $site_data['statistics']['users']['email'][$role_name] = $email_list;
-      $site_data['statistics']['users']['identikey'][$role_name] = $email_list;
+      $site_data['statistics']['users']['identikey'][$role_name] = $identikey_list;
     }
 
     // Add report of overridden features.
