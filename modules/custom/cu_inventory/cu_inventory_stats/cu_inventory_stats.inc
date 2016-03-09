@@ -121,8 +121,9 @@ function cu_inventory_stats_empty_site_stats() {
 
     // TODO: Add Permissions report
 
-    // We want a list of user email addresses to use in communications. We are
-    // breaking them up by role to allow for communication to a specific role only.
+    // We want a list of user email addresses and a list of Identikeys to use in
+    // communications. We are breaking them up by role to allow for 
+    // communication to a specific role only.
     $roles_to_check = array(
       'site_owner',
       'content_editor',
@@ -142,29 +143,25 @@ function cu_inventory_stats_empty_site_stats() {
       $role_result = $role_query->execute();
       $all_role_results = $role_result->fetchAll();
 
-      // Need to empty the string during each loop.
+      // Need to empty the strings during each loop.
       $email_list = Null;
+      $identikey_list = Null;
       foreach ($all_role_results as $object) {
-        if ($email_list) {
+        if ($email_list && $identikey_list) {
           $email_list = $email_list . '; ' . $object->mail;
+          $identikey_list = $identikey_list . '; ' . $object->name;
         }
         else {
           $email_list = $object->mail;
+          $identikey_list = $object->name;
         }
       }
       $site_data['statistics']['users'][$role_name] = $email_list;
+      $site_data['statistics']['users']['identikey'][$role_name] = $email_list;
     }
 
     // Add report of overridden features.
     $site_data['statistics']['overriden_features'] = _get_features_statuses();
-
-    // Add Identikeys.
-    $users = entity_load('user');
-    foreach ($users as $user) {
-      foreach ($user->roles as $role) {
-        $site_data['statistics']['user_identikeys'][$role][] = $user->name;
-      }
-    }
 
     // Last, add the wrapper array. This adds a wrapper Python list which allows
     // us to null Statistics.
