@@ -7,6 +7,9 @@
 
 include_once('cu_cache.features.inc');
 
+/*
+// Commenting this out for now since this module isn't on for current production
+// sites and no one has complained so far.
 function cu_cache_form_alter(&$form, &$form_state, $form_id) {
   switch($form_id) {
     case 'block_admin_configure':
@@ -16,15 +19,17 @@ function cu_cache_form_alter(&$form, &$form_state, $form_id) {
       break;
     }
 }
+*/
 
 /**
  * Called from cu_bucket_form_alter
  */
+/*
 function _cu_cache_clear_cache() {
   block_flush_caches();
   cache_clear_all('*', 'cache_block', TRUE);
 }
-
+*/
 
 /**
  * Perform setup tasks for non-cached page requests.
