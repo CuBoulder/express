@@ -110,7 +110,7 @@ function cu_share_settings_form($form, &$form_state) {
   foreach ($types as $type) {
     $options[$type->type] = $type->name;
   }
-  // Sort types aphabetically
+  // Sort types alphabetically
   asort($options);
   $form['cu_share_types'] = array(
     '#type' => 'checkboxes',
@@ -190,6 +190,7 @@ function cu_share_theme() {
  */
 function theme_cu_share_settings_form($variables) {
   $form = $variables['form'];
+
   // Initialize the variable which will store our table rows.
   $rows = array();
 
@@ -237,7 +238,7 @@ function theme_cu_share_settings_form($variables) {
     'header' => $header,
     'rows' => $rows,
     'attributes' => array('id' => $table_id),
-    'caption' => $form['cu_share_settings']['#description'],
+    'caption' => isset($form['cu_share_settings']['#description']) ? $form['cu_share_settings']['#description'] : '',
   ));
 
   // And then render any remaining form elements (such as our submit button).
@@ -293,7 +294,7 @@ function _cu_share_services() {
   );
   $options['linkedin'] = array(
     'name' => 'LinkedIn',
-    'url' => 'https://www.linkedin.com/shareArticle?mini=true&url=&title=&summary=&source=',
+    'url' => 'https://www.linkedin.com/shareArticle?mini=true&title=&summary=&source=&url=',
   );
   $options['email'] = array(
       'name' => 'E-mail',
