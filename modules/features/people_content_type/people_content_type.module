@@ -22,16 +22,7 @@ function people_content_type_page_alter(&$page) {
  */
 function people_content_type_menu() {
   $items = array();
-  $items['admin/settings/people'] = array(
-    'title' => 'People',
-    'description' => 'Menu Options Related to Feedback',
-    'position' => 'right',
-    'page callback' => 'system_admin_menu_block_page',
-    'access arguments' => array('administer express settings'),
-    'file' => 'system.admin.inc',
-    'file path' => drupal_get_path('module', 'system'),
-    'weight' => 1,
-  );
+
   $items['admin/settings/people/settings'] = array(
 	'title' => 'People Filter Labels',
 	'description' => 'Create text labels for People filters',
@@ -57,48 +48,11 @@ function people_content_type_permission() {
 
 
 /**
- * Provide a form-specific alteration for shared ('base') forms.
+ * Implements hook_form/-form_ID_alter().
  *
- * By default, when drupal_get_form() is called, Drupal looks for a function
- * with the same name as the form ID, and uses that function to build the form.
- * In contrast, base forms allow multiple form IDs to be mapped to a single base
- * (also called 'factory') form function.
- *
- * Modules can implement hook_form_BASE_FORM_ID_alter() to modify a specific
- * base form, rather than implementing hook_form_alter() and checking for
- * conditions that would identify the shared form constructor.
- *
- * To identify the base form ID for a particular form (or to determine whether
- * one exists) check the $form_state. The base form ID is stored under
- * $form_state['build_info']['base_form_id'].
- *
- * See hook_forms() for more information on how to implement base forms in
- * Drupal.
- *
- * Form alter hooks are called in the following order: hook_form_alter(),
- * hook_form_BASE_FORM_ID_alter(), hook_form_FORM_ID_alter(). See
- * hook_form_alter() for more details.
- *
- * hide old fields we need for migration.
- *
- * @param array $form
- *   Nested array of form elements that comprise the form.
- * @param array $form_state
- *   A keyed array containing the current state of the form.
- * @param string $form_id
- *   String representing the name of the form itself. Typically this is the
- *   name of the function that generated the form.
- *
- * @see hook_form_alter()
- * @see hook_form_FORM_ID_alter()
- * @see drupal_prepare_form()
- * @see hook_forms()
+ * Adds labels to filter options and hides legacy fields on form.
  */
 function people_content_type_form_person_node_form_alter(&$form, &$form_state, $form_id) {
-  // Hide legacy fields.
-  $form['field_extra']['#access'] = FALSE;
-  $form['field_person_interests']['#access'] = FALSE;
-  $form['field_person_bio']['#access'] = FALSE;
 
   // Get filter field custom labels and apply them to form fields.
   $settings = variable_get('people_content_type_label_settings');
@@ -121,7 +75,9 @@ function people_content_type_form_person_node_form_alter(&$form, &$form_state, $
 }
 
 /**
- * TODO: DOCO.
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Adds custom labels to people list page form.
  */
 function people_content_type_form_people_list_page_node_form_alter(&$form, &$form_state, $form_id) {
   // Only do this for new nodes
