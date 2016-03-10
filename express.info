@@ -1,6 +1,6 @@
 ; Packaging information for express
 name = "express"
-description = "University of Colorado Boulder"
+description = "Express installation profile"
 exclusive = "1"
 core = "7.x"
 version = 2.0.2

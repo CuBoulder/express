@@ -1,6 +1,6 @@
 name = Content List
 core = 7.x
-package = CU-Active
+package = CU-Advanced Content
 dependencies[] = bean_admin_ui
 dependencies[] = ctools
 dependencies[] = entityreference
