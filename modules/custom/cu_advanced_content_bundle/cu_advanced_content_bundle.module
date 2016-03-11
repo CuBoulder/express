@@ -105,7 +105,7 @@ function cu_advanced_content_bundle_frontpage_validate($form, &$form_state) {
   // Taken from system_site_information_settings_validate.
   // No need to check for empty front page path since it's a required field.
   // Check to see if path is valid and exists.
-  if (!drupal_valid_path($form_state['values']['site_frontpage'])) {
+  if (!drupal_valid_path(drupal_get_normal_path($form_state['values']['site_frontpage']))) {
     form_set_error('site_frontpage', 'Please enter a valid path.');
   }
   // Get the normal path of the front page.
