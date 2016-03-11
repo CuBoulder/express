@@ -38,7 +38,7 @@ function express_settings_menu() {
   );
   $items['admin/settings/site-configuration/site-description'] = array(
     'title' => 'Site Description',
-    'description' => 'Edit the descriptionof the website',
+    'description' => 'Edit the description of the website',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_settings_site_description_form'),
@@ -181,7 +181,7 @@ function express_settings_site_description_form($form, &$form_state) {
     '#title' => 'Site Description',
     '#type' => 'textarea',
     '#default_value' => variable_get('site_description', ''),
-    '#description' => t('This text is added as a meta description the the site homepage.'),
+    '#description' => t('This text is added as a meta description for the site homepage.'),
   );
   // Let system_settings_form_submit run first to variable_set vars.
   $form = system_settings_form($form);
@@ -304,19 +304,16 @@ function express_settings_preprocess_html(&$variables) {
   if (variable_get('site_name_2', '')) {
     $variables['head_title_array']['name'] = variable_get('site_name_1', NULL) . ' ' . variable_get('site_name_2', NULL);
   }
-  $description = variable_get('site_description', NULL);
-  if ($description) {
-    // Add meta tag to home page
-    if(drupal_is_front_page()) {
-      $element = array(
-        '#tag' => 'meta',
-        '#attributes' => array(
-          'name' => 'description',
-          'content' => $description,
-        ),
-      );
-      drupal_add_html_head($element, 'description');
-    }
+  if ($description = variable_get('site_description', NULL) && drupal_is_front_page()) {
+    // Add meta tag to home page.
+    $element = array(
+      '#tag' => 'meta',
+      '#attributes' => array(
+        'name' => 'description',
+        'content' => $description,
+      ),
+    );
+    drupal_add_html_head($element, 'description');
   }
 }
 
