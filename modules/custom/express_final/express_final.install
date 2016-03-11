@@ -24,6 +24,7 @@ function express_final_install() {
     'cu_help',
     'cu_inventory',
     'cu_inventory_stats',
+    'cu_redirect',
   ));
 
   // also set these to be ignored by profile_module_manager's report

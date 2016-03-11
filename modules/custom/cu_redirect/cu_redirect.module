@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * Adds a redirect if none exists.
+ */
+function cu_redirect_add_redirect($source = NULL, $destination = NULL) {
+  if ($source == NULL || $destination == NULL) {
+    return;
+  }
+
+  // Check to see if redirect exists.
+  $query = db_select('redirect', 'r');
+  $query->addField('r', 'source');
+  $query->condition('r.source', $source);
+  $redirect = $query->execute()->fetchCol();
+
+  // Make redirect if none exists.
+  if (empty($redirect)) {
+    $redirect = new stdClass();
+    redirect_object_prepare($redirect);
+    $redirect->source = $source;
+    $redirect->redirect = $destination;
+    redirect_save($redirect);
+  }
+}

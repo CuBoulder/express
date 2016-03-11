@@ -44,7 +44,7 @@ function cu_core_install() {
 
   variable_set('express_help_base_url', 'http://www.colorado.edu/webcentral');
 
-  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, memcache');
+  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, memcache, cu_redirect');
 
   // Set SEO bundle to be hidden in bundle list form.
   variable_set('profile_module_manager_bundle_ignore', array('cu_seo_bundle' => 'cu_seo_bundle'));
@@ -140,10 +140,6 @@ You can now .+configure the CAPTCHA module.+ for your site.
 Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
 
   variable_set('express_layout_node_type_ignore', array('file'));
-
-  // Add redirect from index.html to <front> if no redirect exists.
-  cu_core_add_redirect('index.html', '<front>');
-
 }
 
 /**
@@ -255,11 +251,14 @@ function cu_core_update_7003() {
 }
 
 /**
- * Add redirect to front page from index.html
+ * Enable CU Redirect module.
  * Express 2.1.0
  */
 function cu_core_update_7004() {
-  cu_core_add_redirect('index.html', <'front>');
+  module_enable(array('cu_redirect'));
+
+  // Run on every update
+  express_inventory_update('7004');
 }
 
 /**
@@ -300,25 +299,3 @@ function express_inventory_update($version) {
   cu_inventory_process_profile_version($version);
 }
 
-/**
- * Adds a redirect if none exists.
- */
-function cu_core_add_redirect($source = NULL, $destination = NULL) {
-  if ($source == NULL || $destination == NULL) {
-    return;
-  }
-
-  // Check to see if redirect exists.
-  $query = db_select('redirect', 'r');
-  $query->addField('r', 'source');
-  $query->condition('r.source', $source);
-  $redirect = $query->execute()->fetchCol();
-
-  // Make redirect if none exists.
-  if (empty($redirect)) {
-    $redirect = new stdClass();
-    redirect_object_prepare($redirect);
-    $redirect->source = $source;
-    $redirect->redirect = $destination;
-  }
-}
