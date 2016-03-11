@@ -18,9 +18,9 @@ function cu_help_express_help($variables) {
   );
 
   $variables['node/add'][] = array(
-    'title' => 'Add-on Bundles',
-    'short_title' => 'Add-on Bundles',
-    'url' => '/node/658',
+    'title' => 'Adding Bundles',
+    'short_title' => 'Adding Bundles',
+    'url' => '/node/656',
   );
 
   $variables['node/add/page'][] = array(
@@ -54,9 +54,9 @@ function cu_help_express_help($variables) {
   );
 
   $variables['block/add'][] = array(
-    'title' => 'Blocks Tutorial',
-    'short_title' => 'Blocks Tutorial',
-    'url' => '/node/602',
+   	'title' => 'Adding Bundles',
+    'short_title' => 'Adding Bundles',
+    'url' => '/node/656',
   );
 
   $variables['block/add/hero-unit'][] = array(

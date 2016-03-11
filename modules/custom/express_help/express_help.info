@@ -1,6 +1,7 @@
 name = Express Help
 description = Adds inline help links to Express
 core = 7.x
+package = Express
 
 ; Information added by Drupal.org packaging script on 2015-12-21
 version = "7.x-1.x-dev"

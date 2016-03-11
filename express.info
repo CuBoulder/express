@@ -1,9 +1,9 @@
 ; Packaging information for express
 name = "express"
-description = "University of Colorado Boulder"
+description = "Express installation profile"
 exclusive = "1"
 core = "7.x"
-version = 2.0
+version = 2.0.2
 
 ; ----------
 ; Dependencies
@@ -61,8 +61,6 @@ dependencies[] = field_group
 dependencies[] = link
 dependencies[] = linkit
 dependencies[] = features
-dependencies[] = ldap_authentication
-dependencies[] = ldap_servers
 dependencies[] = user_external_invite
 dependencies[] = libraries
 dependencies[] = views
@@ -96,7 +94,6 @@ dependencies[] = cu_accessibility
 dependencies[] = profile_module_manager
 
 ; ============ CU AUTHENTICATION AND PERMISSIONS ============
-dependencies[] = cu_ldap
 dependencies[] = administerusersbyrole
 dependencies[] = role_delegation
 dependencies[] = chain_menu_access
