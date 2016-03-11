@@ -178,3 +178,20 @@ function site_navigation_menus_form_menu_configure_alter(&$form, &$form_state, $
   unset($form['menu_footer_links_source']['#options']['user-menu']);
 }
 
+/**
+ * Implements hook_menu_alter().
+ */
+function site_navigation_menus_menu_alter(&$items) {
+  // Restrict access to taxonomy term pages to authenticated users.
+  $items['taxonomy/term/%']['access callback'] = '_site_navigation_menus_taxonomy_access';
+}
+
+/**
+ * Access callback for "taxonomy/term/%".
+ */
+function _site_navigation_menus_taxonomy_access() {
+  if (!user_is_logged_in()) {
+    drupal_access_denied();
+    drupal_exit();
+  }
+}
