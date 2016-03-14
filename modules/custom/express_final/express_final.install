@@ -40,4 +40,3 @@ function express_final_install() {
   );
   shortcut_set_save($shortcut_set);
 }
-
