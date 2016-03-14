@@ -5,6 +5,7 @@
  */
 
 include_once 'site_navigation_menus.features.inc';
+module_load_include('module', 'taxonomy');
 
 /**
  * @file
@@ -183,15 +184,16 @@ function site_navigation_menus_form_menu_configure_alter(&$form, &$form_state, $
  */
 function site_navigation_menus_menu_alter(&$items) {
   // Restrict access to taxonomy term pages to authenticated users.
-  $items['taxonomy/term/%']['access callback'] = '_site_navigation_menus_taxonomy_access';
+  $items['taxonomy/term/%taxonomy_term']['access callback'] = 'site_navigation_menus_taxonomy_access';
 }
 
 /**
- * Access callback for "taxonomy/term/%".
+ * Access callback for "taxonomy/term/%taxonomy_term".
  */
-function _site_navigation_menus_taxonomy_access() {
+function site_navigation_menus_taxonomy_access() {
   if (!user_is_logged_in()) {
-    drupal_access_denied();
-    drupal_exit();
+    return FALSE;
+  } else {
+    return TRUE;
   }
 }
