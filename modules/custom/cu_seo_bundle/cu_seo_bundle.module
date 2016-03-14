@@ -19,6 +19,9 @@ function cu_seo_bundle_secure_permissions($role) {
     'administrator' => array(
       'edit meta tags',
       'administer meta tags',
+      'access broken links report',
+      'access own broken links report',
+      'edit link settings',
     ),
     'anonymous user' => array(
     ),
@@ -26,16 +29,25 @@ function cu_seo_bundle_secure_permissions($role) {
     ),
     'content_editor' => array(
       'edit meta tags',
+      'access broken links report',
+      'access own broken links report',
     ),
     'developer' => array(
       'edit meta tags',
       'administer meta tags',
+      'access broken links report',
+      'access own broken links report',
+      'administer linkchecker',
+      'edit link settings',
     ),
     'edit_my_content' => array(
     ),
     'site_owner' => array(
       'edit meta tags',
       'administer meta tags',
+      'access broken links report',
+      'access own broken links report',
+      'edit link settings',
     ),
   );
   if (isset($permissions[$role])) {
