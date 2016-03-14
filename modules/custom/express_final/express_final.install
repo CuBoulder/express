@@ -24,6 +24,7 @@ function express_final_install() {
     'cu_help',
     'cu_inventory',
     'cu_inventory_stats',
+    'cu_redirect',
     'cu_cache',
   ));
 
@@ -39,4 +40,3 @@ function express_final_install() {
   );
   shortcut_set_save($shortcut_set);
 }
-

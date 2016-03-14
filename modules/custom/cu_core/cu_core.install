@@ -44,7 +44,7 @@ function cu_core_install() {
 
   variable_set('express_help_base_url', 'http://www.colorado.edu/webcentral');
 
-  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, cu_cache, varnish, memcache');
+  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, cu_cache, varnish, memcache, cu_redirect');
 
   // Set SEO bundle to be hidden in bundle list form.
   variable_set('profile_module_manager_bundle_ignore', array('cu_seo_bundle' => 'cu_seo_bundle'));
@@ -251,6 +251,17 @@ function cu_core_update_7003() {
 }
 
 /**
+ * Enable CU Redirect module.
+ * Express 2.1.0
+ */
+function cu_core_update_7004() {
+  module_enable(array('cu_redirect'));
+
+  // Run on every update
+  express_inventory_update('7004');
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
@@ -287,3 +298,4 @@ function express_inventory_update($version) {
   module_load_include('inc', 'cu_inventory');
   cu_inventory_process_profile_version($version);
 }
+
