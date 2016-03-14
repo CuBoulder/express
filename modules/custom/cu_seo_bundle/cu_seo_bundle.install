@@ -1,6 +1,13 @@
 <?php
 
 /**
+ * Implements hook_install().
+ */
+function cu_seo_bundle_install() {
+  variable_set('linkchecker_check_links_interval', 7776000);
+}
+
+/**
  * Implements hook_enable().
  */
 function cu_seo_bundle_enable() {
