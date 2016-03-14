@@ -1,6 +1,15 @@
 <?php
 
 /**
+ * Implements hook_ctools_plugin_api().
+ */
+function cu_redirect_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "strongarm" && $api == "strongarm") {
+    return array("version" => "1");
+  }
+}
+
+/**
  * Adds a redirect if none exists.
  */
 function cu_redirect_add_redirect($source = NULL, $destination = NULL) {
