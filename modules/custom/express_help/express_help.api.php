@@ -4,7 +4,11 @@
  * Hook for providing page/screen level help links.
  */
 function hook_express_help($variables) {
-
+  $variables['admin/content/add'][] = array(
+    'title' => 'Adding Content Help',
+    'short_title' => 'Adding Content',
+    'url' => 'http://www.colorado.edu/webcentral/tutorials/adding-content',
+  );
   return $variables = array();
 }
 
