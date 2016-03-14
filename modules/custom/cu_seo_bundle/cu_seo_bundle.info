@@ -5,4 +5,5 @@ package = CU-Search Engine Optimization
 project_demo_url = http://www.colorado.edu/webcentral/node/684
 dependencies[] = metatag
 dependencies[] = linkchecker
+dependencies[] = cu_linkchecker
 
