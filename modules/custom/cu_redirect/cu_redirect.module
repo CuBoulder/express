@@ -10,6 +10,20 @@ function cu_redirect_ctools_plugin_api($module = NULL, $api = NULL) {
 }
 
 /**
+ * Implements hook_redirect_validate().
+ *
+ * @param $redirect
+ * @param $form
+ * @param $form_state
+ */
+function cu_redirect_redirect_validate($redirect, $form, $form_state) {
+  // Set error if user is trying to use the frontpage as the source for a redirect.
+  if ($redirect->source == variable_get('site_frontpage', 'node')) {
+    form_set_error('cu_redirect', t('The redirect source "@from" cannot be the same path as the homepage.', array('@from' => $redirect->source)));
+  }
+}
+
+/**
  * Adds a redirect if none exists.
  */
 function cu_redirect_add_redirect($source = NULL, $destination = NULL) {
