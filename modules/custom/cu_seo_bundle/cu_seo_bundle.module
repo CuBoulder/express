@@ -20,6 +20,7 @@ function cu_seo_bundle_secure_permissions($role) {
       'edit meta tags',
       'administer meta tags',
       'access broken links report',
+      'access own broken links report',
       'edit link settings',
     ),
     'anonymous user' => array(
@@ -28,6 +29,7 @@ function cu_seo_bundle_secure_permissions($role) {
     ),
     'content_editor' => array(
       'edit meta tags',
+      'access own broken links report',
     ),
     'developer' => array(
       'edit meta tags',
@@ -43,6 +45,7 @@ function cu_seo_bundle_secure_permissions($role) {
       'edit meta tags',
       'administer meta tags',
       'access broken links report',
+      'access own broken links report',
       'edit link settings',
     ),
   );
