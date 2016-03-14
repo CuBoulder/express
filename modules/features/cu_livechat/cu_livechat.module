@@ -21,30 +21,32 @@ function cu_livechat_menu() {
  * Preprocess html.
  */
 function cu_livechat_preprocess_html(&$vars) {
-  // Get livechat ID and build javascript
-  if ($livechat_license = variable_get('livechat_license_number', NULL)) {
-    $livechat = "var __lc = {}; __lc.license = " . $livechat_license . ";
-    (function() {
-      var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
-      lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
-    })();";
+  if ($plugin = context_get_plugin('reaction', 'livechat')) {
+    $livechat = $plugin->execute($vars);
+    if ($livechat && ($livechat_license = variable_get('livechat_license_number', NULL))) {
+      $livechat = "var __lc = {}; __lc.license = " . $livechat_license . ";
+      (function() {
+        var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
+        lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
+      })();";
 
-    if (!path_is_admin(current_path())) {
-      drupal_add_js($livechat, 'inline');
+      if (!path_is_admin(current_path())) {
+        drupal_add_js($livechat, 'inline');
+      }
+
+      // Keep livechat from displaying when printing.
+      drupal_add_css(
+        '#livechat-compact-container { display: none !important;}',
+        array(
+          'group' => CSS_THEME,
+          'type' => 'inline',
+          'media' => 'print',
+          'preprocess' => FALSE,
+          'weight' => '9999',
+        )
+      );
     }
-
-    // Keep livechat from displaying when printing.
-    drupal_add_css(
-      '#livechat-compact-container { display: none !important;}',
-      array(
-        'group' => CSS_THEME,
-        'type' => 'inline',
-        'media' => 'print',
-        'preprocess' => FALSE,
-        'weight' => '9999',
-      )
-    );
   }
 }
 
@@ -84,3 +86,101 @@ function _cu_livechat_config_form_validate($form, &$form_state) {
   }
 }
 
+/**
+ * Implements hook_ctools_plugin_api().
+ *
+ * Notify CTools that we'll be using the plugin API with Context module.
+ */
+function cu_livechat_ctools_plugin_api($module, $api) {
+  if ($module == 'context' && ($api == 'plugins' || $api == 'context')) {
+    return array('version' => 3);
+  }
+}
+
+/**
+ * Implements hook_context_plugins().
+ *
+ * CTools plugin API hook for Context.
+ *
+ * @return array
+ *   Config details for each reaction.
+ *
+ * @see hook_context_plugins()
+ */
+function cu_livechat_context_plugins() {
+  $plugins = array();
+
+  $plugins['context_reaction_livechat'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'cu_livechat') . '/plugins',
+      'file' => 'cu_livechat.inc',
+      'class' => 'context_reaction_livechat',
+      'parent' => 'context_reaction',
+    ),
+  );
+
+  return $plugins;
+}
+
+/**
+ * Implements hook_context_registry().
+ *
+ * Registry hook for conditions & reactions.
+ *
+ * @see hook_context_registry()
+ */
+function cu_livechat_context_registry() {
+  return array(
+    'reactions' => array(
+      'livechat' => array(
+        'title' => t('LiveChat'),
+        'plugin' => 'context_reaction_livechat',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_context_default_contexts().
+ */
+function cu_livechat_context_default_contexts() {
+  $export = array();
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
+  $context->name = 'livechat';
+  $context->description = 'Decide which pages LiveChat should appear on.';
+  $context->tag = 'LiveChat';
+  $context->conditions = array(
+    'path' => array(
+      'values' => array(
+        '*' => '*',
+        '~admin' => '~admin',
+        '~admin/*' => '~admin/*',
+        '~/user' => '~/user',
+        '~/user/*' => '~/user/*',
+        '~node/*/edit' => '~node/*/edit',
+        '~block/*/edit' => '~block/*/edit',
+        '~taxonomy/term/*/edit' => '~taxonomy/term/*/edit',
+        '~node/*/delete' => '~node/*/delete',
+        '~block/*/delete' => '~block/*/delete',
+        '~taxonomy/term/*/delete' => '~taxonomy/term/*/delete',
+        '~node/*/webform*' => '~node/*/webform*',
+        '~node/*/webform-results' => '~node/*/webform-results',
+        '~media/browser' => '~media/browser',
+        '~node/*/blocks' => '~node/*/blocks',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'livechat' => array(
+      'livechat' => 1,
+    ),
+  );
+  $context->condition_mode = 0;
+// Translatables
+// Included for use with string extractors like potx.
+  t('Decide which pages LiveChat should appear on');
+  $export['livechat'] = $context;
+  return $export;
+}

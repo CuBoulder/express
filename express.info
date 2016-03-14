@@ -205,7 +205,6 @@ dependencies[] = express_linkit_profiles
 
 ; REMOVE IN FUTURE
 dependencies[] = grid_size_blocks
-dependencies[] = cu_livechat
 
 ; STILL NEEDS WORK?
 ; dependencies[] = cu_extended_content_search
