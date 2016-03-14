@@ -5,7 +5,6 @@
  */
 
 include_once 'site_navigation_menus.features.inc';
-module_load_include('module', 'taxonomy');
 
 /**
  * @file
