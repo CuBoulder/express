@@ -160,7 +160,6 @@ dependencies[] = menu_block
 dependencies[] = disable_node_menu_item
 dependencies[] = bigmenu
 dependencies[] = menu_firstchild
-dependencies[] = more_menus
 
 ; ============ BLOCK ============
 dependencies[] = blocktheme
