@@ -193,7 +193,8 @@ function express_help_preprocess_page(&$vars) {
   $current_path = current_path();
 
   if ((arg(0) == 'node') && (arg(2) == 'edit')) {
-    $current_path = 'node/add/' . $vars['node']->type;
+    $node_type = str_replace('_', '-', $vars['node']->type);
+    $current_path = 'node/add/' . $node_type;
   } elseif (arg(0) == 'node' && arg(2) == 'webform-results') {
     $current_path = 'node/%/webform-results';
   } elseif (arg(0) == 'admin' && arg(1) == 'structure' && arg(2) == 'quicktabs') {
