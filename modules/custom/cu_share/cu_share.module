@@ -17,7 +17,7 @@ function cu_share_page_alter(&$page) {
         // Load settings
         $settings = variable_get('cu_share_settings', '');
         $position = variable_get('cu_share_position', 'side');
-        $share_services = _cu_share_services();
+        $share_services = _cu_share_services($node);
 
         // Add css
         drupal_add_css(drupal_get_path('module', 'cu_share') . '/css/cu-share.css');
@@ -277,7 +277,10 @@ function cu_share_settings_form_submit($form, &$form_state) {
 /**
  * Function to return services options
  */
-function _cu_share_services() {
+function _cu_share_services($node = NULL) {
+
+  $node_title = isset($node->title) ? $node->title : '';
+
   $options = array();
   $options['twitter'] = array(
     'name' => 'Twitter',
@@ -293,7 +296,7 @@ function _cu_share_services() {
   );
   $options['linkedin'] = array(
     'name' => 'LinkedIn',
-    'url' => 'https://www.linkedin.com/shareArticle?mini=true&title=&summary=&source=&url=',
+    'url' => 'https://www.linkedin.com/shareArticle?mini=true&title=' . $node_title . '&summary=&source=&url=',
   );
   $options['email'] = array(
       'name' => 'E-mail',
