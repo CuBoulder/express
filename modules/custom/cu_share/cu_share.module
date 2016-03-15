@@ -4,25 +4,24 @@
  * Implements hook_page_alter().
  */
 function cu_share_page_alter(&$page) {
-  // Load settings
-  $settings = variable_get('cu_share_settings', '');
-  $share_types = variable_get('cu_share_types', '');
-  $position = variable_get('cu_share_position', 'side');
-  $share_services = _cu_share_services();
-
-  // Add css
-  drupal_add_css(drupal_get_path('module', 'cu_share') . '/css/cu-share.css');
-
   // Don't add share links on admin paths
   if (!path_is_admin(current_path())) {
     // Get current node
     $node = menu_get_object();
 
     if ($node) {
+      $share_types = variable_get('cu_share_types', '');
       $type = $node->type;
-
       // See if current node type is set to have sharing links
       if ($share_types[$type]) {
+        // Load settings
+        $settings = variable_get('cu_share_settings', '');
+        $position = variable_get('cu_share_position', 'side');
+        $share_services = _cu_share_services($node);
+
+        // Add css
+        drupal_add_css(drupal_get_path('module', 'cu_share') . '/css/cu-share.css');
+
         // Get current url
         $current_url = url(current_path(), array('absolute' => TRUE));
 
@@ -115,7 +114,7 @@ function cu_share_settings_form($form, &$form_state) {
   foreach ($types as $type) {
     $options[$type->type] = $type->name;
   }
-  // Sort types aphabetically
+  // Sort types alphabetically
   asort($options);
   $form['cu_share_types'] = array(
     '#type' => 'checkboxes',
@@ -206,6 +205,7 @@ function cu_share_theme() {
  */
 function theme_cu_share_settings_form($variables) {
   $form = $variables['form'];
+
   // Initialize the variable which will store our table rows.
   $rows = array();
 
@@ -253,7 +253,7 @@ function theme_cu_share_settings_form($variables) {
     'header' => $header,
     'rows' => $rows,
     'attributes' => array('id' => $table_id),
-    'caption' => $form['cu_share_settings']['#description'],
+    'caption' => isset($form['cu_share_settings']['#description']) ? $form['cu_share_settings']['#description'] : '',
   ));
 
   // And then render any remaining form elements (such as our submit button).
@@ -297,7 +297,10 @@ function cu_share_settings_form_submit($form, &$form_state) {
 /**
  * Function to return services options
  */
-function _cu_share_services() {
+function _cu_share_services($node = NULL) {
+
+  $node_title = isset($node->title) ? $node->title : '';
+
   $options = array();
   $options['twitter'] = array(
     'name' => 'Twitter',
@@ -313,7 +316,7 @@ function _cu_share_services() {
   );
   $options['linkedin'] = array(
     'name' => 'LinkedIn',
-    'url' => 'https://www.linkedin.com/shareArticle?mini=true&url=&title=&summary=&source=',
+    'url' => 'https://www.linkedin.com/shareArticle?mini=true&title=' . $node_title . '&summary=&source=&url=',
   );
   $options['email'] = array(
       'name' => 'E-mail',
