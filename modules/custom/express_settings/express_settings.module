@@ -304,7 +304,8 @@ function express_settings_preprocess_html(&$variables) {
   if (variable_get('site_name_2', '')) {
     $variables['head_title_array']['name'] = variable_get('site_name_1', NULL) . ' ' . variable_get('site_name_2', NULL);
   }
-  if ($description = variable_get('site_description', NULL) && drupal_is_front_page()) {
+  $description = variable_get('site_description', NULL);
+  if ($description && drupal_is_front_page()) {
     // Add meta tag to home page.
     $element = array(
       '#tag' => 'meta',
