@@ -4,25 +4,24 @@
  * Implements hook_page_alter().
  */
 function cu_share_page_alter(&$page) {
-  // Load settings
-  $settings = variable_get('cu_share_settings', '');
-  $share_types = variable_get('cu_share_types', '');
-  $position = variable_get('cu_share_position', 'side');
-  $share_services = _cu_share_services();
-
-  // Add css
-  drupal_add_css(drupal_get_path('module', 'cu_share') . '/css/cu-share.css');
-
   // Don't add share links on admin paths
   if (!path_is_admin(current_path())) {
     // Get current node
     $node = menu_get_object();
 
     if ($node) {
+      $share_types = variable_get('cu_share_types', '');
       $type = $node->type;
-
       // See if current node type is set to have sharing links
       if ($share_types[$type]) {
+        // Load settings
+        $settings = variable_get('cu_share_settings', '');
+        $position = variable_get('cu_share_position', 'side');
+        $share_services = _cu_share_services();
+
+        // Add css
+        drupal_add_css(drupal_get_path('module', 'cu_share') . '/css/cu-share.css');
+
         // Get current url
         $current_url = url(current_path(), array('absolute' => TRUE));
 
