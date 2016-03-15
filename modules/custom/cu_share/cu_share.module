@@ -68,7 +68,12 @@ function cu_share_page_alter(&$page) {
           $page['content']['share']['#prefix'] = '<div class="cu-share-inline block">';
         }
         $page['content']['share']['#suffix'] =  '</div>';
-        $page['content']['share']['#weight'] = -100;
+        if ($position == 'below_content') {
+          $page['content']['share']['#weight'] = 100;
+        }
+        else {
+          $page['content']['share']['#weight'] = -100;
+        }
       }
     }
   }
@@ -165,8 +170,19 @@ function cu_share_settings_form($form, &$form_state) {
     '#options' => array(
       'side' => 'Left Side',
       'content' => 'Below Title',
+      'below_content' => 'Below Content',
     ),
     '#default_value' => variable_get('cu_share_position', 'side'),
+  );
+  $form['cu_share_design'] = array(
+    '#type' => 'radios',
+    '#title' => 'Design',
+    '#description' => 'Choose the design of the sharing icons',
+    '#options' => array(
+      'minimal' => 'Minimal',
+      'colors' => 'Colors',
+    ),
+    '#default_value' => variable_get('cu_share_design', 'minimal'),
   );
 
   $form['submit'] = array('#type' => 'submit', '#value' => t('Save Sharing Settings'));
@@ -272,6 +288,10 @@ function cu_share_settings_form_submit($form, &$form_state) {
   // Save sharing position
   $position = $form_state['values']['cu_share_position'];
   variable_set('cu_share_position', $position);
+
+  // Save sharing design
+  $design = $form_state['values']['cu_share_design'];
+  variable_set('cu_share_design', $design);
 }
 
 /**
