@@ -191,3 +191,20 @@ function site_navigation_menus_form_menu_configure_alter(&$form, &$form_state, $
   unset($form['menu_footer_links_source']['#options']['user-menu']);
 }
 
+/**
+ * Remove /node page from being accessed.
+ *
+ * Implements hook_menu_alter().
+ */
+function site_navigation_menus_menu_alter(&$items) {
+  $items['node']['page callback'] = '_site_navigation_menus_node_page_callback';
+}
+
+/**
+ * Page callback for /node page.
+ */
+function _site_navigation_menus_node_page_callback() {
+  drupal_goto('<front>', $options = array(), $http_response_code = 301);
+}
+
+
