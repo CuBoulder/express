@@ -165,7 +165,6 @@ dependencies[] = menu_firstchild
 dependencies[] = blocktheme
 dependencies[] = block_styles
 dependencies[] = cu_block
-dependencies[] = block_title_icons
 
 ; ============ FLEXSLIDER ============
 dependencies[] = flexslider
@@ -185,7 +184,6 @@ dependencies[] = ds
 dependencies[] = modernizr
 dependencies[] = smartcrop
 dependencies[] = honeypot
-dependencies[] = metatag
 dependencies[] = transliteration
 dependencies[] = vppr
 dependencies[] = content_menu
@@ -207,8 +205,6 @@ dependencies[] = grid_size_blocks
 dependencies[] = cu_livechat
 
 ; STILL NEEDS WORK?
-; dependencies[] = cu_extended_content_search
 dependencies[] = cu_bean_override_view
 dependencies[] = cu_people_administration_override
 dependencies[] = cu_content_administration_override
-dependencies[] = cu_bucket
