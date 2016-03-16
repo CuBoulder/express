@@ -253,6 +253,7 @@ function cu_core_update_7003() {
 /**
  * Enable CU Redirect module.
  * Disable, Uninstall More Menus module.
+ * Remove duplicates in shortcut menu
  * Express 2.1.0
  */
 function cu_core_update_7004() {
@@ -261,6 +262,21 @@ function cu_core_update_7004() {
   drupal_uninstall_modules(array(
     'more_menus',
   ));
+
+  // Remove duplicates in shortcut menu
+  $shortcuts = array();
+  $query = db_select('menu_links', 'ml');
+  $query->fields('ml', array('menu_name', 'mlid', 'link_path'));
+  $query->condition('ml.menu_name', 'shortcut-set-1', '=');
+  $results = $query->execute()->fetchAll();
+  foreach ($results as $result) {
+    $shortcuts[$result->link_path][] = $result->mlid;
+  }
+  foreach ($shortcuts as $shortcut) {
+    if (isset($shortcut[1])) {
+      menu_link_delete($shortcut[1]);
+    }
+  }
 
   // Run on every update
   express_inventory_update('7004');
