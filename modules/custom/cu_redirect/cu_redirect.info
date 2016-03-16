@@ -1,0 +1,5 @@
+name = CU Redirect
+description = Form alters and custom code related to redirects.
+core = 7.x
+package = CU-Core
+dependencies[] = redirect
