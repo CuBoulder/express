@@ -252,15 +252,16 @@ function cu_core_update_7003() {
 
 /**
  * Enable CU Redirect module.
- * Disable, Uninstall More Menus module.
+ * Disable, Uninstall More Menus, CU Shortcuts modules.
  * Remove duplicates in shortcut menu
  * Express 2.1.0
  */
 function cu_core_update_7004() {
   module_enable(array('cu_redirect'));
-  module_disable(array('more_menus'));
+  module_disable(array('more_menus', 'cu_shortcuts'));
   drupal_uninstall_modules(array(
     'more_menus',
+    'cu_shortcuts',
   ));
 
   // Remove duplicates in shortcut menu
