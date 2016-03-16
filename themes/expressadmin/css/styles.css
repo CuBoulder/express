@@ -128,6 +128,8 @@ fieldset fieldset fieldset { background-color: #f8f8f8; }
 
 html.js fieldset.collapsible .fieldset-legend { background-position: 5px 55%; }
 
+.fieldset-description { padding: 0 0 10px; }
+
 .form-wrapper.collapsible { margin: 10px 0; }
 
 .filter-wrapper { margin-top: 0; }
@@ -255,6 +257,8 @@ tr td:last-child { border-right: 1px solid #bebfb9; /* LTR */ }
 .admin-panel .body .admin-list li { border: none; border-bottom: 1px solid #e7e7e7; padding: 10px; margin: 0; }
 
 .admin-panel .body .admin-list li:last-child { border-bottom: none; }
+
+.admin-sub-panel { background-color: #f7f7f7; border: 1px solid #e7e7e7; padding: 20px; margin: 0 0 20px; }
 
 div.vertical-tabs ul li.vertical-tab-button a:hover { color: #fff; background-color: #333; }
 div.vertical-tabs ul li.vertical-tab-button a:hover .summary { color: #fff; }

@@ -313,7 +313,9 @@ fieldset fieldset fieldset {
 html.js fieldset.collapsible .fieldset-legend {
   background-position: 5px 55%;
 }
-
+.fieldset-description {
+  padding:0 0 10px;
+}
 .form-wrapper {
   //margin:40px 0;
 }
@@ -685,6 +687,12 @@ tr td:last-child {
 }
 .admin-panel .body .admin-list li:last-child {
   border-bottom: none;
+}
+.admin-sub-panel {
+  background-color: #f7f7f7;
+  border: 1px solid #e7e7e7;
+  padding:20px;
+  margin: 0 0 20px;
 }
 
 
