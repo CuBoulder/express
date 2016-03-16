@@ -12,7 +12,7 @@ dependencies[] = express_field_bases
 dependencies[] = express_add_content
 dependencies[] = express_help
 dependencies[] = express_theme_picker
-dependencies[] = express_layout
+;dependencies[] = express_layout
 dependencies[] = express_settings
 dependencies[] = cu_colorbox
 ;dependencies[] = express_permissions
@@ -45,7 +45,7 @@ dependencies[] = views_content_cache
 
 ; Layout Contib Dependencies
 dependencies[] = entity
-dependencies[] = entityreference
+;dependencies[] = entityreference
 dependencies[] = entitycache
 dependencies[] = inline_entity_form
 dependencies[] = bean

@@ -40,6 +40,10 @@ function express_install_tasks() {
  */
 function express_final() {
   
+  // THIS IS TO FIX FIT-1684
+  module_enable(array('entityreference'));
+  module_enable(array('express_layout'));
+  
   // We know for sure that our database name is unique and thus, I'm using that
   // to append to the email.  Another option was base_path(), but that isnt
   // known during the install process.  $plus = str_replace('/', '_',
@@ -81,8 +85,13 @@ function express_final() {
   $types = node_type_get_names();
   variable_set('dnmi_content_types', array_flip($types));
 
-  drupal_flush_all_caches();
+  
   secure_permissions_rebuild();
+  
+  
+  
+  
+  drupal_flush_all_caches();
   
 }
 
