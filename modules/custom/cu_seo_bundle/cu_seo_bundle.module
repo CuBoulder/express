@@ -19,6 +19,7 @@ function cu_seo_bundle_secure_permissions($role) {
     'administrator' => array(
       'edit meta tags',
       'administer meta tags',
+      'administer xmlsitemap',
     ),
     'anonymous user' => array(
     ),
@@ -30,12 +31,14 @@ function cu_seo_bundle_secure_permissions($role) {
     'developer' => array(
       'edit meta tags',
       'administer meta tags',
+      'administer xmlsitemap',
     ),
     'edit_my_content' => array(
     ),
     'site_owner' => array(
       'edit meta tags',
       'administer meta tags',
+      'administer xmlsitemap',
     ),
   );
   if (isset($permissions[$role])) {
@@ -72,3 +75,39 @@ function cu_seo_bundle_express_help($variables) {
   return $variables;
 }
 
+/**
+ * Implements hook_menu().
+ */
+function cu_seo_bundle_menu() {
+  $items = array();
+
+  $items['admin/settings/seo'] = array(
+    'title' => 'Search Engine Optimization',
+    'position' => 'right',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer express settings'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+    'weight' => 6,
+  );
+
+  $items['admin/settings/seo/xmlsitemap'] = array(
+    'title' => 'Sitemap',
+    'description' => 'Configure sitemap settings.',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('admin/config/search/xmlsitemap'),
+    'access arguments' => array('administer express settings'),
+    'weight' => 26,
+  );
+
+  return $items;
+}
+
+function cu_seo_bundle_page_alter(&$vars) {
+  // hide advanced settings from non-developers.
+  if ((current_path() == 'admin/config/search/xmlsitemap/settings') && (!in_array('developer', $user->roles) && $user->uid != 1)) {
+    drupal_access_denied();
+    drupal_exit();
+  }
+}
