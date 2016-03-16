@@ -41,6 +41,7 @@ dependencies[] = system
 dependencies[] = taxonomy
 dependencies[] = text
 dependencies[] = user
+dependencies[] = views_content_cache
 
 ; Layout Contib Dependencies
 dependencies[] = entity
