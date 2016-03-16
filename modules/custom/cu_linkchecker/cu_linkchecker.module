@@ -1,0 +1,74 @@
+<?php
+/**
+ * @file
+ * Code for the CU Linkchecker feature.
+ */
+
+include_once 'cu_linkchecker.features.inc';
+
+function cu_linkchecker_page_alter(&$vars) {
+  if (current_path() == 'admin/reports/linkchecker') {
+    $form = drupal_render(drupal_get_form('cu_linkchecker_reports_form'));
+    $vars['content']['system_main']['cu_linkchecker_check'] = array(
+      '#markup' => $form,
+    );
+  }
+}
+
+function cu_linkchecker_reports_form() {
+  $form = array();
+
+  $form['clear']['linkchecker_clear_analyze'] = array(
+    '#type' => 'submit',
+    '#suffix' => '<br/>Check your content for broken links.',
+    '#value' => t('Check links'),
+    '#submit' => array('cu_linkchecker_clear_analyze_links_submit'),
+  );
+
+  if (REQUEST_TIME - variable_get('cu_linkchecker_cleanup_links_last', 0) <= 900) {
+    $form['clear']['linkchecker_clear_analyze']['#suffix'] = '<br/>Check your content for broken links. You can only check for broken links once every 15 minutes to reduce load on the server.';
+    $form['clear']['linkchecker_clear_analyze']['#disabled'] = TRUE;
+  }
+
+  return $form;
+}
+
+/**
+ * Submit callback.
+ *
+ * Clear link data and analyze fields in all content types, comments, custom
+ * blocks.
+ */
+function cu_linkchecker_clear_analyze_links_submit($form, &$form_state) {
+  /*
+  // Exclude unnecessary elements.
+  unset($form_state['values']['linkchecker_analyze'], $form_state['values']['linkchecker_clear_analyze']);
+
+  // Save form settings.
+  system_settings_form_submit($form, $form_state);
+
+  db_truncate('linkchecker_block_custom')->execute();
+  db_truncate('linkchecker_comment')->execute();
+  db_truncate('linkchecker_node')->execute();
+  db_truncate('linkchecker_link')->execute();
+
+  // Start batch and analyze all nodes.
+  $node_types = array_keys(array_filter(variable_get('linkchecker_scan_nodetypes', array())));
+  if (!empty($node_types)) {
+    module_load_include('inc', 'linkchecker', 'linkchecker.batch');
+    batch_set(_linkchecker_batch_import_nodes($node_types));
+    if (variable_get('linkchecker_scan_comments', 0)) {
+      batch_set(_linkchecker_batch_import_comments($node_types));
+    }
+  }
+
+  if (variable_get('linkchecker_scan_blocks', 0)) {
+    module_load_include('inc', 'linkchecker', 'linkchecker.batch');
+    batch_set(_linkchecker_batch_import_block_custom());
+  }*/
+
+  module_load_include('module', 'linkchecker', 'linkchecker');
+  linkchecker_cron();
+  variable_set('cu_linkchecker_cleanup_links_last', REQUEST_TIME);
+
+}

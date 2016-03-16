@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the CU Linkchecker feature.
- */
-
-include_once 'cu_linkchecker.features.inc';
