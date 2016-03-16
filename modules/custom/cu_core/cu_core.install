@@ -280,6 +280,9 @@ function cu_core_update_7005() {
   drupal_uninstall_modules(array(
     'cu_livechat',
   ));
+
+  // Run on every update
+  express_inventory_update('7005');
 }
 
 /**
