@@ -77,7 +77,6 @@ dependencies[] = auto_entitylabel
 ; Admin UI Improvements
 dependencies[] = navbar
 dependencies[] = module_filter
-dependencies[] = cu_shortcuts
 
 ; Site Structure
 dependencies[] = cu_site_info
