@@ -321,14 +321,14 @@ function express_layout_page_alter(&$page) {
     // Load node layout
     if ($layout = entity_load_single('express_layout', $node->nid)) {
       // Add cover image
-      if (!empty($layout->field_feature_title_image[LANGUAGE_NONE][0]['uri']) && !empty($settings['field_feature_title_image'])) {
+      // Add cover image
+      if (!empty($layout->field_feature_title_image[LANGUAGE_NONE][0]['uri']) && isset($settings['field_feature_title_image'])) {
         // Get url of hero image style
         $img = image_style_url('el_hero', $layout->field_feature_title_image [LANGUAGE_NONE][0]['uri']);
-        $block['el_hero_cover_image'] = array(
-          '#markup' => '<div class="feature-layout-title-image"><img src="' . $img . '" /></div>',
-        );
-        // Add cover image to page
-        $page['intro'][] = $block;
+
+        $vars['title'] = $node->title;
+        $vars['img'] = $img;
+        $page['intro']['el_hero_cover_image']['#markup'] = theme('express_layout_title_image', $vars);
       }
       if (isset($settings) && $settings['field_feature_layout_toggle']) {
         // Check feature/default layout setting
@@ -923,4 +923,14 @@ function express_layout_inline_entity_form_entity_table($variables) {
     );
     return theme('table', array('header' => $header, 'rows' => $rows, 'sticky' => FALSE, 'attributes' => $table_attributes));
   }
+}
+
+function express_layout_theme() {
+  $registry = array();
+  $template_dir = drupal_get_path('module', 'express_layout') . '/templates';
+  $registry['express_layout_title_image'] = array(
+    'template' => 'express-layout-title-image',
+    'path' => $template_dir,
+  );
+  return $registry;
 }
