@@ -262,9 +262,14 @@ function cu_core_update_7004() {
     'more_menus',
   ));
 
+  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, memcache, entityreference, express_layout, cu_ldap, ldap_authentication, ldap_servers');
+
   // Run on every update
   express_inventory_update('7004');
 }
+
+
+
 
 /**
  * Revert features by passing features in an array.
