@@ -40,7 +40,7 @@ function express_install_tasks() {
  */
 function express_final() {
   
-  // THIS IS TO FIX FIT-1684
+  // MOVED HERE TO FIX FIT-1684
   module_enable(array('entityreference'));
   module_enable(array('express_layout'));
   
@@ -85,13 +85,8 @@ function express_final() {
   $types = node_type_get_names();
   variable_set('dnmi_content_types', array_flip($types));
 
-  
-  secure_permissions_rebuild();
-  
-  
-  
-  
   drupal_flush_all_caches();
+  secure_permissions_rebuild();
   
 }
 
