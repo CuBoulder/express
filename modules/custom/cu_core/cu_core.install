@@ -289,6 +289,25 @@ function cu_core_update_7004() {
 
 
 /**
+ * Express Update 7005.
+ * Removing cu_livechat module.
+ */
+function cu_core_update_7005() {
+  // Disable cu_livechat module.
+  module_disable(array(
+    'cu_livechat',
+  ));
+
+  // Uninstall cu_livechat module.
+  drupal_uninstall_modules(array(
+    'cu_livechat',
+  ));
+
+  // Run on every update
+  express_inventory_update('7005');
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
