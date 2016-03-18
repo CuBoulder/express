@@ -1,0 +1,53 @@
+<?php
+/**
+ * @file
+ * Code for the CU Linkchecker feature.
+ */
+
+include_once 'cu_linkchecker.features.inc';
+
+/**
+ * Implements hook_page_alter().
+ *
+ * @param $vars
+ */
+function cu_linkchecker_page_alter(&$vars) {
+  if (current_path() == 'admin/reports/linkchecker') {
+    $form = drupal_render(drupal_get_form('cu_linkchecker_reports_form'));
+    $vars['content']['system_main']['cu_linkchecker_check'] = array(
+      '#markup' => $form,
+    );
+  }
+}
+
+/**
+ * Form for checking links on the linkchecker report page.
+ *
+ * @return array
+ */
+function cu_linkchecker_reports_form() {
+  $form = array();
+  $form['clear']['linkchecker_clear_analyze'] = array(
+    '#type' => 'submit',
+    '#suffix' => '<br/>Check your content for broken links.',
+    '#value' => t('Check links'),
+    '#submit' => array('cu_linkchecker_clear_analyze_links_submit'),
+  );
+  if (REQUEST_TIME - variable_get('cu_linkchecker_cleanup_links_last', 0) <= 900) {
+    $form['clear']['linkchecker_clear_analyze']['#suffix'] = '<br/>Check your content for broken links. You can only check for broken links once every 15 minutes to reduce load on the server.';
+    $form['clear']['linkchecker_clear_analyze']['#disabled'] = TRUE;
+  }
+  return $form;
+}
+
+/**
+ * Submit callback.
+ *
+ * Clear link data and analyze fields in all content types, comments, custom
+ * blocks.
+ */
+function cu_linkchecker_clear_analyze_links_submit($form, &$form_state) {
+  module_load_include('module', 'linkchecker', 'linkchecker');
+  linkchecker_cron();
+  variable_set('cu_linkchecker_cleanup_links_last', REQUEST_TIME);
+}

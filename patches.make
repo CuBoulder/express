@@ -25,3 +25,6 @@ projects[video_embed_field][patch][] = "https://www.drupal.org/files/issues/vide
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-968
 projects[quicktabs][patch][] = "https://www.drupal.org/files/issues/quicktabs-invalid-argument-foreach-2661436-2-7.patch"
+
+; @see https://cuboulder.atlassian.net/browse/FIT-908
+projects[linkchecker][patch][] = "https://www.drupal.org/files/issues/linkchecker-form-textfield-integer-2687187-7-2.patch"

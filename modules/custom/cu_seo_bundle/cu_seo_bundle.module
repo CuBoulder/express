@@ -19,6 +19,9 @@ function cu_seo_bundle_secure_permissions($role) {
     'administrator' => array(
       'edit meta tags',
       'administer meta tags',
+      'access broken links report',
+      'access own broken links report',
+      'edit link settings',
     ),
     'anonymous user' => array(
     ),
@@ -26,16 +29,24 @@ function cu_seo_bundle_secure_permissions($role) {
     ),
     'content_editor' => array(
       'edit meta tags',
+      'access own broken links report',
     ),
     'developer' => array(
       'edit meta tags',
       'administer meta tags',
+      'access broken links report',
+      'access own broken links report',
+      'administer linkchecker',
+      'edit link settings',
     ),
     'edit_my_content' => array(
     ),
     'site_owner' => array(
       'edit meta tags',
       'administer meta tags',
+      'access broken links report',
+      'access own broken links report',
+      'edit link settings',
     ),
   );
   if (isset($permissions[$role])) {
@@ -72,3 +83,31 @@ function cu_seo_bundle_express_help($variables) {
   return $variables;
 }
 
+/**
+ * Implements hook_menu().
+ */
+function cu_seo_bundle_menu() {
+  $items = array();
+
+  $items['admin/settings/seo'] = array(
+    'title' => 'Search Engine Optimization',
+    'position' => 'right',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer express settings'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+    'weight' => 6,
+  );
+
+  $items['admin/settings/seo/linkchecker'] = array(
+    'title' => 'Link Checker',
+    'description' => 'Find and fix broken links on your site',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('admin/reports/linkchecker'),
+    'access arguments' => array('administer express settings'),
+    'weight' => 26,
+  );
+
+  return $items;
+}
