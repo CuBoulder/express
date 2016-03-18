@@ -269,6 +269,9 @@ function express_layout_preprocess_html(&$vars) {
     } else {
       $vars['classes_array'][] = 'layout-default';
     }
+    if ($layout && !empty($layout->field_feature_title_image)) {
+      $vars['classes_array'][] = 'has-feature-title-image';
+    }
   }
 }
 
@@ -321,12 +324,11 @@ function express_layout_page_alter(&$page) {
     // Load node layout
     if ($layout = entity_load_single('express_layout', $node->nid)) {
       // Add cover image
-      // Add cover image
       if (!empty($layout->field_feature_title_image[LANGUAGE_NONE][0]['uri']) && isset($settings['field_feature_title_image'])) {
         // Get url of hero image style
         $img = image_style_url('el_hero', $layout->field_feature_title_image [LANGUAGE_NONE][0]['uri']);
-
         $vars['title'] = $node->title;
+
         $vars['img'] = $img;
         $page['intro']['el_hero_cover_image']['#markup'] = theme('express_layout_title_image', $vars);
       }
@@ -639,6 +641,9 @@ function express_layout_preprocess_node(&$vars) {
     if (!empty($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value']) && ($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value'] == 'feature_layout') && (!path_is_admin(current_path()))) {
       $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__featurelayout';
     }
+
+
+
   }
 
   // add inner sidebar regions to nodes
