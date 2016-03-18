@@ -774,6 +774,20 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: #e0e
 /* Colorbox */
 #cboxTitle { font-size: 11px; }
 
+/* Layout Title Image */
+.feature-layout-title-image { background-size: cover; background-repeat: no-repeat; background-position: center center; height: 280px; position: relative; padding: 0 20px; }
+
+.feature-layout-title-image-overlay { color: #fff; position: absolute; bottom: 0; left: 0; width: 100%; padding: 50px 20px 20px; }
+
+.feature-layout-title-image-overlay h1 { font-size: 160%; font-weight: 700; }
+
+@media screen and (min-width: 768px) { .feature-layout-title-image { height: 360px; }
+  .feature-layout-title-image-overlay { padding: 100px 20px 30px; }
+  .feature-layout-title-image-overlay h1 { font-size: 240%; } }
+@media screen and (min-width: 960px) { .feature-layout-title-image { height: 480px; transition: height 1s ease-in-out; -webkit-transition: height 1s ease-in-out; -moz-transition: height 1s ease-in-out; }
+  .feature-layout-title-image.layout-title-image-small { height: 240px; } }
+.has-feature-title-image h1#page-title { display: none; }
+
 .field-type-text-with-summary img, .field-type-text-long img, img.image-large, img.image-medium, img.image-small, img.image-large_square_thumbnail, img.image-large_wide_thumbnail, img.image-square_thumbnail, img.image-square, img.image-small_square, img.image-thumbnail, img.image-grid-9, img.image-grid-12, img.image-grid-6, img.image-grid-4, img.image-grid-3, img.image-slider { max-width: 100%; height: auto; min-width: 50px; }
 
 .region-intro img.image-large, .region-intro img.image-hero, .region-intro img.image-slider, .region-intro img[class=""], .region-wide-2 img.image-large, .region-wide-2 img.image-hero, .region-wide-2 img.image-slider, .region-wide-2 img[class=""] { width: 100%; height: auto; max-width: none; display: block; }
