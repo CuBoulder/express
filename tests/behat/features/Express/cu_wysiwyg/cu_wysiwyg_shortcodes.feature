@@ -85,6 +85,7 @@ I should be able to use the full functionality of the WYSIWYG editor
     When I go to "node/add/page"
       And I fill in "Title" with "My Expandable Content Shortcode"
       And I press the "Expand Content Shortcode Generator" button
+      And I wait for AJAX
       And I fill in "Title" with "Example FAQ #1"
       And I fill in "Expand Content Text" with "Example content #1"
       And I press the "OK" button
