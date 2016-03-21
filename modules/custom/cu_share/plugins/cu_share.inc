@@ -12,12 +12,16 @@ class context_reaction_social_share extends context_reaction {
     $form = array();
     $link = user_access('admin/settings/social/share') ? 'admin/settings/social/share' : NULL;
     if ($link) {
-      $form['cu_share'] = array(
+      $form['cu_share_config'] = array(
         '#type' => 'markup',
         '#title' => 'Social Sharing Links',
         '#markup' => l('Configure Social Sharing Links', 'admin/settings/social/share'),
       );
     }
+    $form['cu_share'] = array(
+      '#type' => 'hidden',
+      '#value' => TRUE,
+    );
 
     return $form;
   }

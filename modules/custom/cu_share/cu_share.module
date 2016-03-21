@@ -4,11 +4,14 @@
  * Implements hook_page_alter().
  */
 function cu_share_page_alter(&$page) {
-  $plugin = context_get_plugin('reaction', 'cu_share');
+
   // If social share context reaction was set, do that first
-  if ($plugin->execute($vars)) {
-    cu_share_output(&$page);
+  if ($plugin = context_get_plugin('reaction', 'cu_share')) {
+    if ($plugin->execute()) {
+      cu_share_output(&$page);
+    }
   }
+
 }
 
 function cu_share_output(&$page) {
