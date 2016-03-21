@@ -44,7 +44,7 @@ function cu_core_install() {
 
   variable_set('express_help_base_url', 'http://www.colorado.edu/webcentral');
 
-  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, memcache');
+  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, cu_cache, varnish, memcache, cu_redirect');
 
   // Set SEO bundle to be hidden in bundle list form.
   variable_set('profile_module_manager_bundle_ignore', array('cu_seo_bundle' => 'cu_seo_bundle'));
@@ -248,6 +248,39 @@ function cu_core_update_7003() {
 
   // Run on every update
   express_inventory_update('7003');
+}
+
+/**
+ * Enable CU Redirect module.
+ * Disable, Uninstall More Menus, CU Shortcuts modules.
+ * Remove duplicates in shortcut menu
+ * Express 2.1.0
+ */
+function cu_core_update_7004() {
+  module_enable(array('cu_redirect'));
+  module_disable(array('more_menus', 'cu_shortcuts'));
+  drupal_uninstall_modules(array(
+    'more_menus',
+    'cu_shortcuts',
+  ));
+
+  // Remove duplicates in shortcut menu
+  $shortcuts = array();
+  $query = db_select('menu_links', 'ml');
+  $query->fields('ml', array('menu_name', 'mlid', 'link_path'));
+  $query->condition('ml.menu_name', 'shortcut-set-1', '=');
+  $results = $query->execute()->fetchAll();
+  foreach ($results as $result) {
+    $shortcuts[$result->link_path][] = $result->mlid;
+  }
+  foreach ($shortcuts as $shortcut) {
+    if (isset($shortcut[1])) {
+      menu_link_delete($shortcut[1]);
+    }
+  }
+
+  // Run on every update
+  express_inventory_update('7004');
 }
 
 /**

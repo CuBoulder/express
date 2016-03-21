@@ -1,4 +1,22 @@
 <?php
+
+/**
+ * Implements hook_menu().
+ */
+function cu_livechat_menu() {
+  $items['admin/settings/site-configuration/livechat'] = array(
+    'title' => 'Livechat',
+    'description' => 'Configure the license for your Livechat license',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('cu_livechat_admin_form'),
+    'access arguments' => array('administer express settings'),
+    'weight' => -50,
+  );
+
+  return $items;
+}
+
 /**
  * Preprocess html.
  */
@@ -34,7 +52,9 @@ function cu_livechat_preprocess_html(&$vars) {
  * Implements hook_form_FORM_ID_alter().
  * LiveChat config onto Settings form.
  */
-function cu_livechat_form_cu_settings_admin_settings_form_alter(&$form, &$form_state, $form_id) {
+function cu_livechat_admin_form() {
+  $form = array();
+
   $form['livechat'] = array(
     '#type' => 'fieldset',
     '#title' => t('Live Chat'),
@@ -47,7 +67,11 @@ function cu_livechat_form_cu_settings_admin_settings_form_alter(&$form, &$form_s
     '#title' => 'LiveChatINC.com license number',
     '#description' => '<em>Example: 1234567</em>',
   );
+
+  $form = system_settings_form($form);
   $form['#validate'][] = '_cu_livechat_config_form_validate';
+
+  return $form;
 }
 
 /**

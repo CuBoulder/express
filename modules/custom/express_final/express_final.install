@@ -24,6 +24,8 @@ function express_final_install() {
     'cu_help',
     'cu_inventory',
     'cu_inventory_stats',
+    'cu_redirect',
+    'cu_cache',
   ));
 
   // also set these to be ignored by profile_module_manager's report
@@ -38,4 +40,3 @@ function express_final_install() {
   );
   shortcut_set_save($shortcut_set);
 }
-

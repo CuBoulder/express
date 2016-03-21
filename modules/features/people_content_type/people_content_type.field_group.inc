@@ -183,7 +183,7 @@ function people_content_type_field_group_info() {
       'instance_settings' => array(
         'required_fields' => 1,
         'classes' => 'group-people-list-filter field-group-fieldset',
-        'description' => 'Choose which people will appear by selecting from the options below.',
+        'description' => 'Choose which people will appear by selecting from the options below. If no options are selected in a filter, all people within that filter group will be shown. ',
       ),
       'formatter' => 'collapsed',
     ),
@@ -218,7 +218,7 @@ function people_content_type_field_group_info() {
       'instance_settings' => array(
         'required_fields' => 1,
         'classes' => 'group-people-list-filter field-group-fieldset',
-        'description' => 'Choose which people will appear by selecting from the options below.',
+        'description' => 'Choose which people will appear by selecting from the options below. If no options are selected in a filter, all people within that filter group will be shown.',
       ),
       'formatter' => 'collapsed',
     ),

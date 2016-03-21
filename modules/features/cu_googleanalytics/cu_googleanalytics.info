@@ -1,7 +1,7 @@
 name = CU Google Analytics
 description = Random bits of functionality associated with Google Analytics.
 core = 7.x
-package = CU-Boulder
+package = CU-Core
 version = 7.x-1.0
 project = cu_bucket
 dependencies[] = features

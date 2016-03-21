@@ -926,7 +926,7 @@ function cu_article_field_default_field_instances() {
     'bundle' => 'article',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Enter author\'s first name and last name. Separate multiple authors with a comma.',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
