@@ -5,6 +5,7 @@ package = CU-SEO
 version = 7.x-1.0
 dependencies[] = ctools
 dependencies[] = strongarm
+dependencies[] = linkchecker
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
 features[variable][] = linkchecker_action_status_code_301
