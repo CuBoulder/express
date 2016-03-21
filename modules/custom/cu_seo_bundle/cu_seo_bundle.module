@@ -91,23 +91,5 @@ function cu_seo_bundle_menu() {
     'weight' => 6,
   );
 
-  $items['admin/settings/seo/xmlsitemap'] = array(
-    'title' => 'Sitemap',
-    'description' => 'Configure sitemap settings.',
-    'type' => MENU_NORMAL_ITEM,
-    'page callback' => 'drupal_goto',
-    'page arguments' => array('admin/config/search/xmlsitemap'),
-    'access arguments' => array('administer express settings'),
-    'weight' => 26,
-  );
-
   return $items;
-}
-
-function cu_seo_bundle_page_alter(&$vars) {
-  // hide advanced settings from non-developers.
-  if ((current_path() == 'admin/config/search/xmlsitemap/settings') && (!in_array('developer', $user->roles) && $user->uid != 1)) {
-    drupal_access_denied();
-    drupal_exit();
-  }
 }
