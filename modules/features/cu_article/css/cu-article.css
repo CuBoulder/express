@@ -224,8 +224,20 @@ p.tags {
   font-weight: 700;
 }
 .title-image-breadcrumbs-wrapper {
-  background-color: #f5f5f5;
-  padding:5px 20px 2px;
+  padding:5px 20px;
   display: none;
-  font-size: 85%;
+}
+.title-image-breadcrumbs-wrapper .breadcrumb {
+  padding: 0;
+}
+.feature-layout-title-image .author-meta {
+}
+.feature-layout-title-image .author-meta a {
+  color:#b4e1f3;
+  color:#cfb87c;
+  color:#c0e2f9;
+  color:#e6cc8a;
+}
+.feature-layout-title-image .author-meta a:hover {
+  color:#fff;
 }
