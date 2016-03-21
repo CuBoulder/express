@@ -42,6 +42,11 @@ function express_permissions_secure_permissions_roles() {
  */
 
 function express_permissions_secure_permissions($role) {
+
+  // Load role IDs to use later.
+  // Role IDs can vary depending on when a site was created.
+  $role_ids = array_flip(user_roles());
+
   $permissions = array(
     'administrator' => array(
       'access administration pages',
@@ -66,9 +71,10 @@ function express_permissions_secure_permissions($role) {
       'assign content_editor role',
       'assign edit_my_content role',
       'assign site_owner role',
-      'cancel users with role 4',
-      'cancel users with role 6',
-      'cancel users with role 7',
+      'cancel users with role ' . $role_ids['authenticated user'],
+      'cancel users with role ' . $role_ids['content_editor'],
+      'cancel users with role ' . $role_ids['edit_my_content'],
+      'cancel users with role ' . $role_ids['site_owner'],
       'check out documents',
       'create any block bean',
       'create any feature_callout bean',
@@ -101,9 +107,10 @@ function express_permissions_secure_permissions($role) {
       'edit own file content',
       'edit own page content',
       'edit terms in 2',
-      'edit users with role 4',
-      'edit users with role 6',
-      'edit users with role 7',
+      'edit users with role ' . $role_ids['authenticated user'],
+      'edit users with role ' . $role_ids['content_editor'],
+      'edit users with role ' . $role_ids['edit_my_content'],
+      'edit users with role ' . $role_ids['site_owner'],
       'execute node_assign_owner_action',
       'execute node_make_sticky_action',
       'execute node_make_unsticky_action',
@@ -426,9 +433,10 @@ function express_permissions_secure_permissions($role) {
       'assign content_editor role',
       'assign edit_my_content role',
       'assign site_owner role',
-      'cancel users with role 4',
-      'cancel users with role 6',
-      'cancel users with role 7',
+      'cancel users with role ' . $role_ids['authenticated user'],
+      'cancel users with role ' . $role_ids['content_editor'],
+      'cancel users with role ' . $role_ids['edit_my_content'],
+      'cancel users with role ' . $role_ids['site_owner'],
       'check out documents',
       'create any block bean',
       'create any feature_callout bean',
@@ -461,9 +469,10 @@ function express_permissions_secure_permissions($role) {
       'edit own file content',
       'edit own page content',
       'edit terms in 2',
-      'edit users with role 4',
-      'edit users with role 6',
-      'edit users with role 7',
+      'edit users with role ' . $role_ids['authenticated user'],
+      'edit users with role ' . $role_ids['content_editor'],
+      'edit users with role ' . $role_ids['edit_my_content'],
+      'edit users with role ' . $role_ids['site_owner'],
       'execute node_assign_owner_action',
       'execute node_make_sticky_action',
       'execute node_make_unsticky_action',
@@ -498,3 +507,4 @@ function express_permissions_secure_permissions($role) {
     return $permissions[$role];
   }
 }
+
