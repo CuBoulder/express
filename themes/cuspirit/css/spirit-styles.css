@@ -87,3 +87,5 @@ ul#action-menu a { color: #333; }
 .article-view-mode-grid1 .field-name-field-article-thumbnail { width: 100%; height: auto; overflow: hidden; display: inline-block; position: relative; }
 .article-view-mode-grid1 .field-name-field-article-thumbnail img { -webkit-transition: all .5s ease; /* Safari and Chrome */ -moz-transition: all .5s ease; /* Firefox */ -ms-transition: all .5s ease; /* IE 9 */ -o-transition: all .5s ease; /* Opera */ transition: all .5s ease; display: block; vertical-align: middle; margin: 0; }
 .article-view-mode-grid1 .field-name-field-article-thumbnail:hover img { -webkit-transform: scale(1.25); /* Safari and Chrome */ -moz-transform: scale(1.25); /* Firefox */ -ms-transform: scale(1.25); /* IE 9 */ -o-transform: scale(1.25); /* Opera */ transform: scale(1.25); }
+
+.title-image-breadcrumbs-wrapper { -webkit-box-shadow: inset 0 2px 5px 0px rgba(0, 0, 0, 0.1); -moz-box-shadow: inset 0 2px 5px 0px rgba(0, 0, 0, 0.1); box-shadow: inset 0 2px 5px 0px rgba(0, 0, 0, 0.1); }

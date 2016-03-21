@@ -301,3 +301,8 @@ $border: #e7e7e7;
            transform:scale(1.25);
   }
 }
+.title-image-breadcrumbs-wrapper {
+  -webkit-box-shadow: inset 0 2px 5px 0px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: inset 0 2px 5px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 2px 5px 0px rgba(0, 0, 0, 0.1);
+}
