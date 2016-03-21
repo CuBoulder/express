@@ -32,6 +32,11 @@ function cu_linkchecker_reports_form() {
     '#suffix' => '<br/>Check your content for broken links.',
     '#value' => t('Check links'),
     '#submit' => array('cu_linkchecker_clear_analyze_links_submit'),
+    '#attributes' => array(
+      'class' => array(
+        'btn btn-primary',
+      ),
+    ),
   );
   if (REQUEST_TIME - variable_get('cu_linkchecker_cleanup_links_last', 0) <= 900) {
     $form['clear']['linkchecker_clear_analyze']['#suffix'] = '<br/>Check your content for broken links. You can only check for broken links once every 15 minutes to reduce load on the server.';
