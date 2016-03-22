@@ -244,6 +244,8 @@ function cu_core_update_7003() {
     'cu_transition_fit',
   ));
 
+  module_enable(array('responsive_preview'));
+
   // Run on every update
   express_inventory_update('7003');
 }
