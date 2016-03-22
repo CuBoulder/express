@@ -10,7 +10,7 @@ class context_reaction_social_share extends context_reaction {
     $default = isset($values['cu_share']) ? $values['cu_share'] : 0;
 
     $form = array();
-    $link = user_access('admin/settings/social/share') ? 'admin/settings/social/share' : NULL;
+    $link = drupal_valid_path('admin/settings/social/share') ? 'admin/settings/social/share' : NULL;
     if ($link) {
       $form['cu_share_config'] = array(
         '#type' => 'markup',
