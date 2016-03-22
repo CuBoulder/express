@@ -259,3 +259,30 @@ function cu_rss_express_help($variables) {
 
   return $variables;
 }
+
+/*
+ * Implements hook_secure_permissions
+ *
+ * Adding permissions for rss entity
+ */
+function cu_rss_secure_permissions($role) {
+  $permissions = array(
+    'anonymous user' => array(
+    ),
+    'authenticated user' => array(
+    ),
+    'administrator' => array(
+      'administer rss feeds',
+    ),
+    'content_editor' => array(
+      'administer rss feeds',
+    ),
+    'developer' => array(
+      'administer rss feeds',
+    ),
+    'site_owner' => array(
+      'administer rss feeds',
+    ),
+  );
+  return $permissions[$role];
+}
