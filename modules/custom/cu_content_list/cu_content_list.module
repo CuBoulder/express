@@ -189,3 +189,20 @@ function cu_content_list_secure_permissions($role) {
   );
   return $permissions[$role];
 }
+
+/**
+ * Implements hook_express_node_list_groups().
+ */
+ function cu_content_list_express_node_list_groups($bundles) {
+   $bundles['advanced_content']['title'] = 'Advanced Content';
+   $bundles['advanced_content']['types'][] = 'Content List Page';
+   return $bundles;
+ }
+
+ /**
+  * Implements hook_express_bean_list_groups().
+  */
+ function cu_content_list_express_bean_list_groups($bundles) {
+  $bundles['advanced_content']['types'][] = 'Content List';
+  return $bundles;
+}
