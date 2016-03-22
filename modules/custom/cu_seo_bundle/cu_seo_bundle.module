@@ -19,6 +19,7 @@ function cu_seo_bundle_secure_permissions($role) {
     'administrator' => array(
       'edit meta tags',
       'administer meta tags',
+      'administer site verify',
     ),
     'anonymous user' => array(
     ),
@@ -30,12 +31,14 @@ function cu_seo_bundle_secure_permissions($role) {
     'developer' => array(
       'edit meta tags',
       'administer meta tags',
+      'administer site verify',
     ),
     'edit_my_content' => array(
     ),
     'site_owner' => array(
       'edit meta tags',
       'administer meta tags',
+      'administer site verify',
     ),
   );
   if (isset($permissions[$role])) {
