@@ -325,11 +325,19 @@ function express_layout_page_alter(&$page) {
     if ($layout = entity_load_single('express_layout', $node->nid)) {
       // Add cover image
       if (!empty($layout->field_feature_title_image[LANGUAGE_NONE][0]['uri']) && isset($settings['field_feature_title_image'])) {
-        // Get url of hero image style
-        $img = image_style_url('el_hero', $layout->field_feature_title_image [LANGUAGE_NONE][0]['uri']);
+        // Add node title to variables
         $vars['title'] = $node->title;
 
-        $vars['img'] = $img;
+        // Add image style urls to variables
+        $img_desktop = image_style_url('hero', $layout->field_feature_title_image [LANGUAGE_NONE][0]['uri']);
+        $vars['img_desktop'] = $img_desktop;
+
+        $img_tablet = image_style_url('large', $layout->field_feature_title_image [LANGUAGE_NONE][0]['uri']);
+        $vars['img_tablet'] = $img_tablet;
+
+        $img_mobile = image_style_url('medium', $layout->field_feature_title_image [LANGUAGE_NONE][0]['uri']);
+        $vars['img_mobile'] = $img_mobile;
+
         $page['intro']['el_hero_cover_image']['#markup'] = theme('express_layout_title_image', $vars);
       }
       if (isset($settings) && $settings['field_feature_layout_toggle']) {
