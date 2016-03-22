@@ -1,5 +1,5 @@
 name = Feeds
-description = This bundle allows you to create rss feeds of articles and add rss feed blocks to your site.
+description = This bundle allows you to create rss feeds of articles and add rss feed blocks to your site. <i>REQUIREMENTS: News and Article Bundle</i>
 core = 7.x
 package = CU-Feeds
 project_demo_url = http://www.colorado.edu/webcentral/node/1084
