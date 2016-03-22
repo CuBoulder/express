@@ -213,31 +213,3 @@ p.tags {
 .field-name-field-article-grid-more-link {
   text-align: center;
 }
-.title-image-byline {
-  font-size: 125%;
-}
-.title-image-byline a:link,
-.title-image-byline a:visited {
-  color:#fff;
-}
-.byline-author-name {
-  font-weight: 700;
-}
-.title-image-breadcrumbs-wrapper {
-  padding:5px 20px;
-  display: none;
-}
-.title-image-breadcrumbs-wrapper .breadcrumb {
-  padding: 0;
-}
-.feature-layout-title-image .author-meta {
-}
-.feature-layout-title-image .author-meta a {
-  color:#b4e1f3;
-  color:#cfb87c;
-  color:#c0e2f9;
-  color:#e6cc8a;
-}
-.feature-layout-title-image .author-meta a:hover {
-  color:#fff;
-}
