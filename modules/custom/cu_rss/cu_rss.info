@@ -5,3 +5,5 @@ package = CU-Core
 version = 7.x-1.0
 project = cu_rss
 dependencies[] = cu_article
+
+stylesheets[screen][] = css/cu-rss.css
