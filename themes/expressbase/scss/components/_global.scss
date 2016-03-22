@@ -5,6 +5,10 @@ html {
   box-sizing: inherit;
 }
 
+.element-invisible {
+  @include element-invisible;
+}
+
 #skip-link {
   margin: 0;
   padding: 0;

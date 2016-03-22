@@ -18,9 +18,9 @@ function cu_help_express_help($variables) {
   );
 
   $variables['node/add'][] = array(
-    'title' => 'Add-on Bundles',
-    'short_title' => 'Add-on Bundles',
-    'url' => '/node/658',
+    'title' => 'Adding Bundles',
+    'short_title' => 'Adding Bundles',
+    'url' => '/node/656',
   );
 
   $variables['node/add/page'][] = array(
@@ -54,9 +54,9 @@ function cu_help_express_help($variables) {
   );
 
   $variables['block/add'][] = array(
-    'title' => 'Blocks Tutorial',
-    'short_title' => 'Blocks Tutorial',
-    'url' => '/node/602',
+   	'title' => 'Adding Bundles',
+    'short_title' => 'Adding Bundles',
+    'url' => '/node/656',
   );
 
   $variables['block/add/hero-unit'][] = array(
@@ -176,7 +176,7 @@ function cu_help_express_help($variables) {
   $variables['admin/settings/bundles/list'][] = array(
     'title' => 'Adding Bundles',
     'short_title' => 'Adding Bundles',
-    'url' => '/node/632',
+    'url' => '/node/656',
   );
 
   return $variables;
@@ -220,28 +220,28 @@ function cu_help_page_alter(&$page) {
   $path = current_path();
   switch ($path) {
     case 'node/add':
-      $link = l(t('<i class="fa fa-plus-circle"></i> Add Content Types'), '/admin/settings/bundles/list', array(
-        'attributes' => array(
-          'class' => array(
-            'btn',
-            'btn-info'
-          )
-        ),
-        'html' => TRUE
-      ));
-      $page['content']['system_main']['main']['#suffix'] = '<p>' . $link . '</p>';
+      if (drupal_valid_path('admin/settings/bundles/list')) {
+        $link = l(t('<i class="fa fa-plus-circle"></i> Enable bundles for additional content types'), '/admin/settings/bundles/list', array(
+          'attributes' => array(
+            'class' => array(
+            ),
+          ),
+          'html' => TRUE
+        ));
+        $page['content']['system_main']['main']['#suffix'] = '<p>' . $link . '</p>';
+      }
       break;
     case 'block/add':
-      $link = l(t('<i class="fa fa-plus-circle"></i> Add Block Types'), '/admin/settings/bundles/list', array(
-        'attributes' => array(
-          'class' => array(
-            'btn',
-            'btn-info'
-          )
-        ),
-        'html' => TRUE
-      ));
-      $page['content']['system_main']['main']['#suffix'] = '<p>' . $link . '</p>';
+      if (drupal_valid_path('admin/settings/bundles/list')) {
+        $link = l(t('<i class="fa fa-plus-circle"></i> Enable bundles for additional block types'), '/admin/settings/bundles/list', array(
+          'attributes' => array(
+            'class' => array(
+            ),
+          ),
+          'html' => TRUE
+        ));
+        $page['content']['system_main']['main']['#suffix'] = '<p>' . $link . '</p>';
+      }
       break;
     case 'admin/structure/taxonomy':
       $page['help']['system_help']['#markup'] = '<p>Taxonomy is the method used to classify, organize and cross-reference content.</p>';

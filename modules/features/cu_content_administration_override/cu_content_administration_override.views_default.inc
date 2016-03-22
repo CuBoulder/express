@@ -133,21 +133,7 @@ function cu_content_administration_override_views_default_views() {
       'label' => '',
       'postpone_processing' => 0,
     ),
-    'action::node_promote_action' => array(
-      'selected' => 1,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-      'postpone_processing' => 0,
-    ),
     'action::node_publish_action' => array(
-      'selected' => 1,
-      'skip_confirmation' => 0,
-      'override_label' => 0,
-      'label' => '',
-      'postpone_processing' => 0,
-    ),
-    'action::node_unpromote_action' => array(
       'selected' => 1,
       'skip_confirmation' => 0,
       'override_label' => 0,
@@ -320,7 +306,7 @@ function cu_content_administration_override_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-  $export['clone_of_cu_content_administration_override'] = $view;
+  $export['cu_content_administration_override_view'] = $view;
 
   return $export;
 }

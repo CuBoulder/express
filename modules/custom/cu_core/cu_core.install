@@ -44,7 +44,7 @@ function cu_core_install() {
 
   variable_set('express_help_base_url', 'http://www.colorado.edu/webcentral');
 
-  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final');
+  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, cu_cache, varnish, memcache, cu_redirect');
 
   // Set SEO bundle to be hidden in bundle list form.
   variable_set('profile_module_manager_bundle_ignore', array('cu_seo_bundle' => 'cu_seo_bundle'));
@@ -140,6 +140,18 @@ You can now .+configure the CAPTCHA module.+ for your site.
 Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
 
   variable_set('express_layout_node_type_ignore', array('file'));
+
+  db_update('responsive_preview')
+    ->fields(array('status' => 0,))
+  ->execute();
+
+  db_update('responsive_preview')
+    ->fields(array('status' => 1,))
+    ->condition(db_or()
+      ->condition('name', 'large')
+      ->condition('name', 'small')
+    )
+  ->execute();
 }
 
 /**
@@ -216,11 +228,6 @@ function cu_core_update_7002() {
     ->condition('delta', 'help')
     ->execute();
 
-  // revert features
-  $features = array(
-    'cu_extended_content_search',
-  );
-
   cu_core_revert_features();
 
   // Run on every update
@@ -244,17 +251,87 @@ function cu_core_update_7003() {
     'cu_transition_fit',
   ));
 
-  module_enable(array('responsive_preview'));
+  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, memcache');
 
   // Run on every update
   express_inventory_update('7003');
 }
 
 /**
+ * Enable CU Redirect module.
+ * Disable, Uninstall More Menus, CU Shortcuts modules.
+ * Remove duplicates in shortcut menu
+ * Express 2.1.0
+ */
+function cu_core_update_7004() {
+  module_enable(array('cu_redirect'));
+  module_disable(array('more_menus', 'cu_shortcuts'));
+  drupal_uninstall_modules(array(
+    'more_menus',
+    'cu_shortcuts',
+  ));
+
+  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, memcache, entityreference, express_layout, cu_ldap, ldap_authentication, ldap_servers');
+
+  // Remove duplicates in shortcut menu
+  $shortcuts = array();
+  $query = db_select('menu_links', 'ml');
+  $query->fields('ml', array('menu_name', 'mlid', 'link_path'));
+  $query->condition('ml.menu_name', 'shortcut-set-1', '=');
+  $results = $query->execute()->fetchAll();
+  foreach ($results as $result) {
+    $shortcuts[$result->link_path][] = $result->mlid;
+  }
+  foreach ($shortcuts as $shortcut) {
+    if (isset($shortcut[1])) {
+      menu_link_delete($shortcut[1]);
+    }
+  }
+
+  // Run on every update
+  express_inventory_update('7004');
+}
+
+/**
+ * Express Update 7005.
+ * Removing cu_livechat module, enabling responsive_preview, reverting features
+ */
+function cu_core_update_7005() {
+  // Disable cu_livechat module.
+  module_disable(array(
+    'cu_livechat',
+  ));
+
+  // Uninstall cu_livechat module.
+  drupal_uninstall_modules(array(
+    'cu_livechat',
+  ));
+
+  module_enable(array('responsive_preview'));
+
+  db_update('responsive_preview')
+    ->fields(array('status' => 0,))
+  ->execute();
+
+  db_update('responsive_preview')
+    ->fields(array('status' => 1,))
+    ->condition(db_or()
+      ->condition('name', 'large')
+      ->condition('name', 'small')
+    )
+  ->execute();
+
+  cu_core_revert_features();
+
+  // Run on every update
+  express_inventory_update('7005');
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
-  // if an array of specific features isn't passed, populate with all overridden features
+  // If an array of specific features isn't passed, populate with all overridden features.
   if ($features == NULL) {
     module_load_include('inc', 'features', 'features.export');
     $features = features_get_features();
@@ -264,12 +341,12 @@ function cu_core_revert_features($features = NULL) {
       }
     }
   }
+  // Check against features that currently can't be reverted.
+  $protected_features = array(
+    'cu_home_page',
+    'cu_sitewide',
+  );
   foreach ($features as $key => $feature) {
-    // check against features that currently can't be reverted
-    $protected_features = array(
-      'cu_home_page',
-      'cu_sitewide',
-    );
     if (!in_array($key, $protected_features)) {
       $f = features_get_features($key);
       $components = array_keys($f->info['features']);
