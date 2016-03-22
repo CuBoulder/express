@@ -17,7 +17,10 @@ function cu_share_page_alter(&$page) {
 function cu_share_output(&$page) {
   // Load settings
   $settings = variable_get('cu_share_settings', '');
-  $position = variable_get('cu_share_position', 'side_top');
+  $position = variable_get('cu_share_position', 'none');
+  if ($position == 'none') {
+    return;
+  }
   $share_services = _cu_share_services();
 
   // Get current url
@@ -115,12 +118,13 @@ function cu_share_settings_form($form, &$form_state) {
     '#title' => 'Position',
     '#description' => 'Choose where sharing icons will appear.',
     '#options' => array(
+      'none' => 'None',
       'side_top' => 'Left Side (desktop)/ Below Title (mobile)',
       'side_bottom' => 'Left Side (desktop)/ Below Content (mobile)',
       'content' => 'Below Title',
       'below_content' => 'Below Content',
     ),
-    '#default_value' => variable_get('cu_share_position', 'side'),
+    '#default_value' => variable_get('cu_share_position', 'none'),
   );
 
 
