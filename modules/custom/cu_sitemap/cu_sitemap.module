@@ -32,6 +32,7 @@ function cu_sitemap_menu() {
 function cu_sitemap_menu_alter(&$items) {
   // Hide advanced settings from non-developers.
   $items['admin/config/search/xmlsitemap/settings']['access callback'] = 'cu_sitemap_access';
+  $items['admin/config/search/xmlsitemap/add']['access callback'] = 'cu_sitemap_access';
 }
 
 /**
@@ -46,4 +47,18 @@ function cu_sitemap_access() {
   } else {
     return TRUE;
   }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function cu_sitemap_form_alter(&$form, &$form_state, $form_id) {
+  //dpm($form);
+}
+
+/**
+ * Implements hook_page_alter().
+ */
+function cu_sitemap_page_alter(&$vars) {
+  //dpm($vars);
 }
