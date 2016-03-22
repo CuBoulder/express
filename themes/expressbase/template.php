@@ -91,7 +91,7 @@ function expressbase_page_alter(&$page) {
   }
 
   $is_responsive = theme_get_setting('alpha_responsive', variable_get('theme_default', ''));
-  if (!$is_responsive && user_access('admin/theme')) {
+  if (!$is_responsive && user_access('administer express settings')) {
     $link['href'] = 'admin/theme/config/' . variable_get('theme_default' , '');
     $link['html'] = TRUE;
     $link['fragment'] = 'edit-expressbase-theme-settings';
