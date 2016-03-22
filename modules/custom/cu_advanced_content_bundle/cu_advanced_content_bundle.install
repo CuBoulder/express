@@ -27,3 +27,9 @@ function cu_advanced_content_bundle_update_7001() {
   path_save($path);
 }
 
+/**
+ * Enable cu_share module.
+ */
+function cu_advanced_content_bundle_update_7002() {
+  module_enable(array('cu_content_list'));
+}
