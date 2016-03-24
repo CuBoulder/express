@@ -558,6 +558,11 @@ a .icon-color-gray {
 .title-image-breadcrumbs-wrapper {
   padding:5px 20px;
   display: none;
+  background: rgba(0,0,0,.65);
+  color: #fff;
+  a {
+    color: $cugold;
+  }
 }
 .title-image-breadcrumbs-wrapper .breadcrumb {
   padding: 0;
