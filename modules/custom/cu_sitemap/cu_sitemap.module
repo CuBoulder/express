@@ -53,7 +53,14 @@ function cu_sitemap_access() {
  * Implements hook_form_alter().
  */
 function cu_sitemap_form_alter(&$form, &$form_state, $form_id) {
-  //dpm($form);
+  if ($form_id == 'xmlsitemap_sitemap_list_form') {
+    global $user;
+    foreach ($form['sitemaps']['#options'] as $key => $sitemap) {
+      if (!in_array('developer', $user->roles) && $user->uid != 1) {
+        unset($form['sitemaps']['#options'][$key]['operations']['data']['#links']['delete']);
+      }
+    }
+  }
 }
 
 /**
