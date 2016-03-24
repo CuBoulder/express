@@ -140,6 +140,18 @@ You can now .+configure the CAPTCHA module.+ for your site.
 Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
 
   variable_set('express_layout_node_type_ignore', array('file'));
+
+  db_update('responsive_preview')
+    ->fields(array('status' => 0,))
+  ->execute();
+
+  db_update('responsive_preview')
+    ->fields(array('status' => 1,))
+    ->condition(db_or()
+      ->condition('name', 'medium')
+      ->condition('name', 'small')
+    )
+  ->execute();
 }
 
 /**
@@ -216,11 +228,6 @@ function cu_core_update_7002() {
     ->condition('delta', 'help')
     ->execute();
 
-  // revert features
-  $features = array(
-    'cu_extended_content_search',
-  );
-
   cu_core_revert_features();
 
   // Run on every update
@@ -285,12 +292,9 @@ function cu_core_update_7004() {
   express_inventory_update('7004');
 }
 
-
-
-
 /**
  * Express Update 7005.
- * Removing cu_livechat module.
+ * Removing cu_livechat module, enabling responsive_preview, reverting features
  */
 function cu_core_update_7005() {
   // Disable cu_livechat module.
@@ -302,6 +306,22 @@ function cu_core_update_7005() {
   drupal_uninstall_modules(array(
     'cu_livechat',
   ));
+
+  module_enable(array('responsive_preview'));
+
+  db_update('responsive_preview')
+    ->fields(array('status' => 0,))
+  ->execute();
+
+  db_update('responsive_preview')
+    ->fields(array('status' => 1,))
+    ->condition(db_or()
+      ->condition('name', 'large')
+      ->condition('name', 'small')
+    )
+  ->execute();
+
+  cu_core_revert_features();
 
   // Run on every update
   express_inventory_update('7005');
