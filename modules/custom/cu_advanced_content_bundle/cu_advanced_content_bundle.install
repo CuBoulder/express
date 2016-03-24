@@ -28,7 +28,7 @@ function cu_advanced_content_bundle_update_7001() {
 }
 
 /**
- * Enable cu_share module.
+ * Enable cu_content_list module.
  */
 function cu_advanced_content_bundle_update_7002() {
   module_enable(array('cu_content_list'));
