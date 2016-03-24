@@ -316,7 +316,7 @@ function cu_core_update_7005() {
   db_update('responsive_preview')
     ->fields(array('status' => 1,))
     ->condition(db_or()
-      ->condition('name', 'large')
+      ->condition('name', 'medium')
       ->condition('name', 'small')
     )
   ->execute();
