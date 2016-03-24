@@ -4,7 +4,13 @@
  * Implements hook_install().
  */
 function cu_sitemap_install() {
-
+  // Generate a sitemap when module is installed.
+  /*
+  module_load_include('generate.inc', 'xmlsitemap');
+  $batch = xmlsitemap_regenerate_batch();
+  batch_set($batch);
+  batch_process('node/1');
+  */
 }
 
 /**

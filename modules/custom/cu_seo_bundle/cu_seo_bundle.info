@@ -4,4 +4,7 @@ core = 7.x
 package = CU-Search Engine Optimization
 project_demo_url = http://www.colorado.edu/webcentral/node/684
 dependencies[] = metatag
+dependencies[] = xmlsitemap
+dependencies[] = xmlsitemap_engines
+dependencies[] = xmlsitemap_menu
 dependencies[] = cu_sitemap

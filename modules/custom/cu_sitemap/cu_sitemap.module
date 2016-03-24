@@ -1,9 +1,11 @@
 <?php
 
 /**
- * Custom code related to sitemap functionality.
  * @file
+ * Code for the cu_sitemap feature.
  */
+
+include_once 'cu_sitemap.features.inc';
 
 /**
  * Implements hook_menu().
