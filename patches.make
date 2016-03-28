@@ -25,3 +25,8 @@ projects[video_embed_field][patch][] = "https://www.drupal.org/files/issues/vide
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-968
 projects[quicktabs][patch][] = "https://www.drupal.org/files/issues/quicktabs-invalid-argument-foreach-2661436-2-7.patch"
+
+; @see https://cuboulder.atlassian.net/browse/FIT-1059
+projects[responsive_preview][patch][] = "https://www.drupal.org/files/issues/responsive_preview-file_pattern-2681461-2-7.patch"
+
+projects[responsive_preview][patch][] = "https://www.drupal.org/files/issues/responsive_preview-wrap_config_in_description-2688791.patch"

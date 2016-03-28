@@ -203,7 +203,7 @@ function profile_module_manager_bundle_confirm($bundle_name) {
  */
 function profile_module_manager_bundle_enable($bundle) {
 
-  if (variable_get('profile_module_manager_disable_enabling', 1) == 0) {
+  if (variable_get('profile_module_manager_disable_enabling', 0) == 1) {
     $output = '<p>' . variable_get('profile_module_manager_disable_enabling_text', 'The ability to enable bundles has been turned off.') . '</p>';
     return $output;
   }

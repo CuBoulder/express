@@ -119,8 +119,15 @@ body {
 #slider-wrapper {
   background-color: #232323;
 }
-#slider-wrapper {
+.slider-wrapper {
   padding: 20px;
+  color: #fff;
+  a {
+    color: $cugold;
+  }
+  a:hover {
+    color: #fff;
+  }
 }
 // Page Title
 #page-title-image-overlay {

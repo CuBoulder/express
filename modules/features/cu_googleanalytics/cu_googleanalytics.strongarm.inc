@@ -48,6 +48,30 @@ function cu_googleanalytics_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'googleanalytics_custom_dimension';
+  $strongarm->value = array(
+    1 => array(
+      'index' => 1,
+      'value' => '[node:nid]',
+    ),
+    2 => array(
+      'index' => 2,
+      'value' => '[node:title]',
+    ),
+    3 => array(
+      'index' => 3,
+      'value' => '[node:content-type]',
+    ),
+    4 => array(
+      'index' => 4,
+      'value' => '[node:created]',
+    ),
+  );
+  $export['googleanalytics_custom_dimension'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'googleanalytics_custom_var';
   $strongarm->value = array(
     'slots' => array(
@@ -130,7 +154,11 @@ user/*/*';
   $strongarm->value = array(
     1 => 0,
     2 => 0,
+    6 => 0,
+    4 => 0,
+    7 => 0,
     3 => 0,
+    5 => 0,
   );
   $export['googleanalytics_roles'] = $strongarm;
 
