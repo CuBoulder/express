@@ -100,7 +100,7 @@ before_script:
   # Do the site install (either the current revision or old for the upgrade).
   - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
-  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
+  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.cu_express_install_version=0 --yes
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
