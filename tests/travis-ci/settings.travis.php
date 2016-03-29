@@ -9,8 +9,8 @@ $conf['securepages_enable'] = TRUE;
 $conf['allow_authorize_operations'] = FALSE;
 
 // Caching across all of wwwng.
-$conf['cache'] = 1;
-$conf['block_cache'] = 1;
+$conf['cache'] = 0;
+$conf['block_cache'] = 0;
 
 // Compress cached pages always off; we use mod_deflate
 $conf['page_compression'] = 0;
