@@ -34,7 +34,7 @@ $conf['cache_backends'] = array(
 $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
 
 // Set varnish as the page cache.
-$conf['cache_class_cache_page'] = 'VarnishCache';
+//$conf['cache_class_cache_page'] = 'VarnishCache';
 
 // Set memcache as default.
 $conf['cache_default_class'] = 'MemCacheDrupal';
@@ -55,11 +55,11 @@ $conf['cron_safe_threshold'] = 0;
 $conf['blocked_ips'] = array();
 
 // Tell Drupal about reverse proxy
-$conf['reverse_proxy'] = TRUE;
+//$conf['reverse_proxy'] = TRUE;
 // Drupal will look for IP in $_SERVER['X-Forwarded-For']
-$conf['reverse_proxy_header'] = 'X-Forwarded-For';
+//$conf['reverse_proxy_header'] = 'X-Forwarded-For';
 // Varnish version
-$conf['varnish_version'] = 3;
+//$conf['varnish_version'] = 3;
 
 //$base_url = 'http://express.local/' . $path;
 
@@ -82,9 +82,11 @@ $databases = array(
 );
 
 // Define Varnish Server Pool
+/*
 $conf['reverse_proxy_addresses'] = array('localhost',);
 $conf['varnish_control_terminal'] = 'localhost:6082';
 $conf['varnish_control_key'] = substr(file_get_contents('/etc/varnish/secret'), 0, -1);
+*/
 
 // Memcache
 $conf['memcache_key_prefix'] = 'drupal';
