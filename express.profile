@@ -31,8 +31,44 @@ function express_install_tasks() {
   // @TODO: This looks nothing like http://cgit.drupalcode.org/drupal/tree/includes/install.core.inc?h=7.x#n525
   // should it?
   $tasks = array();
+
+  $tasks['express_profile_configure_form'] = array(
+    'display_name' => st('Configure Express profile'),
+    'type' => 'form',
+  );
+
   $tasks['express_final'] = array();
   return $tasks;
+}
+
+function express_profile_configure_form() {
+  $form = array();
+
+  $options = array(
+    '1' => st('Production'),
+    '0' => st('Testing'),
+  );
+
+  $form['cu_express_install_version'] = array(
+    '#type' => 'radios',
+    '#title' => st('Which version of Express would you like to install?'),
+    '#description' => st('Shows you everything Commerce Kickstart can do. Includes a custom theme, sample content and products.'),
+    '#options' => $options,
+    '#default_value' => '1',
+  );
+
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => st('Create and Finish'),
+    '#weight' => 15,
+  );
+
+  return $form;
+}
+
+function express_profile_configure_form_submit(&$form, &$form_state) {
+  variable_set('cu_express_install_version', $form_state['values']['cu_express_install_version']);
 }
 
 /**

@@ -28,8 +28,7 @@ function express_final_install() {
     //'cu_cache',
   ));
 
-  global $conf;
-  if (isset($conf['cu_travis_ci']) && $conf['cu_travis_ci'] == FALSE) {
+  if (variable_get('cu_express_install_version', FALSE)) {
     module_enable(array('cu_cache'));
   }
 

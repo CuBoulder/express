@@ -94,5 +94,3 @@ $conf['memcache_key_prefix'] = 'drupal';
 // Define tmp directory
 $conf['file_temporary_path'] = '/tmp';
 
-// Set flag for Travis settings.
-$conf['cu_travis_ci'] = TRUE;
