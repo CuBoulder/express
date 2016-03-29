@@ -94,12 +94,5 @@ $conf['memcache_key_prefix'] = 'drupal';
 // Define tmp directory
 $conf['file_temporary_path'] = '/tmp';
 
-// Disable various modules that should not be enabled on the development site.
-register_shutdown_function('_disable_modules_on_dev');
-function _disable_modules_on_dev() {
-  foreach (array('varnish', 'memcache') as $module) {
-    if (module_exists($module)) {
-      module_disable(array($module));
-    }
-  }
-}
+// Set flag for Travis settings.
+$conf['cu_travis_ci'] = TRUE;

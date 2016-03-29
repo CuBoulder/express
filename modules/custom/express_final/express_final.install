@@ -25,8 +25,13 @@ function express_final_install() {
     'cu_inventory',
     'cu_inventory_stats',
     'cu_redirect',
-    'cu_cache',
+    //'cu_cache',
   ));
+
+  global $conf;
+  if (isset($conf['cu_travis_ci']) && $conf['cu_travis_ci'] == FALSE) {
+    module_enable(array('cu_cache'));
+  }
 
   // also set these to be ignored by profile_module_manager's report
 
