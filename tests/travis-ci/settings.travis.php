@@ -84,14 +84,12 @@ $databases = array(
 );
 
 // Define Varnish Server Pool
-/*
 $conf['reverse_proxy_addresses'] = array('localhost',);
 $conf['varnish_control_terminal'] = 'localhost:6082';
 $conf['varnish_control_key'] = substr(file_get_contents('/etc/varnish/secret'), 0, -1);
-*/
 
 // Memcache
-$conf['memcache_key_prefix'] = $path;
+$conf['memcache_key_prefix'] = 'drupal';
 
 // Define tmp directory
 $conf['file_temporary_path'] = '/tmp';
