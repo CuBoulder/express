@@ -1,5 +1,7 @@
 <?php
 
+ini_set('error_reporting', 0);
+
 // Ensure secure pages is enabled.
 $conf['securepages_enable'] = TRUE;
 
