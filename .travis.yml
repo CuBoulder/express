@@ -54,7 +54,7 @@ install:
 
   # Build the current branch
   - cd drupal
-  - drush make --yes profiles/express/drupal-org-core.make --prepare-install
+  - drush make --yes profiles/express/drupal-org-core.make
   #- drush make --yes profiles/express/drupal-org.make --no-core --contrib-destination=profiles/express
   - cd ../
 
@@ -64,6 +64,8 @@ install:
 
   # Setup files
   - chmod -R 777 drupal/sites/all
+  - mkdir tmp
+  - chmod -R 777 tmp
 
   # Setup display for Selenium
   - export DISPLAY=:99.0
@@ -97,6 +99,7 @@ before_script:
 
   # Do the site install (either the current revision or old for the upgrade).
   - cd drupal
+  - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
   - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
 
   # Start server.
