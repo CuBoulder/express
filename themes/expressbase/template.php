@@ -89,6 +89,22 @@ function expressbase_page_alter(&$page) {
       );
     }
   }
+
+  $is_responsive = theme_get_setting('alpha_responsive', variable_get('theme_default', ''));
+  if (!$is_responsive && user_access('administer express settings')) {
+    $link['href'] = 'admin/theme/config/' . variable_get('theme_default' , '');
+    $link['html'] = TRUE;
+    $link['fragment'] = 'edit-expressbase-theme-settings';
+    $link['query']['responsive'] = 1;
+    $link['attributes'] = array(
+      'target' => 'parent',
+    );
+    $link = l('<i class="fa fa-cog"></i> Make your site mobile friendly', $link['href'], $link);
+    $page['page_top']['notice']['warning']['#markup'] = '<p>This site is not responsive.</p>';
+    $page['page_top']['notice']['link']['#markup'] = $link;
+    $page['page_top']['notice']['#prefix'] = '<div class="responsive-notice">';
+    $page['page_top']['notice']['#suffix'] = '</div>';
+  }
 }
 
 /**
@@ -218,6 +234,7 @@ function expressbase_image_style(&$vars) {
  */
 function expressbase_breadcrumb($vars) {
   $breadcrumb = $vars['breadcrumb'];
+  $theme = variable_get('theme_default','');
   if (!empty($breadcrumb) && theme_get_setting('use_breadcrumbs', $theme)) {
     // Replace the Home breadcrumb with a Home icon
     //$breadcrumb[0] = str_replace('Home','<i class="fa fa-home"></i> <span class="home-breadcrumb element-invisible">Home</span>',$breadcrumb[0]);

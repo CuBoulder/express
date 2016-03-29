@@ -36,6 +36,18 @@ function metatag_opengraph_requirements($phase) {
 }
 
 /**
+ * Implements hook_update_dependencies().
+ */
+function metatag_opengraph_update_dependencies() {
+  // OpenGraph update 7103 requires the complete Metatag schema, so lets wait
+  // for Metatag update 7100 just to be sure.
+  $dependencies['metatag_opengraph'][7103] = array(
+    'metatag' => 7100,
+  );
+  return $dependencies;
+}
+
+/**
  * Implementations of hook_update_N().
  */
 
