@@ -93,4 +93,3 @@ $conf['memcache_key_prefix'] = $path;
 
 // Define tmp directory
 $conf['file_temporary_path'] = '/tmp';
-
