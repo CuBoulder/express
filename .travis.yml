@@ -118,7 +118,7 @@ before_script:
 
 script:
   # Run Behat tests.
-  - ./bin/behat --config behat.yml
+  - ./bin/behat --config behat.yml --tags @current
 
 notifications:
   slack:
