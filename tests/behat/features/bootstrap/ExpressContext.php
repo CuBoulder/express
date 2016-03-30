@@ -305,7 +305,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
       if (!($driver instanceof Selenium2Driver)) {
         return;
       }
-      file_put_contents('/data/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
+      file_put_contents('/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
     }
   }
 
