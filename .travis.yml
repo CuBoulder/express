@@ -63,9 +63,7 @@ install:
   #- find drupal/profiles/express/modules -name \*.make -print0 | xargs -0 -n1 drush verify-makefile
 
   # Setup files
-  - chmod -R 777 drupal/sites/all
-  - mkdir drupal/sites/default
-  - chmod -R 777 drupal/sites/default
+  - chmod -R 777 drupal/sites
   - mkdir tmp
   - chmod -R 777 tmp
 
