@@ -1,14 +1,14 @@
 <?php
 
 // Ensure secure pages is enabled.
-$conf['securepages_enable'] = TRUE;
+//$conf['securepages_enable'] = TRUE;
 
 // Never allow updating modules through UI.
 $conf['allow_authorize_operations'] = FALSE;
 
 // Caching across all of wwwng.
-$conf['cache'] = 0;
-$conf['block_cache'] = 0;
+$conf['cache'] = TRUE;
+$conf['block_cache'] = TRUE;
 
 // Compress cached pages always off; we use mod_deflate
 $conf['page_compression'] = 0;
@@ -25,10 +25,12 @@ $conf['preprocess_js'] = TRUE;
 $conf['page_cache_invoke_hooks'] = FALSE;
 
 // Memcache and Varnish Backends.
+/*
 $conf['cache_backends'] = array(
   'profiles/express/modules/contrib/varnish/varnish.cache.inc',
   'profiles/express/modules/contrib/memcache/memcache.inc',
 );
+*/
 
 // Setup cache_form bin.
 $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
@@ -37,16 +39,18 @@ $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
 //$conf['cache_class_cache_page'] = 'VarnishCache';
 
 // Set memcache as default.
-$conf['cache_default_class'] = 'MemCacheDrupal';
+//$conf['cache_default_class'] = 'MemCacheDrupal';
 
 // Memcache bins and stampede protection.
-$conf['memcache_bins'] = array('cache' => 'default');
+//$conf['memcache_bins'] = array('cache' => 'default');
 
 // Set to FALSE on Jan 5, 2012 - drastically improved performance.
+/*
 $conf['memcache_stampede_protection'] = FALSE;
 $conf['memcache_stampede_semaphore'] = 15;
 $conf['memcache_stampede_wait_time'] = 5;
 $conf['memcache_stampede_wait_limit'] = 3;
+*/
 
 // Disable poorman cron.
 $conf['cron_safe_threshold'] = 0;
@@ -89,7 +93,7 @@ $conf['varnish_control_key'] = substr(file_get_contents('/etc/varnish/secret'), 
 */
 
 // Memcache
-$conf['memcache_key_prefix'] = 'drupal';
+//$conf['memcache_key_prefix'] = 'drupal';
 
 // Define tmp directory
 $conf['file_temporary_path'] = '/tmp';
