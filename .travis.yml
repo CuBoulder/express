@@ -64,6 +64,7 @@ install:
 
   # Setup files
   - chmod -R 777 drupal/sites/all
+  - chmod -R 777 drupal/sites/default
   - mkdir tmp
   - chmod -R 777 tmp
 
