@@ -96,6 +96,7 @@ function express_add_content_bean_add($vars) {
       // Save this for 30 days - it should only be cleared on a code update
       cache_set('express_add_content_express_bean_list_groups', $bundles, 'cache', time() + 60 * 60 * 24 * 30);
     }
+    uasort($bundles, '_express_add_content_sort_types');
     // Links fromt node_add_list().
     $content = $vars['content'];
     // Build new links list with title as key

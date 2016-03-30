@@ -28,3 +28,7 @@ projects[quicktabs][patch][] = "https://www.drupal.org/files/issues/quicktabs-in
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-908
 projects[linkchecker][patch][] = "https://www.drupal.org/files/issues/linkchecker-form-textfield-integer-2687187-7-2.patch"
+
+; @see https://cuboulder.atlassian.net/browse/FIT-1059
+projects[responsive_preview][patch][] = "https://www.drupal.org/files/issues/responsive_preview-file_pattern-2681461-2-7.patch"
+projects[responsive_preview][patch][] = "https://www.drupal.org/files/issues/responsive_preview-wrap_config_in_description-2688791.patch"
