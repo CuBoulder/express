@@ -1,7 +1,7 @@
 Feature: Photo Gallery Creation
   Create different configurations of Photo Galleries.
 
-  @api @javascript
+  @api @javascript @current
   Scenario: Create a basic photo gallery.
     Given I am logged in as a user with the "content_editor" role
       And I am on "node/add/photo-gallery"

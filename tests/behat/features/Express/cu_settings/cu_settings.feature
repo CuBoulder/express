@@ -88,7 +88,7 @@ Feature: Cu Settings
   #  When I press the "Save" button
   #  Then I should see "The livechat license number must only contain numbers."
 
-  @api @settings @contact @clean_install
+  @api @settings @contact @clean_install @current
   Scenario: A site_owner should see contact info form
     Given I am logged in as a user with the "site_owner" role
       And am on "admin/settings/site-configuration/contact"
