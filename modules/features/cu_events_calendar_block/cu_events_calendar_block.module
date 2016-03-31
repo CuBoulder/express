@@ -105,7 +105,7 @@ function _cu_events_calendar_block_categories() {
   $categories = array();
   if (file_exists('/data/code/includes/categories.txt')) {
     $lines = file('/data/code/includes/categories.txt');
-  } elseif (file_exists('/home/travis/build/alexfinnarn/drupal/testing/profiles/express/tests/travis-ci/event-categories.txt')) {
+  } elseif (file_exists('/home/travis/build/alexfinnarn/drupal/profiles/express/tests/travis-ci/event-categories.txt')) {
     $lines = file('/home/travis/build/alexfinnarn/drupal/testing/profiles/express/tests/travis-ci/event-categories.txt');
   }
   else {
