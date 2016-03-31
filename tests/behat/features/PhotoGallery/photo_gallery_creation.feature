@@ -14,6 +14,8 @@ Feature: Photo Gallery Creation
       And I fill in "edit-field-photo-und-1-alt" with "alt two"
       And I fill in "edit-field-photo-und-1-title" with "title two"
       And I attach the file "/home/travis/build/alexfinnarn/drupal/profiles/express/tests/behat/assets/ralphie.jpg" to "edit-field-photo-und-1-upload"
+      And I press the "Upload" button
+      And I wait for AJAX
       And I press the "Save" button
     Then I should see "Photo Gallery Test Photo Gallery has been created."
     When I click the "img" element with "alt one" for "alt"
