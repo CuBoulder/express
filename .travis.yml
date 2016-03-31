@@ -63,7 +63,7 @@ install:
   #- find drupal/profiles/express/modules -name \*.make -print0 | xargs -0 -n1 drush verify-makefile
 
   # Setup files
-  - mkdir drupal/sites/default/files/styles/preview/public/gallery/
+  - mkdir -p drupal/sites/default/files/styles/preview/public/gallery/
   - chmod -R 777 drupal/sites
   - mkdir tmp
   - chmod -R 777 tmp
