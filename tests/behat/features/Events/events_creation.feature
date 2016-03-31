@@ -1,7 +1,7 @@
 Feature: Event Blocks Creation
   Create different configurations of Event Calendar Grids and Blocks.
 
-  @api @events @current
+  @api @events
   Scenario: Create an Events Calendar Block.
     Given I am logged in as a user with the "content_editor" role
       And I am on "block/add/cu-events-calendar-block"
@@ -16,7 +16,7 @@ Feature: Event Blocks Creation
     Then I should see "Events Block Title"
       And I should see "Link Title"
 
-  @api @events @javascript @current
+  @api @events @javascript
   Scenario: Create an Events Calendar Block.
     Given I am logged in as a user with the "content_editor" role
       And I am on "block/add/events-calendar-grid"
