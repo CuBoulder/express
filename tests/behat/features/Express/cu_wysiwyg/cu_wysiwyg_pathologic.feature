@@ -9,5 +9,5 @@ Feature: WYSIWYG Pathologic tests
       And I fill in "edit-body-und-0-value" with "<a href=\"http://www.colorado.edu/p1eb825ce549/test\">pathologic</a>"
       And I fill in "Title" with "Pathologic Test"
       And I press the "Save" button
-    Then The "pathologic" link should have "//127.0.0.1:8080/test" in the "href" attribute
+    Then The "pathologic" element should have "//127.0.0.1:8080/test" in the "href" attribute
 

@@ -270,14 +270,14 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * @Then /^The "(?P<element>(?:[^"]|\\")*)" link should have "(?P<text>(?:[^"]|\\")*)" in the "(?P<attribute>(?:[^"]|\\")*)" attribute$/
+   * @Then /^The "(?P<element>(?:[^"]|\\")*)" element should have "(?P<text>(?:[^"]|\\")*)" in the "(?P<attribute>(?:[^"]|\\")*)" attribute$/
    *
    */
   public function elementShouldHaveForAttribute($element, $text, $attribute) {
     $session = $this->getSession();
     $page = $session->getPage();
 
-    $page_element = $page->findLink($element);
+    $page_element = $page->find('css', $element);
     if ($page_element == NULL) {
       throw new \Exception(sprintf('Couldn\'t find "%s" link', $element));
     }
