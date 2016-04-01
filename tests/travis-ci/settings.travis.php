@@ -99,6 +99,4 @@ $conf['varnish_control_key'] = substr(file_get_contents('/etc/varnish/secret'), 
 $conf['file_temporary_path'] = '/tmp';
 
 // Turn on error reporting
-error_reporting(E_ALL);
-ini_set('display_errors', TRUE);
-ini_set('display_startup_errors', TRUE);
+error_reporting(E_ERROR | E_PARSE);
