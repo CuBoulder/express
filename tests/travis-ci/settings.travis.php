@@ -98,5 +98,7 @@ $conf['varnish_control_key'] = substr(file_get_contents('/etc/varnish/secret'), 
 // Define tmp directory
 $conf['file_temporary_path'] = '/tmp';
 
-// Turn on error reporting
+// Turn on error reporting only for serious errors.
+// Warnings were causing dumb exceptions in Behat and the messages don't
+// interfere with the tests.
 error_reporting(E_ERROR | E_PARSE);
