@@ -53,6 +53,8 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     );
     variable_set('ldap_authentication_conf', $data);
 
+    // Bump up max execution time.
+    set_time_limit(60);
   }
 
   /**

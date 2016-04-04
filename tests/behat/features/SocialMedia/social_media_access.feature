@@ -40,7 +40,7 @@ Feature: Events Bundle Access Feature
     When I create a "social_links" block with the label "Social Links Block"
     Then I should see "Access Denied"
 
-  @api @social_media @current
+  @api @social_media
   Scenario Outline: Certain user roles should be able to create Create Facebook Activity block content.
     Given I am logged in as a user with the <role> role
     And I am on "block/add/facebook-activity"
@@ -79,7 +79,7 @@ Feature: Events Bundle Access Feature
     When I create a "facebook_activity" block with the label "Facebook Activity Block"
     Then I should see "Access Denied"
 
-  @api @social_media @current
+  @api @social_media
   Scenario Outline: Certain user roles should be able to create Create Facebook Like Button block content.
     Given I am logged in as a user with the <role> role
     And I am on "block/add/facebook-like-button"
