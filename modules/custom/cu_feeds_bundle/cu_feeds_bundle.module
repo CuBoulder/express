@@ -20,3 +20,4 @@ function cu_feeds_bundle_express_help($variables) {
     'short_title' => 'RSS Block help',
     'url' => '/node/1078',
   );
+}
