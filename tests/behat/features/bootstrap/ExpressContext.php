@@ -52,9 +52,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
       'cookieExpire' => NULL,
     );
     variable_set('ldap_authentication_conf', $data);
-
-    // Bump up max execution time.
-    set_time_limit(60);
   }
 
   /**
@@ -62,6 +59,13 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    */
   public static function tearDown($scope) {
 
+  }
+
+  /**
+   * @BeforeScenario
+   */
+  public function before($event) {
+    set_time_limit(60);
   }
 
   /**
