@@ -304,7 +304,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     $session = $this->getSession();
     $page = $session->getPage();
 
-    $page_element = $page->findLink('css', $element);
+    $page_element = $page->findLink($element);
     if ($page_element == NULL) {
       throw new \Exception(sprintf('Couldn\'t find "%s" element', $element));
     }
