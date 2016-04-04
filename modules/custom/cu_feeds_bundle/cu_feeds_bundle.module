@@ -1,1 +1,22 @@
 <?php
+
+/**
+ * Implements hook_express_help()
+ *
+ * Add contextual help for the Advanced content like Quicktabs.
+ *
+ * @param $variables
+ *   Array with information about help hooks
+ * @return $variables
+ */
+function cu_feeds_bundle_express_help($variables) {
+  $variables['block/add/feed'][] = array(
+    'title' => 'RSS Block help',
+    'short_title' => 'RSS Block help',
+    'url' => '/node/1078',
+  );
+  $variables['block/edit/feed'][] = array(
+    'title' => 'RSS Block help',
+    'short_title' => 'RSS Block help',
+    'url' => '/node/1078',
+  );
