@@ -120,7 +120,7 @@ before_script:
 
 script:
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose
+  - ./bin/behat --config behat.yml --verbose --tags @current
 
 notifications:
   slack:
