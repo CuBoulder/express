@@ -4,7 +4,6 @@
  * @file
  * CU Users Module Module containing users/roles and permissions for CU-FIT
  * CU-FIT clones.
- *
  */
 
 /**
@@ -123,4 +122,14 @@ function cu_users_user_has_role($role_name, $user = NULL) {
     return TRUE;
   }
   return FALSE;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Don't allow users to delete an account and its content.
+ */
+function cu_users_form_user_cancel_confirm_form_alter(&$form, &$form_state) {
+  unset($form['user_cancel_method']['user_cancel_delete']);
+  unset($form['user_cancel_confirm']);
 }

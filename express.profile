@@ -40,6 +40,10 @@ function express_install_tasks() {
  */
 function express_final() {
   
+  // MOVED HERE TO FIX FIT-1684
+  module_enable(array('entityreference'));
+  module_enable(array('express_layout'));
+  
   // We know for sure that our database name is unique and thus, I'm using that
   // to append to the email.  Another option was base_path(), but that isnt
   // known during the install process.  $plus = str_replace('/', '_',

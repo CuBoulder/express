@@ -32,7 +32,9 @@ body { background-color: #272727; padding-bottom: 20px; }
 
 #intro-wide-wrapper, #slider-wrapper { background-color: #232323; }
 
-#slider-wrapper { padding: 20px; }
+.slider-wrapper { padding: 20px; color: #fff; }
+.slider-wrapper a { color: #cfb87c; }
+.slider-wrapper a:hover { color: #fff; }
 
 #page-title-image-overlay { padding-bottom: 20px; }
 

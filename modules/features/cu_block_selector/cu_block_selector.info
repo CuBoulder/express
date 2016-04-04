@@ -1,7 +1,7 @@
 name = CU Block Selector
 description = Make blocks appear in sidebar based on node entity refernece fields
 core = 7.x
-package = CU-Boulder
+package = CU-Deprecated
 version = 7.x-1.0
 project = cu_block_selector
 dependencies[] = bean

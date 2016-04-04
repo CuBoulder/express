@@ -71,9 +71,16 @@ body {
 #post-wide-wrapper {
   background:#fff;
 }
-#slider-wrapper {
+.slider-wrapper {
   background-color: $bg_dark2;
   padding: 20px;
+  color:#fff;
+  a {
+    color:$cugold;
+  }
+  a:hover {
+    color:#fff;
+  }
 }
 .page-title-image-boxed {
   padding-top: 20px;

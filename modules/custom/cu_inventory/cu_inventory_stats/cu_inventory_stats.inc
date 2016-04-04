@@ -168,7 +168,7 @@ function cu_inventory_stats_empty_site_stats() {
     $site_data['statistics'] = array($site_data['statistics']);
 
     // Function defaults to true.
-    if ($process) {
+    if ($process && module_exists('cu_inventory')) {
       // Ready to patch. We do not want to use the cached site object.
       cu_inventory_update_site($site_data, FALSE);
     }
@@ -178,7 +178,7 @@ function cu_inventory_stats_empty_site_stats() {
   }
 
 /**
-* Helper to return the shema_version of any module, theme, or profile
+* Helper to return the schema_version of any module, theme, or profile
 * drupal_get_installed_schema_version doesn't return profiles again
 * at this bootstrap level as of 7.41.  SEE FIT-1165
 *

@@ -88,8 +88,15 @@ ul#action-menu a {
 #slider-wrapper {
   background-color: #171717;
 }
-#slider-wrapper {
+.slider-wrapper {
   padding: 20px;
+  color:#fff;
+  a {
+    color: $cugold;
+  }
+  a:hover {
+    color: #fff;
+  }
 }
 #page-title-wrapper {
   background-color: $bg_dark2;
