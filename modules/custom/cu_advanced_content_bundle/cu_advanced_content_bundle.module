@@ -237,13 +237,12 @@ function cu_advanced_content_bundle_express_help($variables) {
     'short_title' => 'Quicktabs Help',
     'url' => '/node/430',
   );
-
-  $variables['block/add/content-list-block'][] = array(
+  $variables['block/add/content-list'][] = array(
     'title' => 'Content List Block Help',
     'short_title' => 'Content List Block Help',
     'url' => '/node/1112',
   );
-  $variables['block/edit/content-list-block/edit'][] = array(
+  $variables['block/edit/content-list'][] = array(
     'title' => 'Content List Block Help',
     'short_title' => 'Content List Block Help',
     'url' => '/node/1112',
