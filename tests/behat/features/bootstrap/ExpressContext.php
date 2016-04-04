@@ -297,6 +297,33 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
+   * @Then /^The "(?P<element>(?:[^"]|\\")*)" link should have "(?P<text>(?:[^"]|\\")*)" in the "(?P<attribute>(?:[^"]|\\")*)" attribute$/
+   *
+   */
+  public function elementShouldHaveForAttribute($element, $text, $attribute) {
+    $session = $this->getSession();
+    $page = $session->getPage();
+
+    $page_element = $page->findLink('css', $element);
+    if ($page_element == NULL) {
+      throw new \Exception(sprintf('Couldn\'t find "%s" element', $element));
+    }
+
+    $page_attribute = $page_element->getAttribute($attribute);
+    if ($page_attribute == NULL) {
+      throw new \Exception(sprintf('Couldn\'t find "%s" attribute', $attribute));
+    }
+
+    if ($page_attribute == $text) {
+      $result = $text;
+    }
+
+    if (empty($result)) {
+      throw new \Exception(sprintf('The "%s" attribute did not contain "%s"', $page_attribute, $text));
+    }
+  }
+
+  /**
    * @AfterStep
    */
   public function takeScreenShotAfterFailedStep($scope) {
