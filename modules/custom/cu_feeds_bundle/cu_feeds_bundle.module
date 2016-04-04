@@ -10,14 +10,16 @@
  * @return $variables
  */
 function cu_feeds_bundle_express_help($variables) {
-  $variables['block/add/feed'][] = array(
+  $variables['block/add/rss'][] = array(
     'title' => 'RSS Block help',
     'short_title' => 'RSS Block help',
     'url' => '/node/1078',
   );
-  $variables['block/edit/feed'][] = array(
+  $variables['block/edit/rss'][] = array(
     'title' => 'RSS Block help',
     'short_title' => 'RSS Block help',
     'url' => '/node/1078',
   );
+
+  return $variables;
 }
