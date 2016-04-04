@@ -52,7 +52,7 @@ function express_profile_configure_form() {
   $form['cu_express_install_version'] = array(
     '#type' => 'radios',
     '#title' => st('Which version of Express would you like to install?'),
-    '#description' => st('Shows you everything Commerce Kickstart can do. Includes a custom theme, sample content and products.'),
+    '#description' => st('Testing will include the "cu_testing_core" module while "Production" will include the "cu_core" module.'),
     '#options' => $options,
     '#default_value' => '1',
   );
@@ -115,6 +115,13 @@ function express_final() {
   // Enable custom modules that you want enabled at the end of profile install.
   if (file_exists(DRUPAL_ROOT . '/profiles/express/modules/custom/express_final/express_final.module')) {
     module_enable(array('express_final'));
+  }
+
+  // Add core module based on selection from profile install form.
+  if (variable_get('cu_express_install_version', 1)) {
+    module_enable(array('cu_core'));
+  } else {
+    module_enable(array('cu_testing_core'));
   }
 
   // rebuild list of content types for disable_node_menu_item
