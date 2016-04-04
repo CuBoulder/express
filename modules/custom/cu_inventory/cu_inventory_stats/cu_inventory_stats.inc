@@ -163,6 +163,9 @@ function cu_inventory_stats_empty_site_stats() {
     // Add report of overridden features.
     $site_data['statistics']['overriden_features'] = _get_features_statuses();
 
+    // Add report of enabled bundles.
+    $site_data['statistics']['enabled_bundles'] = _get_enabled_bundles();
+
     // Last, add the wrapper array. This adds a wrapper Python list which allows
     // us to null Statistics.
     $site_data['statistics'] = array($site_data['statistics']);
@@ -216,4 +219,26 @@ function _get_features_statuses() {
     }
   }
   return $overridden_features;
+}
+
+function _get_enabled_bundles() {
+  // Check for created date of site using super user's creation date.
+  // Only continue if site was created after Express 2.0.0 transition.
+  // 1455494400 = 2/15/16
+  $created_date = db_query('SELECT u.created FROM {users} u WHERE u.uid = 1')->fetchField();
+  if ($created_date <= 1455494400) {
+    return;
+  }
+
+  // Get enabled bundles.
+  $bundles = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
+  // check for _bundle in the machine name, but also look for something in the .info
+  // to avoid false positives from contrib?
+  foreach ($bundles as $key => $bundle) {
+    if (!strpos($bundle->name, '_bundle')) {
+      unset($bundles[$key]);
+    }
+  }
+  $bundles = array_keys($bundles);
+  print_r($bundles);
 }
