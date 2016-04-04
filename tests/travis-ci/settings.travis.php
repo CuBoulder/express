@@ -102,3 +102,6 @@ $conf['file_temporary_path'] = '/tmp';
 // Warnings were causing dumb exceptions in Behat and the messages don't
 // interfere with the tests.
 error_reporting(E_ERROR | E_PARSE);
+
+// Increase maximum execution time in seconds.
+set_time_limit(60);
