@@ -227,7 +227,7 @@ function _get_enabled_bundles() {
   // 1455494400 = 2/15/16
   $created_date = db_query('SELECT u.created FROM {users} u WHERE u.uid = 1')->fetchField();
   if ($created_date <= 1455494400) {
-    return;
+    return array();
   }
 
   // Get enabled bundles.
@@ -240,5 +240,5 @@ function _get_enabled_bundles() {
     }
   }
   $bundles = array_keys($bundles);
-  print_r($bundles);
+  return $bundles;
 }
