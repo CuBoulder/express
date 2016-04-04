@@ -199,7 +199,7 @@ function cu_tracking_pixel_page_alter(&$page) {
 /*
  * Implements hook_secure_permissions
  *
- * Adding permissions for rss bean
+ * Adding permissions for RSS bean
  */
 function cu_tracking_pixel_secure_permissions($role) {
   $permissions = array(
