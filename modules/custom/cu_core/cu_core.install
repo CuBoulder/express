@@ -12,7 +12,7 @@ function cu_core_enable() {
  */
 function cu_core_install() {
 
-  // Adding cu_cache here for changes involving Travis CI testing.
+  // Adding "cu_cache" here for changes involving Travis CI testing.
   module_enable(array('cu_cache'));
 
   //set default variables for user_external_invite
