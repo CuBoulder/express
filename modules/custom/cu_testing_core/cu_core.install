@@ -12,8 +12,8 @@ function cu_core_enable() {
  */
 function cu_core_install() {
 
-  // Adding "cu_cache" here for changes involving Travis CI testing.
-  module_enable(array('cu_cache'));
+  // Not including cu_cache here for changes involving Travis CI testing.
+  // module_enable(array('cu_cache'));
 
   //set default variables for user_external_invite
   if (db_table_exists('user_external_invite') && !db_field_exists('user_external_invite', 'message')) {

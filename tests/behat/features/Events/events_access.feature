@@ -20,7 +20,7 @@ Feature: Events Bundle Access Feature
     Given I am on "block/add/cu-events-calendar-block"
     Then I should see "Access Denied"
 
-  @api @events @node_creation
+  @api @events @node_creation @max_execution_time
   Scenario Outline: All users should be able to view a Event Calendar Block.
     Given I am logged in as a user with the <role> role
       And I create a "cu_events_calendar_block" block with the label "New Event Calendar Block"
@@ -67,11 +67,11 @@ Feature: Events Bundle Access Feature
 
     Examples:
       | role            | message                    |
+      | edit_my_content | "Access Denied"            |
       | content_editor  | "New Event Calendar Grid"  |
       | site_owner      | "New Event Calendar Grid"  |
       | administrator   | "New Event Calendar Grid"  |
       | developer       | "New Event Calendar Grid"  |
-      | edit_my_content | "Access Denied"            |
 
   @api @events @node_creation
   Scenario: An anonymous user should be able to view Event Calendar Block content.
