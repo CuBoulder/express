@@ -65,7 +65,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    * @BeforeScenario
    */
   public function before($event) {
-    set_time_limit(60);
+    //set_time_limit(60);
   }
 
   /**
