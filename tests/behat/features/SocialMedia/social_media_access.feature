@@ -79,7 +79,7 @@ Feature: Events Bundle Access Feature
     When I create a "facebook_activity" block with the label "Facebook Activity Block"
     Then I should see "Access Denied"
 
-  @api @social_media
+  @api @social_media @max_execution_time
   Scenario Outline: Certain user roles should be able to create Create Facebook Like Button block content.
     Given I am logged in as a user with the <role> role
     And I am on "block/add/facebook-like-button"

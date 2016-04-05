@@ -3,14 +3,14 @@
 /**
  * Implemenets hook_enable().
  */
-function cu_core_enable() {
+function cu_testing_core_enable() {
 
 }
 
 /**
  * Implements hook_install().
  */
-function cu_core_install() {
+function cu_testing_core_install() {
 
   // Not including cu_cache here for changes involving Travis CI testing.
   // module_enable(array('cu_cache'));
@@ -160,7 +160,7 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
 /**
  * Variable sets for Express transition.
  */
-function cu_core_update_7001() {
+function cu_testing_core_update_7001() {
 
   variable_set('express_help_base_url', 'https://www.colorado.edu/webcentral');
 
@@ -187,7 +187,7 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
  * Removing cu_default_image_style_override and grid_images.
  * Cleanup sites migrated for Express transition.
  */
-function cu_core_update_7002() {
+function cu_testing_core_update_7002() {
 
   // Disable grid_images, cu_default_image_style_override modules.
   module_disable(array(
@@ -234,13 +234,13 @@ function cu_core_update_7002() {
   cu_core_revert_features();
 
   // Run on every update
-  express_inventory_update('7002');
+  _express_inventory_update('7002');
 }
 
 /**
  * Updates for Express 2.0.1.
  */
-function cu_core_update_7003() {
+function cu_testing_core_update_7003() {
 
   // Uninstall unused modules.
   drupal_uninstall_modules(array(
@@ -257,7 +257,7 @@ function cu_core_update_7003() {
   variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, memcache');
 
   // Run on every update
-  express_inventory_update('7003');
+  _express_inventory_update('7003');
 }
 
 /**
@@ -266,7 +266,7 @@ function cu_core_update_7003() {
  * Remove duplicates in shortcut menu
  * Express 2.1.0
  */
-function cu_core_update_7004() {
+function cu_testing_core_update_7004() {
   module_enable(array('cu_redirect'));
   module_disable(array('more_menus', 'cu_shortcuts'));
   drupal_uninstall_modules(array(
@@ -292,14 +292,14 @@ function cu_core_update_7004() {
   }
 
   // Run on every update
-  express_inventory_update('7004');
+  _express_inventory_update('7004');
 }
 
 /**
  * Express Update 7005.
  * Removing cu_livechat module, enabling responsive_preview, reverting features
  */
-function cu_core_update_7005() {
+function cu_testing_core_update_7005() {
   // Disable cu_livechat module.
   module_disable(array(
     'cu_livechat',
@@ -327,13 +327,13 @@ function cu_core_update_7005() {
   cu_core_revert_features();
 
   // Run on every update
-  express_inventory_update('7005');
+  _express_inventory_update('7005');
 }
 
 /**
  * Revert features by passing features in an array.
  */
-function cu_core_revert_features($features = NULL) {
+function cu_testing_core_revert_features($features = NULL) {
   // If an array of specific features isn't passed, populate with all overridden features.
   if ($features == NULL) {
     module_load_include('inc', 'features', 'features.export');
@@ -362,7 +362,7 @@ function cu_core_revert_features($features = NULL) {
 /**
  * Updates inventory with profile version.
  */
-function express_inventory_update($version) {
+function _express_inventory_update($version) {
   // Do at the end of every update.
   module_load_include('inc', 'cu_inventory');
   cu_inventory_process_profile_version($version);
