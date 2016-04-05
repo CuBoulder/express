@@ -15,6 +15,7 @@ addons:
     - php5-cgi
     - php5-mysql
     - php5-curl
+    - php5-gd
 
 mysql:
   database: drupal
@@ -54,7 +55,7 @@ install:
 
   # Build the current branch
   - cd drupal
-  - drush make --yes profiles/express/drupal-org-core.make --prepare-install
+  - drush make --yes profiles/express/drupal-org-core.make
   #- drush make --yes profiles/express/drupal-org.make --no-core --contrib-destination=profiles/express
   - cd ../
 
@@ -63,7 +64,10 @@ install:
   #- find drupal/profiles/express/modules -name \*.make -print0 | xargs -0 -n1 drush verify-makefile
 
   # Setup files
-  - chmod -R 777 drupal/sites/all
+  - mkdir -p drupal/sites/default/files/styles/preview/public/gallery/
+  - chmod -R 777 drupal/sites
+  - mkdir tmp
+  - chmod -R 777 tmp
 
   # Setup display for Selenium
   - export DISPLAY=:99.0
@@ -83,6 +87,9 @@ install:
   - echo "extension=memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "extension=ldap.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
+  # Bump up max execution time.
+  - echo "max_execution_time=60" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
   # Increase the MySQL connection timeout on the PHP end.
   - echo "mysql.connect_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "default_socket_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -97,7 +104,11 @@ before_script:
 
   # Do the site install (either the current revision or old for the upgrade).
   - cd drupal
-  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
+  - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
+  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.cu_express_install_version=0 --yes
+
+  # Enable all the bundles
+  - drush en cu_advanced_content_bundle cu_advanced_design_bundle cu_advanced_layout_bundle cu_debug_admin_bundle cu_events_bundle cu_forms_bundle cu_news_bundle cu_people_bundle cu_photo_gallery_bundle cu_seo_bundle cu_social_media_bundle -y
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
@@ -112,7 +123,9 @@ before_script:
 
 script:
   # Run Behat tests.
-  - ./bin/behat --config behat.yml
+  - ./bin/behat --config behat.yml --verbose --tags '~@max_execution_time'
+  # Run tests that were timing out.
+  - ./bin/behat --config behat.yml --verbose --tags @max_execution_time
 
 notifications:
   slack:
