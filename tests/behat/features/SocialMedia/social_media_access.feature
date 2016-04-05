@@ -20,7 +20,7 @@ Feature: Events Bundle Access Feature
     Given I am on "block/add/social-links"
     Then I should see "Access Denied"
 
-  @api @social_media @current
+  @api @social_media
   Scenario Outline: Users should be able to view Facebook Like block content.
     Given I am logged in as a user with the <role> role
     When I create a "social_links" block with the label "Social Links Block"
@@ -34,7 +34,7 @@ Feature: Events Bundle Access Feature
       | developer       | "Social Links Block"  |
       | edit_my_content | "Access Denied"       |
 
-  @api @social_media @current
+  @api @social_media
   Scenario: Anonymous users shouldn't be able to view Facebook Like block content.
     Given I am an anonymous user
     When I create a "social_links" block with the label "Social Links Block"
