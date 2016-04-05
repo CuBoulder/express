@@ -230,15 +230,20 @@ function _get_enabled_bundles() {
     return array();
   }
 
+  $bundles = '';
   // Get enabled bundles.
-  $bundles = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
+  $enabled_modules = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
   // check for _bundle in the machine name, but also look for something in the .info
   // to avoid false positives from contrib?
-  foreach ($bundles as $key => $bundle) {
-    if (!strpos($bundle->name, '_bundle')) {
-      unset($bundles[$key]);
+  foreach ($enabled_modules as $key => $module) {
+    if (strpos($module->name, '_bundle')) {
+      if (!empty($bundles)) {
+        $bundles .= '; ' . $module->name;
+      }
+      else {
+        $bundles = $module->name;
+      }
     }
   }
-  $bundles = array_keys($bundles);
   return $bundles;
 }
