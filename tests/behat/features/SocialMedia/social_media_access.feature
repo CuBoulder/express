@@ -20,7 +20,7 @@ Feature: Events Bundle Access Feature
     Given I am on "block/add/social-links"
     Then I should see "Access Denied"
 
-  @api @social_media
+  @api @social_media @max_execution_time
   Scenario Outline: Users should be able to view Facebook Like block content.
     Given I am logged in as a user with the <role> role
     When I create a "social_links" block with the label "Social Links Block"
