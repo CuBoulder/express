@@ -67,11 +67,11 @@ Feature: Events Bundle Access Feature
 
     Examples:
       | role            | message                    |
+      | edit_my_content | "Access Denied"            |
       | content_editor  | "Facebook Activity Block"  |
       | site_owner      | "Facebook Activity Block"  |
       | administrator   | "Facebook Activity Block"  |
       | developer       | "Facebook Activity Block"  |
-      | edit_my_content | "Access Denied"            |
 
   @api @social_media
   Scenario: Anonymous users shouldn't be able to view Facebook Like block content.
@@ -106,11 +106,11 @@ Feature: Events Bundle Access Feature
 
     Examples:
       | role            | message                |
+      | edit_my_content | "Access Denied"        |
       | content_editor  | "Facebook Like Block"  |
       | site_owner      | "Facebook Like Block"  |
       | administrator   | "Facebook Like Block"  |
       | developer       | "Facebook Like Block"  |
-      | edit_my_content | "Access Denied"        |
 
   @api @social_media
   Scenario: Anonymous users shouldn't be able to view Facebook Like block content.
