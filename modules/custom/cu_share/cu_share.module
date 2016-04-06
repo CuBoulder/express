@@ -91,21 +91,6 @@ function cu_share_permission() {
   );
 }
 
-/**
- * Implements hook_menu().
- */
-function cu_share_menu() {
-  // Search settings
-  $items['admin/settings/social/share'] = array(
-    'title' => 'Social Share Settings',
-    'description' => 'Configure social share settings.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('cu_share_settings_form'),
-    'access arguments' => array('administer cu share'),
-  );
-  return $items;
-}
-
 function cu_share_settings_form($form, &$form_state) {
   $form = array();
 
