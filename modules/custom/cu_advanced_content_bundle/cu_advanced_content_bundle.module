@@ -237,6 +237,20 @@ function cu_advanced_content_bundle_express_help($variables) {
     'short_title' => 'Quicktabs Help',
     'url' => '/node/430',
   );
-
+  $variables['block/add/content-list'][] = array(
+    'title' => 'Content List Block Help',
+    'short_title' => 'Content List Block Help',
+    'url' => '/node/1112',
+  );
+  $variables['block/edit/content-list'][] = array(
+    'title' => 'Content List Block Help',
+    'short_title' => 'Content List Block Help',
+    'url' => '/node/1112',
+  );
+  $variables['node/add/content-list-page'][] = array(
+    'title' => 'Content List Page Help',
+    'short_title' => 'Content List Page Help',
+    'url' => '/node/1110',
+  );
   return $variables;
 }

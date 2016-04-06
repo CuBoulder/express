@@ -17,7 +17,7 @@ function cu_content_list_preprocess_node(&$vars) {
       $nodes = node_load_multiple($nids = $nids, $conditions = array(), $reset = FALSE);
 
 
-      $sort = $vars['field_content_list_sort'];
+      $sort = $vars['field_content_list_sort'][LANGUAGE_NONE][0]['value'];
       switch ($sort) {
         case 'date':
           usort($nodes, function($a, $b) {
