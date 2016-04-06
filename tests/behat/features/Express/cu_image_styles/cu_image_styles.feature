@@ -26,11 +26,6 @@ Scenario Outline: Image styles should be the correct dimensions
   | flexslider_full           | "Scale and crop 800x500"                  |
   | flexslider_thumbnail      | "Scale and crop 160x100"                  |
   | focal_point_preview       | "Scale width 250 (upscaling allowed)"     |
-  | grid-12                   | "Scale width 960"                         |
-  | grid-3                    | "Scale width 240"                         |
-  | grid-4                    | "Scale width 320"                         |
-  | grid-6                    | "Scale width 480"                         |
-  | grid-9                    | "Scale width 720"                         |
   | thumbnail                 | "Scale 100x100 (upscaling allowed)"       |
   | medium                    | "Scale width 600 (upscaling allowed)"     |
   | large                     | "Scale width 1200 (upscaling allowed)"    |
