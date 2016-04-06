@@ -28,8 +28,6 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_slider bean',
     ),
     'administrator' => array(
-      'administer category vocabulary terms',
-      'administer byline vocabulary terms',
       'administer tags vocabulary terms',
       'create any articles bean',
       'create any article_feature bean',
@@ -57,6 +55,9 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_feature bean',
       'view any article_grid bean',
       'view any article_slider bean',
+      'administer byline vocabulary terms',
+      'administer category vocabulary terms',
+      'administer tags vocabulary terms',
     ),
     'content_editor' => array(
       'administer category vocabulary terms',
@@ -88,6 +89,9 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_feature bean',
       'view any article_grid bean',
       'view any article_slider bean',
+      'administer byline vocabulary terms',
+      'administer category vocabulary terms',
+      'administer tags vocabulary terms',
     ),
     'developer' => array(
       'administer category vocabulary terms',
@@ -119,6 +123,9 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_feature bean',
       'view any article_grid bean',
       'view any article_slider bean',
+      'administer byline vocabulary terms',
+      'administer category vocabulary terms',
+      'administer tags vocabulary terms',
     ),
     'edit_my_content' => array(
       'view any articles bean',
@@ -156,6 +163,9 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_feature bean',
       'view any article_grid bean',
       'view any article_slider bean',
+      'administer byline vocabulary terms',
+      'administer category vocabulary terms',
+      'administer tags vocabulary terms',
     ),
   );
 

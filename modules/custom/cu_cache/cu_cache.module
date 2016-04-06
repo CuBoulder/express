@@ -2,8 +2,34 @@
 
 /**
  * @file
- * Controls memchace and varnish.
+ * Controls memcache and varnish.
  */
+
+include_once('cu_cache.features.inc');
+
+/*
+// Commenting this out for now since this alter wasn't on for current production
+// sites and no one has complained so far since 2.0.0 release.
+function cu_cache_form_alter(&$form, &$form_state, $form_id) {
+  switch($form_id) {
+    case 'block_admin_configure':
+    case 'bean_form':
+    case 'quicktabs_form':
+      $form['#submit'][] = '_cu_cache_clear_cache';
+      break;
+    }
+}
+*/
+
+/**
+ * Called from cu_bucket_form_alter
+ */
+/*
+function _cu_cache_clear_cache() {
+  block_flush_caches();
+  cache_clear_all('*', 'cache_block', TRUE);
+}
+*/
 
 /**
  * Perform setup tasks for non-cached page requests.

@@ -1,12 +1,6 @@
 <?php
 
 /**
- * @file
- * Secure permissions for CU-Boulder.
- */
-
-
-/**
  * Implements hook_install().
  *
  * Creates a set of default users with specified roles.

@@ -121,8 +121,9 @@ function cu_inventory_stats_empty_site_stats() {
 
     // TODO: Add Permissions report
 
-    // We want a list of user email addresses to use in communications. We are
-    // breaking them up by role to allow for communication to a specific role only.
+    // We want a list of user email addresses and a list of Identikeys to use in
+    // communications. We are breaking them up by role to allow segmenation by
+    // role.
     $roles_to_check = array(
       'site_owner',
       'content_editor',
@@ -137,22 +138,26 @@ function cu_inventory_stats_empty_site_stats() {
       $role_query->join('users', 'u', 'ur.uid = u.uid');
       $role_query
         ->condition('ur.rid', $role->rid)
-        ->fields('u', array('mail'));
+        ->fields('u', array('mail','name'));
 
       $role_result = $role_query->execute();
       $all_role_results = $role_result->fetchAll();
 
-      // Need to empty the string during each loop.
+      // Need to empty the strings during each loop.
       $email_list = Null;
+      $identikey_list = Null;
       foreach ($all_role_results as $object) {
-        if ($email_list) {
+        if ($email_list && $identikey_list) {
           $email_list = $email_list . '; ' . $object->mail;
+          $identikey_list = $identikey_list . '; ' . $object->name;
         }
         else {
           $email_list = $object->mail;
+          $identikey_list = $object->name;
         }
       }
-      $site_data['statistics']['users'][$role_name] = $email_list;
+      $site_data['statistics']['users']['email'][$role_name] = $email_list;
+      $site_data['statistics']['users']['identikey'][$role_name] = $identikey_list;
     }
 
     // Add report of overridden features.
@@ -162,8 +167,8 @@ function cu_inventory_stats_empty_site_stats() {
     // us to null Statistics.
     $site_data['statistics'] = array($site_data['statistics']);
 
-    // Funtion defaults to true.
-    if ($process) {
+    // Function defaults to true.
+    if ($process && module_exists('cu_inventory')) {
       // Ready to patch. We do not want to use the cached site object.
       cu_inventory_update_site($site_data, FALSE);
     }
@@ -173,7 +178,7 @@ function cu_inventory_stats_empty_site_stats() {
   }
 
 /**
-* Helper to return the shema_version of any module, theme, or profile
+* Helper to return the schema_version of any module, theme, or profile
 * drupal_get_installed_schema_version doesn't return profiles again
 * at this bootstrap level as of 7.41.  SEE FIT-1165
 *
