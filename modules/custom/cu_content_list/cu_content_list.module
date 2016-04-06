@@ -17,7 +17,7 @@ function cu_content_list_preprocess_node(&$vars) {
       $nodes = node_load_multiple($nids = $nids, $conditions = array(), $reset = FALSE);
 
 
-      $sort = $vars['field_content_list_sort'];
+      $sort = $vars['field_content_list_sort'][LANGUAGE_NONE][0]['value'];
       switch ($sort) {
         case 'date':
           usort($nodes, function($a, $b) {
@@ -188,4 +188,21 @@ function cu_content_list_secure_permissions($role) {
     ),
   );
   return $permissions[$role];
+}
+
+/**
+ * Implements hook_express_node_list_groups().
+ */
+ function cu_content_list_express_node_list_groups($bundles) {
+   $bundles['advanced_content']['title'] = 'Advanced Content';
+   $bundles['advanced_content']['types'][] = 'Content List Page';
+   return $bundles;
+ }
+
+ /**
+  * Implements hook_express_bean_list_groups().
+  */
+ function cu_content_list_express_bean_list_groups($bundles) {
+  $bundles['advanced_content']['types'][] = 'Content List';
+  return $bundles;
 }
