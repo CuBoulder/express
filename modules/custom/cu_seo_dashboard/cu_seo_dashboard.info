@@ -1,0 +1,4 @@
+name = Search Engine Optimization Dashboard
+description = Creates a dashboard users can check to see the status of SEO-related tools on their website.
+core = 7.x
+package = CU-Search Engine Optimization

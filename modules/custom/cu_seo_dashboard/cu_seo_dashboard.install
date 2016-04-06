@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function cu_seo_dashboard_install() {
+
+}
