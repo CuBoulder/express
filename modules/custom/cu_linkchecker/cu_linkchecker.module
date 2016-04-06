@@ -27,10 +27,12 @@ function cu_linkchecker_page_alter(&$vars) {
  */
 function cu_linkchecker_reports_form() {
   $form = array();
+
+  $form['clear']['linkchecker_help_text'] = array();
+
   $form['clear']['linkchecker_clear_analyze'] = array(
     '#type' => 'submit',
-    '#suffix' => '<br/>Check your content for broken links.',
-    '#value' => t('Cleanup links'),
+    '#value' => t('Scan content for links'),
     '#submit' => array('cu_linkchecker_clear_analyze_links_submit'),
     '#attributes' => array(
       'class' => array(
@@ -38,9 +40,9 @@ function cu_linkchecker_reports_form() {
       ),
     ),
   );
+  /*
   $form['clear']['linkchecker_check_links'] = array(
     '#type' => 'submit',
-    '#suffix' => '<br/>Check your content for broken links.',
     '#value' => t('Check for broken links'),
     '#submit' => array('cu_linkchecker_check_links_submit'),
     '#attributes' => array(
@@ -49,9 +51,10 @@ function cu_linkchecker_reports_form() {
       ),
     ),
   );
-  if (REQUEST_TIME - variable_get('cu_linkchecker_cleanup_links_last', 0) <= 900) {
-    $form['clear']['linkchecker_check_links']['#suffix'] = '<br/>Check your content for broken links. You can only check for broken links once every 15 minutes to reduce load on the server.';
-    $form['clear']['linkchecker_check_links']['#disabled'] = TRUE;
+  */
+  if (REQUEST_TIME - variable_get('cu_linkchecker_analyze_links_last', 0) <= 86400) {
+    $form['clear']['linkchecker_clear_analyze']['#suffix'] = '<p>Due to high load on the server, you can only scan content for links once every day.</p>';
+    $form['clear']['linkchecker_clear_analyze']['#disabled'] = TRUE;
   }
   return $form;
 }
@@ -63,6 +66,9 @@ function cu_linkchecker_reports_form() {
  * blocks.
  */
 function cu_linkchecker_clear_analyze_links_submit($form, &$form_state) {
+  // Set variable so people can't repeatedly press the button.
+  variable_set('cu_linkchecker_analyze_links_last', REQUEST_TIME);
+
   // Check links on install.
   db_truncate('linkchecker_block_custom')->execute();
   db_truncate('linkchecker_comment')->execute();
