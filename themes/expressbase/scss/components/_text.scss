@@ -288,6 +288,7 @@ ul.list-style-icon-5,
 ul.list-style-icon-6 {
   list-style: none;
   list-style-image: none;
+  overflow: hidden;
   > li {
     list-style: none !important;
     list-style-image: none !important;

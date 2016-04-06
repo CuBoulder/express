@@ -18,15 +18,15 @@ function express_final_install() {
     'cutradition',
   ));
 
+  // Removed cu_core and cu_cache from being enabled here.
+  // Also set these modules to be ignored by profile_module_manager's report.
   module_enable(array(
     'cu_users',
-    'cu_core',
     'cu_help',
     'cu_inventory',
     'cu_inventory_stats',
+    'cu_redirect',
   ));
-
-  // also set these to be ignored by profile_module_manager's report
 
   // Add blocks shortcut to shortcuts set.
   $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
@@ -38,4 +38,3 @@ function express_final_install() {
   );
   shortcut_set_save($shortcut_set);
 }
-

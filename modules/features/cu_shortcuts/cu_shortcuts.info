@@ -1,7 +1,7 @@
 name = CU Shortcuts
 description = Shortcuts associated with express install profile.
 core = 7.x
-package = CU-Active
+package = CU-Core
 version = 7.x-1.0
 project = cu_shortcuts
 dependencies[] = shortcut

@@ -1,34 +1,6 @@
 <?php
 
 /**
- * Hook for providing page/screen level help links.
- */
- function hook_express_help($variables) {
-
-  return $variables = array();
-}
-
- /**
-  * Hook for providing field level help links.
-  */
-function hook_express_help_fields($variables) {
-  $variables['article_node_form']['fields'] = array(
-    'field_article_external_url' => array(
-      'title' => 'External URL Help',
-      'short_title' => 'External URL',
-      'url' => 'http://www.colorado.edu/webcentral/tutorials/article/external_url',
-    ),
-    'metatags' => array(
-      'title' => 'Metatags Help',
-      'short_title' => 'Metatags',
-      'url' => 'http://www.colorado.edu/webcentral/tutorials/article/external_url',
-    ),
-  );
-  return $variables;
-}
-
-
-/**
  * Implements hook_menu().
  */
 function express_help_menu() {
@@ -193,7 +165,8 @@ function express_help_preprocess_page(&$vars) {
   $current_path = current_path();
 
   if ((arg(0) == 'node') && (arg(2) == 'edit')) {
-    $current_path = 'node/add/' . $vars['node']->type;
+    $node_type = str_replace('_', '-', $vars['node']->type);
+    $current_path = 'node/add/' . $node_type;
   } elseif (arg(0) == 'node' && arg(2) == 'webform-results') {
     $current_path = 'node/%/webform-results';
   } elseif (arg(0) == 'admin' && arg(1) == 'structure' && arg(2) == 'quicktabs') {

@@ -108,3 +108,9 @@ body { background-color: #1e1e1e; }
 .blockgray h2.block-title, .blockdarkgray h2.block-title { background: #fff; color: #333; }
 
 .blockoutline h2.block-title { background: #333; color: #fff; }
+
+#feature-layout-wrapper { max-width: 1200px; margin: 0 auto 20px; -webkit-box-shadow: 0 3px 1px rgba(0, 0, 0, 0.08); -moz-box-shadow: 0 3px 1px rgba(0, 0, 0, 0.08); box-shadow: 0 3px 1px rgba(0, 0, 0, 0.08); }
+
+.layout-feature #content-wrapper { padding-bottom: 0; }
+.layout-feature #main { margin-bottom: 0; padding: 20px 0 0; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; }
+.layout-feature .top-content { padding-bottom: 20px; }

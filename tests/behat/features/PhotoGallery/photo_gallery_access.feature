@@ -1,7 +1,7 @@
 Feature: Photo Gallery Access
   Test access to creation of content, configuration of settings, and viewing of content.
 
-  @api
+  @api @max_execution_time
   Scenario Outline: Certain user roles should be able to create Photo Gallery content.
     Given I am logged in as a user with the <role> role
       And I am on "node/add/photo-gallery"
