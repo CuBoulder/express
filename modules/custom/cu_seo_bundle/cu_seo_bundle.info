@@ -5,5 +5,6 @@ package = CU-Search Engine Optimization
 project_demo_url = http://www.colorado.edu/webcentral/node/684
 dependencies[] = metatag
 dependencies[] = site_verify
+dependencies[] = cu_seo_dashboard
 
 bundle_cache_clear = 1
