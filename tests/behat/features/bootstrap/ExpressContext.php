@@ -52,7 +52,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
       'cookieExpire' => NULL,
     );
     variable_set('ldap_authentication_conf', $data);
-
   }
 
   /**
@@ -60,6 +59,13 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    */
   public static function tearDown($scope) {
 
+  }
+
+  /**
+   * @BeforeScenario
+   */
+  public function before($event) {
+    //set_time_limit(60);
   }
 
   /**
@@ -270,16 +276,43 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * @Then /^The "(?P<element>(?:[^"]|\\")*)" link should have "(?P<text>(?:[^"]|\\")*)" in the "(?P<attribute>(?:[^"]|\\")*)" attribute$/
+   * @Then /^The "(?P<element>(?:[^"]|\\")*)" element should have "(?P<text>(?:[^"]|\\")*)" in the "(?P<attribute>(?:[^"]|\\")*)" attribute$/
    *
    */
   public function elementShouldHaveForAttribute($element, $text, $attribute) {
     $session = $this->getSession();
     $page = $session->getPage();
 
+    $page_element = $page->find('css', $element);
+    if ($page_element == NULL) {
+      throw new \Exception(sprintf('Couldn\'t find "%s" element', $element));
+    }
+
+    $page_attribute = $page_element->getAttribute($attribute);
+    if ($page_attribute == NULL) {
+      throw new \Exception(sprintf('Couldn\'t find "%s" attribute', $attribute));
+    }
+
+    if ($page_attribute == $text) {
+      $result = $text;
+    }
+
+    if (empty($result)) {
+      throw new \Exception(sprintf('The "%s" attribute did not contain "%s"', $page_attribute, $text));
+    }
+  }
+
+  /**
+   * @Then /^The "(?P<element>(?:[^"]|\\")*)" link should have "(?P<text>(?:[^"]|\\")*)" in the "(?P<attribute>(?:[^"]|\\")*)" attribute$/
+   *
+   */
+  public function linkShouldHaveForAttribute($element, $text, $attribute) {
+    $session = $this->getSession();
+    $page = $session->getPage();
+
     $page_element = $page->findLink($element);
     if ($page_element == NULL) {
-      throw new \Exception(sprintf('Couldn\'t find "%s" link', $element));
+      throw new \Exception(sprintf('Couldn\'t find "%s" element', $element));
     }
 
     $page_attribute = $page_element->getAttribute($attribute);
@@ -305,7 +338,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
       if (!($driver instanceof Selenium2Driver)) {
         return;
       }
-      file_put_contents('/data/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
+      file_put_contents('/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
     }
   }
 

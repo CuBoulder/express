@@ -92,7 +92,7 @@ Feature: Cu Settings
   Scenario: A site_owner should see contact info form
     Given I am logged in as a user with the "site_owner" role
       And am on "admin/settings/site-configuration/contact"
-    Then I should see "Put site contact information here"
+    Then I should see "Put your contact information here"
 
   @api @settings @contact @clean_install
   Scenario: A site_owner should be able to update the contact info form

@@ -103,7 +103,7 @@ function cu_rss_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('cu_rss_rss_form', NULL, 1),
     'access callback' => 'cu_rss_node_feed_create_access',
-    'access arguments' => array(1),
+    'access arguments' => array('administer rss feeds',1),
     'type' => MENU_LOCAL_TASK,
     'file' => 'cu_rss.admin.inc',
     'weight' => 50,
@@ -128,12 +128,12 @@ function cu_rss_preprocess_admin_block(&$vars) {
   }
 }
 
-function cu_rss_node_feed_create_access($node) {
+function cu_rss_node_feed_create_access($permission, $node) {
   // Node types that can create feeds
   $types = array(
     'article_list_page',
   );
-  if (in_array($node->type, $types)) {
+  if (in_array($node->type, $types) && user_access($permission)) {
     return TRUE;
   }
   else {
