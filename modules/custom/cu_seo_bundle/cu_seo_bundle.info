@@ -8,3 +8,6 @@ dependencies[] = xmlsitemap
 dependencies[] = xmlsitemap_engines
 dependencies[] = xmlsitemap_menu
 dependencies[] = cu_sitemap
+dependencies[] = site_verify
+
+bundle_cache_clear = 1

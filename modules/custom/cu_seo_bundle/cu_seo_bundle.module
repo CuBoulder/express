@@ -20,6 +20,7 @@ function cu_seo_bundle_secure_permissions($role) {
       'edit meta tags',
       'administer meta tags',
       'administer xmlsitemap',
+      'administer site verify',
     ),
     'anonymous user' => array(
     ),
@@ -32,6 +33,7 @@ function cu_seo_bundle_secure_permissions($role) {
       'edit meta tags',
       'administer meta tags',
       'administer xmlsitemap',
+      'administer site verify',
     ),
     'edit_my_content' => array(
     ),
@@ -39,6 +41,7 @@ function cu_seo_bundle_secure_permissions($role) {
       'edit meta tags',
       'administer meta tags',
       'administer xmlsitemap',
+      'administer site verify',
     ),
   );
   if (isset($permissions[$role])) {
@@ -89,6 +92,15 @@ function cu_seo_bundle_menu() {
     'file' => 'system.admin.inc',
     'file path' => drupal_get_path('module', 'system'),
     'weight' => 6,
+  );
+  $items['admin/settings/seo/verifications'] = array(
+    'title' => 'Verifications',
+    'description' => 'Add, change or remove verifications for your site to search engine providers like Google.',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('admin/config/search/verifications'),
+    'access arguments' => array('administer site verify'),
+    'weight' => -25,
   );
 
   return $items;
