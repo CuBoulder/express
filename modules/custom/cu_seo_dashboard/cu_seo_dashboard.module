@@ -4,3 +4,47 @@
  * @file
  * A dashboard for checking the status of SEO-related tools.
  */
+
+/**
+ * Implements hook_menu().
+ */
+function cu_seo_dashboard_menu() {
+  $items = array();
+
+  $items['admin/dashboard/seo'] = array(
+    'title' => 'Search Engine Optimization Dashboard',
+    'description' => 'An overview of the Search Engine Optimization functionality on your site.',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'cu_seo_dashboard_overview_page',
+    'access arguments' => array('view seo dashboard'),
+  );
+
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function cu_seo_dashboard_permission() {
+  return array(
+    'view seo dashboard' => array(
+      'title' => 'View SEO Dashboard',
+      'description' => 'View the dashboard at admin/dashboard/seo',
+    ),
+    'administer seo dashboard' => array(
+      'title' => 'Administer SEO Dashboard',
+      'description' => 'Administer the dashboard at admin/dashboard/seo',
+    ),
+  );
+}
+
+
+/**
+ * Callback for 'admin/dashboard/seo'.
+ */
+function cu_seo_dashboard_overview_page() {
+  $output = array();
+
+
+  return $output;
+}
