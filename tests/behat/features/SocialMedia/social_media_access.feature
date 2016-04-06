@@ -20,7 +20,7 @@ Feature: Events Bundle Access Feature
     Given I am on "block/add/social-links"
     Then I should see "Access Denied"
 
-  @api @social_media
+  @api @social_media @max_execution_time
   Scenario Outline: Users should be able to view Facebook Like block content.
     Given I am logged in as a user with the <role> role
     When I create a "social_links" block with the label "Social Links Block"
@@ -67,11 +67,11 @@ Feature: Events Bundle Access Feature
 
     Examples:
       | role            | message                    |
+      | edit_my_content | "Access Denied"            |
       | content_editor  | "Facebook Activity Block"  |
       | site_owner      | "Facebook Activity Block"  |
       | administrator   | "Facebook Activity Block"  |
       | developer       | "Facebook Activity Block"  |
-      | edit_my_content | "Access Denied"            |
 
   @api @social_media
   Scenario: Anonymous users shouldn't be able to view Facebook Like block content.
@@ -79,7 +79,7 @@ Feature: Events Bundle Access Feature
     When I create a "facebook_activity" block with the label "Facebook Activity Block"
     Then I should see "Access Denied"
 
-  @api @social_media
+  @api @social_media @max_execution_time
   Scenario Outline: Certain user roles should be able to create Create Facebook Like Button block content.
     Given I am logged in as a user with the <role> role
     And I am on "block/add/facebook-like-button"
@@ -106,11 +106,11 @@ Feature: Events Bundle Access Feature
 
     Examples:
       | role            | message                |
+      | edit_my_content | "Access Denied"        |
       | content_editor  | "Facebook Like Block"  |
       | site_owner      | "Facebook Like Block"  |
       | administrator   | "Facebook Like Block"  |
       | developer       | "Facebook Like Block"  |
-      | edit_my_content | "Access Denied"        |
 
   @api @social_media
   Scenario: Anonymous users shouldn't be able to view Facebook Like block content.
