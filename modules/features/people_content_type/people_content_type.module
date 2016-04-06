@@ -22,14 +22,23 @@ function people_content_type_page_alter(&$page) {
  */
 function people_content_type_menu() {
   $items = array();
-
+  $items['admin/settings/people'] = array(
+    'title' => 'People',
+    'description' => 'Menu Options Related to Feedback',
+    'position' => 'right',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer express settings'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+    'weight' => 1,
+  );
   $items['admin/settings/people/settings'] = array(
-	'title' => 'People Filter Labels',
-	'description' => 'Create text labels for People filters',
-	'type' => MENU_NORMAL_ITEM,
-	'page callback' => 'drupal_get_form',
-	'page arguments' => array('people_content_type_admin_settings_form'),
-	'access arguments' => array('administer express settings'),
+    'title' => 'People Filter Labels',
+    'description' => 'Create text labels for People filters',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('people_content_type_admin_settings_form'),
+    'access arguments' => array('administer express settings'),
   );
   return $items;
 }
