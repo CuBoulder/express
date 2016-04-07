@@ -151,6 +151,20 @@ function profile_module_manager_get_bundles($status = 'all') {
 }
 
 /**
+ * Returns an array of core modules.
+ */
+function profile_module_manager_get_core_modules($status = 'all') {
+  if ($status == 'all') {
+    $core_modules = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND name LIKE '%_core' ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
+  }
+  if ($status == 'enabled') {
+    $core_modules = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 AND name LIKE '%_core' ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
+  }
+
+  return $core_modules;
+}
+
+/**
  * Retuns an array of modules that should be enabled
  */
 function profile_module_manager_build_ideal() {
@@ -164,7 +178,7 @@ function profile_module_manager_build_ideal() {
   // in active profiles .info
   //$ideal = cu_module_manager_should_be_enabled();
 
-  // add dependencies from any bundle to ideal
+  // Add dependencies from any bundle to ideal.
   $bundles = profile_module_manager_get_bundles('enabled');
 
   foreach($bundles as $bundle) {
@@ -178,6 +192,22 @@ function profile_module_manager_build_ideal() {
 
     // and the bundle itself
     $ideal[] = $bundle->name;
+  }
+
+  // Add core modules to ideal array.
+  $core_modules = profile_module_manager_get_core_modules('enabled');
+  dpm($core_modules);
+  foreach($core_modules as $core) {
+    // could just replace .module w/ .info from $bundle->filename
+    // which is faster?
+    $path = drupal_get_path('module', $core->name) . '/' . $core->name . '.info';
+    $info = drupal_parse_info_file($path);
+    if (isset($info['dependencies'])) {
+      $ideal = array_merge($ideal, $info['dependencies']);
+    }
+
+    // and the bundle itself
+    $ideal[] = $core->name;
   }
 
   // rebuild ideal so keys = value
