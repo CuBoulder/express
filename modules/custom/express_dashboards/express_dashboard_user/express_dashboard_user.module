@@ -50,21 +50,35 @@ function express_dashboard_user_permission() {
  * Callback function for user dashboard.
  */
 function express_dashboard_user_content() {
-  $output = array();
-  $output['top']['widgets']['one']['title'] = 'Top Section One';
-  $output['top']['widgets']['one']['content']['#markup'] = '<p>This is the user dashboard!!!</p>';
-  $output['top']['weight'] = 1;
-
-  $output['middle']['widgets']['one']['title'] = 'Middle Section One';
-  $output['middle']['widgets']['one']['content']['#markup'] = '<p>This is the user dashboard section one.</p>';
-  $output['middle']['widgets']['one']['weight'] = 100;
-
-
-
-  $output['bottom']['widgets']['one']['title'] = 'Bottom Section Four';
-  $output['bottom']['widgets']['one']['content']['#markup'] = '<p>This is the user dashboard bottom section.</p>';
+  global $user;
+  $vars['user'] = (array) $user;
+  $excluded_roles = array(
+    'authenticated user',
+  );
+  foreach ($vars['user']['roles'] as $rid => $role) {
+    if (in_array($role, $excluded_roles)) {
+      unset($vars['user']['roles'][$rid]);
+    }
+  }
+  $output['user_profile']['widgets']['user']['title'] = $user->name;
+  $output['user_profile']['widgets']['user']['content']['#markup'] = theme('express_dashboard_user_profile', (array) $vars);
 
   return $output;
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * Adds theme functions and tempalte files for dashboards
+ */
+function express_dashboard_user_theme(&$existing, $type, $theme, $path) {
+  $registry = array();
+  $template_dir = drupal_get_path('module', 'express_dashboard_user') . '/templates';
+  $registry['express_dashboard_user_profile'] = array(
+    'template' => 'express-dashboard-user-profile',
+    'path' => $template_dir,
+  );
+  return $registry;
 }
 
 /**
@@ -83,6 +97,9 @@ function express_dashboard_user_content() {
 function express_dashboard_user_secure_permissions($role) {
 
   $permissions = array(
+    'authenticated user' => array(
+      'use user dashboard',
+    ),
     'administrator' => array(
       'use user dashboard',
     ),
