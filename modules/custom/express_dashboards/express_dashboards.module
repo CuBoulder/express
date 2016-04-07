@@ -59,7 +59,6 @@ function express_dashboards_menu() {
       'weight' => -500,
     );
   }
-
   return $items;
 }
 
@@ -102,7 +101,7 @@ function express_dashboards_dashboard_output($dashboard, $id) {
   }
 
   // Adding dashboard id for making template suggestions
-  $output['dashboard_id'] = $id;
+  $dashboard_output['dashboard_id'] = $id;
 
   // Return dashboard output
   return theme('express_dashboard', $dashboard_output);
