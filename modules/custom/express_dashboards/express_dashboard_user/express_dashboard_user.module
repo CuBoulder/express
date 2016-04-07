@@ -31,11 +31,6 @@ function express_dashboard_user_express_dashboard($variables) {
     'weight' => -99,
     'access arguments' => array('use user dashboard'),
   );
-  $variables['seo'] = array(
-    'title' => 'SEO Dashboard',
-    'callback' => 'express_dashboard_user_content',
-    'access arguments' => array('use seo dashboard'),
-  );
   return $variables;
 }
 
@@ -47,10 +42,6 @@ function express_dashboard_user_permission() {
     'use user dashboard' => array(
       'title' => 'Use the User Dashboard',
       'description' => 'Access the user dashboard',
-    ),
-    'use seo dashboard' => array(
-      'title' => 'Use the SEO Dashboard',
-      'description' => 'Access the seo dashboard',
     ),
   );
 }
@@ -68,10 +59,48 @@ function express_dashboard_user_content() {
   $output['middle']['widgets']['one']['content']['#markup'] = '<p>This is the user dashboard section one.</p>';
   $output['middle']['widgets']['one']['weight'] = 100;
 
-  
+
 
   $output['bottom']['widgets']['one']['title'] = 'Bottom Section Four';
   $output['bottom']['widgets']['one']['content']['#markup'] = '<p>This is the user dashboard bottom section.</p>';
 
   return $output;
+}
+
+/**
+ * Define site permissions in code.
+ *
+ * Create a secure_permissions_data module directory and place this function
+ * in secure_permissions_data.module.
+ *
+ * @param $role
+ *   The role for which the permissions are being requested.
+ *
+ * @return
+ *   An array defining all the permissions for the site.
+ */
+
+function express_dashboard_user_secure_permissions($role) {
+
+  $permissions = array(
+    'administrator' => array(
+      'use user dashboard',
+    ),
+    'content_editor' => array(
+      'use user dashboard',
+    ),
+    'developer' => array(
+      'use user dashboard',
+    ),
+    'edit_my_content' => array(
+      'use user dashboard',
+    ),
+    'site_owner' => array(
+      'use user dashboard',
+    ),
+  );
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
 }
