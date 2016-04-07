@@ -196,7 +196,6 @@ function profile_module_manager_build_ideal() {
 
   // Add core modules to ideal array.
   $core_modules = profile_module_manager_get_core_modules('enabled');
-  dpm($core_modules);
   foreach($core_modules as $core) {
     // could just replace .module w/ .info from $bundle->filename
     // which is faster?
