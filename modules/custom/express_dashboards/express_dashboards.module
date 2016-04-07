@@ -63,7 +63,7 @@ function express_dashboards_menu() {
 }
 
 /**
- * Callback function for dashbaord items.
+ * Callback function for dashboard items.
  */
 function express_dashboards_dashboard_output($dashboard, $id) {
   $dashboard_sections = $dashboard();
