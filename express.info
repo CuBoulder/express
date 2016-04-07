@@ -120,6 +120,10 @@ dependencies[] = cu_slider
 dependencies[] = cu_faq
 dependencies[] = cu_hero_unit
 
+; ============ DASHBOARD ============
+dependencies[] = express_dashboards
+dependencies[] = express_dashboard_user
+
 ; ============ FILES ============
 dependencies[] = files
 dependencies[] = file_entity

@@ -331,6 +331,20 @@ function cu_core_update_7005() {
 }
 
 /**
+ * Express Update 7006.
+ * Enabling dashboards, reverting features
+ */
+function cu_core_update_7006() {
+
+  module_enable(array('express_dashboards', 'express_dashboard_user'));
+
+  cu_core_revert_features();
+
+  // Run on every update
+  express_inventory_update('7006');
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
