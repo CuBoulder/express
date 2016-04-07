@@ -248,10 +248,13 @@ function express_layout_context_plugins() {
  * Implements hook_node_view().
  */
 function express_layout_node_view($node, $view_mode) {
+  // Define empty array to be passed to execute function.
+  $op = array();
+
   // Fire our context plugin when viewing nodes.
   if ($view_mode == 'full') {
     if ($plugin = context_get_plugin('condition', 'layout')) {
-      $plugin->execute($node);
+      $plugin->execute($node, $op);
     }
 
   }
