@@ -19,6 +19,8 @@ function cu_seo_bundle_secure_permissions($role) {
     'administrator' => array(
       'edit meta tags',
       'administer meta tags',
+      'access broken links report',
+      'edit link settings',
       'administer site verify',
     ),
     'anonymous user' => array(
@@ -31,6 +33,9 @@ function cu_seo_bundle_secure_permissions($role) {
     'developer' => array(
       'edit meta tags',
       'administer meta tags',
+      'access broken links report',
+      'administer linkchecker',
+      'edit link settings',
       'administer site verify',
     ),
     'edit_my_content' => array(
@@ -38,6 +43,8 @@ function cu_seo_bundle_secure_permissions($role) {
     'site_owner' => array(
       'edit meta tags',
       'administer meta tags',
+      'access broken links report',
+      'edit link settings',
       'administer site verify',
     ),
   );
@@ -89,6 +96,15 @@ function cu_seo_bundle_menu() {
     'file' => 'system.admin.inc',
     'file path' => drupal_get_path('module', 'system'),
     'weight' => 6,
+  );
+  $items['admin/settings/seo/linkchecker'] = array(
+    'title' => 'Link Checker',
+    'description' => 'Find and fix broken links on your site',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('admin/reports/linkchecker'),
+    'access arguments' => array('administer express settings'),
+    'weight' => 26,
   );
   $items['admin/settings/seo/verifications'] = array(
     'title' => 'Verifications',
