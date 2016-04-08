@@ -235,13 +235,17 @@ function cu_dashboard_seo_last_updated() {
   $node_query->range(0,1);
   $node_query->orderBy('changed', 'DESC');
   $node_result = $node_query->execute()->fetchCol();
-  $timestamps[] = current($node_result);
+  if (current($node_result)) {
+    $timestamps[] = current($node_result);
+  }
   $bean_query = db_select('bean', 'b');
   $bean_query->fields('b', array('changed'));
   $bean_query->range(0,1);
   $bean_query->orderBy('changed', 'DESC');
   $bean_result = $bean_query->execute()->fetchCol();
-  $timestamps[] = current($bean_result);
+  if (current($bean_result)) {
+    $timestamps[] = current($bean_result);
+  }
   sort($timestamps);
   $now = getdate();
   $interval = $now[0] - $timestamps[0];
