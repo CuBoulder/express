@@ -4,14 +4,7 @@
  * Implements hook_install().
  */
 function cu_linkchecker_install() {
-  // Add ignore message to disable messages.
-  // Set variable for disabling certain messages from users.
-  variable_set('disable_messages_ignore_regex', array(
-    '/^Metatag support has been enabled for the .*?$/i',
-    '/^You can now .+configure the CAPTCHA module.+ for your site.$/i',
-    '/^Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.$/i',
-    '/^.+Please be patient until all links have been checked via cron.$/i',
-  ));
+
 }
 
 /**
