@@ -23,6 +23,7 @@ function cu_seo_bundle_secure_permissions($role) {
       'access broken links report',
       'edit link settings',
       'administer site verify',
+      'view seo dashboard',
     ),
     'anonymous user' => array(
     ),
@@ -39,6 +40,7 @@ function cu_seo_bundle_secure_permissions($role) {
       'administer linkchecker',
       'edit link settings',
       'administer site verify',
+      'view seo dashboard',
     ),
     'edit_my_content' => array(
     ),
@@ -49,6 +51,7 @@ function cu_seo_bundle_secure_permissions($role) {
       'access broken links report',
       'edit link settings',
       'administer site verify',
+      'view seo dashboard',
     ),
   );
   if (isset($permissions[$role])) {
