@@ -12,13 +12,14 @@
  * @return
  *   An array defining all the permissions for the site.
  */
-  
+
 function cu_seo_bundle_secure_permissions($role) {
   // INSERT PERMISSIONS FOR THIS BUNDLE
   $permissions = array(
     'administrator' => array(
       'edit meta tags',
       'administer meta tags',
+      'administer xmlsitemap',
       'access broken links report',
       'edit link settings',
       'administer site verify',
@@ -33,6 +34,7 @@ function cu_seo_bundle_secure_permissions($role) {
     'developer' => array(
       'edit meta tags',
       'administer meta tags',
+      'administer xmlsitemap',
       'access broken links report',
       'administer linkchecker',
       'edit link settings',
@@ -43,6 +45,7 @@ function cu_seo_bundle_secure_permissions($role) {
     'site_owner' => array(
       'edit meta tags',
       'administer meta tags',
+      'administer xmlsitemap',
       'access broken links report',
       'edit link settings',
       'administer site verify',
