@@ -42,7 +42,7 @@ function cu_linkchecker_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'linkchecker_check_links_interval';
-  $strongarm->value = '7776000';
+  $strongarm->value = '86400';
   $export['linkchecker_check_links_interval'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -188,10 +188,6 @@ example.org';
     'article_list_page' => 'article_list_page',
     'page' => 'page',
     'faqs' => 'faqs',
-    'people_list_page' => 'people_list_page',
-    'person' => 'person',
-    'photo_gallery' => 'photo_gallery',
-    'webform' => 'webform',
     'file' => 0,
   );
   $export['linkchecker_scan_nodetypes'] = $strongarm;

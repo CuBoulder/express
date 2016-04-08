@@ -1,11 +1,11 @@
 name = CU Linkchecker
 description = Variables for the Linkchecker module
 core = 7.x
-package = CU-SEO
+package = CU-Search Engine Optimization
 version = 7.x-1.0
 dependencies[] = ctools
-dependencies[] = strongarm
 dependencies[] = linkchecker
+dependencies[] = strongarm
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
 features[variable][] = linkchecker_action_status_code_301
