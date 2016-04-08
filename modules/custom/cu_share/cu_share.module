@@ -1,5 +1,23 @@
 <?php
 
+
+/**
+ * Implements hook_menu().
+ */
+function cu_share_menu() {
+  $items = array();
+
+  $items['admin/settings/social/share'] = array(
+    'title' => 'Social Share Settings',
+    'description' => 'Configure social share settings.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('cu_share_settings_form'),
+    'access arguments' => array('administer cu share'),
+  );
+
+  return $items;
+}
+
 /**
  * Implements hook_page_alter().
  */
@@ -421,4 +439,19 @@ function cu_share_context_registry() {
       ),
     ),
   );
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function cu_share_flush_caches() {
+  $mlid = db_query("SELECT mlid FROM {menu_links} WHERE link_path = 'admin/settings/social'")->fetchField();
+  // Fix social sharing link.
+  $share_mlid =  db_query("SELECT mlid FROM {menu_links} WHERE link_path = 'admin/settings/social/share'")->fetchField();
+  $item = menu_link_load($share_mlid);
+  if($item['mlid']) {
+    $item['plid'] = $mlid;
+    $item['hidden'] = 0;
+    menu_link_save($item);
+  }
 }

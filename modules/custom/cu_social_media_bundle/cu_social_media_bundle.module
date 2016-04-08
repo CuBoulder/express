@@ -184,15 +184,5 @@ function cu_social_media_bundle_menu() {
     'weight' => -2,
   );
 
-  if (module_exists('cu_share')) {
-    $items['admin/settings/social/share'] = array(
-      'title' => 'Social Share Settings',
-      'description' => 'Configure social share settings.',
-      'page callback' => 'drupal_get_form',
-      'page arguments' => array('cu_share_settings_form'),
-      'access arguments' => array('administer cu share'),
-    );
-  }
-
   return $items;
 }
