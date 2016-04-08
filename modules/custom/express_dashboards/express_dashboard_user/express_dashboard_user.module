@@ -26,7 +26,7 @@ function express_dashboard_user_user_login(&$edit, $account)
  */
 function express_dashboard_user_express_dashboard($variables) {
   $variables['user'] = array(
-    'title' => 'User Dashboard',
+    'title' => 'User',
     'callback' => 'express_dashboard_user_content',
     'weight' => -99,
     'access arguments' => array('use user dashboard'),
