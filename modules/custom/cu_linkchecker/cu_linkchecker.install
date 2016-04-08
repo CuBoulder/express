@@ -3,13 +3,13 @@
 /**
  * Implements hook_install().
  */
-function cu_seo_bundle_install() {
+function cu_linkchecker_install() {
 
 }
 
 /**
  * Implements hook_enable().
  */
-function cu_seo_bundle_enable() {
+function cu_linkchecker_enable() {
 
 }
