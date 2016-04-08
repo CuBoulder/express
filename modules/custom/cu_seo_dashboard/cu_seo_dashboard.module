@@ -8,18 +8,16 @@
 /**
  * Implements hook_menu().
  */
-function cu_seo_dashboard_menu() {
-  $items = array();
+function cu_seo_dashboard_express_dashboard($variables) {
+  $variables = array();
 
-  $items['admin/dashboard/seo'] = array(
-    'title' => 'Search Engine Optimization Dashboard',
-    'description' => 'An overview of the Search Engine Optimization functionality on your site.',
-    'type' => MENU_NORMAL_ITEM,
-    'page callback' => 'cu_seo_dashboard_overview_page',
+  $variables['seo'] = array(
+    'title' => 'SEO Dashboard',
+    'callback' => 'cu_seo_dashboard_content',
     'access arguments' => array('view seo dashboard'),
   );
 
-  return $items;
+  return $variables;
 }
 
 /**
@@ -42,9 +40,11 @@ function cu_seo_dashboard_permission() {
 /**
  * Callback for 'admin/dashboard/seo'.
  */
-function cu_seo_dashboard_overview_page() {
+function cu_seo_dashboard_content() {
   $output = array();
 
+  $output['top']['widgets']['one']['title'] = 'SEO Dashbaord';
+  $output['top']['widgets']['one']['content']['#markup'] = 'you you';
 
   return $output;
 }
