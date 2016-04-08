@@ -53,7 +53,7 @@ function cu_linkchecker_reports_form() {
   );
   */
   if (REQUEST_TIME - variable_get('cu_linkchecker_analyze_links_last', 0) <= 86400) {
-    $form['clear']['linkchecker_clear_analyze']['#suffix'] = '<p>Due to high load on the server, you can only scan content for links once every day.</p>';
+    $form['clear']['linkchecker_clear_analyze']['#suffix'] = '<p>Due to high load on the server, you can only manually scan content for links once every day.</p>';
     $form['clear']['linkchecker_clear_analyze']['#disabled'] = TRUE;
   }
   return $form;
