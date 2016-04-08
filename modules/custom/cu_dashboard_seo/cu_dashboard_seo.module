@@ -42,21 +42,6 @@ function cu_dashboard_seo_content() {
   $output['right']['widgets']['content_updated']['content']['#markup'] = '<p>Content was last updated...</p>';
   $output['right']['widgets']['content_updated']['weight'] = 0;
 
-  $output['right']['widgets']['404']['title'] = '404/Page Not Found';
-  $output['right']['widgets']['404']['content']['#markup'] = '<p>404 Errors go here.</p>';
-  $output['right']['widgets']['404']['weight'] = 5;
-
-  $output['right']['widgets']['tools']['title'] = 'SEO Tools in Web Express';
-  $seo_links = array();
-  $seo_links[] = l('Verifications', 'admin/settings/seo/verifications');
-  $seo_links[] = l('Link Checker', 'admin/settings/seo/linkchecker');
-  $seo_links[] = l('Site Map', 'admin/settings/seo/xmlsitemap');
-
-  $output['right']['widgets']['tools']['content']['#markup'] = theme('item_list', array('items' => $seo_links));
-  $output['right']['widgets']['tools']['weight'] = 10;
-
-
-
   return $output;
 }
 
