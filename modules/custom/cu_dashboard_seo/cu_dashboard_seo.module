@@ -48,9 +48,9 @@ function cu_dashboard_seo_content() {
 
   $output['right']['widgets']['tools']['title'] = 'SEO Tools in Web Express';
   $seo_links = array();
-  $seo_links[] = l('Meta Tags', '<front>');
-  $seo_links[] = l('Link Checker', '<front>');
-  $seo_links[] = l('Site Map', '<front>');
+  $seo_links[] = l('Verifications', 'admin/settings/seo/verifications');
+  $seo_links[] = l('Link Checker', 'admin/settings/seo/linkchecker');
+  $seo_links[] = l('Site Map', 'admin/settings/seo/xmlsitemap');
 
   $output['right']['widgets']['tools']['content']['#markup'] = theme('item_list', array('items' => $seo_links));
   $output['right']['widgets']['tools']['weight'] = 10;
@@ -119,7 +119,7 @@ function cu_dashboard_seo_checklist() {
     'title' => 'Google Analytics',
     'weight' => '0',
     'description' => 'Checklist description goes here.',
-    'path' => '<front>',
+    'path' => 'admin/settings/site-configuration/google-analytics',
     'callback' => 'cu_seo_checklist_google_analytics',
   );
 
@@ -127,7 +127,7 @@ function cu_dashboard_seo_checklist() {
     'title' => 'Site Verifcation',
     'weight' => '1',
     'description' => 'Checklist description goes here.',
-    'path' => '<front>',
+    'path' => 'admin/settings/seo/verifications',
     'callback' => 'cu_seo_checklist_site_verification',
   );
 
@@ -135,14 +135,14 @@ function cu_dashboard_seo_checklist() {
     'title' => 'Link Checker',
     'weight' => '2',
     'description' => 'Checklist description goes here.',
-    'path' => '<front>',
+    'path' => 'admin/settings/seo/linkchecker',
     'callback' => 'cu_seo_checklist_link_checker',
   );
   $checklist['site_map'] = array(
     'title' => 'Site Map',
     'weight' => '3',
     'description' => 'Checklist description goes here.',
-    'path' => '<front>',
+    'path' => 'admin/settings/seo/xmlsitemap',
     'callback' => 'cu_seo_checklist_site_map',
   );
 
@@ -179,11 +179,24 @@ function cu_seo_checklist_site_map() {
 
 function cu_dashboard_seo_checklist_output() {
   $checklist_items = cu_dashboard_seo_checklist();
+
+  // Check for missing section weights and then sort
+  foreach ($checklist_items as $key => $item) {
+    $checklist_items[$key]['weight'] = isset($checklist_items[$key]['weight']) ? $checklist_items[$key]['weight'] : 0;
+  }
+  uasort($checklist_items, 'drupal_sort_weight');
+
+
+
   $checklist_output = array();
 
   foreach ($checklist_items as $key => $item) {
     $callback = $item['callback'];
     $item['indicator'] = $callback();
+    if (isset($item['path'])) {
+      $title = $item['title'];
+      $item['title'] = l($title, $item['path']);
+    }
     $checklist_output[$key]['#markup'] = theme('seo_checklist_item', $item);
   }
   return render($checklist_output);
