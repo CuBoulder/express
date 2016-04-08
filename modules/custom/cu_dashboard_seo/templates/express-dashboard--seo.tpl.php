@@ -1,4 +1,4 @@
-<div class="express-dashboard-container">
+<div class="express-dashboard-container seo-dashboard-container">
   <div class="seo-top">
     <?php print render($content['top']); ?>
   </div>

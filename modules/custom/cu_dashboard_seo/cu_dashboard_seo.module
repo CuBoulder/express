@@ -31,15 +31,13 @@ function cu_dashboard_seo_permission() {
  */
 function cu_dashboard_seo_content() {
   $output = array();
-  $output['top']['widgets']['one']['title'] = 'Search Engine Optimization';
-  $output['top']['widgets']['one']['content']['#markup'] = '<p>This is the SEO dashboard!!!</p>';
-  $output['top']['weight'] = -99;
+
 
   $output['left']['widgets']['checklist']['title'] = 'SEO Checklist';
   $output['left']['widgets']['checklist']['content']['#markup'] = cu_dashboard_seo_checklist_output();
 
   $output['right']['widgets']['content_updated']['title'] = 'Content Updated';
-  $output['right']['widgets']['content_updated']['content']['#markup'] = '<p>Content was last updated...</p>';
+  $output['right']['widgets']['content_updated']['content']['#markup'] = cu_dashboard_seo_last_updated();
   $output['right']['widgets']['content_updated']['weight'] = 0;
 
   return $output;
@@ -83,6 +81,11 @@ function cu_dashboard_seo_secure_permissions($role) {
   }
 }
 
+/**
+ * Implements hook_theme_registry_alter().
+ *
+ * Make site aware that we have templates.
+ */
 function cu_dashboard_seo_theme_registry_alter(&$theme_registry) {
   $module_path = drupal_get_path('module', 'cu_dashboard_seo');
   $theme_registry_copy = $theme_registry;
@@ -97,6 +100,9 @@ function cu_dashboard_seo_theme_registry_alter(&$theme_registry) {
   }
 }
 
+/**
+ * SEO Checklist Items.
+ */
 function cu_dashboard_seo_checklist() {
   $checklist = array();
 
@@ -134,11 +140,17 @@ function cu_dashboard_seo_checklist() {
   return $checklist;
 }
 
+/**
+ * Google Analytics checklist callback.
+ */
 function cu_seo_checklist_google_analytics() {
   $status = variable_get('ga_account', NULL) ? 1 : 0;
   return $status;
 }
 
+/**
+ * Site Verification checklist callback.
+ */
 function cu_seo_checklist_site_verification() {
   $query = db_select('site_verify', 'sv');
   $query->fields('sv', array('svid', 'engine'));
@@ -152,16 +164,27 @@ function cu_seo_checklist_site_verification() {
   return $status;
 }
 
+/**
+ * Link Checker checklist callback.
+ */
 function cu_seo_checklist_link_checker() {
   $status = 0;
   return $status;
 }
 
+/**
+ * Site Map checklist callback.
+ *
+ * Always TRUE.
+ */
 function cu_seo_checklist_site_map() {
   $status = 1;
   return $status;
 }
 
+/**
+ * Output checklist items.
+ */
 function cu_dashboard_seo_checklist_output() {
   $checklist_items = cu_dashboard_seo_checklist();
 
@@ -170,8 +193,6 @@ function cu_dashboard_seo_checklist_output() {
     $checklist_items[$key]['weight'] = isset($checklist_items[$key]['weight']) ? $checklist_items[$key]['weight'] : 0;
   }
   uasort($checklist_items, 'drupal_sort_weight');
-
-
 
   $checklist_output = array();
 
@@ -186,8 +207,6 @@ function cu_dashboard_seo_checklist_output() {
   }
   return render($checklist_output);
 }
-
-
 
 /**
  * Implements hook_theme().
@@ -204,4 +223,31 @@ function cu_dashboard_seo_theme(&$existing, $type, $theme, $path) {
   );
 
   return $registry;
+}
+
+/**
+ * Return when the last time a site's content was updated.
+ */
+function cu_dashboard_seo_last_updated() {
+  $timestamps = array();
+  $node_query = db_select('node', 'n');
+  $node_query->fields('n', array('changed'));
+  $node_query->range(0,1);
+  $node_query->orderBy('changed', 'DESC');
+  $node_result = $node_query->execute()->fetchCol();
+  $timestamps[] = current($node_result);
+  $bean_query = db_select('bean', 'b');
+  $bean_query->fields('b', array('changed'));
+  $bean_query->range(0,1);
+  $bean_query->orderBy('changed', 'DESC');
+  $bean_result = $bean_query->execute()->fetchCol();
+  $timestamps[] = current($bean_result);
+  sort($timestamps);
+  $now = getdate();
+  $interval = $now[0] - $timestamps[0];
+  $interval = floor($interval/3600/24);
+  $icon = ($interval > 60) ? '<i class="fa fa-times"></i>' : '<i class="fa fa-check"></i>';
+  $date = date('F j, Y', $timestamps[0]);
+  $output = "$icon Your site's content was last updated on $date";
+  return $output;
 }

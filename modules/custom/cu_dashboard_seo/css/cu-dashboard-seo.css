@@ -1,16 +1,12 @@
 .seo-checklist-item {
   margin-bottom: 20px;
 }
-.seo-checklist-item .fa-times {
+.seo-dashboard-container .fa-times {
   color: #e51c23;
 }
 
-.seo-checklist-item .fa-check {
+.seo-dashboard-container .fa-check {
   color: #1D881A;
-}
-
-.seo-checklist-item .fa {
-
 }
 
 .seo-checklist-item h3 {
