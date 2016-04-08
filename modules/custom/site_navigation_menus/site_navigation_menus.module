@@ -282,3 +282,14 @@ function site_navigation_menus_preprocess_page(&$variables) {
 function _site_navigation_menus_node_page_callback() {
   drupal_goto('<front>', $options = array(), $http_response_code = 301);
 }
+
+/**
+ * Implements hook_navbar_alter().
+ *
+ * @param $items
+ */
+function site_navigation_menus_navbar_alter(&$items) {
+  // Point User tab to user dashboard.
+  unset($items['user']['tray']);
+  $items['user']['tab']['#href'] = 'admin/dashboard/user';
+}
