@@ -260,6 +260,28 @@ function cu_rss_express_help($variables) {
   return $variables;
 }
 
+/**
+ * Implements hook_express_help_custom_paths().
+ *
+ * Provide callback function for editing rss feed*/
+function cu_rss_express_help_custom_paths($variables) {
+  $variables['admin/settings/feeds/rss/manage/%/edit'] = 'cu_rss_express_help_callback';
+
+  return $variables;
+}
+
+/**
+ * Callback function for cu_rss_express_help_custom_paths().
+ */
+function cu_rss_express_help_callback($custom_path_key, $current_path) {
+  if (arg(0) == 'admin' && arg(1) == 'settings' && arg(2) == 'feeds' && arg(3) == 'rss' && arg(4) == 'manage' && arg(6) == 'edit') {
+    return $custom_path_key;
+  }
+  else {
+    return $current_path;
+  }
+}
+
 /*
  * Implements hook_secure_permissions
  *
