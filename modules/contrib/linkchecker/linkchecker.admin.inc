@@ -178,6 +178,12 @@ function linkchecker_admin_settings_form($form_state) {
     '#default_value' => variable_get('linkchecker_check_links_interval', 2419200),
     '#options' => drupal_map_assoc(array(86400, 172800, 259200, 604800, 1209600, 2419200, 4838400), 'format_interval'),
   );
+  $form['check']['linkchecker_disable_cron_link_check'] = array(
+    '#default_value' => variable_get('linkchecker_disable_cron_link_check', 0),
+    '#type' => 'checkbox',
+    '#title' => t('Disable checking links during cron'),
+    '#description' => t('Enable this checkbox if you want to temporarily pause link checking during cron. This can be useful if you suddenly realize that link checking is causing issues on your site.'),
+  );
   $form['check']['linkchecker_disable_link_check_for_urls'] = array(
     '#default_value' => variable_get('linkchecker_disable_link_check_for_urls', LINKCHECKER_RESERVED_DOCUMENTATION_DOMAINS),
     '#type' => 'textarea',

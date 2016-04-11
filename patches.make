@@ -29,3 +29,6 @@ projects[quicktabs][patch][] = "https://www.drupal.org/files/issues/quicktabs-in
 ; @see https://cuboulder.atlassian.net/browse/FIT-1059
 projects[responsive_preview][patch][] = "https://www.drupal.org/files/issues/responsive_preview-file_pattern-2681461-2-7.patch"
 projects[responsive_preview][patch][] = "https://www.drupal.org/files/issues/responsive_preview-wrap_config_in_description-2688791.patch"
+
+; @see https://cuboulder.atlassian.net/browse/FIT-1768
+projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-disable-on-cron-2704193-7-3.patch
