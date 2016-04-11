@@ -136,6 +136,20 @@ function cu_dashboard_seo_checklist() {
     'path' => 'admin/settings/seo/xmlsitemap',
     'callback' => 'cu_seo_checklist_site_map',
   );
+  $checklist['site_description'] = array(
+    'title' => 'Site Description',
+    'weight' => '4',
+    'description' => 'Checklist description goes here.',
+    'path' => 'admin/settings/site-configuration/site-description',
+    'callback' => 'cu_seo_checklist_site_description',
+  );
+  $checklist['mobile_friendly'] = array(
+    'title' => 'Responsive/Mobile Friendly',
+    'weight' => '5',
+    'description' => 'Checklist description goes here.',
+    'path' => 'admin/settings/site-configuration/site-description',
+    'callback' => 'cu_seo_checklist_responsive',
+  );
 
   return $checklist;
 }
@@ -179,6 +193,17 @@ function cu_seo_checklist_link_checker() {
  */
 function cu_seo_checklist_site_map() {
   $status = 1;
+  return $status;
+}
+
+function cu_seo_checklist_site_description() {
+  $status = variable_get('site_description', NULL) ? 1 : 0;
+  return $status;
+}
+
+function cu_seo_checklist_responsive() {
+  $theme = variable_get('theme_default', '');
+  $status = theme_get_setting('alpha_responsive', $theme) ? 1 : 0;
   return $status;
 }
 
