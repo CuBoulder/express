@@ -646,3 +646,26 @@ function _get_site_owners() {
     return implode(',', $emails);
   }
 }
+
+/**
+ * Create an array w/ core version to send to the Inventory API
+ *
+ * $version int
+ *
+ * @return array
+ *   $site_data: A partial PATCH to the site document in the Inventory.
+ */
+function cu_inventory_process_core_version($version) {
+  $site_data = array();
+  $site_data['sid'] = variable_get('cu_sid', NULL);
+
+  if (!$version) {
+	// drupal_get_installed_schema_version doesn't appear at the
+	// bootstrap level of an updated so query the value
+    $version = drupal_get_installed_schema_version(variable_get('express_core_version', 'cu_core'));
+  }
+  $site_data['statistics']['express_core_version'] = (int)$version;
+
+  // Ready to patch.
+  cu_inventory_update_site($site_data);
+}
