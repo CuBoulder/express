@@ -7,6 +7,9 @@
 
 /**
  * Menu callback for general reporting.
+ *
+ * @return string
+ *   Themed report page.
  */
 function linkchecker_admin_report_page() {
 
@@ -42,6 +45,12 @@ function linkchecker_admin_report_page() {
 
 /**
  * Menu callback for author specific reporting.
+ *
+ * @param object $account
+ *   The user account.
+ *
+ * @return string
+ *   Themed report page.
  */
 function linkchecker_user_report_page($account) {
   drupal_set_title($account->name);
