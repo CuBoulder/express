@@ -60,7 +60,7 @@ function cu_advanced_content_bundle_error_form($form, &$form_state) {
     '#required' => FALSE,
     '#default_value' => (variable_get('site_403') ? drupal_get_path_alias(variable_get('site_403', '')) : ''),
   );
-  $form['#validate'][] = 'express_settings_404_validate';
+  $form['#validate'][] = 'cu_advanced_content_bundle_404_validate';
 
   return system_settings_form($form);
 }
@@ -237,13 +237,13 @@ function cu_advanced_content_bundle_express_help($variables) {
     'short_title' => 'Quicktabs Help',
     'url' => '/node/948',
   );
-  
+
   $variables['block/edit/quicktabs'][] = array(
     'title' => 'Quicktabs Help',
     'short_title' => 'Quicktabs Help',
     'url' => '/node/948',
   );
-  
+
   $variables['block/add/content-list'][] = array(
     'title' => 'Content List Block Help',
     'short_title' => 'Content List Block Help',
