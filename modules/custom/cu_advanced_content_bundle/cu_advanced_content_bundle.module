@@ -203,7 +203,7 @@ function cu_advanced_content_bundle_express_help($variables) {
   $variables['admin/structure/quicktabs/%'][] = array(
     'title' => 'Quicktabs help',
     'short_title' => 'Quicktabs help',
-    'url' => '/node/430',
+    'url' => '/node/948',
   );
   $variables['block/add/feature-callout'][] = array(
     'title' => 'Content grid block help',
@@ -229,14 +229,21 @@ function cu_advanced_content_bundle_express_help($variables) {
   $variables['admin/structure/quicktabs/add'][] = array(
     'title' => 'Quicktabs Help',
     'short_title' => 'Quicktabs Help',
-    'url' => '/node/430',
+    'url' => '/node/948',
   );
 
   $variables['admin/structure/quicktabs'][] = array(
     'title' => 'Quicktabs Help',
     'short_title' => 'Quicktabs Help',
-    'url' => '/node/430',
+    'url' => '/node/948',
   );
+  
+  $variables['block/edit/quicktabs'][] = array(
+    'title' => 'Quicktabs Help',
+    'short_title' => 'Quicktabs Help',
+    'url' => '/node/948',
+  );
+  
   $variables['block/add/content-list'][] = array(
     'title' => 'Content List Block Help',
     'short_title' => 'Content List Block Help',

@@ -209,12 +209,12 @@ function cu_news_bundle_express_help($variables) {
   $variables['block/add/articles'][] = array(
     'title' => 'Article list block help',
     'short_title' => 'Article list block help',
-    'url' => '/node/464',
+    'url' => '/node/472',
   );
   $variables['block/edit/articles'][] = array(
     'title' => 'Article list block help',
     'short_title' => 'Article list block help',
-    'url' => '/node/464',
+    'url' => '/node/472',
   );
   $variables['block/add/article-slider'][] = array(
     'title' => 'Article slider block help',
@@ -229,12 +229,12 @@ function cu_news_bundle_express_help($variables) {
   $variables['block/add/article-feature'][] = array(
     'title' => 'Article feature block help',
     'short_title' => 'Article feature block help',
-    'url' => '/node/742',
+    'url' => '/node/1050',
   );
   $variables['block/edit/article-feature'][] = array(
     'title' => 'Article feature block help',
     'short_title' => 'Article feature block help',
-    'url' => '/node/742',
+    'url' => '/node/1050',
   );
 
   return $variables;
