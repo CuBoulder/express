@@ -11,5 +11,7 @@ dependencies[] = cu_sitemap
 dependencies[] = linkchecker
 dependencies[] = cu_linkchecker
 dependencies[] = site_verify
+dependencies[] = express_dashboards
+dependencies[] = cu_dashboard_seo
 
 bundle_cache_clear = 1
