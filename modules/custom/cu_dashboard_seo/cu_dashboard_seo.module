@@ -184,8 +184,9 @@ function cu_seo_checklist_site_verification() {
 function cu_seo_checklist_link_checker() {
   // Query linkchecker links for 404 errors
   $query = db_select('linkchecker_link', 'lcl');
-  $query->fields('lcl', array('lid','code'));
+  $query->fields('lcl', array('lid','code','status'));
   $query->condition('lcl.code', '404 Not Found', '=');
+  $query->condition('lcl.status', '1', '=');
 
   // Join to see if link is listed in linkchecker nodes table
   // If it is listed, then the link is broken, if not, the link has been fixed.
