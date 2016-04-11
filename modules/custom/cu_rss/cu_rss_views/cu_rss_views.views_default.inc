@@ -167,24 +167,6 @@ function cu_rss_views_views_default_views() {
   );
   $handler->display->display_options['path'] = 'feed/%/%/rss.xml';
   $handler->display->display_options['sitename_title'] = 1;
-
-  /* Display: Feed */
-  $handler = $view->new_display('feed', 'Feed', 'feed_2');
-  $handler->display->display_options['pager']['type'] = 'some';
-  $handler->display->display_options['style_plugin'] = 'rss';
-  $handler->display->display_options['row_plugin'] = 'rss_fields';
-  $handler->display->display_options['row_options']['title_field'] = 'title';
-  $handler->display->display_options['row_options']['link_field'] = 'path';
-  $handler->display->display_options['row_options']['description_field'] = 'body';
-  $handler->display->display_options['row_options']['creator_field'] = 'nothing';
-  $handler->display->display_options['row_options']['date_field'] = 'created';
-  $handler->display->display_options['row_options']['guid_field_options'] = array(
-    'guid_field' => 'nid',
-    'guid_field_is_permalink' => 0,
-  );
-  $handler->display->display_options['defaults']['arguments'] = FALSE;
-  $handler->display->display_options['path'] = 'feed/rss.xml';
-  $handler->display->display_options['sitename_title'] = 1;
   $export['article_rss_feed'] = $view;
 
   $view = new view();
