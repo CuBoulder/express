@@ -494,7 +494,6 @@ EOT;
     $output .= "    '$role' => array(\n";
     $permissions = user_role_permissions(array($rid => $role));
     foreach (current($permissions) as $permission => $value) {
-      dsm($permission);
       if (!$value) {
         continue;
       }
