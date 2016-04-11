@@ -1,11 +1,15 @@
 <?php
 
 /**
+ * Implements hook_install().
+ */
+function cu_seo_bundle_install() {
+
+}
+
+/**
  * Implements hook_enable().
  */
 function cu_seo_bundle_enable() {
 
 }
-
-
-
