@@ -222,14 +222,6 @@ function _get_features_statuses() {
 }
 
 function _get_enabled_bundles() {
-  // Check for created date of site using super user's creation date.
-  // Only continue if site was created after Express 2.0.0 transition.
-  // 1455494400 = 2/15/16
-  $created_date = db_query('SELECT u.created FROM {users} u WHERE u.uid = 1')->fetchField();
-  if ($created_date <= 1455494400) {
-    return array();
-  }
-
   $bundles = '';
   // Get enabled bundles.
   $enabled_modules = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
