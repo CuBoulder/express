@@ -89,6 +89,14 @@ function cu_rss_views_views_default_views() {
   $handler->display->display_options['fields']['nothing']['table'] = 'views';
   $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
   $handler->display->display_options['fields']['nothing']['label'] = 'Author';
+  /* Field: Content: Nid */
+  $handler->display->display_options['fields']['nid_1']['id'] = 'nid_1';
+  $handler->display->display_options['fields']['nid_1']['table'] = 'node';
+  $handler->display->display_options['fields']['nid_1']['field'] = 'nid';
+  $handler->display->display_options['fields']['nid_1']['label'] = '';
+  $handler->display->display_options['fields']['nid_1']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['nid_1']['alter']['text'] = 'node/[nid_1]';
+  $handler->display->display_options['fields']['nid_1']['element_label_colon'] = FALSE;
   /* Sort criterion: Content: Post date */
   $handler->display->display_options['sorts']['created']['id'] = 'created';
   $handler->display->display_options['sorts']['created']['table'] = 'node';
@@ -149,7 +157,7 @@ function cu_rss_views_views_default_views() {
   $handler->display->display_options['style_plugin'] = 'rss';
   $handler->display->display_options['row_plugin'] = 'rss_fields';
   $handler->display->display_options['row_options']['title_field'] = 'title';
-  $handler->display->display_options['row_options']['link_field'] = 'path';
+  $handler->display->display_options['row_options']['link_field'] = 'nid_1';
   $handler->display->display_options['row_options']['description_field'] = 'body';
   $handler->display->display_options['row_options']['creator_field'] = 'nothing';
   $handler->display->display_options['row_options']['date_field'] = 'created';

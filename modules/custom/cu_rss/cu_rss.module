@@ -109,6 +109,12 @@ function cu_rss_menu() {
     'weight' => 50,
   );
 
+  $items['feed/rss.xml'] = array(
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('feed/all/all/rss.xml'),
+    'access callback' => TRUE,
+    'title' => 'Site RSS Feed',
+  );
   return $items;
 }
 
