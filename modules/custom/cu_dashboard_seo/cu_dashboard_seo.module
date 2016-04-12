@@ -126,7 +126,7 @@ function cu_dashboard_seo_checklist() {
     'title' => 'Link Checker',
     'weight' => '2',
     'description' => 'Checklist description goes here.',
-    'path' => 'admin/settings/seo/linkchecker',
+    'path' => 'admin/reports/linkchecker',
     'callback' => 'cu_seo_checklist_link_checker',
   );
   $checklist['site_map'] = array(
@@ -182,7 +182,25 @@ function cu_seo_checklist_site_verification() {
  * Link Checker checklist callback.
  */
 function cu_seo_checklist_link_checker() {
-  $status = 0;
+  // Query linkchecker links for 404 errors
+  $query = db_select('linkchecker_link', 'lcl');
+  $query->fields('lcl', array('lid','code','status'));
+  $query->condition('lcl.code', '404 Not Found', '=');
+  $query->condition('lcl.status', '1', '=');
+
+  // Join to see if link is listed in linkchecker nodes table
+  // If it is listed, then the link is broken, if not, the link has been fixed.
+  $query->join('linkchecker_node', 'lcn', 'lcl.lid = lcn.lid');
+  $query->fields('lcn', array('lid'));
+
+  $broken_links = $query->execute()->fetchCol();
+  // If there are more than 1 broken link, set status to 0.
+  if (count($broken_links) > 0) {
+    $status = 0;
+  }
+  else {
+    $status = 1;
+  }
   return $status;
 }
 

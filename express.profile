@@ -45,16 +45,16 @@ function express_profile_configure_form() {
   $form = array();
 
   $options = array(
-    '1' => st('Production'),
-    '0' => st('Testing'),
+    'cu_core' => st('Production'),
+    'cu_testing_core' => st('Testing'),
   );
 
-  $form['cu_express_install_version'] = array(
+  $form['express_core_version'] = array(
     '#type' => 'radios',
     '#title' => st('Which version of Express would you like to install?'),
     '#description' => st('Testing will include the "cu_testing_core" module while "Production" will include the "cu_core" module.'),
     '#options' => $options,
-    '#default_value' => '1',
+    '#default_value' => 'cu_core',
   );
 
   $form['actions'] = array('#type' => 'actions');
@@ -68,7 +68,7 @@ function express_profile_configure_form() {
 }
 
 function express_profile_configure_form_submit(&$form, &$form_state) {
-  variable_set('cu_express_install_version', $form_state['values']['cu_express_install_version']);
+  variable_set('express_core_version', $form_state['values']['express_core_version']);
 }
 
 /**
@@ -118,10 +118,8 @@ function express_final() {
   }
 
   // Add core module based on selection from profile install form.
-  if (variable_get('cu_express_install_version', 1)) {
-    module_enable(array('cu_core'));
-  } else {
-    module_enable(array('cu_testing_core'));
+  if ($core = variable_get('express_core_version', '')) {
+    module_enable(array($core));
   }
 
   // rebuild list of content types for disable_node_menu_item
