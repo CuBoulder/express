@@ -413,11 +413,11 @@ function express_settings_menu_link_insert($item) {
     //foreach ($menus as $menu) {
     //  if ($item['mlid'] != $menu->plid) {
     //    $updated_menu = menu_link_load($item['mlid']);
-    //   $updated_menu['plid'] = $mlid;
+    //    $updated_menu['plid'] = $mlid;
     //    $updated_menu['hidden'] = 0;
-    //   menu_link_save($updated_menu);
+    //    menu_link_save($updated_menu);
+    //   }
     // }
-    }
 
 
   }
