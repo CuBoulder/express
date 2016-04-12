@@ -57,6 +57,7 @@
 .cu-slider-style-1 .cu-slider-slide-content-wrapper { background: #222; padding: 10px; }
 @media screen and (min-width: 480px) { .cu-slider-style-1 .cu-slider-slide-content-wrapper { background: rgba(0, 0, 0, 0.7); position: absolute; bottom: 0; left: 0; right: 0; z-index: 1; } }
 .cu-slider-style-1 a:link, .cu-slider-style-1 a:visited { color: #fff; }
+.cu-slider-style-1 .cu-slider-teaser a:link, .cu-slider-style-1 .cu-slider-teaser a:visited { text-decoration: underline; }
 
 /* Slider Style 2 */
 .cu-slider-style-2 { color: #fff; position: relative; }
@@ -64,6 +65,7 @@
 @media screen and (min-width: 768px) { .cu-slider-style-2 .cu-slider-slide-content-wrapper { background: rgba(0, 0, 0, 0.7); right: 0; top: 0; bottom: 0; left: 50%; position: absolute; padding: 20px 40px; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; } }
 @media screen and (min-width: 960px) { .cu-slider-style-2 .cu-slider-slide-content-wrapper { font-size: 120%; } }
 .cu-slider-style-2 a:link, .cu-slider-style-2 a:visited { color: #fff; }
+.cu-slider-style-2 .cu-slider-teaser a:link, .cu-slider-style-2 .cu-slider-teaser a:visited { text-decoration: underline; }
 
 /* Slider Style 3 */
 .cu-slider-style-3 { color: #fff; position: relative; }
@@ -71,6 +73,7 @@
 @media screen and (min-width: 480px) { .cu-slider-style-3 .cu-slider-slide-content-wrapper { background: transparent; padding: 0px 80px; position: absolute; top: 50%; left: 0; right: 0; transform: translateY(-50%); z-index: 1; text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5); text-align: center; font-size: 130%; }
   .cu-slider-style-3 .cu-slider-slide-content { font-weight: 600; } }
 .cu-slider-style-3 a:link, .cu-slider-style-3 a:visited { color: #fff; }
+.cu-slider-style-3 .cu-slider-teaser a:link, .cu-slider-style-3 .cu-slider-teaser a:visited { text-decoration: underline; }
 
 /* Slider Style 4 */
 .cu-slider-style-4 { background: #222; color: #fff; position: relative; overflow: hidden; }
@@ -78,6 +81,7 @@
 @media screen and (min-width: 768px) { .cu-slider-style-4 .cu-slider-slide-content { padding: 20px 20px 20px 0; font-size: 75%; } }
 @media screen and (min-width: 960px) { .cu-slider-style-4 .cu-slider-slide-content { font-size: 100%; } }
 .cu-slider-style-4 a:link, .cu-slider-style-4 a:visited { color: #fff; }
+.cu-slider-style-4 .cu-slider-teaser a:link, .cu-slider-style-4 .cu-slider-teaser a:visited { text-decoration: underline; }
 
 /* Slider Style 5 */
 .cu-slider-style-5 img { margin-bottom: 10px; }
