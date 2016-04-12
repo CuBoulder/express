@@ -12,8 +12,43 @@ function cu_core_enable() {
  */
 function cu_core_install() {
 
-  // Adding "cu_cache" here for changes involving Travis CI testing.
-  module_enable(array('cu_cache'));
+  theme_enable(array(
+    'cuhighlight',
+    'cuivory',
+    'culayers',
+    'cuminimal',
+    'cumodern',
+    'curise',
+    'cushadow',
+    'cusimple',
+    'cuspirit',
+    'cuswatch',
+    'cutradition',
+  ));
+
+  // these modules need to be enabled late in the install process and/or to be ignored by profile_module_manager's report.
+  $module_array = array(
+    'cu_users',
+    'cu_inventory',
+    'cu_inventory_stats',
+    'cu_cache',
+    'memcache',
+    'varnish'  // Adding caching modules here for changes involving Travis CI testing.
+  );
+
+  module_enable($module_array);
+
+  profile_module_manager_add_to_ignore($module_array);
+
+  // Add blocks shortcut to shortcuts set.
+  $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+  $shortcut_set->links[] =
+  array(
+    'link_path' => 'admin/content/blocks',
+    'link_title' => st('Blocks'),
+    'weight' => -18,
+  );
+  shortcut_set_save($shortcut_set);
 
   //set default variables for user_external_invite
   if (db_table_exists('user_external_invite') && !db_field_exists('user_external_invite', 'message')) {
@@ -46,8 +81,6 @@ function cu_core_install() {
   variable_set('site_slogan', 'University of Colorado Boulder');
 
   variable_set('express_help_base_url', 'http://www.colorado.edu/webcentral');
-
-  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, varnish, memcache, entityreference, express_layout');
 
   // Set SEO bundle to be hidden in bundle list form.
   variable_set('profile_module_manager_bundle_ignore', array('cu_seo_bundle' => 'cu_seo_bundle'));
