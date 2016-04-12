@@ -234,6 +234,7 @@ function site_navigation_menus_form_menu_configure_alter(&$form, &$form_state, $
 function site_navigation_menus_menu_alter(&$items) {
   // Restrict access to taxonomy term pages to authenticated users.
   $items['taxonomy/term/%taxonomy_term']['access callback'] = 'site_navigation_menus_taxonomy_access';
+  $items['taxonomy/term/%taxonomy_term']['access arguments'] = array(2);
   // Remove /node page from being accessed.
   $items['node']['page callback'] = '_site_navigation_menus_node_page_callback';
 }
@@ -241,8 +242,16 @@ function site_navigation_menus_menu_alter(&$items) {
 /**
  * Access callback for "taxonomy/term/%taxonomy_term".
  */
-function site_navigation_menus_taxonomy_access() {
-  if (!user_is_logged_in()) {
+function site_navigation_menus_taxonomy_access($term) {
+  // Allowing these vocabularies because they are forwarded to article_list_page nodes by cu_article.module
+  $allowed_vocabularies = array(
+    'tags',
+    'category',
+  );
+  if (in_array($term->vocabulary_machine_name, $allowed_vocabularies)) {
+    return TRUE;
+  }
+  elseif (!user_is_logged_in()) {
     return FALSE;
   }
   else {
@@ -272,4 +281,15 @@ function site_navigation_menus_preprocess_page(&$variables) {
  */
 function _site_navigation_menus_node_page_callback() {
   drupal_goto('<front>', $options = array(), $http_response_code = 301);
+}
+
+/**
+ * Implements hook_navbar_alter().
+ *
+ * @param $items
+ */
+function site_navigation_menus_navbar_alter(&$items) {
+  // Point User tab to user dashboard.
+  unset($items['user']['tray']);
+  $items['user']['tab']['#href'] = 'admin/dashboard/user';
 }

@@ -3,7 +3,7 @@ name = "express"
 description = "Express installation profile"
 exclusive = "1"
 core = "7.x"
-version = 2.1.2
+version = 7.x-2.2
 
 ; ----------
 ; Dependencies
@@ -119,6 +119,10 @@ dependencies[] = cu_sitewide
 dependencies[] = cu_slider
 dependencies[] = cu_faq
 dependencies[] = cu_hero_unit
+
+; ============ DASHBOARD ============
+dependencies[] = express_dashboards
+dependencies[] = express_dashboard_user
 
 ; ============ FILES ============
 dependencies[] = files

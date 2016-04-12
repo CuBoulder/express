@@ -234,7 +234,7 @@ function cu_core_update_7002() {
   cu_core_revert_features();
 
   // Run on every update
-  express_inventory_update('7002');
+  cu_core_inventory_update('7002');
 }
 
 /**
@@ -257,7 +257,7 @@ function cu_core_update_7003() {
   variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, memcache');
 
   // Run on every update
-  express_inventory_update('7003');
+  cu_core_inventory_update('7003');
 }
 
 /**
@@ -292,7 +292,7 @@ function cu_core_update_7004() {
   }
 
   // Run on every update
-  express_inventory_update('7004');
+  cu_core_inventory_update('7004');
 }
 
 /**
@@ -327,7 +327,23 @@ function cu_core_update_7005() {
   cu_core_revert_features();
 
   // Run on every update
-  express_inventory_update('7005');
+  cu_core_inventory_update('7005');
+}
+
+/**
+ * Express Update 7006.
+ * Enabling dashboards, reverting features
+ */
+function cu_core_update_7006() {
+
+  variable_set('express_core_version', 'cu_core');
+
+  module_enable(array('express_dashboards', 'express_dashboard_user'));
+
+  cu_core_revert_features();
+
+  // Run on every update
+  cu_core_inventory_update('7006');
 }
 
 /**
@@ -362,8 +378,8 @@ function cu_core_revert_features($features = NULL) {
 /**
  * Updates inventory with profile version.
  */
-function express_inventory_update($version) {
-  // Do at the end of every update.
-  module_load_include('inc', 'cu_inventory');
-  cu_inventory_process_profile_version($version);
+function cu_core_inventory_update($version) {
+  if (module_exists('cu_inventory')) {
+    cu_inventory_process_core_version($version);
+  }
 }

@@ -747,8 +747,7 @@ function cu_article_node_insert($node) {
     $nid = $node->nid;
 
     // Tags
-    $tid = $node->field_article_page_filter[LANGUAGE_NONE][0]['tid'];
-    if ($tid) {
+    if (isset($node->field_article_page_filter[LANGUAGE_NONE][0]['tid']) && $tid = $node->field_article_page_filter[LANGUAGE_NONE][0]['tid']) {
       $term = taxonomy_term_load($tid);
       // Check to see if there is already a page linked to this term and let the
       // user know.
@@ -764,8 +763,7 @@ function cu_article_node_insert($node) {
     }
 
     // Categories
-    $tid = $node->field_article_page_category[LANGUAGE_NONE][0]['tid'];
-    if ($tid) {
+    if (isset($node->field_article_page_category[LANGUAGE_NONE][0]['tid']) && $tid = $node->field_article_page_category[LANGUAGE_NONE][0]['tid']) {
       $term = taxonomy_term_load($tid);
       // Check to see if there is already a page linked to this term and let the
       // user know.
