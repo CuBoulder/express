@@ -102,14 +102,29 @@ function cu_advanced_content_bundle_frontpage_form($form, &$form_state) {
  * Validation handler for express_settings form.
  */
 function cu_advanced_content_bundle_frontpage_validate($form, &$form_state) {
+  // using /node creates redirect loop
+
+  if ($form['site_frontpage']['#value'] == 'node') {
+    form_set_error('site_frontpage', 'Cannot set the homepage to that path.');
+  }
+
+  // Load file include to use redirect function.
+  module_load_include('module','cu_redirect', 'cu_redirect');
+
   // Taken from system_site_information_settings_validate.
   // No need to check for empty front page path since it's a required field.
   // Check to see if path is valid and exists.
-  if (!drupal_valid_path(drupal_get_normal_path($form_state['values']['site_frontpage']))) {
+  $redirect_path = drupal_get_normal_path($form_state['values']['site_frontpage']);
+
+  if (!drupal_valid_path($redirect_path)) {
     form_set_error('site_frontpage', 'Please enter a valid path.');
   }
+  // Check to see if path has a redirect, and set error if a redirect exists.
+  if (!_cu_redirect_check_existing($redirect_path)) {
+    form_set_error('site_frontpage', 'Cannot set the homepage to a path that has an existing redirect.');
+  }
   // Get the normal path of the front page.
-  form_set_value($form['site_frontpage'], drupal_get_normal_path($form_state['values']['site_frontpage']), $form_state);
+  form_set_value($form['site_frontpage'], $redirect_path, $form_state);
 }
 
 /**

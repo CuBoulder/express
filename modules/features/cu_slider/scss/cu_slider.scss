@@ -1,4 +1,5 @@
 /* FLEX SLIDER */
+$cugold: #cfb87c;
 
 .flexslider {
   margin: 0 0 40px;
@@ -168,6 +169,12 @@
   a:visited {
     color:#fff;
   }
+  .cu-slider-teaser {
+    a:link,
+    a:visited {
+      text-decoration: underline;
+    }
+  }
 }
 /* Slider Style 2 */
 .cu-slider-style-2 {
@@ -202,6 +209,12 @@
   a:visited {
     color:#fff;
   }
+  .cu-slider-teaser {
+    a:link,
+    a:visited {
+      text-decoration: underline;
+    }
+  }
 }
 /* Slider Style 3 */
 .cu-slider-style-3 {
@@ -234,6 +247,12 @@
   a:visited {
     color:#fff;
   }
+  .cu-slider-teaser {
+    a:link,
+    a:visited {
+      text-decoration: underline;
+    }
+  }
 }
 
 /* Slider Style 4 */
@@ -260,6 +279,12 @@
   a:link,
   a:visited {
     color:#fff;
+  }
+  .cu-slider-teaser {
+    a:link,
+    a:visited {
+      text-decoration: underline;
+    }
   }
 }
 /* Slider Style 5 */
