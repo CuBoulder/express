@@ -43,28 +43,6 @@ function cu_users_install() {
       $query->execute();
     }
   }
-
-  // force roles to be weighted by increasing permissions
-  $role = user_role_load_by_name('edit_my_content');
-  $role->weight = 2;
-  user_role_save($role);
-
-  $role = user_role_load_by_name('content_editor');
-  $role->weight = 3;
-  user_role_save($role);
-
-  $role = user_role_load_by_name('site_owner');
-  $role->weight = 4;
-  user_role_save($role);
-
-  $role = user_role_load_by_name('administrator');
-  $role->weight = 5;
-  user_role_save($role);
-
-  $role = user_role_load_by_name('developer');
-  $role->weight = 6;
-  user_role_save($role);
-
 }
 
 
@@ -294,9 +272,9 @@ function cu_users_update_7022() {
     $query->execute();
   }
 }
-  
+
 /**
- * Add test users for edit-my-content, content-editor and site-owner 
+ * Add test users for edit-my-content, content-editor and site-owner
  */
 function cu_users_update_7023() {
   // If edit-own-content user does not exist.
@@ -314,7 +292,7 @@ function cu_users_update_7023() {
     $query->values(array('uid' => $account->uid, 'rid' => $edit_own_role->rid));
     $query->execute();
   }
-  
+
    // If content-editor user does not exist.
   $new_account = user_load_by_name('osr-test-content');
   if (!isset($new_account->uid)) {
@@ -330,7 +308,7 @@ function cu_users_update_7023() {
     $query->values(array('uid' => $account->uid, 'rid' => $content_editor_role->rid));
     $query->execute();
   }
-  
+
    // If site-owner user does not exist.
   $new_account = user_load_by_name('osr-test-owner');
   if (!isset($new_account->uid)) {
