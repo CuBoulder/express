@@ -25,9 +25,6 @@ function cu_users_install() {
 	  $edit_own_role->rid => cu_users_get_users('edit_my_content'),
   );
 
-  // Final sanity check.
-  _cu_users_grant_all_perms($developer_role->rid);
-
   foreach ($default_users as $rid => $users) {
     foreach ($users as $name => $mail) {
       // Create the account.
@@ -42,35 +39,6 @@ function cu_users_install() {
       $query->values(array('uid' => $account->uid, 'rid' => $rid));
       $query->execute();
     }
-  }
-}
-
-
-/**
- * Grants all perms to specified role ID.
- *
- * This is sort of a "last check" just in case we haven't
- * exported *every* permission.
- */
-function _cu_users_grant_all_perms($rid) {
-  // Grant every permission to role.
-  $module_info = system_get_info('module');
-  foreach (module_implements('permission') as $module) {
-    $modules[$module] = $module_info[$module]['name'];
-  }
-  $permissions = array();
-  foreach ($modules as $module => $display_name) {
-    $perms = array();
-    $perms = module_invoke($module, 'permission');
-    $permissions += $perms;
-  }
-  if ($rid > 2) {
-    user_role_grant_permissions($rid, array_keys($permissions));
-    return TRUE;
-  }
-  else {
-    // We wont grant perms to anon or auth.. only a new role (>2).
-    return FALSE;
   }
 }
 
