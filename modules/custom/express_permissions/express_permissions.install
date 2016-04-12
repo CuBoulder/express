@@ -19,6 +19,27 @@ function express_permissions_install() {
   // Load our roles and permissions.
   secure_permissions_rebuild();
 
+  // force roles to be wieghted by increasing permissions
+  $role = user_role_load_by_name('edit_my_content');
+  $role->weight = 2;
+  user_role_save($role);
+
+  $role = user_role_load_by_name('content_editor');
+  $role->weight = 3;
+  user_role_save($role);
+
+  $role = user_role_load_by_name('site_owner');
+  $role->weight = 4;
+  user_role_save($role);
+
+  $role = user_role_load_by_name('administrator');
+  $role->weight = 5;
+  user_role_save($role);
+
+  $role = user_role_load_by_name('developer');
+  $role->weight = 6;
+  user_role_save($role);
+
 }
 
 
