@@ -142,8 +142,8 @@ function cu_users_user_has_role($role_name, $user = NULL) {
  */
 function cu_users_views_pre_render(&$view) {
   if ($view->name == 'cu_people_administration_override_view') {
-    global $user;
-    if (in_array('developer', $user->roles) || in_array('administrator', $user->roles) || $user->uid == 1) {
+    $account = $GLOBALS['user'];
+    if (in_array('developer', $account->roles) || in_array('administrator', $account->roles) || $account->uid == 1) {
       return;
     }
     foreach ($view->result as $key => $user) {
