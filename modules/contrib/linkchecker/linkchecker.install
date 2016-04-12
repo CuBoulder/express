@@ -39,6 +39,7 @@ function linkchecker_uninstall() {
   variable_del('linkchecker_scan_blocks');
   variable_del('linkchecker_scan_comments');
   variable_del('linkchecker_scan_nodetypes');
+  variable_del('linkchecker_log_level');
 }
 
 /**

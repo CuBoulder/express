@@ -6,3 +6,11 @@
 
 include_once 'cu_linkchecker.features.inc';
 
+/**
+ * Implements hook_page_alter().
+ */
+function cu_linkchecker_page_alter(&$page) {
+  if (current_path() == 'admin/reports/linkchecker' && variable_get('linkchecker_disable_cron_link_check', 0)) {
+    drupal_set_message('Link checking has been temporarily disabled on your site. Links will not be checked again until an administrator turns back on the functionality.', 'warning');
+  }
+}
