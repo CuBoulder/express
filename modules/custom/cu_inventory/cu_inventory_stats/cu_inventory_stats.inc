@@ -98,9 +98,9 @@ function cu_inventory_stats_empty_site_stats() {
     if (empty($number_beans)) { $number_beans = 0; }
     $site_data['statistics']['num_beans'] = $number_beans;
 
-    // Profile schema version
-    $version = _get_installed_schema_version('express');
-    $site_data['statistics']['express_schema_version'] = (int)$version;
+    // Core schema version
+    $version = _get_installed_schema_version(variable_get('express_core_version', 'cu_core'));
+    $site_data['statistics']['express_core_schema_version'] = (int) $version;
 
     // Module Manager
     if ($diff = profile_module_manager_is_config_ideal()) {
