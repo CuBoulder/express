@@ -118,10 +118,8 @@ function express_final() {
   }
 
   // Add core module based on selection from profile install form.
-  if (variable_get('cu_express_install_version', 1)) {
-    module_enable(array('cu_core'));
-  } else {
-    module_enable(array('cu_testing_core'));
+  if ($core = variable_get('express_core_version', '')) {
+    module_enable(array($core));
   }
 
   // rebuild list of content types for disable_node_menu_item
