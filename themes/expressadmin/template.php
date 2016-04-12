@@ -403,6 +403,7 @@ function expressadmin_preprocess_admin_block(&$vars) {
     'forms' => 'check-square-o',
     'url-management' => 'link',
     'advanced-content' => 'th-list',
+    'social-media' => 'share-alt'
   );
   $key = strtolower(str_replace(' ','-', $vars['block']['link_title']));
   if (array_key_exists($key, $titles)) {
