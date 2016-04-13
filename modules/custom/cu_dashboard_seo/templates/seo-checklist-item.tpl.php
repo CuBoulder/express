@@ -9,6 +9,18 @@
 <div class="seo-checklist-item">
   <h3><?php print $icon; ?> <?php print $title; ?></h3>
   <div class="seo-checklist-description">
-    <?php print $description; ?>
+    <?php
+      if ($indicator) {
+        print $description[1];
+      }
+      else {
+        print $description[0];
+      }
+      ?>
+      <?php
+        if ($edit) {
+          print l('(edit)', $path);
+        }
+        ?>
   </div>
 </div>
