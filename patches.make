@@ -1,6 +1,4 @@
 
-projects[features][patch][] = "https://www.drupal.org/files/issues/features-catch_field_exceptions-1664160-26.patch"
-
 projects[context][patch][] = "https://www.drupal.org/files/issues/context-2130655-update-block-info-3.patch"
 
 projects[jquery_update][patch][] = "https://www.drupal.org/files/issues/2531016-add-permissions-to-form-alter.patch"
