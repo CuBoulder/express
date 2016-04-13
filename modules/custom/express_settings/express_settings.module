@@ -388,3 +388,37 @@ function express_settings_management_page() {
     return t('You do not have any administrative items.');
   }
 }
+
+/**
+ * Implements hook_menu_link_insert().
+ * Allows bundles to define a top level menu under and settings after child menus are created
+ */
+function express_settings_menu_link_insert($item) {
+
+ // if the link is directly under admin/setting, check so see if any items in the next level need to be fixed
+  if ($item['parts'][0] == 'admin' && $item['parts'][1] == 'settings' && $item['depth'] === 3) {
+
+    // without this rebuild, the children aren't found
+    menu_rebuild();
+
+    //just rebuilding seems to have fixed the issue... don't need to manually fix after?
+
+    //$menus = db_select('menu_links', 'ml')
+    //->fields('ml')
+    //->condition('ml.depth', 4, '=')
+    //->condition('ml.router_path', db_like($item['path']) .'%', 'LIKE')
+    //->execute()
+    //->fetchAll();
+
+    //foreach ($menus as $menu) {
+    //  if ($item['mlid'] != $menu->plid) {
+    //    $updated_menu = menu_link_load($item['mlid']);
+    //    $updated_menu['plid'] = $mlid;
+    //    $updated_menu['hidden'] = 0;
+    //    menu_link_save($updated_menu);
+    //   }
+    // }
+
+
+  }
+}
