@@ -25,9 +25,6 @@ function cu_users_install() {
 	  $edit_own_role->rid => cu_users_get_users('edit_my_content'),
   );
 
-  // Final sanity check.
-  _cu_users_grant_all_perms($developer_role->rid);
-
   foreach ($default_users as $rid => $users) {
     foreach ($users as $name => $mail) {
       // Create the account.
@@ -42,57 +39,6 @@ function cu_users_install() {
       $query->values(array('uid' => $account->uid, 'rid' => $rid));
       $query->execute();
     }
-  }
-
-  // force roles to be weighted by increasing permissions
-  $role = user_role_load_by_name('edit_my_content');
-  $role->weight = 2;
-  user_role_save($role);
-
-  $role = user_role_load_by_name('content_editor');
-  $role->weight = 3;
-  user_role_save($role);
-
-  $role = user_role_load_by_name('site_owner');
-  $role->weight = 4;
-  user_role_save($role);
-
-  $role = user_role_load_by_name('administrator');
-  $role->weight = 5;
-  user_role_save($role);
-
-  $role = user_role_load_by_name('developer');
-  $role->weight = 6;
-  user_role_save($role);
-
-}
-
-
-/**
- * Grants all perms to specified role ID.
- *
- * This is sort of a "last check" just in case we haven't
- * exported *every* permission.
- */
-function _cu_users_grant_all_perms($rid) {
-  // Grant every permission to role.
-  $module_info = system_get_info('module');
-  foreach (module_implements('permission') as $module) {
-    $modules[$module] = $module_info[$module]['name'];
-  }
-  $permissions = array();
-  foreach ($modules as $module => $display_name) {
-    $perms = array();
-    $perms = module_invoke($module, 'permission');
-    $permissions += $perms;
-  }
-  if ($rid > 2) {
-    user_role_grant_permissions($rid, array_keys($permissions));
-    return TRUE;
-  }
-  else {
-    // We wont grant perms to anon or auth.. only a new role (>2).
-    return FALSE;
   }
 }
 
@@ -294,9 +240,9 @@ function cu_users_update_7022() {
     $query->execute();
   }
 }
-  
+
 /**
- * Add test users for edit-my-content, content-editor and site-owner 
+ * Add test users for edit-my-content, content-editor and site-owner
  */
 function cu_users_update_7023() {
   // If edit-own-content user does not exist.
@@ -314,7 +260,7 @@ function cu_users_update_7023() {
     $query->values(array('uid' => $account->uid, 'rid' => $edit_own_role->rid));
     $query->execute();
   }
-  
+
    // If content-editor user does not exist.
   $new_account = user_load_by_name('osr-test-content');
   if (!isset($new_account->uid)) {
@@ -330,7 +276,7 @@ function cu_users_update_7023() {
     $query->values(array('uid' => $account->uid, 'rid' => $content_editor_role->rid));
     $query->execute();
   }
-  
+
    // If site-owner user does not exist.
   $new_account = user_load_by_name('osr-test-owner');
   if (!isset($new_account->uid)) {
@@ -348,28 +294,4 @@ function cu_users_update_7023() {
   }
 }
 
-/**
- * Force roles to be weighted by increasing permissions.
- */
-function cu_users_update_7024() {
-  $role = user_role_load_by_name('edit_my_content');
-  $role->weight = 2;
-  user_role_save($role);
-
-  $role = user_role_load_by_name('content_editor');
-  $role->weight = 3;
-  user_role_save($role);
-
-  $role = user_role_load_by_name('site_owner');
-  $role->weight = 4;
-  user_role_save($role);
-
-  $role = user_role_load_by_name('administrator');
-  $role->weight = 5;
-  user_role_save($role);
-
-  $role = user_role_load_by_name('developer');
-  $role->weight = 6;
-  user_role_save($role);
-}
 

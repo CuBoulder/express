@@ -12,6 +12,31 @@ function cu_testing_core_enable() {
  */
 function cu_testing_core_install() {
 
+  theme_enable(array(
+    'cuhighlight',
+    'cuivory',
+    'culayers',
+    'cuminimal',
+    'cumodern',
+    'curise',
+    'cushadow',
+    'cusimple',
+    'cuspirit',
+    'cuswatch',
+    'cutradition',
+  ));
+
+  // these modules need to be enabled late in the install process and/or to be ignored by profile_module_manager's report.
+  $module_array = array(
+    'cu_users',
+    'cu_inventory',
+    'cu_inventory_stats' // Not adding caching modules here for changes involving Travis CI testing.
+  );
+
+  module_enable($module_array);
+
+  profile_module_manager_add_to_ignore($module_array);
+
   // Not including cu_cache here for changes involving Travis CI testing.
   // module_enable(array('cu_cache'));
 

@@ -102,25 +102,28 @@ function express_final() {
   // Set subnaviagtion block title to <none>
   db_query("UPDATE {block} SET title = '<none>' WHERE delta = 'site_navigation_menus-1'");
 
-  // Enabled cu_users and rebuild secure permissions (after a static reset).
-  module_enable(array('secure_permissions'));
-  drupal_static_reset();
-
-  module_enable(array('express_permissions'));
-
   // @TODO: figure out why these are enabled by default
   module_disable(array('update'));
   theme_disable(array('bartik'));
 
   // Enable custom modules that you want enabled at the end of profile install.
-  if (file_exists(DRUPAL_ROOT . '/profiles/express/modules/custom/express_final/express_final.module')) {
-    module_enable(array('express_final'));
-  }
+  //if (file_exists(DRUPAL_ROOT . '/profiles/express/modules/custom/express_final/express_final.module')) {
+    //module_enable(array('express_final'));
+  //}
+  
+  // Enabled cu_users and rebuild secure permissions (after a static reset).
+  module_enable(array('secure_permissions'));
+  drupal_static_reset();
 
+  module_enable(array('express_permissions'));
+  
   // Add core module based on selection from profile install form.
   if ($core = variable_get('express_core_version', '')) {
     module_enable(array($core));
   }
+  
+  // update modules to ignore
+  profile_module_manager_add_to_ignore(array('entityreference', 'express_layout', 'secure_permissions', 'express_permissions'));
 
   // rebuild list of content types for disable_node_menu_item
   $types = node_type_get_names();
