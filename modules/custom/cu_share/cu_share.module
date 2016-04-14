@@ -22,10 +22,12 @@ function cu_share_menu() {
  * Implements hook_page_alter().
  */
 function cu_share_page_alter(&$page) {
+  // Define empty array to be passed to execute function.
+  $op = array();
 
   // If social share context reaction was set, do that first
   if ($plugin = context_get_plugin('reaction', 'cu_share')) {
-    if ($plugin->execute()) {
+    if ($plugin->execute($page, $op)) {
       cu_share_output(&$page);
     }
   }
