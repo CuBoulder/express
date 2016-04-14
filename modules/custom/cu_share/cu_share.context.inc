@@ -20,6 +20,7 @@ function cu_share_context_default_contexts() {
         '~admin/*' => '~admin/*',
         '~/user' => '~/user',
         '~/user/*' => '~/user/*',
+        '~node/add*' => '~node/add*',
         '~node/*/edit' => '~node/*/edit',
         '~block/*/edit' => '~block/*/edit',
         '~taxonomy/term/*/edit' => '~taxonomy/term/*/edit',
