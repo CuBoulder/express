@@ -1,5 +1,7 @@
 <?php
 
+include_once 'cu_redirect_2.features.inc';
+
 /**
  * Adds a redirect if none exists.
  */
