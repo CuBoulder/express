@@ -1,6 +1,4 @@
 
-projects[features][patch][] = "https://www.drupal.org/files/issues/features-catch_field_exceptions-1664160-26.patch"
-
 projects[context][patch][] = "https://www.drupal.org/files/issues/context-2130655-update-block-info-3.patch"
 
 projects[jquery_update][patch][] = "https://www.drupal.org/files/issues/2531016-add-permissions-to-form-alter.patch"
@@ -28,5 +26,7 @@ projects[quicktabs][patch][] = "https://www.drupal.org/files/issues/quicktabs-in
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-1059
 projects[responsive_preview][patch][] = "https://www.drupal.org/files/issues/responsive_preview-file_pattern-2681461-2-7.patch"
-
 projects[responsive_preview][patch][] = "https://www.drupal.org/files/issues/responsive_preview-wrap_config_in_description-2688791.patch"
+
+; @see https://cuboulder.atlassian.net/browse/FIT-1768
+projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-disable-on-cron-2704193-7-3.patch

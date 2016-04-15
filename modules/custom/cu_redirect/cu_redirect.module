@@ -3,21 +3,66 @@
 include_once 'cu_redirect.features.inc';
 
 /**
+ * Implements hook_ctools_plugin_api().
+ */
+function cu_redirect_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "strongarm" && $api == "strongarm") {
+    return array("version" => "1");
+  }
+}
+
+/**
+ * Implements hook_redirect_validate().
+ *
+ * @param $redirect
+ * @param $form
+ * @param $form_state
+ */
+function cu_redirect_redirect_validate($redirect, $form, $form_state) {
+  // Set error if user is trying to use the frontpage as the source for a redirect.
+  if ($redirect->source == variable_get('site_frontpage', 'node')) {
+    form_set_error('cu_redirect', t('The redirect source "@from" cannot be the same path as the homepage.', array('@from' => $redirect->source)));
+  }
+}
+
+/**
  * Adds a redirect if none exists.
  */
 function cu_redirect_add_redirect($source = NULL, $destination = NULL) {
   if ($source == NULL || $destination == NULL) {
     return;
   }
+  // Make redirect if none exists.
+  if (_cu_redirect_check_existing($source)) {
+    _cu_redirect_set_redirect($source, $destination);
+  }
+}
 
-  // Check to see if redirect exists.
+/**
+ * Check for existing redirect.
+ */
+function _cu_redirect_check_existing($source = NULL) {
+  // Get internal path.
+  drupal_get_normal_path($source);
+
+  // Check for existing redirect.
   $query = db_select('redirect', 'r');
   $query->addField('r', 'source');
   $query->condition('r.source', $source);
   $redirect = $query->execute()->fetchCol();
 
-  // Make redirect if none exists.
   if (empty($redirect)) {
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
+/**
+ * Make a redirect.
+ */
+function _cu_redirect_set_redirect($source = NULL, $destination = NULL) {
+  try {
     $redirect = new stdClass();
     redirect_object_prepare($redirect);
     $redirect->source = $source;
@@ -25,6 +70,10 @@ function cu_redirect_add_redirect($source = NULL, $destination = NULL) {
     // Always make redirects from UID 1.
     $redirect->uid = 1;
     redirect_save($redirect);
+  }
+  catch (Exception $e) {
+    watchdog_exception('cu_redirect', $e);
+    throw $e;
   }
 }
 

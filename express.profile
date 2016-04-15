@@ -45,16 +45,16 @@ function express_profile_configure_form() {
   $form = array();
 
   $options = array(
-    '1' => st('Production'),
-    '0' => st('Testing'),
+    'cu_core' => st('Production'),
+    'cu_testing_core' => st('Testing'),
   );
 
-  $form['cu_express_install_version'] = array(
+  $form['express_core_version'] = array(
     '#type' => 'radios',
     '#title' => st('Which version of Express would you like to install?'),
     '#description' => st('Testing will include the "cu_testing_core" module while "Production" will include the "cu_core" module.'),
     '#options' => $options,
-    '#default_value' => '1',
+    '#default_value' => 'cu_core',
   );
 
   $form['actions'] = array('#type' => 'actions');
@@ -68,7 +68,7 @@ function express_profile_configure_form() {
 }
 
 function express_profile_configure_form_submit(&$form, &$form_state) {
-  variable_set('cu_express_install_version', $form_state['values']['cu_express_install_version']);
+  variable_set('express_core_version', $form_state['values']['express_core_version']);
 }
 
 /**
@@ -102,27 +102,28 @@ function express_final() {
   // Set subnaviagtion block title to <none>
   db_query("UPDATE {block} SET title = '<none>' WHERE delta = 'site_navigation_menus-1'");
 
-  // Enabled cu_users and rebuild secure permissions (after a static reset).
-  module_enable(array('secure_permissions'));
-  drupal_static_reset();
-
-  module_enable(array('express_permissions'));
-
   // @TODO: figure out why these are enabled by default
   module_disable(array('update'));
   theme_disable(array('bartik'));
 
   // Enable custom modules that you want enabled at the end of profile install.
-  if (file_exists(DRUPAL_ROOT . '/profiles/express/modules/custom/express_final/express_final.module')) {
-    module_enable(array('express_final'));
-  }
+  //if (file_exists(DRUPAL_ROOT . '/profiles/express/modules/custom/express_final/express_final.module')) {
+    //module_enable(array('express_final'));
+  //}
+  
+  // Enabled cu_users and rebuild secure permissions (after a static reset).
+  module_enable(array('secure_permissions'));
+  drupal_static_reset();
 
+  module_enable(array('express_permissions'));
+  
   // Add core module based on selection from profile install form.
-  if (variable_get('cu_express_install_version', 1)) {
-    module_enable(array('cu_core'));
-  } else {
-    module_enable(array('cu_testing_core'));
+  if ($core = variable_get('express_core_version', '')) {
+    module_enable(array($core));
   }
+  
+  // update modules to ignore
+  profile_module_manager_add_to_ignore(array('entityreference', 'express_layout', 'secure_permissions', 'express_permissions'));
 
   // rebuild list of content types for disable_node_menu_item
   $types = node_type_get_names();

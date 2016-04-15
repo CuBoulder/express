@@ -154,3 +154,21 @@ function cu_people_bundle_express_help($variables) {
 
   return $variables;
 }
+
+/**
+ * Implements hook_menu().
+ */
+function cu_people_bundle_menu() {
+  $items = array();
+  $items['admin/settings/people'] = array(
+    'title' => 'People',
+    'description' => 'Menu Options Related to Feedback',
+    'position' => 'right',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer express settings'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+    'weight' => 1,
+  );
+  return $items;
+}

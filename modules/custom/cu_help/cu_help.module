@@ -64,6 +64,12 @@ function cu_help_express_help($variables) {
     'short_title' => 'Hero Unit',
     'url' => '/node/438',
     );
+    
+  $variables['block/edit/hero-unit'][] = array(
+    'title' => 'Hero Unit Block Help',
+    'short_title' => 'Hero Unit',
+    'url' => '/node/438',
+    );
 
   $variables['block/add/slider'][] = array(
     'title' => 'Slider Block Help',
@@ -71,12 +77,24 @@ function cu_help_express_help($variables) {
     'url' => '/node/440',
   );
 
+  $variables['block/edit/slider'][] = array(
+    'title' => 'Slider Block Help',
+    'short_title' => 'Slider Block',
+    'url' => '/node/440',
+  );
+  
   $variables['block/add/block'][] = array(
     'title' => 'Text Block Help',
     'short_title' => 'Text Block Help',
     'url' => '/node/426',
   );
 
+  $variables['block/edit/block'][] = array(
+    'title' => 'Text Block Help',
+    'short_title' => 'Text Block Help',
+    'url' => '/node/426',
+  );
+  
   $variables['admin/content/files'][] = array(
     'title' => 'Files Help',
     'short_title' => 'Files Help',
