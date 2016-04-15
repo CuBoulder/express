@@ -1,6 +1,6 @@
 <?php
 
-include_once 'cu_redirect_2.features.inc';
+include_once 'cu_redirect.features.inc';
 
 /**
  * Adds a redirect if none exists.
@@ -22,6 +22,43 @@ function cu_redirect_add_redirect($source = NULL, $destination = NULL) {
     redirect_object_prepare($redirect);
     $redirect->source = $source;
     $redirect->redirect = $destination;
+    // Always make redirects from UID 1.
+    $redirect->uid = 1;
     redirect_save($redirect);
   }
 }
+
+/**
+ * Implements hook_cron().
+ *
+ * Delete any redirects created by UID 1 after 30 days if they haven't been
+ * accessed.
+ *
+ * @return mixed
+ * @throws \Exception
+ */
+function cu_redirect_cron() {
+
+  // If site hasn't launched, don't delete redirects.
+  if (variable_get('cu_inventory_status', NULL) != 'launched') {
+    return;
+  }
+
+  // Get all redirects created by UID 1 that haven't been accessed in 30 days.
+  $interval = 2592000;
+  $query = db_select('redirect');
+  $query->addField('redirect', 'rid');
+  $query->condition('uid', 1, '=');
+  $query->condition('access', REQUEST_TIME - $interval, '<');
+  $query->addTag('redirect_purge');
+  $rids = $query->execute()->fetchCol();
+
+  // Delete any redirects that are returned.
+  if (count($rids)) {
+    // Since this function is in a module file, no include is necessary.
+    redirect_delete_multiple($rids);
+    watchdog('cu_redirect', format_plural(count($rids), 'Removed 1 inactive redirect from the database.', 'Removed @count inactive redirects from the database.'));
+  }
+}
+
+
