@@ -142,9 +142,6 @@ websupport@colorado.edu');
 You can now .+configure the CAPTCHA module.+ for your site.
 Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
 
-  // Set old URL aliases to be kept after updating an alias.
-  variable_set('pathauto_update_action', PATHAUTO_UPDATE_ACTION_LEAVE);
-
   variable_set('express_layout_node_type_ignore', array('file'));
 
   db_update('responsive_preview')
@@ -337,12 +334,7 @@ function cu_core_update_7005() {
  * Variable sets for Express 2.0.1.
  */
 function cu_core_update_7006() {
-  // Set old URL aliases to be kept after updating an alias.
-  variable_set('pathauto_update_action', PATHAUTO_UPDATE_ACTION_LEAVE);
 
-  // Run on every update
-  cu_core_revert_features();
-  express_inventory_update('7006');
 }
 
 /**
