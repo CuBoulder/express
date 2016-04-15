@@ -61,4 +61,57 @@ function cu_redirect_cron() {
   }
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function cu_redirect_form_redirect_list_form_alter(&$form, &$form_state, $form_id) {
+  $form['unaccessed_links'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Remove Stale Links'),
+    '#prefix' => '<div class="container-inline">',
+    '#suffix' => '</div>',
+    '#weight' => -1,
+  );
 
+  $form['unaccessed_links']['text'] = array(
+    '#type' => 'markup',
+    '#markup' => '<p>Some redirects are never accessed and clutter up this reports page. You can clear those stale redirects here.</p>',
+  );
+
+  $form['unaccessed_links']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Clear Stale Links',
+    '#validate' => array('cu_redirect_unaccessed_links_validate'),
+    '#submit' => array('cu_redirect_unaccessed_links_submit'),
+  );
+}
+
+/**
+ * Validation handler for clear stale links submit button.
+ */
+function cu_redirect_unaccessed_links_validate($form, &$form_state) {
+
+}
+
+/**
+ * Submit handler for clear stale links submit button.
+ */
+function cu_redirect_unaccessed_links_submit($form, &$form_state) {
+
+  $query = db_select('redirect');
+  $query->addField('redirect', 'rid');
+  //$query->condition('uid', 1, '=');
+  $query->condition('access', 0, '=');
+  $query->addTag('redirect_purge');
+  $rids = $query->execute()->fetchCol();
+
+  // Delete any redirects that are returned.
+  if (count($rids)) {
+    // Since this function is in a module file, no include is necessary.
+    redirect_delete_multiple($rids);
+    watchdog('cu_redirect', format_plural(count($rids), 'Removed 1 inactive redirect from the database.', 'Removed @count inactive redirects from the database.'));
+    drupal_set_message('Redirects that were never accessed have been cleared.');
+  } else {
+    drupal_set_message('There are no redirects that were never accessed. No redirects have been removed.', 'warning');
+  }
+}
