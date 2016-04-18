@@ -198,6 +198,7 @@ dependencies[] = smart_trim
 dependencies[] = stringoverrides
 dependencies[] = cu_content_lock
 dependencies[] = content_lock
+dependencies[] = context_sitewide_public
 
 ; ============ FEATURE EXPORTS ============
 dependencies[] = express_linkit_profiles

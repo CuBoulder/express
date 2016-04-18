@@ -165,6 +165,11 @@ function cu_social_media_bundle_express_help($variables) {
     'short_title' => 'Twitter block help',
     'url' => '/node/494',
   );
+  $variables['admin/settings/social/share'][] = array(
+    'title' => 'Social Share Links help',
+    'short_title' => 'Social Share Links help',
+    'url' => '/node/1186',
+  );
 
   return $variables;
 }
