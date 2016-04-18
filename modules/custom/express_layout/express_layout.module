@@ -202,7 +202,7 @@ function express_layout_node_delete($node) {
   $nid = $node->nid;
   if ($layout = entity_load_single('express_layout', $nid)) {
     entity_delete('express_layout', $nid);
-    drupal_set_message('@layout_name Deleted', array('@layout_name' => $layout->title));
+    drupal_set_message($layout->title . ' Deleted');
   }
 }
 
