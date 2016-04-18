@@ -3,7 +3,6 @@ description = This bundle allows you to stay connected with your visitors beyond
 core = 7.x
 package = CU-Social Media
 project_demo_url = http://www.colorado.edu/webcentral/node/682
-dependencies[] = context_ui
 dependencies[] = cu_twitter_feed
 dependencies[] = cu_facebook_activity
 dependencies[] = cu_facebook_like_button

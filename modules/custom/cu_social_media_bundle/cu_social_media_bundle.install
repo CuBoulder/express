@@ -37,4 +37,5 @@ function cu_social_media_bundle_uninstall() {
  */
 function cu_social_media_bundle_update_7001() {
   module_enable(array('cu_share'));
+  drupal_flush_all_caches();
 }
