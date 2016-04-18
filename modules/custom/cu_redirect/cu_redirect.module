@@ -155,3 +155,17 @@ function cu_redirect_unaccessed_links_submit($form, &$form_state) {
     drupal_set_message('There are no redirects that were never accessed. No redirects have been removed.', 'warning');
   }
 }
+
+/**
+ * Implements hook_redirect_save().
+ *
+ * @param $redirect
+ *   The redirect that is being inserted or updated.
+ */
+function cu_redirect_redirect_presave($redirect) {
+  // If redirect is made from node/add or node/edit page, make UID admin.
+  // This is for cleaning up non-user created redirects
+  if (strpos(current_path(), 'node') == 0) {
+    $redirect->uid = 1;
+  }
+}
