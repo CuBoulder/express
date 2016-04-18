@@ -371,7 +371,7 @@ function cu_core_update_7006() {
 
   variable_set('express_core_version', 'cu_core');
 
-  module_enable(array('express_dashboards', 'express_dashboard_user'));
+  module_enable(array('express_dashboards', 'express_dashboard_user', 'context_sitewide_public'));
 
   cu_core_revert_features();
 
