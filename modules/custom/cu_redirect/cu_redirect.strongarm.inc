@@ -1,11 +1,7 @@
 <?php
 /**
  * @file
-<<<<<<< HEAD
- * cu_redirect_2.strongarm.inc
-=======
  * cu_cache.strongarm.inc
->>>>>>> dev
  */
 
 /**
