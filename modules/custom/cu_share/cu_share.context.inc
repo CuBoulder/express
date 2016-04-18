@@ -12,25 +12,14 @@ function cu_share_context_default_contexts() {
   $context->description = 'Decide which pages Social Sharing links should appear on.';
   $context->tag = 'social_sharing_links';
   $context->conditions = array(
+    'sitewide_public' => array(
+      'values' => array(
+        1 => 1,
+      ),
+    ),
     'path' => array(
       'values' => array(
         '~<front>' => '~<front>',
-        '*' => '*',
-        '~admin' => '~admin',
-        '~admin/*' => '~admin/*',
-        '~/user' => '~/user',
-        '~/user/*' => '~/user/*',
-        '~node/add*' => '~node/add*',
-        '~node/*/edit' => '~node/*/edit',
-        '~block/*/edit' => '~block/*/edit',
-        '~taxonomy/term/*/edit' => '~taxonomy/term/*/edit',
-        '~node/*/delete' => '~node/*/delete',
-        '~block/*/delete' => '~block/*/delete',
-        '~taxonomy/term/*/delete' => '~taxonomy/term/*/delete',
-        '~node/*/webform*' => '~node/*/webform*',
-        '~node/*/webform-results' => '~node/*/webform-results',
-        '~media/browser' => '~media/browser',
-        '~node/*/blocks' => '~node/*/blocks',
       ),
     ),
   );
@@ -39,7 +28,7 @@ function cu_share_context_default_contexts() {
       'cu_share' => 1,
     ),
   );
-  $context->condition_mode = 0;
+  $context->condition_mode = 1;
 // Translatables
 // Included for use with string extractors like potx.
   t('Decide which pages Social Sharing links should appear on');
