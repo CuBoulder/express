@@ -183,7 +183,7 @@ function cu_share_settings_form($form, &$form_state) {
   }
   else {
     // Link to bundle screen
-    $description = l('Use context to choose what pages the social share links will display. <strong>Requires the Advanced Layout Bundle.</strong>', 'admin/settings/bundles/list');
+    $description = 'Use context to choose what pages the social share links will display. ' . l('<strong>Requires the Advanced Layout Bundle</strong>', 'admin/settings/bundles/list', array('html' => TRUE)) . '.';
   }
   $form['pages']['advanced_settings'] = array(
     '#type' => 'checkbox',
