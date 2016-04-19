@@ -380,6 +380,20 @@ function cu_core_update_7006() {
 }
 
 /**
+ * Express Update 7007.
+ * Converting Profile Module Manager variable to an array.
+ */
+function cu_core_update_7007() {
+  $ignore_modules = variable_get('profile_module_manager_ignore', array());
+  // Check to see whether variable is array.
+  // If it is an array, don't do anything.
+  if (!is_array($ignore_modules)) {
+    $ignore_modules = explode(',', $ignore_modules);
+    variable_set('profile_module_manager_ignore', $ignore_modules);
+  }
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {

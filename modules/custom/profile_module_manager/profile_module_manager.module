@@ -107,7 +107,7 @@ function profile_module_manager_is_config_ideal(){
   // remove any items configured to be ignored
   // @TDOD: make this a variable that is set by cu_debug_admin_bundle
   $ignore = variable_get('profile_module_manager_ignore', array());
-
+  //dpm($ignore);
   foreach ($ignore as $name) {
     $name = trim($name);
     if (isset($reality[$name])) {
