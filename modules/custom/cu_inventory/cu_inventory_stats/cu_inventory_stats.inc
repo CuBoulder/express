@@ -98,9 +98,9 @@ function cu_inventory_stats_empty_site_stats() {
     if (empty($number_beans)) { $number_beans = 0; }
     $site_data['statistics']['num_beans'] = $number_beans;
 
-    // Profile schema version
-    $version = _get_installed_schema_version('express');
-    $site_data['statistics']['express_schema_version'] = (int)$version;
+    // Core schema version
+    $version = _get_installed_schema_version(variable_get('express_core_version', 'cu_core'));
+    $site_data['statistics']['express_core_schema_version'] = (int) $version;
 
     // Module Manager
     if ($diff = profile_module_manager_is_config_ideal()) {
@@ -163,6 +163,9 @@ function cu_inventory_stats_empty_site_stats() {
     // Add report of overridden features.
     $site_data['statistics']['overriden_features'] = _get_features_statuses();
 
+    // Add report of enabled bundles.
+    $site_data['statistics']['enabled_bundles'] = _get_enabled_bundles();
+
     // Last, add the wrapper array. This adds a wrapper Python list which allows
     // us to null Statistics.
     $site_data['statistics'] = array($site_data['statistics']);
@@ -216,4 +219,23 @@ function _get_features_statuses() {
     }
   }
   return $overridden_features;
+}
+
+function _get_enabled_bundles() {
+  $bundles = '';
+  // Get enabled bundles.
+  $enabled_modules = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
+  // check for _bundle in the machine name, but also look for something in the .info
+  // to avoid false positives from contrib?
+  foreach ($enabled_modules as $key => $module) {
+    if (strpos($module->name, '_bundle')) {
+      if (!empty($bundles)) {
+        $bundles .= '; ' . $module->name;
+      }
+      else {
+        $bundles = $module->name;
+      }
+    }
+  }
+  return $bundles;
 }

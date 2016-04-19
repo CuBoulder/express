@@ -3,7 +3,7 @@ name = "express"
 description = "Express installation profile"
 exclusive = "1"
 core = "7.x"
-version = 2.1.2
+version = 7.x-2.2
 
 ; ----------
 ; Dependencies
@@ -120,6 +120,10 @@ dependencies[] = cu_slider
 dependencies[] = cu_faq
 dependencies[] = cu_hero_unit
 
+; ============ DASHBOARD ============
+dependencies[] = express_dashboards
+dependencies[] = express_dashboard_user
+
 ; ============ FILES ============
 dependencies[] = files
 dependencies[] = file_entity
@@ -194,6 +198,7 @@ dependencies[] = smart_trim
 dependencies[] = stringoverrides
 dependencies[] = cu_content_lock
 dependencies[] = content_lock
+dependencies[] = context_sitewide_public
 
 ; ============ FEATURE EXPORTS ============
 dependencies[] = express_linkit_profiles
