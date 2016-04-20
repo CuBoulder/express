@@ -163,8 +163,8 @@ function cu_inventory_stats_empty_site_stats() {
     // Add report of overridden features.
     $site_data['statistics']['overriden_features'] = _get_features_statuses();
 
-    // Add report of enabled bundles.
-    $site_data['statistics']['enabled_bundles'] = _get_enabled_bundles();
+    // Add report of stats related to bundles.
+    $site_data['statistics']['bundles'] = _get_bundle_stats();
 
     // Last, add the wrapper array. This adds a wrapper Python list which allows
     // us to null Statistics.
@@ -221,21 +221,20 @@ function _get_features_statuses() {
   return $overridden_features;
 }
 
-function _get_enabled_bundles() {
-  $bundles = '';
+/**
+ * Callback function to return statistics relating to bundles.
+ *
+ * @return array|string
+ */
+function _get_bundle_stats() {
+  $bundle_stats = array();
   // Get enabled bundles.
-  $enabled_modules = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
-  // check for _bundle in the machine name, but also look for something in the .info
-  // to avoid false positives from contrib?
-  foreach ($enabled_modules as $key => $module) {
-    if (strpos($module->name, '_bundle')) {
-      if (!empty($bundles)) {
-        $bundles .= '; ' . $module->name;
-      }
-      else {
-        $bundles = $module->name;
-      }
-    }
+  $enabled_bundles = db_query("SELECT name, schema_version FROM {system} WHERE type = 'module' AND status = 1 AND name LIKE '%_bundle' ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
+  // Turn returned object into an array.
+  foreach ($enabled_bundles as $key => $bundle) {
+    $bundle_stats[$bundle->name] = array(
+      'schema_version' => $bundle->schema_version,
+    );
   }
-  return $bundles;
+  return $bundle_stats;
 }
