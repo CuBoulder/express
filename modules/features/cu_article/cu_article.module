@@ -482,11 +482,11 @@ function cu_article_preprocess_entity(&$vars) {
       $output['articles']['#prefix'] = '<div class="article-slider">';
       $output['articles']['#suffix'] = '</div>';
     }
+    else {
+      $vars['content'] = '';
+    }
     unset($vars['content']['article_slider_entity_view_1']);
     $vars['content']['article_slider'] = $output;
-  }
-  else {
-    $vars['content'] = '';
   }
 }
 
