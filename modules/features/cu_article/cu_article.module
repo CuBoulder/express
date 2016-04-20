@@ -243,7 +243,10 @@ function cu_article_preprocess_entity(&$vars) {
       if (isset($output)) {
         $vars['content'] = $output;
       }
-    } else {
+    }
+    else {
+      $type = $vars['elements']['#bundle'];
+      _cu_article_bean_null_results($vars, $type);
       $vars['content'] = '';
     }
 
@@ -314,8 +317,14 @@ function cu_article_preprocess_entity(&$vars) {
         $output['articles']['nodes'][$nid]['#suffix'] = '</div>';
         $i++;
       }
+      $vars['content'] = array_merge($vars['content'], $output);
     }
-    $vars['content'] = array_merge($vars['content'], $output);
+    else {
+      $type = $vars['elements']['#bundle'];
+      _cu_article_bean_null_results($vars, $type);
+      $vars['content'] = '';
+    }
+
   }
 
   // Article Feature Bean
@@ -405,10 +414,8 @@ function cu_article_preprocess_entity(&$vars) {
       $vars['content']['#suffix'] = '</div>';
     }
     else {
-      if (user_access('edit any article_feature bean')) {
-        $label = $vars['elements']['#entity']->label;
-        drupal_set_message(t('@label has no results', array('@label' => $label)), 'warning');
-      }
+      $type = $vars['elements']['#bundle'];
+      _cu_article_bean_null_results($vars, $type);
       $vars['content'] = '';
     }
   }
@@ -481,14 +488,33 @@ function cu_article_preprocess_entity(&$vars) {
       }
       $output['articles']['#prefix'] = '<div class="article-slider">';
       $output['articles']['#suffix'] = '</div>';
+      unset($vars['content']['article_slider_entity_view_1']);
+      $vars['content']['article_slider'] = $output;
     }
     else {
+      $vars['content'] = array_merge($vars['content'], $output);
       $vars['content'] = '';
     }
-    unset($vars['content']['article_slider_entity_view_1']);
-    $vars['content']['article_slider'] = $output;
+
   }
 }
+
+/**
+ * Returns message if bean has no result.
+ */
+function _cu_article_bean_null_results($vars, $type = NULL) {
+  if ($type) {
+    $permission = 'edit any ' . $type . ' bean';
+    if (user_access($permission)) {
+      $delta = $vars['elements']['#entity']->delta;
+      $label = $vars['elements']['#entity']->label;
+      $edit = l($label, 'block/' . $delta . '/edit');
+      drupal_set_message(t('!label has no results', array('!label' => $edit)), 'warning');
+    }
+  }
+}
+
+
 
 /**
  * Implements hook_preprocess_node().
