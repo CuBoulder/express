@@ -145,7 +145,10 @@ function cu_rss_block_secure_permissions($role) {
       'view any rss bean',
     ),
   );
-  return $permissions[$role];
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
 }
 
 function cu_rss_block_express_bean_list_groups($bundles) {
