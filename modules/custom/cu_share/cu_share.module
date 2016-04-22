@@ -29,7 +29,7 @@ function cu_share_page_alter(&$page) {
     // If social share context reaction was set, do that first
     if ($plugin = context_get_plugin('reaction', 'cu_share')) {
       if ($plugin->execute($page, $op)) {
-        cu_share_output(&$page);
+        cu_share_output($page);
       }
     }
   }
@@ -41,7 +41,7 @@ function cu_share_page_alter(&$page) {
       if ($node = menu_get_object()) {
         $type = $node->type;
         if ($settings[$type]) {
-          cu_share_output(&$page);
+          cu_share_output($page);
         }
       }
     }
