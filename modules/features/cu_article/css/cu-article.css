@@ -18,12 +18,6 @@
 .article-summary {
   padding:5px 0 0;
 }
-.article-summary .more-link {
-  white-space: nowrap;
-}
-.article-summary .more-link:before {
-  content: " ";
-}
 
 .article-view-mode-sidebar {
   margin-bottom: 10px;
