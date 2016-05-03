@@ -402,7 +402,7 @@ function _cu_share_services() {
   );
   $options['email'] = array(
       'name' => 'E-mail',
-      'url' => 'mailto:?&body=Check%20this%20out%20-%20',
+      'url' => 'mailto:?body=Check%20this%20out%20-%20',
   );
   return $options;
 }
