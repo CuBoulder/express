@@ -28,10 +28,7 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_slider bean',
     ),
     'administrator' => array(
-      'administer category vocabulary terms',
-      'administer byline vocabulary terms',
       'administer tags vocabulary terms',
-      'administer taxonomy',
       'create any articles bean',
       'create any article_feature bean',
       'create any article_grid bean',
@@ -58,12 +55,14 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_feature bean',
       'view any article_grid bean',
       'view any article_slider bean',
+      'administer byline vocabulary terms',
+      'administer category vocabulary terms',
+      'administer tags vocabulary terms',
     ),
     'content_editor' => array(
       'administer category vocabulary terms',
       'administer byline vocabulary terms',
       'administer tags vocabulary terms',
-      'administer taxonomy',
       'create any articles bean',
       'create any article_feature bean',
       'create any article_grid bean',
@@ -90,12 +89,14 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_feature bean',
       'view any article_grid bean',
       'view any article_slider bean',
+      'administer byline vocabulary terms',
+      'administer category vocabulary terms',
+      'administer tags vocabulary terms',
     ),
     'developer' => array(
       'administer category vocabulary terms',
       'administer byline vocabulary terms',
       'administer tags vocabulary terms',
-      'administer taxonomy',
       'create any articles bean',
       'create any article_feature bean',
       'create any article_grid bean',
@@ -122,6 +123,9 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_feature bean',
       'view any article_grid bean',
       'view any article_slider bean',
+      'administer byline vocabulary terms',
+      'administer category vocabulary terms',
+      'administer tags vocabulary terms',
     ),
     'edit_my_content' => array(
       'view any articles bean',
@@ -133,7 +137,6 @@ function cu_news_bundle_secure_permissions($role) {
       'administer category vocabulary terms',
       'administer byline vocabulary terms',
       'administer tags vocabulary terms',
-      'administer taxonomy',
       'create any articles bean',
       'create any article_feature bean',
       'create any article_grid bean',
@@ -160,6 +163,9 @@ function cu_news_bundle_secure_permissions($role) {
       'view any article_feature bean',
       'view any article_grid bean',
       'view any article_slider bean',
+      'administer byline vocabulary terms',
+      'administer category vocabulary terms',
+      'administer tags vocabulary terms',
     ),
   );
 
@@ -203,12 +209,12 @@ function cu_news_bundle_express_help($variables) {
   $variables['block/add/articles'][] = array(
     'title' => 'Article list block help',
     'short_title' => 'Article list block help',
-    'url' => '/node/464',
+    'url' => '/node/472',
   );
   $variables['block/edit/articles'][] = array(
     'title' => 'Article list block help',
     'short_title' => 'Article list block help',
-    'url' => '/node/464',
+    'url' => '/node/472',
   );
   $variables['block/add/article-slider'][] = array(
     'title' => 'Article slider block help',
@@ -223,12 +229,12 @@ function cu_news_bundle_express_help($variables) {
   $variables['block/add/article-feature'][] = array(
     'title' => 'Article feature block help',
     'short_title' => 'Article feature block help',
-    'url' => '/node/742',
+    'url' => '/node/1050',
   );
   $variables['block/edit/article-feature'][] = array(
     'title' => 'Article feature block help',
     'short_title' => 'Article feature block help',
-    'url' => '/node/742',
+    'url' => '/node/1050',
   );
 
   return $variables;

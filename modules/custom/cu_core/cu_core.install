@@ -12,6 +12,44 @@ function cu_core_enable() {
  */
 function cu_core_install() {
 
+  theme_enable(array(
+    'cuhighlight',
+    'cuivory',
+    'culayers',
+    'cuminimal',
+    'cumodern',
+    'curise',
+    'cushadow',
+    'cusimple',
+    'cuspirit',
+    'cuswatch',
+    'cutradition',
+  ));
+
+  // these modules need to be enabled late in the install process and/or to be ignored by profile_module_manager's report.
+  $module_array = array(
+    'cu_users',
+    'cu_inventory',
+    'cu_inventory_stats',
+    'cu_cache',
+    'memcache',
+    'varnish'  // Adding caching modules here for changes involving Travis CI testing.
+  );
+
+  module_enable($module_array);
+
+  profile_module_manager_add_to_ignore($module_array);
+
+  // Add blocks shortcut to shortcuts set.
+  $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
+  $shortcut_set->links[] =
+  array(
+    'link_path' => 'admin/content/blocks',
+    'link_title' => st('Blocks'),
+    'weight' => -18,
+  );
+  shortcut_set_save($shortcut_set);
+
   //set default variables for user_external_invite
   if (db_table_exists('user_external_invite') && !db_field_exists('user_external_invite', 'message')) {
     $spec = array(
@@ -43,8 +81,6 @@ function cu_core_install() {
   variable_set('site_slogan', 'University of Colorado Boulder');
 
   variable_set('express_help_base_url', 'http://www.colorado.edu/webcentral');
-
-  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, cu_cache, varnish, memcache, cu_redirect');
 
   // Set SEO bundle to be hidden in bundle list form.
   variable_set('profile_module_manager_bundle_ignore', array('cu_seo_bundle' => 'cu_seo_bundle'));
@@ -140,6 +176,18 @@ You can now .+configure the CAPTCHA module.+ for your site.
 Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
 
   variable_set('express_layout_node_type_ignore', array('file'));
+
+  db_update('responsive_preview')
+    ->fields(array('status' => 0,))
+  ->execute();
+
+  db_update('responsive_preview')
+    ->fields(array('status' => 1,))
+    ->condition(db_or()
+      ->condition('name', 'medium')
+      ->condition('name', 'small')
+    )
+  ->execute();
 }
 
 /**
@@ -216,15 +264,10 @@ function cu_core_update_7002() {
     ->condition('delta', 'help')
     ->execute();
 
-  // revert features
-  $features = array(
-    'cu_extended_content_search',
-  );
-
   cu_core_revert_features();
 
   // Run on every update
-  express_inventory_update('7002');
+  cu_core_inventory_update('7002');
 }
 
 /**
@@ -247,7 +290,7 @@ function cu_core_update_7003() {
   variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, memcache');
 
   // Run on every update
-  express_inventory_update('7003');
+  cu_core_inventory_update('7003');
 }
 
 /**
@@ -263,6 +306,8 @@ function cu_core_update_7004() {
     'more_menus',
     'cu_shortcuts',
   ));
+
+  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, memcache, entityreference, express_layout, cu_ldap, ldap_authentication, ldap_servers');
 
   // Remove duplicates in shortcut menu
   $shortcuts = array();
@@ -280,7 +325,58 @@ function cu_core_update_7004() {
   }
 
   // Run on every update
-  express_inventory_update('7004');
+  cu_core_inventory_update('7004');
+}
+
+/**
+ * Express Update 7005.
+ * Removing cu_livechat module, enabling responsive_preview, reverting features
+ */
+function cu_core_update_7005() {
+  // Disable cu_livechat module.
+  module_disable(array(
+    'cu_livechat',
+  ));
+
+  // Uninstall cu_livechat module.
+  drupal_uninstall_modules(array(
+    'cu_livechat',
+  ));
+
+  module_enable(array('responsive_preview'));
+
+  db_update('responsive_preview')
+    ->fields(array('status' => 0,))
+  ->execute();
+
+  db_update('responsive_preview')
+    ->fields(array('status' => 1,))
+    ->condition(db_or()
+      ->condition('name', 'medium')
+      ->condition('name', 'small')
+    )
+  ->execute();
+
+  cu_core_revert_features();
+
+  // Run on every update
+  cu_core_inventory_update('7005');
+}
+
+/**
+ * Express Update 7006.
+ * Enabling dashboards, reverting features
+ */
+function cu_core_update_7006() {
+
+  variable_set('express_core_version', 'cu_core');
+
+  module_enable(array('express_dashboards', 'express_dashboard_user', 'context_sitewide_public'));
+
+  cu_core_revert_features();
+
+  // Run on every update
+  cu_core_inventory_update('7006');
 }
 
 /**
@@ -315,8 +411,8 @@ function cu_core_revert_features($features = NULL) {
 /**
  * Updates inventory with profile version.
  */
-function express_inventory_update($version) {
-  // Do at the end of every update.
-  module_load_include('inc', 'cu_inventory');
-  cu_inventory_process_profile_version($version);
+function cu_core_inventory_update($version) {
+  if (module_exists('cu_inventory')) {
+    cu_inventory_process_core_version($version);
+  }
 }

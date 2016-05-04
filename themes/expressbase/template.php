@@ -1,4 +1,26 @@
 <?php
+
+/**
+ * Implements hook_css_alter().
+ *
+ * Remove jquery UI styles, alter stylesheet type for better printing.
+ */
+function expressbase_css_alter(&$css) {
+  // Remove jquery ui stylesheet.
+  unset($css['misc/ui/jquery.ui.theme.css']);
+  // Set all non-print css to screen so print css is cleaner
+  foreach ($css as $key => $stylesheet) {
+    if ($stylesheet['media'] == 'all') {
+      //swap these lines for browser debugging
+      $css[$key]['media'] = 'screen';
+      //unset($css[$key]);
+    } elseif ($stylesheet['media'] == 'print') {
+      // uncomment line below for browser debugging
+      //$css[$key]['media'] = 'screen';
+    }
+  }
+}
+
 /**
  * Implements theme_preprocess_html.
  */
@@ -25,8 +47,19 @@ function expressbase_preprocess_html(&$vars) {
     ),
   );
   drupal_add_html_head($element, 'ie_compatibility_mode');
-
-  // Add campus name to title
+  // Setting title so we get the value from meta tag
+  // Get meta tag title - $vars['head_array']['title']
+  if (!empty($vars['head_array']['title'])) {
+    $meta_title = $vars['head_array']['title'];
+    // Get and trim site name
+    $site_name = trim(variable_get('site_name', ''));
+    // If site name is in meta tag title, remove site name from title array
+    $vars['head_title_array']['title'] = $vars['head_array']['title'];
+    if (strpos($meta_title, $site_name) !== false) {
+      unset($vars['head_title_array']['name']);
+    }
+  }
+  // Add Campus name to title
   $vars['head_title_array']['slogan'] = 'University of Colorado Boulder';
   $vars['head_title'] = implode(' | ', $vars['head_title_array']);
 
@@ -88,6 +121,22 @@ function expressbase_page_alter(&$page) {
         '#theme_wrappers' => array('region'),
       );
     }
+  }
+
+  $is_responsive = theme_get_setting('alpha_responsive', variable_get('theme_default', ''));
+  if (!$is_responsive && user_access('administer express settings')) {
+    $link['href'] = 'admin/theme/config/' . variable_get('theme_default' , '');
+    $link['html'] = TRUE;
+    $link['fragment'] = 'edit-expressbase-theme-settings';
+    $link['query']['responsive'] = 1;
+    $link['attributes'] = array(
+      'target' => 'parent',
+    );
+    $link = l('<i class="fa fa-cog"></i> Make your site mobile friendly', $link['href'], $link);
+    $page['page_top']['notice']['warning']['#markup'] = '<p>This site is not responsive.</p>';
+    $page['page_top']['notice']['link']['#markup'] = $link;
+    $page['page_top']['notice']['#prefix'] = '<div class="responsive-notice">';
+    $page['page_top']['notice']['#suffix'] = '</div>';
   }
 }
 

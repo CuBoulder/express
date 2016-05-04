@@ -22,7 +22,6 @@ function cu_people_bundle_secure_permissions($role) {
       'administer people_filter_2 vocabulary terms',
       'administer people_filter_3 vocabulary terms',
       'administer person_type vocabulary terms',
-      'administer taxonomy',
       'create any people_list_block bean',
       'create people_list_page content',
       'create person content',
@@ -50,7 +49,6 @@ function cu_people_bundle_secure_permissions($role) {
       'administer people_filter_2 vocabulary terms',
       'administer people_filter_3 vocabulary terms',
       'administer person_type vocabulary terms',
-      'administer taxonomy',
       'create any people_list_block bean',
       'create people_list_page content',
       'create person content',
@@ -72,7 +70,6 @@ function cu_people_bundle_secure_permissions($role) {
       'administer people_filter_2 vocabulary terms',
       'administer people_filter_3 vocabulary terms',
       'administer person_type vocabulary terms',
-      'administer taxonomy',
       'create any people_list_block bean',
       'create people_list_page content',
       'create person content',
@@ -96,7 +93,6 @@ function cu_people_bundle_secure_permissions($role) {
       'administer people_filter_1 vocabulary terms',
       'administer people_filter_2 vocabulary terms',
       'administer people_filter_3 vocabulary terms',
-      'administer taxonomy',
       'administer person_type vocabulary terms',
       'create any people_list_block bean',
       'create people_list_page content',
@@ -157,4 +153,22 @@ function cu_people_bundle_express_help($variables) {
   );
 
   return $variables;
+}
+
+/**
+ * Implements hook_menu().
+ */
+function cu_people_bundle_menu() {
+  $items = array();
+  $items['admin/settings/people'] = array(
+    'title' => 'People',
+    'description' => 'Menu Options Related to Feedback',
+    'position' => 'right',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer express settings'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+    'weight' => 1,
+  );
+  return $items;
 }
