@@ -601,7 +601,7 @@ function cu_inventory_validate_site($site_array) {
  * Determine which Inventory we are connected to.
  *
  * @return string
- *   dev or prod environment for the Inventory
+ *   local, dev, test, or prod environment for the Inventory
  */
 function cu_inventory_connected_env() {
   $response = drupal_http_request(getenv("CU_CENTRAL_EVE"));
