@@ -815,6 +815,7 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: #e0e
 .title-image-breadcrumbs-wrapper a { color: #cfb87c; }
 
 .title-image-breadcrumbs-wrapper .breadcrumb { padding: 0; }
+.title-image-breadcrumbs-wrapper .breadcrumb a { color: #e6cc8a; }
 
 .feature-layout-title-image .author-meta { margin: 0; }
 
