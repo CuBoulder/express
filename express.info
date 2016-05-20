@@ -1,5 +1,5 @@
 ; Packaging information for express
-name = "express"
+name = "Express"
 description = "Express installation profile"
 exclusive = "1"
 core = "7.x"

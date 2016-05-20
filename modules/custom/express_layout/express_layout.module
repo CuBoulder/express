@@ -141,7 +141,7 @@ function express_layout_access($op, $node) {
 function express_layout_permission() {
   return array(
     'administer express layout' => array(
-      'title' => 'Administer CU Block Selector',
+      'title' => 'Administer Express Layout',
       'description' => 'Configure content types/fields on which to use block selector',
     ),
     'edit express layouts' => array(
