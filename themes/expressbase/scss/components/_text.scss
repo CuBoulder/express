@@ -97,6 +97,9 @@ h1#page-title-image-title,
   font-size: 220%;
   font-weight: 200;
   font-family:$base_font;
+  i, em {
+    font-style: italic;
+  }
 }
 .layout-responsive {
   h1#page-title,
