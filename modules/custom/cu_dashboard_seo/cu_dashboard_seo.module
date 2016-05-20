@@ -320,7 +320,7 @@ function cu_dashboard_seo_last_updated() {
     $timestamps[] = current($bean_result);
   }
   // Compare dates and get the most recent
-  sort($timestamps);
+  rsort($timestamps);
   $now = getdate();
   $interval = $now[0] - $timestamps[0];
   $interval = floor($interval/3600/24);
