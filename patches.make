@@ -30,3 +30,6 @@ projects[responsive_preview][patch][] = "https://www.drupal.org/files/issues/res
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-1768
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-disable-on-cron-2704193-7-3.patch
+
+; @see https://cuboulder.atlassian.net/browse/FIT-1879 and https://www.drupal.org/node/1809958
+projects[views][patch][] = https://www.drupal.org/files/issues/views-undefined_var_ajax_exposed_filter-1809958-37.patch
