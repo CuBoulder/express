@@ -72,3 +72,13 @@ function _cu_redirect_set_redirect($source = NULL, $destination = NULL) {
     throw $e;
   }
 }
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Remove 300 redirect option from form.
+ */
+function cu_redirect_form_redirect_edit_form_alter(&$form, &$form_state, $form_id) {
+  if (!empty($form['advanced']['status_code'])) {
+    unset($form['advanced']['status_code']['#options'][300]);
+  }
+}
