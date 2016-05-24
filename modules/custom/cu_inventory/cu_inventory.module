@@ -28,7 +28,6 @@ function cu_inventory_menu() {
 
    // if the inventory isn't up, you can't do any of this
    if (!cu_inventory_is_up()) {
-     dpm(getenv("CU_CENTRAL_EVE"));
      drupal_set_message(t("Inventory must be up to configure these settings"), 'error');
      return;
    }
