@@ -363,7 +363,7 @@ function cu_core_update_7005() {
 
 /**
  * Express Update 7006.
- * Enabling dashboards, reverting features
+ * Enabling dashboards, reverting features.
  */
 function cu_core_update_7006() {
 
@@ -379,7 +379,7 @@ function cu_core_update_7006() {
 
 /**
  * Express Update 7006.
- * Enabling dashboards, reverting features
+ * Showing SEO dashboard, reverting features.
  */
 function cu_core_update_7007() {
   // Set SEO bundle to be hidden in bundle list form.
