@@ -388,7 +388,7 @@ function cu_core_update_7007() {
   cu_core_revert_features();
 
   // Run on every update
-  cu_core_inventory_update('7006');
+  cu_core_inventory_update('7007');
 }
 
 
