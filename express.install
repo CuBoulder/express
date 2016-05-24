@@ -145,3 +145,12 @@ function express_update_7001() {
   registry_rebuild();
 }
 
+/**
+ * Express 2.2.1 Updates
+ */
+function express_update_7002() {
+  module_disable(array(
+    'cu_cache',
+  ));
+}
+
