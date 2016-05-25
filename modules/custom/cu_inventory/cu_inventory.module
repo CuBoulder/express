@@ -105,7 +105,7 @@ function cu_inventory_menu() {
      '#rows' => 5,
      '#default_value' => variable_get('dslm_add_contrib'),
      '#title' => t('Add Contrib'),
-     '#description' => t('Comma seperated list of the machine names additional projects to symlink.  These must already be registed in the dslm_base/packages.'),
+     '#description' => t('Comma separated list of the machine names additional projects to symlink. These must already be registered in packages_base.'),
    );
 
    return system_settings_form($form);
