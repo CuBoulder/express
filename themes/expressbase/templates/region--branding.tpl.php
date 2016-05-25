@@ -23,8 +23,8 @@
   ?>
   <?php
     // Link images to <front> and add site name
-    print l($custom_logo['white']->markup, '<front>', array('attributes' => array('rel' => 'home', 'title' => check_plain($site_name)), 'html' => TRUE));
-    print l($custom_logo['black']->markup, '<front>', array('attributes' => array('rel' => 'home', 'title' => check_plain($site_name)), 'html' => TRUE));
+    print l($custom_logo['white']->markup, '<front>', array('attributes' => array('rel' => 'home', 'title' => check_plain($site_name), 'class' => array('custom-logo-link')), 'html' => TRUE));
+    print l($custom_logo['black']->markup, '<front>', array('attributes' => array('rel' => 'home', 'title' => check_plain($site_name), 'class' => array('custom-logo-link')), 'html' => TRUE));
   ?>
   <div class="element-invisible">
     <?php if ($site_name || $site_slogan): ?>

@@ -55,6 +55,9 @@ table { border-collapse: collapse; border-spacing: 0; }
 
 img.custom-logo { max-width: 100%; }
 
+a.custom-logo-link { display: block; padding-right: 35px; }
+
+@media screen and (min-width: 480px) { a.custom-logo-link { padding-right: 65px; } }
 #cu-footer img { max-width: 300px; width: 100%; height: auto; }
 
 .layout-responsive #search { display: none; }
@@ -538,6 +541,10 @@ html { box-sizing: border-box; }
 
 .clear { clear: both; }
 
+/* Regions */
+.region-content-bottom { clear: both; }
+
+/* Responsive Preview */
 .layout-fixed1 #responsive-preview-navbar-tab { display: none !important; }
 
 .responsive-notice { display: none; }
