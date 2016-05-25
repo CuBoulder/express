@@ -112,7 +112,7 @@ function express_install() {
 
   // Set google_appliance_error_gsa_no_results_format to wysiwyg
   variable_set('google_appliance_error_gsa_no_results_format', 'wysiwyg');
-  
+
   // Moved from cu_cache.
   variable_set('honeypot_element_name', 'url');
   variable_set('honeypot_form_user_pass', 0);
@@ -144,14 +144,3 @@ function express_update_7001() {
   // Registry rebuild due to contrib module updates.
   registry_rebuild();
 }
-
-/**
- * Express 2.2.1 Updates
- */
-function express_update_7002() {
-  module_disable(array(
-    'cu_cache',
-    'cu_bucket',
-  ));
-}
-
