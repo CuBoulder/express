@@ -151,6 +151,7 @@ function express_update_7001() {
 function express_update_7002() {
   module_disable(array(
     'cu_cache',
+    'cu_bucket',
   ));
 }
 
