@@ -541,6 +541,10 @@ html { box-sizing: border-box; }
 
 .clear { clear: both; }
 
+/* Regions */
+.region-content-bottom { clear: both; }
+
+/* Responsive Preview */
 .layout-fixed1 #responsive-preview-navbar-tab { display: none !important; }
 
 .responsive-notice { display: none; }
