@@ -196,3 +196,4 @@ function express_menu_alter(&$items) {
   // tried but didn't work.  Not sure why, but out of time.
   $items['admin/people']['title'] = 'Users';
 }
+

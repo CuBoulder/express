@@ -243,7 +243,10 @@ function cu_article_preprocess_entity(&$vars) {
       if (isset($output)) {
         $vars['content'] = $output;
       }
-    } else {
+    }
+    else {
+      $type = $vars['elements']['#bundle'];
+      _cu_article_bean_null_results($vars, $type);
       $vars['content'] = '';
     }
 
@@ -314,8 +317,14 @@ function cu_article_preprocess_entity(&$vars) {
         $output['articles']['nodes'][$nid]['#suffix'] = '</div>';
         $i++;
       }
+      $vars['content'] = array_merge($vars['content'], $output);
     }
-    $vars['content'] = array_merge($vars['content'], $output);
+    else {
+      $type = $vars['elements']['#bundle'];
+      _cu_article_bean_null_results($vars, $type);
+      $vars['content'] = '';
+    }
+
   }
 
   // Article Feature Bean
@@ -364,42 +373,51 @@ function cu_article_preprocess_entity(&$vars) {
     $query->groupBy('n.nid');
     $nids = $query->execute()->fetchCol();
     $nodes = node_load_multiple($nids);
-    // Get the first article so we can style it differently
-    // Not using array_shift because it does not preserve keys
-    $first_key = key($nodes);
-    $top_article = $nodes[$first_key];
-    unset($nodes[$first_key]);
-    $output = array();
 
-    // Show categories option
-    $show_category = !empty($vars['elements']['#entity']->field_article_feature_show_cat) ? $vars['elements']['#entity']->field_article_feature_show_cat[LANGUAGE_NONE][0]['value'] : 'hide';
-    // View mdoes for articles in feature article bean.
-    $view_modes['feature'] = array(
-      'hide' => 'feature',
-      'show' => 'feature_category',
-    );
-    $view_modes['sidebar'] = array(
-      'hide' => 'sidebar',
-      'show' => 'sidebar_category',
-    );
-    $output['top_article'] = node_view($top_article, $view_modes['feature'][$show_category]);
-    // Change the image style of the first article
-    $output['top_article']['field_article_thumbnail'][0]['#image_style'] = $image_style;
-    $output['top_article']['#prefix'] = '<div class="article-feature-top">';
-    $output['top_article']['#suffix'] = '</div>';
-    // Do the rest of the articles
-    $remaining_nodes = node_view_multiple($nodes, $view_modes['sidebar'][$show_category]);
-    foreach($remaining_nodes as $key => $remaining_node) {
-      // Insert categories here
+    // Build output.
+    if (!empty($nodes)) {
+      // Get the first article so we can style it differently
+      // Not using array_shift because it does not preserve keys
+      $first_key = key($nodes);
+      $top_article = $nodes[$first_key];
+      unset($nodes[$first_key]);
+      $output = array();
+
+      // Show categories option
+      $show_category = !empty($vars['elements']['#entity']->field_article_feature_show_cat) ? $vars['elements']['#entity']->field_article_feature_show_cat[LANGUAGE_NONE][0]['value'] : 'hide';
+      // View mdoes for articles in feature article bean.
+      $view_modes['feature'] = array(
+        'hide' => 'feature',
+        'show' => 'feature_category',
+      );
+      $view_modes['sidebar'] = array(
+        'hide' => 'sidebar',
+        'show' => 'sidebar_category',
+      );
+      $output['top_article'] = node_view($top_article, $view_modes['feature'][$show_category]);
+      // Change the image style of the first article
+      $output['top_article']['field_article_thumbnail'][0]['#image_style'] = $image_style;
+      $output['top_article']['#prefix'] = '<div class="article-feature-top">';
+      $output['top_article']['#suffix'] = '</div>';
+      // Do the rest of the articles
+      $remaining_nodes = node_view_multiple($nodes, $view_modes['sidebar'][$show_category]);
+      foreach($remaining_nodes as $key => $remaining_node) {
+        // Insert categories here
+      }
+      $output['articles']['remaining'] = $remaining_nodes;
+      $output['articles']['more'] = isset($vars['content']['field_article_link']) ? $vars['content']['field_article_link'] : '';
+      $output['articles']['#prefix'] = '<div class="article-feature-remaining clearfix">';
+      $output['articles']['#suffix'] = '</div>';
+      $vars['content'] = $output;
+      // Add classes to set layout
+      $vars['content']['#prefix'] = '<div class="article-feature ' . $display . '">';
+      $vars['content']['#suffix'] = '</div>';
     }
-    $output['articles']['remaining'] = $remaining_nodes;
-    $output['articles']['more'] = isset($vars['content']['field_article_link']) ? $vars['content']['field_article_link'] : '';
-    $output['articles']['#prefix'] = '<div class="article-feature-remaining clearfix">';
-    $output['articles']['#suffix'] = '</div>';
-    $vars['content'] = $output;
-    // Add classes to set layout
-    $vars['content']['#prefix'] = '<div class="article-feature ' . $display . '">';
-    $vars['content']['#suffix'] = '</div>';
+    else {
+      $type = $vars['elements']['#bundle'];
+      _cu_article_bean_null_results($vars, $type);
+      $vars['content'] = '';
+    }
   }
 
   if ($vars['elements']['#bundle'] == 'article_slider') {
@@ -470,11 +488,33 @@ function cu_article_preprocess_entity(&$vars) {
       }
       $output['articles']['#prefix'] = '<div class="article-slider">';
       $output['articles']['#suffix'] = '</div>';
+      unset($vars['content']['article_slider_entity_view_1']);
+      $vars['content']['article_slider'] = $output;
     }
-    unset($vars['content']['article_slider_entity_view_1']);
-    $vars['content']['article_slider'] = $output;
+    else {
+      $vars['content'] = array_merge($vars['content'], $output);
+      $vars['content'] = '';
+    }
+
   }
 }
+
+/**
+ * Returns message if bean has no result.
+ */
+function _cu_article_bean_null_results($vars, $type = NULL) {
+  if ($type) {
+    $permission = 'edit any ' . $type . ' bean';
+    if (user_access($permission)) {
+      $delta = $vars['elements']['#entity']->delta;
+      $label = $vars['elements']['#entity']->label;
+      $edit = l($label, 'block/' . $delta . '/edit');
+      drupal_set_message(t('!label has no results', array('!label' => $edit)), 'warning');
+    }
+  }
+}
+
+
 
 /**
  * Implements hook_preprocess_node().

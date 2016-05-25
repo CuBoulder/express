@@ -161,3 +161,10 @@ html {
     background-color: #007BC8;
   }
 }
+
+/* More Link */
+
+.field-type-text-with-summary .more-link:before {
+  content: " ";
+  white-space: nowrap;
+}

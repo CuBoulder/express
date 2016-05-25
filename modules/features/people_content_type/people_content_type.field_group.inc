@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function people_content_type_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -39,7 +39,7 @@ function people_content_type_field_group_info() {
       ),
     ),
   );
-  $export['group_contact|node|person|form'] = $field_group;
+  $field_groups['group_contact|node|person|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -66,7 +66,7 @@ function people_content_type_field_group_info() {
       ),
     ),
   );
-  $export['group_information|node|person|form'] = $field_group;
+  $field_groups['group_information|node|person|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -96,7 +96,7 @@ function people_content_type_field_group_info() {
       ),
     ),
   );
-  $export['group_other|node|person|form'] = $field_group;
+  $field_groups['group_other|node|person|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -128,7 +128,7 @@ function people_content_type_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_people_filter_display|node|people_list_page|form'] = $field_group;
+  $field_groups['group_people_filter_display|node|people_list_page|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -156,7 +156,7 @@ function people_content_type_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_people_list_display|node|people_list_page|form'] = $field_group;
+  $field_groups['group_people_list_display|node|people_list_page|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -188,7 +188,7 @@ function people_content_type_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_people_list_filter|bean|people_list_block|form'] = $field_group;
+  $field_groups['group_people_list_filter|bean|people_list_block|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -223,7 +223,7 @@ function people_content_type_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_people_list_filter|node|people_list_page|form'] = $field_group;
+  $field_groups['group_people_list_filter|node|people_list_page|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -255,7 +255,18 @@ function people_content_type_field_group_info() {
       ),
     ),
   );
-  $export['group_personal|node|person|form'] = $field_group;
+  $field_groups['group_personal|node|person|form'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Contact');
+  t('Display/Format');
+  t('Filter');
+  t('Filter/Group/Order');
+  t('Information');
+  t('Other');
+  t('Personal');
+  t('Show/Hide Filters');
+
+  return $field_groups;
 }

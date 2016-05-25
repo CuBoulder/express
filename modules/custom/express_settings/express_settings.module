@@ -4,6 +4,22 @@
  */
 
 /**
+ * Implements hook_permission().
+ */
+function express_settings_permission() {
+  return array(
+    'administer express settings' => array(
+      'title' => 'Administer Express Settings',
+      'description' => 'Access admin/settings to configure settings',
+    ),
+    'administer redirect settings' => array(
+      'title' => 'Administer Redirect Settings',
+      'description' => 'Overrides some permissions of the Redirect contrib project to expose specific settings to users',
+    ),
+  );
+}
+
+/**
  * Implements hook_menu().
  */
 function express_settings_menu() {
@@ -326,20 +342,7 @@ function express_settings_preprocess_html(&$variables) {
   }
 }
 
-/**
- * Implements hook_permission().
- */
-function express_settings_permission() {
-  return array(
-    'administer express settings' => array(
-      'title' => 'Administer Express Settings',
-      'description' => 'Access admin/settings to configure settings for CU',
-    ),
-    'administer redirect settings' => array(
-      'title' => 'Administer Redirect Settings',
-    ),
-  );
-}
+
 
 /**
  * Menu callback; Provide the administration overview page.

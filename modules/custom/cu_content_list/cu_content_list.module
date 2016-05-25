@@ -187,7 +187,10 @@ function cu_content_list_secure_permissions($role) {
       'edit own content_list_page content',
     ),
   );
-  return $permissions[$role];
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
 }
 
 /**

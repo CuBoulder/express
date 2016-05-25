@@ -40,6 +40,11 @@ function _cu_rss_block_form_validate($form, &$form_state) {
   }
 }
 
+function _cu_rss_block_cdata_filter($matches) {
+    $converted = htmlspecialchars($matches[1]);
+    $trimmed = trim($converted);
+    return $trimmed;
+}
 
 /**
  * Implements hook_preprocess_entity().
@@ -59,8 +64,17 @@ function cu_rss_block_preprocess_entity(&$vars) {
     } else {
       $response = drupal_http_request($url);
       if ($response->code == '200') {
-        $data = new SimpleXMLElement($response->data);
-        $data = drupal_json_decode(drupal_json_encode($data));
+
+        // remove <![CDATA[]]>
+        $xml = preg_replace_callback('/<!\[CDATA\[(.*)\]\]>/', '_cu_rss_block_cdata_filter', $response->data);
+
+        // Create new XMLElement
+        $data = new SimpleXMLElement($xml);
+
+        // Convert into a nice array for us to work with.
+        $data = json_encode($data);
+        $data = json_decode($data, true);
+        // Save to cache for 30 minutes
         cache_set('rss_feed-' . $url, $data, 'cache', time() + 60 * 30);
       }
     }
@@ -145,7 +159,10 @@ function cu_rss_block_secure_permissions($role) {
       'view any rss bean',
     ),
   );
-  return $permissions[$role];
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
 }
 
 function cu_rss_block_express_bean_list_groups($bundles) {

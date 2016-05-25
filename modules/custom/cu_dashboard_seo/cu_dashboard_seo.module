@@ -141,11 +141,11 @@ function cu_dashboard_seo_checklist() {
     'callback' => 'cu_seo_checklist_link_checker',
   );
   $checklist['site_map'] = array(
-    'title' => 'Site Map',
+    'title' => 'Sitemap',
     'weight' => '3',
     'description' => array(
-      '0' => 'Configure and add your site map file to be used with Google Search Console.',
-      '1' => 'Configure and add your site map file to be used with Google Search Console.',
+      '0' => 'Configure and add your sitemap file to be used with Google Search Console.',
+      '1' => 'Configure and add your sitemap file to be used with Google Search Console.',
     ),
     'path' => 'admin/settings/seo/xmlsitemap',
     'callback' => 'cu_seo_checklist_site_map',
@@ -320,7 +320,7 @@ function cu_dashboard_seo_last_updated() {
     $timestamps[] = current($bean_result);
   }
   // Compare dates and get the most recent
-  sort($timestamps);
+  rsort($timestamps);
   $now = getdate();
   $interval = $now[0] - $timestamps[0];
   $interval = floor($interval/3600/24);
