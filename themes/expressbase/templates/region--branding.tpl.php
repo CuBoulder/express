@@ -6,7 +6,10 @@
     <?php print $print_logo; ?>
   </div>
 </div>
-
+<?php
+  // Markup for site name
+  $site_name_tag = drupal_is_front_page() ? 'h1' : 'div';
+?>
 <?php if (variable_get('custom_white_logo') && variable_get('custom_black_logo')): ?>
   <?php
     // Load logo files
@@ -27,9 +30,9 @@
     <?php if ($site_name || $site_slogan): ?>
       <div class="header__name-and-slogan" id="name-and-slogan">
         <?php if ($site_name): ?>
-          <h1 class="header__site-name" id="site-name">
+          <<?php print $site_name_tag; ?> class="header__site-name" id="site-name">
             <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" class="header__site-link" rel="home"><span><?php print $site_name; ?></span></a>
-          </h1>
+          </<?php print $site_name_tag; ?>>
         <?php endif; ?>
 
         <?php if ($site_slogan): ?>
@@ -47,9 +50,9 @@
   <?php if ($site_name || $site_slogan): ?>
     <div class="header__name-and-slogan" id="name-and-slogan">
       <?php if ($site_name): ?>
-        <h1 class="header__site-name" id="site-name">
+        <<?php print $site_name_tag; ?> class="header__site-name" id="site-name">
           <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" class="header__site-link" rel="home"><span><?php print $site_name; ?></span></a>
-        </h1>
+        </<?php print $site_name_tag; ?>>
       <?php endif; ?>
 
       <?php if ($site_slogan): ?>
