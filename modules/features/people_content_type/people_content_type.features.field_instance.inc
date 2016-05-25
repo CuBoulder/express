@@ -973,7 +973,7 @@ function people_content_type_field_default_field_instances() {
         'module' => 'smart_trim',
         'settings' => array(
           'more_link' => 1,
-          'more_text' => 'Read more',
+          'more_text' => 'Read more »',
           'summary_handler' => 'full',
           'trim_length' => 100,
           'trim_link' => 0,
@@ -2168,6 +2168,10 @@ function people_content_type_field_default_field_instances() {
   t('Filter 3');
   t('First Name');
   t('Group By');
+  t('If there are no terms to filter by, This setting has no effect and the filter will not be shown.');
+  t('If there are no terms to filter by, this setting has no effect and the filter will not be shown.');
+  t('If you have chosen to customize by Department filter above, this setting has no effect and the filter will not be shown.');
+  t('If you have chosen to customize by Job Type Filter above,t his setting has no effect and the filter will not be shown.');
   t('Job Type');
   t('Last Name');
   t('Links');
@@ -2180,9 +2184,6 @@ function people_content_type_field_default_field_instances() {
   t('Show Filter 2');
   t('Show Filter 3');
   t('Show Job Type Filter');
-  t('If there are no terms to filter by, This setting has no effect and the filter will not be shown.');
-  t('If you have chosen to customize by Department filter above, this setting has no effect and the filter will not be shown.');
-  t('If you have chosen to customize by Job Type Filter above, this setting has no effect and the filter will not be shown.');
   t('Thumbnail');
   t('Title');
   t('Used to group people into categories such as administration, faculty, staff, etc.');

@@ -82,8 +82,6 @@ function cu_core_install() {
 
   variable_set('express_help_base_url', 'http://www.colorado.edu/webcentral');
 
-  // Set SEO bundle to be hidden in bundle list form.
-  variable_set('profile_module_manager_bundle_ignore', array('cu_seo_bundle' => 'cu_seo_bundle'));
   // Set message for when enabling of bundles is turned off.
   variable_set('profile_module_manager_disable_enabling_text', 'Due to unexpectedly high load on the servers, the option to enable bundles has temporarily been disabled.  Please check back tomorrow.');
 
@@ -365,18 +363,49 @@ function cu_core_update_7005() {
 
 /**
  * Express Update 7006.
- * Enabling dashboards, reverting features
+ * Enabling dashboards, reverting features.
  */
 function cu_core_update_7006() {
 
   variable_set('express_core_version', 'cu_core');
 
-  module_enable(array('express_dashboards', 'express_dashboard_user'));
+  module_enable(array('express_dashboards', 'express_dashboard_user', 'context_sitewide_public'));
 
   cu_core_revert_features();
 
   // Run on every update
   cu_core_inventory_update('7006');
+}
+
+/**
+ * Express Update 7007.
+ * Converting Profile Module Manager variable to an array.
+ */
+function cu_core_update_7007() {
+  $ignore_modules = variable_get('profile_module_manager_ignore', array());
+  // Check to see whether variable is array.
+  // If it is an array, don't do anything.
+  if (!is_array($ignore_modules)) {
+    $ignore_modules = explode(',', $ignore_modules);
+    variable_set('profile_module_manager_ignore', $ignore_modules);
+  }
+
+  // Run on every update
+  cu_core_inventory_update('7007');
+}
+
+/**
+ * Express Update 7008.
+ * Showing SEO dashboard, reverting features.
+ */
+function cu_core_update_7008() {
+  // Set SEO bundle to be hidden in bundle list form.
+  variable_del('profile_module_manager_bundle_ignore');
+
+  cu_core_revert_features();
+
+  // Run on every update
+  cu_core_inventory_update('7008');
 }
 
 /**

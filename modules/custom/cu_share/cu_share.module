@@ -22,11 +22,28 @@ function cu_share_menu() {
  * Implements hook_page_alter().
  */
 function cu_share_page_alter(&$page) {
+  if (variable_get('cu_share_advanced_settings', NULL)) {
+    // Define empty array to be passed to execute function.
+    $op = array();
 
-  // If social share context reaction was set, do that first
-  if ($plugin = context_get_plugin('reaction', 'cu_share')) {
-    if ($plugin->execute()) {
-      cu_share_output(&$page);
+    // If social share context reaction was set, do that first
+    if ($plugin = context_get_plugin('reaction', 'cu_share')) {
+      if ($plugin->execute($page, $op)) {
+        cu_share_output($page);
+      }
+    }
+  }
+  else {
+    $settings = variable_get('cu_share_basic_settings', NULL);
+    // Don't add share links on admin paths
+    if ($settings && !path_is_admin(current_path()) && !drupal_is_front_page()) {
+      // Get current node
+      if ($node = menu_get_object()) {
+        $type = $node->type;
+        if ($settings[$type]) {
+          cu_share_output($page);
+        }
+      }
     }
   }
 
@@ -112,6 +129,10 @@ function cu_share_permission() {
 function cu_share_settings_form($form, &$form_state) {
   $form = array();
 
+  $form['description'] = array(
+    '#markup' => '<p>Add links for your visitors to share your sites pages with others via email and social media.</p> <p>These links should be displayed on content that your visitors will share with others. They should not be added to the site home page.</p>',
+    '#weight' => -100,
+  );
   $form['position'] = array(
     '#type' => 'fieldset',
     '#title' => 'Position Settings',
@@ -130,6 +151,46 @@ function cu_share_settings_form($form, &$form_state) {
     '#default_value' => variable_get('cu_share_position', 'none'),
   );
 
+  $form['pages'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Pages',
+    '#description' => 'Choose which pages the social share links display on.',
+  );
+  // Build options of node types
+  $types = node_type_get_types();
+  $options = array();
+  foreach ($types as $type) {
+    $options[$type->type] = $type->name;
+  }
+  // Sort types aphabetically
+  asort($options);
+  $form['pages']['basic_settings'] = array(
+    '#type' => 'checkboxes',
+    '#title' => 'Basic Settings',
+    '#description' => 'Choose which content types the sharing icons will appear.',
+    '#options' => $options,
+    '#default_value' => variable_get('cu_share_basic_settings', NULL),
+    '#states' => array(
+      'disabled' => array(   // action to take.
+        ':input[name="advanced_settings"]' => array('checked' => TRUE),
+      ),
+    ),
+  );
+  // Change advanced description if context_ui is enabled.
+  if (module_exists('context_ui')) {
+    // Link to social_sharing_links context
+    $description = l('Use context to choose what pages the social share links will display.', 'admin/structure/context/list/social_sharing_links/edit');
+  }
+  else {
+    // Link to bundle screen
+    $description = 'Use context to choose what pages the social share links will display. ' . l('<strong>Requires the Advanced Layout Bundle</strong>', 'admin/settings/bundles/list', array('html' => TRUE)) . '.';
+  }
+  $form['pages']['advanced_settings'] = array(
+    '#type' => 'checkbox',
+    '#title' => 'Advanced Settings',
+    '#description' => $description,
+    '#default_value' => variable_get('cu_share_advanced_settings', NULL),
+  );
 
   // Get services
   $share_services = _cu_share_services();
@@ -180,7 +241,31 @@ function cu_share_settings_form($form, &$form_state) {
   $form['submit'] = array('#type' => 'submit', '#value' => t('Save Sharing Settings'));
   $form['#submit'][] = 'cu_share_settings_form_submit';
 
+  // Add warning message if configurations have not been saved.
+  if (!cu_share_status()) {
+    drupal_set_message('Social sharing links must be configured to display.', 'warning');
+  }
+
   return $form;
+}
+
+function cu_share_status() {
+  $status = 0;
+  if (variable_get('cu_share_settings', NULL)) {
+    foreach ($settings as $setting) {
+      if ($setting['enabled']) {
+        $status = 1;
+      }
+    }
+  }
+  $position = variable_get('cu_share_position', NULL);
+  $basic = variable_get('cu_share_basic_settings', NULL);
+  $advanced = variable_get('cu_share_advanced_settings', NULL);
+
+  if ($position && ($basic || $advanced)) {
+    $status = 1;
+  }
+  return $status;
 }
 
 /**
@@ -272,27 +357,23 @@ function theme_cu_share_settings_form($variables) {
  * Submit function for cu_share_settings_form()
  */
 function cu_share_settings_form_submit($form, &$form_state) {
-
-  // Save sharing enable
-  $enable = $form_state['values']['cu_share_enable'];
-  variable_set('cu_share_enable', $enable);
-
   // Save sharing settings
   $share_settings = $form_state['values']['cu_share_settings'];
   $settings = array_intersect_key($share_settings, array_flip(element_children($share_settings)));
   variable_set('cu_share_settings', $settings);
 
-  // Save sharing node types
-  $share_types = $form_state['values']['cu_share_types'];
-  variable_set('cu_share_types', $share_types);
+  // Save sharing node types/basic settings
+  $basic_settings = $form_state['values']['basic_settings'];
+  variable_set('cu_share_basic_settings', $basic_settings);
+
+  // Save sharing node types/basic settings
+  $advanced_settings = $form_state['values']['advanced_settings'];
+  variable_set('cu_share_advanced_settings', $advanced_settings);
 
   // Save sharing position
   $position = $form_state['values']['cu_share_position'];
   variable_set('cu_share_position', $position);
 
-  // Save sharing exclude
-  $exclude = $form_state['values']['cu_share_exclude'];
-  variable_set('cu_share_exclude', $exclude);
 }
 
 /**
@@ -321,7 +402,7 @@ function _cu_share_services() {
   );
   $options['email'] = array(
       'name' => 'E-mail',
-      'url' => 'mailto:?&body=Check%20this%20out%20-%20',
+      'url' => 'mailto:?body=Check%20this%20out%20-%20',
   );
   return $options;
 }

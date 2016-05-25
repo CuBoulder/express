@@ -18,12 +18,6 @@
 .article-summary {
   padding:5px 0 0;
 }
-.article-summary .more-link {
-  white-space: nowrap;
-}
-.article-summary .more-link:before {
-  content: " ";
-}
 
 .article-view-mode-sidebar {
   margin-bottom: 10px;
@@ -103,6 +97,7 @@ p.tags {
 .article-view-mode-feature {
   margin-bottom: 20px;
   border-bottom:1px solid #e0e0e0;
+  padding-bottom: 20px;
 }
 .article-list div.article-view-mode-feature:last-child {
   margin-bottom: 0;

@@ -1,6 +1,7 @@
 name = CU RSS Views
 core = 7.x
 package = CU-Feeds
+dependencies[] = uuid
 dependencies[] = views
 features[ctools][] = views:views_default:3.0
 features[features_api][] = api:2

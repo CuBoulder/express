@@ -44,7 +44,8 @@ function _cu_redirect_check_existing($source = NULL) {
 
   if (empty($redirect)) {
     return TRUE;
-  } else {
+  }
+  else {
     return FALSE;
   }
 }
@@ -61,8 +62,7 @@ function _cu_redirect_set_redirect($source = NULL, $destination = NULL) {
     // Always make redirects from UID 1.
     $redirect->uid = 1;
     redirect_save($redirect);
-  }
-  catch (Exception $e) {
+  } catch (Exception $e) {
     watchdog_exception('cu_redirect', $e);
     throw $e;
   }
@@ -151,7 +151,8 @@ function cu_redirect_unaccessed_links_submit($form, &$form_state) {
     redirect_delete_multiple($rids);
     watchdog('cu_redirect', format_plural(count($rids), 'Removed 1 inactive redirect from the database.', 'Removed @count inactive redirects from the database.'));
     drupal_set_message('Redirects that were never accessed have been cleared.');
-  } else {
+  }
+  else {
     drupal_set_message('There are no redirects that were never accessed. No redirects have been removed.', 'warning');
   }
 }
@@ -167,5 +168,17 @@ function cu_redirect_redirect_presave($redirect) {
   // This is for cleaning up non-user created redirects
   if (strpos(current_path(), 'node') == 0) {
     $redirect->uid = 1;
+  }
+}
+
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Remove 300 redirect option from form.
+ */
+function cu_redirect_form_redirect_edit_form_alter(&$form, &$form_state, $form_id) {
+  if (!empty($form['advanced']['status_code'])) {
+    unset($form['advanced']['status_code']['#options'][300]);
   }
 }
