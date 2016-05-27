@@ -69,6 +69,13 @@ function cu_linkchecker_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_disable_cron_link_check';
+  $strongarm->value = 0;
+  $export['linkchecker_disable_cron_link_check'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'linkchecker_disable_link_check_for_urls';
   $strongarm->value = 'example.com
 example.net
@@ -168,6 +175,42 @@ example.org';
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_log_level';
+  $strongarm->value = '6';
+  $export['linkchecker_log_level'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'linkchecker_scan_beans';
+  $strongarm->value = array(
+    'block' => 'block',
+    'block_row' => 'block_row',
+    'block_section' => 'block_section',
+    'content_list' => 'content_list',
+    'cu_events_calendar_block' => 'cu_events_calendar_block',
+    'events_calendar_grid' => 'events_calendar_grid',
+    'facebook_activity' => 'facebook_activity',
+    'facebook_like_button' => 'facebook_like_button',
+    'feature_callout' => 'feature_callout',
+    'hero_unit' => 'hero_unit',
+    'rss' => 'rss',
+    'slider' => 'slider',
+    'social_links' => 'social_links',
+    'twitter_block' => 'twitter_block',
+    'video_reveal' => 'video_reveal',
+    'quicktab' => 'quicktab',
+    'article_feature' => 'article_feature',
+    'article_grid' => 'article_grid',
+    'article_slider' => 'article_slider',
+    'articles' => 'articles',
+    'people_list_block' => 'people_list_block',
+  );
+  $export['linkchecker_scan_beans'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
   $strongarm->name = 'linkchecker_scan_blocks';
   $strongarm->value = 1;
   $export['linkchecker_scan_blocks'] = $strongarm;
@@ -187,8 +230,14 @@ example.org';
     'article' => 'article',
     'article_list_page' => 'article_list_page',
     'page' => 'page',
+    'content_list_page' => 'content_list_page',
     'faqs' => 'faqs',
+    'people_list_page' => 'people_list_page',
+    'person' => 'person',
+    'photo_gallery' => 'photo_gallery',
+    'webform' => 'webform',
     'file' => 0,
+    'video' => 0,
   );
   $export['linkchecker_scan_nodetypes'] = $strongarm;
 
