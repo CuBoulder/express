@@ -130,6 +130,7 @@ function cu_inventory_stats_empty_site_stats() {
       'edit_my_content'
     );
 
+    // Removing test user accounts from list of users.
     $test_user_emails = array();
     $test_roles = array('site_owner', 'content_editor', 'edit_my_content');
     foreach ($test_roles as $role) {
