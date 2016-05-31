@@ -11,17 +11,17 @@
 function cu_inventory_stats_drush_command() {
   $items = array();
 
-  $items['atlas-update-stats'] = array(
+  $items['inventory-update-stats'] = array(
     'callback' => 'drush_cu_inventory_stats_update_stats',
     'description' => 'Updates a site record with current statistics.',
-    'aliases' => array('aus'),
+    'aliases' => array('ius'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
   );
 
-  $items['atlas-clear-stats'] = array(
-    'callback' => 'drush_cu_inventory_stats_atlas_clear_stats',
+  $items['inventory-clear-stats'] = array(
+    'callback' => 'drush_cu_inventory_stats_clear_stats',
     'description' => 'Clears a site record of cached statistics.',
-    'aliases' => array('acs'),
+    'aliases' => array('ics'),
     'bootstrap' => DRUSH_BOOTSTRAP_DRUPAL_FULL,
   );
 
@@ -33,32 +33,32 @@ function cu_inventory_stats_drush_command() {
  */
 function cu_inventory_stats_drush_help($section) {
   switch ($section) {
-    case 'drush:atlas-update-stats':
+    case 'drush:inventory-update-stats':
       return dt('Updates a site record with current statistics.');
       break;
-    case 'drush:atlas-clear-stats':
+    case 'drush:inventory-clear-stats':
       return dt('Clears a site record of cached statistics.');
       break;
   }
 }
 
 /**
- * Callback for drush:atlas-update-stats.
+ * Callback for drush:inventory-update-stats.
  *
  * Update site statistics via inventory.
  */
-function drush_cu_inventory_stats_atlas_update_stats() {
+function drush_cu_inventory_stats_update_stats() {
   _cu_inventory_stats_validate_drush();
   module_load_include('inc', 'cu_inventory_stats', 'cu_inventory_stats');
   cu_inventory_stats_process_site_stats();
 }
 
 /**
- * Callback for drush:atlas-clear-stats.
+ * Callback for drush:inventory-clear-stats.
  *
  * Clear site statistics via inventory.
  */
-function drush_cu_inventory_stats_atlas_clear_stats() {
+function drush_cu_inventory_stats_clear_stats() {
   _cu_inventory_stats_validate_drush();
   module_load_include('inc', 'cu_inventory_stats', 'cu_inventory_stats');
   cu_inventory_stats_empty_site_stats();
