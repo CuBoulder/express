@@ -84,8 +84,8 @@ function cu_redirect_cron() {
     return;
   }
 
-  // Get all redirects created by UID 1 that haven't been accessed in 30 days.
-  $interval = 2592000;
+  // Get all redirects created by UID 1 that haven't been accessed in 90 days.
+  $interval = 7776000;
   $query = db_select('redirect');
   $query->addField('redirect', 'rid');
   $query->condition('uid', 1, '=');
@@ -107,7 +107,7 @@ function cu_redirect_cron() {
 function cu_redirect_form_redirect_list_form_alter(&$form, &$form_state, $form_id) {
   $form['unaccessed_links'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Remove Stale Links'),
+    '#title' => t('Delete Stale Redirects'),
     '#prefix' => '<div class="container-inline">',
     '#suffix' => '</div>',
     '#weight' => -1,
@@ -115,12 +115,12 @@ function cu_redirect_form_redirect_list_form_alter(&$form, &$form_state, $form_i
 
   $form['unaccessed_links']['text'] = array(
     '#type' => 'markup',
-    '#markup' => '<p>Some redirects are never accessed and clutter up this reports page. You can clear those stale redirects here.</p>',
+    '#markup' => '<p>Some redirects are never accessed and clutter up this reports page. You can clear those stale redirects here. Redirects are considered stale if they have not been accessed in at least 90 days.</p>',
   );
 
   $form['unaccessed_links']['submit'] = array(
     '#type' => 'submit',
-    '#value' => 'Clear Stale Links',
+    '#value' => 'Delete Stale Redirects',
     '#validate' => array('cu_redirect_unaccessed_links_validate'),
     '#submit' => array('cu_redirect_unaccessed_links_submit'),
   );
