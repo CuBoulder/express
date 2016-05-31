@@ -30,3 +30,6 @@ projects[responsive_preview][patch][] = "https://www.drupal.org/files/issues/res
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-1768
 projects[linkchecker][patch][] = https://www.drupal.org/files/issues/linkchecker-disable-on-cron-2704193-7-3.patch
+
+; @see https://cuboulder.atlassian.net/browse/FIT-1834
+projects[bean][patch][] = https://www.drupal.org/files/issues/bean-watchdog_logging-2714693-5-7.x.patch
