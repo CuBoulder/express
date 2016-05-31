@@ -3,6 +3,24 @@
 include_once 'cu_redirect.features.inc';
 
 /**
+ * Implements hook_menu().
+ *
+ * Adds menu tab to redirect screens for deleting redirects.
+ */
+function cu_redirect_menu() {
+  $items = array();
+  $items['admin/config/search/redirect/delete'] = array(
+    'title' => 'Delete redirects',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('cu_redirect_delete_confirm_form'),
+    'access arguments' => array('administer redirects'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+  );
+  return $items;
+}
+
+/**
  * Implements hook_redirect_validate().
  *
  * @param $redirect
@@ -84,8 +102,8 @@ function cu_redirect_cron() {
     return;
   }
 
-  // Get all redirects created by UID 1 that haven't been accessed in 90 days.
-  $interval = 7776000;
+  // Get all redirects created by UID 1 that haven't been accessed in 365 days.
+  $interval = 86400 * 365;
   $query = db_select('redirect');
   $query->addField('redirect', 'rid');
   $query->condition('uid', 1, '=');
@@ -102,41 +120,41 @@ function cu_redirect_cron() {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
- */
-function cu_redirect_form_redirect_list_form_alter(&$form, &$form_state, $form_id) {
-  $form['unaccessed_links'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Delete Stale Redirects'),
-    '#prefix' => '<div class="container-inline">',
-    '#suffix' => '</div>',
-    '#weight' => -1,
-  );
-
-  $form['unaccessed_links']['text'] = array(
-    '#type' => 'markup',
-    '#markup' => '<p>Some redirects are never accessed and clutter up this reports page. You can clear those stale redirects here. Redirects are considered stale if they have not been accessed in at least 90 days.</p>',
-  );
-
-  $form['unaccessed_links']['submit'] = array(
-    '#type' => 'submit',
-    '#value' => 'Delete Stale Redirects',
-    '#validate' => array('cu_redirect_unaccessed_links_validate'),
-    '#submit' => array('cu_redirect_unaccessed_links_submit'),
-  );
-}
-
-/**
- * Validation handler for clear stale links submit button.
- */
-function cu_redirect_unaccessed_links_validate($form, &$form_state) {
-
-}
-
-/**
  * Submit handler for clear stale links submit button.
  */
 function cu_redirect_unaccessed_links_submit($form, &$form_state) {
+  drupal_goto('admin/config/search/redirect/delete');
+}
+
+/**
+ * Implements hook_form().
+ *
+ * Callback for admin/config/search/redirect/delete
+ * Form for deleting unaccessed redirects.
+ */
+function cu_redirect_delete_confirm_form($form, &$form_state) {
+  $form['description'] = array(
+    '#markup' => '<p>Are you sure you want to delete all unaccessed redirects? This action cannot be undone.</p>',
+  );
+  $form['actions']['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Delete',
+    '#submit' => array('cu_redirect_delete_confirm_form_submit'),
+  );
+  $form['actions']['cancel'] = array(
+    '#type' => 'submit',
+    '#value' => 'Cancel',
+    '#limit_validation_errors' => array(),
+    '#submit' => array('cu_redirect_delete_confirm_form_cancel'),
+  );
+  $form_state['redirect'] = 'admin/config/search/redirect';
+  return $form;
+}
+
+/**
+ * Submit function for cu_redirect_delete_confirm_form()
+ */
+function cu_redirect_delete_confirm_form_submit($form, &$form_state) {
 
   $query = db_select('redirect');
   $query->addField('redirect', 'rid');
@@ -155,6 +173,14 @@ function cu_redirect_unaccessed_links_submit($form, &$form_state) {
   else {
     drupal_set_message('There are no redirects that were never accessed. No redirects have been removed.', 'warning');
   }
+  $form_state['redirect'] = 'admin/config/search/redirect';
+}
+
+/**
+ * Cancel function for cu_redirect_delete_confirm_form().
+ */
+function cu_redirect_delete_confirm_form_cancel($form, &$form_state) {
+  $form_state['redirect'] = 'admin/config/search/redirect';
 }
 
 /**
