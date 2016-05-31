@@ -59,7 +59,6 @@ function _cu_debug_admin_bundle_enable_modules() {
 function _cu_debug_admin_bundle_disable_modules() {
 
   return array(
-    'cu_cache',
     'varnish',
     'memcache',
     'cu_apihooks',
