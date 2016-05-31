@@ -31,7 +31,6 @@ function cu_core_install() {
     'cu_users',
     'cu_inventory',
     'cu_inventory_stats',
-    'cu_cache',
     'memcache',
     'varnish'  // Adding caching modules here for changes involving Travis CI testing.
   );
@@ -383,6 +382,17 @@ function cu_core_update_7006() {
  */
 function cu_core_update_7007() {
   $ignore_modules = variable_get('profile_module_manager_ignore', array());
+
+  module_disable(array(
+    'cu_cache',
+    'cu_bucket',
+  ));
+
+  drupal_uninstall_modules(array(
+    'cu_cache',
+    'cu_bucket',
+  ));
+
   // Check to see whether variable is array.
   // If it is an array, don't do anything.
   if (!is_array($ignore_modules)) {
