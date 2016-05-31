@@ -21,11 +21,12 @@
         forEach(doop, function (indexed, valued) {
           href = valued.getAttribute('href');
           // Don't add query parameter if it has been added already.
-          if (href.indexOf('&qt-news=') === -1) {
+          if (href.indexOf('&qt-' + qtName[1] + '=') === -1) {
             // Add new href here.
             href = href + '&qt-' + qtName[1] + '=' + index;
             valued.setAttribute('href', href);
           }
+          valued.setAttribute('href', valued.getAttribute('href') + '#pager-full');
         });
       });
     }
