@@ -104,7 +104,6 @@ function cu_article_page_alter(&$page) {
   drupal_add_css(drupal_get_path('module', 'cu_article') . '/css/owl.carousel.css');
   drupal_add_js(drupal_get_path('module', 'cu_article') . '/js/owl.carousel.js');
   drupal_add_js(drupal_get_path('module', 'cu_article') . '/js/article-slider.js');
-  drupal_add_js(drupal_get_path('module', 'cu_article') . '/js/cu-article.js');
 }
 
 /**
@@ -535,7 +534,7 @@ function cu_article_preprocess_node(&$vars) {
     $vars['content']['article_meta']['#weight'] = 100;
 
     // Add publish date to author meta element
-    $vars['author_meta']['date'] = '<span class="author-meta-date"><i class="fa fa-clock-o"></i><span class="element-invisible">Published:</span>  ' . $vars['ap_date_cu_medium_date'] . '</span>';
+    $vars['author_meta']['date'] = '<span class="author-meta-date author-meta-item"><i class="fa fa-clock-o"></i><span class="element-invisible">Published:</span>  ' . $vars['ap_date_cu_medium_date'] . '</span>';
 
     // Show/hide publish date
     $article_date_settings = !empty($vars['node']->field_article_date_display) ? $vars['node']->field_article_date_display[LANGUAGE_NONE][0]['value'] : NULL;
@@ -641,7 +640,7 @@ function cu_article_preprocess_node(&$vars) {
  . '</span>';
     }
       // Add bylines terms to author meta section
-      $vars['author_meta']['byline'] = '<span class="author-meta-name">By ' . join(', ', $bylines) . '</span>';
+      $vars['author_meta']['byline'] = '<span class="author-meta-name author-meta-item">By ' . join(', ', $bylines) . '</span>';
     }
   }
   if ($vars['node']->type == 'article_list_page') {
