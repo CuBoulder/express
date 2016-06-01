@@ -798,17 +798,20 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: #e0e
 #cboxTitle { font-size: 11px; }
 
 /* Layout Title Image */
-.feature-layout-title-image { background-color: #000; background-size: cover; background-repeat: no-repeat; background-position: center center; height: 320px; position: relative; padding: 0; overflow: hidden; }
+.feature-layout-title-image { background-color: #000; background-size: cover; background-repeat: no-repeat; background-position: center center; height: 240px; position: relative; padding: 0; overflow: hidden; }
 
-.feature-layout-title-image-overlay { color: #fff; position: absolute; bottom: 0; left: 0; width: 100%; padding: 50px 20px 20px; }
+.feature-layout-title-image-overlay { color: #fff; position: absolute; bottom: 0; left: 0; width: 100%; padding: 60px 20px 20px; }
 
-.feature-layout-title-image-overlay h1 { font-size: 140%; font-weight: 700; }
+.feature-layout-title-image-overlay h1 { font-size: 140%; font-weight: 200; }
+
+.headings-bold .feature-layout-title-image-overlay h1 { font-weight: 700; }
 
 @media screen and (min-width: 768px) { .feature-layout-title-image { height: 360px; }
   .feature-layout-title-image-overlay { padding: 100px 20px 30px; }
   .feature-layout-title-image-overlay h1 { font-size: 200%; } }
 @media screen and (min-width: 960px) { .feature-layout-title-image { height: 480px; transition: height 1s ease-in-out; -webkit-transition: height 1s ease-in-out; -moz-transition: height 1s ease-in-out; }
   .feature-layout-title-image.layout-title-image-small { height: 320px; }
+  .feature-layout-title-image-overlay { padding: 200px 20px 30px; }
   .feature-layout-title-image-overlay h1 { font-size: 240%; } }
 @media screen and (min-width: 1200px) { .feature-layout-title-image { height: 600px; transition: height 1s ease-in-out; -webkit-transition: height 1s ease-in-out; -moz-transition: height 1s ease-in-out; }
   .feature-layout-title-image.layout-title-image-small { height: 320px; } }
@@ -819,10 +822,11 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: #e0e
 
 .byline-author-name { font-weight: 700; }
 
-.title-image-breadcrumbs-wrapper { padding: 5px 20px; background: rgba(255, 255, 255, 0.9); }
-.title-image-breadcrumbs-wrapper a { color: #007bc8; }
+.title-image-breadcrumbs-wrapper { padding: 5px 0px; font-weight: 600; }
+.title-image-breadcrumbs-wrapper a { color: #fff; }
 
 .title-image-breadcrumbs-wrapper .breadcrumb { padding: 0; }
+.title-image-breadcrumbs-wrapper .breadcrumb a { color: #fff; }
 
 .has-feature-title-image .breadcrumb-wrapper { display: none; }
 
