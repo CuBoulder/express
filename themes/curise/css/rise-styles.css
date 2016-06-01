@@ -114,3 +114,7 @@ body { background-color: #1e1e1e; }
 .layout-feature #content-wrapper { padding-bottom: 0; }
 .layout-feature #main { margin-bottom: 0; padding: 20px 0 0; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; }
 .layout-feature .top-content { padding-bottom: 20px; }
+
+.title-image-breadcrumbs-wrapper { position: absolute; bottom: 0; right: 0; left: 0; z-index: 1; }
+
+.feature-layout-title-image-overlay { padding-bottom: 50px; }

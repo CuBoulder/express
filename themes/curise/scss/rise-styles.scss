@@ -392,3 +392,14 @@ $border: #e7e7e7;
     padding-bottom: 20px;
   }
 }
+
+.title-image-breadcrumbs-wrapper {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+}
+.feature-layout-title-image-overlay {
+  padding-bottom: 50px;
+}
