@@ -69,5 +69,5 @@ function cu_inventory_stats_update_statistics_submit(&$form, &$form_state) {
 function cu_inventory_stats_empty_statistics_submit(&$form, &$form_state) {
   module_load_include('inc', 'cu_inventory_stats');
   cu_inventory_stats_empty_site_stats();
-  drupal_set_message(t('Reqeust to empty Statistics sent.'));
+  drupal_set_message(t('Request to empty Statistics sent.'));
 }
