@@ -819,11 +819,12 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: #e0e
 
 .byline-author-name { font-weight: 700; }
 
-.title-image-breadcrumbs-wrapper { padding: 5px 20px; display: none; background: rgba(0, 0, 0, 0.65); color: #fff; }
-.title-image-breadcrumbs-wrapper a { color: #cfb87c; }
+.title-image-breadcrumbs-wrapper { padding: 5px 20px; background: rgba(255, 255, 255, 0.9); }
+.title-image-breadcrumbs-wrapper a { color: #007bc8; }
 
 .title-image-breadcrumbs-wrapper .breadcrumb { padding: 0; }
-.title-image-breadcrumbs-wrapper .breadcrumb a { color: #e6cc8a; }
+
+.has-feature-title-image .breadcrumb-wrapper { display: none; }
 
 .feature-layout-title-image .author-meta { margin: 0; }
 

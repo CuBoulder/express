@@ -557,18 +557,20 @@ a .icon-color-gray {
 }
 .title-image-breadcrumbs-wrapper {
   padding:5px 20px;
-  display: none;
-  background: rgba(0,0,0,.65);
-  color: #fff;
+  background: rgba(255,255,255,.9);
+  //color: #fff;
   a {
-    color: $cugold;
+    color: $blue;
   }
 }
 .title-image-breadcrumbs-wrapper .breadcrumb {
   padding: 0;
   a {
-    color:#e6cc8a;
+    //color:#e6cc8a;
   }
+}
+.has-feature-title-image .breadcrumb-wrapper {
+  display: none;
 }
 .feature-layout-title-image .author-meta {
   margin: 0;

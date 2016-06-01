@@ -268,7 +268,7 @@ function expressbase_image_style(&$vars) {
  * Implements theme_breadcrumb().
  */
 function expressbase_breadcrumb($vars) {
-  $breadcrumb = $vars['breadcrumb'];
+  $breadcrumb = !empty($vars['breadcrumb']) ? $vars['breadcrumb'] : drupal_get_breadcrumb();
   $theme = variable_get('theme_default','');
   if (!empty($breadcrumb) && theme_get_setting('use_breadcrumbs', $theme)) {
     // Replace the Home breadcrumb with a Home icon
