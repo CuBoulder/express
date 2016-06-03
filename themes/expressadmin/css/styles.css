@@ -355,3 +355,9 @@ td.ctools-export-ui-operations .ctools-dropbutton { top: 8px; right: 10px; }
 
 /* Exposed Widgets */
 .views-exposed-form .views-exposed-widget .form-submit, #ctools-export-ui-list-form .form-submit { margin-top: 1.7em; }
+
+/* Bulleted lists */
+ul.bullet-list { list-style: disc; padding-left: 1.5em; }
+ul.bullet-list > li { list-style: disc; }
+ul.bullet-list ul { list-style: circle; padding-left: 1.5em; }
+ul.bullet-list ul > li { list-style: circle; }
