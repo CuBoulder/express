@@ -32,7 +32,7 @@ function cutradition_preprocess_page(&$vars) {
 
 function cutradition_breadcrumb($vars) {
   $breadcrumb = $vars['breadcrumb'];
-  if (!empty($breadcrumb)) {
+  if (!empty($breadcrumb) && theme_get_setting('use_breadcrumbs', $theme)) {
     // Replace the Home breadcrumb with a Home icon
     //$breadcrumb[0] = str_replace('Home','<i class="fa fa-home"></i> <span class="home-breadcrumb element-invisible">Home</span>',$breadcrumb[0]);
     // Get current page title and add to breadcrumb array
