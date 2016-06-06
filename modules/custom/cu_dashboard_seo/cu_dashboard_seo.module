@@ -274,7 +274,7 @@ function cu_seo_checklist_link_checker_status() {
 }
 
 function cu_seo_checklist_checked_links_total() {
-  $response_codes = preg_split('/(\r\n?|\n)/', variable_get('linkchecker_ignore_response_codes', "200\n201\n202\n203\n204\n205\n206\n207\n208\n226\n300\n301\n302\n303\n304\n305\n306\n307\n308"));
+  $response_codes = preg_split('/(\r\n?|\n)/', variable_get('linkchecker_ignore_response_codes', "200\n206\n301\n302\n304\n401\n403"));
 
   $query = db_select('linkchecker_link', 'lcl');
   $query->fields('lcl', array('lid','code','status','last_checked'));
