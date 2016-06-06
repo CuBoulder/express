@@ -19,7 +19,7 @@ function cu_inventory_stats_cron() {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter(&$form, &$form_state, $form_id).
+ * Implements hook_form_FORM_ID_alter() for cu_inventory_admin_settings_form().
  */
 function cu_inventory_stats_form_cu_inventory_admin_settings_alter(&$form, &$form_state, $form_id) {
   // Check and see if the Inventory is up. If it is not, let cu_inventory give
