@@ -139,3 +139,14 @@ function quicktab_beans_form_bean_form_alter(&$form, &$form_state) {
     $form['title']['#disabled'] = TRUE;
   }
 }
+
+/**
+ * Alter the Quicktabs instance before it gets rendered.
+ *
+ * @param &$quicktabs
+ *   A loaded Quicktabs object, either from the database or from code.
+ */
+function quicktab_beans_quicktabs_alter(&$quicktabs) {
+  drupal_add_js(drupal_get_path('module', 'quicktab_beans') . '/js/qt_pager.js');
+}
+
