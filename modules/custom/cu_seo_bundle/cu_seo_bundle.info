@@ -10,6 +10,7 @@ dependencies[] = xmlsitemap_engines
 dependencies[] = xmlsitemap_menu
 dependencies[] = cu_sitemap
 dependencies[] = linkchecker
+dependencies[] = linkchecker_bean
 dependencies[] = cu_linkchecker
 dependencies[] = site_verify
 dependencies[] = express_dashboards
