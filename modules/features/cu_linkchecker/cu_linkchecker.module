@@ -31,7 +31,7 @@ function cu_linkchecker_menu() {
 function cu_linkchecker_analyze_form() {
   $form = array();
   $form['description'] = array(
-    '#markup' => '<p>The site content needs to be analyzed for links for the link checker to work. Once analyzed, the links will be queued to check for broken links.</p>',
+    '#markup' => '<p>The site content needs to be analyzed for links for the link checker to work. Once analyzed, the links will be queued to check for broken links. You should only analyze your content when the link checker is first enabled. After the content has been analyzed, all new links will automatically be added to the queue.</p>',
   );
   $form['clear']['linkchecker_analyze'] = array(
     '#type' => 'submit',
