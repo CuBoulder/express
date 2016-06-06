@@ -50,15 +50,15 @@ function cu_inventory_menu() {
    $options = array(
      'installed' => t('Installed'),
      'launching' => t('Launching'),
-     'launched' => t('Launched'),
      'take_down' => t('Take Down Site'),
      'delete' => t('Delete'),
-     'destroy' => t('Destroy'),
    );
 
    // if site is still Available, add that option... you can never go back to avialable
    if ($site_array['status'] == 'available') {
      $options['available'] = t('Available');
+   } elseif ($site_array['status'] == 'launched') {
+     $options['launched'] = t('Launched');
    }
 
    $form['cu_inventory_status'] = array(
