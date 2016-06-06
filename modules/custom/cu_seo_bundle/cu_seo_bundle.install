@@ -13,3 +13,7 @@ function cu_seo_bundle_install() {
 function cu_seo_bundle_enable() {
 
 }
+
+function cu_seo_bundle_update_7001() {
+  module_enable(array('linkchecker_bean'));
+}
