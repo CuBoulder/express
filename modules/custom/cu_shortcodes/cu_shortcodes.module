@@ -255,7 +255,7 @@ function cu_shortcodes_anchors($attrs, $content = NULL) {
  * Anchors tips.
  */
 function cu_shortcodes_anchors_tips($format, $long) {
-  $output = '[anchors selector=".content h2" title="On this page:" /]';
+  $output = '[anchors selector="#content h2" title="On this page:" /]';
   return $output;
 }
 
