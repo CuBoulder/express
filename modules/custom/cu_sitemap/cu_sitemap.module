@@ -19,7 +19,7 @@ function cu_sitemap_menu() {
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'cu_sitemap_overview_page',
     'access arguments' => array('administer express settings'),
-    'weight' => 26,
+    'weight' => 30,
   );
 
   return $items;
