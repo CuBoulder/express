@@ -129,39 +129,53 @@ function cu_dashboard_seo_checklist() {
     'callback' => 'cu_seo_checklist_site_verification',
     'edit' => 1,
   );
-
-  // Link checker stats
-  $link_checker_list = array();
-  $link_checker_remaining = cu_seo_checklist_checked_links_remaining();
-  $link_checker_list[] = 'The link checker has found ' . cu_seo_checklist_checked_links_total() . ' links that were successful or redirected successfully. ';
-  // If there are remaining links, show how many remain to be checked
-  if ($link_checker_remaining) {
-    $link_checker_list[] = 'There are ' . $link_checker_remaining . ' links remaining to be checked.';
-  }
-  // Theme as a list
-  $list =  theme('item_list', array(
-    'items' => $link_checker_list,
-    'type' => 'ul',
-    'attributes' => array(
-      'class' => array(
-        'bullet-list',
+  if (variable_get('cu_linkchecker_status', 0)) {
+    // Link checker stats
+    $link_checker_list = array();
+    $link_checker_remaining = cu_seo_checklist_checked_links_remaining();
+    $link_checker_list[] = 'The link checker has found ' . cu_seo_checklist_checked_links_total() . ' links that were successful or redirected successfully. ';
+    // If there are remaining links, show how many remain to be checked
+    if ($link_checker_remaining) {
+      $link_checker_list[] = 'There are ' . $link_checker_remaining . ' links remaining to be checked.';
+    }
+    // Theme as a list
+    $list =  theme('item_list', array(
+      'items' => $link_checker_list,
+      'type' => 'ul',
+      'attributes' => array(
+        'class' => array(
+          'bullet-list',
+        ),
       ),
-    ),
-  ));
+    ));
 
-  // Link to link checker report
-  $link_checker_link = l('Check the list to review and fix broken links. ', 'admin/reports/linkchecker');
+    // Link to link checker report
+    $link_checker_link = l('Check the list to review and fix broken links. ', 'admin/reports/linkchecker');
 
-  $checklist['link_checker'] = array(
-    'title' => 'Link Checker',
-    'weight' => '2',
-    'description' => array(
-      '0' => 'The link checker has found some broken links. ' . $link_checker_link . $list,
-      '1' => 'No broken links have been found. ' . $list,
-    ),
-    'path' => 'admin/reports/linkchecker',
-    'callback' => 'cu_seo_checklist_link_checker',
-  );
+    $checklist['link_checker'] = array(
+      'title' => 'Link Checker',
+      'weight' => '2',
+      'description' => array(
+        '0' => 'The link checker has found some broken links. ' . $link_checker_link . $list,
+        '1' => 'No broken links have been found. ' . $list,
+      ),
+      'path' => 'admin/reports/linkchecker',
+      'callback' => 'cu_seo_checklist_link_checker',
+    );
+  }
+  else {
+    $link_checker_link = l('Analyze your content for links. ', 'admin/settings/seo/linkchecker-analyze');
+    $checklist['link_checker'] = array(
+      'title' => 'Link Checker',
+      'weight' => '2',
+      'description' => array(
+        '0' => $link_checker_link,
+        '1' => $link_checker_link,
+      ),
+      'path' => 'admin/settings/seo/linkchecker-analyze',
+      'callback' => 'cu_seo_checklist_link_checker_status',
+    );
+  }
   $checklist['site_map'] = array(
     'title' => 'Sitemap',
     'weight' => '3',
@@ -254,11 +268,20 @@ function cu_seo_checklist_link_checker() {
   return $status;
 }
 
+function cu_seo_checklist_link_checker_status() {
+  $status = variable_get('cu_linkchecker_status', 0);
+  return $status;
+}
+
 function cu_seo_checklist_checked_links_total() {
+  $response_codes = preg_split('/(\r\n?|\n)/', variable_get('linkchecker_ignore_response_codes', "200\n201\n202\n203\n204\n205\n206\n207\n208\n226\n300\n301\n302\n303\n304\n305\n306\n307\n308"));
+
   $query = db_select('linkchecker_link', 'lcl');
-  $query->fields('lcl', array('lid','code','status'));
-  $query->condition('lcl.code', '404 Not Found', '!=');
+  $query->fields('lcl', array('lid','code','status','last_checked'));
+  //$query->condition('lcl.code', '404 Not Found', '!=');
+  $query->condition('lcl.code', $response_codes, 'IN');
   $query->condition('lcl.status', '1', '=');
+  $query->condition('lcl.last_checked', 0, '<>');
   $total_links = $query->countQuery()->execute()->fetchAssoc();
   return $total_links['expression'];
 }
