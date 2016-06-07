@@ -125,6 +125,7 @@ default:
         Branding: "#branding"
         Search: ".region-search-box"
         Secondary Menu: "#secondary-menu"
+        Secondary Mobile Menu: "#secondary-menu-mobile"
         Menu: "#navigation"
         Sidebar First: ".region-sidebar-first"
         Sidebar Second: ".region-sidebar-second"
