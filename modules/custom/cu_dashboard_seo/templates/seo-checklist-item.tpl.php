@@ -23,13 +23,28 @@
     </p>
       <?php
         if ($edit) {
-          print l($edit, $path, array('attributes' => array(
-            'class' => array(
-              'btn',
-              'btn-xs',
-              'btn-default'
-            )
-          )));
+          if (is_array($path)) {
+            print l($edit, $path['link'], array(
+              'attributes' => array(
+                'class' => array(
+                  'btn',
+                  'btn-sm',
+                  'btn-info'
+                ),
+              ),
+              'fragment' => $path['fragment'],
+              'query' => $path['query'],
+            ));
+          } else {
+            print l($edit, $path, array('attributes' => array(
+              'class' => array(
+                'btn',
+                'btn-sm',
+                'btn-info'
+              )
+            )));
+          }
+
         }
         ?>
   </div>

@@ -187,8 +187,8 @@ function cu_dashboard_seo_checklist() {
     $link_checker_link = l('Check the list to review and fix broken links. ', 'admin/reports/linkchecker', array('attributes' => array(
       'class' => array(
         'btn',
-        'btn-xs',
-        'btn-default'
+        'btn-sm',
+        'btn-info'
       )
     )) );
 
@@ -207,8 +207,8 @@ function cu_dashboard_seo_checklist() {
     $link_checker_link = l('Analyze your content for links. ', 'admin/settings/seo/linkchecker-analyze', array('attributes' => array(
       'class' => array(
         'btn',
-        'btn-xs',
-        'btn-default'
+        'btn-sm',
+        'btn-info'
       )
     )));
     $checklist['link_checker'] = array(
@@ -252,7 +252,13 @@ function cu_dashboard_seo_checklist() {
       '0' => 'you do not have responsive/mobile friendly turned on. <a href="http://www.colorado.edu/webcentral/tutorial/v2/responsive-design">Learn more about making your site responsive</a>.',
       '1' => 'Your site has responsive/mobile friendly turned on.',
     ),
-    'path' => $theme_settings_link,
+    'path' => array(
+      'link' => $theme_settings_link,
+      'fragment' => 'edit-expressbase-theme-settings',
+      'query' => array(
+        'responsive' => 1,
+      ),
+    ),
     'callback' => 'cu_seo_checklist_responsive',
     'edit' => 'Theme settings'
   );
@@ -475,7 +481,12 @@ function cu_dashboard_seo_checklist_output() {
     $item['indicator'] = $callback();
     if (isset($item['path'])) {
       $title = $item['title'];
-      $item['title'] = l($title, $item['path']);
+      if (is_array($item['path'])) {
+        $item['title'] = l($title, $item['path']['link'], array('query' => $item['path']['query'], 'fragment' => $item['path']['fragment']));
+      }
+      else {
+        $item['title'] = l($title, $item['path']);
+      }
     }
     $checklist_output[$key]['#markup'] = theme('seo_checklist_item', $item);
   }
