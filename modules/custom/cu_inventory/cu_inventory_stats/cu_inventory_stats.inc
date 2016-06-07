@@ -148,7 +148,7 @@ function cu_inventory_stats_empty_site_stats() {
       $role_query->join('users', 'u', 'ur.uid = u.uid');
       $role_query
         ->condition('ur.rid', $role->rid)
-        ->condition('u.mail', $test_user_emails, '<>')
+        ->condition('u.mail', $test_user_emails, 'NOT IN')
         ->fields('u', array('mail','name'));
 
       $role_result = $role_query->execute();
