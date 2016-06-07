@@ -30,8 +30,9 @@ function cu_linkchecker_menu() {
 
 function cu_linkchecker_analyze_form() {
   $form = array();
+  $link_report_link = l('Broken Links Report', 'admin/reports/linkchecker');
   $form['description'] = array(
-    '#markup' => '<p>Analyze your site content for links. The links will be queued to check for broken links. After the initial analysis, all new or modified links are automatically added to the queue. Broken links will appear in the <a href="admin/reports/linkchecker">Broken Links Report</a>.</p>',
+    '#markup' => '<p>Analyze your site content for links. The links will be queued to check for broken links. After the initial analysis, all new or modified links are automatically added to the queue. Broken links will appear in the ' . $link_report_link . '.</p>',
   );
   $form['clear']['linkchecker_analyze'] = array(
     '#type' => 'submit',
