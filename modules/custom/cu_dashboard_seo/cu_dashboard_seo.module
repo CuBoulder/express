@@ -115,7 +115,7 @@ function cu_dashboard_seo_checklist() {
     ),
     'path' => 'admin/settings/site-configuration/google-analytics',
     'callback' => 'cu_seo_checklist_google_analytics',
-    'edit' => 1,
+    'edit' => 'Edit Google Analytics settings',
   );
 
   $checklist['site_verification'] = array(
@@ -127,7 +127,7 @@ function cu_dashboard_seo_checklist() {
     ),
     'path' => 'admin/settings/seo/verifications',
     'callback' => 'cu_seo_checklist_site_verification',
-    'edit' => 1,
+    'edit' => 'Edit site verifications',
   );
   if (variable_get('cu_linkchecker_status', 0)) {
     // Link checker stats
@@ -184,13 +184,19 @@ function cu_dashboard_seo_checklist() {
     ));
 
     // Link to link checker report
-    $link_checker_link = l('Check the list to review and fix broken links. ', 'admin/reports/linkchecker');
+    $link_checker_link = l('Check the list to review and fix broken links. ', 'admin/reports/linkchecker', array('attributes' => array(
+      'class' => array(
+        'btn',
+        'btn-xs',
+        'btn-default'
+      )
+    )) );
 
     $checklist['link_checker'] = array(
       'title' => 'Link Checker',
       'weight' => '2',
       'description' => array(
-        '0' => 'The link checker has found some broken links. ' . $link_checker_link . $list,
+        '0' => 'The link checker has found some broken links. ' . $list . $link_checker_link,
         '1' => 'No broken links have been found. ' . $list,
       ),
       'path' => 'admin/reports/linkchecker',
@@ -198,7 +204,13 @@ function cu_dashboard_seo_checklist() {
     );
   }
   else {
-    $link_checker_link = l('Analyze your content for links. ', 'admin/settings/seo/linkchecker-analyze');
+    $link_checker_link = l('Analyze your content for links. ', 'admin/settings/seo/linkchecker-analyze', array('attributes' => array(
+      'class' => array(
+        'btn',
+        'btn-xs',
+        'btn-default'
+      )
+    )));
     $checklist['link_checker'] = array(
       'title' => 'Link Checker',
       'weight' => '2',
@@ -219,7 +231,7 @@ function cu_dashboard_seo_checklist() {
     ),
     'path' => 'admin/settings/seo/xmlsitemap',
     'callback' => 'cu_seo_checklist_site_map',
-    'edit' => 1,
+    'edit' => 'Edit sitemap settings',
   );
   $checklist['site_description'] = array(
     'title' => 'Site Description',
@@ -230,18 +242,19 @@ function cu_dashboard_seo_checklist() {
     ),
     'path' => 'admin/settings/site-configuration/site-description',
     'callback' => 'cu_seo_checklist_site_description',
-    'edit' => 1,
+    'edit' => 'Edit site description',
   );
   $theme_settings_link = 'admin/theme/config/' . variable_get('theme_default');
   $checklist['mobile_friendly'] = array(
     'title' => 'Responsive/Mobile Friendly',
     'weight' => '5',
     'description' => array(
-      '0' => 'you do not have responsive/mobile friendly turned on (<a href="http://www.colorado.edu/webcentral/tutorial/v2/responsive-design">learn more</a>).',
+      '0' => 'you do not have responsive/mobile friendly turned on. <a href="http://www.colorado.edu/webcentral/tutorial/v2/responsive-design">Learn more about making your site responsive</a>.',
       '1' => 'Your site has responsive/mobile friendly turned on.',
     ),
     'path' => $theme_settings_link,
     'callback' => 'cu_seo_checklist_responsive',
+    'edit' => 'Theme settings'
   );
 
   return $checklist;
