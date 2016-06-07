@@ -13,13 +13,6 @@ function cu_googleanalytics_strongarm() {
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
-  $strongarm->name = 'googleanalytics_account';
-  $strongarm->value = 'UA-25752450-1';
-  $export['googleanalytics_account'] = $strongarm;
-
-  $strongarm = new stdClass();
-  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
-  $strongarm->api_version = 1;
   $strongarm->name = 'googleanalytics_cache';
   $strongarm->value = 0;
   $export['googleanalytics_cache'] = $strongarm;
