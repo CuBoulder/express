@@ -130,6 +130,16 @@ function cu_inventory_stats_empty_site_stats() {
       'edit_my_content'
     );
 
+    // Removing test user accounts from list of users.
+    $test_user_emails = array();
+    $test_roles = array('site_owner', 'content_editor', 'edit_my_content');
+    foreach ($test_roles as $role) {
+      $users = cu_users_get_users($role);
+      foreach ($users as $email) {
+        $test_user_emails[] = $email;
+      }
+    }
+
     foreach ($roles_to_check as $role_name) {
       // Return the role object
       $role = user_role_load_by_name($role_name);
@@ -138,6 +148,7 @@ function cu_inventory_stats_empty_site_stats() {
       $role_query->join('users', 'u', 'ur.uid = u.uid');
       $role_query
         ->condition('ur.rid', $role->rid)
+        ->condition('u.mail', $test_user_emails, 'NOT IN')
         ->fields('u', array('mail','name'));
 
       $role_result = $role_query->execute();
