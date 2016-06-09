@@ -82,3 +82,5 @@ ul#action-menu a { line-height: 20px; margin: 20px 0 20px 10px; }
 #mobile-navigation-wrapper ul#secondary-menu-mobile a { color: #fff; border-bottom: 1px solid #555; }
 #mobile-navigation-wrapper ul#secondary-menu-mobile a.active, #mobile-navigation-wrapper ul#secondary-menu-mobile a.active-trail { color: #fff; background-color: #555; font-weight: 600; border-bottom: 1px solid #555; }
 #mobile-navigation-wrapper ul#secondary-menu-mobile, #mobile-navigation-wrapper ul#footer-menu-mobile { border-top: 3px solid #666; }
+
+.has-feature-title-image #page-title-wrapper { display: none; }

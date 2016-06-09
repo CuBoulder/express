@@ -2,9 +2,33 @@
 
 /**
  * @file
- * Permissions for the Express profile.
+ * Defines roles and permissions for the Express profile.
+ * Also used to alter some existing core and contrib permissions.
  */
 
+/**
+ * Implements hook_permission().
+ *
+ * Add 'add taxonomy' permission.
+ */
+function express_permissions_permission() {
+  $permissions = array(
+    'create vocabulary' => array(
+      'title' => t('Create Vocabulary'),
+      'description' => 'Used to override default Taxonomy permissions.  Users with Administer Taxonomy cannot add new vocabularies without this additional permission.',
+    ),
+  );
+  return $permissions;
+}
+
+/**
+ * Implements hook_menu_alter.
+ * Alters permissions on some core and contrib menus
+ */
+function express_permissions_menu_alter(&$items) {
+  // Prevent users from adding taxonomies.
+  $items['admin/structure/taxonomy/add']['access arguments'] = array('create vocabulary');
+}
 
 /**
  * Define site roles in code.
@@ -310,6 +334,7 @@ function express_permissions_secure_permissions($role) {
       'create page content',
       'create person content',
       'create url aliases',
+      'create vocabulary',
       'customize shortcut links',
       'delete any block bean',
       'delete any faqs content',

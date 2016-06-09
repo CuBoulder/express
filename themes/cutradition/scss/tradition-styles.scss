@@ -346,3 +346,23 @@ $border: #e7e7e7;
     border-top:3px solid #ddd;
   }
 }
+
+.title-image-breadcrumbs-wrapper {
+  color: #fff;
+  a {
+    background: transparent;
+  }
+}
+.title-image-breadcrumbs-wrapper .breadcrumb {
+  a {
+    background: transparent;
+    padding: 0;
+  }
+  color:#fff;
+}
+
+.has-feature-title-image {
+  #page-title-wrapper {
+    display: none;
+  }
+}

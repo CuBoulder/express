@@ -967,3 +967,20 @@ td.ctools-export-ui-operations {
 .views-exposed-form .views-exposed-widget .form-submit, #ctools-export-ui-list-form .form-submit {
   margin-top: 1.7em;
 }
+
+/* Bulleted lists */
+ul.bullet-list {
+  list-style: disc;
+  padding-left: 1.5em;
+  > li {
+    list-style: disc;
+  }
+
+  ul {
+    list-style: circle;
+    padding-left: 1.5em;
+    > li {
+      list-style: circle;
+    }
+  }
+}

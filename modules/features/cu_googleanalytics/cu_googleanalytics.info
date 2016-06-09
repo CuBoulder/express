@@ -10,7 +10,6 @@ dependencies[] = googleanalytics
 dependencies[] = strongarm
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
-features[variable][] = googleanalytics_account
 features[variable][] = googleanalytics_cache
 features[variable][] = googleanalytics_codesnippet_before
 features[variable][] = googleanalytics_cross_domains

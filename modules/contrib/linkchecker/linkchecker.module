@@ -738,6 +738,8 @@ function _linkchecker_status_handling(&$response, $link) {
           }
         }
 
+        drupal_alter('linkchecker_auto_repair_301_links', $link, $response);
+
         // CUSTOM BLOCKS: Autorepair all custom blocks having this outdated
         // link.
         $result = db_query('SELECT bid FROM {linkchecker_block_custom} WHERE lid = :lid', array(':lid' => $link->lid));

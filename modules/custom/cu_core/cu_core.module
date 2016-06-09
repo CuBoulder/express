@@ -27,6 +27,25 @@ function cu_core_form_system_logging_settings_alter(&$form, &$form_state) {
   $form['syslog_identity']['#disabled'] = TRUE;
   $form['syslog_facility']['#disabled'] = TRUE;
   $form['syslog_format']['#disabled'] = TRUE;
+
+  $form['reset_syslog_identity'] = array(
+    '#type' => 'submit',
+    '#value' => t('Rebuild syslog identity'),
+    '#submit' => array('cu_core_rebuild_syslog_identity_submit'),
+  );
+}
+
+function cu_core_rebuild_syslog_identity_submit(&$form, &$form_state) {
+  $cu_sid = variable_get('cu_sid', '');
+  if ($cu_sid) {
+    // Current value
+    $syslog_identity = 'drupal-' . $cu_sid;
+  }
+  else {
+    $syslog_identity = 'drupal-no_sid';
+  }
+  variable_set('syslog_identity', $syslog_identity);
+  drupal_set_message(t('Syslog identity has been set to "@syslogid"', array('@syslogid' => $syslog_identity)));
 }
 
 /**
@@ -126,28 +145,4 @@ function cu_core_express_bean_list_groups($bundles) {
 
 
   return $bundles;
-}
-
-/**
- * Implements hook_permission().
- *
- * Add 'add taxonomy' permission.
- */
-function cu_core_permission() {
-  $permissions = array(
-    'add taxonomy' => array(
-      'title' => t('Add Taxonomy'),
-    ),
-  );
-  return $permissions;
-}
-
-/**
- * Implements hook_menu_alter().
- *
- * Add permission to admin/structure/taxonomy/add
- */
-function cu_core_menu_alter(&$items) {
-  // Prevent users from adding taxonomies.
-  $items['admin/structure/taxonomy/add']['access arguments'] = array('add taxonomy');
 }
