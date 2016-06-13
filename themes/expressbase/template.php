@@ -47,39 +47,11 @@ function expressbase_preprocess_html(&$vars) {
     ),
   );
   drupal_add_html_head($element, 'ie_compatibility_mode');
-  // Setting title so we get the value from meta tag
-  // Get meta tag title - $vars['head_array']['title']
-  if (!empty($vars['head_array']['title'])) {
-    $meta_title = $vars['head_array']['title'];
-    // Get and trim site name
-    $site_name = trim(variable_get('site_name', ''));
-    // If site name is in meta tag title, remove site name from title array
-    $vars['head_title_array']['title'] = $vars['head_array']['title'];
-    foreach ($vars['head_title_array'] as $key => $value) {
-      // Remove double spaces
-      $value = preg_replace('!\s+!', ' ', $value);
-      $vars['head_title_array'][$key] = trim($value);
-    }
-    // Remove double spaces in site name
-    $site_name = preg_replace('!\s+!', ' ', $site_name);
-    // if site name is already in the meta_title, remove it from array
-    if (strpos($meta_title, $site_name) !== false) {
-      unset($vars['head_title_array']['name']);
-    }
-  }
-  // Add Campus name to title
-  $slogan_title = variable_get('site_slogan_title', 'University of Colorado Boulder');
-
-  // Check to see if site slogan is already in the page title
-  if (strpos($meta_title, $slogan_title) !== false) {
-    // Site slogan may already be inserted if this is the homepage
-  }
-  // Add slogan if it was not already in title
-  else {
-    $vars['head_title_array']['slogan'] = $slogan_title;
-  }
 
   // Build title array
+  // Add Campus name to title
+  $slogan_title = variable_get('site_slogan_title', 'University of Colorado Boulder');
+  $vars['head_title_array']['slogan'] = $slogan_title;
   $vars['head_title'] = implode(' | ', $vars['head_title_array']);
 
   // set classes for theme configs
