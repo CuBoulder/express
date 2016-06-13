@@ -137,7 +137,7 @@ function cu_dashboard_seo_checklist() {
   );
 
   $checklist['site_verification'] = array(
-    'title' => 'Site Verifcation',
+    'title' => 'Site Verification',
     'weight' => '1',
     'description' => array(
       '0' => 'Site Verification is the process of proving that you own the website. Google uses site verification to give you access to their <a href="https://www.google.com/webmasters">Search Console webmaster tools</a>.',
