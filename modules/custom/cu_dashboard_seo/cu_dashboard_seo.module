@@ -27,13 +27,31 @@ function cu_dashboard_seo_permission() {
 }
 
 /**
+ * Implements hook_express_help()
+ *
+ * Add contextual help for the SEO dashboard tab.
+ *
+ * @param array $variables
+ *   Array with information about help hooks
+ * @return array $variables
+ */
+function cu_dashboard_seo_express_help($variables) {
+  $variables['admin/dashboard/seo'][] = array(
+    'title' => 'Search Engine Optimization Help',
+    'short_title' => 'SEO Help',
+    'url' => '/node/1190',
+  );
+  return $variables;
+}
+
+/**
  * Callback function for user dashboard.
  */
 function cu_dashboard_seo_content() {
   $output = array();
 
 
-  $output['left']['widgets']['checklist']['title'] = 'SEO Checklist';
+  $output['left']['widgets']['checklist']['title'] = t('Search Engine Optimization Checklist');
   $output['left']['widgets']['checklist']['content']['#markup'] = cu_dashboard_seo_checklist_output();
 
   $output['right']['widgets']['content_updated']['title'] = 'Content Updated';
