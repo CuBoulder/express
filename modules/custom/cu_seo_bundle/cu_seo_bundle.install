@@ -4,7 +4,8 @@
  * Implements hook_install().
  */
 function cu_seo_bundle_install() {
-
+  // Don't cache meta tags so site name can be updated easily
+  variable_set('metatag_cache_output', 0);
 }
 
 /**
