@@ -47,18 +47,8 @@ function expressbase_preprocess_html(&$vars) {
     ),
   );
   drupal_add_html_head($element, 'ie_compatibility_mode');
-  // Setting title so we get the value from meta tag
-  // Get meta tag title - $vars['head_array']['title']
-  if (!empty($vars['head_array']['title'])) {
-    $meta_title = $vars['head_array']['title'];
-    // Get and trim site name
-    $site_name = trim(variable_get('site_name', ''));
-    // If site name is in meta tag title, remove site name from title array
-    $vars['head_title_array']['title'] = $vars['head_array']['title'];
-    if (strpos($meta_title, $site_name) !== false) {
-      unset($vars['head_title_array']['name']);
-    }
-  }
+
+  // Build title array
   // Add Campus name to title
   $slogan_title = variable_get('site_slogan_title', 'University of Colorado Boulder');
   $vars['head_title_array']['slogan'] = $slogan_title;

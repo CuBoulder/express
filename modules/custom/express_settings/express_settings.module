@@ -171,7 +171,7 @@ function express_settings_site_name_form($form, &$form_state) {
   );
 
   // Let system_settings_form_submit run first to variable_set vars.
-  $form = system_settings_form($form);
+  //$form = system_settings_form($form);
   $form['#submit'][] = 'express_settings_site_name_form_submit';
   return $form;
 }
@@ -183,8 +183,9 @@ function express_settings_site_name_form_submit($form, &$form_state) {
 
   // Save site names as independent variables and concatenated
   $full_site_name = $form_state['values']['site_name_1'] . ' ' . $form_state['values']['site_name_2'];
-  variable_set('site_name', $full_site_name);
-
+  variable_set('site_name', filter_xss($full_site_name));
+  variable_set('site_name_1', filter_xss($form_state['values']['site_name_1']));
+  variable_set('site_name_2', filter_xss($form_state['values']['site_name_2']));
 }
 
 /**
