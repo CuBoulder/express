@@ -1,7 +1,7 @@
 name = RSS Block
 description = A bean that displaus items from a RSS feed.
 core = 7.x
-package = CU-Active
+package = CU-Feeds
 version = 7.x-1.0
 project = cu_rss_block
 dependencies[] = bean_admin_ui

@@ -50,15 +50,15 @@ function cu_inventory_menu() {
    $options = array(
      'installed' => t('Installed'),
      'launching' => t('Launching'),
-     'launched' => t('Launched'),
      'take_down' => t('Take Down Site'),
      'delete' => t('Delete'),
-     'destroy' => t('Destroy'),
    );
 
    // if site is still Available, add that option... you can never go back to avialable
    if ($site_array['status'] == 'available') {
      $options['available'] = t('Available');
+   } elseif ($site_array['status'] == 'launched') {
+     $options['launched'] = t('Launched');
    }
 
    $form['cu_inventory_status'] = array(
@@ -105,7 +105,7 @@ function cu_inventory_menu() {
      '#rows' => 5,
      '#default_value' => variable_get('dslm_add_contrib'),
      '#title' => t('Add Contrib'),
-     '#description' => t('Comma seperated list of the machine names additional projects to symlink.  These must already be registed in the dslm_base/packages.'),
+     '#description' => t('Comma separated list of the machine names additional projects to symlink. These must already be registered in packages_base.'),
    );
 
    return system_settings_form($form);
@@ -600,7 +600,7 @@ function cu_inventory_validate_site($site_array) {
  * Determine which Inventory we are connected to.
  *
  * @return string
- *   dev or prod environment for the Inventory
+ *   local, dev, test, or prod environment for the Inventory
  */
 function cu_inventory_connected_env() {
   $response = drupal_http_request(getenv("CU_CENTRAL_EVE"));

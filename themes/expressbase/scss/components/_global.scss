@@ -135,6 +135,14 @@ html {
   clear:both;
 }
 
+/* Regions */
+
+.region-content-bottom {
+  clear:both;
+}
+
+/* Responsive Preview */
+
 .layout-fixed1 #responsive-preview-navbar-tab {
   display: none !important;
 }
@@ -160,4 +168,11 @@ html {
     color:#fff;
     background-color: #007BC8;
   }
+}
+
+/* More Link */
+
+.field-type-text-with-summary .more-link:before {
+  content: " ";
+  white-space: nowrap;
 }

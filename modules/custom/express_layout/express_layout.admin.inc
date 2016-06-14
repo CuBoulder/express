@@ -29,6 +29,27 @@ function express_layout_form($form, &$form_state, $op = 'edit', $express_layout 
       }
     }
   }
+
+  // Get layout field title
+  $layout_field_title = $form['field_feature_layout_toggle'][LANGUAGE_NONE]['#title'];
+  // Unset field title
+  unset($form['field_feature_layout_toggle'][LANGUAGE_NONE]['#title']);
+
+  // Add fieldset and title
+  $form['field_feature_layout_toggle']["#prefix"] = "<fieldset class=\"form-wrapper\"><legend><span class=\"fieldset-legend\">$layout_field_title</span></legend><div class=\"fieldset-wrapper\">";
+  // Close fieldset
+  $form['field_feature_layout_toggle']["#suffix"] = '</div></fieldset>';
+
+  // Get feature image field title
+  $layout_field_image = $form['field_feature_title_image'][LANGUAGE_NONE][0]['#title'];
+  // Unset field title
+  unset($form['field_feature_title_image'][LANGUAGE_NONE][0]['#title']);
+
+  // Add fieldset and title
+  $form['field_feature_title_image']["#prefix"] = "<fieldset class=\"form-wrapper\"><legend><span class=\"fieldset-legend\">$layout_field_image</span></legend><div class=\"fieldset-wrapper\">";
+  // Close fieldset
+  $form['field_feature_title_image']["#suffix"] = '</div></fieldset>';
+
   $form['actions'] = array(
     '#type' => 'actions',
     'submit' => array(

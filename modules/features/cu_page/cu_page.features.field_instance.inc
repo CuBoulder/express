@@ -29,7 +29,7 @@ function cu_page_field_default_field_instances() {
         'module' => 'smart_trim',
         'settings' => array(
           'more_link' => 1,
-          'more_text' => 'Read more',
+          'more_text' => 'Read more »',
           'summary_handler' => 'full',
           'trim_length' => 100,
           'trim_link' => 0,

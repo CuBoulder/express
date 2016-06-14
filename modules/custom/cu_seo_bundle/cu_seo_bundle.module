@@ -110,7 +110,7 @@ function cu_seo_bundle_menu() {
     'page callback' => 'drupal_goto',
     'page arguments' => array('admin/reports/linkchecker'),
     'access arguments' => array('administer express settings'),
-    'weight' => 26,
+    'weight' => 20,
   );
   $items['admin/settings/seo/verifications'] = array(
     'title' => 'Verifications',
@@ -119,7 +119,7 @@ function cu_seo_bundle_menu() {
     'page callback' => 'drupal_goto',
     'page arguments' => array('admin/config/search/verifications'),
     'access arguments' => array('administer site verify'),
-    'weight' => -25,
+    'weight' => 50,
   );
 
   return $items;

@@ -41,50 +41,19 @@ function expressadmin_preprocess_html(&$vars) {
  * Overrides theme_button().
  */
 function expressadmin_button($variables) {
-  if (arg(2) != 'views') {
-    $element = $variables['element'];
-    $value = $element['#value'];
+  $element = $variables['element'];
+  $element['#attributes']['type'] = 'submit';
+  element_set_attributes($element, array('id', 'name', 'value'));
 
-    // This line break adds inherent margin between multiple buttons.
-    return '<button' . drupal_attributes($element['#attributes']) . '>' . $value . "</button>\n";
-  } else {
-    $element = $variables['element'];
-    $element['#attributes']['type'] = 'submit';
-    element_set_attributes($element, array('id', 'name', 'value'));
-
-    $element['#attributes']['class'][] = 'form-' . $element['#button_type'];
-    if (!empty($element['#attributes']['disabled'])) {
-      $element['#attributes']['class'][] = 'form-button-disabled';
-    }
-
-    return '<input' . drupal_attributes($element['#attributes']) . ' />';
+  $element['#attributes']['class'][] = 'form-' . $element['#button_type'];
+  if (!empty($element['#attributes']['disabled'])) {
+    $element['#attributes']['class'][] = 'form-button-disabled';
   }
-}
+  $element['#attributes']['class'][] = 'btn';
+  // Colorize button.
+  _expressadmin_colorize_button($element);
 
-/**
- * Implements hook_preprocess_button().
- */
-function expressadmin_preprocess_button(&$vars) {
-  if (arg(2) != 'views') {
-    $element = &$vars['element'];
-    // Set the element's attributes.
-    element_set_attributes($element, array('id', 'name', 'value', 'type'));
-
-    // Make sure submit buttons are really submit buttons
-    $element['#attributes']['type'] = 'submit';
-
-    // Add the base Bootstrap button class.
-    $element['#attributes']['class'][] = 'btn';
-
-    // Colorize button.
-    _expressadmin_colorize_button($element);
-
-    // Add in the button type class.
-    $element['#attributes']['class'][] = 'form-' . $element['#button_type'];
-
-    // Ensure that all classes are unique, no need for duplicates.
-    $element['#attributes']['class'] = array_unique($element['#attributes']['class']);
-  }
+  return '<input' . drupal_attributes($element['#attributes']) . ' />';
 }
 
 /**
@@ -194,6 +163,7 @@ function _expressadmin_colorize_text($string, $default = '') {
         // Info class.
         t('Apply')              => 'info',
         t('Update')             => 'info',
+        t('Analyze')             => 'info',
 
         // Default class.
         t('Upload')             => 'default',
@@ -232,9 +202,6 @@ function _expressadmin_colorize_text($string, $default = '') {
   return $default;
 }
 
-
-
-
 /**
  * Overrides theme_menu_local_tasks().
  */
@@ -262,8 +229,6 @@ function expressadmin_menu_local_tasks(&$variables) {
 
   return $output;
 }
-
-
 
 /**
  * Override or insert variables into the page template.
@@ -379,7 +344,6 @@ function expressadmin_css_alter(&$css) {
     $css['misc/ui/jquery.ui.theme.css']['type'] = 'file';
   }
 }
-
 
 /**
  * Preprocessor for theme('admin_block').

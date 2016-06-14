@@ -11,7 +11,7 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
     cu_advanced_content_bundle:
-      paths: [ %paths.base%/features/AdvancedContent ]
+      paths: [ %paths.base%/features/cu_advanced_content_bundle ]
       contexts:
         - ExpressContext
         - AdvancedContentContext
@@ -20,7 +20,7 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
     cu_advanced_design_bundle:
-      paths: [ %paths.base%/features/AdvancedDesign ]
+      paths: [ %paths.base%/features/cu_advanced_design_bundle ]
       contexts:
         - ExpressContext
         - Drupal\DrupalExtension\Context\DrupalContext
@@ -28,7 +28,7 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
     cu_advanced_layout_bundle:
-      paths: [ %paths.base%/features/AdvancedLayout ]
+      paths: [ %paths.base%/features/cu_advanced_layout_bundle ]
       contexts:
         - ExpressContext
         - AdvancedLayoutContext
@@ -37,7 +37,7 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
     cu_events_bundle:
-      paths: [%paths.base%/features/Events]
+      paths: [ %paths.base%/features/cu_events_bundle ]
       contexts:
         - ExpressContext
         - EventsContext
@@ -46,7 +46,7 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
     cu_forms_bundle:
-      paths: [%paths.base%/features/Forms]
+      paths: [ %paths.base%/features/cu_forms_bundle ]
       contexts:
         - ExpressContext
         - FormsContext
@@ -55,7 +55,7 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
     cu_news_articles_bundle:
-      paths: [%paths.base%/features/NewsArticles]
+      paths: [ %paths.base%/features/cu_news_articles_bundle ]
       contexts:
         - ExpressContext
         - NewsArticlesContext
@@ -64,7 +64,7 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
     cu_people_bundle:
-      paths: [%paths.base%/features/People]
+      paths: [ %paths.base%/features/cu_people_bundle ]
       contexts:
         - ExpressContext
         - PeopleContext
@@ -73,7 +73,7 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
     cu_photo_gallery_bundle:
-      paths: [%paths.base%/features/PhotoGallery]
+      paths: [ %paths.base%/features/cu_photo_gallery_bundle]
       contexts:
         - ExpressContext
         - PhotoGalleryContext
@@ -91,7 +91,7 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
     cu_social_media_bundle:
-      paths: [%paths.base%/features/SocialMedia]
+      paths: [ %paths.base%/features/cu_social_media_bundle ]
       contexts:
         - ExpressContext
         - SocialMediaContext
@@ -125,6 +125,7 @@ default:
         Branding: "#branding"
         Search: ".region-search-box"
         Secondary Menu: "#secondary-menu"
+        Secondary Mobile Menu: "#secondary-menu-mobile"
         Menu: "#navigation"
         Sidebar First: ".region-sidebar-first"
         Sidebar Second: ".region-sidebar-second"

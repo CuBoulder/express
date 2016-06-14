@@ -130,6 +130,16 @@ function cu_inventory_stats_empty_site_stats() {
       'edit_my_content'
     );
 
+    // Removing test user accounts from list of users.
+    $test_user_emails = array();
+    $test_roles = array('site_owner', 'content_editor', 'edit_my_content');
+    foreach ($test_roles as $role) {
+      $users = cu_users_get_users($role);
+      foreach ($users as $email) {
+        $test_user_emails[] = $email;
+      }
+    }
+
     foreach ($roles_to_check as $role_name) {
       // Return the role object
       $role = user_role_load_by_name($role_name);
@@ -138,6 +148,7 @@ function cu_inventory_stats_empty_site_stats() {
       $role_query->join('users', 'u', 'ur.uid = u.uid');
       $role_query
         ->condition('ur.rid', $role->rid)
+        ->condition('u.mail', $test_user_emails, 'NOT IN')
         ->fields('u', array('mail','name'));
 
       $role_result = $role_query->execute();
@@ -163,22 +174,49 @@ function cu_inventory_stats_empty_site_stats() {
     // Add report of overridden features.
     $site_data['statistics']['overriden_features'] = _get_features_statuses();
 
-    // Add report of enabled bundles.
-    $site_data['statistics']['enabled_bundles'] = _get_enabled_bundles();
+    // Add report of stats related to bundles.
+    $site_data['statistics']['bundles'] = _get_bundle_stats();
 
     // Last, add the wrapper array. This adds a wrapper Python list which allows
-    // us to null Statistics.
+    // us to null Statistics. We keep a version without a wrapper for POSTing to logstash.
+    $site_data_nowrapper = $site_data;
     $site_data['statistics'] = array($site_data['statistics']);
 
     // Function defaults to true.
     if ($process && module_exists('cu_inventory')) {
       // Ready to patch. We do not want to use the cached site object.
       cu_inventory_update_site($site_data, FALSE);
+      cu_inventory_send_to_logstash($site_data_nowrapper);
     }
     else {
       return $site_data['statistics'];
     }
   }
+
+/**
+ * Send 'statistics' to logstash.
+ */
+function cu_inventory_send_to_logstash($site_data) {
+  if (cu_inventory_connected_env() == "local") {
+    $request_path = 'http://logs.local:8080';
+  } else {
+    $request_path = 'http://wlogstash.colorado.edu:8080';
+  }
+
+  $curl = curl_init();
+  curl_setopt($curl, CURLOPT_URL, $request_path);
+  // Use a POST rather than a GET
+  curl_setopt($curl, CURLOPT_POST, true);
+  // JSON encode the payload
+  $curl_payload = drupal_json_encode($site_data);
+  curl_setopt($curl, CURLOPT_POSTFIELDS, $curl_payload);
+  if (!$curl_response = curl_exec($curl)) {
+    watchdog('express_inventory', 'Statistics POST to the inventory failed.', WATCHDOG_WARNING);
+  } else {
+    watchdog('express_inventory', 'Statistics POST to the inventory succeded.', WATCHDOG_INFO);
+  }
+  curl_close($curl);
+}
 
 /**
 * Helper to return the schema_version of any module, theme, or profile
@@ -221,21 +259,20 @@ function _get_features_statuses() {
   return $overridden_features;
 }
 
-function _get_enabled_bundles() {
-  $bundles = '';
+/**
+ * Callback function to return statistics relating to bundles.
+ *
+ * @return array|string
+ */
+function _get_bundle_stats() {
+  $bundle_stats = array();
   // Get enabled bundles.
-  $enabled_modules = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
-  // check for _bundle in the machine name, but also look for something in the .info
-  // to avoid false positives from contrib?
-  foreach ($enabled_modules as $key => $module) {
-    if (strpos($module->name, '_bundle')) {
-      if (!empty($bundles)) {
-        $bundles .= '; ' . $module->name;
-      }
-      else {
-        $bundles = $module->name;
-      }
-    }
+  $enabled_bundles = db_query("SELECT name, schema_version FROM {system} WHERE type = 'module' AND status = 1 AND name LIKE '%_bundle' ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
+  // Turn returned object into an array.
+  foreach ($enabled_bundles as $key => $bundle) {
+    $bundle_stats[$bundle->name] = array(
+      'schema_version' => $bundle->schema_version,
+    );
   }
-  return $bundles;
+  return $bundle_stats;
 }

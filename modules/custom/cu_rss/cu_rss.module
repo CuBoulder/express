@@ -312,5 +312,8 @@ function cu_rss_secure_permissions($role) {
       'administer rss feeds',
     ),
   );
-  return $permissions[$role];
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
 }
