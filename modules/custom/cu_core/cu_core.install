@@ -419,6 +419,27 @@ function cu_core_update_7008() {
 }
 
 /**
+ * Express Update 7009.
+ * Reverting GA codes for sites.
+ */
+function cu_core_update_7009() {
+  if ($ga_codes = variable_get('ga_account', '')) {
+    $ga_codes = explode(',', $ga_codes);
+    $js_code = '';
+    foreach ($ga_codes as $key => $code) {
+      $js_code .= format_string("ga('create', '@ga_account', 'auto', {'name':'customTracker@key'});  ga('customTracker@key.send', 'pageview');", array('@ga_account' => $code, '@key' => $key));
+    }
+    variable_set('googleanalytics_codesnippet_after', $js_code);
+  }
+  else {
+    variable_set('googleanalytics_codesnippet_after', '');
+  }
+
+  // Run on every update
+  cu_core_inventory_update('7009');
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
