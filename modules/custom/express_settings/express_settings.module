@@ -171,7 +171,7 @@ function express_settings_site_name_form($form, &$form_state) {
   );
 
   // Let system_settings_form_submit run first to variable_set vars.
-  //$form = system_settings_form($form);
+  $form = system_settings_form($form);
   $form['#submit'][] = 'express_settings_site_name_form_submit';
   return $form;
 }
