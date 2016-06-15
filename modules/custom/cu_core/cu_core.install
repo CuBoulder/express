@@ -424,7 +424,8 @@ function cu_core_update_7008() {
  */
 function cu_core_update_7009() {
   if ($ga_codes = variable_get('ga_account', '')) {
-    $ga_codes = explode(',', $ga_codes);
+    // Explode string and trim whitespace.
+    $ga_codes = array_map('trim', explode(',', $ga_codes));
     $js_code = '';
     foreach ($ga_codes as $key => $code) {
       $js_code .= format_string("ga('create', '@ga_account', 'auto', {'name':'customTracker@key'});  ga('customTracker@key.send', 'pageview');", array('@ga_account' => $code, '@key' => $key));
