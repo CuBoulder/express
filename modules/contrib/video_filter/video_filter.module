@@ -200,7 +200,12 @@ function _video_filter_process($text, $filter, $format, $langcode, $cache, $cach
           $ratio = $tratio[1] / $tratio[2];
         }
         elseif (isset($video['codec']['ratio'])) {
-          $ratio = $video['codec']['ratio'];
+          if (is_float($video['codec']['ratio']) || is_int($video['codec']['ratio'])) {
+            $ratio = $video['codec']['ratio'];
+          }
+          elseif (preg_match('/(\d+)\s*\/\s*(\d+)/', $video['codec']['ratio'], $cratio)) {
+            $ratio = $cratio[1] / $cratio[2];
+          }
         }
 
         // Sets video width & height after any user input has been parsed.
