@@ -37,3 +37,6 @@ projects[linkchecker][patch][] = https://www.drupal.org/files/integration-indepe
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-1834
 projects[bean][patch][] = https://www.drupal.org/files/issues/bean-watchdog_logging-2714693-5-7.x.patch
+
+; @see https://cuboulder.atlassian.net/browse/FIT-1934
+projects[video_filter][patch][] = https://www.drupal.org/files/issues/video_filter-aspect-ratio-2749297-2-D7.patch
