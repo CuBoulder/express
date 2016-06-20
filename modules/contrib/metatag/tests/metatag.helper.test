@@ -12,6 +12,9 @@ class MetatagTestHelper extends DrupalWebTestCase {
    */
   protected $adminUser;
 
+  /**
+   * {@inheritdoc}
+   */
   function setUp(array $modules = array()) {
     // Make sure these modules are enabled so that we can use their entity
     // types later.
@@ -331,8 +334,8 @@ class MetatagTestHelper extends DrupalWebTestCase {
   /**
    * Get the {locales_source} lid value for a specific source.
    *
-   * @param string $context
-   *   The context string to search for.
+   * @param string $string
+   *   The translation string to search for.
    * @param string $textgroup
    *   This string's textgroup; defaults to 'metatag'.
    *
@@ -353,6 +356,29 @@ class MetatagTestHelper extends DrupalWebTestCase {
         ':source' => $string,
       ))
       ->fetchField();
+  }
+
+  /**
+   * Get the {locales_source} lid values for a specific context.
+   *
+   * @param string $context
+   *   The context string to search for.
+   * @param string $textgroup
+   *   This string's textgroup; defaults to 'metatag'.
+   *
+   * @return integer
+   *   The {locales_source}.lid value for this string.
+   */
+  function getTranslationsByContext($context, $textgroup = 'metatag') {
+    return db_query("SELECT lid
+      FROM {locales_source}
+      WHERE textgroup = :textgroup
+      AND context = :context",
+      array(
+        ':textgroup' => $textgroup,
+        ':context' => $context,
+      ))
+      ->fetchCol();
   }
 
   /**
@@ -611,6 +637,8 @@ class MetatagTestHelper extends DrupalWebTestCase {
     $xpath = $this->xpath("//body//div[@class='content']//table//tbody//tr");
     $count = count($xpath);
 
+    // If the string is expected, then confirm that there are strings to be
+    // found.
     if ($assert_true) {
       $this->assertTrue($count >= 1, 'Found Metatag strings to translate.');
       $this->assertNoText(t('No strings available.'));
@@ -621,9 +649,9 @@ class MetatagTestHelper extends DrupalWebTestCase {
         $this->assertText('metatag:' . $context);
       }
     }
+    // If the string is not supposed to be found, then confirm the context is
+    // not available.
     else {
-      $this->assertTrue($count == 1, "Did not find the requested meta tag available to translate, '{$string}', as expected.");
-      $this->assertText(t('No strings available.'));
       $this->assertNoText($context);
       $this->assertNoText('metatag:' . $context);
     }
@@ -632,9 +660,9 @@ class MetatagTestHelper extends DrupalWebTestCase {
   /**
    * Create an image of a specific size & type.
    *
-   * @param string
+   * @param string $image_size
    *   The size of the requested image in 'XxY' format; defaults to '200x200'.
-   * @param string
+   * @param string $format
    *   The image format to use, defaults to 'png'.
    *
    * @return string

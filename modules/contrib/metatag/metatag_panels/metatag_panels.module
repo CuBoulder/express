@@ -158,7 +158,7 @@ function metatag_panels_ctools_render_alter($info, $page, $context) {
   }
 
   // Translate all of the meta tags using i18n.
-  metatag_translate_metatags($metatags[LANGUAGE_NONE], 'metatag_panels:' . $handler->name);
+  metatag_translate_metatags($metatags[LANGUAGE_NONE], 'metatag_panels:' . $handler->name, NULL, FALSE);
 
   // Append global defaults.
   $all_metatags = array();
