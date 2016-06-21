@@ -128,7 +128,7 @@ before_script:
 
 script:
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '~@max_execution_time'
+  - ./bin/behat --config behat.yml --verbose --tags @current
   # Run tests that were timing out.
   - ./bin/behat --config behat.yml --verbose --tags @max_execution_time
 
