@@ -20,7 +20,7 @@ Feature: Facebook Activity Access Feature
   Given I am on "block/add/facebook-activity"
   Then I should see "Access Denied"
 
-  @api @social_media @current
+  @api @social_media
   Scenario Outline: Users should be able to view Facebook Activity block content.
   Given I am logged in as a user with the <role> role
   When I create a "facebook_activity" block with the label "Facebook Activity Block"
