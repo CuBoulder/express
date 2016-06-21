@@ -8,7 +8,6 @@ php:
 # We want builds of master and dev branches only.
 branches:
   only:
-    - master
     - dev
 
 # We need LDAP as long as it is in express_core. Need CGI for runserver in PHP 5.3.
