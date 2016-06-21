@@ -361,8 +361,8 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     node_object_prepare($node);
     node_save($node);
 
-    // Go to node page
-    //$session = $this->getSession();
+    // Go to node page.
+    // Using vistPath() instead of visit() method since it adds base URL to relative path.
     $this->visitPath('node/' . $node->nid);
   }
 
@@ -377,8 +377,9 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     );
     $entity = entity_create('bean', $values);
     $saved_entity = entity_save('bean', $entity);
+
     // Go to bean page.
-    //$session = $this->getSession();
+    // Using vistPath() instead of visit() method since it adds base URL to relative path.
     $this->visitPath('block/' . $entity->delta);
   }
 
