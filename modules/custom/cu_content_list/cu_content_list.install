@@ -21,4 +21,12 @@ function cu_content_list_install() {
     'field_content_bottom' => 0,
   );
   variable_set('express_layout_settings_content_list_page', $layout_settings);
+  variable_set('express_layout_type_content_list_page', 'content_list_page');
+}
+
+/**
+ * Setting variable to allow content list pages to have layouts.
+ */
+function cu_content_list_update_7001() {
+  variable_set('express_layout_type_content_list_page', 'content_list_page');
 }
