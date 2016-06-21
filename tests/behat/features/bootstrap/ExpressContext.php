@@ -354,8 +354,8 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     node_save($node);
 
     // Go to node page
-    $session = $this->getSession();
-    $session->visit('node/' . $node->nid);
+    //$session = $this->getSession();
+    $this->visitPath('node/' . $node->nid);
   }
 
   /**
@@ -370,8 +370,8 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     $entity = entity_create('bean', $values);
     $saved_entity = entity_save('bean', $entity);
     // Go to bean page.
-    $session = $this->getSession();
-    $session->visit('block/' . $entity->delta);
+    //$session = $this->getSession();
+    $this->visitPath('block/' . $entity->delta);
   }
 
   /*
