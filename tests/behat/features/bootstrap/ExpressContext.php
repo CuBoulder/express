@@ -343,6 +343,14 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
+   * @AfterScenario
+   */
+  public function logoutUserAfterScenario($scope) {
+    // Make sure users are explicitly logged out after scenarios.
+    $this->logout();
+  }
+
+  /**
    * @When /^I create a "(?P<content_type>(?:[^"]|\\")*)" node with the title "(?P<title>(?:[^"]|\\")*)"$/
    */
   public function imAtAWithTheTitle($content_type, $title) {
@@ -353,9 +361,9 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     node_object_prepare($node);
     node_save($node);
 
-    // Go to node page
-    $session = $this->getSession();
-    $session->visit('node/' . $node->nid);
+    // Go to node page.
+    // Using vistPath() instead of visit() method since it adds base URL to relative path.
+    $this->visitPath('node/' . $node->nid);
   }
 
   /**
@@ -369,9 +377,10 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     );
     $entity = entity_create('bean', $values);
     $saved_entity = entity_save('bean', $entity);
+
     // Go to bean page.
-    $session = $this->getSession();
-    $session->visit('block/' . $entity->delta);
+    // Using vistPath() instead of visit() method since it adds base URL to relative path.
+    $this->visitPath('block/' . $entity->delta);
   }
 
   /*
