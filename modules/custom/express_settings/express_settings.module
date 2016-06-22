@@ -183,8 +183,9 @@ function express_settings_site_name_form_submit($form, &$form_state) {
 
   // Save site names as independent variables and concatenated
   $full_site_name = $form_state['values']['site_name_1'] . ' ' . $form_state['values']['site_name_2'];
-  variable_set('site_name', $full_site_name);
-
+  variable_set('site_name', filter_xss($full_site_name));
+  variable_set('site_name_1', filter_xss($form_state['values']['site_name_1']));
+  variable_set('site_name_2', filter_xss($form_state['values']['site_name_2']));
 }
 
 /**
@@ -255,10 +256,11 @@ function express_settings_google_analytics_form_validate($form, &$form_state) {
  */
 function express_settings_google_analytics_form_submit($form, &$form_state) {
   if ($ga_codes = variable_get('ga_account', '')) {
-    $ga_codes = explode(',', $ga_codes);
+    // Explode the string and trim whitespace.
+    $ga_codes = array_map('trim', explode(',', $ga_codes));
     $js_code = '';
     foreach ($ga_codes as $key => $code) {
-      $js_code .= format_string("ga('create', '@ga_account', 'auto', {'name':'customTracker-@key'});  ga('customTracker-@key.send', 'pageview');", array('@ga_account' => $code, '@key' => $key));
+      $js_code .= format_string("ga('create', '@ga_account', 'auto', {'name':'customTracker@key'});  ga('customTracker@key.send', 'pageview');", array('@ga_account' => $code, '@key' => $key));
     }
     variable_set('googleanalytics_codesnippet_after', $js_code);
   }

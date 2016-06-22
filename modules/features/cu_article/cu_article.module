@@ -534,7 +534,7 @@ function cu_article_preprocess_node(&$vars) {
     $vars['content']['article_meta']['#weight'] = 100;
 
     // Add publish date to author meta element
-    $vars['author_meta']['date'] = '<i class="fa fa-clock-o"></i><span class="element-invisible">Published:</span>  ' . $vars['ap_date_cu_medium_date'];
+    $vars['author_meta']['date'] = '<span class="author-meta-date author-meta-item"><i class="fa fa-clock-o"></i><span class="element-invisible">Published:</span>  ' . $vars['ap_date_cu_medium_date'] . '</span>';
 
     // Show/hide publish date
     $article_date_settings = !empty($vars['node']->field_article_date_display) ? $vars['node']->field_article_date_display[LANGUAGE_NONE][0]['value'] : NULL;
@@ -625,20 +625,22 @@ function cu_article_preprocess_node(&$vars) {
         // If term has a url, link to url
         if (!empty($term->field_article_byline_url)) {
           $url = $term->field_article_byline_url[LANGUAGE_NONE][0]['url'];
-          $bylines[] = l($term->name, $url);
+          $byline_name = l($term->name, $url);
         }
         // If term has a person id, link to person node
         elseif (!empty($term->field_article_byline_person_id)) {
           $person_id = $term->field_article_byline_person_id[LANGUAGE_NONE][0]['value'];
-          $bylines[] = l($term->name, 'node/' . $person_id);
+          $byline_name = l($term->name, 'node/' . $person_id);
         }
         // Otherwise just print term name
         else {
-          $bylines[] = $term->name;
+          $byline_name = $term->name;
         }
-      }
+        $bylines[] = '<span class="byline-author-name">' . $byline_name
+ . '</span>';
+    }
       // Add bylines terms to author meta section
-      $vars['author_meta']['byline'] = 'By ' . join(', ', $bylines);
+      $vars['author_meta']['byline'] = '<span class="author-meta-name author-meta-item">By ' . join(', ', $bylines) . '</span>';
     }
   }
   if ($vars['node']->type == 'article_list_page') {

@@ -144,7 +144,9 @@ Scenario: Content editors can create person nodes
         And I select "<Footer Menu>" from "Parent item"
         And I select "<Secondary Menu>" from "Parent item"
         And I press the "Save" button
-      Then I should see "John Doe" in the "Secondary Menu" region
+      When I click the ".mobile-menu-toggle a" element
+        And I wait for AJAX
+      Then I should see "John Doe" in the "Secondary Mobile Menu" region
 
   @api @people @people-filters
   Scenario: Adding a label to the filter terms should result in the label showing up on the people list page.

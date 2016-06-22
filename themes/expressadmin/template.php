@@ -163,6 +163,7 @@ function _expressadmin_colorize_text($string, $default = '') {
         // Info class.
         t('Apply')              => 'info',
         t('Update')             => 'info',
+        t('Analyze')             => 'info',
 
         // Default class.
         t('Upload')             => 'default',

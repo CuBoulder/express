@@ -94,3 +94,11 @@ body { background-color: #272727; padding-bottom: 20px; }
 #mobile-navigation-wrapper ul#secondary-menu-mobile a { color: #fff; border-bottom: 1px solid #555; }
 #mobile-navigation-wrapper ul#secondary-menu-mobile a.active, #mobile-navigation-wrapper ul#secondary-menu-mobile a.active-trail { color: #000; background-color: #cfb87c; font-weight: 600; }
 #mobile-navigation-wrapper ul#secondary-menu-mobile, #mobile-navigation-wrapper ul#footer-menu-mobile { border-top: 3px solid #ddd; }
+
+.title-image-breadcrumbs-wrapper { color: #fff; }
+.title-image-breadcrumbs-wrapper a { background: transparent; }
+
+.title-image-breadcrumbs-wrapper .breadcrumb { color: #fff; }
+.title-image-breadcrumbs-wrapper .breadcrumb a { background: transparent; padding: 0; }
+
+.has-feature-title-image #page-title-wrapper { display: none; }

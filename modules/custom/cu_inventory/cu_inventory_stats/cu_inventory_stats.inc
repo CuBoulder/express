@@ -131,14 +131,15 @@ function cu_inventory_stats_process_site_stats($process = TRUE) {
 
   // TODO: Add Permissions report.
 
-  // We want a list of user email addresses and a list of Identikeys to use in
-  // communications. We are breaking them up by role to allow segmentation by
-  // role.
-  $roles_to_check = array(
-    'site_owner',
-    'content_editor',
-    'edit_my_content',
-  );
+  // Removing test user accounts from list of users.
+  $test_user_emails = array();
+  $test_roles = array('site_owner', 'content_editor', 'edit_my_content');
+  foreach ($test_roles as $role) {
+    $users = cu_users_get_users($role);
+    foreach ($users as $email) {
+      $test_user_emails[] = $email;
+    }
+  }
 
   foreach ($roles_to_check as $role_name) {
     // Return the role object.
@@ -148,6 +149,7 @@ function cu_inventory_stats_process_site_stats($process = TRUE) {
     $role_query->join('users', 'u', 'ur.uid = u.uid');
     $role_query
       ->condition('ur.rid', $role->rid)
+      ->condition('u.mail', $test_user_emails, 'NOT IN')
       ->fields('u', array('mail', 'name'));
 
     $role_result = $role_query->execute();
@@ -166,9 +168,9 @@ function cu_inventory_stats_process_site_stats($process = TRUE) {
         $identikey_list = $object->name;
       }
     }
-    $site_data['statistics']['users']['email'][$role_name] = $email_list;
-    $site_data['statistics']['users']['identikey'][$role_name] = $identikey_list;
   }
+  $site_data['statistics']['users']['email'][$role_name] = $email_list;
+  $site_data['statistics']['users']['identikey'][$role_name] = $identikey_list;
 
   // Add report of overridden features.
   $site_data['statistics']['overriden_features'] = _get_features_statuses();
@@ -177,13 +179,16 @@ function cu_inventory_stats_process_site_stats($process = TRUE) {
   $site_data['statistics']['bundles'] = _get_bundle_stats();
 
   // Last, add the wrapper array. This adds a wrapper Python list which allows
-  // us to null Statistics.
+  // us to null Statistics. We keep a version without a wrapper for POSTing to
+  // logstash.
+  $site_data_nowrapper = $site_data;
   $site_data['statistics'] = array($site_data['statistics']);
 
-  // Function defaults to TRUE.
+  // Function defaults to true.
   if ($process && module_exists('cu_inventory')) {
     // Ready to patch. We do not want to use the cached site object.
     cu_inventory_update_site($site_data, FALSE);
+    cu_inventory_send_to_logstash($site_data_nowrapper);
   }
   else {
     return $site_data['statistics'];
@@ -191,13 +196,40 @@ function cu_inventory_stats_process_site_stats($process = TRUE) {
 }
 
 /**
+ * Send 'statistics' to logstash.
+ */
+function cu_inventory_send_to_logstash($site_data) {
+  if (cu_inventory_connected_env() == "local") {
+    $request_path = 'http://logs.local:8080';
+  }
+  else {
+    $request_path = 'http://wlogstash.colorado.edu:8080';
+  }
+
+  $curl = curl_init();
+  curl_setopt($curl, CURLOPT_URL, $request_path);
+  // Use a POST rather than a GET.
+  curl_setopt($curl, CURLOPT_POST, TRUE);
+  // JSON encode the payload.
+  $curl_payload = drupal_json_encode($site_data);
+  curl_setopt($curl, CURLOPT_POSTFIELDS, $curl_payload);
+  if (!$curl_response = curl_exec($curl)) {
+    watchdog('express_inventory', 'Statistics POST to the inventory failed.', WATCHDOG_WARNING);
+  }
+  else {
+    watchdog('express_inventory', 'Statistics POST to the inventory succeded.', WATCHDOG_INFO);
+  }
+  curl_close($curl);
+}
+
+/**
  * Helper to return the schema_version of any module, theme, or profile.
  *
- * drupal_get_installed_schema_version does not return profiles again
- * at this bootstrap level as of 7.41. See FIT-1165.
+ * drupal_get_installed_schema_version doesn't return profiles again
+ * at this bootstrap level as of 7.41.  SEE FIT-1165.
  *
  * @param string $project_name
- *   Pass in the machine name of the project.
+ *   String of the modules, theme or profile.
  *
  * Returns an int
  */

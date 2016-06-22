@@ -1,5 +1,5 @@
 name = Search Engine Optimization
-description = This bundle adds tools that will help optimize your website for better search engine results. It includes a broken link checker, ability to add meta tags per page and a site description, as well as generates a sitemap.
+description = Optimize your website for better search engine results. Includes a broken link checker, ability to add meta tags per page and a site description, as well as generate a sitemap.
 
 core = 7.x
 package = CU-Search Engine Optimization
@@ -10,6 +10,7 @@ dependencies[] = xmlsitemap_engines
 dependencies[] = xmlsitemap_menu
 dependencies[] = cu_sitemap
 dependencies[] = linkchecker
+dependencies[] = linkchecker_bean
 dependencies[] = cu_linkchecker
 dependencies[] = site_verify
 dependencies[] = express_dashboards

@@ -16,7 +16,6 @@ function cu_inventory_menu() {
     'page arguments' => array('cu_inventory_admin_settings'),
     'access arguments' => array('administer modules'),
   );
-
   return $items;
 }
 
@@ -25,7 +24,6 @@ function cu_inventory_menu() {
  */
 function cu_inventory_admin_settings() {
   $form = array();
-
   // If the inventory isn't up, you can't do any of this.
   if (!cu_inventory_is_up()) {
     drupal_set_message(t("Inventory must be up to configure these settings"), 'error');
@@ -34,10 +32,9 @@ function cu_inventory_admin_settings() {
 
   $form['#submit'][] = 'cu_inventory_admin_settings_submit';
 
-  // Check to see that the path is set to something other than a p1
-  // to avoid getting stuck in a loop in
+  // Check to see that the path is set to something other than a p1 to avoid
+  // getting stuck in a loop in
   // https://github.com/CuBoulder/inventory/blob/dev/templates/settings.php#L31
-
   $cu_sid = variable_get('cu_sid', FALSE);
 
   if (!$cu_sid) {
@@ -47,20 +44,21 @@ function cu_inventory_admin_settings() {
 
   $site_array = cu_inventory_get_site($cu_sid);
 
-  // Options are limited based on permissions.
+  // Options are limitted based on permissions.
   $options = array(
     'installed' => t('Installed'),
     'launching' => t('Launching'),
-    'launched' => t('Launched'),
     'take_down' => t('Take Down Site'),
     'delete' => t('Delete'),
-    'destroy' => t('Destroy'),
   );
 
-  // If site is still Available, add that option.
-  // You can never go back to available.
+  // If site is Available or Launched, add that option. You cannot go to those
+  // states.
   if ($site_array['status'] == 'available') {
     $options['available'] = t('Available');
+  }
+  elseif ($site_array['status'] == 'launched') {
+    $options['launched'] = t('Launched');
   }
 
   $form['cu_inventory_status'] = array(
@@ -114,7 +112,7 @@ function cu_inventory_admin_settings() {
 }
 
 /**
- * Submit callback for admin/config/development/inventory.
+ * Submit function for cu_inventory_admin_settings().
  */
 function cu_inventory_admin_settings_submit($form, &$form_state) {
   $cu_sid = variable_get('cu_sid', NULL);

@@ -273,7 +273,7 @@ function _revert_bundle_on_error() {
  * Implements hook_modules_installed().
  * Run functions after bundles are enabled.
  */
-function profile_module_manager_modules_installed($modules) {
+function profile_module_manager_modules_enabled($modules) {
   foreach ($modules as $module) {
     // Only run these functions if module name includes _bundle
     if (strpos($module, '_bundle') !== false) {
