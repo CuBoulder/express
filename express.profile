@@ -124,10 +124,10 @@ function express_final() {
     module_enable(array($core));
   }
 
-  // update modules to ignore
+  // Update modules to ignore.
   profile_module_manager_add_to_ignore(array('entityreference', 'express_layout', 'secure_permissions', 'express_permissions'));
 
-  // rebuild list of content types for disable_node_menu_item
+  // Rebuild list of content types for disable_node_menu_item.
   $types = node_type_get_names();
   variable_set('dnmi_content_types', array_flip($types));
 
@@ -141,7 +141,7 @@ function express_final() {
 /**
  * Implements hook_themes_enabled().
  *
- * Makes sure blocks are set properly on structure/blocks for all new themes
+ * Makes sure blocks are set properly on structure/blocks for all new themes.
  */
 function express_themes_enabled() {
   $query = db_update('block')
