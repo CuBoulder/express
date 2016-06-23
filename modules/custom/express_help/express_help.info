@@ -8,4 +8,3 @@ version = "7.x-1.x-dev"
 core = "7.x"
 project = "express_help"
 datestamp = "1450739343"
-

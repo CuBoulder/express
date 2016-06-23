@@ -1,7 +1,11 @@
 <?php
+/**
+ * @file
+ * Functions for express_help that do not need to be loaded every single time.
+ */
 
 /**
- * Page callback for admin/config/development/module-manager
+ * Page callback for admin/config/development/module-manager.
  */
 function express_help_admin_settings() {
   $form = array();
