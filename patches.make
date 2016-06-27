@@ -43,3 +43,7 @@ projects[bean][patch][] = https://www.drupal.org/files/issues/bean-watchdog_logg
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-1934
 projects[video_filter][patch][] = https://www.drupal.org/files/issues/video_filter-aspect-ratio-2749297-2-D7.patch
+
+; @see https://cuboulder.atlassian.net/browse/FIT-1910
+projects[insert][patch][] = file://modules/contrib/insert/insert-pathologic.patch
+

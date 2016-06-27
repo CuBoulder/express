@@ -141,7 +141,7 @@ function cu_shortcodes_shortcode_info() {
     'title' => t('Close Margin'),
     'description' => t('Remove the bottom margin from the preceding element'),
     'process callback' => 'cu_shortcodes_close_margin',
-    'tips callback' => 'cu_shortcodes_spacer_close_margin',
+    'tips callback' => 'cu_shortcodes_close_margin_tips',
     'default settings' => array(),
   );
   $shortcodes['column'] = array(
