@@ -264,7 +264,8 @@ function metatag_config_edit_form($form, &$form_state, $config) {
     else {
       $options['token types'] = array($contexts[0]);
     }
-    // Allow hook_metatag_token_types_alter() to modify the defined tokens.
+    // Trigger hook_metatag_token_types_alter().
+    // Allow the defined tokens to be modified.
     drupal_alter('metatag_token_types', $options);
   }
 
@@ -690,6 +691,13 @@ function metatag_admin_settings_form() {
     '#description' => t("By default Metatag uses the 'Content' region to trigger output of the meta tags. Some themes do not have this region, so it can be necessary to pick another."),
     '#options' => system_region_list(variable_get('theme_default', 'bartik')),
     '#default_value' => variable_get('metatag_page_region', 'content'),
+  );
+
+  $form['advanced']['metatag_token_sanitize'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Sanitize content during token replacement'),
+    '#description' => t('If checked, will ensure that metatag value output is encoded and text filters are processed.'),
+    '#default_value' => variable_get('metatag_token_sanitize', FALSE),
   );
 
   // Extra submission logic.

@@ -139,7 +139,7 @@ function express_final() {
 /**
  * Implements hook_themes_enabled().
  *
- * Makes sure blocks are set properly on structure/blocks for all new themes
+ * Makes sure blocks are set properly on structure/blocks for all new themes.
  */
 function express_themes_enabled() {
   $query = db_update('block')

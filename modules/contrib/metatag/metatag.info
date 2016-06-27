@@ -18,6 +18,7 @@ configure = admin/config/search/metatags
 
 files[] = metatag.inc
 files[] = metatag.migrate.inc
+files[] = metatag.search_api.inc
 
 ; Tests.
 files[] = tests/metatag.helper.test
@@ -40,8 +41,12 @@ files[] = tests/metatag.with_i18n_output.test
 files[] = tests/metatag.with_i18n_disabled.test
 files[] = tests/metatag.with_i18n_config.test
 files[] = tests/metatag.with_i18n_node.test
+; Basic integration with Media.
+files[] = tests/metatag.with_media.test
 ; Basic integration with Panels.
 files[] = tests/metatag.with_panels.test
+; Basic integration with Search API.
+files[] = tests/metatag.with_search_api.test
 ; Basic integration with Views.
 files[] = tests/metatag.with_views.test
 
@@ -58,9 +63,17 @@ test_dependencies[] = context
 test_dependencies[] = panels
 test_dependencies[] = views
 
-; Information added by Drupal.org packaging script on 2016-02-04
-version = "7.x-1.13"
+; These are required for the Media integration.
+test_dependencies[] = file_entity
+test_dependencies[] = media
+
+; These are required for the Search API integration.
+test_dependencies[] = entity
+test_dependencies[] = search_api
+
+; Information added by Drupal.org packaging script on 2016-06-03
+version = "7.x-1.16"
 core = "7.x"
 project = "metatag"
-datestamp = "1454628866"
+datestamp = "1464975552"
 

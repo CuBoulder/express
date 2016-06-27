@@ -56,6 +56,10 @@ class MetatagCoreImageTest extends MetatagTestHelper {
     $xpath = $this->xpath("//link[@rel='image_src']");
     $this->assertEqual(count($xpath), 1, 'One image_src meta tag found.');
     $this->assertEqual($xpath[0]['href'], $image_url, 'The image_src meta tag with an absolute URL is being output correctly.');
+
+    // Confirm the file could be loaded.
+    $this->drupalGet($xpath[0]['href']);
+    $this->assertResponse(200, "The image_src meta tag's value could be loaded.");
   }
 
   /**
@@ -71,8 +75,11 @@ class MetatagCoreImageTest extends MetatagTestHelper {
     $image_url = file_create_url($image_uri);
 
     // Extract the relative URL version of the absolute URL.
-    $url_length = drupal_strlen($GLOBALS['base_url'] . base_path());
-    $relative_url = drupal_substr($image_url, $url_length);
+    $url_length = strlen($GLOBALS['base_url']);
+
+    // Need to increase the length by 1 as the base_url does not include a
+    // trailing slash.
+    $relative_url = substr($image_url, $url_length + 1);
 
     // Update the global config to add an image meta tag.
     $config = metatag_config_load('global');
@@ -89,7 +96,11 @@ class MetatagCoreImageTest extends MetatagTestHelper {
     // Confirm that the image_src meta tag has the expected values.
     $xpath = $this->xpath("//link[@rel='image_src']");
     $this->assertEqual(count($xpath), 1, 'One image_src meta tag found.');
-    $this->assertEqual($xpath[0]['href'], $relative_url, 'The image_src meta tag with a URL relative to the Drupal root is being output correctly.');
+    $this->assertEqual((string)$xpath[0]['href'], $image_url);//, 'The image_src meta tag with a URL relative to the Drupal root is being output as an absolute URL.');
+
+    // Confirm the file could be loaded.
+    $this->drupalGet($xpath[0]['href']);
+    $this->assertResponse(200, "The image_src meta tag's value could be loaded.");
   }
 
   /**
@@ -106,7 +117,10 @@ class MetatagCoreImageTest extends MetatagTestHelper {
 
     // Extract the relative URL version of the absolute URL.
     $url_length = drupal_strlen($GLOBALS['base_url']);
-    $relative_url = drupal_substr($image_url, $url_length);
+
+    // Need to increase the length by 1 as the base_url does not include a
+    // trailing slash.
+    $relative_url = drupal_substr($image_url, $url_length + 1);
 
     // Update the global config to add an image meta tag.
     $config = metatag_config_load('global');
@@ -123,7 +137,11 @@ class MetatagCoreImageTest extends MetatagTestHelper {
     // Confirm that the image_src meta tag has the expected values.
     $xpath = $this->xpath("//link[@rel='image_src']");
     $this->assertEqual(count($xpath), 1, 'One image_src meta tag found.');
-    $this->assertEqual($xpath[0]['href'], $relative_url, 'The image_src meta tag with an internal URI is being output correctly.');
+    $this->assertEqual((string)$xpath[0]['href'], $image_url);//, 'The image_src meta tag with an internal URI is being output as an absolute URL.');
+
+    // Confirm the file could be loaded.
+    $this->drupalGet($xpath[0]['href']);
+    $this->assertResponse(200, "The image_src meta tag's value could be loaded.");
   }
 
   /**
@@ -138,6 +156,10 @@ class MetatagCoreImageTest extends MetatagTestHelper {
     // Work out the web-accessible URL for this image.
     $image_url = file_create_url($image_uri);
 
+    // Confirm the file could be loaded.
+    $this->drupalGet($image_url);
+    $this->assertResponse(200, 'The image could be loaded.');
+
     // Update the global config to add an image meta tag.
     $config = metatag_config_load('global');
     $config->config['image_src']['value'] = $image_uri;
@@ -150,10 +172,68 @@ class MetatagCoreImageTest extends MetatagTestHelper {
     $this->drupalGet('<front>');
     $this->assertResponse(200);
 
+    // Confirm that the image URL can be found in the raw HTML.
+    $this->assertRaw($image_url, 'Found the image URL in the raw HTML.');
+
     // Confirm that the image_src meta tag has the expected values.
     $xpath = $this->xpath("//link[@rel='image_src']");
     $this->assertEqual(count($xpath), 1, 'One image_src meta tag found.');
     $this->assertEqual($xpath[0]['href'], $image_url, 'The image_src meta tag with an internal URI is being output correctly.');
+
+    // Confirm the file could be loaded.
+    $this->drupalGet($xpath[0]['href']);
+    $this->assertResponse(200, "The image_src meta tag's value could be loaded.");
+  }
+
+  /**
+   * Confirm that an image with a space in its URL will be handled properly.
+   */
+  function testConfigImageWithSpaceInURL() {
+    // Generate a test image.
+    $image_uri = $this->generateImage();
+    $this->verbose($image_uri);
+
+    // Rename the file so it has a space in the filename.
+    $image_uri = file_unmanaged_move($image_uri, str_replace('_', ' ', $image_uri));
+    $this->verbose($image_uri);
+
+    // Work out the web-accessible URL for this image.
+    $image_url = file_create_url($image_uri);
+
+    // Confirm the file could be loaded.
+    $this->drupalGet($image_url);
+    $this->assertResponse(200, 'The image could be loaded.');
+
+    // After processing the image's URL will have "%20" instead of spaces.
+    $image_url_friendly = str_replace(' ', '%20', $image_url);
+
+    // Confirm the file's friendly URL could be loaded.
+    $this->drupalGet($image_url_friendly);
+    $this->assertResponse(200, 'The friendly image could be loaded.');
+
+    // Update the global config to add an image meta tag.
+    $config = metatag_config_load('global');
+    $config->config['image_src']['value'] = $image_uri;
+    metatag_config_save($config);
+
+    // Dump out the current config, to aid with debugging.
+    $this->verbose('<pre>' . print_r($config, TRUE) . '</pre>');
+
+    // Load the front page.
+    $this->drupalGet('<front>');
+    $this->assertResponse(200);
+
+    // Confirm that the image's friendly URL can be found in the raw HTML.
+    $this->assertRaw($image_url_friendly, 'Found the friendly image URL in the raw HTML.');
+
+    // Confirm that the image_src meta tag has the expected values.
+    $xpath = $this->xpath("//link[@rel='image_src']");
+    $this->assertEqual(count($xpath), 1, 'One image_src meta tag found.');
+    $this->assertEqual($xpath[0]['href'], $image_url_friendly, 'The image had its spaces replaces with "%20".');
+
+    // Confirm the file could be loaded.
+    $this->drupalGet($xpath[0]['href']);
+    $this->assertResponse(200, "The image_src meta tag's value could be loaded.");
   }
 
   /**
@@ -194,6 +274,10 @@ class MetatagCoreImageTest extends MetatagTestHelper {
     $xpath = $this->xpath("//link[@rel='image_src']");
     $this->assertEqual(count($xpath), 1, 'One image_src meta tag found.');
     $this->assertEqual($xpath[0]['href'], $image_url, "The image_src meta tag was found with the field's default image.");
+
+    // Confirm the file could be loaded.
+    $this->drupalGet($xpath[0]['href']);
+    $this->assertResponse(200, "The image_src meta tag's value could be loaded.");
   }
 
   /**
@@ -236,6 +320,10 @@ class MetatagCoreImageTest extends MetatagTestHelper {
     $xpath = $this->xpath("//link[@rel='image_src']");
     $this->assertEqual(count($xpath), 1, 'One image_src meta tag found.');
     $this->assertEqual($xpath[0]['href'], $image_url, "The image_src meta tag was found with the node's image field's value.");
+
+    // Confirm the file could be loaded.
+    $this->drupalGet($xpath[0]['href']);
+    $this->assertResponse(200, "The image_src meta tag's value could be loaded.");
   }
 
   /**
@@ -291,6 +379,10 @@ class MetatagCoreImageTest extends MetatagTestHelper {
     $this->assertEqual(count($xpath), 1, 'Only one image_src meta tag found.');
     $this->assertEqual($xpath[0]['href'], $image1_url, "The image_src meta tag was found with the node's image field's first value.");
     $this->assertNotEqual($xpath[0]['href'], $image2_url, "The image_src meta tag does not contain the node's image field's second value.");
+
+    // Confirm the file could be loaded.
+    $this->drupalGet($xpath[0]['href']);
+    $this->assertResponse(200, "The image_src meta tag's value could be loaded.");
   }
 
   /**
@@ -345,6 +437,12 @@ class MetatagCoreImageTest extends MetatagTestHelper {
     $this->assertEqual(count($xpath), 2, 'Two og:image meta tags were found.');
     $this->assertEqual($xpath[0]['content'], $image1_url, "The first og:image meta tag has the correct image.");
     $this->assertEqual($xpath[1]['content'], $image2_url, "The second og:image meta tag has the correct image.");
+
+    // Confirm the file could be loaded.
+    $this->drupalGet($xpath[0]['content']);
+    $this->assertResponse(200, "The first og:image meta tag's value could be loaded.");
+    $this->drupalGet($xpath[1]['content']);
+    $this->assertResponse(200, "The second og:image meta tag's value could be loaded.");
   }
 
 }
