@@ -41,3 +41,5 @@ projects[views][patch][] = https://www.drupal.org/files/issues/views-undefined_v
 ; @see https://cuboulder.atlassian.net/browse/FIT-1834
 projects[bean][patch][] = https://www.drupal.org/files/issues/bean-watchdog_logging-2714693-5-7.x.patch
 
+; @see https://cuboulder.atlassian.net/browse/FIT-1910
+projects[insert][patch][] = file://modules/contrib/insert/insert-pathologic.patch
