@@ -1050,6 +1050,8 @@ function cu_article_block_info() {
  * A block that shows all articles that have a byline related to a person node
  */
 function cu_article_block_view($delta = '') {
+  $block = array();
+
   switch ($delta) {
     case 'articles_by_person':
       // Get current node id
