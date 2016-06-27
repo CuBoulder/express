@@ -8,4 +8,4 @@ Then I select <reaction> from "edit-reactions-selector"
 
   Examples:
     | reaction |
-    | "Social Media Share Links" |
+    | "Social media share links" |
