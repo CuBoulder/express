@@ -200,7 +200,12 @@ function _video_filter_process($text, $filter, $format, $langcode, $cache, $cach
           $ratio = $tratio[1] / $tratio[2];
         }
         elseif (isset($video['codec']['ratio'])) {
-          $ratio = $video['codec']['ratio'];
+          if (is_float($video['codec']['ratio']) || is_int($video['codec']['ratio'])) {
+            $ratio = $video['codec']['ratio'];
+          }
+          elseif (preg_match('/(\d+)\s*\/\s*(\d+)/', $video['codec']['ratio'], $cratio)) {
+            $ratio = $cratio[1] / $cratio[2];
+          }
         }
 
         // Sets video width & height after any user input has been parsed.
@@ -244,6 +249,16 @@ function _video_filter_process($text, $filter, $format, $langcode, $cache, $cach
           $control_bar_height = $video['codec']['control_bar_height'];
         }
         $video['height'] += $control_bar_height;
+
+        // Resize to fit within width and height repecting aspect ratio.
+        if ($ratio) {
+          $scale_factor = min(array(
+            ($video['height'] - $control_bar_height),
+            $video['width'] / $ratio,
+          ));
+          $video['height'] = round($scale_factor + $control_bar_height);
+          $video['width'] = round($scale_factor * $ratio);
+        }
 
         $video['autoplay'] = (bool) $video['autoplay'];
         $video['align'] = (isset($video['align']) && in_array($video['align'], array(
