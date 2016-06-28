@@ -1,8 +1,8 @@
-<?php /* -*- mode: php; indent-tabs-mode: nil; tab-width: 2; -*- */
+<?php
 
 /**
  * @file
- *   Document content_lock hooks.
+ * Document content_lock hooks.
  *
  * @ingroup content_lock_hooks
  * @ingroup hooks
@@ -11,8 +11,9 @@
 /**
  * @defgroup content_lock_hooks Content Lock Hooks
  *
- * Hooks which allow <a href="http://drupal.org/project/content_lock">content_lock</a>
- * to be extended.
+ * Hooks which allow <a
+ * href="http://drupal.org/project/content_lock">content_lock</a> to be
+ * extended.
  */
 
 /**
@@ -24,15 +25,19 @@
  * @param string $path
  *   The path to check protection for.
  *
- * @return
+ * @return bool
  *   TRUE is the path should be protected.
  *   Note: this grant is permissive rather than restrictive.
  *
- * @see hook_field_access().
+ * @see hook_field_access()
  */
 function hook_content_lock_path_protected($path) {
   if (strpos($path, 'node/') === 0) {
-    foreach (array('node/*/edit', 'node/*/revisions/*/revert') as $protected_pattern) {
+    $paths_patterns = array(
+      'node/*/edit',
+      'node/*/revisions/*/revert',
+    );
+    foreach ($paths_patterns as $protected_pattern) {
       if (drupal_match_path($path, $protected_pattern)) {
         return TRUE;
       }
@@ -41,27 +46,28 @@ function hook_content_lock_path_protected($path) {
 }
 
 /**
- * Determine if locking should be disabled for a given node (e.g. by
- * checking its type or other properties).
+ * Determine if locking should be disabled for a given node.
  *
  * This hook is called from content_lock_form_alter() before it
  * determines that it is altering a node modification form. Thus, some
- * of this hook's paramesters are the same parameters that would be
+ * of this hook's parameters are the same parameters that would be
  * passed to hook_form_alter().
  *
  * An implementation of this hook can be used to make the ability to
  * lock a node conditional on an arbitrary aspect of the node.
- * @param $node
+ *
+ * @param object $node
  *   The node for which a lock might be created. This parameter may be
  *   NULL in the case that the form is for something other than a
  *   node.
- * @param $form_id
+ * @param string $form_id
  *   The form_id for the node's edit form.
- * @param $form
+ * @param object $form
  *   The form for the node's edit form.
- * @param $form_state
+ * @param object $form_state
  *   The form_state for the node's edit form.
- * @return
+ *
+ * @return bool
  *   FALSE to indicate that locking is allowed or TRUE to prevent this
  *   node from being locked.
  *
@@ -74,15 +80,13 @@ function hook_content_lock_skip_locking($node, $form_id, $form, $form_state) {
     return FALSE;
   }
 
-  /* 
-   * Prevent locking from happening on unpublished nodes since few
-   * people can access such nodes anyway.
-   */
+  // Prevent locking from happening on unpublished nodes since few
+  // people can access such nodes anyway.
   if (!empty($node->status)) {
     return TRUE;
   }
 
-  /* By default allow locking. */
+  // By default allow locking.
   return FALSE;
 }
 
@@ -92,12 +96,12 @@ function hook_content_lock_skip_locking($node, $form_id, $form, $form_state) {
  * Locking nodes referenced from certain form_ids, such as comment
  * forms and the like, can supposedly be enabled or disabled here.
  *
- * @param $blacklist
+ * @param array $blacklist
  *   An array of blacklisted form_ids. Set $blacklist[<form_id>] =
  *   TRUE to blacklist <form_id> or unset($blacklist[<form_id>]) to
  *   unblacklist a form. Note that locking is not likely to work for
  *   every type of node form.
- * @param $node
+ * @param object $node
  *   If available, the node being currently checked shalled be passed
  *   in. This may be useful for form_ids based on the nid of a node
  *   which certain modules might do with the help of hook_forms().
@@ -118,11 +122,11 @@ function hook_content_lock_form_id_blacklist_alter(&$blacklist, $node = NULL) {
  *
  * Use this hook to disable locking for particular node types.
  *
- * @param $blacklist
+ * @param array $blacklist
  *   An array with keys being node types (such as 'page') and the
  *   values being TRUE if that node type is for a node which shouldn't
  *   ever be locked.
- * @param $node
+ * @param object $node
  *   The node currently being tested for locking eligibility. This
  *   enables the hook to directly test the node's type for eligibility
  *   (and ban it by adding the type to the $blacklist).
@@ -144,9 +148,9 @@ function hook_content_lock_node_type_blacklist_alter(&$blacklist, $node) {
  * This hook is called from content_lock_node() only after a lock was
  * successfully set on a particular node by a user.
  *
- * @param $nid
+ * @param string $nid
  *   The nid of the node which was successfully locked.
- * @param $uid
+ * @param string $uid
  *   The uid of the user who initiated the locking.
  *
  * @ingroup content_lock_hooks
@@ -167,9 +171,9 @@ function hook_content_lock_locked($nid, $uid) {
  * lock on a node to begin with, but its being called always means
  * that an attempt was made to unlock the given node.
  *
- * @param $nid
+ * @param string $nid
  *   The node whose lock was released.
- * @param $uid
+ * @param string $uid
  *   The uid of the user who initiated the lock's release or NULL if
  *   the lock release was automated (such as by the
  *   content_lock_timeouts module).
@@ -199,9 +203,10 @@ function hook_content_lock_release($nid, $uid = NULL) {
  * un-lockable node. There is not yet a method of doing this without
  * hooking into the node hooks system yourself.
  *
- * @param $node
+ * @param object $node
  *   The node whose lockability should be checked.
- * @return
+ *
+ * @return bool
  *   TRUE if the node should be considered lockable (this should be
  *   the default return value) or FALSE if the node may not be
  *   considered lockable.
@@ -216,5 +221,6 @@ function hook_content_lock_node_lockable($node) {
   }
 
   /* By default, let nodes be lockable */
+
   return TRUE;
 }

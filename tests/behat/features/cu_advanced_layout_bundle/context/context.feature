@@ -11,12 +11,14 @@ When I select <condition> from "edit-conditions-selector"
     | "Context (any)" |
     | "Context (all)" |
     | "Default context" |
+    | "Layout" |
     | "Menu" |
     | "Node type" |
     | "Taxonomy" |
     | "Path" |
-    | "Query String" |
+    | "Query string" |
     | "Sitewide context" |
+    | "Sitewide public" |
 
 @api @context @contextreactions
 Scenario Outline: A content_editor should see a limited number of context reactions
