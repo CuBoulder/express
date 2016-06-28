@@ -35,7 +35,7 @@ I should be able to use the full functionality of the WYSIWYG editor
     Given I am logged in as a user with the "content_editor" role
     When I go to "node/add/page"
       And I fill in "Title" with "My Image Caption Shortcode"
-      And I attach the file "/data/web/express/clean/profiles/express/tests/assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
+      And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
       And I fill in "Alternate text" with "Ralphie"
       And I press the "Upload" button
     Then I should see a ".image-widget-data" element
