@@ -1258,3 +1258,57 @@ function cu_article_taxonomy_term_view($term) {
     drupal_goto($term->field_tag_term_page_link[LANGUAGE_NONE][0]['url']);
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add validation function to term edit form.
+ */
+function cu_article_form_taxonomy_form_term_alter(&$form, &$form_state, $form_id) {
+  $form['#validate'][] = 'cu_article_taxonomy_form_validate';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add validation function to terms overview form.
+ */
+function cu_article_form_taxonomy_overview_terms_alter(&$form, &$form_state, $form_id) {
+  $form['#validate'][] = 'cu_article_taxonomy_overview_form_validate';
+}
+
+/**
+ * Validation function for cu_article_form_taxonomy_form_term_alter().
+ *
+ * Prevents user from exceeding maximum depth on taxonomy terms.
+ */
+function cu_article_taxonomy_form_validate($form, &$form_state) {
+  $limit = variable_get('express_maximum_taxonomy_depth', 4);
+  $parent = current($form_state['values']['parent']);
+  $tid = $form_state['term']->tid;
+  $vid = $form_state['term']->vid;
+
+  $parents = taxonomy_get_parents_all($parent);
+  $children = taxonomy_get_tree($vid, $tid);
+  $depth = count($parents) + count($children) + 1;
+  if ($depth > $limit) {
+    $error_link = l('This change', NULL, array('external' => TRUE, 'fragment' => 'edit-parent'));
+    form_set_error('parent', t('!change has caused the taxonomy to exceed its maximum depth of 4 levels.', array('!change' => $error_link)));
+  }
+}
+
+/**
+ * Validation function for cu_article_form_taxonomy_overview_terms_alter().
+ *
+ * Prevents user from exceeding maximum depth on taxonomy terms.
+ */
+function cu_article_taxonomy_overview_form_validate($form, &$form_state) {
+  $limit = variable_get('express_maximum_taxonomy_depth', 4) -1 ;
+  foreach ($form_state['input'] as $key => $term) {
+    if (!empty($term['depth']) && $term['depth'] > $limit) {
+      $error_link = l('This change', NULL, array('external' => TRUE, 'fragment' => 'edit-tid' . $term['tid'] . '0-edit'));
+      form_set_error($key . '[depth]', t('!change has caused the taxonomy to exceed its maximum depth of 4 levels.', array('!change' => $error_link)));
+
+    }
+  }
+}
