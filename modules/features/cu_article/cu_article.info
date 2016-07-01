@@ -162,5 +162,3 @@ features_exclude[field][bean-articles-field_article_link] = bean-articles-field_
 features_exclude[field][bean-articles-field_article_pager] = bean-articles-field_article_pager
 features_exclude[field][bean-article_grid-field_article_grid_items] = bean-article_grid-field_article_grid_items
 features_exclude[field][bean-article_grid-field_article_grid_more_link] = bean-article_grid-field_article_grid_more_link
-features_exclude[field_base][field_quicktabs_pager] = field_quicktabs_pager
-features_exclude[field_instance][bean-articles-field_quicktabs_pager] = bean-articles-field_quicktabs_pager
