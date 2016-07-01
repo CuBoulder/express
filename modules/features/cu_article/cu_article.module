@@ -644,10 +644,22 @@ function cu_article_preprocess_node(&$vars) {
     }
   }
   if ($vars['node']->type == 'article_list_page') {
+
+    // Get configs.
+    $items = $vars['field_article_items_display'][LANGUAGE_NONE][0]['value'];
+    $display = $vars['field_article_display'][LANGUAGE_NONE][0]['value'];
+    $pager = $vars['field_article_pager'][LANGUAGE_NONE][0]['value'];
+
     // Start query.
     $query = db_select('node', 'n');
 
-    $query = $query->extend('PagerDefault')->limit(10);
+    // Display pager or only set number of items.
+    if ($pager) {
+      $query = $query->extend('PagerDefault')->limit($items);
+    }
+    else {
+      $query->range(0, $items);
+    }
     $query->condition('n.type', 'article', '=');
     $query->condition('n.status', 1, '=');
     $query->fields('n', array('nid', 'title', 'sticky'));
@@ -685,11 +697,39 @@ function cu_article_preprocess_node(&$vars) {
     }
     $output['articles'] = node_view_multiple($nodes, 'teaser');
     $output['articles']['#weight'] = 99;
-    $output['pager'] = array(
-          '#theme' => 'pager',
-          '#tags' => array(),
-          '#weight' => 100.
-    );
+
+    // Making pager weight highest to go at bottom of page.
+    $pager_weight = 101;
+
+    if ($pager == 1) {
+      $output['pager'] = array(
+        '#theme' => 'pager',
+        '#tags' => array(),
+        '#weight' => $pager_weight,
+      );
+    }
+    elseif ($pager == 2) {
+      $output['pager'] = array(
+        '#theme' => 'views_mini_pager',
+        '#tags' => array(),
+        '#prefix' => '<div class="mini-pager">',
+        '#suffix' => '</div>',
+        '#weight' => $pager_weight,
+      );
+    }
+    else {
+      if (!empty($vars['field_article_link'][LANGUAGE_NONE][0]['url']) && !empty($vars['field_article_link'][LANGUAGE_NONE][0]['title'])) {
+        $output['more_link'] = array(
+          '#theme' => 'link',
+          '#path' => $vars['field_article_link'][LANGUAGE_NONE][0]['url'],
+          '#text' => $vars['field_article_link'][LANGUAGE_NONE][0]['title'],
+          '#options' => array('attributes' => array(), 'html' => TRUE),
+          '#prefix' => '<div class="more-link">',
+          '#suffix' => '</div>',
+          '#weight' => $pager_weight,
+        );
+      }
+    }
     $vars['content'] = array_merge($vars['content'], $output);
   }
 }

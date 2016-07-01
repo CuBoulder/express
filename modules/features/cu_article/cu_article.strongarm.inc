@@ -198,7 +198,7 @@ function cu_article_strongarm() {
           'weight' => '2',
         ),
         'metatags' => array(
-          'weight' => '7',
+          'weight' => '5',
         ),
       ),
       'display' => array(
