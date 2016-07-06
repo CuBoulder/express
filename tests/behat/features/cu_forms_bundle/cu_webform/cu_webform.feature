@@ -18,7 +18,7 @@ Feature: Webform feature
       | administrator  | "Access denied" |
       | developer      | "Access denied" |
 
-  @api @webform
+  @api @webform @max_execution_time
   Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
     Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/webform"
