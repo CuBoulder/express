@@ -1266,6 +1266,8 @@ function cu_article_taxonomy_term_view($term) {
  */
 function cu_article_form_taxonomy_form_term_alter(&$form, &$form_state, $form_id) {
   $form['#validate'][] = 'cu_article_taxonomy_form_validate';
+  // Restrict users from assigning multiple parents to a given term
+  $form['relations']['parent']['#multiple'] = FALSE;
 }
 
 /**
@@ -1284,16 +1286,25 @@ function cu_article_form_taxonomy_overview_terms_alter(&$form, &$form_state, $fo
  */
 function cu_article_taxonomy_form_validate($form, &$form_state) {
   $limit = variable_get('express_maximum_taxonomy_depth', 4);
-  $parent = current($form_state['values']['parent']);
+  $parent = $form_state['values']['parent'];
   $tid = $form_state['term']->tid;
-  $vid = $form_state['term']->vid;
+  $vid = $form_state['values']['vid'];
+  $vocab_name = $form_state['term']->vocabulary_machine_name;
+
+  // Make sure there isn't already a term with the same name in the vocabulary
+  $term_name = $form_state['values']['name'];
+  $existing_term = taxonomy_get_term_by_name($term_name, $vocab_name);
+  if (taxonomy_get_term_by_name($term_name, $vocab_name) && ($tid != key($existing_term))) {
+    form_set_error('name', t('There is already a term with this name in the @vocab vocabulary.', array('@vocab' => $vocab_name)));
+  }
 
   $parents = taxonomy_get_parents_all($parent);
   $children = taxonomy_get_tree($vid, $tid);
-  $depth = count($parents) + count($children) + 1;
+  $parent_count = $parent ? 1 : 0;
+  $depth = count($parents) + count($children) + $parent_count + 1;
   if ($depth > $limit) {
     $error_link = l('This change', NULL, array('external' => TRUE, 'fragment' => 'edit-parent'));
-    form_set_error('parent', t('!change has caused the taxonomy to exceed its maximum depth of 4 levels.', array('!change' => $error_link)));
+    form_set_error('parent', t('!change has caused the taxonomy to exceed its maximum depth of @limit levels.', array('!change' => $error_link, '@limit' => $limit)));
   }
 }
 
