@@ -207,11 +207,13 @@ h1#site-name, div#site-name { font-size: 18px; margin: 0; padding: 0; line-heigh
 #navigation .links a, #navigation .menu a { display: inline-block; padding: 0 12px; line-height: 40px; }
 
 /* Menu Icons - for block menus, not main, secondary, footer menus */
-.menu-icon-text { overflow: hidden; display: block; }
+.menu-icon-text { display: block; }
+.menu-icon-text:after { content: ""; display: table; clear: both; }
 
 .hide-text { position: absolute !important; clip: rect(1px 1px 1px 1px); /* IE6, IE7 */ clip: rect(1px, 1px, 1px, 1px); }
 
-a.menu__link { display: block; overflow: hidden; }
+a.menu__link { display: block; }
+a.menu__link:after { content: ""; display: table; clear: both; }
 a.menu__link i.fa { float: left; margin-right: 5px; margin-top: 3px; font-size: 120%; }
 
 /* Mobile subnavigation */
@@ -527,7 +529,7 @@ html { box-sizing: border-box; }
 
 .node-view-mode-sidebar img.image-square, .node-view-mode-sidebar img.image-square_thumbnail, .node-view-mode-sidebar img.image-small_thumbnail, .node-view-mode-sidebar img.image-small { margin-bottom: 0; float: left; margin: 0 10px 10px 0; width: 50px; height: auto; }
 
-.node-view-mode-sidebar-content { overflow: hidden; }
+.node-view-mode-sidebar-content:after { content: ""; display: table; clear: both; }
 
 .node-view-mode-embed { margin-bottom: 20px; border-bottom: 1px solid #e0e0e0; padding-bottom: 20px; }
 
@@ -629,7 +631,8 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: #e0e
 
 @media screen and (min-width: 768px) { #pager-mobile { display: none; }
   #pager-full { display: block; } }
-.item-list .pager { overflow: visible; margin: 0; margin-bottom: 20px; padding: 0; overflow: hidden; }
+.item-list .pager { overflow: visible; margin: 0; margin-bottom: 20px; padding: 0; }
+.item-list .pager:after { content: ""; display: table; clear: both; }
 .item-list .pager li { display: block; float: left; margin: 0; margin-right: -1px; padding: 0; text-align: center; border: 1px solid #e0e0e0; white-space: nowrap; }
 .item-list .pager li a { display: inline-block; text-align: center; padding: 4px 8px; color: #007bc8; }
 .item-list .pager li a:hover, .item-list .pager li a:focus { background-color: #f4f4f4; color: #006db1; }
@@ -671,7 +674,8 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: #e0e
 
 .expand-set .expand-content { border-bottom: none; }
 
-.anchors { -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -webkit-background-clip: padding-box; -moz-background-clip: padding; background-clip: padding-box; background-color: #f4f4f4; overflow: hidden; }
+.anchors { -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -webkit-background-clip: padding-box; -moz-background-clip: padding; background-clip: padding-box; background-color: #f4f4f4; }
+.anchors:after { content: ""; display: table; clear: both; }
 .anchors .anchors-label { font-weight: bold; background-color: #464646; color: #fff; padding: 10px; }
 .anchors .anchors-links { padding: 0 10px 10px 10px; }
 
@@ -707,7 +711,8 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: #e0e
 
 #zone-after-content-wrapper.section-background, #zone-after-content-2-wrapper.section-background, .section-background { padding: 80px 0 40px; background-position: center center; background-repeat: no-repeat; background-size: cover; border: none; }
 
-.zone-after-content-image-fixed, .zone-after-content-2-image-fixed { background-attachment: fixed; overflow: hidden; }
+.zone-after-content-image-fixed, .zone-after-content-2-image-fixed { background-attachment: fixed; }
+.zone-after-content-image-fixed:after, .zone-after-content-2-image-fixed:after { content: ""; display: table; clear: both; }
 
 .block-icons-gray i.blockicon { color: #858585; }
 
@@ -798,7 +803,8 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: #e0e
 #cboxTitle { font-size: 11px; }
 
 /* Layout Title Image */
-.feature-layout-title-image { background-color: #000; background-size: cover; background-repeat: no-repeat; background-position: center center; height: 240px; position: relative; padding: 0; overflow: hidden; }
+.feature-layout-title-image { background-color: #000; background-size: cover; background-repeat: no-repeat; background-position: center center; height: 240px; position: relative; padding: 0; }
+.feature-layout-title-image:after { content: ""; display: table; clear: both; }
 
 .feature-layout-title-image-overlay { color: #fff; position: absolute; bottom: 0; left: 0; width: 100%; padding: 60px 20px 20px; }
 

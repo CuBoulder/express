@@ -82,3 +82,11 @@ $base_font: "Neue Helvetica W01", "Helvetica Neue", Helvetica, Arial, sans-serif
     clip: rect(1px, 1px, 1px, 1px);
   }
 }
+
+@mixin clearfloats {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
