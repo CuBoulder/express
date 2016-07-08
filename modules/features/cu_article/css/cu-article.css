@@ -233,3 +233,31 @@ p.tags {
 .field-name-field-article-grid-more-link {
   text-align: center;
 }
+
+/* Article Filter */
+
+.article-list-filter {
+  padding: 10px 10px 0;
+  margin-bottom: 20px;
+  overflow: hidden;
+  background-color: #e7e7e7;
+}
+.article-list-filter label {
+  font-size:75%;
+  font-weight: 500;
+  display: inline;
+}
+.article-list-filter .form-item, .article-list-filter .form-actions {
+  float:left;
+  margin: 0;
+  margin-right: 15px;
+  margin-bottom: 10px;
+}
+.article-list-filter .form-item select {
+  max-width: 250px;
+}
+.article-list-filter .form-submit {
+  float: left;
+  margin-bottom:10px;
+  margin-top:5px;
+}
