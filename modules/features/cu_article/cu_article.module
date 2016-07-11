@@ -1372,7 +1372,7 @@ function cu_article_list_filter_form($form, &$form_state) {
       // Get terms in a nested tree
       $terms = cu_article_taxonomy_treedata($terms);
       // Build select options from nested tree and add all option
-      $options = $options + _cu_article_nested_options($terms);
+      $options = $options + cu_article_nested_options($terms);
 
       // If pre_filters were added, only show those options
       if (!empty($filter['pre_filters'])) {
@@ -1503,12 +1503,12 @@ function &cu_article_taxonomy_treedata(&$nvocs) {
 /**
  * Build a nested select options list
  */
-function _cu_article_nested_options($terms) {
+function cu_article_nested_options($terms) {
   $options = array();
-  uasort($terms, '_cu_article_sort');
+  uasort($terms, 'cu_article_sort');
   foreach($terms as $term) {
     // Use depth to add - to denote children terms
-    $indent = _cu_article_term_depth($term['data']->depth);
+    $indent = cu_article_term_depth($term['data']->depth);
     // Load full term so we can tell if term should be hidden or not
     $term_full = taxonomy_term_load($term['data']->tid);
     // Term display field is different in catagory and tag
@@ -1516,7 +1516,7 @@ function _cu_article_nested_options($terms) {
       if ($term_full->field_tag_display[LANGUAGE_NONE][0]['value'] == 'show') {
         $options[$term['data']->tid] = $indent . ' ' . $term['data']->name;
         if (!empty($term['children'])) {
-          $nested = _cu_article_nested_options($term['children']);
+          $nested = cu_article_nested_options($term['children']);
           $options = array_merge($options, $nested);
         }
       }
@@ -1525,7 +1525,7 @@ function _cu_article_nested_options($terms) {
       if ($term_full->field_category_display[LANGUAGE_NONE][0]['value'] == 'show') {
         $options[$term['data']->tid] = $indent . ' ' . $term['data']->name;
         if (!empty($term['children'])) {
-          $nested = _cu_article_nested_options($term['children']);
+          $nested = cu_article_nested_options($term['children']);
           $options = $options + $nested;
         }
       }
@@ -1537,7 +1537,7 @@ function _cu_article_nested_options($terms) {
 /**
  * Returns - to denote children
  */
-function _cu_article_term_depth($depth) {
+function cu_article_term_depth($depth) {
   for ($i = 0; $i < $depth; $i++) {
     $indent = $indent . '-';
   }
@@ -1547,7 +1547,7 @@ function _cu_article_term_depth($depth) {
 /**
  * Sort function for terms array
  */
-function _cu_article_sort($a, $b) {
+function cu_article_sort($a, $b) {
   $a = $a['data']->name;
   $b = $b['data']->name;
   if ($a == $b) {
