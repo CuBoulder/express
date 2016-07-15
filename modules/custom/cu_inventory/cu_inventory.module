@@ -44,7 +44,7 @@ function cu_inventory_admin_settings() {
 
   $site_array = cu_inventory_get_site($cu_sid);
 
-  // Options are limitted based on permissions.
+  // Options are limited based on permissions.
   $options = array(
     'installed' => t('Installed'),
     'launching' => t('Launching'),
@@ -107,6 +107,11 @@ function cu_inventory_admin_settings() {
     '#title' => t('Add Contrib'),
     '#description' => t('Comma separated list of the machine names additional projects to symlink. These must already be registered in packages_base.'),
   );
+
+  if ($site_array['status'] == 'available') {
+    $form['express_plus']['#disabled'] = TRUE;
+    drupal_set_message(t("You cannot add packages while the site is '<i>available</i>'."), 'warning');
+  }
 
   return system_settings_form($form);
 }
