@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * express_layout.field_instances.inc
+ */
+
 $field_instances = array();
 
 // Exported field_instance: 'layout-block_layout-field_feature_layout_toggle'
@@ -673,7 +678,7 @@ t('Slider');
 t('Title Image');
 t('Inner Content Bottom');
 
-foreach($field_instances as $instance) {
+foreach ($field_instances as $instance) {
 
   $field_info = field_info_instance('express_layout', $instance['field_name'], 'express_layout');
   if (is_null($field_info)) {

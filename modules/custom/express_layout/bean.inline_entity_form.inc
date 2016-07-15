@@ -8,7 +8,7 @@
 class BeanInlineEntityFormController extends EntityInlineEntityFormController {
 
   /**
-  * Overrides EntityInlineEntityFormController::labels().
+   * Overrides EntityInlineEntityFormController::labels().
    */
   public function labels() {
     $labels = array(

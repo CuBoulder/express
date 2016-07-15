@@ -114,6 +114,7 @@ function express_layout_menu() {
 
 /**
  * Implements hook_admin_paths().
+ *
  * Set edit layout paths to be admin paths.
  */
 function express_layout_admin_paths() {
@@ -125,10 +126,11 @@ function express_layout_admin_paths() {
 
 /**
  * Access callback for node/%node/layout.
+ *
  * Check to see if there are layout fields and user has node access.
  */
 function express_layout_access($op, $node) {
- $type = variable_get('express_layout_type_' . $node->type, NULL);
+  $type = variable_get('express_layout_type_' . $node->type, NULL);
   if (user_access('edit express layouts') && $type && !in_array($node->type, variable_get('express_layout_node_type_ignore', array()))) {
     return node_access($op, $node);
   }
@@ -153,6 +155,7 @@ function express_layout_permission() {
 
 /**
  * Implements hook_node_insert().
+ *
  * Create layout entity each time a node is created.
  */
 function express_layout_node_insert($node) {
@@ -172,6 +175,7 @@ function express_layout_node_insert($node) {
 
 /**
  * Implements hook_node_update().
+ *
  * Update layout entity each time related node is updated.
  */
 function express_layout_node_update($node) {
@@ -183,7 +187,8 @@ function express_layout_node_update($node) {
   if ($layout = entity_load_single('express_layout', $nid)) {
     $layout->title = 'Layout: ' . $node->title;
     entity_save('express_layout', $layout);
-  } else {
+  }
+  else {
     $values = array(
       'layout_id' => $nid,
       'title' => 'Layout: ' . $node->title,
@@ -196,6 +201,7 @@ function express_layout_node_update($node) {
 
 /**
  * Implements hook_node_delete().
+ *
  * Delete layout entity when related node is deleted.
  */
 function express_layout_node_delete($node) {
@@ -206,6 +212,9 @@ function express_layout_node_delete($node) {
   }
 }
 
+/**
+ * Array of form options.
+ */
 function _express_layout_form_options() {
   return array(
     'default_layout' => 'Default Layout',
@@ -214,7 +223,7 @@ function _express_layout_form_options() {
 }
 
 /**
- * Implementation of hook_context_registry().
+ * Implements hook_context_registry().
  */
 function express_layout_context_registry() {
   return array(
@@ -229,7 +238,7 @@ function express_layout_context_registry() {
 }
 
 /**
- * Implementation of hook_context_plugins().
+ * Implements hook_context_plugins().
  */
 function express_layout_context_plugins() {
   $plugins = array();
@@ -269,7 +278,8 @@ function express_layout_preprocess_html(&$vars) {
     $layout = entity_load_single('express_layout', $node->nid);
     if ($layout && $layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value'] == 'feature_layout') {
       $vars['classes_array'][] = 'layout-feature';
-    } else {
+    }
+    else {
       $vars['classes_array'][] = 'layout-default';
     }
     if ($layout && !empty($layout->field_feature_title_image)) {
@@ -280,9 +290,6 @@ function express_layout_preprocess_html(&$vars) {
 
 /**
  * Implements hook_image_default_styles().
- *
- * @return array
- *   An array of image styles.
  */
 function express_layout_image_default_styles() {
   $styles = array();
@@ -299,7 +306,8 @@ function express_layout_image_default_styles() {
         'weight' => 0,
       ),
     ),
-    'name' => 'el_hero', // You need this and the next line to avoid PHP notices
+    // You need these 2 lines to avoid PHP notices.
+    'name' => 'el_hero',
     'storage' => IMAGE_STORAGE_NORMAL,
   );
 
@@ -311,91 +319,94 @@ function express_layout_image_default_styles() {
  */
 function express_layout_page_alter(&$page) {
 
-  // Get node object
+  // Get node object.
   $node = menu_get_object();
   if ($node) {
-    // Load Settings
+    // Load Settings.
     $settings = variable_get('express_layout_settings_' . $node->type, array());
     $type = variable_get('express_layout_type_' . $node->type, NULL);
   }
 
   // Is this a node id that allows custom layouts?
   if (isset($type) && isset($node->nid)) {
-    // Add css
+    // Add css.
     drupal_add_css(drupal_get_path('module', 'express_layout') . '/css/express-layout.css');
 
-    // Load node layout
+    // Load node layout.
     if ($layout = entity_load_single('express_layout', $node->nid)) {
-      // Add cover image
+      // Add cover image.
       if (!empty($layout->field_feature_title_image[LANGUAGE_NONE][0]['uri']) && isset($settings['field_feature_title_image'])) {
-        // Add node title to variables
+        // Add node title to variables.
         $vars['title'] = $node->title;
         if (function_exists('expressbase_breadcrumb')) {
           $vars['breadcrumb'] = expressbase_breadcrumb();
         }
 
-        // Add image style urls to variables
-        $img_desktop = image_style_url('hero', $layout->field_feature_title_image [LANGUAGE_NONE][0]['uri']);
+        // Add image style urls to variables.
+        $img_desktop = image_style_url('hero', $layout->field_feature_title_image[LANGUAGE_NONE][0]['uri']);
         $vars['img_desktop'] = $img_desktop;
 
-        $img_tablet = image_style_url('large', $layout->field_feature_title_image [LANGUAGE_NONE][0]['uri']);
+        $img_tablet = image_style_url('large', $layout->field_feature_title_image[LANGUAGE_NONE][0]['uri']);
         $vars['img_tablet'] = $img_tablet;
 
-        $img_mobile = image_style_url('medium', $layout->field_feature_title_image [LANGUAGE_NONE][0]['uri']);
+        $img_mobile = image_style_url('medium', $layout->field_feature_title_image[LANGUAGE_NONE][0]['uri']);
         $vars['img_mobile'] = $img_mobile;
 
         $page['intro']['el_hero_cover_image']['#markup'] = theme('express_layout_title_image', $vars);
       }
       if (isset($settings) && $settings['field_feature_layout_toggle']) {
-        // Check feature/default layout setting
+        // Check feature/default layout setting.
         if (!empty($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value']) && ($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value'] == 'feature_layout') && (!path_is_admin(current_path()))) {
-          // Get body content
+          // Get body content.
           $content = $page['content']['system_main']['nodes'][$node->nid]['body'][0]['#markup'];
 
-          // Remove empty paragraphs
-          $content = str_replace('<p></p>','',$content);
+          // Remove empty paragraphs.
+          $content = str_replace('<p></p>', '', $content);
           $content = mb_convert_encoding($content, 'HTML-ENTITIES', "UTF-8");
-          // Make new DOM element
-          $dom = new DOMDocument;
+          // Make new DOM element.
+          $dom = new DOMDocument();
           $dom->loadHTML($content);
           $xpath = new DOMXPath($dom);
-          // Get top level markup elements
-          // These aren't Drupal nodes
+          // Get top level markup elements.
+          // These aren't Drupal nodes.
           $content_nodes = $xpath->query('*/*');
 
           $new_content = '';
           foreach ($content_nodes as $content_node) {
 
-            // Get the HTML of each node - for < php 5.3.6
+            // Get the HTML of each node - for < php 5.3.6.
             $newdoc = new DOMDocument();
             $cloned = $content_node->cloneNode(TRUE);
-            $newdoc->appendChild($newdoc->importNode($cloned,TRUE));
+            $newdoc->appendChild($newdoc->importNode($cloned, TRUE));
             $item = $newdoc->saveHTML();
-            //for >= php 5.3.6
-            //$item = $dom->saveHTML($content_node);
+            // For >= php 5.3.6.
+            /*
+            $item = $dom->saveHTML($content_node);
+            */
 
-            // If a hero image exists in item, add full width wrapper
+            // If a hero image exists in item, add full width wrapper.
             if (strpos($item, 'image-hero') !== FALSE) {
-              $new_content .= '<div class="image-full-width">' . utf8_decode($item) .'</div>';
-            } else {
-              $new_content .= '<div class="content-width-container">' . utf8_decode($item) .'</div>';
+              $new_content .= '<div class="image-full-width">' . utf8_decode($item) . '</div>';
+            }
+            else {
+              $new_content .= '<div class="content-width-container">' . utf8_decode($item) . '</div>';
             }
           }
 
-          // Copy content from main content region to a new variable
-          // page.tpl.php needs to output $page['feature_layout']
+          // Copy content from main content region to a new variable.
+          // page.tpl.php needs to output $page['feature_layout'].
           $page['feature_layout'] = $page['content'];
-          // Remove main content
+          // Remove main content.
           unset($page['content']);
-          // Add blank content so edit tabs display
+          // Add blank content so edit tabs display.
           $page['content']['blank'] = array();
-          // Add wrapper element for styling
+          // Add wrapper element for styling.
           $page['feature_layout']['#prefix'] = '<div class="feature-story-wrapper">';
           $page['feature_layout']['#suffix'] = '</div>';
-          // Add feature layout formatted content
+          // Add feature layout formatted content.
           $page['feature_layout']['system_main']['nodes'][$node->nid]['body'][0]['#markup'] = $new_content;
           $page['feature_layout']['system_main']['#weight'] = 0;
-          // Remove sidebars
+          // Remove sidebars.
           unset($page['sidebar_first']);
           unset($page['sidebar_second']);
         }
@@ -421,7 +432,7 @@ function express_layout_block_info() {
     ),
     'el_block_sidebar_first' => array(
       'info' => t('Node Sidebar First'),
-      'cache' => DRUPAL_NO_CACHE
+      'cache' => DRUPAL_NO_CACHE,
     ),
     'el_block_sidebar_second' => array(
       'info' => t('Node Sidebar Second'),
@@ -481,23 +492,12 @@ function express_layout_contextual_links_view_alter(&$element, &$items) {
  * Implements hook_block_view().
  *
  * Return a rendered or renderable view of a block.
- *
- * @param array $delta
- *   Which block to render. This is a unique identifier for the block
- *   within the module, defined in hook_block_info().
- *
- * @return array
- *   An array containing the following elements:
- *   - subject: The default localized title of the block. If the block does not
- *     have a default title, this should be set to NULL.
- *   - content: The content of the block's body. This may be a renderable array
- *     (preferable) or a string containing rendered HTML content.
  */
 function express_layout_block_view($delta = '') {
   $block = array();
   $node = menu_get_object();
 
-  // If not on a node
+  // If not on a node.
   if (!isset($node->nid)) {
     return array();
   }
@@ -559,16 +559,16 @@ function express_layout_block_view($delta = '') {
     }
   }
 
-  // Only show blocks on nodes
+  // Only show blocks on nodes.
   if (isset($node->nid)) {
     // If the field is not empty,
-    // @todo fix the undefined index notice for $field
+    // @todo fix the undefined index notice for $field.
     if (!empty($layout->{$field})) {
       // Loop through all referenced beans.
       foreach ($layout->{$field}[LANGUAGE_NONE] as $block) {
         $beans[] = $block['target_id'];
       }
-      // Load the bean objects
+      // Load the bean objects.
       $beans = bean_load_multiple($beans);
       // Loop through all bean objects.
       foreach ($beans as $bean) {
@@ -640,27 +640,26 @@ function _express_layout_bean_to_block($bean, $region) {
 
 /**
  * Implements module_preprocess_hook().
+ *
  * Provide theme hook suggestion if feature layout is enabled.
- * node--{type}--featurelayout.tpl.php
+ * node--{type}--featurelayout.tpl.php.
  */
 function express_layout_preprocess_node(&$vars) {
-  // Prevents content region blocks from attempting to be rendered more than once.
+  // Prevent content region blocks from attempting to render more than once.
   if ('node/' . $vars['nid'] != current_path()) {
     return;
   }
-
-  //$settings = variable_get('express_layout_settings_' . $node->type, array());
-  //$type = variable_get('express_layout_type_' . $node->type, NULL);
+  /*
+  $settings = variable_get('express_layout_settings_' . $node->type, array());
+  $type = variable_get('express_layout_type_' . $node->type, NULL);
+  */
   if ($layout = entity_load_single('express_layout', $vars['nid'])) {
     if (!empty($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value']) && ($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value'] == 'feature_layout') && (!path_is_admin(current_path()))) {
       $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__featurelayout';
     }
-
-
-
   }
 
-  // add inner sidebar regions to nodes
+  // Add inner sidebar regions to nodes.
   if ($plugin = context_get_plugin('reaction', 'block')) {
     if ($context_content_sidebar_left_blocks = $plugin->block_get_blocks_by_region('content_sidebar_left')) {
       $vars['content_sidebar_left'] = $context_content_sidebar_left_blocks;
@@ -712,12 +711,8 @@ function express_layout_preprocess_node(&$vars) {
  */
 function express_layout_secure_permissions($role) {
   $permissions = array(
-    'anonymous user' => array(
-
-    ),
-    'authenticated user' => array(
-
-    ),
+    'anonymous user' => array(),
+    'authenticated user' => array(),
     'administrator' => array(
       'edit express layouts',
     ),
@@ -738,19 +733,22 @@ function express_layout_secure_permissions($role) {
   }
 }
 
-function express_layout_field_widget_form_alter(&$element, &$form_state, $context)	{
-  // Get entity layout fields
+/**
+ * Implements hook_form_alter().
+ */
+function express_layout_field_widget_form_alter(&$element, &$form_state, $context) {
+  // Get entity layout fields.
   $fields = field_info_instances('express_layout', 'express_layout');
   unset($fields['field_feature_layout_toggle']);
   unset($fields['field_feature_title_image']);
-  // Build array of fields
+  // Build array of fields.
   $selector_fields = array();
   foreach ($fields as $key => $field) {
     $selector_fields[$key] = $key;
   }
 
   if (!empty($element['#field_name']) && (in_array($element['#field_name'], $selector_fields))) {
-    // Add 'or' separator between submit actions
+    // Add 'or' separator between submit actions.
     if (isset($element['actions']['ief_add']) && isset($element['actions']['ief_add_existing'])) {
       $element['actions']['ief_add']['#weight'] = 10;
       $element['actions']['ief_add_existing']['#weight'] = 12;
@@ -759,34 +757,36 @@ function express_layout_field_widget_form_alter(&$element, &$form_state, $contex
         '#weight' => 11,
       );
 
-      // Add 'Add New Block' label to available options and add class
+      // Add 'Add New Block' label to available options and add class.
       $element['actions']['bundle']['#empty_option'] = t('Add new block');
-      //$element['actions']['bundle']['#options']['add_new'] = t('Add new block');
+      /*
+      $element['actions']['bundle']['#options']['add_new'] = t('Add new block');
+      */
       $element['actions']['bundle']['#attributes']['class'][] = 'new-block-options';
-      // Add ajax from submit to select menu
+      // Add ajax from submit to select menu.
 
       $element['actions']['bundle']['#ajax'] = $element['actions']['ief_add']['#ajax'];
       $element['actions']['bundle']['#ajax']['event'] = 'change';
       $element['actions']['bundle']['#ajax']['trigger_as'] = array('name' => $element['actions']['ief_add']['#name']);
-      // Hide add new submit action
+      // Hide add new submit action.
       $element['actions']['ief_add']['#attributes']['class'][] = 'element-invisible';
 
-      $option_array =  $element['actions']['bundle']['#options'];
+      $option_array = $element['actions']['bundle']['#options'];
 
-      // Remove beans where the user isn't specifically allowed to create
+      // Remove beans where the user isn't specifically allowed to create.
       foreach ($option_array as $key => $option) {
         if (!express_layout_bean_access_check($key)) {
           unset($option_array[$key]);
         }
       }
-      // Sort bean types by label instead of key/machine name
+      // Sort bean types by label instead of key/machine name.
       asort($option_array);
       $element['actions']['bundle']['#options'] = $option_array;
     }
   }
 }
 /**
- * Variation of bean_access that only checks create permission
+ * Variation of bean_access that only checks create permission.
  */
 function express_layout_bean_access_check($type) {
   $perm = 'create any ' . $type . ' bean';
@@ -804,11 +804,12 @@ function express_layout_theme_registry_alter(&$registry) {
 
 /**
  * Copied from inline_entity_form.module.
+ *
  * Overrides how beans are displayed in the IEF table for title/label.
  *
  * Themes the table showing existing entity references in the widget.
  *
- * @param $variables
+ * @param object $variables
  *   Contains the form element data from $element['entities'].
  */
 function express_layout_inline_entity_form_entity_table($variables) {
@@ -880,15 +881,16 @@ function express_layout_inline_entity_form_entity_table($variables) {
         }
         else {
           $property = $wrapper->{$field_name};
-          // label() returns human-readable versions of token and list properties.
+          // label() returns human-readable versions of token and list
+          // properties.
           $data = $property->label() ? $property->label() : $property->value();
         }
         $data = empty($field['sanitized']) ? check_plain($data) : $data;
       }
       elseif ($field['type'] == 'field' && isset($entity->{$field_name})) {
         $display = array(
-            'label' => 'hidden',
-          ) + $field;
+          'label' => 'hidden',
+        ) + $field;
         // The formatter needs to be under the 'type' key.
         if (isset($display['formatter'])) {
           $display['type'] = $display['formatter'];
@@ -924,7 +926,11 @@ function express_layout_inline_entity_form_entity_table($variables) {
       $row = array(
         array('data' => drupal_render($form[$key]['form']), 'colspan' => count($fields) + 1),
       );
-      $rows[] = array('data' => $row, 'class' => array('ief-row-form'), 'no_striping' => TRUE);
+      $rows[] = array(
+        'data' => $row,
+        'class' => array('ief-row-form'),
+        'no_striping' => TRUE,
+      );
     }
   }
 
@@ -940,10 +946,18 @@ function express_layout_inline_entity_form_entity_table($variables) {
       'id' => $id,
       'class' => array('ief-entity-table'),
     );
-    return theme('table', array('header' => $header, 'rows' => $rows, 'sticky' => FALSE, 'attributes' => $table_attributes));
+    return theme('table', array(
+      'header' => $header,
+      'rows' => $rows,
+      'sticky' => FALSE,
+      'attributes' => $table_attributes,
+    ));
   }
 }
 
+/**
+ * Implements hook_theme().
+ */
 function express_layout_theme() {
   $registry = array();
   $template_dir = drupal_get_path('module', 'express_layout') . '/templates';

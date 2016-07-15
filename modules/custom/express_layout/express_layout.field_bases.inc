@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * express_layout.field_bases.inc
+ */
+
 $field_bases = array();
 
 // Exported field_base: 'field_feature_layout_toggle'

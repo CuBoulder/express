@@ -1,4 +1,3 @@
-
 <div class="feature-layout-title-image">
 
   <div class="feature-layout-title-image-overlay">

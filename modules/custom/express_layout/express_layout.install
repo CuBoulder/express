@@ -1,9 +1,12 @@
 <?php
 
 /**
+ * @file
+ * Install Express Layout.
+ */
+
+/**
  * Implements hook_schema().
- *
- * @return $schema array
  */
 function express_layout_schema() {
   $schema = array();
@@ -41,7 +44,7 @@ function express_layout_schema() {
  */
 function express_layout_install() {
 
-  // add fields to Layout entity
+  // Add fields to Layout entity.
   include 'express_layout.field_bases.inc';
   include 'express_layout.field_instances.inc';
   include 'express_layout.admin.inc';
@@ -60,23 +63,23 @@ function express_layout_uninstall() {
   $add = FALSE;
   _express_layout_variables($add);
 
-  // Delete field instances related to Express Layout entity
+  // Delete field instances related to Express Layout entity.
   field_attach_delete_bundle('express_layout', 'express_layout');
 }
 
 /**
- * Function to add config variables for layout settings
+ * Function to add config variables for layout settings.
  */
 function _express_layout_variables($add = TRUE) {
 
-  // Get all fields of entity
+  // Get all fields of entity.
   $instances = field_info_instances('express_layout', 'express_layout');
 
-  // Get all node types on site
+  // Get all node types on site.
   $node_types = node_type_get_names();
   $node_types = array_flip($node_types);
 
-  // Loop through and add variable settings
+  // Loop through and add variable settings.
   foreach ($node_types as $type) {
     $values = array();
     foreach ($instances as $instance) {
@@ -84,12 +87,16 @@ function _express_layout_variables($add = TRUE) {
     }
     if ($add == TRUE) {
       variable_set('express_layout_settings_' . $type, $values);
-    } else {
+    }
+    else {
       variable_del('express_layout_settings_' . $type);
     }
   }
 }
 
+/**
+ * Settings for all the content types.
+ */
 function _express_layout_default_settings() {
   $settings = array();
   $settings['express_layout_settings_article'] = array(
@@ -268,7 +275,7 @@ function _express_layout_default_settings() {
   }
 }
 /**
- * Create inner content bottom layout field, updating layout configs.
+ * Create inner content bottom layout field, updating layout configurations.
  */
 function express_layout_update_7001() {
   include 'express_layout.field_bases.inc';
@@ -276,13 +283,13 @@ function express_layout_update_7001() {
   _express_layout_default_settings();
 }
 /**
- * Update layout configs.
+ * Update layout configurations.
  */
 function express_layout_update_7002() {
   _express_layout_default_settings();
 }
 /**
- * Update layout configs.
+ * Update layout configurations.
  */
 function express_layout_update_7003() {
   _express_layout_default_settings();
