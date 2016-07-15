@@ -329,7 +329,8 @@ function _notify_inactive_site_owners($days) {
 }
 
 /**
- * Implement hook_form_FORM_ID_alter().
+ * Implements hook_form_FORM_ID_alter().
+ *
  * Add additional validation to the invite.
  */
 function cu_inventory_form_user_external_invite_form_alter(&$form, &$form_state, $form_id) {
@@ -695,26 +696,43 @@ function cu_inventory_process_core_version($version) {
 }
 
 /**
- * Custom version of https://www.drupal.org/project/disable_all_forms
+ * Custom version of https://www.drupal.org/project/disable_all_forms.
+ *
  * Disable all form elements.
  */
 function cu_inventory_init() {
   global $base_url;
   if (user_is_logged_in()) {
-    drupal_set_message(t('Most forms are disabled because this site is in the <i>available</i> status. <a href="@base_url/admin/config/development/inventory">Update Inventory Settings</a> or <a href="@base_url/admin/people/invite">Invite a User</a>', array('@base_url' => $base_url)), 'warning');
+    drupal_set_message(
+      t('Most forms are disabled because this site is in the <i>available</i> status. <a href="@base_url/admin/config/development/inventory">Update Inventory Settings</a> or <a href="@base_url/admin/people/invite">Invite a User</a>',
+        array('@base_url' => $base_url)
+      ),
+      'warning');
   }
 }
 
+/**
+ * Implements hook_form_alter().
+ */
 function cu_inventory_form_alter(&$form, &$form_state, $form_id) {
   $site_array = cu_inventory_get_site($cu_sid);
   if ($site_array['status'] == 'available') {
-    $exceptions = array('user_login', 'views_exposed_form', 'ctools_export_ui_list_form', 'user_external_invite_form', 'cu_inventory_admin_settings');
+    $exceptions = array(
+      'user_login',
+      'views_exposed_form',
+      'ctools_export_ui_list_form',
+      'user_external_invite_form',
+      'cu_inventory_admin_settings',
+    );
     if (!in_array($form_id, $exceptions)) {
       $form['#after_build'][] = '_cu_inventory_recursive';
     }
   }
 }
 
+/**
+ * Recursively disable form elements.
+ */
 function _cu_inventory_recursive(&$element) {
   foreach (element_children($element) as $name) {
     $element[$name]['#attributes']['disabled'] = 'disabled';
