@@ -8,12 +8,12 @@ Feature: Photo Gallery Creation
       And I fill in "edit-title" with "Test Photo Gallery"
       And I fill in "edit-field-photo-und-0-alt" with "alt one"
       And I fill in "edit-field-photo-und-0-title" with "title one"
-      And I attach the file "/home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
+      And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
       And I press the "Upload" button
       And I wait for AJAX
       And I fill in "edit-field-photo-und-1-alt" with "alt two"
       And I fill in "edit-field-photo-und-1-title" with "title two"
-      And I attach the file "/home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/assets/ralphie.jpg" to "edit-field-photo-und-1-upload"
+      And I attach the file "ralphie.jpg" to "edit-field-photo-und-1-upload"
       And I press the "Upload" button
       And I wait for AJAX
       And I press the "Save" button
