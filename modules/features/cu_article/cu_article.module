@@ -1530,6 +1530,13 @@ function cu_article_nested_options($terms) {
         }
       }
     }
+    else {
+      $options[$term['data']->tid] = $indent . ' ' . $term['data']->name;
+      if (!empty($term['children'])) {
+        $nested = cu_article_nested_options($term['children']);
+        $options = array_merge($options, $nested);
+      }
+    }
   }
   return $options;
 }
