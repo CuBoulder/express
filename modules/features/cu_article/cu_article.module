@@ -752,7 +752,8 @@ function cu_article_preprocess_node(&$vars) {
     // Filter by exposed tag filter
     elseif (!empty($_GET['tags'])) {
       $terms = array();
-      $terms[$tid] = check_plain($_GET['tags']);
+      $tid = check_plain($_GET['tags']);
+      $terms[$tid] = $tid;
       // Look up children terms and add them to array
       $v = taxonomy_vocabulary_machine_name_load('tags');
       $children = taxonomy_get_tree($v->vid, $tid);
@@ -782,7 +783,9 @@ function cu_article_preprocess_node(&$vars) {
     }
     elseif (!empty($_GET['category'])) {
       $terms = array();
-      $terms[$tid] = check_plain($_GET['category']);
+      $tid = check_plain($_GET['category']);
+      $terms[$tid] = $tid;
+
       // Look up children terms and add them to array
       $v = taxonomy_vocabulary_machine_name_load('category');
       $children = taxonomy_get_tree($v->vid, $tid);
@@ -1420,7 +1423,7 @@ function _cu_article_pre_filter_map($filter_array) {
 }
 
 /**
- * Submit handler for people list filter form.
+ * Submit handler for article list filter form.
  */
 function cu_article_list_filter_form_submit($form, &$form_state) {
   // Get current node
