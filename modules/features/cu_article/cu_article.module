@@ -1355,12 +1355,12 @@ function cu_article_list_filter_form($form, &$form_state) {
   // Build category filter options
   if ($show_category_filter) {
     $filters['category']['name'] = 'Category';
-    $filters['category']['pre_filters'] = _cu_article_pre_filter_map( $node->field_article_page_category[LANGUAGE_NONE]);
+    $filters['category']['pre_filters'] = cu_article_pre_filter_map( $node->field_article_page_category[LANGUAGE_NONE]);
   }
   // Build tag filter options
   if ($show_tag_filter) {
     $filters['tags']['name'] = 'Tag';
-    $filters['tags']['pre_filters'] = _cu_article_pre_filter_map( $node->field_article_page_filter[LANGUAGE_NONE]);
+    $filters['tags']['pre_filters'] = cu_article_pre_filter_map( $node->field_article_page_filter[LANGUAGE_NONE]);
   }
   // Build filters if they exist
   if (!empty($filters)) {
@@ -1411,7 +1411,7 @@ function cu_article_list_filter_form($form, &$form_state) {
 /**
  * Maps array items to a simple array of term ids to compare.
  */
-function _cu_article_pre_filter_map($filter_array) {
+function cu_article_pre_filter_map($filter_array) {
   if (!empty($filter_array)){
     $filter_tids = array();
     $filter_tids[] = 'All';
