@@ -1411,13 +1411,22 @@ function cu_article_list_filter_form($form, &$form_state) {
 /**
  * Maps array items to a simple array of term ids to compare.
  */
-function cu_article_pre_filter_map($filter_array) {
+function cu_article_pre_filter_map($filter_array, $vocabulary = NULL, $include_children = 0) {
   if (!empty($filter_array)){
     $filter_tids = array();
     $filter_tids[] = 'All';
     foreach ($filter_array as $filter) {
       $filter_tids[$filter['tid']] = $filter['tid'];
+      // Get descendents if asked for
+      if ($vocabulary && $include_children) {
+        $v = taxonomy_vocabulary_machine_name_load($vocabulary);
+        $children = taxonomy_get_tree($v->vid, $filter['tid']);
+        foreach ($children as $child) {
+          $filter_tids[$child->tid] = $child->tid;
+        }
+      }
     }
+
     return $filter_tids;
   }
 }
