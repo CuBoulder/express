@@ -1325,7 +1325,7 @@ function cu_article_taxonomy_form_validate($form, &$form_state) {
   $depth = count($parents) + count($children) + 1;
   if ($depth > $limit) {
     $error_link = l('This change', NULL, array('external' => TRUE, 'fragment' => 'edit-parent'));
-    form_set_error('parent', t('!change has caused the taxonomy to exceed its maximum depth of 4 levels. The resulting tree would have a depth of !depth.', array('!change' => $error_link, '!depth' => $depth)));
+    //form_set_error('parent', t('!change has caused the taxonomy to exceed its maximum depth of 4 levels. The resulting tree would have a depth of !depth.', array('!change' => $error_link, '!depth' => $depth)));
   }
 }
 
