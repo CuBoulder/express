@@ -1928,6 +1928,50 @@ function cu_article_field_default_field_instances() {
   );
 
   // Exported field_instance:
+  // 'node-article_list_page-field_article_page_childterms'.
+  $field_instances['node-article_list_page-field_article_page_childterms'] = array(
+    'bundle' => 'article_list_page',
+    'default_value' => array(
+      0 => array(
+        'value' => 'all',
+      ),
+    ),
+    'default_value_function' => '',
+    'default_value_php' => '',
+    'deleted' => 0,
+    'description' => 'All child terms will be shown if no terms are selected in a vocabulary.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'fences_wrapper' => 'no_wrapper',
+    'field_name' => 'field_article_page_childterms',
+    'label' => 'Child Terms',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 9,
+    ),
+  );
+
+  // Exported field_instance:
   // 'node-article_list_page-field_article_page_filter'.
   $field_instances['node-article_list_page-field_article_page_filter'] = array(
     'bundle' => 'article_list_page',
@@ -2286,10 +2330,12 @@ function cu_article_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Add a url to news/articles that are on another site.  Visitors who try to view this article will be automatically redirected.');
+  t('All child terms will be shown if no terms are selected in a vocabulary.');
   t('Body');
   t('Byline');
   t('Categories');
   t('Category Display');
+  t('Child Terms');
   t('Choose whether a category will display to the visitor. This is useful for using tags to group articles, for example, \'Homepage Articles\', that don\'t need to be displayed in the tag list at the bottom of articles.');
   t('Choose whether a tag will display to the visitor. This is useful for using tags to group articles, for example, \'Homepage Articles\', that don\'t need to be displayed in the tag list at the bottom of articles.');
   t('Date Display');

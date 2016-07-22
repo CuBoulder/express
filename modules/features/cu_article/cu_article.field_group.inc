@@ -81,6 +81,7 @@ function cu_article_field_group_info() {
     'children' => array(
       0 => 'field_article_page_cat_expose',
       1 => 'field_article_page_tag_expose',
+      2 => 'field_article_page_childterms',
     ),
     'format_type' => 'fieldset',
     'format_settings' => array(

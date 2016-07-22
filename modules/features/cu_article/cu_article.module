@@ -1351,16 +1351,19 @@ function cu_article_list_filter_form($form, &$form_state) {
   $node = menu_get_object();
   $show_category_filter = $node->field_article_page_cat_expose[LANGUAGE_NONE][0]['value'];
   $show_tag_filter = $node->field_article_page_tag_expose[LANGUAGE_NONE][0]['value'];
+  $child_terms = $node->field_article_page_childterms[LANGUAGE_NONE][0]['value'];
 
   // Build category filter options
   if ($show_category_filter) {
     $filters['category']['name'] = 'Category';
-    $filters['category']['pre_filters'] = cu_article_pre_filter_map( $node->field_article_page_category[LANGUAGE_NONE]);
+    $filters['category']['vocabulary'] = 'category';
+    $filters['category']['pre_filters'] = cu_article_pre_filter_map( $node->field_article_page_category[LANGUAGE_NONE], 'category', $child_terms);
   }
   // Build tag filter options
   if ($show_tag_filter) {
     $filters['tags']['name'] = 'Tag';
-    $filters['tags']['pre_filters'] = cu_article_pre_filter_map( $node->field_article_page_filter[LANGUAGE_NONE]);
+    $filters['tags']['vocabulary'] = 'tags';
+    $filters['tags']['pre_filters'] = cu_article_pre_filter_map( $node->field_article_page_filter[LANGUAGE_NONE], 'tags', $child_terms);
   }
   // Build filters if they exist
   if (!empty($filters)) {

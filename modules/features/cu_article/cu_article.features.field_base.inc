@@ -595,6 +595,32 @@ function cu_article_field_default_field_bases() {
     'type' => 'taxonomy_term_reference',
   );
 
+  // Exported field_base: 'field_article_page_childterms'.
+  $field_bases['field_article_page_childterms'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_article_page_childterms',
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        'all' => 'Include all child terms of the terms selected',
+        'checked' => 'Only include the terms selected',
+      ),
+      'allowed_values_function' => '',
+      'allowed_values_php' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_text',
+  );
+
   // Exported field_base: 'field_article_page_filter'.
   $field_bases['field_article_page_filter'] = array(
     'active' => 1,
