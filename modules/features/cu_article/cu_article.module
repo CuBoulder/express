@@ -1296,7 +1296,8 @@ function cu_article_taxonomy_term_view($term) {
  * Add validation function to term edit form.
  */
 function cu_article_form_taxonomy_form_term_alter(&$form, &$form_state, $form_id) {
-  $form['#validate'][] = 'cu_article_taxonomy_form_validate';
+  $form['relations']['#access'] = FALSE;
+  // $form['#validate'][] = 'cu_article_taxonomy_form_validate';
 }
 
 /**
@@ -1324,7 +1325,7 @@ function cu_article_taxonomy_form_validate($form, &$form_state) {
   $depth = count($parents) + count($children) + 1;
   if ($depth > $limit) {
     $error_link = l('This change', NULL, array('external' => TRUE, 'fragment' => 'edit-parent'));
-    form_set_error('parent', t('!change has caused the taxonomy to exceed its maximum depth of 4 levels.', array('!change' => $error_link)));
+    form_set_error('parent', t('!change has caused the taxonomy to exceed its maximum depth of 4 levels. The resulting tree would have a depth of !depth.', array('!change' => $error_link, '!depth' => $depth)));
   }
 }
 
@@ -1560,6 +1561,7 @@ function cu_article_nested_options($terms) {
  * Returns - to denote children
  */
 function cu_article_term_depth($depth = 0) {
+  $indent = '';
   for ($i = 0; $i < $depth; $i++) {
     $indent = $indent . '-';
   }
