@@ -1559,7 +1559,7 @@ function cu_article_nested_options($terms) {
 /**
  * Returns - to denote children
  */
-function cu_article_term_depth($depth) {
+function cu_article_term_depth($depth = 0) {
   for ($i = 0; $i < $depth; $i++) {
     $indent = $indent . '-';
   }
