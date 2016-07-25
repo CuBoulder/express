@@ -167,7 +167,14 @@ function cu_article_preprocess_entity(&$vars) {
     if (isset($vars['elements']['#entity']->field_article_term[LANGUAGE_NONE])) {
       $terms = array();
       foreach ($vars['elements']['#entity']->field_article_term[LANGUAGE_NONE] as $key=>$value) {
-        $terms[$key] = $value['tid'];
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('tags');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
       }
       $query->join("field_data_field_tags", "tags", "n.nid = tags.entity_id");
       $query->fields('tags', array('field_tags_tid'));
@@ -178,7 +185,14 @@ function cu_article_preprocess_entity(&$vars) {
     if (isset($vars['elements']['#entity']->field_article_list_category[LANGUAGE_NONE])) {
       $terms = array();
       foreach ($vars['elements']['#entity']->field_article_list_category[LANGUAGE_NONE] as $key=>$value) {
-        $terms[$key] = $value['tid'];
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('category');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
       }
       $query->join("field_data_field_article_categories", "cats", "n.nid = cats.entity_id");
       $query->fields('cats', array('field_article_categories_tid'));
@@ -272,7 +286,14 @@ function cu_article_preprocess_entity(&$vars) {
     if (isset($vars['elements']['#entity']->field_article_grid_filter[LANGUAGE_NONE])) {
       $terms = array();
       foreach ($vars['elements']['#entity']->field_article_grid_filter[LANGUAGE_NONE] as $key=>$value) {
-        $terms[$key] = $value['tid'];
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('tags');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
       }
       $query->join("field_data_field_tags", "tags", "n.nid = tags.entity_id");
       $query->fields('tags', array('field_tags_tid'));
@@ -283,7 +304,14 @@ function cu_article_preprocess_entity(&$vars) {
     if (isset($vars['elements']['#entity']->field_article_grid_category[LANGUAGE_NONE])) {
       $terms = array();
       foreach ($vars['elements']['#entity']->field_article_grid_category[LANGUAGE_NONE] as $key=>$value) {
-        $terms[$key] = $value['tid'];
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('category');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
       }
       $query->join("field_data_field_article_categories", "cats", "n.nid = cats.entity_id");
       $query->fields('cats', array('field_article_categories_tid'));
@@ -351,7 +379,14 @@ function cu_article_preprocess_entity(&$vars) {
     if (isset($vars['elements']['#entity']->field_article_feature_filter[LANGUAGE_NONE])) {
       $terms = array();
       foreach ($vars['elements']['#entity']->field_article_feature_filter[LANGUAGE_NONE] as $key=>$value) {
-        $terms[$key] = $value['tid'];
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('tags');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
       }
       $query->join("field_data_field_tags", "tags", "n.nid = tags.entity_id");
       $query->fields('tags', array('field_tags_tid'));
@@ -362,7 +397,14 @@ function cu_article_preprocess_entity(&$vars) {
     if (isset($vars['elements']['#entity']->field_article_feature_category[LANGUAGE_NONE])) {
       $terms = array();
       foreach ($vars['elements']['#entity']->field_article_feature_category[LANGUAGE_NONE] as $key=>$value) {
-        $terms[$key] = $value['tid'];
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('category');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
       }
       $query->join("field_data_field_article_categories", "cats", "n.nid = cats.entity_id");
       $query->fields('cats', array('field_article_categories_tid'));
@@ -439,7 +481,14 @@ function cu_article_preprocess_entity(&$vars) {
     if (isset($vars['elements']['#entity']->field_article_slider_filter[LANGUAGE_NONE])) {
       $terms = array();
       foreach ($vars['elements']['#entity']->field_article_slider_filter[LANGUAGE_NONE] as $key=>$value) {
-        $terms[$key] = $value['tid'];
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('tags');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
       }
       $query->join("field_data_field_tags", "tags", "n.nid = tags.entity_id");
       $query->fields('tags', array('field_tags_tid'));
@@ -450,7 +499,14 @@ function cu_article_preprocess_entity(&$vars) {
     if (isset($vars['elements']['#entity']->field_article_slider_category[LANGUAGE_NONE])) {
       $terms = array();
       foreach ($vars['elements']['#entity']->field_article_slider_category[LANGUAGE_NONE] as $key=>$value) {
-        $terms[$key] = $value['tid'];
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('category');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
       }
       $query->join("field_data_field_article_categories", "cats", "n.nid = cats.entity_id");
       $query->fields('cats', array('field_article_categories_tid'));
@@ -553,23 +609,36 @@ function cu_article_preprocess_node(&$vars) {
       }
     }
     // Build new tag list that links to article list pages
-    if (isset ($tids)) {
+    if (!empty($tids)) {
+      // lookup parent terms
+      foreach ($tids as $tid) {
+        $parents = taxonomy_get_parents_all($tid);
+        unset($parents[0]);
+        if (!empty($parents)) {
+          //$tids = $tids + $parents;
+          foreach ($parents as $parent) {
+            $tids[] = $parent->tid;
+          }
+        }
+      }
+
       $terms = taxonomy_term_load_multiple($tids);
       foreach ($terms as $term) {
         $display = isset($term->field_tag_display[LANGUAGE_NONE][0]['value']) ? $term->field_tag_display[LANGUAGE_NONE][0]['value'] : 'show';
         if (isset($term->name) && $display == 'show') {
           $tag = $term->name;
           if (!empty($term->field_tag_term_page_link)) {
-            $new_tags[] = l($tag, $term->field_tag_term_page_link[LANGUAGE_NONE][0]['url']);
+            $new_tags[$tag] = l($tag, $term->field_tag_term_page_link[LANGUAGE_NONE][0]['url']);
           }
           else {
-            $new_tags[] = $tag;
+            $new_tags[$tag] = $tag;
           }
         }
       }
       // Add new tags to article_meta element
       if (!empty($new_tags)) {
-        $markup = '<i class="fa fa-tags"></i><span class="element-invisible">Tags:</span> ' . implode(', ', $new_tags);
+        ksort($new_tags);
+        $markup = '<i class="fa fa-tags"></i><span class="element-invisible">Tags:</span>' . theme('item_list', array('items' => $new_tags));
         $vars['content']['article_meta']['article_tags']['#markup'] = $markup;
         $vars['content']['article_meta']['article_tags']['#prefix'] = '<div class="article-meta-section article-meta-tags">';
         $vars['content']['article_meta']['article_tags']['#suffix'] = '</div>';
@@ -589,6 +658,17 @@ function cu_article_preprocess_node(&$vars) {
     }
     // Build new tag list that links to article list pages
     if (isset ($tids)) {
+      // lookup parent terms
+      foreach ($tids as $tid) {
+        $parents = taxonomy_get_parents_all($tid);
+        unset($parents[0]);
+        if (!empty($parents)) {
+          //$tids = $tids + $parents;
+          foreach ($parents as $parent) {
+            $tids[] = $parent->tid;
+          }
+        }
+      }
       $terms = taxonomy_term_load_multiple($tids);
       foreach ($terms as $term) {
         $display = isset($term->field_category_display[LANGUAGE_NONE][0]['value']) ? $term->field_category_display[LANGUAGE_NONE][0]['value'] : 'show';
@@ -598,13 +678,14 @@ function cu_article_preprocess_node(&$vars) {
             $new_categories[] = l($category, $term->field_category_term_page_link[LANGUAGE_NONE][0]['url']);
           }
           else {
-            $new_categories[] = $category;
+            $new_categories[$category] = $category;
           }
         }
       }
       // Add new tags to article_meta element
       if (!empty($new_categories)) {
-        $markup = '<i class="fa fa-folder-open"></i><span class="element-invisible">Categories:</span> ' . implode(', ', $new_categories);
+        ksort($new_categories);
+        $markup = '<i class="fa fa-folder-open"></i><span class="element-invisible">Categories:</span>' . theme('item_list', array('items' => $new_categories));
         $vars['content']['article_meta']['article_categories']['#markup'] = $markup;
         $vars['content']['article_meta']['article_categories']['#prefix'] = '<div class="article-meta-section article-meta-categories">';
         $vars['content']['article_meta']['article_categories']['#suffix'] = '</div>';
@@ -646,7 +727,6 @@ function cu_article_preprocess_node(&$vars) {
   if ($vars['node']->type == 'article_list_page') {
     // Start query.
     $query = db_select('node', 'n');
-
     $query = $query->extend('PagerDefault')->limit(10);
     $query->condition('n.type', 'article', '=');
     $query->condition('n.status', 1, '=');
@@ -656,7 +736,14 @@ function cu_article_preprocess_node(&$vars) {
     if (isset($vars['node']->field_article_page_filter[LANGUAGE_NONE])) {
       $terms = array();
       foreach ($vars['node']->field_article_page_filter[LANGUAGE_NONE] as $key=>$value) {
-        $terms[$key] = $value['tid'];
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('tags');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
       }
       $query->join("field_data_field_tags", "tags", "n.nid = tags.entity_id");
       $query->fields('tags', array('field_tags_tid'));
@@ -667,7 +754,14 @@ function cu_article_preprocess_node(&$vars) {
     if (isset($vars['node']->field_article_page_category[LANGUAGE_NONE])) {
       $terms = array();
       foreach ($vars['node']->field_article_page_category[LANGUAGE_NONE] as $key=>$value) {
-        $terms[$key] = $value['tid'];
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('category');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
       }
       $query->join("field_data_field_article_categories", "cats", "n.nid = cats.entity_id");
       $query->fields('cats', array('field_article_categories_tid'));
@@ -1050,6 +1144,8 @@ function cu_article_block_info() {
  * A block that shows all articles that have a byline related to a person node
  */
 function cu_article_block_view($delta = '') {
+  $block = array();
+
   switch ($delta) {
     case 'articles_by_person':
       // Get current node id
@@ -1162,5 +1258,59 @@ function cu_article_taxonomy_term_view($term) {
   }
   elseif (!empty($term->field_tag_term_page_link)) {
     drupal_goto($term->field_tag_term_page_link[LANGUAGE_NONE][0]['url']);
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add validation function to term edit form.
+ */
+function cu_article_form_taxonomy_form_term_alter(&$form, &$form_state, $form_id) {
+  $form['#validate'][] = 'cu_article_taxonomy_form_validate';
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Add validation function to terms overview form.
+ */
+function cu_article_form_taxonomy_overview_terms_alter(&$form, &$form_state, $form_id) {
+  $form['#validate'][] = 'cu_article_taxonomy_overview_form_validate';
+}
+
+/**
+ * Validation function for cu_article_form_taxonomy_form_term_alter().
+ *
+ * Prevents user from exceeding maximum depth on taxonomy terms.
+ */
+function cu_article_taxonomy_form_validate($form, &$form_state) {
+  $limit = variable_get('express_maximum_taxonomy_depth', 4);
+  $parent = current($form_state['values']['parent']);
+  $tid = $form_state['term']->tid;
+  $vid = $form_state['term']->vid;
+
+  $parents = taxonomy_get_parents_all($parent);
+  $children = taxonomy_get_tree($vid, $tid);
+  $depth = count($parents) + count($children) + 1;
+  if ($depth > $limit) {
+    $error_link = l('This change', NULL, array('external' => TRUE, 'fragment' => 'edit-parent'));
+    form_set_error('parent', t('!change has caused the taxonomy to exceed its maximum depth of 4 levels.', array('!change' => $error_link)));
+  }
+}
+
+/**
+ * Validation function for cu_article_form_taxonomy_overview_terms_alter().
+ *
+ * Prevents user from exceeding maximum depth on taxonomy terms.
+ */
+function cu_article_taxonomy_overview_form_validate($form, &$form_state) {
+  $limit = variable_get('express_maximum_taxonomy_depth', 4) -1 ;
+  foreach ($form_state['input'] as $key => $term) {
+    if (!empty($term['depth']) && $term['depth'] > $limit) {
+      $error_link = l('This change', NULL, array('external' => TRUE, 'fragment' => 'edit-tid' . $term['tid'] . '0-edit'));
+      form_set_error($key . '[depth]', t('!change has caused the taxonomy to exceed its maximum depth of 4 levels.', array('!change' => $error_link)));
+
+    }
   }
 }

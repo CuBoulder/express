@@ -128,9 +128,9 @@ before_script:
 
 script:
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '~@max_execution_time&&~@exclude_all_bundles'
+  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
   # Run tests that were timing out.
-  - ./bin/behat --config behat.yml --verbose --tags @max_execution_time
+  #- ./bin/behat --config behat.yml --verbose --tags @max_execution_time
 
 notifications:
   slack:
