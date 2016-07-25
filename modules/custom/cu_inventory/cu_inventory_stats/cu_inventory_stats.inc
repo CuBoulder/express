@@ -27,7 +27,6 @@ function cu_inventory_stats_process_site_stats($process = TRUE) {
 
   // Deal with variables first.
   $variables_to_check = array(
-    'grid_size_blocks',
     'site_403',
     'site_404',
     'theme_default',
