@@ -6,5 +6,6 @@ project_demo_url = http://www.colorado.edu/webcentral/node/1084
 dependencies[] = cu_rss
 dependencies[] = cu_rss_block
 dependencies[] = cu_rss_views
+dependencies[] = uuid
 
 bundle_cache_clear = 1

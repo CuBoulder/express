@@ -29,7 +29,7 @@ Feature: File Content Type
     When I go to "node/add/file"
       And  I fill in "Title" with "My File"
       And I fill in "body[und][0][value]" with "Sample Description"
-      And I attach the file "/data/web/express/testing/profiles/express/tests/behat/assets/ralphie.jpg" to "edit-field-file-attachment-und-0-upload"
+      And I attach the file "ralphie.jpg" to "edit-field-file-attachment-und-0-upload"
       And I press the "Upload" button
       And I wait for AJAX
     Then I should see "ralphie.jpg"

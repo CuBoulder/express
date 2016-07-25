@@ -130,6 +130,7 @@ function profile_module_manager_bundle_list() {
   // Step through bundles
   $first_admin_bundle = TRUE;
   foreach ($bundles as $key => $bundle) {
+    $vars = array();
     $info_file = str_replace(".module", ".info", $bundle->filename);
     if (file_exists($info_file)) {
       $info = drupal_parse_info_file($info_file);
@@ -281,34 +282,4 @@ function profile_module_manager_bundle_enable($bundle) {
     }
     batch_process('admin/settings/bundles/list');
   }
-}
-
-/**
- * Implements hook_theme().
- */
-
-function profile_module_manager_theme(&$existing, $type, $theme, $path) {
-  $registry = array();
-  $template_dir = drupal_get_path('module', 'profile_module_manager') . '/templates';
-  $registry['profile_module_manager_bundle_page'] = array(
-    'template' => 'profile-module-manager-bundle-page',
-    'path' => $template_dir,
-  );
-  $registry['profile_module_manager_bundle_group'] = array(
-    'template' => 'profile-module-manager-bundle-group',
-    'path' => $template_dir,
-  );
-  $registry['profile_module_manager_bundle'] = array(
-    'template' => 'profile-module-manager-bundle',
-    'path' => $template_dir,
-  );
-  $registry['profile_module_manager_bundle_actions_disabled'] = array(
-    'template' => 'profile-module-manager-bundle-actions-disabled',
-    'path' => $template_dir,
-  );
-  $registry['profile_module_manager_bundle_actions_enabled'] = array(
-    'template' => 'profile-module-manager-bundle-actions-enabled',
-    'path' => $template_dir,
-  );
-  return $registry;
 }
