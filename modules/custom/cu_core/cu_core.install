@@ -463,7 +463,7 @@ function cu_core_update_7010() {
     'cu_dashboard_seo',
   );
   
-  if (!empty($result)) {
+  if (empty($result)) {
     module_disable($modules);
   }
   
