@@ -10,6 +10,14 @@ $border_color_solid: #e0e0e0;
   width: 1px;
 }
 
+@mixin clearfloats {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
 .person-name {
   font-weight: bold;
 }
@@ -160,6 +168,18 @@ table.people-list-table {
 td.people-table-photo-none {
   display: none;
 }
+td.person-table-phone,
+td.person-table-email,
+td.person-table-office {
+  font-size: 85%;
+}
+td.person-table-email a {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+.people-list-directory .person-table-name {
+  width:50%;
+}
 
 .people-bio {
   padding-top: 10px;
@@ -231,7 +251,7 @@ ul.cu-person-directory .person-field-three {
     margin: 0 20px 0 0;
   }
   .person-view-mode-teaser-content {
-    overflow: hidden;
+    @include clearfloats;
   }
 }
 
