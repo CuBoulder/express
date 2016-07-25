@@ -460,7 +460,6 @@ function cu_core_update_7010() {
     'linkchecker_bean',
     'cu_linkchecker',
     'site_verify',
-    'express_dashboards',
     'cu_dashboard_seo',
   );
   
