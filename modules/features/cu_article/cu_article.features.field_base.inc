@@ -611,8 +611,8 @@ function cu_article_field_default_field_bases() {
     'module' => 'list',
     'settings' => array(
       'allowed_values' => array(
-        'all' => 'Include all child terms of the terms selected',
-        'checked' => 'Only include the terms selected',
+        'all' => 'Include all child terms of the terms selected in the filter menu',
+        'checked' => 'Only include the terms selected in the filter menu',
       ),
       'allowed_values_function' => '',
       'allowed_values_php' => '',

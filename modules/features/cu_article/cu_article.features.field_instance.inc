@@ -1939,7 +1939,7 @@ function cu_article_field_default_field_instances() {
     'default_value_function' => '',
     'default_value_php' => '',
     'deleted' => 0,
-    'description' => 'All child terms will be shown if no terms are selected in a vocabulary.',
+    'description' => 'All child terms will be shown in the filter menu if no terms are selected in a vocabulary.',
     'display' => array(
       'default' => array(
         'label' => 'above',
