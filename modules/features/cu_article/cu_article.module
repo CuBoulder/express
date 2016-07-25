@@ -1381,7 +1381,6 @@ function cu_article_list_filter_form($form, &$form_state) {
       $terms = cu_article_taxonomy_treedata($terms);
       // Build select options from nested tree and add all option
       $options = $options + cu_article_nested_options($terms);
-
       // If pre_filters were added, only show those options
       if (!empty($filter['pre_filters'])) {
         $options = array_intersect_key($options, $filter['pre_filters']);
@@ -1431,7 +1430,6 @@ function cu_article_pre_filter_map($filter_array, $vocabulary = NULL, $include_c
         }
       }
     }
-
     return $filter_tids;
   }
 }
@@ -1534,7 +1532,7 @@ function cu_article_nested_options($terms) {
         $options[$term['data']->tid] = $indent . ' ' . $term['data']->name;
         if (!empty($term['children'])) {
           $nested = cu_article_nested_options($term['children']);
-          $options = array_merge($options, $nested);
+          $options = $options + $nested;
         }
       }
     }
@@ -1551,7 +1549,7 @@ function cu_article_nested_options($terms) {
       $options[$term['data']->tid] = $indent . ' ' . $term['data']->name;
       if (!empty($term['children'])) {
         $nested = cu_article_nested_options($term['children']);
-        $options = array_merge($options, $nested);
+        $options = $options + $nested;
       }
     }
   }
