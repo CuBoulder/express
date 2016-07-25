@@ -32,7 +32,7 @@ hr {
   margin-bottom: 20px;
   padding: 0;
 
-  overflow: hidden;
+  @include clearfloats;
 
   li {
     display: block;
@@ -182,7 +182,7 @@ hr {
 .anchors {
   @include rounded($radius: $radius_small);
   background-color: $light_gray;
-  overflow: hidden;
+  @include clearfloats;
 
   .anchors-label {
     font-weight: bold;
@@ -261,7 +261,7 @@ hr {
 .zone-after-content-image-fixed,
 .zone-after-content-2-image-fixed {
   background-attachment: fixed;
-  overflow: hidden;
+  @include clearfloats;
 }
 
 .block-icons-gray i.blockicon {
@@ -486,7 +486,7 @@ a .icon-color-gray {
   height:240px;
   position: relative;
   padding:0;
-  overflow: hidden;
+  @include clearfloats;
 }
 
 .feature-layout-title-image-overlay {

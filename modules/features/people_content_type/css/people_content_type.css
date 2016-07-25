@@ -58,6 +58,12 @@ table.people-list-table { width: 100%; }
 
 td.people-table-photo-none { display: none; }
 
+td.person-table-phone, td.person-table-email, td.person-table-office { font-size: 85%; }
+
+td.person-table-email a { overflow-wrap: break-word; word-wrap: break-word; }
+
+.people-list-directory .person-table-name { width: 50%; }
+
 .people-bio { padding-top: 10px; }
 
 .people-section p:last-child, .people-section .field p:last-child { margin-bottom: 0; }
@@ -85,7 +91,7 @@ ul.cu-person-directory .person-office-hours, ul.cu-person-directory .person-depa
 .person-view-mode-teaser img.image-thumbnail, .person-view-mode-teaser img.image-small_thumbnail { float: right; margin: 0 0 20px 20px; width: 100px; height: auto; }
 
 @media screen and (min-width: 640px) { .person-view-mode-teaser img.image-thumbnail, .person-view-mode-teaser img.image-small_thumbnail { float: left; margin: 0 20px 0 0; }
-  .person-view-mode-teaser-content { overflow: hidden; } }
+  .person-view-mode-teaser-content:after { content: ""; display: table; clear: both; } }
 .view-people-list table { width: 100%; }
 
 td.office div p:last-child { margin-bottom: 0; }
