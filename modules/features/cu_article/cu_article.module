@@ -261,7 +261,7 @@ function cu_article_preprocess_entity(&$vars) {
     else {
       $type = $vars['elements']['#bundle'];
       _cu_article_bean_null_results($vars, $type);
-      $vars['content'] = '';
+      $vars['content'] = array();
     }
 
   }
@@ -350,7 +350,7 @@ function cu_article_preprocess_entity(&$vars) {
     else {
       $type = $vars['elements']['#bundle'];
       _cu_article_bean_null_results($vars, $type);
-      $vars['content'] = '';
+      $vars['content'] = array();
     }
 
   }
@@ -458,7 +458,7 @@ function cu_article_preprocess_entity(&$vars) {
     else {
       $type = $vars['elements']['#bundle'];
       _cu_article_bean_null_results($vars, $type);
-      $vars['content'] = '';
+      $vars['content'] = array();
     }
   }
 
