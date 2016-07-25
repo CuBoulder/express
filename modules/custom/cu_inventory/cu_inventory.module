@@ -334,13 +334,13 @@ function _notify_inactive_site_owners($days) {
  * Add additional validation to the invite.
  */
 function cu_inventory_form_user_external_invite_form_alter(&$form, &$form_state, $form_id) {
-  $form['#validate'][] = 'cu_inventory_form_user_external_invite_form';
+  $form['#validate'][] = 'cu_inventory_form_user_external_invite_form_validate';
 }
 
 /**
  * Change site from Available to Installed if Available when an invite is sent.
  */
-function cu_inventory_form_user_external_invite_form($form, &$form_state) {
+function cu_inventory_form_user_external_invite_form_validate($form, &$form_state) {
   $cu_sid = variable_get('cu_sid', FALSE);
   $site_array = cu_inventory_get_site($cu_sid);
   if ($site_array && $site_array['status'] == 'available') {
