@@ -36,7 +36,7 @@ function cu_feature_callout_preprocess_entity(&$vars) {
 
   // Only preprocess social_link beans.
   if ($entity_type == 'bean' && $bundle == 'feature_callout') {
-
+    $grid_header = !empty($vars['elements']['#entity']->title) ? 'h3' : 'h2';
     // Get the number of columns for formatting.
     $columns = $vars['content']['field_callout_columns']['#items'][0]['value'];
     $size = $vars['content']['field_callout_image_size']['#items'][0]['value'];
@@ -104,7 +104,7 @@ function cu_feature_callout_preprocess_entity(&$vars) {
         }
 
         if (isset($title)) {
-          $title = '<h3 class="feature-callout-title">' . l($title, $url['url'], array('html' => TRUE, 'query' => $url['query'], 'fragment' => $url['fragment'])) . '</h3>';
+          $title = '<' . $grid_header . ' class="feature-callout-title">' . l($title, $url['url'], array('html' => TRUE, 'query' => $url['query'], 'fragment' => $url['fragment'])) . '</' . $grid_header . '>';
         } else {
           $title = '';
         }
@@ -116,7 +116,7 @@ function cu_feature_callout_preprocess_entity(&$vars) {
       }
       else {
         if (isset($title)) {
-          $title = '<h3 class="feature-callout-title">' . $title . '</h3>';
+          $title = '<' . $grid_header . ' class="feature-callout-title">' . $title . '</' . $grid_header . '>';
         } else {
           $title = '';
         }
