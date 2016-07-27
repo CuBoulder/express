@@ -138,6 +138,9 @@ function profile_module_manager_bundle_list() {
       // Set bundle group
       $group = strpos($bundle->name, '_admin_bundle') ? 'group_admin_bundle' : 'group_bundle';
 
+      // Bundle status
+      $vars['enabled'] = $enabled;
+
       // Add classes for bundle wrapper
       $classes_array = array();
       $classes_array[] = 'module-bundle-wrapper';
