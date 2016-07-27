@@ -932,7 +932,7 @@ function cu_article_field_default_field_instances() {
         'label' => 'hidden',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 6,
+        'weight' => 24,
       ),
       'embed' => array(
         'label' => 'above',
@@ -1028,7 +1028,7 @@ function cu_article_field_default_field_instances() {
           'wrapper_option' => '- None -',
         ),
         'type' => 'taxonomy_term_reference_csv',
-        'weight' => 7,
+        'weight' => 3,
       ),
       'embed' => array(
         'label' => 'above',
@@ -1146,7 +1146,7 @@ function cu_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 3,
+        'weight' => 21,
       ),
       'embed' => array(
         'label' => 'above',
@@ -1216,7 +1216,7 @@ function cu_article_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 8,
+      'weight' => 4,
     ),
   );
 
@@ -1231,7 +1231,7 @@ function cu_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 5,
+        'weight' => 23,
       ),
       'embed' => array(
         'label' => 'above',
@@ -1340,7 +1340,7 @@ function cu_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 4,
+        'weight' => 22,
       ),
       'embed' => array(
         'label' => 'hidden',
@@ -1628,7 +1628,7 @@ function cu_article_field_default_field_instances() {
       'module' => 'image',
       'settings' => array(
         'insert' => 1,
-        'insert_absolute' => 2,
+        'insert_absolute' => 0,
         'insert_class' => '',
         'insert_default' => 'image_medium',
         'insert_styles' => array(
@@ -1846,6 +1846,50 @@ function cu_article_field_default_field_instances() {
   );
 
   // Exported field_instance:
+  // 'node-article_list_page-field_article_page_cat_expose'.
+  $field_instances['node-article_list_page-field_article_page_cat_expose'] = array(
+    'bundle' => 'article_list_page',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'default_value_function' => '',
+    'default_value_php' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 1,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'fences_wrapper' => 'no_wrapper',
+    'field_name' => 'field_article_page_cat_expose',
+    'label' => 'Show Category Filter',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 7,
+    ),
+  );
+
+  // Exported field_instance:
   // 'node-article_list_page-field_article_page_category'.
   $field_instances['node-article_list_page-field_article_page_category'] = array(
     'bundle' => 'article_list_page',
@@ -1857,7 +1901,7 @@ function cu_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 1,
+        'weight' => 3,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1884,6 +1928,50 @@ function cu_article_field_default_field_instances() {
   );
 
   // Exported field_instance:
+  // 'node-article_list_page-field_article_page_childterms'.
+  $field_instances['node-article_list_page-field_article_page_childterms'] = array(
+    'bundle' => 'article_list_page',
+    'default_value' => array(
+      0 => array(
+        'value' => 'all',
+      ),
+    ),
+    'default_value_function' => '',
+    'default_value_php' => '',
+    'deleted' => 0,
+    'description' => 'All child terms will be shown in the filter menu if no terms are selected in a vocabulary.',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'fences_wrapper' => 'no_wrapper',
+    'field_name' => 'field_article_page_childterms',
+    'label' => 'Child Terms',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_buttons',
+      'weight' => 9,
+    ),
+  );
+
+  // Exported field_instance:
   // 'node-article_list_page-field_article_page_filter'.
   $field_instances['node-article_list_page-field_article_page_filter'] = array(
     'bundle' => 'article_list_page',
@@ -1895,7 +1983,7 @@ function cu_article_field_default_field_instances() {
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
-        'weight' => 2,
+        'weight' => 4,
       ),
       'teaser' => array(
         'label' => 'above',
@@ -1918,6 +2006,50 @@ function cu_article_field_default_field_instances() {
       'settings' => array(),
       'type' => 'options_buttons',
       'weight' => 6,
+    ),
+  );
+
+  // Exported field_instance:
+  // 'node-article_list_page-field_article_page_tag_expose'.
+  $field_instances['node-article_list_page-field_article_page_tag_expose'] = array(
+    'bundle' => 'article_list_page',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'default_value_function' => '',
+    'default_value_php' => '',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'fences_wrapper' => 'no_wrapper',
+    'field_name' => 'field_article_page_tag_expose',
+    'label' => 'Show Tags Filter',
+    'required' => 1,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(),
+      'type' => 'options_select',
+      'weight' => 8,
     ),
   );
 
@@ -2198,16 +2330,19 @@ function cu_article_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Add a url to news/articles that are on another site.  Visitors who try to view this article will be automatically redirected.');
+  t('All child terms will be shown if no terms are selected in a vocabulary.');
   t('Body');
   t('Byline');
   t('Categories');
   t('Category Display');
+  t('Child Terms');
   t('Choose whether a category will display to the visitor. This is useful for using tags to group articles, for example, \'Homepage Articles\', that don\'t need to be displayed in the tag list at the bottom of articles.');
   t('Choose whether a tag will display to the visitor. This is useful for using tags to group articles, for example, \'Homepage Articles\', that don\'t need to be displayed in the tag list at the bottom of articles.');
   t('Date Display');
   t('Display');
   t('Enter a comma-separated list of words to describe your content. Categories are general topics for broad grouping of articles.');
   t('Enter a comma-separated list of words to describe your content. Tags describe the specific details of your article.');
+  t('Enter author\'s first name and last name. Separate multiple authors with a comma.');
   t('External URL');
   t('Filter by Category');
   t('Filter by Tag');
@@ -2224,6 +2359,8 @@ function cu_article_field_default_field_instances() {
   t('Person ID');
   t('Photo');
   t('Show Category');
+  t('Show Category Filter');
+  t('Show Tags Filter');
   t('Tag Display');
   t('Tags');
   t('Thumbnail');

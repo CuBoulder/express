@@ -126,10 +126,10 @@ function cu_article_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '5',
+          'weight' => '2',
         ),
         'redirect' => array(
-          'weight' => '6',
+          'weight' => '3',
         ),
         'metatags' => array(
           'weight' => '7',
