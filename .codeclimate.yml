@@ -1,0 +1,26 @@
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - php
+        #mass_threshold: 30
+      - javascript
+  phpcodesniffer:
+    enabled: true
+    config:
+      file_extensions: "php,inc,lib,module"
+  phpmd:
+    enabled: true
+    config:
+      file_extensions: "php,inc,lib,module"
+
+ratings:
+  paths:
+  - "modules/custom/"
+  - "modules/features/"
+exclude_paths:
+- "**.scss"
+- "libraries/"
+- "tests/"
+- "modules/contrib/"
