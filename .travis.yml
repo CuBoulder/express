@@ -105,6 +105,9 @@ install:
 
 before_script:
 
+  # Disable XDebug to speed up test runs.
+  - phpenv config-rm xdebug.ini
+
   - mysql -e 'create database drupal;'
 
   # Do the site install (either the current revision or old for the upgrade).
