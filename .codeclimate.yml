@@ -1,0 +1,25 @@
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - php
+      - javascript
+  phpcodesniffer:
+    enabled: true
+    config:
+      file_extensions: "php,inc,lib,module"
+  phpmd:
+    enabled: true
+    config:
+      file_extensions: "php,inc,lib,module"
+
+ratings:
+  paths:
+  - "modules/custom/"
+  - "modules/features/"
+exclude_paths:
+- "**.scss"
+- "libraries/"
+- "tests/"
+- "modules/contrib/"
