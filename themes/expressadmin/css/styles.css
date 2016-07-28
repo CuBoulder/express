@@ -361,3 +361,8 @@ ul.bullet-list { list-style: disc; padding-left: 1.5em; }
 ul.bullet-list > li { list-style: disc; }
 ul.bullet-list ul { list-style: circle; padding-left: 1.5em; }
 ul.bullet-list ul > li { list-style: circle; }
+
+/* Bundles */
+.module-bundle { margin-bottom: 20px; border-top: 1px solid #e7e7e7; padding: 20px 0; }
+
+.bundle-enabled .module-bundle h3:before { font-family: 'FontAwesome'; content: '\f00c'; margin-right: 5px; color: #1d881a; }
