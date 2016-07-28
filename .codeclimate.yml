@@ -4,7 +4,6 @@ engines:
     config:
       languages:
       - php
-        #mass_threshold: 30
       - javascript
   phpcodesniffer:
     enabled: true
