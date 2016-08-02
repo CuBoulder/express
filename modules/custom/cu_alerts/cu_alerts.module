@@ -112,7 +112,8 @@ function cu_alerts_remote_data() {
     $data = json_decode($content);
   }
   else {
-    $data = json_decode(array());
+    $string = '';
+    $data = json_decode($string);
   }
   return $data;
 }

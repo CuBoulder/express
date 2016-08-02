@@ -342,13 +342,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     }
   }
 
-  /**
-   * @AfterScenario
-   */
-  public function logoutUserAfterScenario($scope) {
-    // Make sure users are explicitly logged out after scenarios.
-    $this->logout();
-  }
+
 
   /**
    * @When /^I create a "(?P<content_type>(?:[^"]|\\")*)" node with the title "(?P<title>(?:[^"]|\\")*)"$/

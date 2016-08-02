@@ -87,16 +87,12 @@ function profile_module_manager_admin_settings_submit($form, &$form_state) {
  */
 function profile_module_manager_bundle_list() {
   $output = array();
-
+  $bundle_page = array();
+  // Check to see if bundle enabling has been disabled.
   if (variable_get('profile_module_manager_disable_enabling', 0) == 1) {
     $output = '<p>' . variable_get('profile_module_manager_disable_enabling_text', 'The ability to enable bundles has been turned off.') . '</p>';
     return $output;
   }
-  $output['help'] = array(
-    '#markup' => t('<p>Add-on Bundles are additional features and functionality that you can enable. Before enabling a bundle, review the examples and documentation to see how it works. Once a bundle is enabled you cannot disable it. </p>'),
-    '#prefix' => '<div class="modules-bundle-description">',
-    '#suffix' => '</div>',
-  );
 
   // Get all bundles
   $bundles = profile_module_manager_get_bundles('all');
@@ -131,63 +127,56 @@ function profile_module_manager_bundle_list() {
     $bundles[$key] = $bundle;
   }
 
-  // Wrapper markup for all bundles
-  $output['bundles'] = array(
-    '#prefix' => '<div class="module-bundles-wrapper block-column-container row">',
-    '#suffix' => '</div>',
-  );
   // Step through bundles
   $first_admin_bundle = TRUE;
   foreach ($bundles as $key => $bundle) {
+    $vars = array();
     $info_file = str_replace(".module", ".info", $bundle->filename);
     if (file_exists($info_file)) {
       $info = drupal_parse_info_file($info_file);
-
       $enabled = module_exists($bundle->name) ? 1 : 0;
-      $enabled_class = $enabled ? 'bundle-enabled' : 'bundle-disabled';
-      // Add admin bundle break if admin bundle.
-      if (strpos($bundle->name, '_admin_bundle') && $first_admin_bundle == TRUE) {
-        $output['bundles']['bundle_group_' . $key] = array(
-          '#markup' => '',
-          '#prefix' => '</div><div class="row admin-bundle-separator"><h2>Admin Bundles</h2></div><div class="module-bundles-wrapper block-column-container row"><div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 module-bundle-wrapper '. $enabled_class . '"><div class="module-bundle">',
-          '#suffix' => '</div></div>',
-        );
-        $first_admin_bundle = FALSE;
-      } else {
-        $output['bundles']['bundle_group_' . $key] = array(
-          '#markup' => '',
-          '#prefix' => '<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 module-bundle-wrapper ' . $enabled_class . '"><div class="module-bundle">',
-          '#suffix' => '</div></div>',
-        );
-      }
+      // Set bundle group
+      $group = strpos($bundle->name, '_admin_bundle') ? 'group_admin_bundle' : 'group_bundle';
+
+      // Bundle status
+      $vars['enabled'] = $enabled;
+
+      // Add classes for bundle wrapper
+      $classes_array = array();
+      $classes_array[] = 'module-bundle-wrapper';
+      $classes_array[] = $enabled ? 'bundle-enabled' : 'bundle-disabled';
 
       // Bundle title
-      $output['bundles']['bundle_group_' . $key][$bundle->name]['title']['#markup'] = '<h2>' . $info['name']. '</h2>';
+      $vars['title'] = $info['name'];
 
       // Bundle description
-      $output['bundles']['bundle_group_' . $key][$bundle->name]['description']['#markup'] = $info['description'];
-      $output['bundles']['bundle_group_' . $key][$bundle->name]['description']['#prefix'] = '<div class="module-bundle-description">';
-      $output['bundles']['bundle_group_' . $key][$bundle->name]['description']['#suffix'] = '</div>';
+      $vars['description'] = $info['description'];
 
       // Bundle actions
       $actions = array();
+      $action_vars = array();
       if ($enabled) {
-        $actions[] = '<span class="btn btn-default btn-disabled active-theme">Enabled</span>';
+        $vars['actions'] = theme('profile_module_manager_bundle_actions_enabled', array('actions' => $action_vars));
       }
       else {
-        $actions[] = l('<i class="fa fa-plus-circle"></i> Enable', current_path() . '/confirm/' . $bundle->name, array('attributes' => array('class' => array('btn btn-primary')), 'html' => TRUE));
+        $action_vars['enable_url'] = current_path() . '/confirm/' . $bundle->name;
         if (isset($info['project_demo_url'])) {
-          $actions[] = l('<i class="fa fa-info-circle"></i> More Information', $info['project_demo_url'], array('attributes' => array('class' => array('btn btn-default'), 'target' => '_blank'), 'html' => TRUE));
+          $action_vars['demo_url'] = $info['project_demo_url'];
         }
+        $vars['actions'] = theme('profile_module_manager_bundle_actions_disabled', $action_vars);
       }
-      $output['bundles']['bundle_group_' . $key][$bundle->name]['actions']= array(
-        '#markup' => join('  ', $actions),
-        '#prefix' => '<div class="bundle-actions">',
-        '#suffix' => '</div>',
-      );
+      $vars['classes'] = join(' ', $classes_array);
+
+      // Build bundle output
+      $single_bundle['#markup'] = theme('profile_module_manager_bundle', array('bundle' => $vars));
+      $all_bundles[$group][] = $single_bundle;
     }
   }
-  return $output;
+  // Build bundle groups
+  foreach ($all_bundles as $group_key => $group) {
+    $bundle_page['bundle_groups'][]['#markup'] = theme('profile_module_manager_bundle_group', array('group' => $group_key, 'bundles' => $group));
+  }
+  return theme('profile_module_manager_bundle_page', array('content' => $bundle_page));
 }
 
 /**

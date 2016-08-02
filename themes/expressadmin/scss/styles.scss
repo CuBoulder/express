@@ -910,6 +910,7 @@ td.ctools-export-ui-operations {
 #edit-field-article-slider-filter-und,
 #edit-field-article-page-category-und,
 #edit-field-article-page-filter-und,
+#edit-field-article-term-und,
 #edit-field-people-list-department-und,
 #edit-field-people-list-person-type-und,
 #edit-field-people-filter-1-und,
@@ -983,4 +984,19 @@ ul.bullet-list {
       list-style: circle;
     }
   }
+}
+
+/* Bundles */
+
+.module-bundle {
+  margin-bottom: 20px;
+  border-top:1px solid #e7e7e7;
+  padding:20px 0;
+}
+.bundle-enabled .module-bundle h3:before {
+  font-family: 'FontAwesome';
+  content: '\f00c';
+  margin-right:5px;
+  color: $green;
+
 }

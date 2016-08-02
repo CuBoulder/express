@@ -441,6 +441,37 @@ function cu_core_update_7009() {
 }
 
 /**
+ * Express Update 7010.
+ * Turn off linkchecker modules for sites without SEO bundle enabled"
+ */
+function cu_core_update_7010() {
+
+  // Check if SEO bundle is enabled.
+  $result = db_query("SELECT * FROM {system} s WHERE s.name = 'cu_seo_bundle' AND s.status = 1")->fetchAll();
+  
+  // If it isn't enabled, disable SEO-related modules.
+  $modules = array(
+    'metatag',
+    'xmlsitemap',
+    'xmlsitemap_engines',
+    'xmlsitemap_menu',
+    'cu_sitemap',
+    'linkchecker',
+    'linkchecker_bean',
+    'cu_linkchecker',
+    'site_verify',
+    'cu_dashboard_seo',
+  );
+  
+  if (empty($result)) {
+    module_disable($modules);
+  }
+  
+  // Run on every update
+  cu_core_inventory_update('7010');
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {

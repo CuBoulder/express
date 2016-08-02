@@ -7,7 +7,7 @@ function context_sitewide_public_context_registry() {
   return array(
     'conditions' => array(
       'sitewide_public' => array(
-        'title' => t('Sitewide Public'),
+        'title' => t('Sitewide public'),
         'description' => t('Set context sitewide except for admin paths.'),
         'plugin' => 'context_sitewide_public_context_condition',
       ),

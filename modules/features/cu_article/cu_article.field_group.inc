@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function cu_article_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -36,7 +36,7 @@ function cu_article_field_group_info() {
       ),
     ),
   );
-  $export['group_article_byline|node|article|form'] = $field_group;
+  $field_groups['group_article_byline|node|article|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -64,7 +64,38 @@ function cu_article_field_group_info() {
       ),
     ),
   );
-  $export['group_article_categories|node|article|form'] = $field_group;
+  $field_groups['group_article_categories|node|article|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_article_expose_filters|node|article_list_page|form';
+  $field_group->group_name = 'group_article_expose_filters';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'article_list_page';
+  $field_group->mode = 'form';
+  $field_group->parent_name = '';
+  $field_group->data = array(
+    'label' => 'Expose FIlters',
+    'weight' => '9',
+    'children' => array(
+      0 => 'field_article_page_cat_expose',
+      1 => 'field_article_page_tag_expose',
+      2 => 'field_article_page_childterms',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'label' => 'Expose FIlters',
+      'instance_settings' => array(
+        'required_fields' => 1,
+        'id' => '',
+        'classes' => 'group-article-expose-filters field-group-fieldset',
+        'description' => '',
+      ),
+      'formatter' => 'collapsed',
+    ),
+  );
+  $field_groups['group_article_expose_filters|node|article_list_page|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -77,7 +108,7 @@ function cu_article_field_group_info() {
   $field_group->parent_name = 'group_article_extras';
   $field_group->data = array(
     'label' => 'External Link',
-    'weight' => '17',
+    'weight' => '16',
     'children' => array(
       0 => 'field_article_external_url',
     ),
@@ -92,7 +123,7 @@ function cu_article_field_group_info() {
       ),
     ),
   );
-  $export['group_article_external|node|article|form'] = $field_group;
+  $field_groups['group_article_external|node|article|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -105,13 +136,13 @@ function cu_article_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Article Extras',
-    'weight' => '9',
+    'weight' => '5',
     'children' => array(
-      0 => 'group_article_images',
+      0 => 'group_article_byline',
       1 => 'group_article_categories',
-      2 => 'group_article_tags',
-      3 => 'group_article_external',
-      4 => 'group_article_byline',
+      2 => 'group_article_external',
+      3 => 'group_article_images',
+      4 => 'group_article_tags',
     ),
     'format_type' => 'htabs',
     'format_settings' => array(
@@ -121,7 +152,7 @@ function cu_article_field_group_info() {
       ),
     ),
   );
-  $export['group_article_extras|node|article|form'] = $field_group;
+  $field_groups['group_article_extras|node|article|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -150,7 +181,7 @@ function cu_article_field_group_info() {
       ),
     ),
   );
-  $export['group_article_images|node|article|form'] = $field_group;
+  $field_groups['group_article_images|node|article|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -178,7 +209,7 @@ function cu_article_field_group_info() {
       ),
     ),
   );
-  $export['group_article_tags|node|article|form'] = $field_group;
+  $field_groups['group_article_tags|node|article|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -208,7 +239,7 @@ function cu_article_field_group_info() {
       ),
     ),
   );
-  $export['group_settings|bean|article_feature|form'] = $field_group;
+  $field_groups['group_settings|bean|article_feature|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -237,7 +268,7 @@ function cu_article_field_group_info() {
       ),
     ),
   );
-  $export['group_settings|bean|article_grid|form'] = $field_group;
+  $field_groups['group_settings|bean|article_grid|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -267,7 +298,7 @@ function cu_article_field_group_info() {
       ),
     ),
   );
-  $export['group_settings|bean|articles|form'] = $field_group;
+  $field_groups['group_settings|bean|articles|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -296,7 +327,7 @@ function cu_article_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_taxonomy_filters|bean|article_feature|form'] = $field_group;
+  $field_groups['group_taxonomy_filters|bean|article_feature|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -325,7 +356,7 @@ function cu_article_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_taxonomy_filters|bean|article_grid|form'] = $field_group;
+  $field_groups['group_taxonomy_filters|bean|article_grid|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -354,7 +385,7 @@ function cu_article_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_taxonomy_filters|bean|article_slider|form'] = $field_group;
+  $field_groups['group_taxonomy_filters|bean|article_slider|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -383,7 +414,7 @@ function cu_article_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_taxonomy_filters|bean|articles|form'] = $field_group;
+  $field_groups['group_taxonomy_filters|bean|articles|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -412,7 +443,19 @@ function cu_article_field_group_info() {
       'formatter' => 'collapsed',
     ),
   );
-  $export['group_taxonomy_filters|node|article_list_page|form'] = $field_group;
+  $field_groups['group_taxonomy_filters|node|article_list_page|form'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Article Extras');
+  t('Byline');
+  t('Categories');
+  t('Expose FIlters');
+  t('External Link');
+  t('Filters');
+  t('Images');
+  t('Settings');
+  t('Tags');
+
+  return $field_groups;
 }

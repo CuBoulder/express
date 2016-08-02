@@ -106,7 +106,7 @@ html {
   height: auto;
 }
 .node-view-mode-sidebar-content {
-  overflow: hidden;
+  @include clearfloats;
 }
 .node-view-mode-embed {
   margin-bottom:20px;

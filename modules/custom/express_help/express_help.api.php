@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Hooks for express_help.
+ */
 
 /**
  * Hook for providing page/screen level help links.

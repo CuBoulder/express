@@ -48,6 +48,11 @@ class metatag_views_plugin_display_extender_metatags extends views_plugin_displa
       metatag_metatags_form($form, $instance, $metatags[LANGUAGE_NONE], $options);
 
       $form['metatags']['#type'] = 'container';
+
+      // Basic tags fieldset should not collapse to display in a larger popup.
+      // @see https://www.drupal.org/node/1294478
+      // @see https://www.drupal.org/node/2624020
+      $form['metatags'][LANGUAGE_NONE]['basic']['#collapsible'] = FALSE;
     }
   }
 

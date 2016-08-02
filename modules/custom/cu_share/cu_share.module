@@ -515,7 +515,7 @@ function cu_share_context_registry() {
   return array(
     'reactions' => array(
       'cu_share' => array(
-        'title' => t('Social Media Share Links'),
+        'title' => t('Social media share links'),
         'plugin' => 'context_reaction_social_share',
       ),
     ),

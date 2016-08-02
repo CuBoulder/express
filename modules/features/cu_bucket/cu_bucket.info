@@ -1,8 +1,0 @@
-name = CU Bucket
-description = Random bits of functionality associated with express install profile.
-core = 7.x
-package = CU-Deprecated
-version = 7.x-1.0
-project = cu_bucket
-
-

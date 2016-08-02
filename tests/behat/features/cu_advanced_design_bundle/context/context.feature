@@ -1,6 +1,6 @@
 Feature: Context
 
-@api @context @contextconditions
+@api @context @contextconditions @exclude_all_bundles
 Scenario Outline: A content_editor should see a limited number of context conditions
 Given I am logged in as a user with the "content_editor" role
   And am on "admin/structure/context/add"
@@ -11,14 +11,16 @@ When I select <condition> from "edit-conditions-selector"
     | "Context (any)" |
     | "Context (all)" |
     | "Default context" |
+    | "Layout" |
     | "Menu" |
     | "Node type" |
     | "Taxonomy" |
     | "Path" |
-    | "Query String" |
+    | "Query string" |
     | "Sitewide context" |
+    | "Sitewide public" |
 
-@api @context @contextreactions
+@api @context @contextreactions @exclude_all_bundles
 Scenario Outline: A content_editor should see a limited number of context reactions
 Given I am logged in as a user with the "content_editor" role
   And am on "admin/structure/context/add"

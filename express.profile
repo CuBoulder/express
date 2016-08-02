@@ -75,11 +75,11 @@ function express_profile_configure_form_submit(&$form, &$form_state) {
  * Final configurations for Express.
  */
 function express_final() {
-  
+
   // MOVED HERE TO FIX FIT-1684
   module_enable(array('entityreference'));
   module_enable(array('express_layout'));
-  
+
   // We know for sure that our database name is unique and thus, I'm using that
   // to append to the email.  Another option was base_path(), but that isnt
   // known during the install process.  $plus = str_replace('/', '_',
@@ -101,6 +101,8 @@ function express_final() {
 
   // Set subnaviagtion block title to <none>
   db_query("UPDATE {block} SET title = '<none>' WHERE delta = 'site_navigation_menus-1'");
+  db_query("UPDATE {block} SET title = '<none>' WHERE delta = 'site_navigation_menus-4'");
+
 
   // @TODO: figure out why these are enabled by default
   module_disable(array('update'));
@@ -110,28 +112,28 @@ function express_final() {
   //if (file_exists(DRUPAL_ROOT . '/profiles/express/modules/custom/express_final/express_final.module')) {
     //module_enable(array('express_final'));
   //}
-  
+
   // Enabled cu_users and rebuild secure permissions (after a static reset).
   module_enable(array('secure_permissions'));
   drupal_static_reset();
 
   module_enable(array('express_permissions'));
-  
+
   // Add core module based on selection from profile install form.
   if ($core = variable_get('express_core_version', '')) {
     module_enable(array($core));
   }
-  
-  // update modules to ignore
+
+  // Update modules to ignore.
   profile_module_manager_add_to_ignore(array('entityreference', 'express_layout', 'secure_permissions', 'express_permissions'));
 
-  // rebuild list of content types for disable_node_menu_item
+  // Rebuild list of content types for disable_node_menu_item.
   $types = node_type_get_names();
   variable_set('dnmi_content_types', array_flip($types));
 
   drupal_flush_all_caches();
   secure_permissions_rebuild();
-  
+
 }
 
 
@@ -139,7 +141,7 @@ function express_final() {
 /**
  * Implements hook_themes_enabled().
  *
- * Makes sure blocks are set properly on structure/blocks for all new themes
+ * Makes sure blocks are set properly on structure/blocks for all new themes.
  */
 function express_themes_enabled() {
   $query = db_update('block')
@@ -187,13 +189,12 @@ function express_node_type_delete($info) {
 
 /**
  * Implements hook_menu_alter.
- * Most Express sites have a People or Person content type. There is a big difference 
+ * Most Express sites have a People or Person content type. There is a big difference
  * between a user and content about staff, but using People for both confuses many
  * site owners.
  */
 function express_menu_alter(&$items) {
-  //@TODO: move to express_settings?  
+  //@TODO: move to express_settings?
   // tried but didn't work.  Not sure why, but out of time.
   $items['admin/people']['title'] = 'Users';
 }
-

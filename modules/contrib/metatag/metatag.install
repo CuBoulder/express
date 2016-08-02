@@ -433,6 +433,9 @@ function metatag_uninstall() {
   // Optionally load meta tags on admin pages.
   variable_del('metatag_load_all_pages');
 
+  // Sanitize token replacement output.
+  variable_del('metatag_token_sanitize');
+
   // Remove all possible 'enable' variables.
   foreach (entity_get_info() as $entity_type => $entity_info) {
     variable_del('metatag_enable_' . $entity_type);
@@ -449,6 +452,118 @@ function metatag_uninstall() {
  */
 function metatag_enable() {
   variable_set('metatag_schema_installed', TRUE);
+}
+
+/**
+ * Replace one meta tag with another in the entity records.
+ *
+ * @param array $sandbox
+ *   A Batch API sandbox, passed by reference.
+ * @param string $old_tag
+ *   The meta tag that is to be replaced.
+ * @param string $new_tag
+ *   The meta tag that replaces the old one.
+ */
+function metatag_update_replace_meta_tag(&$sandbox, $old_tag, $new_tag) {
+  if (!isset($sandbox['progress'])) {
+    // Count of all {metatag} records that contained an entry for the old meta
+    // tag.
+    $records_count = db_select('metatag', 'm')
+      ->condition('m.data', '%' . db_like('"" . $old_tag . ""') . '%', 'LIKE')
+      ->countQuery()
+      ->execute()
+      ->fetchField();
+
+    if (empty($records_count)) {
+      return t('No Metatag entity records needed to have the "' . $old_tag . '" meta tag renamed.');
+    }
+
+    $sandbox['max'] = $records_count;
+    $sandbox['progress'] = 0;
+  }
+
+  // Count of rows that will be processed per iteration.
+  $limit = 100;
+
+  // Fetches a part of records.
+  $records = db_select('metatag', 'm')
+    ->fields('m', array())
+    ->condition('m.data', '%' . db_like('"' . $old_tag . '"') . '%', 'LIKE')
+    ->range(0, $limit)
+    ->execute();
+
+  $count = 0;
+  $keys = array('entity_type', 'entity_id', 'revision_id', 'language');
+
+  // Loop over the values and correct them.
+  foreach ($records as $record) {
+    $record->data = unserialize($record->data);
+
+    if (isset($record->data[$old_tag])) {
+      $record->data[$new_tag] = $record->data[$old_tag];
+      unset($record->data[$old_tag]);
+      drupal_write_record('metatag', $record, $keys);
+
+      // Clear the cache for the entity this belongs to.
+      entity_get_controller($record->entity_type)->resetCache(array($record->entity_id));
+    }
+
+    $count++;
+  }
+
+  if (!empty($count)) {
+    $sandbox['progress'] += $count;
+    $sandbox['#finished'] = min(0.99, $sandbox['progress'] / $sandbox['max']);
+  }
+  else {
+    $sandbox['#finished'] = 1;
+    return t('Converted the "' . $old_tag . '" meta tag for @count entity records to "' . $new_tag . '" meta tag.', array('@count' => $sandbox['progress']));
+  }
+}
+
+/**
+ * Replace one meta tag with another in the configs.
+ *
+ * @param string $old_tag
+ *   The meta tag that is to be replaced.
+ * @param string $new_tag
+ *   The meta tag that replaces the old one.
+ */
+function metatag_update_replace_config($old_tag, $new_tag) {
+  // Find all {metatag_config} records that contained an entry for the old meta
+  // tag.
+  $records = db_select('metatag_config', 'm')
+    ->fields('m', array('cid', 'config'))
+    ->condition('m.config', '%' . db_like('"' . $old_tag . '"') . '%', 'LIKE')
+    ->execute();
+  // This message will be returned if nothing needed to be updated.
+  $none_message = t('No Metatag configuration records needed to have the "og:video" meta tag fixed. That said, there may be other configurations elsewhere that do need updating.');
+
+  // Loop over the values and correct them.
+  if ($records->rowCount() == 0) {
+    drupal_set_message($none_message);
+  }
+  else {
+    $keys = array('cid');
+
+    // Loop over the values and correct them.
+    $counter = 0;
+    foreach ($records as $record) {
+      $record->config = unserialize($record->config);
+      if (isset($record->config[$old_tag])) {
+        $record->config[$new_tag] = $record->config[$old_tag];
+        unset($record->config['og:video']);
+        drupal_write_record('metatag_config', $record, $keys);
+        $counter++;
+      }
+    }
+    if ($counter == 0) {
+      drupal_set_message($none_message);
+    }
+    else {
+      drupal_set_message(t('Converted the "' . $old_tag . '" meta tag for @count configurations to the new "' . $new_tag . '" meta tag.', array('@count' => $counter)));
+    }
+  }
 }
 
 /**
@@ -1527,38 +1642,10 @@ function metatag_update_7025() {
 /**
  * Rename the 'copyright' meta tag to 'rights', part 1.
  */
-function metatag_update_7026() {
-  // Find all {metatag} records that contained an entry for the old meta tag.
-  $records = db_query("SELECT entity_type, entity_id, revision_id, language, data
-    FROM {metatag}
-    WHERE data LIKE '%copyright%'");
-  // This message will be returned if nothing needed to be updated.
-  $none_message = t('No Metatag entity records needed to have the "copyright" meta tag fixed.');
-
-  if ($records->rowCount() == 0) {
-    drupal_set_message($none_message);
-  }
-  else {
-    $keys = array('entity_type', 'entity_id', 'revision_id', 'language');
-
-    // Loop over the values and correct them.
-    $counter = 0;
-    foreach ($records as $record) {
-      $record->data = unserialize($record->data);
-      if (isset($record->data['copyright'])) {
-        $record->data['rights'] = $record->data['copyright'];
-        unset($record->data['copyright']);
-        drupal_write_record('metatag', $record, $keys);
-        $counter++;
-      }
-    }
-    if ($counter == 0) {
-      drupal_set_message($none_message);
-    }
-    else {
-      drupal_set_message(t('Converted the "copyright" meta tag for @count entity records to the correct "rights" meta tag.', array('@count' => $counter)));
-    }
-  }
+function metatag_update_7026(&$sandbox) {
+  $old_tag = 'copyright';
+  $new_tag = 'rights';
+  return metatag_update_replace_meta_tag($sandbox, $old_tag, $new_tag);
 }
 
 /**
@@ -1579,8 +1666,13 @@ function metatag_update_7028() {
  * Add an index to the {metatag} table to speed up some queries.
  */
 function metatag_update_7029() {
-  db_add_index('metatag', 'type_revision', array('entity_type', 'revision_id'));
-  drupal_set_message(t('Added an index to the main Metatag table that will hopefully improve performance a little.'));
+  if (!db_index_exists('metatag', 'type_revision')) {
+    db_add_index('metatag', 'type_revision', array('entity_type', 'revision_id'));
+    return t('Added an index to the main Metatag table that will hopefully improve performance a little.');
+  }
+  else {
+    return t('Did not add the index, it already existed.');
+  }
 }
 
 /**
@@ -1594,39 +1686,9 @@ function metatag_update_7030() {
  * Rename the 'copyright' meta tag to 'rights', part 2.
  */
 function metatag_update_7031() {
-  // Find all {metatag_config} records that contained an entry for the old meta
-  // tag.
-  $records = db_query("SELECT cid, config
-    FROM {metatag_config}
-    WHERE config LIKE '%copyright%'");
-  // This message will be returned if nothing needed to be updated.
-  $none_message = t('No Metatag configuration records needed to have the "copyright" meta tag fixed. That said, there may be other configurations elsewhere that do need updating.');
-
-  // Loop over the values and correct them.
-  if ($records->rowCount() == 0) {
-    drupal_set_message($none_message);
-  }
-  else {
-    $keys = array('cid');
-
-    // Loop over the values and correct them.
-    $counter = 0;
-    foreach ($records as $record) {
-      $record->config = unserialize($record->config);
-      if (isset($record->config['copyright'])) {
-        $record->config['rights'] = $record->config['copyright'];
-        unset($record->config['copyright']);
-        drupal_write_record('metatag_config', $record, $keys);
-        $counter++;
-      }
-    }
-    if ($counter == 0) {
-      drupal_set_message($none_message);
-    }
-    else {
-      drupal_set_message(t('Converted the "copyright" meta tag for @count configurations to the correct "rights" meta tag.', array('@count' => $counter)));
-    }
-  }
+  $old_tag = 'copyright';
+  $new_tag = 'rights';
+  return metatag_update_replace_config($old_tag, $new_tag);
 }
 
 /**
@@ -1783,7 +1845,11 @@ function metatag_update_7040(&$sandbox) {
 
     // Get a list of {metatag} records that have a robots meta tag definition
     // that is not in the correct format.
-    $nodes = db_query("SELECT * FROM {metatag} WHERE data LIKE '%:6:\"robots\";%' AND data NOT LIKE '%:6:\"robots\";a:1:{s:5:\"value\";%'");
+    $nodes = db_select('metatag', 'm')
+      ->fields('m')
+      ->condition('m.data', '%:6:"robots";%', 'LIKE')
+      ->condition('m.data', '%:6:"robots";a:1:{s:5:"value";%', 'NOT LIKE')
+      ->execute();
     $sandbox['records'] = array();
     foreach ($nodes as $record) {
       $sandbox['records'][] = $record;
@@ -1965,8 +2031,14 @@ function metatag_update_7103() {
  * Remove the entity revision ID from the translation strings.
  */
 function metatag_update_7104(&$sandbox) {
+  // Verify that locales are being used in the first place.
   if (!module_exists('locale') || !db_table_exists('locales_source')) {
-    return t('No translations to fix as the locale system is not enabled.');
+    return t('Metatag: No translations to fix as the locale system is not enabled.');
+  }
+
+  // No need to do anything if output translation is disabled.
+  if (!variable_get('metatag_i18n_translate_output', FALSE)) {
+    return t('Metatag: Output translation is disabled, so no need to update anything.');
   }
 
   // Process records by groups of 10 (arbitrary value).
@@ -1994,9 +2066,9 @@ function metatag_update_7104(&$sandbox) {
 
     // If there's no data, don't bother with the extra work.
     if (empty($sandbox['max'])) {
-      watchdog('metatag', 'Update 7102: No nodes need the translation entity string fixed.', array(), WATCHDOG_INFO);
+      watchdog('metatag', 'Update 7104: No nodes need the translation entity string fixed.', array(), WATCHDOG_INFO);
       if (drupal_is_cli()) {
-        drupal_set_message(t('Update 7102: No nodes need the translation entity string fixed.'));
+        drupal_set_message(t('Update 7104: No nodes need the translation entity string fixed.'));
       }
       return t('No nodes need the Metatag language values fixed.');
     }
@@ -2005,9 +2077,9 @@ function metatag_update_7104(&$sandbox) {
     $sandbox['messages'] = array();
 
     // An initial record of the number of records to be updated.
-    watchdog('metatag', 'Update 7102: !count records to update.', array('!count' => $sandbox['max']), WATCHDOG_INFO);
+    watchdog('metatag', 'Update 7104: !count records to update.', array('!count' => $sandbox['max']), WATCHDOG_INFO);
     if (drupal_is_cli()) {
-      drupal_set_message(t('Update 7102: !count records to update.', array('!count' => $sandbox['max'])));
+      drupal_set_message(t('Update 7104: !count records to update.', array('!count' => $sandbox['max'])));
     }
   }
 
@@ -2077,7 +2149,7 @@ function metatag_update_7105() {
  * update 7105.
  */
 function metatag_update_7106() {
-  metatag_update_7105();
+  return metatag_update_7105();
 }
 
 /**
@@ -2095,4 +2167,65 @@ function metatag_update_7107() {
     AND location LIKE 'metatag:global:%'");
 
   return t('Fixed the Metatag global config string translations.');
+}
+
+/**
+ * Delete output translations if it's disabled.
+ */
+function metatag_update_7108() {
+  if (!module_exists('locale') || !db_table_exists('locales_source')) {
+    return t('No translations to fix as the locale system is not enabled.');
+  }
+
+  // If the output-translation option is enabled then don't delete anything.
+  if (variable_get('metatag_i18n_translate_output', FALSE)) {
+    return t("Metatag: Not deleting output translations because that option is enabled.");
+  }
+
+  $lids = db_select('locales_source', 'ls')
+    ->fields('ls', array('lid'))
+    ->condition('ls.textgroup', 'metatag')
+    ->condition('ls.context', 'output:%', 'LIKE')
+    ->execute()
+    ->fetchCol();
+
+  if (!empty($lids)) {
+    // Delete records in the tables in reverse order, so that if the query fails
+    // and has to be reran it'll still find records. But it should be ok.
+    if (db_table_exists('i18n_string')) {
+      db_delete('i18n_string')
+        ->condition('lid', $lids)
+        ->execute();
+    }
+    db_delete('locales_target')
+      ->condition('lid', $lids)
+      ->execute();
+    db_delete('locales_source')
+      ->condition('lid', $lids)
+      ->execute();
+    return t('Metatag: Removed @count output translation records that were not needed.', array('@count' => count($lids)));
+  }
+  else {
+    return t('Metatag; No output translation records needed to be removed.');
+  }
+}
+
+/**
+ * Rename the 'icon_any' meta tag to 'mask-icon' in the entity records.
+ */
+function metatag_update_7109(&$sandbox) {
+  module_load_include('install', 'metatag');
+  $old_tag = 'icon_any';
+  $new_tag = 'mask-icon';
+  return metatag_update_replace_meta_tag($sandbox, $old_tag, $new_tag);
+}
+
+/**
+ * Rename the 'icon_any' meta tag to 'mask-icon' in the configs.
+ */
+function metatag_update_7110() {
+  module_load_include('install', 'metatag');
+  $old_tag = 'icon_any';
+  $new_tag = 'mask-icon';
+  return metatag_update_replace_config($old_tag, $new_tag);
 }
