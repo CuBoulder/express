@@ -167,9 +167,9 @@ function cu_inventory_stats_process_site_stats($process = TRUE) {
         $identikey_list = $object->name;
       }
     }
+    $site_data['statistics']['users']['email'][$role_name] = $email_list;
+    $site_data['statistics']['users']['identikey'][$role_name] = $identikey_list;
   }
-  $site_data['statistics']['users']['email'][$role_name] = $email_list;
-  $site_data['statistics']['users']['identikey'][$role_name] = $identikey_list;
 
   // Add report of overridden features.
   $site_data['statistics']['overriden_features'] = _get_features_statuses();
