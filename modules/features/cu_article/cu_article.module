@@ -694,6 +694,21 @@ function cu_article_preprocess_node(&$vars) {
         // Build category list for category_teaser view mode
         $vars['category_teaser_category_links'] = implode(' ', $new_categories);
       }
+      // Add thumbnail to OpenGraph meta for facebook sharing
+      if (!empty($vars['field_article_thumbnail'])) {
+        $thumbnail_uri = $vars['field_article_thumbnail'][LANGUAGE_NONE][0]['uri'];
+        $thumbnail_path = image_style_url('square_thumbnail', $thumbnail_uri);
+
+        // build and add meta element
+        $element = array(
+          '#tag' => 'meta', // The #tag is the html tag -
+          '#attributes' => array( // Set up an array of attributes inside the tag
+            'property' => 'og:image',
+            'content' => $thumbnail_path,
+          ),
+        );
+        drupal_add_html_head($element, 'open_graph_image');
+      }
     }
 
     // Bylines
