@@ -174,6 +174,21 @@ function people_content_type_preprocess_node(&$vars) {
       if (isset($vars['content']['attributes']['classes'])) {
         $vars['content']['grid_classes'] = join(' ', $vars['content']['attributes']['classes']);
       }
+      // Add thumbnail to OpenGraph meta for facebook sharing
+      if (!empty($vars['field_person_photo'])) {
+        $thumbnail_uri = $vars['field_person_photo'][LANGUAGE_NONE][0]['uri'];
+        $thumbnail_path = image_style_url('small_thumbnail', $thumbnail_uri);
+
+        // build and add meta element
+        $element = array(
+          '#tag' => 'meta', // The #tag is the html tag -
+          '#attributes' => array( // Set up an array of attributes inside the tag
+            'property' => 'og:image',
+            'content' => $thumbnail_path,
+          ),
+        );
+        drupal_add_html_head($element, 'open_graph_image');
+      }
       break;
 
     case 'people_list_page':
