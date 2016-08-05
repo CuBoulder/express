@@ -37,3 +37,26 @@ function cu_page_theme_registry_alter(&$theme_registry) {
 function cu_page_page_alter(&$page) {
   drupal_add_css(drupal_get_path('module', 'cu_page') . '/cu-page.css');
 }
+
+/**
+ * Implements module_preprocess_page().
+ */
+function cu_page_preprocess_node(&$vars) {
+  if ($vars['node']->type == 'page') {
+    // Add thumbnail to OpenGraph meta for facebook sharing
+    if (!empty($vars['field_photo'])) {
+      $thumbnail_uri = $vars['field_photo'][LANGUAGE_NONE][0]['uri'];
+      $thumbnail_path = image_style_url('square_thumbnail', $thumbnail_uri);
+
+      // build and add meta element
+      $element = array(
+        '#tag' => 'meta', // The #tag is the html tag -
+        '#attributes' => array( // Set up an array of attributes inside the tag
+          'property' => 'og:image',
+          'content' => $thumbnail_path,
+        ),
+      );
+      drupal_add_html_head($element, 'open_graph_image');
+    }
+  }
+}
