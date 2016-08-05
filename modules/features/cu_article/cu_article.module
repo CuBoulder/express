@@ -697,7 +697,9 @@ function cu_article_preprocess_node(&$vars) {
       // Add thumbnail to OpenGraph meta for facebook sharing
       if (!empty($vars['field_article_thumbnail'])) {
         $thumbnail_uri = $vars['field_article_thumbnail'][LANGUAGE_NONE][0]['uri'];
-        $thumbnail_path = image_style_url('square_thumbnail', $thumbnail_uri);
+        $thumbnail_path = image_style_url('medium', $thumbnail_uri);
+        $image_style_uri = image_style_path('medium', $thumbnail_uri);
+        $image_info = image_get_info($image_style_uri);
 
         // build and add meta element
         $element = array(
@@ -708,6 +710,51 @@ function cu_article_preprocess_node(&$vars) {
           ),
         );
         drupal_add_html_head($element, 'open_graph_image');
+
+        $element = array(
+          '#tag' => 'meta', // The #tag is the html tag -
+          '#attributes' => array( // Set up an array of attributes inside the tag
+            'property' => 'og:image:width',
+            'content' => $image_info['width'],
+          ),
+        );
+        drupal_add_html_head($element, 'open_graph_image_width');
+
+        $element = array(
+          '#tag' => 'meta', // The #tag is the html tag -
+          '#attributes' => array( // Set up an array of attributes inside the tag
+            'property' => 'og:image:height',
+            'content' => $image_info['height'],
+          ),
+        );
+        drupal_add_html_head($element, 'open_graph_image_height');
+
+        $element = array(
+          '#tag' => 'meta', // The #tag is the html tag -
+          '#attributes' => array( // Set up an array of attributes inside the tag
+            'property' => 'og:image:type',
+            'content' => $image_info['mime_type'],
+          ),
+        );
+        drupal_add_html_head($element, 'open_graph_image_type');
+
+        $element = array(
+          '#tag' => 'meta', // The #tag is the html tag -
+          '#attributes' => array( // Set up an array of attributes inside the tag
+            'property' => 'og:url',
+            'content' => url(current_path(), array('absolute' => TRUE)),
+          ),
+        );
+        drupal_add_html_head($element, 'open_graph_url');
+
+        $element = array(
+          '#tag' => 'meta', // The #tag is the html tag -
+          '#attributes' => array( // Set up an array of attributes inside the tag
+            'property' => 'og:title',
+            'content' => drupal_get_title(),
+          ),
+        );
+        drupal_add_html_head($element, 'open_graph_title');
       }
     }
 
