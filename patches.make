@@ -47,3 +47,5 @@ projects[video_filter][patch][] = https://www.drupal.org/files/issues/video_filt
 ; @see https://cuboulder.atlassian.net/browse/FIT-1910
 projects[insert][patch][] = file://modules/contrib/insert/insert-pathologic.patch
 
+; @see https://cuboulder.atlassian.net/browse/FIT-2066
+projects[module_missing_message_fixer][patch][] = file://modules/contrib/module_missing_message_fixer/drush_integration-2770115-2.patch
