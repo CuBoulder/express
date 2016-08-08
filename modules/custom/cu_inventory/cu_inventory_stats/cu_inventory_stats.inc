@@ -140,6 +140,15 @@ function cu_inventory_stats_process_site_stats($process = TRUE) {
     }
   }
 
+  // We want a list of user email addresses and a list of Identikeys to use in
+  // communications. We are breaking them up by role to allow segmentation by
+  // role.
+  $roles_to_check = array(
+    'site_owner',
+    'content_editor',
+    'edit_my_content'
+  );
+
   foreach ($roles_to_check as $role_name) {
     // Return the role object.
     $role = user_role_load_by_name($role_name);
