@@ -8,6 +8,7 @@ dependencies[] = cu_facebook_activity
 dependencies[] = cu_facebook_like_button
 dependencies[] = cu_share
 dependencies[] = cu_social_links
+dependencies[] = context_sitewide_public
 
 bundle_cache_clear = 1
 bundle_context_clear = 1
