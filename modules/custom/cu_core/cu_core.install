@@ -448,7 +448,7 @@ function cu_core_update_7010() {
 
   // Check if SEO bundle is enabled.
   $result = db_query("SELECT * FROM {system} s WHERE s.name = 'cu_seo_bundle' AND s.status = 1")->fetchAll();
-  
+
   // If it isn't enabled, disable SEO-related modules.
   $modules = array(
     'metatag',
@@ -462,13 +462,25 @@ function cu_core_update_7010() {
     'site_verify',
     'cu_dashboard_seo',
   );
-  
+
   if (empty($result)) {
     module_disable($modules);
   }
-  
+
   // Run on every update
   cu_core_inventory_update('7010');
+}
+
+/**
+ * Express Update 7011.
+ * Revert features.
+ */
+function cu_core_update_7011() {
+
+  cu_core_revert_features();
+
+  // Run on every update
+  cu_core_inventory_update('7011');
 }
 
 /**
