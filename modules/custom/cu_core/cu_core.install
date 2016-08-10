@@ -81,19 +81,6 @@ function cu_core_install() {
 
   variable_set('express_help_base_url', 'http://www.colorado.edu/webcentral');
 
-  variable_set('securepages_enable', '1');
-  variable_set('securepages_pages', 'node/add*
-node/*/edit
-node/*/delete
-user
-user/*
-admin
-admin/*');
-
-  // @TODO: NEEED TO CONVERT TO A MACHINE NAME LOOKUP
-  variable_set('securepages_roles', array(2 => '2',3 => '3'));
-  variable_set('securepages_secure', '1');
-  variable_set('securepages_switch', TRUE);
 
   // Set message for when enabling of bundles is turned off.
   variable_set('profile_module_manager_disable_enabling_text', 'Due to unexpectedly high load on the servers, the option to enable bundles has temporarily been disabled.  Please check back tomorrow.');
@@ -102,6 +89,20 @@ admin/*');
   $site_owner_role = user_role_load_by_name('site_owner');
   $content_editor_role = user_role_load_by_name('content_editor');
   $edit_my_content_role = user_role_load_by_name('edit_my_content');
+  $authenticated_user_role = user_role_load_by_name('authenticated user');
+
+    variable_set('securepages_enable', '1');
+  variable_set('securepages_pages', 'node/add*
+node/*/edit
+node/*/delete
+user
+user/*
+admin
+admin/*');
+
+  variable_set('securepages_roles', array($authenticated_user_role->rid => $authenticated_user_role->rid));
+  variable_set('securepages_secure', '1');
+  variable_set('securepages_switch', TRUE);
 
   variable_set('user_external_invite_roles', array(
     $site_owner_role->rid,
