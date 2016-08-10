@@ -45,7 +45,12 @@ function cu_page_preprocess_node(&$vars) {
   if ($vars['node']->type == 'page') {
     // Add thumbnail to OpenGraph meta for facebook sharing
     if (!empty($vars['field_photo'])) {
-      $thumbnail_uri = $vars['field_photo'][LANGUAGE_NONE][0]['uri'];
+      if (!empty($vars['field_photo'][LANGUAGE_NONE])) {
+        $thumbnail_uri = $vars['field_photo'][LANGUAGE_NONE][0]['uri'];
+      }
+      else {
+        $thumbnail_uri = $vars['field_photo'][0]['uri'];
+      }
       $thumbnail_path = image_style_url('medium', $thumbnail_uri);
         $image_style_uri = image_style_path('medium', $thumbnail_uri);
         $image_info = image_get_info($image_style_uri);
