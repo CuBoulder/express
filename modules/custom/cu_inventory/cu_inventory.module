@@ -701,7 +701,7 @@ function cu_inventory_process_core_version($version) {
  */
 function cu_inventory_init() {
   global $base_url;
-  if($cu_sid = variable_get('cu_sid', FALSE)) {
+  if ($cu_sid = variable_get('cu_sid', FALSE)) {
     $site_array = cu_inventory_get_site($cu_sid);
     if ($site_array['status'] == 'available') {
       if (user_is_logged_in()) {
@@ -719,7 +719,7 @@ function cu_inventory_init() {
  * Implements hook_form_alter().
  */
 function cu_inventory_form_alter(&$form, &$form_state, $form_id) {
-  if($cu_sid = variable_get('cu_sid', FALSE)){
+  if ($cu_sid = variable_get('cu_sid', FALSE)) {
     $site_array = cu_inventory_get_site($cu_sid);
     if ($site_array['status'] == 'available') {
       $exceptions = array(
