@@ -13,6 +13,7 @@ dependencies[] = express_add_content
 dependencies[] = express_help
 dependencies[] = express_theme_picker
 dependencies[] = express_settings
+dependencies[] = express_version
 dependencies[] = cu_colorbox
 ;dependencies[] = express_permissions
 
