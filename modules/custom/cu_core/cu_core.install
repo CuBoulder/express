@@ -81,6 +81,20 @@ function cu_core_install() {
 
   variable_set('express_help_base_url', 'http://www.colorado.edu/webcentral');
 
+  variable_set('securepages_enable', '1');
+  variable_set('securepages_pages', 'node/add*
+node/*/edit
+node/*/delete
+user
+user/*
+admin
+admin/*');
+
+  // @TODO: NEEED TO CONVERT TO A MACHINE NAME LOOKUP
+  variable_set('securepages_roles', array(2 => '2',3 => '3'));
+  variable_set('securepages_secure', '1');
+  variable_set('securepages_switch', TRUE);
+
   // Set message for when enabling of bundles is turned off.
   variable_set('profile_module_manager_disable_enabling_text', 'Due to unexpectedly high load on the servers, the option to enable bundles has temporarily been disabled.  Please check back tomorrow.');
 
