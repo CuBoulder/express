@@ -12,7 +12,7 @@
  */
 function express_version_requirements($phase) {
   $requirements = array();
-  dsm(express_version_get_version());
+
   if ($phase == 'runtime') {
     $t = get_t();
 
