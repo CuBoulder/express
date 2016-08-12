@@ -717,6 +717,9 @@ function cu_article_preprocess_node(&$vars) {
 
         $thumbnail_path = image_style_url('medium', $thumbnail_uri);
         $image_style_uri = image_style_path('medium', $thumbnail_uri);
+        if (!file_exists($image_style_uri)) {
+          image_style_create_derivative(image_style_load('medium'),   $thumbnail_path, $image_style_uri);
+        }
         $image_info = image_get_info($image_style_uri);
 
         // build and add meta element
