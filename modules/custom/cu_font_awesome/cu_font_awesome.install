@@ -1,0 +1,5 @@
+<?php
+
+function cu_font_awesome_uninstall() {
+  variable_del('cu_font_awesome_icons');
+}
