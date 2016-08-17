@@ -176,9 +176,17 @@ function people_content_type_preprocess_node(&$vars) {
       }
       // Add thumbnail to OpenGraph meta for facebook sharing
       if (!empty($vars['field_person_photo'])) {
-        $thumbnail_uri = $vars['field_person_photo'][LANGUAGE_NONE][0]['uri'];
+        if (!empty($vars['field_person_photo'][LANGUAGE_NONE])) {
+          $thumbnail_uri = $vars['field_person_photo'][LANGUAGE_NONE][0]['uri'];
+        }
+        else {
+          $thumbnail_uri = $vars['field_person_photo'][0]['uri'];
+        }
         $thumbnail_path = image_style_url('medium', $thumbnail_uri);
         $image_style_uri = image_style_path('medium', $thumbnail_uri);
+        if (!file_exists($image_style_uri)) {
+          image_style_create_derivative(image_style_load('medium'), $thumbnail_uri, $image_style_uri);
+        }
         $image_info = image_get_info($image_style_uri);
 
         // build and add meta element
@@ -190,33 +198,21 @@ function people_content_type_preprocess_node(&$vars) {
           ),
         );
         drupal_add_html_head($element, 'open_graph_image');
-
-        $element = array(
-          '#tag' => 'meta', // The #tag is the html tag -
-          '#attributes' => array( // Set up an array of attributes inside the tag
-            'property' => 'og:image:width',
-            'content' => $image_info['width'],
-          ),
+        $og_parameters = array(
+          'width' => $image_info['width'],
+          'height' => $image_info['height'],
+          'type' => $image_info['mime_type'],
         );
-        drupal_add_html_head($element, 'open_graph_image_width');
-
-        $element = array(
-          '#tag' => 'meta', // The #tag is the html tag -
-          '#attributes' => array( // Set up an array of attributes inside the tag
-            'property' => 'og:image:height',
-            'content' => $image_info['height'],
-          ),
-        );
-        drupal_add_html_head($element, 'open_graph_image_height');
-
-        $element = array(
-          '#tag' => 'meta', // The #tag is the html tag -
-          '#attributes' => array( // Set up an array of attributes inside the tag
-            'property' => 'og:image:type',
-            'content' => $image_info['mime_type'],
-          ),
-        );
-        drupal_add_html_head($element, 'open_graph_image_type');
+        foreach ($og_parameters as $key => $param) {
+          $element = array(
+            '#tag' => 'meta', // The #tag is the html tag -
+            '#attributes' => array( // Set up an array of attributes inside the tag
+              'property' => 'og:image:' . $key,
+              'content' => $param,
+            ),
+          );
+          drupal_add_html_head($element, 'open_graph_image_' . $key);
+        }
 
         $element = array(
           '#tag' => 'meta', // The #tag is the html tag -
