@@ -199,6 +199,43 @@ function cu_article_preprocess_entity(&$vars) {
       $query->condition('cats.field_article_categories_tid', $terms, 'in');
     }
 
+    // Exclude category
+    if (!empty($vars['elements']['#entity']->field_article_exclude_category)) {
+      $terms = array();
+      foreach ($vars['elements']['#entity']->field_article_exclude_category[LANGUAGE_NONE] as $key=>$value) {
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('category');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
+      }
+      $query->join("field_data_field_article_categories", "excats", "n.nid = excats.entity_id");
+      $query->fields('excats', array('field_article_categories_tid'));
+      $query->condition('excats.field_article_categories_tid', $terms, 'NOT IN');
+    }
+
+
+    // Exclude tags
+    if (!empty($vars['elements']['#entity']->field_article_exclude_tag)) {
+      $terms = array();
+      foreach ($vars['elements']['#entity']->field_article_exclude_tag[LANGUAGE_NONE] as $key=>$value) {
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('tags');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
+      }
+      $query->join("field_data_field_tags", "extags", "n.nid = extags.entity_id");
+      $query->fields('extags', array('field_tags_tid'));
+      $query->condition('extags.field_tags_tid', $terms, 'NOT IN');
+    }
+
     $query->distinct();
     $query->groupBy('n.nid');
     // Display the newest first.
@@ -318,6 +355,43 @@ function cu_article_preprocess_entity(&$vars) {
       $query->condition('cats.field_article_categories_tid', $terms, 'in');
     }
 
+    // Exclude category
+    if (!empty($vars['elements']['#entity']->field_article_exclude_category)) {
+      $terms = array();
+      foreach ($vars['elements']['#entity']->field_article_exclude_category[LANGUAGE_NONE] as $key=>$value) {
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('category');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
+      }
+      $query->join("field_data_field_article_categories", "excats", "n.nid = excats.entity_id");
+      $query->fields('excats', array('field_article_categories_tid'));
+      $query->condition('excats.field_article_categories_tid', $terms, 'NOT IN');
+    }
+
+
+    // Exclude tags
+    if (!empty($vars['elements']['#entity']->field_article_exclude_tag)) {
+      $terms = array();
+      foreach ($vars['elements']['#entity']->field_article_exclude_tag[LANGUAGE_NONE] as $key=>$value) {
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('tags');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
+      }
+      $query->join("field_data_field_tags", "extags", "n.nid = extags.entity_id");
+      $query->fields('extags', array('field_tags_tid'));
+      $query->condition('extags.field_tags_tid', $terms, 'NOT IN');
+    }
+
     $query->distinct();
     $query->groupBy('n.nid');
     // Display the newest first.
@@ -409,6 +483,43 @@ function cu_article_preprocess_entity(&$vars) {
       $query->join("field_data_field_article_categories", "cats", "n.nid = cats.entity_id");
       $query->fields('cats', array('field_article_categories_tid'));
       $query->condition('cats.field_article_categories_tid', $terms, 'in');
+    }
+
+    // Exclude category
+    if (!empty($vars['elements']['#entity']->field_article_exclude_category)) {
+      $terms = array();
+      foreach ($vars['elements']['#entity']->field_article_exclude_category[LANGUAGE_NONE] as $key=>$value) {
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('category');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
+      }
+      $query->join("field_data_field_article_categories", "excats", "n.nid = excats.entity_id");
+      $query->fields('excats', array('field_article_categories_tid'));
+      $query->condition('excats.field_article_categories_tid', $terms, 'NOT IN');
+    }
+
+
+    // Exclude tags
+    if (!empty($vars['elements']['#entity']->field_article_exclude_tag)) {
+      $terms = array();
+      foreach ($vars['elements']['#entity']->field_article_exclude_tag[LANGUAGE_NONE] as $key=>$value) {
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('tags');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
+      }
+      $query->join("field_data_field_tags", "extags", "n.nid = extags.entity_id");
+      $query->fields('extags', array('field_tags_tid'));
+      $query->condition('extags.field_tags_tid', $terms, 'NOT IN');
     }
 
     $query->distinct();
@@ -517,6 +628,43 @@ function cu_article_preprocess_entity(&$vars) {
     $query->join("field_data_field_article_thumbnail", "thumbs", "n.nid = thumbs.entity_id");
     $query->fields('thumbs', array('field_article_thumbnail_fid'));
     $query->condition('thumbs.field_article_thumbnail_fid', 'NULL', '!=');
+
+    // Exclude category
+    if (!empty($vars['elements']['#entity']->field_article_exclude_category)) {
+      $terms = array();
+      foreach ($vars['elements']['#entity']->field_article_exclude_category[LANGUAGE_NONE] as $key=>$value) {
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('category');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
+      }
+      $query->join("field_data_field_article_categories", "excats", "n.nid = excats.entity_id");
+      $query->fields('excats', array('field_article_categories_tid'));
+      $query->condition('excats.field_article_categories_tid', $terms, 'NOT IN');
+    }
+
+
+    // Exclude tags
+    if (!empty($vars['elements']['#entity']->field_article_exclude_tag)) {
+      $terms = array();
+      foreach ($vars['elements']['#entity']->field_article_exclude_tag[LANGUAGE_NONE] as $key=>$value) {
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('tags');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
+      }
+      $query->join("field_data_field_tags", "extags", "n.nid = extags.entity_id");
+      $query->fields('extags', array('field_tags_tid'));
+      $query->condition('extags.field_tags_tid', $terms, 'NOT IN');
+    }
 
     $query->distinct();
     $query->groupBy('n.nid');
