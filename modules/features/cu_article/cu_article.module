@@ -1524,7 +1524,7 @@ function cu_article_taxonomy_form_validate($form, &$form_state) {
 function cu_article_taxonomy_overview_form_validate($form, &$form_state) {
   $limit = variable_get('express_maximum_taxonomy_depth', 4) -1 ;
   foreach ($form_state['input'] as $key => $term) {
-    if (!empty($term['depth']) && $term['depth'] > $limit) {
+    if (!empty($term['depth']) && $term['depth'] > $limit && (substr($key, 0,3) == tid)) {
       $error_link = l('This change', NULL, array('external' => TRUE, 'fragment' => 'edit-tid' . $term['tid'] . '0-edit'));
       form_set_error($key . '[depth]', t('!change has caused the taxonomy to exceed its maximum depth of 4 levels.', array('!change' => $error_link)));
 
@@ -1545,12 +1545,18 @@ function cu_article_list_filter_form($form, &$form_state) {
     $filters['category']['name'] = 'Category';
     $filters['category']['vocabulary'] = 'category';
     $filters['category']['pre_filters'] = cu_article_pre_filter_map( $node->field_article_page_category[LANGUAGE_NONE], 'category', $child_terms);
+    if (!empty($node->field_article_exclude_category)) {
+      $filters['category']['exclude'] = cu_article_pre_filter_map( $node->field_article_exclude_category[LANGUAGE_NONE], 'category', $child_terms);
+    }
   }
   // Build tag filter options
   if ($show_tag_filter) {
     $filters['tags']['name'] = 'Tag';
     $filters['tags']['vocabulary'] = 'tags';
     $filters['tags']['pre_filters'] = cu_article_pre_filter_map( $node->field_article_page_filter[LANGUAGE_NONE], 'tags', $child_terms);
+    if (!empty($node->field_article_exclude_tag)) {
+      $filters['tags']['exclude'] = cu_article_pre_filter_map( $node->field_article_exclude_tag[LANGUAGE_NONE], 'tags', $child_terms);
+    }
   }
   // Build filters if they exist
   if (!empty($filters)) {
@@ -1569,6 +1575,10 @@ function cu_article_list_filter_form($form, &$form_state) {
       // If pre_filters were added, only show those options
       if (!empty($filter['pre_filters'])) {
         $options = array_intersect_key($options, $filter['pre_filters']);
+      }
+      if (!empty($filter['exclude'])) {
+        unset($filter['exclude'][0]);
+        $options = array_diff_key($options, $filter['exclude']);
       }
 
       // Only show filter if there are more than 2 choices (all + 2)
