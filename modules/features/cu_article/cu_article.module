@@ -93,18 +93,6 @@ function cu_article_form_article_list_page_node_form_alter(&$form, &$form_state,
   if ($form['nid']['#value'] == NULL) {
     $form['menu']['enabled']['#default_value'] = TRUE;
   }
-  // Setting default values for expose settings if they don't exist
-  if (empty($form['field_article_page_cat_expose'][LANGUAGE_NONE]['#default_value'])) {
-    $form['field_article_page_cat_expose'][LANGUAGE_NONE]['#default_value'] = 0;
-  }
-
-  if (empty($form['field_article_page_tag_expose'][LANGUAGE_NONE]['#default_value'])) {
-    $form['field_article_page_tag_expose'][LANGUAGE_NONE]['#default_value'] = 0;
-  }
-
-  if (empty($form['field_article_page_childterms'][LANGUAGE_NONE]['#default_value'])) {
-    $form['field_article_page_childterms'][LANGUAGE_NONE]['#default_value'] = 'all';
-  }
 }
 
 /**
@@ -706,65 +694,6 @@ function cu_article_preprocess_node(&$vars) {
         // Build category list for category_teaser view mode
         $vars['category_teaser_category_links'] = implode(' ', $new_categories);
       }
-      // Add thumbnail to OpenGraph meta for facebook sharing
-      if (!empty($vars['field_article_thumbnail'])) {
-        if (!empty($vars['field_article_thumbnail'][LANGUAGE_NONE])) {
-          $thumbnail_uri = $vars['field_article_thumbnail'][LANGUAGE_NONE][0]['uri'];
-        }
-        else {
-          $thumbnail_uri = $vars['field_article_thumbnail'][0]['uri'];
-        }
-
-        $thumbnail_path = image_style_url('medium', $thumbnail_uri);
-        $image_style_uri = image_style_path('medium', $thumbnail_uri);
-        if (!file_exists($image_style_uri)) {
-          image_style_create_derivative(image_style_load('medium'), $thumbnail_uri, $image_style_uri);
-        }
-        $image_info = image_get_info($image_style_uri);
-
-        // build and add meta element
-        $element = array(
-          '#tag' => 'meta', // The #tag is the html tag -
-          '#attributes' => array( // Set up an array of attributes inside the tag
-            'property' => 'og:image',
-            'content' => $thumbnail_path,
-          ),
-        );
-        drupal_add_html_head($element, 'open_graph_image');
-        $og_parameters = array(
-          'width' => $image_info['width'],
-          'height' => $image_info['height'],
-          'type' => $image_info['mime_type'],
-        );
-        foreach ($og_parameters as $key => $param) {
-          $element = array(
-            '#tag' => 'meta', // The #tag is the html tag -
-            '#attributes' => array( // Set up an array of attributes inside the tag
-              'property' => 'og:image:' . $key,
-              'content' => $param,
-            ),
-          );
-          drupal_add_html_head($element, 'open_graph_image_' . $key);
-        }
-
-        $element = array(
-          '#tag' => 'meta', // The #tag is the html tag -
-          '#attributes' => array( // Set up an array of attributes inside the tag
-            'property' => 'og:url',
-            'content' => url(current_path(), array('absolute' => TRUE)),
-          ),
-        );
-        drupal_add_html_head($element, 'open_graph_url');
-
-        $element = array(
-          '#tag' => 'meta', // The #tag is the html tag -
-          '#attributes' => array( // Set up an array of attributes inside the tag
-            'property' => 'og:title',
-            'content' => drupal_get_title(),
-          ),
-        );
-        drupal_add_html_head($element, 'open_graph_title');
-      }
     }
 
     // Bylines
@@ -868,6 +797,43 @@ function cu_article_preprocess_node(&$vars) {
       $query->condition('cats.field_article_categories_tid', $terms, 'in');
     }
 
+    // Exclude category
+    if (!empty($vars['node']->field_article_exclude_category)) {
+      $terms = array();
+      foreach ($vars['node']->field_article_exclude_category[LANGUAGE_NONE] as $key=>$value) {
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('category');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
+      }
+      $query->join("field_data_field_article_categories", "excats", "n.nid = excats.entity_id");
+      $query->fields('excats', array('field_article_categories_tid'));
+      $query->condition('excats.field_article_categories_tid', $terms, 'NOT IN');
+    }
+
+
+    // Exclude tags
+    if (!empty($vars['node']->field_article_exclude_tag)) {
+      $terms = array();
+      foreach ($vars['node']->field_article_exclude_tag[LANGUAGE_NONE] as $key=>$value) {
+        $tid = $value['tid'];
+        $terms[$tid] = $tid;
+        // Look up children terms and add them to array
+        $v = taxonomy_vocabulary_machine_name_load('tags');
+        $children = taxonomy_get_tree($v->vid, $tid);
+        foreach ($children as $child) {
+          $terms[$child->tid] = $child->tid;
+        }
+      }
+      $query->join("field_data_field_tags", "extags", "n.nid = extags.entity_id");
+      $query->fields('extags', array('field_tags_tid'));
+      $query->condition('extags.field_tags_tid', $terms, 'NOT IN');
+    }
+
     // Display the newest first.
     $query->orderBy('sticky', 'DESC');
     $query->orderBy('created', 'DESC');
@@ -899,7 +865,7 @@ function cu_article_node_update($node) {
   global $base_url;
   if ($node->type == 'article_list_page') {
     $nid = $node->nid;
-    $tid = !empty($node->field_article_page_filter[LANGUAGE_NONE]) ? $node->field_article_page_filter[LANGUAGE_NONE][0]['tid'] : NULL;
+    $tid = $node->field_article_page_filter[LANGUAGE_NONE][0]['tid'];
     if ($tid) {
       $term = taxonomy_term_load($tid);
       // Check to see if there is already a page linked to this term and let the
@@ -1423,9 +1389,9 @@ function cu_article_list_filter_form($form, &$form_state) {
   $filters = array();
   $filter_count = 0;
   $node = menu_get_object();
-  $show_category_filter = !empty($node->field_article_page_cat_expose) ? $node->field_article_page_cat_expose[LANGUAGE_NONE][0]['value'] : 0;
-  $show_tag_filter = !empty($node->field_article_page_tag_expose) ?  $node->field_article_page_tag_expose[LANGUAGE_NONE][0]['value'] : 0;
-  $child_terms = !empty($node->field_article_page_childterms) ? $node->field_article_page_childterms[LANGUAGE_NONE][0]['value'] : 0; $child_terms = ($child_terms == 'all') ? 1 : 0;
+  $show_category_filter = $node->field_article_page_cat_expose[LANGUAGE_NONE][0]['value'];
+  $show_tag_filter = $node->field_article_page_tag_expose[LANGUAGE_NONE][0]['value'];
+  $child_terms = $node->field_article_page_childterms[LANGUAGE_NONE][0]['value'] == 'all' ? 1 : 0;
   // Build category filter options
   if ($show_category_filter) {
     $filters['category']['name'] = 'Category';
