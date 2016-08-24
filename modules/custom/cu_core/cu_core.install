@@ -513,12 +513,14 @@ function cu_core_revert_features($features = NULL) {
     }
   }
   // Check against features that currently can't be reverted.
-  $protected_features = array(
+  $express_protected_features = array(
     'cu_home_page',
     'cu_sitewide',
   );
+  // Get local protected features
+  $local_protected_feature = variable_get('express_protected_features', array());
   foreach ($features as $key => $feature) {
-    if (!in_array($key, $protected_features)) {
+    if (!in_array($key, $express_protected_features) || !in_array($key, $local_protected_feature)) {
       $f = features_get_features($key);
       $components = array_keys($f->info['features']);
       features_revert(array($f->name => $components));
