@@ -1,0 +1,12 @@
+<?php
+/**
+ * Change all quicktabs that are set to render as quicktabs to render as ui_tabs
+ */
+function cu_quicktab_styles_update_7001() {
+  $result = db_query("SELECT * FROM {quicktabs} where renderer = 'quicktabs'");
+  foreach ($result as $record) {
+    // set renderer to ui_tabs
+    $record->renderer = 'ui_tabs';
+    drupal_write_record ('renderer', $record);
+  }
+}
