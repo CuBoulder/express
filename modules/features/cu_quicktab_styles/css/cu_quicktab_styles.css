@@ -415,7 +415,7 @@ div.quicktabs-style-vertical .quicktabs-tabpage  {
   margin: 0;
   padding: 0;
   padding-left: 1px;
-  height: 32px;
+  height: 30px;
   margin-bottom: -1px;
   position: relative;
   z-index: 2;
@@ -429,7 +429,7 @@ div.quicktabs-style-vertical .quicktabs-tabpage  {
   display: block;
 }
 .quicktabs-ui-wrapper ul.ui-tabs-nav li a {
-  color: #666;
+  color: #333;
   display: block;
   float: left;
   line-height: 30px;
@@ -447,13 +447,16 @@ div.quicktabs-style-vertical .quicktabs-tabpage  {
 }
 .quicktabs-ui-wrapper ul.ui-tabs-nav li.ui-tabs-active a {
   background: #fff;
-  border-bottom:none;
+  border-bottom:1px solid #007BC8;
   color: #333;
-  height: 33px;
+  height: 30px;
 }
 .quicktabs-ui-wrapper .ui-tabs-panel  {
   padding:20px 20px 10px 20px;
   border:1px solid #e7e7e7;
+  background: #fff;
+  border-bottom:none;
+  color: #333;
 }
 .quicktabs-ui-wrapper .ui-tabs-panel .block {
   margin-bottom: 0;
