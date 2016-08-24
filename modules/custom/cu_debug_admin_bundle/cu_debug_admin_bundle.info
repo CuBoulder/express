@@ -9,5 +9,6 @@ dependencies[] = search_krumo
 dependencies[] = ds_ui
 dependencies[] = security_review
 dependencies[] = diff
-    
+dependencies[] = stage_file_proxy
+
 stylesheets[all][] = cu-debug-admin-bundle.css
