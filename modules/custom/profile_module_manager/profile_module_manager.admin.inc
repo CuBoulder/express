@@ -79,7 +79,7 @@ function profile_module_manager_admin_settings_submit($form, &$form_state) {
   unset($form_state['values']['profile_module_manager_ignore']);
 
   // Save rest of form values.
-  system_settings_form_submit($form, &$form_state);
+  system_settings_form_submit($form, $form_state);
 }
 
 /**
