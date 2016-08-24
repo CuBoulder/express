@@ -212,9 +212,14 @@ function cu_article_preprocess_entity(&$vars) {
           $terms[$child->tid] = $child->tid;
         }
       }
-      $query->join("field_data_field_article_categories", "excats", "n.nid = excats.entity_id");
-      $query->fields('excats', array('field_article_categories_tid'));
-      $query->condition('excats.field_article_categories_tid', $terms, 'NOT IN');
+      // Start sub query.
+      $exclude_query = db_select('node', 'n');
+      $exclude_query->condition('n.type', 'article', '=');
+      $exclude_query->condition('n.status', 1, '=');
+      $exclude_query->fields('n', array('nid'));
+      $exclude_query->join("field_data_field_article_categories", "excats", "n.nid = excats.entity_id");
+      $exclude_query->condition('excats.field_article_categories_tid', $terms, 'in');
+      $query->condition('n.nid', $exclude_query, 'NOT IN');
     }
 
 
@@ -231,9 +236,14 @@ function cu_article_preprocess_entity(&$vars) {
           $terms[$child->tid] = $child->tid;
         }
       }
-      $query->join("field_data_field_tags", "extags", "n.nid = extags.entity_id");
-      $query->fields('extags', array('field_tags_tid'));
-      $query->condition('extags.field_tags_tid', $terms, 'NOT IN');
+      // Start sub query.
+      $exclude_query = db_select('node', 'n');
+      $exclude_query->condition('n.type', 'article', '=');
+      $exclude_query->condition('n.status', 1, '=');
+      $exclude_query->fields('n', array('nid'));
+      $exclude_query->join("field_data_field_tags", "extags", "n.nid = extags.entity_id");
+      $exclude_query->condition('extags.field_tags_tid', $terms, 'in');
+      $query->condition('n.nid', $exclude_query, 'NOT IN');
     }
 
     $query->distinct();
@@ -368,9 +378,14 @@ function cu_article_preprocess_entity(&$vars) {
           $terms[$child->tid] = $child->tid;
         }
       }
-      $query->join("field_data_field_article_categories", "excats", "n.nid = excats.entity_id");
-      $query->fields('excats', array('field_article_categories_tid'));
-      $query->condition('excats.field_article_categories_tid', $terms, 'NOT IN');
+      // Start sub query.
+      $exclude_query = db_select('node', 'n');
+      $exclude_query->condition('n.type', 'article', '=');
+      $exclude_query->condition('n.status', 1, '=');
+      $exclude_query->fields('n', array('nid'));
+      $exclude_query->join("field_data_field_article_categories", "excats", "n.nid = excats.entity_id");
+      $exclude_query->condition('excats.field_article_categories_tid', $terms, 'in');
+      $query->condition('n.nid', $exclude_query, 'NOT IN');
     }
 
 
@@ -387,11 +402,16 @@ function cu_article_preprocess_entity(&$vars) {
           $terms[$child->tid] = $child->tid;
         }
       }
-      $query->join("field_data_field_tags", "extags", "n.nid = extags.entity_id");
-      $query->fields('extags', array('field_tags_tid'));
-      $query->condition('extags.field_tags_tid', $terms, 'NOT IN');
-    }
 
+      // Start sub query.
+      $exclude_query = db_select('node', 'n');
+      $exclude_query->condition('n.type', 'article', '=');
+      $exclude_query->condition('n.status', 1, '=');
+      $exclude_query->fields('n', array('nid'));
+      $exclude_query->join("field_data_field_tags", "extags", "n.nid = extags.entity_id");
+      $exclude_query->condition('extags.field_tags_tid', $terms, 'in');
+      $query->condition('n.nid', $exclude_query, 'NOT IN');
+    }
     $query->distinct();
     $query->groupBy('n.nid');
     // Display the newest first.
@@ -498,9 +518,14 @@ function cu_article_preprocess_entity(&$vars) {
           $terms[$child->tid] = $child->tid;
         }
       }
-      $query->join("field_data_field_article_categories", "excats", "n.nid = excats.entity_id");
-      $query->fields('excats', array('field_article_categories_tid'));
-      $query->condition('excats.field_article_categories_tid', $terms, 'NOT IN');
+      // Start sub query.
+      $exclude_query = db_select('node', 'n');
+      $exclude_query->condition('n.type', 'article', '=');
+      $exclude_query->condition('n.status', 1, '=');
+      $exclude_query->fields('n', array('nid'));
+      $exclude_query->join("field_data_field_article_categories", "excats", "n.nid = excats.entity_id");
+      $exclude_query->condition('excats.field_article_categories_tid', $terms, 'in');
+      $query->condition('n.nid', $exclude_query, 'NOT IN');
     }
 
 
@@ -517,9 +542,14 @@ function cu_article_preprocess_entity(&$vars) {
           $terms[$child->tid] = $child->tid;
         }
       }
-      $query->join("field_data_field_tags", "extags", "n.nid = extags.entity_id");
-      $query->fields('extags', array('field_tags_tid'));
-      $query->condition('extags.field_tags_tid', $terms, 'NOT IN');
+      // Start sub query.
+      $exclude_query = db_select('node', 'n');
+      $exclude_query->condition('n.type', 'article', '=');
+      $exclude_query->condition('n.status', 1, '=');
+      $exclude_query->fields('n', array('nid'));
+      $exclude_query->join("field_data_field_tags", "extags", "n.nid = extags.entity_id");
+      $exclude_query->condition('extags.field_tags_tid', $terms, 'in');
+      $query->condition('n.nid', $exclude_query, 'NOT IN');
     }
 
     $query->distinct();
@@ -642,9 +672,14 @@ function cu_article_preprocess_entity(&$vars) {
           $terms[$child->tid] = $child->tid;
         }
       }
-      $query->join("field_data_field_article_categories", "excats", "n.nid = excats.entity_id");
-      $query->fields('excats', array('field_article_categories_tid'));
-      $query->condition('excats.field_article_categories_tid', $terms, 'NOT IN');
+      // Start sub query.
+      $exclude_query = db_select('node', 'n');
+      $exclude_query->condition('n.type', 'article', '=');
+      $exclude_query->condition('n.status', 1, '=');
+      $exclude_query->fields('n', array('nid'));
+      $exclude_query->join("field_data_field_article_categories", "excats", "n.nid = excats.entity_id");
+      $exclude_query->condition('excats.field_article_categories_tid', $terms, 'in');
+      $query->condition('n.nid', $exclude_query, 'NOT IN');
     }
 
 
@@ -661,9 +696,14 @@ function cu_article_preprocess_entity(&$vars) {
           $terms[$child->tid] = $child->tid;
         }
       }
-      $query->join("field_data_field_tags", "extags", "n.nid = extags.entity_id");
-      $query->fields('extags', array('field_tags_tid'));
-      $query->condition('extags.field_tags_tid', $terms, 'NOT IN');
+      // Start sub query.
+      $exclude_query = db_select('node', 'n');
+      $exclude_query->condition('n.type', 'article', '=');
+      $exclude_query->condition('n.status', 1, '=');
+      $exclude_query->fields('n', array('nid'));
+      $exclude_query->join("field_data_field_tags", "extags", "n.nid = extags.entity_id");
+      $exclude_query->condition('extags.field_tags_tid', $terms, 'in');
+      $query->condition('n.nid', $exclude_query, 'NOT IN');
     }
 
     $query->distinct();
@@ -958,9 +998,14 @@ function cu_article_preprocess_node(&$vars) {
           $terms[$child->tid] = $child->tid;
         }
       }
-      $query->join("field_data_field_article_categories", "excats", "n.nid = excats.entity_id");
-      $query->fields('excats', array('field_article_categories_tid'));
-      $query->condition('excats.field_article_categories_tid', $terms, 'NOT IN');
+      // Start sub query.
+      $exclude_query = db_select('node', 'n');
+      $exclude_query->condition('n.type', 'article', '=');
+      $exclude_query->condition('n.status', 1, '=');
+      $exclude_query->fields('n', array('nid'));
+      $exclude_query->join("field_data_field_article_categories", "excats", "n.nid = excats.entity_id");
+      $exclude_query->condition('excats.field_article_categories_tid', $terms, 'in');
+      $query->condition('n.nid', $exclude_query, 'NOT IN');
     }
 
 
@@ -977,9 +1022,14 @@ function cu_article_preprocess_node(&$vars) {
           $terms[$child->tid] = $child->tid;
         }
       }
-      $query->join("field_data_field_tags", "extags", "n.nid = extags.entity_id");
-      $query->fields('extags', array('field_tags_tid'));
-      $query->condition('extags.field_tags_tid', $terms, 'NOT IN');
+      // Start sub query.
+      $exclude_query = db_select('node', 'n');
+      $exclude_query->condition('n.type', 'article', '=');
+      $exclude_query->condition('n.status', 1, '=');
+      $exclude_query->fields('n', array('nid'));
+      $exclude_query->join("field_data_field_tags", "extags", "n.nid = extags.entity_id");
+      $exclude_query->condition('extags.field_tags_tid', $terms, 'in');
+      $query->condition('n.nid', $exclude_query, 'NOT IN');
     }
 
     // Display the newest first.
