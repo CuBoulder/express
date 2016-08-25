@@ -34,8 +34,12 @@ function cu_quicktab_styles_form_quicktabs_form_alter(&$form, &$form_state, $for
   unset($form['style']['#options']['Phylactere']);
   unset($form['style']['#options']['Sky']);
   unset($form['style']['#options']['Zen']);
-
-  unset($form['renderer']['#options']['quicktabs']);
+  if($form['renderer']['#default_value'] != 'quicktabs') {
+    unset($form['renderer']['#options']['quicktabs']);
+  }
+  if($form['renderer']['#default_value'] == 'quicktabs') {
+    drupal_set_message(t('The quicktabs rendering options has been deprecated. If you choose a different render option, you will not be able to switch back to the quicktabs render option.'), 'warning');
+  }
 }
 
 function cu_quicktab_styles_form_quicktabs_tabstyles_styles_alter(&$form, &$form_state, $form_id){
