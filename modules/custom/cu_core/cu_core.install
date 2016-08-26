@@ -528,10 +528,62 @@ function cu_core_revert_features($features = NULL) {
 }
 
 /**
+ * Run every time a db update.
+ *
+ * This calls the inventory update function and admin password change.
+ */
+function cu_core_express_update($version) {
+
+  cu_core_inventory_update($version);
+
+  // Change admin user/pass.
+  cu_core_scramble_admin();
+}
+
+/**
  * Updates inventory with profile version.
  */
 function cu_core_inventory_update($version) {
   if (module_exists('cu_inventory')) {
     cu_inventory_process_core_version($version);
   }
+}
+
+/**
+ * Obscures uid 1 password and username for added security.
+ */
+function cu_core_scramble_admin() {
+
+  // Generate hashed password.
+  $unhashed_pass = cu_core_generate_random_string();
+  require_once DRUPAL_ROOT . '/' . variable_get('password_inc', 'includes/password.inc');
+  $hashed_pass = user_hash_password(trim($unhashed_pass));
+
+  // Abort if the hashing failed and returned FALSE.
+  if (!$hashed_pass) {
+    return FALSE;
+  }
+  else {
+    // Save admin user with new user/password.
+    $user = user_load(1);
+    $user->name = cu_core_generate_random_string();
+    $user->pass = $hashed_pass;
+    user_save($user);
+  }
+}
+
+/**
+ * Generate a random string.
+ *
+ * @param int $length
+ * @return string
+ */
+function cu_core_generate_random_string($length = 10) {
+  $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  $charactersLength = strlen($characters);
+  $randomString = '';
+  for ($i = 0; $i < $length; $i++) {
+    $randomString .= $characters[rand(0, $charactersLength - 1)];
+  }
+  return $randomString;
 }
