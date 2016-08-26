@@ -88,6 +88,11 @@ function express_final() {
   $plus = $databases['default']['default']['database'];
   variable_set('site_mail', 'cudrupal+' . $plus . '@gmail.com');
 
+  // Set admin user email to something not admin@example.com.
+  $admin_user = user_load(1);
+  $admin_user->mail = 'cudrupal+' . $plus . '@gmail.com';
+  user_save($admin_user);
+
   // Place the system-main block in the content region.
   $update = db_update('block')
     ->fields(array(
