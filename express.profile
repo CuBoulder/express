@@ -90,7 +90,7 @@ function express_final() {
 
   // Set admin user email to something not admin@example.com.
   $admin_user = user_load(1);
-  $admin_user->mail = 'cudrupal+' . $plus . '@gmail.com';
+  $admin_user->mail = 'websupport@colorado.edu';
   user_save($admin_user);
 
   // Place the system-main block in the content region.
