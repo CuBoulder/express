@@ -555,7 +555,7 @@ function cu_core_inventory_update($version) {
 function cu_core_scramble_admin() {
 
   // Generate hashed password.
-  $unhashed_pass = cu_core_generate_random_string();
+  $unhashed_pass = user_password(50);
   require_once DRUPAL_ROOT . '/' . variable_get('password_inc', 'includes/password.inc');
   $hashed_pass = user_hash_password(trim($unhashed_pass));
 
@@ -566,24 +566,9 @@ function cu_core_scramble_admin() {
   else {
     // Save admin user with new user/password.
     $user = user_load(1);
-    $user->name = cu_core_generate_random_string();
+    $user->name = 'admin-' . user_password(50);
     $user->pass = $hashed_pass;
     user_save($user);
   }
 }
 
-/**
- * Generate a random string.
- *
- * @param int $length
- * @return string
- */
-function cu_core_generate_random_string($length = 10) {
-  $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  $charactersLength = strlen($characters);
-  $randomString = '';
-  for ($i = 0; $i < $length; $i++) {
-    $randomString .= $characters[rand(0, $charactersLength - 1)];
-  }
-  return $randomString;
-}
