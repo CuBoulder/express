@@ -7,7 +7,7 @@
 function express_install() {
 
   // Disable user 1 & set random name
-  $random_name = user_password(50);
+  $random_name = 'admin-' . user_password(50);
   db_update('user')
     ->fields(array('status' => 0))
     ->fields(array('name' => $random_name))
