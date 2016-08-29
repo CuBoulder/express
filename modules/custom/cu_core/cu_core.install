@@ -500,6 +500,7 @@ function cu_core_update_7011() {
 
 /**
  * Express Update 7012.
+ * Change user 1 email address.
  * Add noreqnewpass module.
  */
 function cu_core_update_7012() {
@@ -508,7 +509,12 @@ function cu_core_update_7012() {
     'noreqnewpass',
   );
   module_enable($modules);
-  // Run on every update
+
+  // Set admin user email to something not admin@example.com.
+  $admin_user = user_load(1);
+  $admin_user->mail = 'websupport@colorado.edu';
+  user_save($admin_user);
+
   cu_core_inventory_update('7012');
 }
 
