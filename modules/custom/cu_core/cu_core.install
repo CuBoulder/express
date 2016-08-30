@@ -201,6 +201,18 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
       ->condition('name', 'small')
     )
   ->execute();
+
+  // Disable user 1 & set random name
+  $random_name = 'admin-' . user_password(50);
+
+   // Set admin user email to something not admin@example.com.
+  $admin_user = user_load(1);
+  $admin_user->mail = 'websupport@colorado.edu';
+  $admin_user->name = $random_name;
+  $admin_user->status = 0;
+  user_save($admin_user);
+
+  watchdog('express', 'attempted to disable uid 1');
 }
 
 /**
