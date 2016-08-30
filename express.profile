@@ -47,6 +47,7 @@ function express_profile_configure_form() {
   $options = array(
     'cu_core' => st('Production'),
     'cu_testing_core' => st('Testing'),
+    'cu_pantheon_core' => st('Pantheon'),
   );
 
   $form['express_core_version'] = array(
@@ -130,7 +131,7 @@ function express_final() {
   // Rebuild list of content types for disable_node_menu_item.
   $types = node_type_get_names();
   variable_set('dnmi_content_types', array_flip($types));
-
+    
   drupal_flush_all_caches();
   secure_permissions_rebuild();
 
