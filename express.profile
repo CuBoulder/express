@@ -104,15 +104,9 @@ function express_final() {
   db_query("UPDATE {block} SET title = '<none>' WHERE delta = 'site_navigation_menus-1'");
   db_query("UPDATE {block} SET title = '<none>' WHERE delta = 'site_navigation_menus-4'");
 
-
   // @TODO: figure out why these are enabled by default
   module_disable(array('update'));
   theme_disable(array('bartik'));
-
-  // Enable custom modules that you want enabled at the end of profile install.
-  //if (file_exists(DRUPAL_ROOT . '/profiles/express/modules/custom/express_final/express_final.module')) {
-    //module_enable(array('express_final'));
-  //}
 
   // Enabled cu_users and rebuild secure permissions (after a static reset).
   module_enable(array('secure_permissions'));
@@ -134,7 +128,6 @@ function express_final() {
     
   drupal_flush_all_caches();
   secure_permissions_rebuild();
-
 }
 
 
