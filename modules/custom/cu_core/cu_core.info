@@ -11,3 +11,4 @@ dependencies[] = cu_ldap
 dependencies[] = cu_redirect
 dependencies[] = cu_help
 dependencies[] = noreqnewpass
+dependencies[] = user_external_invite
