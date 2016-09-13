@@ -298,8 +298,8 @@ a:hover .icon-color-gold.icon-wrapper-circle {
 .field-type-text-with-summary .auto-anchor ul li {
   margin: 0;
   padding: 0;
-  list-style: none;
-  list-style-image: none;
+  list-style: none !important;
+  list-style-image: none !important;
 }
 .auto-anchor ul {
   margin:10px 0 0;
