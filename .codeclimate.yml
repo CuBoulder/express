@@ -21,6 +21,8 @@ engines:
     checks:
       Controversial/CamelCaseVariableName:
         enabled: false
+      Naming/LongVariable:
+        enabled: false
 
 ratings:
   paths:
