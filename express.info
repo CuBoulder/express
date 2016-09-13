@@ -36,7 +36,6 @@ dependencies[] = number
 dependencies[] = options
 dependencies[] = path
 dependencies[] = shortcut
-dependencies[] = syslog
 dependencies[] = system
 dependencies[] = taxonomy
 dependencies[] = text
