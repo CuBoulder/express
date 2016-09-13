@@ -386,3 +386,10 @@ function expressadmin_form_alter(&$form, &$form_state, $form_id) {
     $form['title']['#description'] = '<div class="unique-node-path">Node path: node/' . $form['nid']['#value'] . '</div>';
   }
 }
+
+function expressadmin_page_alter(&$page) {
+  // Get form checkbox/radio column settings
+  $express_field_columns = variable_get('express_field_columns_minimum', 10);
+  $settings['express_field_columns'] = $express_field_columns;
+  drupal_add_js($settings, 'setting');
+}
