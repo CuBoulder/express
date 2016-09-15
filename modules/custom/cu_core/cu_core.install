@@ -600,9 +600,8 @@ function cu_core_scramble_admin() {
   else {
     // Save admin user with new user/password.
     $user = user_load(1);
-    $user->name = 'admin-' . user_password(50);
+    $user->name = 'admin-' . user_password(10);
     $user->pass = $hashed_pass;
     user_save($user);
   }
 }
-
