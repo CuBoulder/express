@@ -48,6 +48,28 @@ function expressbase_preprocess_html(&$vars) {
   );
   drupal_add_html_head($element, 'ie_compatibility_mode');
 
+  // Add apple touch icons
+  global $base_url;
+  $touch_icons = array(
+    '57',
+    '72',
+    '114',
+    '144',
+  );
+  foreach ($touch_icons as $touch_icon) {
+    $sizes = $touch_icon . 'x' . $touch_icon;
+    $href = $base_url . '/' . drupal_get_path('theme', 'expressbase') . '/apple-icon-' . $sizes . '.png';
+    $element = array(
+      '#tag' => 'link',
+      '#attributes' => array(
+        'rel' => 'apple-touch-icon',
+        'sizes' => $sizes,
+        'href' => $href,
+      ),
+    );
+    drupal_add_html_head($element, 'apple_touch_icons_' . $sizes);
+  }
+
   // Build title array
   // Add Campus name to title
   $slogan_title = variable_get('site_slogan_title', 'University of Colorado Boulder');
