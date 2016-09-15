@@ -23,5 +23,11 @@
 <div class="element-max-width">
   <?php print render($content); ?>
   <?php print render($content_bottom); ?>
-  <?php print render($content['article_meta']); ?>
+  <?php
+    // Only display article meta elements if there is actually content
+    $article_meta = element_children($content['article_meta']);
+    if (!empty($article_meta)) {
+      print render($content['article_meta']);
+    }
+  ?>
 </div>
