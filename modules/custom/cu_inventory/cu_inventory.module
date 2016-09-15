@@ -90,20 +90,39 @@ function cu_inventory_admin_settings() {
     '#collapsed' => $collapsed,
   );
 
-  // @TODO: set from site_array
+  $data = file_get_contents('https://github.com/CuBoulder/packages_base/tree/dev/custom');
+
+  $parts = explode("octicon-file-submodule", $data);
+  $needle = 'span title="';
+  $list = '';
+
+  foreach ($parts as $part) {
+    $start = strpos($part, $needle);
+    if ($start) {
+      $start = ($start + strlen($needle));
+      $end = strpos($part,' @', $start);
+      $list[] = substr($part, $start,($end - $start));
+    }
+  }
+
+
   $form['express_plus']['dslm_add_custom'] = array(
-    '#type' => 'textfield',
+    '#type' => 'textarea',
+    '#cols' => 40,
+    '#rows' => 5,
     '#title' => t('Add Custom'),
     '#default_value' => variable_get('dslm_add_custom', NULL),
-    '#description' => t('Name of the custom module to add.  Comma seperated lists are also supported.'),
+    '#description' => t('Comma separated list of the machine names additional projects to symlink. These must already be registered in packages_base which currently include; ') . implode(', ', $list),
   );
+
+
 
   $form['express_plus']['dslm_add_contrib'] = array(
     '#type' => 'textarea',
     '#cols' => 40,
     '#rows' => 5,
-    '#default_value' => variable_get('dslm_add_contrib'),
     '#title' => t('Add Contrib'),
+    '#default_value' => variable_get('dslm_add_contrib'),
     '#description' => t('Comma separated list of the machine names additional projects to symlink. These must already be registered in packages_base.'),
   );
 
