@@ -406,6 +406,8 @@ function cu_rss_feed_output($categories = NULL, $tags = NULL) {
   // Build channel elements
   global $base_url;
   $path = current_path();
+  // convert spaces to + to match against feed url query
+  $path = str_replace(' ', '+', $path);
   if ($path == 'feed/all/all/rss.xml') {
     $path = 'feed/rss.xml';
   }
@@ -414,7 +416,7 @@ function cu_rss_feed_output($categories = NULL, $tags = NULL) {
   $query->fields('rf', array('id', 'name', 'url'));
   $query->condition('rf.url', $current_url, '=');
   $feeds = $query->execute()->fetchAssoc();
-  $feed_title = isset($feeds['name']) ? $feeds['name'] : variable_get('site_name');
+  $feed_title = isset($feeds['name']) ? $feeds['name'] : variable_get('site_name') . ' - ' . variable_get('site_slogan');
 
   $channel['title'] = $feed_title;
   $channel['description'] = 'Feed from ' . variable_get('site_name', '') . ', University of Colorado Boulder';
