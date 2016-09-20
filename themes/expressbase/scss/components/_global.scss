@@ -107,6 +107,7 @@ html {
 }
 .node-view-mode-sidebar-content {
   @include clearfloats;
+  overflow: hidden;
 }
 .node-view-mode-embed {
   margin-bottom:20px;
