@@ -536,3 +536,43 @@ function cu_share_flush_caches() {
     menu_link_save($item);
   }
 }
+
+function cu_share_shortcode_info() {
+  $shortcodes = array();
+  $shortcodes['share_on_twitter'] = array(
+    'title' => t('Share On Twitter'),
+    'description' => t('Create a link and quote for readers to share on Twitter.'),
+    'process callback' => 'cu_share_share_on_twitter',
+    'tips callback' => 'cu_share_share_on_twitter_tips',
+    'default settings' => array(),
+  );
+  return $shortcodes;
+}
+
+function cu_share_share_on_twitter($attrs, $content = NULL) {
+  extract(shortcode_attrs(array(
+  ), $attrs));
+  // Character count - 140, url, ellipsis
+  $character_count = 140;
+  $content = strip_tags($content);
+  if (arg(0) == 'node' && is_numeric(arg(1))) {
+    // Get the nid
+    $nid = arg(1);
+    $current_url = url('node/' . $nid, array('absolute' => TRUE, 'alias' => TRUE));
+  }
+  else {
+    $current_url = url(current_path(), array('absolute' => TRUE));
+  }
+  $encoded_url = urlencode($current_url);
+  if (strlen($content . ' ' . $encoded_url) > $character_count) {
+    $over = strlen($content . ' ' . $encoded_url) - 140 - 4;
+    $content_length = strlen($content);
+    $short_content = substr($content, 0, '-' . $over) . '...';
+  } else {
+    $short_content = $content;
+  }
+  $encoded_text = urlencode($short_content);
+  $share_link = '<a href="https://twitter.com/intent/tweet?url=' . $encoded_url . '&text=' . $encoded_text . '" class="share-on-twitter">' . $content . '&nbsp;<i class="fa fa-twitter"></i></a>';
+
+  return $share_link;
+}
