@@ -118,14 +118,17 @@ function express_dashboards_theme(&$existing, $type, $theme, $path) {
   $registry['express_dashboard'] = array(
     'template' => 'express-dashboard',
     'path' => $template_dir,
+    'render element' => 'elements',
   );
   $registry['express_dashboard_section'] = array(
     'template' => 'express-dashboard-section',
     'path' => $template_dir,
+    'render element' => 'elements',
   );
   $registry['express_dashboard_widget'] = array(
     'template' => 'express-dashboard-widget',
     'path' => $template_dir,
+    'render element' => 'elements',
   );
   return $registry;
 }
