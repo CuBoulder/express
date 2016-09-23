@@ -368,7 +368,8 @@ function expressadmin_preprocess_admin_block(&$vars) {
     'url-management' => 'link',
     'advanced-content' => 'th-list',
     'search-engine-optimization' => 'line-chart',
-    'social-media' => 'share-alt'
+    'social-media' => 'share-alt',
+    'performance' => 'rocket'
   );
   $key = strtolower(str_replace(' ','-', $vars['block']['link_title']));
   if (array_key_exists($key, $titles)) {
