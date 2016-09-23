@@ -707,7 +707,7 @@ function cu_article_preprocess_node(&$vars) {
         $vars['category_teaser_category_links'] = implode(' ', $new_categories);
       }
       // Add thumbnail to OpenGraph meta for facebook sharing
-      if (!empty($vars['field_article_thumbnail'])) {
+      if ($vars['view_mode'] == 'full' && !empty($vars['field_article_thumbnail'])) {
         if (!empty($vars['field_article_thumbnail'][LANGUAGE_NONE])) {
           $thumbnail_uri = $vars['field_article_thumbnail'][LANGUAGE_NONE][0]['uri'];
         }
