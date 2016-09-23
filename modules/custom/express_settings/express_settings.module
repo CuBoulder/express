@@ -118,7 +118,7 @@ function express_settings_menu() {
   );
   $items['admin/settings/performance/clear-cache'] = array(
     'title' => 'Clear Cache',
-    'description' => 'Redirect users from one URL to another',
+    'description' => 'Delete and rebuild all site caches.',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_settings_cache_form'),
@@ -333,7 +333,7 @@ function express_settings_cache_form($form, &$form_state) {
       '#submit' => array('express_clear_cache_submit'),
     );
   } else {
-    drupal_set_message(t('Cache was resently cleared.  Because repeatly clearing the cache can cause performance problems, it cannot be cleared again until @time', array('@time' => date('h:i A', $cache_last + 60*60))), 'warning');
+    drupal_set_message(t('Cache was recently cleared.  Because repeatly clearing the cache can cause performance problems, it cannot be cleared again until @time', array('@time' => date('h:i A', $cache_last + 60*60))), 'warning');
   }
 
   return $form;
@@ -461,5 +461,3 @@ function express_settings_menu_link_insert($item) {
 
   }
 }
-
-
