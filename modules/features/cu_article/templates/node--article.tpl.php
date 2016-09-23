@@ -11,7 +11,7 @@
 <?php endif; ?>
 <?php if (!empty($content['body'])): ?>
   <?php $bodyimg = strpos($content['body'][0]['#markup'], '<img'); ?>
-  <?php if(!empty($content['field_image']) && ($bodyimg === FALSE)): ?>
+  <?php if (!empty($content['field_image']) && ($bodyimg === FALSE)): ?>
 
     <div class="article-image">
       <?php print render($content['field_image']); ?>
@@ -23,9 +23,9 @@
 <?php print render($content); ?>
 <?php print render($content_bottom); ?>
 <?php
-  // Only display article meta elements if there is actually content
-  $article_meta = element_children($content['article_meta']);
-  if (!empty($article_meta)) {
-    print render($content['article_meta']);
-  }
+// Only display article meta elements if there is actually content
+$article_meta = element_children($content['article_meta']);
+if (!empty($article_meta)) {
+  print render($content['article_meta']);
+}
 ?>
