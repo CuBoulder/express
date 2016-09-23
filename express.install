@@ -145,3 +145,10 @@ function express_update_7001() {
   // Registry rebuild due to contrib module updates.
   registry_rebuild();
 }
+
+/**
+ * Express 2.2.7 Updates
+ */
+function express_update_7002() {
+  module_enable('express_version');
+}
