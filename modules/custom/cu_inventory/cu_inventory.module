@@ -100,8 +100,8 @@ function cu_inventory_admin_settings() {
     $start = strpos($part, $needle);
     if ($start) {
       $start = ($start + strlen($needle));
-      $end = strpos($part,' @', $start);
-      $list[] = substr($part, $start,($end - $start));
+      $end = strpos($part, ' @', $start);
+      $list[] = substr($part, $start, ($end - $start));
     }
   }
 
@@ -114,7 +114,6 @@ function cu_inventory_admin_settings() {
     '#default_value' => variable_get('dslm_add_custom', NULL),
     '#description' => t('Comma separated list of the machine names additional projects to symlink. These must already be registered in packages_base which currently include; ') . implode(', ', $list),
   );
-
 
 
   $form['express_plus']['dslm_add_contrib'] = array(
