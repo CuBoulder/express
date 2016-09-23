@@ -154,6 +154,7 @@ function express_permissions_secure_permissions($role) {
       'view status messages',
       'view warning messages',
       'view error messages',
+      'administer cache settings' // currently the only perm diff with site owner
     ),
     'anonymous user' => array(
       'access content',
@@ -279,6 +280,7 @@ function express_permissions_secure_permissions($role) {
       'administer express settings',
       'administer express theme picker',
       'administer features',
+      'administer fields',
       'administer field collections',
       'administer fieldgroups',
       'administer filters',
