@@ -209,9 +209,6 @@ function cu_redirect_redirect_presave($redirect) {
     $redirect->count = 1;
     $redirect->access = REQUEST_TIME;
   }
-  dpm($redirect);
-
-
 }
 
 
