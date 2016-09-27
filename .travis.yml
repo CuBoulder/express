@@ -53,10 +53,12 @@ install:
   - cd ../../../
 
   # Build Codebase
+  - git clone git@github.com:CuBoulder/drupal-7.x.git drupal
   - mkdir profiles
   - mv express profiles/
-  - mkdir drupal
   - mv profiles drupal/
+  - cd drupal/
+  - git checkout 08abb51bb024ee7c3f26dfd0cb7be86725d3b937
 
   # Build the current branch
   - cd drupal
