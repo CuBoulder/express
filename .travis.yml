@@ -57,8 +57,7 @@ install:
   - mkdir drupal
   - mv drupal-7.50/* drupal/
   - mkdir profiles
-  - mv express profiles/
-  - mv profiles drupal/
+  - mv express drupal/profiles/
 
   # Build the current branch
   - cd drupal
