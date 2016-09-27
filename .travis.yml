@@ -53,16 +53,16 @@ install:
   - cd ../../../
 
   # Build Codebase
-  - git clone git@github.com:CuBoulder/drupal-7.x.git drupal
+  - drush dl drupal-7.50
+  - mkdir drupal
+  - mv drupal-7.50/* drupal/
   - mkdir profiles
   - mv express profiles/
   - mv profiles drupal/
-  - cd drupal/
-  - git checkout 08abb51bb024ee7c3f26dfd0cb7be86725d3b937
 
   # Build the current branch
   - cd drupal
-  - drush make --yes profiles/express/drupal-org-core.make
+  #- drush make --yes profiles/express/drupal-org-core.make
   #- drush make --yes profiles/express/drupal-org.make --no-core --contrib-destination=profiles/express
   - cd ../
 
