@@ -131,9 +131,14 @@ before_script:
 
 script:
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
+  #- ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
   # Run tests that were timing out.
-  #- ./bin/behat --config behat.yml --verbose --tags @max_execution_time
+  - ./bin/behat --config behat.yml --verbose --tags @wysiwyg
+
+  # Output performance logging data.
+  - chmod ugo+x profiles/express/tests/travis-ci/log-express-performance.php
+  #- profiles/express/tests/travis-ci/install-express.sh
+  - drush scr profiles/express/tests/travis-ci/log-express-performance.php
 
 notifications:
   slack:
