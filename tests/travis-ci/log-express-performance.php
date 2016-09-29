@@ -51,7 +51,7 @@ foreach ($output as $key => $path) {
   print_r('Memory Consumption: ' . $memory_average . "MB\n");
   print_r('Load Time: ' . $load_average . " Seconds\n");
   print_r('Query Count: ' . $query_count_average . "\n");
-  print_r('Query Time: ' . $query_time_average . " Seconds\n");
+  print_r('Query Time: ' . $query_time_average . " Milliseconds\n");
   print_r("\n");
   $i++;
 }

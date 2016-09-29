@@ -140,7 +140,6 @@ script:
   - ./bin/behat --config behat.yml --verbose --tags @wysiwyg
 
   # Output performance logging data.
-  - chmod ugo+x profiles/express/tests/travis-ci/log-express-performance.php
   #- profiles/express/tests/travis-ci/install-express.sh
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
 
