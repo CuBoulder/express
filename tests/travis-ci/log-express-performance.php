@@ -32,7 +32,7 @@ print_r("\n");
 // Build output to screen. Only top 10.
 $i = 0;
 foreach ($output as $key => $path) {
-  if ($i >= 10) {
+  if ($i >= 15) {
     return;
   }
   $count = count($path['memory']);

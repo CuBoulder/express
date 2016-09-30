@@ -137,7 +137,7 @@ script:
   # Run Behat tests.
   #- ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
   # Run tests that were timing out.
-  - ./bin/behat --config behat.yml --verbose --tags @wysiwyg
+  - ./bin/behat --config behat.yml --verbose --tags "@wysiwyg,@page,@settings"
 
   # Output performance logging data.
   #- profiles/express/tests/travis-ci/install-express.sh
