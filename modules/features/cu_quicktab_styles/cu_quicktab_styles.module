@@ -24,6 +24,10 @@ function cu_quicktab_styles_quicktabs_tabstyles() {
 function cu_quicktab_styles_form_alter(&$form, &$form_state, $form_id) {
 }
 function cu_quicktab_styles_form_quicktabs_form_alter(&$form, &$form_state, $form_id){
+
+  // the quicktab object should be returned with the form, but it is not
+  $tab = quicktabs_load($form['machine_name']['#value']);
+
   unset($form['style']['#options']['Arrows']);
   unset($form['style']['#options']['Basic']);
   unset($form['style']['#options']['Bullets']);
@@ -34,10 +38,12 @@ function cu_quicktab_styles_form_quicktabs_form_alter(&$form, &$form_state, $for
   unset($form['style']['#options']['Phylactere']);
   unset($form['style']['#options']['Sky']);
   unset($form['style']['#options']['Zen']);
-  if($form['renderer']['#default_value'] != 'quicktabs') {
+
+  if($tab->renderer != 'quicktabs') {
     unset($form['renderer']['#options']['quicktabs']);
+    $form['renderer']['#default_value'] = 'ui_tabs';
   }
-  if($form['renderer']['#default_value'] == 'quicktabs') {
+  else {
     drupal_set_message(t('The quicktabs rendering options has been deprecated. If you choose a different render option, you will not be able to switch back to the quicktabs render option.'), 'warning');
   }
 }
