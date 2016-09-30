@@ -121,6 +121,7 @@ before_script:
   - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
 
   # See that performace module is enabled.
+  - drush pm-info cu_testing_core
   - drush pm-info performance
 
   # Enable all the bundles
