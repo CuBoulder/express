@@ -28,7 +28,6 @@ function cu_testing_core_install() {
 
   // these modules need to be enabled late in the install process and/or to be ignored by profile_module_manager's report.
   $module_array = array(
-    'user_external_invite', // Added to not enable in Pantheon Core.
     'cu_users',
     //'cu_inventory',
     //'cu_inventory_stats' // Not adding caching modules here for changes involving Travis CI testing.
@@ -37,16 +36,6 @@ function cu_testing_core_install() {
   module_enable($module_array);
 
   profile_module_manager_add_to_ignore($module_array);
-
-  // Add blocks shortcut to shortcuts set.
-  $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
-  $shortcut_set->links[] =
-    array(
-      'link_path' => 'admin/content/blocks',
-      'link_title' => st('Blocks'),
-      'weight' => -18,
-    );
-  shortcut_set_save($shortcut_set);
 
   //set default variables for user_external_invite
   if (db_table_exists('user_external_invite') && !db_field_exists('user_external_invite', 'message')) {
@@ -80,7 +69,7 @@ function cu_testing_core_install() {
 
   variable_set('express_help_base_url', 'http://www.colorado.edu/webcentral');
 
-  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, cu_custom_logo, varnish, memcache, cu_redirect');
+  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, memcache, cu_redirect');
 
   // Set message for when enabling of bundles is turned off.
   variable_set('profile_module_manager_disable_enabling_text', 'Due to unexpectedly high load on the servers, the option to enable bundles has temporarily been disabled.  Please check back tomorrow.');
@@ -89,20 +78,6 @@ function cu_testing_core_install() {
   $site_owner_role = user_role_load_by_name('site_owner');
   $content_editor_role = user_role_load_by_name('content_editor');
   $edit_my_content_role = user_role_load_by_name('edit_my_content');
-  $authenticated_user_role = user_role_load_by_name('authenticated user');
-
-  variable_set('securepages_enable', '1');
-  variable_set('securepages_pages', 'node/add*
-node/*/edit
-node/*/delete
-user
-user/*
-admin
-admin/*');
-
-  variable_set('securepages_roles', array($authenticated_user_role->rid => $authenticated_user_role->rid));
-  variable_set('securepages_secure', '1');
-  variable_set('securepages_switch', TRUE);
 
   variable_set('user_external_invite_roles', array(
     $site_owner_role->rid,
@@ -201,26 +176,12 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
     )
     ->execute();
 
-  // Disable user 1 & set random name
-  $random_name = 'admin-' . user_password(50);
-
-  variable_set('user_mail_status_activated_notify ', 0);
-
-  // Set admin user email to something not admin@example.com.
-  $admin_user = user_load(1);
-  $admin_user->mail = 'websupport@colorado.edu';
-  $admin_user->name = $random_name;
-  $admin_user->status = 0;
-  user_save($admin_user);
-
-  watchdog('express', 'attempted to disable uid 1');
-
-  // Setting performance logging variables.
-  variable_set('performance_detail', 1);
-  variable_set('performance_summary', 1);
-  variable_set('performance_query', 1);
-  variable_set('performance_nodrush', 1);
-  variable_set('performance_threshold_accesses', '2');
+    // Setting performance logging variables.
+    variable_set('performance_detail', 1);
+    variable_set('performance_summary', 1);
+    variable_set('performance_query', 1);
+    variable_set('performance_nodrush', 1);
+    variable_set('performance_threshold_accesses', '2');
 
 }
 
@@ -298,7 +259,7 @@ function cu_testing_core_update_7002() {
     ->condition('delta', 'help')
     ->execute();
 
-  cu_testing_core_revert_features();
+  cu_core_revert_features();
 
   // Run on every update
   _express_inventory_update('7002');
@@ -391,10 +352,10 @@ function cu_testing_core_update_7005() {
     )
     ->execute();
 
-  cu_testing_core_revert_features();
+  cu_core_revert_features();
 
   // Run on every update
-  cu_testing_core_inventory_update('7005');
+  _express_inventory_update('7005');
 }
 
 /**
@@ -427,46 +388,10 @@ function cu_testing_core_revert_features($features = NULL) {
 }
 
 /**
- * Run every time a db update.
- *
- * This calls the inventory update function and admin password change.
- */
-function cu_testing_core_express_update($version) {
-
-  cu_testing_core_inventory_update($version);
-
-  // Change admin user/pass.
-  cu_testing_core_scramble_admin();
-}
-
-/**
  * Updates inventory with profile version.
  */
-function cu_testing_core_inventory_update($version) {
-  if (module_exists('cu_inventory')) {
-    cu_inventory_process_core_version($version);
-  }
-}
-
-/**
- * Obscures uid 1 password and username for added security.
- */
-function cu_testing_core_scramble_admin() {
-
-  // Generate hashed password.
-  $unhashed_pass = user_password(50);
-  require_once DRUPAL_ROOT . '/' . variable_get('password_inc', 'includes/password.inc');
-  $hashed_pass = user_hash_password(trim($unhashed_pass));
-
-  // Abort if the hashing failed and returned FALSE.
-  if (!$hashed_pass) {
-    return FALSE;
-  }
-  else {
-    // Save admin user with new user/password.
-    $user = user_load(1);
-    $user->name = 'admin-' . user_password(10);
-    $user->pass = $hashed_pass;
-    user_save($user);
-  }
+function _express_inventory_update($version) {
+  // Do at the end of every update.
+  module_load_include('inc', 'cu_inventory');
+  cu_inventory_process_profile_version($version);
 }
