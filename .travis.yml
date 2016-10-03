@@ -147,7 +147,7 @@ before_script:
 
 script:
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags "@wysiwyg,@page,@settings"
+  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
   # Run tests that were timing out.
   #- ./bin/behat --config behat.yml --verbose --tags @max_execution_time
 
