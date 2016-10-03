@@ -35,6 +35,7 @@ function express_install_tasks() {
   $tasks['express_profile_configure_form'] = array(
     'display_name' => st('Configure Express profile'),
     'type' => 'form',
+    'run' => INSTALL_TASK_RUN_IF_NOT_COMPLETED,
   );
 
   $tasks['express_final'] = array();
