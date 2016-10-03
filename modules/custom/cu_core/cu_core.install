@@ -320,7 +320,7 @@ function cu_core_update_7003() {
 }
 
 /**
- * Enable CU Redirect module.
+ * Core CU Redirect module.
  * Disable, Uninstall More Menus, CU Shortcuts modules.
  * Remove duplicates in shortcut menu
  * Express 2.1.0
@@ -355,7 +355,7 @@ function cu_core_update_7004() {
 }
 
 /**
- * Express Update 7005.
+ * Core Update 7005.
  * Removing cu_livechat module, enabling responsive_preview, reverting features
  */
 function cu_core_update_7005() {
@@ -390,7 +390,7 @@ function cu_core_update_7005() {
 }
 
 /**
- * Express Update 7006.
+ * Core Update 7006.
  * Enabling dashboards, reverting features.
  */
 function cu_core_update_7006() {
@@ -406,7 +406,7 @@ function cu_core_update_7006() {
 }
 
 /**
- * Express Update 7007.
+ * Core Update 7007.
  * Converting Profile Module Manager variable to an array.
  */
 function cu_core_update_7007() {
@@ -434,7 +434,7 @@ function cu_core_update_7007() {
 }
 
 /**
- * Express Update 7008.
+ * Core Update 7008.
  * Showing SEO dashboard, reverting features.
  */
 function cu_core_update_7008() {
@@ -448,7 +448,7 @@ function cu_core_update_7008() {
 }
 
 /**
- * Express Update 7009.
+ * Core Update 7009.
  * Reverting GA codes for sites.
  */
 function cu_core_update_7009() {
@@ -470,8 +470,8 @@ function cu_core_update_7009() {
 }
 
 /**
- * Express Update 7010.
- * Turn off linkchecker modules for sites without SEO bundle enabled"
+ * Core Update 7010.
+ * Turn off linkchecker modules for sites without SEO bundle enabled
  */
 function cu_core_update_7010() {
 
@@ -501,7 +501,7 @@ function cu_core_update_7010() {
 }
 
 /**
- * Express Update 7011.
+ * Core Update 7011.
  * Revert features.
  */
 function cu_core_update_7011() {
@@ -513,7 +513,7 @@ function cu_core_update_7011() {
 }
 
 /**
- * Express Update 7012.
+ * Core Update 7012.
  * Change user 1 email address.
  * Add noreqnewpass module.
  */
@@ -531,6 +531,26 @@ function cu_core_update_7012() {
 
   cu_core_express_update('7012');
 }
+
+/**
+ * Core Update 7013 for Express 2.2.7
+ * Disable and unistall Moulde Missine Message Fixer.
+ * Enable update module.
+ * Revert unprotected Features.
+ */
+function cu_core_update_7013() {
+
+  module_disable(array('module_missing_message_fixer'));
+
+  drupal_uninstall_modules(array('module_missing_message_fixer'));
+
+  module_enable(array('update'));
+
+  cu_core_revert_features();
+
+  cu_core_express_update('7013');
+}
+
 
 /**
  * Revert features by passing features in an array.

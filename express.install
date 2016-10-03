@@ -148,7 +148,8 @@ function express_update_7001() {
 
 /**
  * Express 2.2.7 Updates
+ * Enable express_version
  */
 function express_update_7002() {
-  module_enable('express_version');
+  module_enable(array('express_version'));
 }
