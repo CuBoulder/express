@@ -30,8 +30,8 @@ function cu_testing_core_install() {
   $module_array = array(
     'user_external_invite', // Added to not enable in Pantheon Core.
     'cu_users',
-    'cu_inventory',
-    'cu_inventory_stats' // Not adding caching modules here for changes involving Travis CI testing.
+    //'cu_inventory',
+    //'cu_inventory_stats' // Not adding caching modules here for changes involving Travis CI testing.
   );
 
   module_enable($module_array);
