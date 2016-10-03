@@ -121,7 +121,7 @@ before_script:
   - drush en performance -y
 
   # Enable all the bundles
-  - drush en cu_advanced_content_bundle cu_advanced_design_bundle cu_advanced_layout_bundle cu_debug_admin_bundle cu_events_bundle cu_forms_bundle cu_news_bundle cu_people_bundle cu_photo_gallery_bundle cu_seo_bundle cu_social_media_bundle -y
+  #- drush en cu_advanced_content_bundle cu_advanced_design_bundle cu_advanced_layout_bundle cu_debug_admin_bundle cu_events_bundle cu_forms_bundle cu_news_bundle cu_people_bundle cu_photo_gallery_bundle cu_seo_bundle cu_social_media_bundle -y
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
@@ -136,7 +136,7 @@ before_script:
 
 script:
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
+  - ./bin/behat --config behat.yml --verbose --tags "@wysiwyg,@page,@settings"
   # Run tests that were timing out.
   #- ./bin/behat --config behat.yml --verbose --tags @max_execution_time
 
