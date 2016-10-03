@@ -35,6 +35,7 @@ function express_install_tasks() {
   $tasks['express_profile_configure_form'] = array(
     'display_name' => st('Configure Express profile'),
     'type' => 'form',
+    'run' => INSTALL_TASK_RUN_IF_NOT_COMPLETED,
   );
 
   $tasks['express_final'] = array();
@@ -54,7 +55,7 @@ function express_profile_configure_form() {
     '#title' => st('Which version of Express would you like to install?'),
     '#description' => st('Testing will include the "cu_testing_core" module while "Production" will include the "cu_core" module.'),
     '#options' => $options,
-    '#default_value' => 'cu_core',
+    '#default_value' => 'cu_testing_core',
   );
 
   $form['actions'] = array('#type' => 'actions');

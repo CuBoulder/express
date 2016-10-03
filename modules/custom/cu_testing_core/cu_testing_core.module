@@ -49,11 +49,11 @@ function cu_testing_core_modules_installed($modules) {
     // Add context shortcut to shortcuts set.
     $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
     $shortcut_set->links[] =
-    array(
-      'link_path' => 'admin/structure/context',
-      'link_title' => t('Context'),
-      'weight' => -14,
-    );
+      array(
+        'link_path' => 'admin/structure/context',
+        'link_title' => t('Context'),
+        'weight' => -14,
+      );
     shortcut_set_save($shortcut_set);
   }
 }

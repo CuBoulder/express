@@ -9,6 +9,7 @@ php:
 branches:
   only:
     - dev
+    - testing-release-225
 
 # We need LDAP as long as it is in express_core. Need CGI for runserver in PHP 5.3.
 addons:
@@ -38,6 +39,10 @@ cache:
 # OPTIONAL after_deploy, after_script.
 
 install:
+  # Travis environment info.
+  - chmod ugo+x tests/travis-ci/env-info.sh
+  - ./tests/travis-ci/env-info.sh
+
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:6.*"
@@ -113,7 +118,14 @@ before_script:
   # Do the site install (either the current revision or old for the upgrade).
   - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
-  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
+  - drush si express express_profile_configure_form.express_core_version=cu_testing_core --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express"  --yes
+
+  # See that performace module is enabled.
+  - drush en cu_testing_core
+  - drush en performance
+  - drush pm-info cu_testing_core
+  - drush pm-info cu_core
+  - drush pm-info performance
 
   # Enable all the bundles
   - drush en cu_advanced_content_bundle cu_advanced_design_bundle cu_advanced_layout_bundle cu_debug_admin_bundle cu_events_bundle cu_forms_bundle cu_news_bundle cu_people_bundle cu_photo_gallery_bundle cu_seo_bundle cu_social_media_bundle -y
@@ -134,6 +146,9 @@ script:
   - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
   # Run tests that were timing out.
   #- ./bin/behat --config behat.yml --verbose --tags @max_execution_time
+
+  # Output performance logging data.
+  - drush scr profiles/express/tests/travis-ci/log-express-performance.php
 
 notifications:
   slack:

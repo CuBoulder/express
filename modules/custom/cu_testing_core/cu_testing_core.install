@@ -29,8 +29,8 @@ function cu_testing_core_install() {
   // these modules need to be enabled late in the install process and/or to be ignored by profile_module_manager's report.
   $module_array = array(
     'cu_users',
-    'cu_inventory',
-    'cu_inventory_stats' // Not adding caching modules here for changes involving Travis CI testing.
+    //'cu_inventory',
+    //'cu_inventory_stats' // Not adding caching modules here for changes involving Travis CI testing.
   );
 
   module_enable($module_array);
@@ -166,7 +166,7 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
 
   db_update('responsive_preview')
     ->fields(array('status' => 0,))
-  ->execute();
+    ->execute();
 
   db_update('responsive_preview')
     ->fields(array('status' => 1,))
@@ -174,7 +174,15 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
       ->condition('name', 'medium')
       ->condition('name', 'small')
     )
-  ->execute();
+    ->execute();
+
+    // Setting performance logging variables.
+    variable_set('performance_detail', 1);
+    variable_set('performance_summary', 1);
+    variable_set('performance_query', 1);
+    variable_set('performance_nodrush', 1);
+    variable_set('performance_threshold_accesses', '2');
+
 }
 
 /**
@@ -334,7 +342,7 @@ function cu_testing_core_update_7005() {
 
   db_update('responsive_preview')
     ->fields(array('status' => 0,))
-  ->execute();
+    ->execute();
 
   db_update('responsive_preview')
     ->fields(array('status' => 1,))
@@ -342,7 +350,7 @@ function cu_testing_core_update_7005() {
       ->condition('name', 'medium')
       ->condition('name', 'small')
     )
-  ->execute();
+    ->execute();
 
   cu_core_revert_features();
 
