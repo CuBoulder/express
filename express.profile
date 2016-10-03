@@ -55,7 +55,7 @@ function express_profile_configure_form() {
     '#title' => st('Which version of Express would you like to install?'),
     '#description' => st('Testing will include the "cu_testing_core" module while "Production" will include the "cu_core" module.'),
     '#options' => $options,
-    '#default_value' => 'cu_testing_core',
+    '#default_value' => 'cu_core',
   );
 
   $form['actions'] = array('#type' => 'actions');
