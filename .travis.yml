@@ -8,7 +8,8 @@ php:
 # We want builds of master and dev branches only.
 branches:
   only:
-    - dev
+    #- dev
+    - 225-release-test
 
 # We need LDAP as long as it is in express_core. Need CGI for runserver in PHP 5.3.
 addons:
@@ -114,9 +115,24 @@ before_script:
   - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
   - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
+  - drush --version
+  - drush pm-info cu_testing_core
+  - drush pm-info cu_core
+  - drush pm-info performance
+  - drush en performance -y
 
   # Enable all the bundles
-  - drush en cu_advanced_content_bundle cu_advanced_design_bundle cu_advanced_layout_bundle cu_debug_admin_bundle cu_events_bundle cu_forms_bundle cu_news_bundle cu_people_bundle cu_photo_gallery_bundle cu_seo_bundle cu_social_media_bundle -y
+  - drush en cu_advanced_content_bundle -y
+  - drush en cu_advanced_design_bundle  -y
+  - drush en cu_advanced_layout_bundle  -y
+  - drush en cu_debug_admin_bundle  -y
+  - drush en cu_events_bundle  -y
+  - drush en cu_forms_bundle  -y
+  - drush en cu_news_bundle  -y
+  - drush en cu_people_bundle  -y
+  - drush en cu_photo_gallery_bundle  -y
+  - drush en cu_seo_bundle  -y
+  - drush en cu_social_media_bundle -y
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
@@ -134,6 +150,9 @@ script:
   - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
   # Run tests that were timing out.
   #- ./bin/behat --config behat.yml --verbose --tags @max_execution_time
+
+  # Output performance logging data.
+  - drush scr profiles/express/tests/travis-ci/log-express-performance.php
 
 notifications:
   slack:
