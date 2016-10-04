@@ -1,4 +1,3 @@
-<?php
 #!/usr/bin/env drush
 
 $results = db_query('SELECT * FROM {performance_detail} p')->fetchAll();
