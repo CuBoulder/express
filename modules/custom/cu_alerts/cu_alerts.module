@@ -76,44 +76,22 @@ function cu_alerts_block_view($delta = '') {
  * Gets the remote JSON data and return it decoded.
  */
 function cu_alerts_remote_data() {
-  /* TODO: Detect whether or not curl is compiled in and fall back to file_get_contents if not */
-
-  $options = array(
-    // Return web page.
-    CURLOPT_RETURNTRANSFER => TRUE,
-    // Don't return headers.
-    CURLOPT_HEADER         => FALSE,
-    // Follow redirects.
-    CURLOPT_FOLLOWLOCATION => TRUE,
-    // Handle all encodings.
-    CURLOPT_ENCODING       => "",
-    // Who am i.
-    CURLOPT_USERAGENT      => "spider",
-    // Set referer on redirect.
-    CURLOPT_AUTOREFERER    => TRUE,
-    // Timeout on connect.
-    CURLOPT_CONNECTTIMEOUT => 120,
-    // Timeout on response.
-    CURLOPT_TIMEOUT        => 60,
-    // Stop after 10 redirects.
-    CURLOPT_MAXREDIRS      => 10,
-  );
 
   $url = cu_alerts_remote_url();
+  if ($cache = cache_get('rave_alert-' . $url)) {
+      $data = $cache->data;
+  } else {
+    $response = drupal_http_request($url);
+    if ($response->code == '200') {
 
-  $ch      = curl_init($url);
-  curl_setopt_array($ch, $options);
-  $content = curl_exec($ch);
-  $err     = curl_errno($ch);
-  $errmsg  = curl_error($ch);
-  $header  = curl_getinfo($ch);
-  curl_close($ch);
-  if ($content) {
-    $data = json_decode($content);
-  }
-  else {
-    $string = '';
-    $data = json_decode($string);
+      // Create new XMLElement
+      $data = new SimpleXMLElement($response->data);
+
+      // Convert into a nice array for us to work with.
+      $data = json_encode($data);
+      $data = json_decode($data, true);
+      cache_set('rave_alert-' . $url, $data, 'cache', time() + 60);
+    }
   }
   return $data;
 }
@@ -146,14 +124,18 @@ function cu_alerts_remote_url() {
   }
 
   /* Pull our environment, default to production */
-  $environment = variable_get('cu_alerts_environment', 'production');
+  $environment = variable_get('rave_alerts_environment', 'production');
   if ($environment == 'test') {
-    $remote_url = $protocol . 'test-cu-boulder-alerts.pantheonsite.io/json_alerts?limit=1';
+
+    $url = variable_get('rave_alerts_testing_url', '');
+
   }
   else {
-    $remote_url = $protocol . 'alerts.colorado.edu/json_alerts?limit=1';
+    $url = variable_get('rave_alerts_production_url', '');
+
   }
-  return $remote_url;
+  $url_parts = parse_url($url);
+  return $protocol . $url_parts['host'] . $url_parts['path'];
 }
 
 /**
