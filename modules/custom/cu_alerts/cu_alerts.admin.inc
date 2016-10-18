@@ -36,11 +36,17 @@ function cu_alerts_admin_settings_form() {
     ),
     '#description' => t('Test mode will pull alerts from the development URL entered above.'),
   );
-  $form['rave_alerts_message_off'] = array(
+  $form['rave_alerts_active_text'] = array(
     '#type' => 'textfield',
-    '#title' => 'Rave Alerts Off Message',
-    '#default_value' => variable_get('rave_alerts_message_off', ''),
-    '#description' => t('When this message is sent as a Rave Alert, the website alerts will stop displaying'),
+    '#title' => 'Active Mode Text',
+    '#default_value' => variable_get('rave_alerts_active_text', ''),
+    '#description' => t('When this text appears in the description field of a Rave Alert, the website alerts will switch to active mode'),
+  );
+  $form['rave_alerts_clear_text'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Clear Text',
+    '#default_value' => variable_get('rave_alerts_clear_text', ''),
+    '#description' => t('When this text appears in the description field of a Rave Alert, the website alerts will stop displaying'),
   );
 
   return system_settings_form($form);

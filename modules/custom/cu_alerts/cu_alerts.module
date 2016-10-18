@@ -6,15 +6,41 @@
  */
 
 /**
+ * Implements hook_exit().
+ * Used so this hook is called even if page is cached by Drupal
+ */
+function cu_alerts_exit() {
+  $data = cu_alerts_remote_data();
+
+  if (variable_get('rave_alerts_pubdate', NULL) != $data['channel']['item']['pubDate']) {
+
+    // There is a new RSS item.  Evaluate the description for triggers.
+
+    if ($data['channel']['item']['description'] = variable_get('rave_alerts_active_text', 'NEEDS UNIQUER STRING TO AVOID FALSE POSITIVES')) {
+       variable_set('rave_alerts_pubdate', $data['channel']['item']['pubDate']);
+       variable_set('rave_alerts_active_event', 1);
+    }
+
+    if ($data['channel']['item']['description'] = variable_get('rave_alerts_clear_text', 'NEEDS UNIQUER STRING TO AVOID FALSE POSITIVES')) {
+       variable_set('rave_alerts_pubdate', $data['channel']['item']['pubDate']);
+       variable_set('rave_alerts_active_event', 0);
+       variable_set('rave_alerts_display', 0);
+    }
+
+    // @TODO: Add option to leave all clear message up for X hours
+  }
+}
+
+/**
  * Implements hook_init().
  */
 function cu_alerts_init() {
-  /* Load JS if specified */
-  //if (variable_get('cu_alerts_use_js', FALSE)) {
-    drupal_add_js(drupal_get_path('module', 'cu_alerts') . "/js/cu_alerts.js", array('scope' => 'header'));
-  //}
+
+  drupal_add_js(drupal_get_path('module', 'cu_alerts') . "/js/cu_alerts.js", array('scope' => 'header'));
+
   // Add alert variables to Drupal.settings
   drupal_add_js(array('rave_alerts_url' => cu_alerts_remote_url()), 'setting');
+  drupal_add_js(array('rave_alerts_active_event' => variable_get('rave_alerts_active_event', 0)), 'setting');
 
   if ($rave_alerts_site = variable_get('rave_alerts_site', NULL)) {
     drupal_add_js(array('rave_alerts_site' => $rave_alerts_site), 'setting');
