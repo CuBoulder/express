@@ -10,9 +10,9 @@
  */
 function cu_alerts_init() {
   /* Load JS if specified */
-  if (variable_get('cu_alerts_use_js', FALSE)) {
+  //if (variable_get('cu_alerts_use_js', FALSE)) {
     drupal_add_js(drupal_get_path('module', 'cu_alerts') . "/js/cu_alerts.js", array('scope' => 'header'));
-  }
+  //}
 }
 
 /**
