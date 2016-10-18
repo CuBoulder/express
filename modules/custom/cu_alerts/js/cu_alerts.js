@@ -1,10 +1,10 @@
 (function($) {
+
   $(document).ready(
     function alertWorker() {
       // Create our own timestamp
 			var stamp = Math.ceil( $.now() / 10000 );
-			//console.log($.now());
-			console.log(stamp);
+			//console.log(stamp);
 			
 			$.ajax({
 			  type: "GET",
@@ -31,5 +31,6 @@
         
         $("#cu-alerts .alert").html('<a href="' + feedLink + '" style="color:#fff;">' + $(this).find("title").text() + '</a> - ' + $(this).find("pubDate").text());
       });
-  };    
+    }; 
+       
 })(jQuery);
