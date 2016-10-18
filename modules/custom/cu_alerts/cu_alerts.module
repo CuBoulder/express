@@ -13,6 +13,12 @@ function cu_alerts_init() {
   //if (variable_get('cu_alerts_use_js', FALSE)) {
     drupal_add_js(drupal_get_path('module', 'cu_alerts') . "/js/cu_alerts.js", array('scope' => 'header'));
   //}
+  // Add alert variables to Drupal.settings
+  drupal_add_js(array('rave_alerts_url' => cu_alerts_remote_url()), 'setting');
+
+  if ($rave_alerts_site = variable_get('rave_alerts_site', NULL)) {
+    drupal_add_js(array('rave_alerts_site' => $rave_alerts_site), 'setting');
+  }
 }
 
 /**

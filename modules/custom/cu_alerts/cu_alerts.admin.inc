@@ -20,7 +20,11 @@ function cu_alerts_admin_settings_form() {
     '#title' => 'Rave Alerts Testing URL',
     '#default_value' => variable_get('rave_alerts_testing_url', ''),
   );
-
+  $form['rave_alerts_site'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Rave Alerts Website',
+    '#default_value' => variable_get('rave_alerts_site', ''),
+  );
   $form['rave_alerts_environment'] = array(
     '#type' => 'select',
     '#title' => 'Environment',
