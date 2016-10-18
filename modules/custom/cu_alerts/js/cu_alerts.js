@@ -2,6 +2,8 @@
 
   $(document).ready(
     function alertWorker() {
+      // @TODO: Add loop count or option to exit so this doesn't keep running after an 
+      // active event has ended if someone leaves a browser open
       if ( Drupal.settings.rave_alerts_active_event == 1 ) {
 				// Create our own rounded timestamp to limit paths cached by varnish
 				var stamp = Math.ceil( $.now() / 10000 );

@@ -5,6 +5,8 @@
  * CU Alerts module
  */
 
+// @TODO: add hook_cron for sites that are cached by Varnish and never fire hook_edit
+
 /**
  * Implements hook_exit().
  * Used so this hook is called even if page is cached by Drupal
@@ -13,18 +15,23 @@ function cu_alerts_exit() {
   $data = cu_alerts_remote_data();
 
   if (variable_get('rave_alerts_pubdate', NULL) != $data['channel']['item']['pubDate']) {
-
+    watchdog('rave_alerts', 'found a new RSS item');
     // There is a new RSS item.  Evaluate the description for triggers.
+
+    // assume we are going to display this
+    variable_set('rave_alerts_display', 1);
 
     if ($data['channel']['item']['description'] = variable_get('rave_alerts_active_text', 'NEEDS UNIQUER STRING TO AVOID FALSE POSITIVES')) {
        variable_set('rave_alerts_pubdate', $data['channel']['item']['pubDate']);
        variable_set('rave_alerts_active_event', 1);
+       watchdog('rave_alerts', 'set to active');
     }
 
     if ($data['channel']['item']['description'] = variable_get('rave_alerts_clear_text', 'NEEDS UNIQUER STRING TO AVOID FALSE POSITIVES')) {
        variable_set('rave_alerts_pubdate', $data['channel']['item']['pubDate']);
        variable_set('rave_alerts_active_event', 0);
        variable_set('rave_alerts_display', 0);
+       watchdog('rave_alerts', 'clear and disable alerts');
     }
 
     // @TODO: Add option to leave all clear message up for X hours
@@ -36,7 +43,7 @@ function cu_alerts_exit() {
  */
 function cu_alerts_init() {
 
-  drupal_add_js(drupal_get_path('module', 'cu_alerts') . "/js/cu_alerts.js", array('scope' => 'header'));
+  //drupal_add_js(drupal_get_path('module', 'cu_alerts') . "/js/cu_alerts.js", array('scope' => 'header'));
 
   // Add alert variables to Drupal.settings
   drupal_add_js(array('rave_alerts_url' => cu_alerts_remote_url()), 'setting');
@@ -52,7 +59,7 @@ function cu_alerts_init() {
  */
 function cu_alerts_menu() {
   $items['admin/config/system/cu_alerts'] = array(
-    'title' => 'CU Alerts Configuration',
+    'title' => 'RAVE Alerts Configuration',
     'description' => 'Configure the CU-Boulder Alerts block.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('cu_alerts_admin_settings_form'),
@@ -97,7 +104,10 @@ function cu_alerts_block_view($delta = '') {
       $block['content'] = array(
         '#theme' => 'cu_alerts_alerts',
         '#data' => $data,
-        '#remote_url' => cu_alerts_remote_url(),
+        '#attached' => array
+        (
+          'js' => array(drupal_get_path('module', 'cu_alerts') . "/js/cu_alerts.js"),
+        ),
       );
       break;
   }
