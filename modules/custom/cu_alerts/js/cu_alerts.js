@@ -32,7 +32,7 @@
           feedLink = Drupal.settings.rave_alerts_deafult_read_more_url;
         }
         var stamp = Math.ceil( $.now() / 10000 );
-        var alertTitle = $(this).find("title").text();
+        var alertTitle = $(this).find("description").text();
         var alertPubtime = $(this).find("pubDate").text();
         $("#cu-alerts .alert").html(alertTitle + ' <a href="' + feedLink + '" >' + 'Read More</a>');
         // data-alert-publish-time="' + alertPubtime + '" data-alert-timestamp="' + stamp + '"
