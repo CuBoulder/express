@@ -11,7 +11,7 @@
 
 				$.ajax({
 					type: "GET",
-					url: Drupal.settings.rave_alerts_url + "?stamp=" + stamp,
+					url: Drupal.settings.rave_alerts_rss_url + "?stamp=" + stamp,
 					dataType: "xml",
 					//cache: false, // Causes Varnish to miss every request
 					success: rssParser,
@@ -29,7 +29,7 @@
           feedLink = $(this).find("link").text();
         } else {
           // @TODO: get url from jQuery.extend(Drupal.settings
-          feedLink = Drupal.settings.rave_alerts_site;
+          feedLink = Drupal.settings.rave_alerts_deafult_read_more_url;
         }
         var stamp = Math.ceil( $.now() / 10000 );
         var alertTitle = $(this).find("title").text();

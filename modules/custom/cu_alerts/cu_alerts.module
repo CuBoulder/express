@@ -5,7 +5,9 @@
  * CU Alerts module
  */
 
+// @TODO: Make javascript rounding configurable
 // @TODO: add hook_cron for sites that are cached by Varnish and never fire hook_edit
+// @TODO: make hook_exit and hook_cron configurable
 
 /**
  * Implements hook_exit().
@@ -15,23 +17,23 @@ function cu_alerts_exit() {
   $data = cu_alerts_remote_data();
 
   if (variable_get('rave_alerts_pubdate', NULL) != $data['channel']['item']['pubDate']) {
-    watchdog('rave_alerts', 'found a new RSS item');
+    watchdog('rave_alerts', 'New RSS item found. Checking tokens.');
     // There is a new RSS item.  Evaluate the description for triggers.
 
     // assume we are going to display this
     variable_set('rave_alerts_display', 1);
 
-    if ($data['channel']['item']['description'] = variable_get('rave_alerts_active_text', 'NEEDS UNIQUER STRING TO AVOID FALSE POSITIVES')) {
+    if (strpos($data['channel']['item']['title'], variable_get('rave_alerts_active_text', '[ACTIVE]'))) {
        variable_set('rave_alerts_pubdate', $data['channel']['item']['pubDate']);
        variable_set('rave_alerts_active_event', 1);
-       watchdog('rave_alerts', 'set to active');
+       watchdog('rave_alerts', 'ACTIVE token found');
     }
 
-    if ($data['channel']['item']['description'] = variable_get('rave_alerts_clear_text', 'NEEDS UNIQUER STRING TO AVOID FALSE POSITIVES')) {
+    if (strpos($data['channel']['item']['title'], variable_get('rave_alerts_clear_text', '[CLEAR]'))) {
        variable_set('rave_alerts_pubdate', $data['channel']['item']['pubDate']);
        variable_set('rave_alerts_active_event', 0);
        variable_set('rave_alerts_display', 0);
-       watchdog('rave_alerts', 'clear and disable alerts');
+       watchdog('rave_alerts', 'CLEAR token found');
     }
 
     // @TODO: Add option to leave all clear message up for X hours
@@ -46,11 +48,11 @@ function cu_alerts_init() {
   //drupal_add_js(drupal_get_path('module', 'cu_alerts') . "/js/cu_alerts.js", array('scope' => 'header'));
 
   // Add alert variables to Drupal.settings
-  drupal_add_js(array('rave_alerts_url' => cu_alerts_remote_url()), 'setting');
+  drupal_add_js(array('rave_alerts_rss_url' => variable_get('rave_alerts_rss_url', 'https://www.getrave.com/rss/DemoUniversityAlert/channel8')), 'setting');
   drupal_add_js(array('rave_alerts_active_event' => variable_get('rave_alerts_active_event', 0)), 'setting');
 
-  if ($rave_alerts_site = variable_get('rave_alerts_site', NULL)) {
-    drupal_add_js(array('rave_alerts_site' => $rave_alerts_site), 'setting');
+  if ($rave_alerts_read_more_url = variable_get('rave_alerts_deafult_read_more_url', NULL)) {
+    drupal_add_js(array('rave_alerts_deafult_read_more_url' => $rave_alerts_read_more_url), 'setting');
   }
 }
 
@@ -58,7 +60,7 @@ function cu_alerts_init() {
  * Implements hook_menu().
  */
 function cu_alerts_menu() {
-  $items['admin/config/system/cu_alerts'] = array(
+  $items['admin/config/system/rave-alerts'] = array(
     'title' => 'RAVE Alerts Configuration',
     'description' => 'Configure the CU-Boulder Alerts block.',
     'page callback' => 'drupal_get_form',
@@ -100,7 +102,7 @@ function cu_alerts_block_view($delta = '') {
   $block = array();
   switch ($delta) {
     case 'cu_alerts':
-      $data = cu_alerts_data();
+      $data = cu_alerts_remote_data();
       $block['content'] = array(
         '#theme' => 'cu_alerts_alerts',
         '#data' => $data,
@@ -115,11 +117,11 @@ function cu_alerts_block_view($delta = '') {
 }
 
 /**
- * Gets the remote JSON data and return it decoded.
+ * Gets the remote RSS data and returns sanitized data.
  */
 function cu_alerts_remote_data() {
 
-  $url = cu_alerts_remote_url();
+  $url = variable_get('rave_alerts_rss_url', 'https://www.getrave.com/rss/DemoUniversityAlert/channel8');
   if ($cache = cache_get('rave_alert-' . $url)) {
       $data = $cache->data;
   } else {
@@ -136,48 +138,6 @@ function cu_alerts_remote_data() {
     }
   }
   return $data;
-}
-
-/**
- * Internal function cu_alerts_data().
- *
- * Function to return the data for use in the block
- * This currently returns the results of remote_data.
- * I put it in this wrapper to make it easier to add
- * possible caching options in the future.
- */
-function cu_alerts_data() {
-  /* Just return the results of the remote data grab */
-  return cu_alerts_remote_data();
-}
-
-/**
- * Module defined function to get the remote_url.
- *
- * To read based on the environment, test or production.
- */
-function cu_alerts_remote_url() {
-  /*Get the current protocol so we can serve up the correct content from either SSL or standard*/
-  if (isset($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) == 'on') {
-    $protocol = 'https://';
-  }
-  else {
-    $protocol = 'http://';
-  }
-
-  /* Pull our environment, default to production */
-  $environment = variable_get('rave_alerts_environment', 'production');
-  if ($environment == 'test') {
-
-    $url = variable_get('rave_alerts_testing_url', '');
-
-  }
-  else {
-    $url = variable_get('rave_alerts_production_url', '');
-
-  }
-  $url_parts = parse_url($url);
-  return $protocol . $url_parts['host'] . $url_parts['path'];
 }
 
 /**
