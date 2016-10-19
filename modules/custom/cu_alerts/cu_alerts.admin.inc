@@ -1,7 +1,7 @@
 <?php
 /**
  * @file
- * Administrative configurations for the cu_alerts module
+ * Administrative configurations for the RAVE Alerts module
  */
 
 /**
@@ -9,22 +9,39 @@
  */
 function cu_alerts_admin_settings_form() {
   $form = array();
-  $form['cu_alerts_environment'] = array(
-    '#type' => 'select',
-    '#title' => 'Environment',
-    '#default_value' => variable_get('cu_alerts_environment', 'production'),
-    '#required' => TRUE,
-    '#options' => array(
-      'production' => t('Production'),
-      'test' => t('Test'),
-    ),
-    '#description' => t('Test mode will pull from emergency-test.colorado.edu, which should have test alerts activated. Always set this back to production directly after testing.'),
+
+  // @TODO: Add connection confirmation
+  // @TODO: Add option to set all variables?
+
+  //if (variable_get('rave_alerts_rss_url', FALSE)) {
+    //$data = cu_alerts_remote_data();
+    //dsm($data);
+  //}
+
+  $form['rave_alerts_rss_url'] = array(
+    '#type' => 'textfield',
+    '#title' => 'RAVE RSS URL',
+    '#default_value' => variable_get('rave_alerts_rss_url', '//www.getrave.com/rss/DemoUniversityAlert/channel8'),
+  );
+  $form['rave_alerts_deafult_read_more_url'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Default Read More URL',
+    '#default_value' => variable_get('rave_alerts_deafult_read_more_url', ''),
+    '#description' => t('This will be included as a Read More link in the banner unless a link is provided from RSS')
   );
 
-  $form['cu_alerts_use_js'] = array(
-    '#type' => 'checkbox',
-    '#title' => 'Enable JS alerts',
-    '#default_value' => variable_get('cu_alerts_use_js', FALSE),
+  // ADVANCED OPTIONS
+  $form['rave_alerts_active_text'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Active Mode Text',
+    '#default_value' => variable_get('rave_alerts_active_text', '[ACTIVE]'),
+    '#description' => t('When this text appears in the description field of a Rave Alert, the website alerts will switch to active mode'),
+  );
+  $form['rave_alerts_clear_text'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Clear Text',
+    '#default_value' => variable_get('rave_alerts_clear_text', '[CELAR]'),
+    '#description' => t('When this text appears in the description field of a Rave Alert, the website alerts will stop displaying'),
   );
 
   return system_settings_form($form);

@@ -1,63 +1,44 @@
 (function($) {
-jQuery(document).ready(function($) {
-  /**
-   * Pull the remote URL from the element attribute, which is
-   * set by the backend for test or production
-   */
-  var json_alerts_url = $("#cu-alerts").attr('data-remote-url');
 
-  /**
-   * Pull the remote data.
-   * While cache: false can be used, it appends a timestamp to every request
-   * making varnish not be able to handle it. We like varnish, so keeping true.
-   */
-  if (json_alerts_url) {
-    $.ajax({
-      url: json_alerts_url,
-      dataType: 'jsonp',
-      jsonp: 'callback',
-      jsonpCallback: "cu_alerts",
-      //cache: false,
-      success: loopResults
+  $(document).ready(
+    function alertWorker() {
+      // @TODO: Add loop count or option to exit so this doesn't keep running after an 
+      // active event has ended if someone leaves a browser open
+      if ( Drupal.settings.rave_alerts_active_event == 1 ) {
+				// Create our own rounded timestamp to limit paths cached by varnish
+				var stamp = Math.ceil( $.now() / 10000 );
+				//console.log(stamp);
+
+				$.ajax({
+					type: "GET",
+					url: Drupal.settings.rave_alerts_rss_url + "?stamp=" + stamp,
+					dataType: "xml",
+					//cache: false, // Causes Varnish to miss every request
+					success: rssParser,
+					complete: function() {
+						// Schedule the next request when the current one's complete
+						setTimeout(alertWorker, 10000);
+					}
+				});
+			};
     });
-  }
 
-  function loopResults(data) {
-    displayResults(data);
-    if (data.length > 0) {
-      var autoRefresh = setInterval(function() {
-
-      $.ajax({
-        url: json_alerts_url,
-        dataType: 'jsonp',
-        jsonp: 'callback',
-        jsonpCallback: "cu_alerts",
-        //cache: false,
-        success: displayResults
+    function rssParser(xml) {
+      $(xml).find("item").each(function () {
+        if ($(this).find("link").text()) {
+          feedLink = $(this).find("link").text();
+        } else {
+          // @TODO: get url from jQuery.extend(Drupal.settings
+          feedLink = Drupal.settings.rave_alerts_deafult_read_more_url;
+        }
+        var stamp = Math.ceil( $.now() / 10000 );
+        var alertTitle = $(this).find("description").text();
+        var alertPubtime = $(this).find("pubDate").text();
+        $("#cu-alerts .alert").html(alertTitle + ' <a href="' + feedLink + '" >' + 'Read More</a>');
+        // data-alert-publish-time="' + alertPubtime + '" data-alert-timestamp="' + stamp + '"
+        $("#cu-alerts .alert").attr('data-alert-publish-time', alertPubtime);
+        $("#cu-alerts .alert").attr('data-alert-timestamp', stamp);
       });
+    };
 
-      }, 30000);
-    }
-  }
-
-  /**
-   * Function to display the results on the page
-   */
-  function displayResults(data) {
-    $("#cu-alerts").html('');
-    /* Total number of records returned */
-    if(data.length > 0) {
-      /* Grab the first result */
-      var d = data[0];
-      /* See if we have a URL or not */
-      if (d.alert_url.length > 0) {
-        $("#cu-alerts").append('<div class="alert js">' + d.title+"&nbsp;<a href='" + d.alert_url + "'>Read&nbsp;More&nbsp;&raquo;</a></div>\n");
-      }
-      else {
-        $("#cu-alerts").append('<div class="alert js">' + d.title+"</div>\n");
-      }
-      $("#cu-alerts").slideDown(300);
-    }
-  }
-});
 })(jQuery);
