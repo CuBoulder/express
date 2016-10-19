@@ -13,10 +13,10 @@ function cu_alerts_admin_settings_form() {
   // @TODO: Add connection confirmation
   // @TODO: Add option to set all variables?
 
-  if (variable_get('rave_alerts_rss_url', FALSE)) {
-    $data = cu_alerts_remote_data();
-    dsm($data);
-  }
+  //if (variable_get('rave_alerts_rss_url', FALSE)) {
+    //$data = cu_alerts_remote_data();
+    //dsm($data);
+  //}
 
   $form['rave_alerts_rss_url'] = array(
     '#type' => 'textfield',
