@@ -1,0 +1,186 @@
+<?php
+
+/**
+ * @file
+ * CU Alerts module
+ */
+
+// @TODO: Make javascript rounding configurable
+// @TODO: add hook_cron for sites that are cached by Varnish and never fire hook_exit
+// @TODO: make hook_exit and hook_cron configurable
+
+/**
+ * Implements hook_exit().
+ * Used so this hook is called even if page is cached by Drupal
+ */
+function cap_alerts_exit() {
+  $data = cap_alerts_remote_data();
+
+  if (variable_get('cap_alerts_pubdate', NULL) != $data['sent']) {
+    watchdog('cap_alerts', 'New alert found. Checking values to determine type of alert to display.');
+    // There is a new RSS item.  Evaluate the description for triggers.
+
+    // assume we are going to display this
+    variable_set('cap_alerts_display', 1);
+    variable_set('cap_alerts_pubdate', $data['sent']);
+
+    if (strpos($data['info']['severity'], variable_get('cap_alerts_active_text', 'critical'))) {
+
+       variable_set('cap_alerts_active_event', 1);
+       watchdog('cap_alerts', 'CRITICAL ALERT. Use Active Event Mode.');
+    }
+
+    if (strpos($data['info']['headline'], variable_get('cap_alerts_clear_text', 'All Clear'))) {
+       variable_set('cap_alerts_active_event', 0);
+       variable_set('cap_alerts_display', 0);
+       watchdog('cap_alerts', 'All Clear found. Alerts disabled.');
+    }
+
+    // @TODO: Add option to leave all clear message up for X hours
+  }
+}
+
+/**
+ * Implements hook_init().
+ */
+function cap_alerts_init() {
+
+  //drupal_add_js(drupal_get_path('module', 'cap_alerts') . "/js/cap_alerts.js", array('scope' => 'header'));
+
+  // Add alert variables to Drupal.settings
+  drupal_add_js(array('cap_alerts_url' => variable_get('cap_alerts_url', 'https://www.getrave.com/cap/DemoUniversityAlert/channel8')), 'setting');
+  drupal_add_js(array('cap_alerts_active_event' => variable_get('cap_alerts_active_event', 0)), 'setting');
+
+  if ($cap_alerts_read_more_url = variable_get('cap_alerts_deafult_read_more_url', NULL)) {
+    drupal_add_js(array('cap_alerts_deafult_read_more_url' => $cap_alerts_read_more_url), 'setting');
+  }
+}
+
+/**
+ * Implements hook_menu().
+ */
+function cap_alerts_menu() {
+  $items['admin/config/system/cap-alerts'] = array(
+    'title' => 'RAVE Alerts Configuration',
+    'description' => 'Configure the CAP Alerts block.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('cap_alerts_admin_settings_form'),
+    'access arguments' => array('administer cap alerts'),
+    'file' => 'cap_alerts.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implemets of hook_permission().
+ */
+function cap_alerts_permission() {
+  return array(
+    'administer cap alerts' => array(
+      'title' => t('Administer CAP Alerts'),
+      'description' => t('Allows user to administer the CAP Alert configuration.'),
+      'restrict access' => TRUE,
+    ),
+  );
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function cap_alerts_block_info() {
+  $blocks['cap_alerts'] = array(
+    'info' => t('CAP Alerts'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function cap_alerts_block_view($delta = '') {
+  $block = array();
+  switch ($delta) {
+    case 'cap_alerts':
+      $data = cap_alerts_remote_data();
+      $block['content'] = array(
+        '#theme' => 'cap_alerts_alerts',
+        '#data' => $data,
+        '#attached' => array
+        (
+          'js' => array(drupal_get_path('module', 'cap_alerts') . "/js/cap_alerts.js"),
+        ),
+      );
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Gets the remote CAP XML and returns sanitized data.
+ */
+function cap_alerts_remote_data() {
+
+  $url = variable_get('cap_alerts_url', 'https://www.getrave.com/cap/DemoUniversityAlert/channel8');
+  if ($cache = cache_get('cap_alert-' . $url)) {
+      $data = $cache->data;
+  } else {
+    $response = drupal_http_request($url, array('timeout' => 15));
+    if ($response->code == '200') {
+      variable_set('cap_alerts_network_failure', 0);
+      // Create new XMLElement
+      $data = new SimpleXMLElement($response->data);
+
+      // Convert into a nice array for us to work with.
+      $data = json_encode($data);
+      $data = json_decode($data, true);
+      cache_set('cap_alert-' . $url, $data, 'cache', time() + 60);
+    } else {
+      // We failed to get a response.  Now what?
+      if (variable_set('cap_alerts_network_failure', 0)) {
+
+        //
+        // if the code can't get a response from the source do these things...
+        // turn off active event mode
+        // reset the cache of an existing message
+        // use the network fail message
+        // try again 1 minute from now
+
+        variable_set('cap_alerts_active_event', 0);
+        variable_set('cap_alerts_network_failure', 1);
+        // @TODO: What if there is no cache?
+
+      // if it fails a second time, start showing the general message
+      } else {
+        $message['description'] = variable_get('cap_alerts_network_fail_message', 'Network Failure: Please go directly to http://alerts.colorado.edu or http://colorado.edu/alerts for current information.');
+        $data = cap_alerts_format_message($message);
+      }
+    }
+  }
+  return $data;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function cap_alerts_theme($existing, $type, $theme, $path) {
+  return array(
+    'cap_alerts_alerts' => array(
+      'variables' => array('data' => NULL, 'remote_url' => NULL),
+      'template' => 'cap_alerts',
+    ),
+  );
+}
+
+/**
+ * Format a $message as CAP
+ */
+function cap_alerts_format_message($message) {
+  $data['sent'] = '2016-10-19T10:59:10-06:00';
+  $data['severity'] = 'Moderate';
+  $data['info']['headline'] = 'test';
+  $data['info']['description'] = $message['description'];
+  $data['info']['instruction'] = 'none';
+
+  return $data;
+}

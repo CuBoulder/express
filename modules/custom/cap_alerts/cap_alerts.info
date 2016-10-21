@@ -1,0 +1,5 @@
+name = CAP Alerts
+description = Display Emergency Alerts from CAP source
+core = 7.x
+configure = admin/config/system/cap-alerts
+stylesheets[all][] = css/cap_alerts.css

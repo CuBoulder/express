@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><alert xmlns="urn:oasis:names:tc:emergency:cap:1.2">
+  <identifier>147689635000023881527</identifier>
+  <sender>CAPAlertTest</sender>
+  <sent>2016-10-19T09:59:10-06:00</sent>
+  <status>Exercise</status>
+  <msgType>Alert</msgType>
+  <scope>Public</scope>
+  <info>
+    <language>en-US</language>
+    <category>Env</category>
+    <event>This is a test of CAPs</event>
+    <urgency>Immediate</urgency>
+    <severity>Moderate</severity>
+    <certainty>Unknown</certainty>
+    <senderName>University of Colorado Boulder</senderName>
+    <headline>Alert 1. This is a test of headline</headline>
+    <description>This is a test of description</description>
+    <instruction>https://www.drupal.org/project/cap_alerts</instruction>
+    <web>http://alerts.colorado.edu</web>
+  </info>
+</alert>
