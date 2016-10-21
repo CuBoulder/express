@@ -1,4 +1,4 @@
-#cu-alerts .alert {
+#cap-alerts .alert {
 	background: #990000;
 	background: #e51c23;
 	padding: 15px 10%;
@@ -11,8 +11,8 @@
 	font-weight: 600;
 }
 
-#cu-alerts a:link,
-#cu-alerts a:visited {
+#cap-alerts a:link,
+#cap-alerts a:visited {
 	color: #111;
 	background: #fff;
   font-size: 14px;

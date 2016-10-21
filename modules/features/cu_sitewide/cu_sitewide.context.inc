@@ -64,9 +64,9 @@ function cu_sitewide_context_default_contexts() {
           'region' => 'site_info',
           'weight' => '0',
         ),
-        'cu_alerts-cu_alerts' => array(
-          'module' => 'cu_alerts',
-          'delta' => 'cu_alerts',
+        'cap_alerts-cap_alerts' => array(
+          'module' => 'cap_alerts',
+          'delta' => 'cap_alerts',
           'region' => 'alerts',
           'weight' => '-10',
         ),

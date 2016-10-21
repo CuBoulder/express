@@ -276,7 +276,7 @@ function express_permissions_secure_permissions($role) {
       'administer ckeditor link',
       'administer content types',
       'administer contexts',
-      'administer cu alerts',
+      'administer cap alerts',
       'administer express settings',
       'administer express theme picker',
       'administer features',

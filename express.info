@@ -19,6 +19,7 @@ dependencies[] = cu_colorbox
 
 ;dependencies[] = cu_settings
 ;dependencies[] = cu_permissions
+dependencies[] = cap_alerts
 
 ; Core
 dependencies[] = block
@@ -114,7 +115,6 @@ dependencies[] = ckeditor_link
 ; ============ CU CONTENT TYPES ============
 dependencies[] = cu_home_page
 dependencies[] = cu_page
-dependencies[] = cu_alerts
 dependencies[] = cu_search
 dependencies[] = cu_sitewide
 dependencies[] = cu_slider
