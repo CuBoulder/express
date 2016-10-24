@@ -544,8 +544,6 @@ function cu_core_update_7013() {
 
   drupal_uninstall_modules(array('module_missing_message_fixer'));
 
-  module_enable(array('update'));
-
   cu_core_revert_features();
 
   cu_core_express_update('7013');
