@@ -13,3 +13,4 @@ dependencies[] = cu_help
 dependencies[] = noreqnewpass
 dependencies[] = user_external_invite
 dependencies[] = syslog
+dependencies[] = rave_alerts
