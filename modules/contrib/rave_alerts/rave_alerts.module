@@ -32,7 +32,7 @@ function rave_alerts_exit() {
          watchdog('rave_alerts', 'ACTIVE token found');
       }
 
-      if (strpos($data['channel']['item']['title'], variable_get('rave_alerts_clear_text', '[CLEAR]'))) {
+      if (strpos($data['channel']['item']['title'], variable_get('rave_alerts_clear_text', '[CLEAR]')) !== FALSE) {
          variable_set('rave_alerts_active_event', 0);
          variable_set('rave_alerts_display', 0);
          watchdog('rave_alerts', 'CLEAR token found');
