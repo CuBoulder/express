@@ -104,6 +104,10 @@ admin/*');
   variable_set('securepages_secure', '1');
   variable_set('securepages_switch', TRUE);
 
+  variable_set('rave_alerts_rss_url', 'http://www.getrave.com/rss/cuboulder/channel1');
+  variable_set('rave_alerts_check_enable', 1);
+  variable_set('rave_alerts_network_fail_message', 'Network Failure: Please go directly to http://alerts.colorado.edu for more information.');
+
   variable_set('user_external_invite_roles', array(
     $site_owner_role->rid,
     $content_editor_role->rid,
