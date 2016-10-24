@@ -121,6 +121,7 @@ function rave_alerts_block_view($delta = '') {
  * Gets the remote RSS data and returns sanitized data.
  */
 function rave_alerts_remote_data() {
+  $data = NULL;
   if (variable_get('rave_alerts_check_enable', 0)) {
     $url = variable_get('rave_alerts_rss_url', 'https://www.getrave.com/rss/DemoUniversityAlert/channel8');
     if ($cache = cache_get('rave_alert', 'cache_rave_alerts')) {
