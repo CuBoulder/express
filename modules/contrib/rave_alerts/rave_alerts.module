@@ -121,28 +121,29 @@ function rave_alerts_block_view($delta = '') {
  * Gets the remote RSS data and returns sanitized data.
  */
 function rave_alerts_remote_data() {
+  if (variable_get('rave_alerts_check_enable', 0)) {
+    $url = variable_get('rave_alerts_rss_url', 'https://www.getrave.com/rss/DemoUniversityAlert/channel8');
+    if ($cache = cache_get('rave_alert', 'cache_rave_alerts')) {
+        $data = $cache->data;
+    } else {
+      $response = drupal_http_request($url, array('timeout' => 15));
+      if ($response->code == '200') {
 
-  $url = variable_get('rave_alerts_rss_url', 'https://www.getrave.com/rss/DemoUniversityAlert/channel8');
-  if ($cache = cache_get('rave_alert', 'cache_rave_alerts')) {
-      $data = $cache->data;
-  } else {
-    $response = drupal_http_request($url, array('timeout' => 15));
-    if ($response->code == '200') {
+        //@TODO: Add check to see if the response is XML to avoid
+        // Exception: String could not be parsed as XML
 
-      //@TODO: Add check to see if the response is XML to avoid
-      // Exception: String could not be parsed as XML
+        // Create new XMLElement
+        $data = new SimpleXMLElement($response->data);
 
-      // Create new XMLElement
-      $data = new SimpleXMLElement($response->data);
+        // Convert into a nice array for us to work with.
+        $data = json_encode($data);
+        $data = json_decode($data, true);
+        //@TODO: Make the cache timeout configurable
+        cache_set('rave_alert', $data, 'cache_rave_alerts', time() + 60);
+      }
 
-      // Convert into a nice array for us to work with.
-      $data = json_encode($data);
-      $data = json_decode($data, true);
-      //@TODO: Make the cache timeout configurable
-      cache_set('rave_alert', $data, 'cache_rave_alerts', time() + 60);
+      //@TODO: Add code to handle network failure
     }
-
-    //@TODO: Add code to handle network failure
   }
   return $data;
 }
