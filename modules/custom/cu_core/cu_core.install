@@ -104,6 +104,11 @@ admin/*');
   variable_set('securepages_secure', '1');
   variable_set('securepages_switch', TRUE);
 
+  variable_set('rave_alerts_rss_url', 'http://www.getrave.com/rss/cuboulder/channel1');
+  variable_set('rave_alerts_check_enable', 1);
+  variable_set('rave_alerts_network_fail_message', 'Network Failure: Please go directly to http://alerts.colorado.edu for more information.');
+  variable_set('rave_alerts_deafult_read_more_url', 'http://alerts.colorado.edu');
+
   variable_set('user_external_invite_roles', array(
     $site_owner_role->rid,
     $content_editor_role->rid,
@@ -535,7 +540,6 @@ function cu_core_update_7012() {
 /**
  * Core Update 7013 for Express 2.2.7
  * Disable and unistall Moulde Missine Message Fixer.
- * Enable update module.
  * Revert unprotected Features.
  */
 function cu_core_update_7013() {
@@ -544,11 +548,31 @@ function cu_core_update_7013() {
 
   drupal_uninstall_modules(array('module_missing_message_fixer'));
 
-  module_enable(array('update'));
+  cu_core_express_update('7013');
+}
+
+/**
+ * Core Update 7014 for Express 2.2.7
+ * Disable and unistall cu_alerts.
+ * Enable rave_alters module.
+ * Revert unprotected Features.
+ */
+function cu_core_update_7014() {
+
+  module_disable(array('cu_alerts'));
+
+  drupal_uninstall_modules(array('cu_alerts'));
+
+  module_enable(array('rave_alerts'));
+
+  variable_set('rave_alerts_rss_url', 'http://www.getrave.com/rss/cuboulder/channel1');
+  variable_set('rave_alerts_deafult_read_more_url', 'http://alerts.colorado.edu');
+  variable_set('rave_alerts_check_enable', 1);
+  variable_set('rave_alerts_network_fail_message', 'Network Failure: Please go directly to http://alerts.colorado.edu for more information.');
 
   cu_core_revert_features();
 
-  cu_core_express_update('7013');
+  cu_core_express_update('7014');
 }
 
 
