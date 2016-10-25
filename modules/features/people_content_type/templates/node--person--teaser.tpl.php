@@ -2,7 +2,7 @@
   <?php if(!empty($content['field_person_photo'])): ?>
     <?php print render($content['field_person_photo']); ?>
   <?php endif; ?>
-  <div class="person-view-mode-teaser-content">
+  <div class="person-view-mode-teaser-content node-view-mode-teaser-content">
     <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
     <div class="person-job-titles"><?php print $content['job_titles']; ?></div>
     <div class="person-departments"><?php print $content['departments']; ?></div>

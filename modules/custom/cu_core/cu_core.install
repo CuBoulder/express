@@ -28,7 +28,6 @@ function cu_core_install() {
 
   // these modules need to be enabled late in the install process and/or to be ignored by profile_module_manager's report.
   $module_array = array(
-    'user_external_invite', // Added to not enable in Pantheon Core.
     'cu_users',
     'cu_inventory',
     'cu_inventory_stats',
@@ -104,6 +103,11 @@ admin/*');
   variable_set('securepages_roles', array($authenticated_user_role->rid => $authenticated_user_role->rid));
   variable_set('securepages_secure', '1');
   variable_set('securepages_switch', TRUE);
+
+  variable_set('rave_alerts_rss_url', 'http://www.getrave.com/rss/cuboulder/channel1');
+  variable_set('rave_alerts_check_enable', 1);
+  variable_set('rave_alerts_network_fail_message', 'Network Failure: Please go directly to http://alerts.colorado.edu for more information.');
+  variable_set('rave_alerts_deafult_read_more_url', 'http://alerts.colorado.edu');
 
   variable_set('user_external_invite_roles', array(
     $site_owner_role->rid,
@@ -205,7 +209,9 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
   // Disable user 1 & set random name
   $random_name = 'admin-' . user_password(50);
 
-   // Set admin user email to something not admin@example.com.
+  variable_set('user_mail_status_activated_notify ', 0);
+
+  // Set admin user email to something not admin@example.com.
   $admin_user = user_load(1);
   $admin_user->mail = 'websupport@colorado.edu';
   $admin_user->name = $random_name;
@@ -319,7 +325,7 @@ function cu_core_update_7003() {
 }
 
 /**
- * Enable CU Redirect module.
+ * Core CU Redirect module.
  * Disable, Uninstall More Menus, CU Shortcuts modules.
  * Remove duplicates in shortcut menu
  * Express 2.1.0
@@ -354,7 +360,7 @@ function cu_core_update_7004() {
 }
 
 /**
- * Express Update 7005.
+ * Core Update 7005.
  * Removing cu_livechat module, enabling responsive_preview, reverting features
  */
 function cu_core_update_7005() {
@@ -389,7 +395,7 @@ function cu_core_update_7005() {
 }
 
 /**
- * Express Update 7006.
+ * Core Update 7006.
  * Enabling dashboards, reverting features.
  */
 function cu_core_update_7006() {
@@ -405,7 +411,7 @@ function cu_core_update_7006() {
 }
 
 /**
- * Express Update 7007.
+ * Core Update 7007.
  * Converting Profile Module Manager variable to an array.
  */
 function cu_core_update_7007() {
@@ -433,7 +439,7 @@ function cu_core_update_7007() {
 }
 
 /**
- * Express Update 7008.
+ * Core Update 7008.
  * Showing SEO dashboard, reverting features.
  */
 function cu_core_update_7008() {
@@ -447,7 +453,7 @@ function cu_core_update_7008() {
 }
 
 /**
- * Express Update 7009.
+ * Core Update 7009.
  * Reverting GA codes for sites.
  */
 function cu_core_update_7009() {
@@ -469,8 +475,8 @@ function cu_core_update_7009() {
 }
 
 /**
- * Express Update 7010.
- * Turn off linkchecker modules for sites without SEO bundle enabled"
+ * Core Update 7010.
+ * Turn off linkchecker modules for sites without SEO bundle enabled
  */
 function cu_core_update_7010() {
 
@@ -500,7 +506,7 @@ function cu_core_update_7010() {
 }
 
 /**
- * Express Update 7011.
+ * Core Update 7011.
  * Revert features.
  */
 function cu_core_update_7011() {
@@ -512,7 +518,7 @@ function cu_core_update_7011() {
 }
 
 /**
- * Express Update 7012.
+ * Core Update 7012.
  * Change user 1 email address.
  * Add noreqnewpass module.
  */
@@ -532,6 +538,40 @@ function cu_core_update_7012() {
 }
 
 /**
+ * Core Update 7013 for Express 2.2.7
+ * Disable and unistall Moulde Missine Message Fixer.
+ * Revert unprotected Features.
+ */
+function cu_core_update_7013() {
+
+  module_disable(array('module_missing_message_fixer'));
+
+  drupal_uninstall_modules(array('module_missing_message_fixer'));
+
+  cu_core_express_update('7013');
+}
+
+/**
+ * Core Update 7014 for Express 2.2.7
+ * Enable rave_alters module.
+ * Revert unprotected Features.
+ */
+function cu_core_update_7014() {
+
+  module_enable(array('rave_alerts'));
+
+  variable_set('rave_alerts_rss_url', 'http://www.getrave.com/rss/cuboulder/channel1');
+  variable_set('rave_alerts_deafult_read_more_url', 'http://alerts.colorado.edu');
+  variable_set('rave_alerts_check_enable', 1);
+  variable_set('rave_alerts_network_fail_message', 'Network Failure: Please go directly to http://alerts.colorado.edu for more information.');
+
+  cu_core_revert_features();
+
+  cu_core_express_update('7014');
+}
+
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
@@ -546,12 +586,13 @@ function cu_core_revert_features($features = NULL) {
     }
   }
   // Check against features that currently can't be reverted.
-  $protected_features = array(
+  $express_protected_features = array_merge(array(
     'cu_home_page',
     'cu_sitewide',
-  );
+  ), explode(',', variable_get('express_protected_features', '')));
+
   foreach ($features as $key => $feature) {
-    if (!in_array($key, $protected_features)) {
+    if (!in_array($key, $express_protected_features)) {
       $f = features_get_features($key);
       $components = array_keys($f->info['features']);
       features_revert(array($f->name => $components));
@@ -599,9 +640,8 @@ function cu_core_scramble_admin() {
   else {
     // Save admin user with new user/password.
     $user = user_load(1);
-    $user->name = 'admin-' . user_password(50);
+    $user->name = 'admin-' . user_password(10);
     $user->pass = $hashed_pass;
     user_save($user);
   }
 }
-

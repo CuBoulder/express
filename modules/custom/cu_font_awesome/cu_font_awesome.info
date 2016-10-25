@@ -3,3 +3,4 @@ core = 7.x
 package = CU-Core
 description = Adds Font Awesome to site.
 version = 7.x-1.0
+dependencies[] = libraries (>=7.x-2.0)
