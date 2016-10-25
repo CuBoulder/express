@@ -44,35 +44,6 @@ function cu_alerts_permission() {
 }
 
 /**
- * Implements hook_block_info().
- */
-function cu_alerts_block_info() {
-  $blocks['cu_alerts'] = array(
-    'info' => t('CU Alerts'),
-    'cache' => DRUPAL_NO_CACHE,
-  );
-  return $blocks;
-}
-
-/**
- * Implements hook_block_view().
- */
-function cu_alerts_block_view($delta = '') {
-  $block = array();
-  switch ($delta) {
-    case 'cu_alerts':
-      $data = cu_alerts_data();
-      $block['content'] = array(
-        '#theme' => 'cu_alerts_alerts',
-        '#data' => $data,
-        '#remote_url' => cu_alerts_remote_url(),
-      );
-      break;
-  }
-  return $block;
-}
-
-/**
  * Gets the remote JSON data and return it decoded.
  */
 function cu_alerts_remote_data() {
