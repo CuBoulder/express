@@ -11,7 +11,7 @@ function rave_alerts_admin_settings_form() {
   $form = array();
 
   // @TODO: Add connection confirmation
-  // @TODO: Add option to set all variables?
+  // @TODO: Add cache_clear_all('*', 'cache_rave_alerts', TRUE);
 
   //if (variable_get('rave_alerts_rss_url', FALSE)) {
     //$data = cu_alerts_remote_data();
@@ -62,14 +62,6 @@ function rave_alerts_admin_settings_form() {
     '#title' => t('Display Alerts'),
     '#description' => t('This will be on when the module sees a new alert in the RSS feed and remain on untill a item that includes the CLEAR token is found.'),
   );
-  $form['advanced']['rave_alerts_pubdate'] = array(
-    '#type' => 'textfield',
-    '#title' => 'Current PubDate',
-    '#default_value' => variable_get('rave_alerts_pubdate', ''),
-    '#description' => t('There will always be 1 item in RAVE\'s RSS feed.  If this is not set to before the first check, the module will see the current item as new and alerts will be enabled.'),
-  );
-
-
 
   /**
 * DO NOT USE YET.  THIS WILL GENERATE MORE TRAFFIC THAN RAVE MAY BE ABLE TO HANDLE
