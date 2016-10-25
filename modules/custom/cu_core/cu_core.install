@@ -553,15 +553,10 @@ function cu_core_update_7013() {
 
 /**
  * Core Update 7014 for Express 2.2.7
- * Disable and unistall cu_alerts.
  * Enable rave_alters module.
  * Revert unprotected Features.
  */
 function cu_core_update_7014() {
-
-  module_disable(array('cu_alerts'));
-
-  drupal_uninstall_modules(array('cu_alerts'));
 
   module_enable(array('rave_alerts'));
 
