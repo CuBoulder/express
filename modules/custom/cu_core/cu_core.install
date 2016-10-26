@@ -570,6 +570,16 @@ function cu_core_update_7014() {
   cu_core_express_update('7014');
 }
 
+/**
+ * Core Update 7015 for Express 2.2.7
+ * Enable httprl
+ */
+function cu_core_update_7015() {
+
+  module_enable(array('httprl'));
+
+  cu_core_express_update('7015');
+}
 
 /**
  * Revert features by passing features in an array.

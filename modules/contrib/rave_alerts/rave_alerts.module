@@ -105,15 +105,26 @@ function rave_alerts_remote_data() {
     if ($cache = cache_get('rave_alert', 'cache_rave_alerts')) {
       $data = $cache->data;
     } else {
-      $response = drupal_http_request($url, array('timeout' => 1));
-      if ($response->code == '200') {
+      $options = array(
+        // Do fread in a second request.
+        'stall_fread' => TRUE,
+        // Increase domain_connections to 4 (drupal.org).
+        'domain_connections' => 4,
+        // If we can't connect quick (0.5 seconds), bail out.
+        'connect_timeout' => 0.5,
+        'dns_timeout' => 0.5,
+      );
+      //$response = drupal_http_request($url, array('timeout' => 1));
+      httprl_request($url);
+      $response = httprl_send_request();
+      if ($response[$url]->code == '200') {
 
         //@TODO: Add check to see if the response is XML to avoid
         // Exception: String could not be parsed as XML
-        dsm($response->data);
+
         // Create new XMLElement
-        $data = new SimpleXMLElement($response->data);
-        dsm($data);
+        $data = new SimpleXMLElement($response[$url]->data);
+
         // Convert into a nice array for us to work with.
         $data = json_encode($data);
         $data = json_decode($data, true);
@@ -166,9 +177,9 @@ function rave_alerts_remote_data() {
               </item>
             </channel>
           </rss>';
-           dsm('network fail');
-           //$data = new SimpleXMLElement();
-           //$date->channel->description = ;
+
+          //$data = new SimpleXMLElement();
+          //$date->channel->description = ;
 
           $data = new SimpleXMLElement($fake_rss);
           // Convert into a nice array for us to work with.
