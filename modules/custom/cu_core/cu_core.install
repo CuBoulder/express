@@ -562,7 +562,7 @@ function cu_core_update_7014() {
 
   variable_set('rave_alerts_rss_url', 'http://www.getrave.com/rss/cuboulder/channel1');
   variable_set('rave_alerts_deafult_read_more_url', 'http://alerts.colorado.edu');
-  variable_set('rave_alerts_check_enable', 1);
+  variable_set('rave_alerts_check_enable', 0);
   variable_set('rave_alerts_network_fail_message', 'Network Failure: Please go directly to http://alerts.colorado.edu for more information.');
 
   cu_core_revert_features();
