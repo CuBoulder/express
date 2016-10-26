@@ -105,20 +105,21 @@ function rave_alerts_remote_data() {
     if ($cache = cache_get('rave_alert', 'cache_rave_alerts')) {
       $data = $cache->data;
     } else {
-      $response = drupal_http_request($url, array('timeout' => 15));
+      $response = drupal_http_request($url, array('timeout' => 1));
       if ($response->code == '200') {
 
         //@TODO: Add check to see if the response is XML to avoid
         // Exception: String could not be parsed as XML
-
+        dsm($response->data);
         // Create new XMLElement
         $data = new SimpleXMLElement($response->data);
-
+        dsm($data);
         // Convert into a nice array for us to work with.
         $data = json_encode($data);
         $data = json_decode($data, true);
         //@TODO: Make the cache timeout configurable
         cache_set('rave_alert', $data, 'cache_rave_alerts', time() + 60);
+        cache_set('rave_alert_last', $data, 'cache_rave_alerts', time() + 180);
 
         watchdog('rave_alerts', 'New RSS item found. Checking tokens.');
         // There is a new RSS item.  Evaluate the description for triggers.
@@ -138,6 +139,44 @@ function rave_alerts_remote_data() {
            watchdog('rave_alerts', 'CLEAR token found');
         }
         // @TODO: Add option to leave all clear message up for X hours
+      } else {
+        // source failed to respond with 200 in 1 second.  To avoid queuing up additional
+        // http requests use the last cache
+        if ($cache = cache_get('rave_alert_last', 'cache_rave_alerts')) {
+           dsm('use last cache');
+           $data = $cache->data;
+        } else {
+          // using fake rss this because creating an empty SimpleXMLElement() wasn't working
+          $fake_rss = '<?xml version="1.0" encoding="UTF-8"?>
+          <rss xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+            <channel>
+              <title>Test RAVE Feed</title>
+              <link>http://www.getrave.com/rss/XXX/channel1</link>
+              <description>Alert feed for testing Drupal RAVE module</description>
+              <category>ALERTS</category>
+              <dc:subject>ALERTS</dc:subject>
+              <item>
+                <title>Network Failure</title>
+                <link />
+                <description>' . variable_get('rave_alerts_network_fail_message', 'Network Failure: Please go directly to [YOUR ALERT SITE] for more information.') . '</description>
+                <category>ALERTS</category>
+                <pubDate>Tue, 18 Oct 2016 20:58:15 GMT</pubDate>
+                <guid />
+                <dc:date>2016-10-18T20:58:15Z</dc:date>
+              </item>
+            </channel>
+          </rss>';
+           dsm('network fail');
+           //$data = new SimpleXMLElement();
+           //$date->channel->description = ;
+
+          $data = new SimpleXMLElement($fake_rss);
+          // Convert into a nice array for us to work with.
+          $data = json_encode($data);
+          $data = json_decode($data, true);
+          //@TODO: Make the cache timeout configurable
+          cache_set('rave_alert', $data, 'cache_rave_alerts', time() + 60);
+        }
       }
       //@TODO: Add code to handle network failure
     }
