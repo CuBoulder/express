@@ -106,16 +106,17 @@ function rave_alerts_remote_data() {
       $data = $cache->data;
     } else {
       $options = array(
+        //'blocking' => FALSE,
         // Do fread in a second request.
-        'stall_fread' => TRUE,
+        //'stall_fread' => TRUE,
         // Increase domain_connections to 4 (drupal.org).
-        'domain_connections' => 4,
+        //'domain_connections' => 4,
         // If we can't connect quick (0.5 seconds), bail out.
         'connect_timeout' => 0.5,
         'dns_timeout' => 0.5,
       );
       //$response = drupal_http_request($url, array('timeout' => 1));
-      httprl_request($url);
+      httprl_request($url, $options);
       $response = httprl_send_request();
       if ($response[$url]->code == '200') {
 
