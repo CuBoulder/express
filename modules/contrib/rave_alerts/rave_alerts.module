@@ -163,7 +163,6 @@ function rave_alerts_remote_data() {
         // source failed to respond with 200 in 1 second.  To avoid queuing up additional
         // http requests use the last cache
         if ($cache = cache_get('rave_alert_last', 'cache_rave_alerts')) {
-           dsm('use last cache');
            $data = $cache->data;
         } else {
           // using fake rss this because creating an empty SimpleXMLElement() wasn't working
