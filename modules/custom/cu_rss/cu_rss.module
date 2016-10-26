@@ -328,7 +328,7 @@ function cu_rss_secure_permissions($role) {
  * Implements hook_theme_registry_alter().
  */
 function cu_rss_theme_registry_alter(&$theme_registry) {
-  $module_path = drupal_get_path('module', 'cu_publication');
+  $module_path = drupal_get_path('module', 'cu_rss');
   $theme_registry_copy = $theme_registry;
   _theme_process_registry($theme_registry_copy, 'phptemplate', 'theme_engine', 'node', $module_path);
   $theme_registry += array_diff_key($theme_registry_copy, $theme_registry);
