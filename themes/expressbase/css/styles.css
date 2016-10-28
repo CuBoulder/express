@@ -916,7 +916,7 @@ form label { font-weight: bold; }
 
 .box-darkgray.box-style-border { border: 1px solid #464646; }
 
-.box-lightgray.box-style-border { border: 1px solid #f4f4f4; color: #202020; }
+.box-lightgray.box-style-border { border: 1px solid #e0e0e0; color: #202020; }
 
 .box-black.box-style-filled, .box-darkgray.box-style-filled { color: #fff; }
 
@@ -938,7 +938,7 @@ form label { font-weight: bold; }
 
 .box-white.box-style-border .box-title { border-bottom: 1px solid #e0e0e0; }
 
-.box-lightgray.box-style-border .box-title { border-bottom: 1px solid #f4f4f4; }
+.box-lightgray.box-style-border .box-title { border-bottom: 1px solid #e0e0e0; }
 
 .box-content { padding: 20px; }
 
