@@ -1,0 +1,5 @@
+name = CU Atlas
+description = CU modifications to Atlas. Check the activity of the site, notify site_owners, and take the site down if it meets the criteria.
+package = CU-Core
+core = 7.x
+version = 7.x-1.0
