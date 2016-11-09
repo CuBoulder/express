@@ -4,7 +4,7 @@
  * Code for the Block Styles feature.
  */
 
-include_once 'block_styles.features.inc';
+include_once 'cu_block_theme.features.inc';
 
 
 /**
@@ -13,7 +13,7 @@ include_once 'block_styles.features.inc';
  * This will be used to alter the block bean creation/modification to add
  *  a style selection.
  */
-function block_styles_form_bean_form_alter(&$form, &$form_state, $form_id) { 
+function cu_block_theme_form_bean_form_alter(&$form, &$form_state, $form_id) { 
 
   $delta = $form['bean']['#value']->delta;
 
@@ -58,7 +58,7 @@ function block_styles_form_bean_form_alter(&$form, &$form_state, $form_id) {
     );
     $form['#submit'][] = 'blocktheme_update';
     $form['custom_block_theme']['examples']['#markup'] = '<div id="blocktheme-examples">';
-    $form['custom_block_theme']['examples']['#markup'] .= _block_styles_examples();
+    $form['custom_block_theme']['examples']['#markup'] .= _cu_block_theme_examples();
     $form['custom_block_theme']['examples']['#markup'] .= '</div>';    
   }
 }
@@ -68,14 +68,14 @@ function block_styles_form_bean_form_alter(&$form, &$form_state, $form_id) {
  * Implements hook_form_FORM_ID_alter().
  */
 
-function block_styles_form_block_admin_configure_alter(&$form, &$form_state, $form_id) {
+function cu_block_theme_form_block_admin_configure_alter(&$form, &$form_state, $form_id) {
   drupal_add_css(drupal_get_path('theme', 'cu_omega') . '/css/menus.css');
-  drupal_add_css(drupal_get_path('module', 'block_styles') . '/css/blockstyles.css');
+  drupal_add_css(drupal_get_path('module', 'cu_block_theme') . '/css/blockstyles.css');
   //$form['custom_block_theme']['#description'] = 'Theme block styles will only work if your selected theme supports them.';
   $form['custom_block_theme']['examples']['#markup'] = '<div id="blocktheme-examples">';
   switch ($form_id) {
     case 'block_admin_configure':
-      $form['custom_block_theme']['examples']['#markup'] .= _block_styles_examples();
+      $form['custom_block_theme']['examples']['#markup'] .= _cu_block_theme_examples();
       // TURNING OFF FOR UI REASONS
       $form['custom_block_theme']['blocktheme_vars']['#access'] = FALSE;
       $form['regions']['#access'] = FALSE;
@@ -103,8 +103,8 @@ function block_styles_form_block_admin_configure_alter(&$form, &$form_state, $fo
     $form['custom_block_theme']['examples']['#markup'] .= '</div>';
 }
 
-function _block_styles_examples() {
-   $path = base_path() . drupal_get_path('module', 'block_styles') . '/examples/';
+function _cu_block_theme_examples() {
+   $path = base_path() . drupal_get_path('module', 'cu_block_theme') . '/examples/';
    $output = '<table cellspacing="0" cellpadding="10" border="0" class="block-style-examples">
     <thead>
       <td colspan="4"><strong>Block Style Examples</strong></td>
@@ -121,7 +121,7 @@ function _block_styles_examples() {
     return $output;
 }
 
-function block_styles_page_alter(&$vars) {
-  //drupal_add_js(drupal_get_path('module', 'block_styles') . '/block_styles.js');
-  drupal_add_css(drupal_get_path('module', 'block_styles') . '/css/block_styles.css');
+function cu_block_theme_page_alter(&$vars) {
+  //drupal_add_js(drupal_get_path('module', 'cu_block_theme') . '/cu_block_theme.js');
+  drupal_add_css(drupal_get_path('module', 'cu_block_theme') . '/css/cu_block_theme.css');
 }

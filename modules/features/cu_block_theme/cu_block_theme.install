@@ -1,0 +1,22 @@
+<?php
+
+/*
+ * Update block styles list to include subnav style 5
+ */
+
+function cu_block_theme_update_7010() {
+  features_revert('cu_block_theme');
+}
+
+/**
+ * Implement hook_update_N()
+ *
+ * Remove old title for module "block_styles" in the database.
+ * We don't want the missing module message.
+ */
+function cu_block_theme_update_7011() {
+  db_delete('system')
+    ->condition('name', 'block_styles', 'IN')
+    ->condition('type', 'module')
+    ->execute();
+}

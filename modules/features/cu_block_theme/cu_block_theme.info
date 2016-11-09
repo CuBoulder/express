@@ -1,9 +1,9 @@
-name = Block Styles
+name = CU Block Theme
 description = Styles of blocks, block menus, etc.
 core = 7.x
 package = CU-Core
 version = 7.x-1.0
-project = block_styles
+project = cu_block_theme
 dependencies[] = blocktheme
 dependencies[] = ctools
 dependencies[] = strongarm

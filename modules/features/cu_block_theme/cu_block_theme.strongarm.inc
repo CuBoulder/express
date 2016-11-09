@@ -1,13 +1,13 @@
 <?php
 /**
  * @file
- * block_styles.strongarm.inc
+ * cu_block_theme.strongarm.inc
  */
 
 /**
  * Implements hook_strongarm().
  */
-function block_styles_strongarm() {
+function cu_block_theme_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();
