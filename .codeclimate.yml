@@ -1,27 +1,32 @@
+---
 engines:
-  duplication:
-    enabled: true
-    config:
-      languages:
-      - php
-      - javascript
-  phpcodesniffer:
-    enabled: true
-    config:
-      file_extensions: "php,inc,lib,module"
   phpmd:
     enabled: true
     config:
-      file_extensions: "php,inc,lib,module"
-   checks:
-      Controversial%2FCamelCaseVariableName:
-        enabled: false
+      file_extensions: "php,inc,module,install"
+      rulesets: ".phpmd.xml"
+  phpcodesniffer:
+    enabled: true
+    config:
+      file_extensions: "php,inc,module,install"
+      encoding: utf-8
+      standard: "Drupal"
+      ignore_warnings: true
 ratings:
   paths:
-  - "modules/custom/"
-  - "modules/features/"
+  - "sites/all/modules/custom/**/*.php"
+  - "sites/all/modules/custom/**/*.inc"
+  - "sites/all/modules/custom/**/*.module"
+  - "sites/all/modules/custom/**/*.install"
 exclude_paths:
-- "**.scss"
-- "libraries/"
-- "tests/"
-- "modules/contrib/"
+- includes
+- misc
+- modules
+- profiles
+- scripts
+- themes
+- sites/default
+- sites/all/libraries
+- sites/all/modules/contrib
+- sites/all/modules/features
+- sites/all/themes
