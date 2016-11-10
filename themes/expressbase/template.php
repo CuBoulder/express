@@ -48,6 +48,28 @@ function expressbase_preprocess_html(&$vars) {
   );
   drupal_add_html_head($element, 'ie_compatibility_mode');
 
+  // Add apple touch icons
+  global $base_url;
+  $touch_icons = array(
+    '57',
+    '72',
+    '114',
+    '144',
+  );
+  foreach ($touch_icons as $touch_icon) {
+    $sizes = $touch_icon . 'x' . $touch_icon;
+    $href = $base_url . '/' . drupal_get_path('theme', 'expressbase') . '/apple-icon-' . $sizes . '.png';
+    $element = array(
+      '#tag' => 'link',
+      '#attributes' => array(
+        'rel' => 'apple-touch-icon',
+        'sizes' => $sizes,
+        'href' => $href,
+      ),
+    );
+    drupal_add_html_head($element, 'apple_touch_icons_' . $sizes);
+  }
+
   // Build title array
   // Add Campus name to title
   $slogan_title = variable_get('site_slogan_title', 'University of Colorado Boulder');
@@ -267,7 +289,7 @@ function expressbase_breadcrumb($vars) {
     $breadcrumb[] = '<span class="current-breadcrumb">' . drupal_get_title() . '</span>';
     // Provide a navigational heading to give context for breadcrumb links to
     // screen-reader users. Make the heading invisible with .element-invisible.
-    $output = '<h2 class="element-invisible">' . t('You are here') . '</h2>';
+    $output = '<h2 class="element-invisible">' . t('Breadcrumb') . '</h2>';
     $output .= '<div class="breadcrumb">' . implode(' <i class="fa fa-angle-right"></i> ', $breadcrumb) . '</div>';
     return $output;
   }

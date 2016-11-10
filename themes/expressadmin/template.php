@@ -368,7 +368,8 @@ function expressadmin_preprocess_admin_block(&$vars) {
     'url-management' => 'link',
     'advanced-content' => 'th-list',
     'search-engine-optimization' => 'line-chart',
-    'social-media' => 'share-alt'
+    'social-media' => 'share-alt',
+    'performance' => 'rocket'
   );
   $key = strtolower(str_replace(' ','-', $vars['block']['link_title']));
   if (array_key_exists($key, $titles)) {
@@ -385,4 +386,11 @@ function expressadmin_form_alter(&$form, &$form_state, $form_id) {
   if (isset($form['#node_edit_form']) && ($form['#node_edit_form'] == TRUE) && isset($form['nid']['#value'])) {
     $form['title']['#description'] = '<div class="unique-node-path">Node path: node/' . $form['nid']['#value'] . '</div>';
   }
+}
+
+function expressadmin_page_alter(&$page) {
+  // Get form checkbox/radio column settings
+  $express_field_columns = variable_get('express_field_columns_minimum', 10);
+  $settings['express_field_columns'] = $express_field_columns;
+  drupal_add_js($settings, 'setting');
 }
