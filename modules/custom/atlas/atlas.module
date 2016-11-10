@@ -11,22 +11,17 @@
 function atlas_menu() {
   $items['admin/config/development/atlas'] = array(
     'title' => 'Atlas',
+    'type' => MENU_NORMAL_ITEM,
     'description' => 'Atlas Configuration.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('atlas_admin_settings'),
     'access arguments' => array('administer modules'),
   );
 
-  $items['admin/config/development/atlas/core'] = array(
-    'title' => 'Atlas Core',
+  $items['admin/config/development/atlas/site'] = array(
+    'title' => 'Site',
     'type' => MENU_DEFAULT_LOCAL_TASK,
-    'weight' => -10
-  );
-
-  $items['admin/config/development/atlas/statistics'] = array(
-    'title' => 'Atlas Statistics',
-    'type' => MENU_LOCAL_TASK,
-    'weight' => 0
+    'weight' => -10,
   );
   
   return $items;
@@ -91,6 +86,7 @@ function atlas_admin_settings() {
   $form['atlas_code'] = array(
     '#type' => 'fieldset',
     '#title' => t('Code Items'),
+    '#collapsible' => TRUE,
   );
 
   $core_options = _get_code_options('core','drupal');
@@ -130,9 +126,30 @@ function atlas_admin_settings() {
     '#default_value' => $active_packages,
   );
 
+  // Set the options and description. Override if status is not 'Launched'.
+  $update_group_options = array(range(0, 14));
+  $update_group_description = 'Groups 0-10 are considered "normal" and can be arbitrarily reassigned. Groups 11-14 should only be used for sites that need special attention.';
+  if($site_array['status'] != 'launched'){
+    $update_group_options = array(range(0, 2));
+    $update_group_description = 'Installed sites can be put into groups 0-2. These groups can be arbitrarily reassigned.';
+  }
+  $active_update_group = $site_array['update_group'];
+
+  $form['atlas_update_group'] = array(
+    '#type' => 'select',
+    '#title' => t('Update Group'),
+    '#options' => $update_group_options,
+    '#default_value' => $active_update_group,
+    '#description' => $update_group_description,
+  );
+  // TODO: Add display of sites that are in the selected group.
+
   if ($site_array['status'] == 'available') {
-    $form['code']['#disabled'] = TRUE;
-    drupal_set_message(t("You modify code while the site is '<i>available</i>'."), 'warning');
+    $form['atlas_code']['#disabled'] = TRUE;
+    $form['atlas_code']['#collapsed'] = TRUE;
+    $form['atlas_path']['#disabled'] = TRUE;
+    $form['atlas_update_group']['#disabled'] = TRUE;
+    drupal_set_message(t("You can only modify 'status' while the site is '<i>available</i>'."), 'warning');
   }
 
   // Store the etag when we load the form for concurrency control with Atlas.
@@ -174,7 +191,7 @@ function atlas_admin_settings_submit($form, &$form_state) {
     $request_data['code']['profile'] = $form_state['values']['atlas_profile'];
   }
 
-  if ($form_state['values']['atlas_packages'] !=  $site_array['code']['package']) {
+  if (isset($form_state['values']['atlas_packages']) && $form_state['values']['atlas_packages'] !=  $site_array['code']['package']) {
     $request_data['code']['package'] = $form_state['values']['atlas_packages'];
   }
 
@@ -183,8 +200,6 @@ function atlas_admin_settings_submit($form, &$form_state) {
 
   atlas_api_request('sites', $atlas_id, 'PATCH', $request_data);
 }
-
-
 
 /**
  * Determine if Atlas is up.
@@ -250,6 +265,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
 
   // Make the request.
   $response = drupal_http_request($request_url, $request_options);
+  dpm($response);
 
   if (in_array($response->code, array(200, 201))) {
     // Clear the Drupal cache for $site_array because we just updated something.
@@ -260,10 +276,18 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
       return $json_array;
     }
   }
-  // If error code is returned.
-  else {
-    $response_json = drupal_json_decode($response->data);
-    drupal_set_message('Atlas response: ' . $response->error . ' - Error Code: ' . $response_json['_error']['code'] . ' - ' . $response_json['_error']['message'], 'error');
+  // If error property exists in the response object.
+  elseif(property_exists($response, 'error')) {
+    dpm($response, 'in loop');
+    if(property_exists($response, 'data')) {
+      $response_json = drupal_json_decode($response->data);
+      $error_message = 'Atlas response: ' . $response->error . ' - Error Code: ' . $response_json['_error']['code'] . ' - ' . $response_json['_error']['message'];
+    }
+    else {
+      $error_message = 'Atlas response: ' . $response->error;
+    }
+
+    drupal_set_message($error_message, 'error');
   }
 
   if ($method != 'GET') {

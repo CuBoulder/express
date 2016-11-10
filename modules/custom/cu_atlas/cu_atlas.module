@@ -53,7 +53,7 @@ function cu_atlas_cron() {
       // If it has been 30 or more days and the site is not launched then think
       // about sending notifications.
       if ($days >= 30) {
-        _notify_inactive_site_owners($days);
+        _atlas_notify_inactive_site_owners($days);
       }
       else {
         // Someone has logged in, so reset all variables.
@@ -124,7 +124,7 @@ function cu_atlas_mail($key, &$message, $params) {
  *
  * Notification events happen at 30, 55, and 60 day thresholds.
  */
-function _notify_inactive_site_owners($days) {
+function _atlas_notify_inactive_site_owners($days) {
   $email_sent = FALSE;
   if ($days >= 30 && $days < 55) {
     $email_sent = variable_get("inactive_30_email", FALSE);
@@ -149,7 +149,7 @@ function _notify_inactive_site_owners($days) {
       $atlas_id = variable_get('atlas_id', FALSE);
       $site_array = atlas_api_request('sites', $atlas_id);
       if ($atlas_id) {
-        $statistics_id = $site_array['']
+        $statistics_id = $site_array[''];
         atlas_api_request('statistics', $query = NULL, $method = 'GET', $data = NULL);
       }
     }
@@ -213,4 +213,57 @@ function _check_site_launched() {
     return FALSE;
   }
   return TRUE;
+}
+
+/**
+ * Custom version of https://www.drupal.org/project/disable_all_forms.
+ *
+ * Disable all form elements.
+ */
+function cu_atlas_init() {
+  global $base_url;
+  if ($atlas_id = variable_get('atlas_id', FALSE)) {
+    $site_array = atlas_api_request('sites', $atlas_id);
+    if ($site_array['status'] == 'available') {
+      if (user_is_logged_in()) {
+        drupal_set_message(
+          t('Most forms are disabled because this site is in the <i>available</i> status. <a href="@base_url/admin/config/development/inventory">Update Inventory Settings</a> or <a href="@base_url/admin/people/invite">Invite a User</a>',
+            array('@base_url' => $base_url)
+          ),
+          'warning');
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function cu_atlas_form_alter(&$form, &$form_state, $form_id) {
+  if ($atlas_id = variable_get('atlas_id', FALSE)) {
+    $site_array = atlas_api_request('sites', $atlas_id);
+    if ($site_array['status'] == 'available') {
+      $exceptions = array(
+        'user_login',
+        'views_exposed_form',
+        'ctools_export_ui_list_form',
+        'user_external_invite_form',
+        'atlas_admin_settings',
+      );
+      if (!in_array($form_id, $exceptions)) {
+        $form['#after_build'][] = '_cu_atlas_recursive';
+      }
+    }
+  }
+}
+
+/**
+ * Recursively disable form elements.
+ */
+function _cu_atlas_recursive(&$element) {
+  foreach (element_children($element) as $name) {
+    $element[$name]['#attributes']['disabled'] = 'disabled';
+    _cu_atlas_recursive($element[$name]);
+  }
+  return $element;
 }
