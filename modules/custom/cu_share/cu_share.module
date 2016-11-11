@@ -251,8 +251,7 @@ function cu_share_settings_form($form, &$form_state) {
 
 function cu_share_status() {
   $status = 0;
-  $settings = variable_get('cu_share_settings');
-  if (variable_get('cu_share_settings', NULL)) {
+  if ($settings = variable_get('cu_share_settings', NULL)) {
     foreach ($settings as $setting) {
       if ($setting['enabled']) {
         $status = 1;
