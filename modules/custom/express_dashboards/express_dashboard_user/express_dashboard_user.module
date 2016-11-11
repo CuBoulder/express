@@ -60,8 +60,11 @@ function express_dashboard_user_content() {
       unset($vars['user']['roles'][$rid]);
     }
   }
+  $users_online = module_invoke('user', 'block_view', 'online');
+
   $output['user_profile']['widgets']['user']['title'] = $user->name;
   $output['user_profile']['widgets']['user']['content']['#markup'] = theme('express_dashboard_user_profile', (array) $vars);
+  $output['user_profile']['widgets']['user']['content']['#suffix'] = $users_online['content'];
 
   return $output;
 }
