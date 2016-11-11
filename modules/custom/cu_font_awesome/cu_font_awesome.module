@@ -139,7 +139,7 @@ function cu_font_awesome_menu() {
 }
 
 /**
- * Return list for icon names
+ * Return a list for icon names.
  */
 function cu_font_awesome_icons() {
   $icons = cu_font_awesome_icon_list();
@@ -159,11 +159,11 @@ function cu_font_awesome_icons() {
 /**
  * Implements hook_init().
  *
- * Add variables to js settings
+ * Add variables to js settings.
  */
 function cu_font_awesome_init() {
   if (!user_is_anonymous()) {
-    // Link to icon list
+    // Link to icon list.
     global $base_url;
     $icon_url = $base_url . '/admin/settings/font-awesome';
     drupal_add_js(array('cu_font_awesome' => array('font_awesome_icon_list' => $icon_url)), 'setting');
