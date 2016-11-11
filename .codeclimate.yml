@@ -1,5 +1,10 @@
----
 engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - php
+      - javascript
   phpmd:
     enabled: true
     config:
@@ -14,19 +19,10 @@ engines:
       ignore_warnings: true
 ratings:
   paths:
-  - "sites/all/modules/custom/**/*.php"
-  - "sites/all/modules/custom/**/*.inc"
-  - "sites/all/modules/custom/**/*.module"
-  - "sites/all/modules/custom/**/*.install"
+  - "modules/custom"
+  - "modules/features"
 exclude_paths:
-- includes
-- misc
-- modules
-- profiles
-- scripts
-- themes
-- sites/default
-- sites/all/libraries
-- sites/all/modules/contrib
-- sites/all/modules/features
-- sites/all/themes
+- "**.scss"
+- "libraries/"
+- "tests/"
+- "modules/contrib/"
