@@ -8,6 +8,7 @@ function cu_testing_core_install() {
   theme_enable(array(
     'cuminimal',
     'cumodern',
+    'cuivory',
   ));
 
   // change for #FIT-583 for https://www.drupal.org/node/2172293
