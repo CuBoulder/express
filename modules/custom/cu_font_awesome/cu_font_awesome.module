@@ -122,3 +122,50 @@ function cu_font_awesome_theme(&$existing, $type, $theme, $path) {
 function theme_cu_font_awesome_option($vars) {
   return '<i class="fa fa-' . $vars['icon'] .'" aria-hidden="true"></i> ' . $vars['icon'];
 }
+
+/**
+ * Implements hook_menu().
+ */
+function cu_font_awesome_menu() {
+  $items = array();
+
+  $items['admin/settings/font-awesome'] = array(
+    'title' => 'Font Awesome Icons',
+    'description' => 'View all the icons available in Web Express.',
+    'page callback' => 'cu_font_awesome_icons',
+    'access arguments' => array('use text format wysiwyg'),
+  );
+  return $items;
+}
+
+/**
+ * Return a list for icon names.
+ */
+function cu_font_awesome_icons() {
+  $icons = cu_font_awesome_icon_list();
+  array_shift($icons);
+  $list = '';
+  foreach ($icons as $icon) {
+    $list .= '<li>' . $icon . '</li>';
+  }
+  $list = '<ul>' . $list . '</ul>';
+  $output = array();
+  $output['#markup'] = $list;
+  $output['#prefix'] = '<div class="column-list column-list-4 clearfix">';
+  $output['#suffix'] = '</div>';
+  return $output;
+}
+
+/**
+ * Implements hook_init().
+ *
+ * Add variables to js settings.
+ */
+function cu_font_awesome_init() {
+  if (!user_is_anonymous()) {
+    // Link to icon list.
+    global $base_url;
+    $icon_url = $base_url . '/admin/settings/font-awesome';
+    drupal_add_js(array('cu_font_awesome' => array('font_awesome_icon_list' => $icon_url)), 'setting');
+  }
+}
