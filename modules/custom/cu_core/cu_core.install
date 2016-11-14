@@ -577,15 +577,11 @@ function cu_core_update_7014() {
  * Add webform files to securepages paths.
  */
 function cu_core_update_7015() {
-
-  variable_set('securepages_pages', 'node/add*
-node/*/edit
-node/*/delete
-user
-user/*
-admin
-admin/*
-sites/default/files/webform/*');
+  $pages = variable_get(securepages_pages);
+  // Need this awkward two line thing to get the var right on the form.
+  $pages = $pages . '
+sites/default/files/webform/*';
+  variable_set('securepages_pages', $pages);
 
   cu_core_express_update('7015');
 }
