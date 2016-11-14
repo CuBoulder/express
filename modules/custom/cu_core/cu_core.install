@@ -645,3 +645,17 @@ function cu_core_scramble_admin() {
     user_save($user);
   }
 }
+
+/**
+ * Core Update 7015 for Express 2.2.7
+ * Rename block_styles to cu_block_theme module.
+ * Enable cu_block_theme, blank out block_styles.
+ */
+function cu_core_update_7015() {
+  module_enable(array('cu_block_theme'));
+
+  if( module_exists('block_styles')) {
+    module_disable(array('block_styles'));
+    drupal_uninstall_modules(array('block_styles'));
+  }
+}
