@@ -137,6 +137,9 @@ function cu_related_articles_block_output($view_mode) {
       $nodes = node_load_multiple($top_related);
 
       if ($view_mode == 'grid') {
+        foreach ($nodes as $key => $node) {
+          $nodes[$key]->heading_tag['#tag'] = 'h3';
+        }
         $block['content']['articles'] = node_view_multiple($nodes, 'grid');
         unset($block['content']['articles']['nodes']['#sorted']);
         foreach($block['content']['articles']['nodes'] as $key => $node) {
