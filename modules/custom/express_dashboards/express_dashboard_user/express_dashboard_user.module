@@ -60,11 +60,14 @@ function express_dashboard_user_content() {
       unset($vars['user']['roles'][$rid]);
     }
   }
+
+  // Add who's online block content to user tab of dashboard.
   $users_online = module_invoke('user', 'block_view', 'online');
+  $output['whos_online']['widgets']['user']['title'] = 'Who\'s online';
+  $output['whos_online']['widgets']['user']['content']['#markup'] = $users_online['content'];
 
   $output['user_profile']['widgets']['user']['title'] = $user->name;
   $output['user_profile']['widgets']['user']['content']['#markup'] = theme('express_dashboard_user_profile', (array) $vars);
-  $output['user_profile']['widgets']['user']['content']['#suffix'] = $users_online['content'];
 
   return $output;
 }
