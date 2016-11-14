@@ -36,26 +36,22 @@ function cu_related_articles_block_output($view_mode) {
   if (($node = menu_get_object()) && $node->type =='article') {
     $current_nid = $node->nid;
     // Get categories from current article
-    $category_terms = $node->field_article_categories[LANGUAGE_NONE];
     $categories = array();
-    if (!empty($category_terms)) {
-      foreach ($category_terms as $category_term) {
+    if (!empty($node->field_article_categories[LANGUAGE_NONE])) {
+      foreach ($node->field_article_categories[LANGUAGE_NONE] as $category_term) {
         $tid = $category_term['tid'];
         $categories[$tid] = $tid;
       }
     }
     // Get tags from current article
-    $tag_terms = array();
-    if (!empty($node->field_tags)) {
-      $tag_terms = $node->field_tags[LANGUAGE_NONE];
-    }
     $tags = array();
-    if (!empty($tag_terms)) {
-      foreach ($tag_terms as $tag_term) {
+    if (!empty($node->field_tags[LANGUAGE_NONE])) {
+      foreach ($node->field_tags[LANGUAGE_NONE] as $tag_term) {
         $tid = $tag_term['tid'];
         $tags[$tid] = $tid;
       }
     }
+
     // Start queries
     // Categories + Tags = most related
     // Just categories = second most related
