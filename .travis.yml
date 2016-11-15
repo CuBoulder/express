@@ -1,6 +1,6 @@
 language: php
 # We want to avoid sudo. This allow us to use Travis docker infrastructure, which means builds start faster and have more CPU available.
-sudo: required
+sudo: false
 
 php:
   - '5.6'
@@ -37,8 +37,7 @@ cache:
 
 install:
   # Make sure we know where the php.ini file is.
-  - php -i | grep ini
-  - ls -al /etc/mysql/conf.d
+  - ls -al ~/
   - cat /etc/mysql/conf.d/mysqld_safe_syslog.cnf
 
   # Install latest Drush 6.
