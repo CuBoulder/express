@@ -107,6 +107,9 @@ install:
 
 
 before_script:
+  # Move to Drupal root.
+  - cd drupal
+
   # Tune MYSQL INNODB performance.
   - cat "profiles/express/tests/travis-ci/my.cnf" | sudo tee -a /etc/mysql/my.cnf
   - sudo service mysql restart
@@ -118,7 +121,6 @@ before_script:
   - mysql -e 'create database drupal;'
 
   # Do the site install (either the current revision or old for the upgrade).
-  - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
   - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
   - drush --version
