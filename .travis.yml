@@ -134,8 +134,8 @@ before_script:
   - export BEHAT_PARAMS
 
   # Travis environment info.
-  - chmod ugo+x tests/travis-ci/env-info.sh
-  - ./tests/travis-ci/env-info.sh
+  #- chmod ugo+x tests/travis-ci/env-info.sh
+  #- ./tests/travis-ci/env-info.sh
 
 script:
   # Run Behat tests.
