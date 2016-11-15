@@ -147,6 +147,9 @@ before_script:
   #- chmod ugo+x tests/travis-ci/env-info.sh
   #- ./tests/travis-ci/env-info.sh
 
+  # Disable modules that don't need to be on.
+  - drush dis content_lock -y
+
 script:
   # Run Behat tests.
   - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
