@@ -105,14 +105,14 @@ install:
   - mysql -e "SET GLOBAL wait_timeout = 36000;"
   - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
 
+  # Travis environment info.
+  - chmod ugo+x tests/travis-ci/env-info.sh
+  - ./tests/travis-ci/env-info.sh
+
 before_script:
 
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
-
-  # Travis environment info.
-  - chmod ugo+x tests/travis-ci/env-info.sh
-  - ./tests/travis-ci/env-info.sh
 
   # Create Drupal database
   - mysql -e 'create database drupal;'
