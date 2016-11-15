@@ -38,7 +38,7 @@ cache:
 install:
   # Make sure we know where the php.ini file is.
   - ls -al ~/
-  - ls -al ~/.phpenv/versions/$(phpenv version-name)
+  - ls -al /home/travis/.phpenv/versions/5.6.5
   - cat /etc/mysql/conf.d/mysqld_safe_syslog.cnf
 
   # Install latest Drush 6.
