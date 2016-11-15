@@ -40,13 +40,14 @@ function cu_share_page_alter(&$page) {
       // Get current node
       if ($node = menu_get_object()) {
         $type = $node->type;
-        if ($settings[$type]) {
+        // Need to do more checking here since adding bundles can throw error.
+        // $settings['type'] is set to zero if sharing is not enabled on content type.
+        if (isset($settings[$type]) && $settings[$type]) {
           cu_share_output($page);
         }
       }
     }
   }
-
 }
 
 function cu_share_output(&$page) {
