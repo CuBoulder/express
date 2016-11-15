@@ -38,8 +38,8 @@ cache:
 install:
   # Make sure we know where the php.ini file is.
   - php -i | grep ini
-  - cat ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-  - ls -al ~/.phpenv/versions/$(phpenv version-name)/etc
+  - ls -al /etc/mysql
+  - cat /etc/mysql/my.cnf
 
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
