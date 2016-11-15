@@ -6,4 +6,3 @@
     <small>Roles: <?php print join(', ', $user['roles']); ?></small>
   </p>
 </div>
-<?php print render($content['whos_online']); ?>
