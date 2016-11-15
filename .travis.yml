@@ -3,7 +3,7 @@ language: php
 sudo: false
 
 php:
-  - '7.0'
+  - '5.6'
 
 # We want builds of master and dev branches only.
 branches:
@@ -38,7 +38,7 @@ cache:
 install:
   # Make sure we know where the php.ini file is.
   - php -i | grep ini
-  - ls -al /etc/mysql
+  - ls -al /etc/mysql/conf.d
   - cat /etc/mysql/my.cnf
 
   # Install latest Drush 6.
@@ -104,6 +104,9 @@ install:
   # Increase the MySQL server timetout and packet size.
   - mysql -e "SET GLOBAL wait_timeout = 36000;"
   - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
+
+  # Tune MYSQL performance
+  - echo "" >> /etc/mysql/my.cnf
 
 before_script:
 
