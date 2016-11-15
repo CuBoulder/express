@@ -3,7 +3,7 @@ language: php
 sudo: false
 
 php:
-  - '5.3'
+  - '5.6'
 
 # We want builds of master and dev branches only.
 branches:
@@ -105,12 +105,10 @@ install:
   - mysql -e "SET GLOBAL wait_timeout = 36000;"
   - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
 
+before_script:
+
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
-
-  # Set
-
-before_script:
 
   # Travis environment info.
   - chmod ugo+x tests/travis-ci/env-info.sh
