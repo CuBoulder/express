@@ -160,9 +160,12 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
       ->find("css", $element);
 
     // Only try clicking if css is element is actually there.
-    if ($page_element) {
-      $page_element->click();
+    if (empty($page_element)) {
+      throw new \Exception(sprintf('No alt text matching "%s" in the "%s" region on the page %s', $text, $region, $this->getSession()->getCurrentUrl()));
     }
+
+    // Click element if it exists.
+    $page_element->click();
   }
 
   /**
