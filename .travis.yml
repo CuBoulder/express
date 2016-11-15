@@ -105,10 +105,6 @@ install:
   - mysql -e "SET GLOBAL wait_timeout = 36000;"
   - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
 
-  # Travis environment info.
-  - chmod ugo+x tests/travis-ci/env-info.sh
-  - ./tests/travis-ci/env-info.sh
-
 before_script:
 
   # Disable XDebug to speed up test runs.
@@ -136,6 +132,10 @@ before_script:
   - BEHAT_PARAMS='{"extensions":{"Drupal\\DrupalExtension":{"drupal":{"drupal_root":"BUILD_TOP/drupal"}},"Behat\\MinkExtension":{"base_url":"http://127.0.0.1:8080/","files_path":"/home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/assets/"}}}'
   - BEHAT_PARAMS=`echo $BEHAT_PARAMS | sed -e s#BUILD_TOP#$BUILD_TOP#`
   - export BEHAT_PARAMS
+
+  # Travis environment info.
+  - chmod ugo+x tests/travis-ci/env-info.sh
+  - ./tests/travis-ci/env-info.sh
 
 script:
   # Run Behat tests.
