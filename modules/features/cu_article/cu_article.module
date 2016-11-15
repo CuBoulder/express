@@ -1323,11 +1323,14 @@ function cu_article_node_delete($node) {
  * Create a new article list page node when article node tags are added/updated.
  */
 function _cu_article_create_list_page($tid) {
+  global $user;
+  
   // Get term name.
   $term = taxonomy_term_load($tid);
   $node = new StdClass();
   $node->language = LANGUAGE_NONE;
   $node->type = 'article_list_page';
+  $node->uid = $user->uid;
 
   // Capitalize the first letter of each word in term and set as the node title.
   $node->title = ucwords($term->name);
