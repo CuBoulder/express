@@ -106,7 +106,7 @@ install:
   - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
 
   # Tune MYSQL INNODB performance.
-  - mysql -e "SET GLOBAL innodb_buffer_pool_size = 1G;"
+  #- mysql -e "SET GLOBAL innodb_buffer_pool_size = 1G;"
   - mysql -e "SET GLOBAL innodb_log_file_size = 512M;"
   - mysql -e "SET GLOBAL innodb_file_per_table = 1;"
   - mysql -e "SET GLOBAL innodb_flush_log_at_trx_commit = 0;"
