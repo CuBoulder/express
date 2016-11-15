@@ -105,17 +105,11 @@ install:
   - mysql -e "SET GLOBAL wait_timeout = 36000;"
   - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
 
-  # Tune MYSQL INNODB performance.
-  #- mysql -e "SET GLOBAL innodb_buffer_pool_size = 1G;"
-  - mysql -e "SET GLOBAL innodb_log_file_size = 512M;"
-  - mysql -e "SET GLOBAL innodb_file_per_table = 1;"
-  - mysql -e "SET GLOBAL innodb_flush_log_at_trx_commit = 0;"
-  - mysql -e "SET GLOBAL innodb_log_buffer_size = 16M;"
-  - mysql -e "SET GLOBAL thread_cache_size = 16;"
-  - mysql -e "SET GLOBAL query_cache_size = 64M;"
-
 
 before_script:
+  # Tune MYSQL INNODB performance.
+  - cat "profiles/express/tests/travis-ci/my.cnf" | sudo tee -a /etc/mysql/my.cnf
+  - sudo service mysql restart
 
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
