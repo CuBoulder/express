@@ -37,6 +37,7 @@ cache:
 
 install:
   # Make sure we know where the php.ini file is.
+  - php -i | grep ini
   - ls -al ~/.phpenv/versions/$(phpenv version-name)/etc
 
   # Install latest Drush 6.
