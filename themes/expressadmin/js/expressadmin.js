@@ -11,5 +11,7 @@
           $(this).addClass('express-field-columns');
         }
      });
+     // Disable changing of taonomy term names and urls.
+     $('.page-taxonomy-term-edit #edit-path-pathauto, .page-taxonomy-term-edit #edit-name, .page-taxonomy-term-edit #edit-path-alias').attr('disabled', 'true');
   });
 })(jQuery);
