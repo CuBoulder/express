@@ -39,7 +39,7 @@ install:
   # Make sure we know where the php.ini file is.
   - php -i | grep ini
   - ls -al /etc/mysql/conf.d
-  - cat /etc/mysql/my.cnf
+  - cat /etc/mysql/conf.d/mysqld_safe_syslog.cnf
 
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
@@ -105,8 +105,15 @@ install:
   - mysql -e "SET GLOBAL wait_timeout = 36000;"
   - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
 
-  # Tune MYSQL performance
-  - echo "" >> /etc/mysql/my.cnf
+  # Tune MYSQL INNODB performance.
+  - mysql -e "SET GLOBAL innodb_buffer_pool_size = 1G;"
+  - mysql -e "SET GLOBAL innodb_log_file_size = 512M;"
+  - mysql -e "SET GLOBAL innodb_file_per_table = 1;"
+  - mysql -e "SET GLOBAL innodb_flush_log_at_trx_commit = 0;"
+  - mysql -e "SET GLOBAL innodb_log_buffer_size = 16M;"
+  - mysql -e "SET GLOBAL thread_cache_size = 16;"
+  - mysql -e "SET GLOBAL query_cache_size = 64M;"
+
 
 before_script:
 
