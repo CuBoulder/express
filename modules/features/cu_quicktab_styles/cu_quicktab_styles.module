@@ -1,5 +1,14 @@
 <?php
+/**
+ * Provides additional styles for quicktabs.
+ * @file
+ */
 
+/**
+ * Implements hook_quicktabs_tabstyles().
+ *
+ * @return array
+ */
 function cu_quicktab_styles_quicktabs_tabstyles() {
   $tabstyles_directory = drupal_get_path('module', 'cu_quicktab_styles') . '/tabstyles';
   $files = file_scan_directory($tabstyles_directory, '/\.css$/');
@@ -21,8 +30,13 @@ function cu_quicktab_styles_quicktabs_tabstyles() {
   return $tabstyles;
 }
 
-function cu_quicktab_styles_form_alter(&$form, &$form_state, $form_id) {
-}
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
 function cu_quicktab_styles_form_quicktabs_form_alter(&$form, &$form_state, $form_id){
 
   // The quicktab renderer should be returned with the form, but it is not.
@@ -49,8 +63,24 @@ function cu_quicktab_styles_form_quicktabs_form_alter(&$form, &$form_state, $for
   else {
     drupal_set_message(t('The quicktabs rendering options has been deprecated. If you choose a different render option, you will not be able to switch back to the quicktabs render option.'), 'warning');
   }
+
+  // Since there are several known issues with quicktabs and since we don't want
+  // to keep changing code for these edge cases, provide a link to help article.
+  $form['troubleshooting_link'] = array(
+    '#type' => 'markup',
+    '#markup' => '<p><strong>' . t('Note: ') . '</strong>' .
+      t('There are several known issues with displaying quicktabs. If you are experiencing issues, please read: !help_link',
+      array('!help_link' => '<a href="http://www.colorado.edu/webcentral/troubleshooting-quicktabs">Troubleshooting Quicktabs</a>')) . '</p>',
+  );
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
 function cu_quicktab_styles_form_quicktabs_tabstyles_styles_alter(&$form, &$form_state, $form_id){
   unset($form['quicktabs_tabstyle']['#options']['Arrows']);
   unset($form['quicktabs_tabstyle']['#options']['Basic']);
@@ -64,6 +94,11 @@ function cu_quicktab_styles_form_quicktabs_tabstyles_styles_alter(&$form, &$form
   unset($form['quicktabs_tabstyle']['#options']['Zen']);
 }
 
+/**
+ * Implements hook_page_alter().
+ *
+ * @param $page
+ */
 function cu_quicktab_styles_page_alter(&$page) {
   drupal_add_css(drupal_get_path('module', 'cu_quicktab_styles') . '/css/cu_quicktab_styles.css');
   drupal_add_js(drupal_get_path('module','cu_quicktab_styles') . '/js/cu_quicktab_styles.js', array('type' => 'file', 'scope' => 'footer', 'weight' => 50));
