@@ -1,6 +1,6 @@
 language: php
 # We want to avoid sudo. This allow us to use Travis docker infrastructure, which means builds start faster and have more CPU available.
-sudo: false
+sudo: required
 
 php:
   - '5.6'
@@ -37,7 +37,7 @@ cache:
 
 install:
   # Make sure we know where the php.ini file is.
-  - find ~/ -name my.cnf
+  #- find ~/ -name my.cnf
   #- ls -alR /home/travis/.phpenv/versions/5.6.5/
   - cat /etc/mysql/my.cnf
 
@@ -111,8 +111,8 @@ before_script:
   - cd drupal
 
   # Tune MYSQL INNODB performance.
-  - cat "profiles/express/tests/travis-ci/my.cnf" | tee -a /etc/mysql/my.cnf
-  - service mysql restart
+  - cat "profiles/express/tests/travis-ci/my.cnf" | sudo tee -a /etc/mysql/my.cnf
+  - sudo /etc/init.d/mysql restart
 
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
