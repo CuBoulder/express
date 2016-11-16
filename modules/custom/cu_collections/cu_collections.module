@@ -191,7 +191,7 @@ function cu_collections_filter_options() {
 /*
  * Implements hook_secure_permissions
  *
- * Adding permissions for video reveal bean
+ * Adding permissions for collection grid bean
  */
 function cu_collections_secure_permissions($role) {
   $permissions = array(
