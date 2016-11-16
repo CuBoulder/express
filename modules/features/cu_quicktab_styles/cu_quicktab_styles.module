@@ -39,9 +39,12 @@ function cu_quicktab_styles_quicktabs_tabstyles() {
  */
 function cu_quicktab_styles_form_quicktabs_form_alter(&$form, &$form_state, $form_id){
 
+  // When adding a quicktab, it will not initially have a machine name.
+  $machine_name = isset($form['machine_name']['#value']) ? $form['machine_name']['#value'] : '';
+
   // The quicktab renderer should be returned with the form, but it is not.
   // Rather than fix in quicktab project, we are adding it here to avoid the module issue queue.
-  $qt_renderer = db_query('SELECT renderer FROM {quicktabs} q WHERE q.machine_name = :name', array( ':name' => $form['machine_name']['#value']))->fetchField();
+  $qt_renderer = db_query('SELECT renderer FROM {quicktabs} q WHERE q.machine_name = :name', array( ':name' => $machine_name))->fetchField();
 
   unset($form['style']['#options']['Arrows']);
   unset($form['style']['#options']['Basic']);
