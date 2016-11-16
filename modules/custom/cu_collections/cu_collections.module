@@ -1,0 +1,211 @@
+<?php
+/**
+ * @file
+ * Code for the Collections feature.
+ */
+
+include_once 'cu_collections.features.inc';
+
+/**
+ * Implements hook_theme_registry_alter().
+ *
+ * Let Drupal know we have some theme templates in the module.
+ */
+function cu_collections_theme_registry_alter(&$theme_registry) {
+  $module_path = drupal_get_path('module', 'cu_collections');
+  $theme_registry_copy = $theme_registry;
+  _theme_process_registry($theme_registry_copy, 'phptemplate', 'theme_engine', 'bean', $module_path);
+  $theme_registry += array_diff_key($theme_registry_copy, $theme_registry);
+  $hooks = array('node', 'bean');
+  foreach ($hooks as $h) {
+    if (isset($theme_registry[$h]['theme paths'])) {
+      $first_element = array_shift($theme_registry[$h]['theme paths']);
+      array_unshift($theme_registry[$h]['theme paths'], array_shift($theme_registry[$h]['theme paths']), $module_path);
+    }
+  }
+}
+
+/**
+ * Implements module_preprocess_entity().
+ *
+ * Get the collection bean output.
+ */
+function cu_collections_preprocess_entity(&$vars) {
+  $entity_type = $vars['elements']['#entity_type'];
+  $bundle = $vars['elements']['#bundle'];
+
+  // Only do this on collection grid beans
+  if ($vars['elements']['#bundle'] == 'collection_grid') {
+    dpm($vars['bean']);
+    // Collection grid options
+    $filter_type = $vars['bean']->field_collection_filter_type[LANGUAGE_NONE][0]['value'];
+    $summary = ($vars['bean']->field_collection_display_summary[LANGUAGE_NONE][0]['value'] == 'show') ? 1 : 0;
+
+    // Build anchor link prefix
+    $anchor = 'collection-' . $vars['bean']->bid . '-';
+    $vars['content'] = array();
+    $types = array();
+    $terms = array();
+
+    // Get the collection types
+    foreach ($vars['bean']->field_collection_grid_type[LANGUAGE_NONE] as $type) {
+      $terms[] = (array) taxonomy_term_load($type['tid']);
+      //dpm($term);
+      $types[] = $type['tid'];
+      $children = taxonomy_get_children($type['tid']);
+      foreach ($children as $child) {
+        $types[] = $child->tid;
+      }
+    }
+
+    // Get the collection categories
+    $categories = array();
+    $terms = array();
+    foreach ($vars['bean']->field_collection_grid_category[LANGUAGE_NONE] as $category) {
+      $term = taxonomy_term_load($category['tid']);
+      $categories[$term->tid] = $term->name;
+      //$categories[] = $category['tid'];
+    }
+    ksort($categories);
+
+    // If there are > 2 categories, let's add navigation
+    if (!empty($categories) && count($categories) > 1) {
+      if ($filter_type == 'links') {
+        $links = array(
+          'items' => array(),
+          // Leave the title element empty to omit the title.
+          'title' => '',
+          'type' => 'ul',
+          'attributes' => array(
+            'class' => array('collection-items-navigation'),
+          ),
+        );
+        // Add an All link
+        $links['items'][] = l('All', '',  array(
+          'attributes' => array('data-collection' => 'collection-' . $vars['bean']->bid),
+          'fragment' => $anchor . 'all' ,
+          'external' => TRUE)
+        );
+
+        // Add links for each category
+        foreach ($categories as $key => $category) {
+          $links['items'][] = l($category, '',  array(
+            'attributes' => array('data-collection' => 'collection-' . $vars['bean']->bid),
+            'fragment' => $anchor . $category ,
+            'external' => TRUE)
+          );
+        }
+        // Add links to output
+        $vars['content']['filter']['#markup'] = theme('item_list', $links);
+      }
+      elseif ($filter_type == 'select') {
+        $options = array();
+        $options[$anchor . 'all'] = 'All';
+        foreach ($categories as $key => $category) {
+          $options[$anchor . $category] = $category;
+        }
+        $output = '<label for="' . $anchor . '">Filter</label> <select id=' . $anchor .'select" class="collection-filter">';
+        foreach ($options as $key => $option) {
+          $output .= '<option value="#' . $key . '">' . $option . '</option>';
+        }
+        $output .= '</select>';
+        $vars['content']['filter']['#markup'] = $output;
+      }
+    }
+
+    // Add all items to output
+    $vars['content']['items']['all'] = _cu_collections_category_query($types, array_keys($categories), $summary);
+    $vars['content']['items']['all']['#prefix'] = '<div class="collection-items" id="' . $anchor .'all"><h3 class="element-invisible">All</h3><div class="clear clearfix row">';
+    $vars['content']['items']['all']['#suffix'] = '</div></div>';
+
+    // Add categories of items to output.
+    // Only do separate groups if there are more than 2 categories selected
+    if (!empty($categories) && count($categories) > 1) {
+      foreach ($categories as $key => $category) {
+        $vars['content']['items'][$key] = _cu_collections_category_query($types, array($key), $summary);
+        $vars['content']['items'][$key]['#prefix'] = '<div class="collection-items collection-items-categories" id="' . $anchor . $category . '"><h3 class="element-invisible">' . $category . '</h3><div class="clear clearfix row">';
+        $vars['content']['items'][$key]['#suffix'] = '</div></div>';
+      }
+    }
+    // Add wrapper for collections to give specificity to selectors
+    $vars['content']['#prefix'] = '<div id="collection-' . $vars['bean']->bid. '">';
+    $vars['content']['#suffix'] = '</div>';
+  }
+}
+
+function _cu_collections_category_query($types, $category = NULL, $summary = FALSE) {
+  $query = db_select('node', 'n');
+  $query->condition('n.type', 'collection_item', '=');
+  $query->condition('n.status', 1, '=');
+  $query->fields('n', array('nid', 'title', 'sticky', 'created'));
+
+  // Types
+  $query->join('field_data_field_collection_type', 'type', 'n.nid = type.entity_id');
+  $query->fields('type', array('field_collection_type_tid'));
+  $query->condition('type.field_collection_type_tid', $types, 'in');
+
+  // Categories
+  if ($category) {
+    $query->join('field_data_field_collection_category', 'category', 'n.nid = category.entity_id');
+    $query->fields('category', array('field_collection_category_tid'));
+    $query->condition('category.field_collection_category_tid', $category, 'in');
+  }
+
+
+  $query->orderBy('sticky', 'DESC');
+  $query->orderBy('title', 'ASC');
+  $query->distinct();
+  $query->groupBy('n.nid');
+  $nids = $query->execute()->fetchCol();
+  $nodes = node_load_multiple($nids);
+  foreach ($nodes as $key => $node) {
+    $nodes[$key]->heading_tag['#tag'] = 'h3';
+  }
+  $items = node_view_multiple($nodes, 'grid');
+  dpm($items);
+  if (!$summary) {
+    foreach ($items['nodes'] as $nid => $item) {
+      if (!empty($items['nodes'][$nid]['body'])) {
+        unset($items['nodes'][$nid]['body']);
+      }
+    }
+  }
+  return $items;
+}
+
+
+
+
+
+
+function cu_collections_form_alter(&$form, &$form_state, $form_id) {
+  $type = $form['field_collection_type'][LANGUAGE_NONE]['#default_value'][0];
+  $options = _cu_collections_category_options($type);
+  //$form['field_collection_category'][LANGUAGE_NONE]['#options'] = $options;
+}
+
+function _cu_collections_category_options($type_id) {
+  $options = array();
+  $query = db_select('taxonomy_term_data', 'ttd');
+  $query->fields('ttd', array('tid', 'name'));
+  $query->join("field_data_field_collection_type", "ct", "ttd.tid = ct.entity_id");
+  $query->condition('ct.field_collection_type_tid', $type_id, '=');
+  $results = $query->execute()->fetchAll();
+
+  if (!empty($results)) {
+    foreach ($results as $result) {
+      $tid = $result->tid;
+      $options[$tid] = $result->name;
+    }
+  }
+
+  return $options;
+}
+
+function cu_collections_filter_options() {
+  $options = array(
+    'links' => 'Links',
+    'select' => 'Select List',
+  );
+  return $options;
+}
