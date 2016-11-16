@@ -37,7 +37,7 @@ cache:
 
 install:
   # Make sure we know where the php.ini file is.
-  - ls -alR ~/ | grep my.cnf
+  - find ~/ -name my.cnf
   #- ls -alR /home/travis/.phpenv/versions/5.6.5/
   - cat /etc/mysql/my.cnf
 
