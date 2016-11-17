@@ -13,7 +13,15 @@ function hook_express_help($variables) {
     'short_title' => 'Adding Content',
     'url' => 'http://www.colorado.edu/webcentral/tutorials/adding-content',
   );
-  return $variables = array();
+
+  return array_map(
+    function($a) {
+      // Sends name of module providing the hook_express_help.
+      // Attaches module key to $variables array.
+      $a[0]['module'] = 'module_or_bundle_name';
+      return $a;
+    },
+    $variables);
 }
 
 /**
@@ -32,7 +40,15 @@ function hook_express_help_fields($variables) {
       'url' => 'http://www.colorado.edu/webcentral/tutorials/article/external_url',
     ),
   );
-  return $variables;
+
+  return array_map(
+    function($a) {
+      // Sends name of module providing the hook_express_help.
+      // Attaches module key to $variables array.
+      $a[0]['module'] = 'module_or_bundle_name';
+      return $a;
+    },
+    $variables);
 }
 
 /**
