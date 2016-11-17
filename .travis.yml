@@ -51,9 +51,9 @@ install:
   - cd ../../../
 
   # Build Codebase
-  - drush dl drupal-7.51
+  - drush dl drupal-7.52
   - mkdir drupal
-  - mv drupal-7.51/* drupal/
+  - mv drupal-7.52/* drupal/
   - mkdir profiles
   - mv express drupal/profiles/
 
