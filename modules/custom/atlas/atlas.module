@@ -265,7 +265,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
 
   // Make the request.
   $response = drupal_http_request($request_url, $request_options);
-  dpm($response);
+  //dpm($response);
 
   if (in_array($response->code, array(200, 201))) {
     // Clear the Drupal cache for $site_array because we just updated something.
@@ -278,7 +278,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
   }
   // If error property exists in the response object.
   elseif(property_exists($response, 'error')) {
-    dpm($response, 'in loop');
+    //dpm($response, 'in loop');
     if(property_exists($response, 'data')) {
       $response_json = drupal_json_decode($response->data);
       $error_message = 'Atlas response: ' . $response->error . ' - Error Code: ' . $response_json['_error']['code'] . ' - ' . $response_json['_error']['message'];
