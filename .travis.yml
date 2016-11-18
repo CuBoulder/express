@@ -97,6 +97,7 @@ install:
 
   # Bump up max execution time.
   - echo "max_execution_time=90" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Increase the MySQL connection timeout on the PHP end.
   - echo "mysql.connect_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -112,8 +113,8 @@ before_script:
   - cd drupal
 
   # Tune MYSQL INNODB performance. Need sudo here.
-  #- cat "profiles/express/tests/travis-ci/my.cnf" | sudo tee -a /etc/mysql/my.cnf
-  #- sudo /etc/init.d/mysql restart
+  - cat "profiles/express/tests/travis-ci/my.cnf" | sudo tee -a /etc/mysql/my.cnf
+  - sudo service mysql restart
 
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
