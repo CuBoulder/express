@@ -67,8 +67,8 @@ function cu_core_form_bean_form_alter(&$form, &$form_state, $form_id) {
 
   // Move revision group to bottom of bean edit forms.
   $form['revision2'] = $form['revision'];
-  $form['revision2']['#weight'] = 190;
-  $form['revision']['#access'] = FALSE;
+  $form['revision2']['#weight'] = 90;
+  unset($form['revision']);
 }
 
 /**
