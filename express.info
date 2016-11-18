@@ -167,7 +167,7 @@ dependencies[] = menu_firstchild
 
 ; ============ BLOCK ============
 dependencies[] = blocktheme
-dependencies[] = block_styles
+dependencies[] = cu_block_theme
 dependencies[] = cu_block
 
 ; ============ FLEXSLIDER ============
