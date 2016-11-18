@@ -39,7 +39,7 @@ install:
   # Make sure we know where the php.ini file is.
   #- find ~/ -name my.cnf
   #- ls -alR /home/travis/.phpenv/versions/5.6.5/
-  - cat /etc/mysql/my.cnf
+  #- cat /etc/mysql/my.cnf
 
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
@@ -76,6 +76,7 @@ install:
   - chmod -R 777 drupal/sites
   - mkdir tmp
   - chmod -R 777 tmp
+  - ls -al ~/
 
   # Setup display for Selenium
   - export DISPLAY=:99.0
