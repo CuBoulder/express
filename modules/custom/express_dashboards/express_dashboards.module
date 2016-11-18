@@ -81,7 +81,7 @@ function express_dashboards_dashboard_output($dashboard, $id) {
     $dashboard_section_output = array();
     // Check for missing widget weights and then sort
     foreach ($dashboard_sections[$section_key]['widgets'] as $key => $widget) {
-      $dashboard_sections[$section_key['widgets']][$key]['weight'] = isset($dashboard_sections[$section_key]['widgets'][$key]['weight']) ? $dashboard_sections[$section_key]['widgets'][$key]['weight'] : 0;
+      $dashboard_sections[$section_key]['widgets'][$key]['weight'] = isset($dashboard_sections[$section_key]['widgets'][$key]['weight']) ? $dashboard_sections[$section_key]['widgets'][$key]['weight'] : 0;
     }
     uasort($dashboard_sections[$section_key]['widgets'], 'drupal_sort_weight');
 
