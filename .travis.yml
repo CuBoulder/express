@@ -76,7 +76,7 @@ install:
   - chmod -R 777 drupal/sites
   - mkdir tmp
   - chmod -R 777 tmp
-  - ls -al ~/
+  - ls -al /home/travis/build/CuBoulder
 
   # Setup display for Selenium
   - export DISPLAY=:99.0
