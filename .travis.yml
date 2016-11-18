@@ -39,7 +39,7 @@ install:
   # Make sure we know where the php.ini file is.
   #- find ~/ -name my.cnf
   #- ls -alR /home/travis/.phpenv/versions/5.6.5/
-  #- cat /etc/mysql/my.cnf
+  - cat /etc/apache2/apache2.conf
 
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
@@ -113,8 +113,8 @@ before_script:
   - cd drupal
 
   # Tune MYSQL INNODB performance. Need sudo here.
-  - cat "profiles/express/tests/travis-ci/my.cnf" | sudo tee -a /etc/mysql/my.cnf
-  - sudo service mysql restart
+  #- cat "profiles/express/tests/travis-ci/my.cnf" | sudo tee -a /etc/mysql/my.cnf
+  #- sudo service mysql restart
 
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
