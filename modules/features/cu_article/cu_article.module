@@ -1594,6 +1594,11 @@ function cu_article_taxonomy_term_view($term) {
 function cu_article_form_taxonomy_form_term_alter(&$form, &$form_state, $form_id) {
   $form['relations']['#access'] = FALSE;
   // $form['#validate'][] = 'cu_article_taxonomy_form_validate';
+
+  if ($form['vid']['#value'] == 3) {
+    $form['path']['#access'] = FALSE;
+    $form['name']['#attributes'] = array('disabled' => array('disabled'));
+  }
 }
 
 /**
