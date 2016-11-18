@@ -112,8 +112,8 @@ before_script:
   - cd drupal
 
   # Tune MYSQL INNODB performance. Need sudo here.
-  - cat "profiles/express/tests/travis-ci/my.cnf" | sudo tee -a /etc/mysql/my.cnf
-  - sudo /etc/init.d/mysql restart
+  #- cat "profiles/express/tests/travis-ci/my.cnf" | sudo tee -a /etc/mysql/my.cnf
+  #- sudo /etc/init.d/mysql restart
 
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini

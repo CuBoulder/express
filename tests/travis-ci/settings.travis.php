@@ -93,7 +93,7 @@ $conf['varnish_control_key'] = substr(file_get_contents('/etc/varnish/secret'), 
 $conf['memcache_key_prefix'] = 'drupal';
 
 // Define tmp directory
-//$conf['file_temporary_path'] = '/tmp';
+$conf['file_temporary_path'] = '/home/travis/build/CuBoulder/tmp';
 
 // Turn on error reporting only for serious errors.
 // Warnings were causing dumb exceptions in Behat and the messages don't
