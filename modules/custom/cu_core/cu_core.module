@@ -146,3 +146,50 @@ function cu_core_express_bean_list_groups($bundles) {
 
   return $bundles;
 }
+
+/**
+ * Implements hook_permission().
+ */
+function cu_core_permission() {
+  return array(
+    'edit bean url redirect' => array(
+      'title' => t('Edit bean url redirect'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Hide url redirect field on bean forms.
+ *
+ */
+function cu_core_form_bean_form_alter(&$form, &$form_state, $form_id) {
+  if (!user_access('edit bean url redirect')) {
+    $form['redirect']['#access'] = FALSE;
+  }
+}
+
+function cu_core_secure_permissions($role) {
+  $permissions = array(
+    'administrator' => array(
+    ),
+    'anonymous user' => array(
+    ),
+    'authenticated user' => array(
+    ),
+    'content_editor' => array(
+    ),
+    'developer' => array(
+      'edit bean url redirect',
+    ),
+    'edit_my_content' => array(
+    ),
+    'site_owner' => array(
+    ),
+  );
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
