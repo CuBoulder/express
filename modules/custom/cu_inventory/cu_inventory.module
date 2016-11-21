@@ -667,6 +667,45 @@ function cu_inventory_is_up() {
 }
 
 /**
+ * Check the date of the last node or bean edit.
+ *
+ * @return integer
+ *   Number of days since last edit.
+ */
+function cu_inventory_days_since_last_edit() {
+  // Get the most recently edited node.
+  $node_query = db_select('node', 'n');
+  $node_query->addExpression('MAX(changed)', 'max_changed');
+  $node_query->orderBy('max_changed', 'DESC');
+  $node_query->range(0, 1);
+
+  $node_result = $node_query->execute();
+  $node = $node_result->fetch();
+
+  // Get the most recently edited bean.
+  $bean_query = db_select('bean', 'b');
+  $bean_query->addExpression('MAX(changed)', 'max_changed');
+  $bean_query->orderBy('max_changed', 'DESC');
+  $bean_query->range(0, 1);
+
+  $bean_result = $bean_query->execute();
+  $bean = $bean_result->fetch();
+
+  // Check that both objects exist and the property exists. If TRUE, take the
+  // value; if FALSE, set to zero. Take the higher of the two values.
+  $most_recent_edit = max(
+    array(
+      $node && property_exists($node, 'max_changed') ? $node->max_changed : 0,
+      $bean && property_exists($bean, 'max_changed') ? $bean->max_changed : 0
+    )
+  );
+  $days_since_last_edit = ((time() - $most_recent_edit) / 86400);
+  $days_since_last_edit = floor($days_since_last_edit);
+
+  return $days_since_last_edit;
+}
+
+/**
  * Get comma separated list of site owner email addresses.
  *
  * @return string
