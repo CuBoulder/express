@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Adds Soundcloud shortcode to WYSIWYG text mode.
+ */
+
+/**
  * Implements of hook_shortcode_info().
  *
  * Using same formatting as hook_filter_info().
@@ -29,7 +34,7 @@ function cu_soundcloud_embed_shortcode($attrs, $content = NULL) {
     'frameborder' => 'no',
     'src' => '',
   ), $attrs));
-  // Check to make sure the src is soundcloud.com
+  // Check to make sure the src is soundcloud.com.
   if (strpos($src, 'soundcloud.com') !== FALSE) {
     $output = '<iframe width="' . $width . '" height="' . $height . '" scrolling="' . $scrolling . '" frameborder="' . $frameborder . '" src="' . $src . '"></iframe>';
     return $output;
@@ -66,10 +71,10 @@ function cu_soundcloud_embed_wysiwyg_plugin($editor, $version) {
  * Implements hook_filter_info_alter().
  */
 function cu_soundcloud_embed_filter_info_alter(&$info) {
-  // Load the wysiwyg text format
+  // Load the wysiwyg text format.
   $format = filter_format_load('wysiwyg');
-  // Get the filters on the wysiwyg text format
+  // Get the filters on the wysiwyg text format.
   $filters = filter_list_format($format->format);
-  // Enable callout shortcode
+  // Enable callout shortcode.
   $filters['shortcode']->settings['soundcloud'] = 1;
 }

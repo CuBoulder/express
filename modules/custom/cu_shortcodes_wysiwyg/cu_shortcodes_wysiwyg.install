@@ -1,4 +1,8 @@
 <?php
+/**
+ * @file
+ * Provides updates to the WYSIWYG shortcodes.
+ */
 
 /**
  * Enable Soundcloud Embed module.
