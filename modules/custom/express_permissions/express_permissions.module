@@ -154,7 +154,7 @@ function express_permissions_secure_permissions($role) {
       'view status messages',
       'view warning messages',
       'view error messages',
-      'administer cache settings' // currently the only perm diff with site owner
+      'administer cache settings',
     ),
     'anonymous user' => array(
       'access content',
@@ -401,6 +401,7 @@ function express_permissions_secure_permissions($role) {
       'view warning messages',
       'view error messages',
       'exclude from message filtering',
+      'administer cache settings',
     ),
     'edit_my_content' => array(
       'access ckeditor link',
@@ -513,6 +514,7 @@ function express_permissions_secure_permissions($role) {
       'view status messages',
       'view warning messages',
       'view error messages',
+      'administer cache settings',
     ),
   );
   if (isset($permissions[$role])) {
