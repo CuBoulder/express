@@ -395,9 +395,9 @@ h5 { font-size: 113%; font-weight: 200; }
 
 h6 { font-size: 100%; font-weight: bold; font-weight: 200; }
 
-ol { list-style: decimal; }
+ol { list-style: decimal; overflow: hidden; }
 
-ul { list-style: disc; }
+ul { list-style: disc; overflow: hidden; }
 
 .item-list ul li, .field-type-text-with-summary ul li, .field-type-text-long ul li { list-style: disc; margin-bottom: 10px; }
 .item-list ul ul li, .item-list ul ul ul ul li, .item-list ul ul ul ul ul ul li, .field-type-text-with-summary ul ul li, .field-type-text-with-summary ul ul ul ul li, .field-type-text-with-summary ul ul ul ul ul ul li, .field-type-text-long ul ul li, .field-type-text-long ul ul ul ul li, .field-type-text-long ul ul ul ul ul ul li { list-style: circle; }
