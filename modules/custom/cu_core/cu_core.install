@@ -589,6 +589,7 @@ sites/default/files/webform/*';
 
 /**
  * Core Update 7016 for Express 2.2.7
+ *
  * Rename block_styles to cu_block_theme module.
  * Enable cu_block_theme, blank out block_styles.
  * Disable, uninstall grid_size_blocks module, delete related variables.
