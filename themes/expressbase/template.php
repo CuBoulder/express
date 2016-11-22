@@ -25,6 +25,7 @@ function expressbase_css_alter(&$css) {
  * Implements theme_preprocess_html.
  */
 function expressbase_preprocess_html(&$vars) {
+  global $base_url;
   // Add web fonts from fonts.com
   $element = array(
     '#tag' => 'link', // The #tag is the html tag - <link />
@@ -49,7 +50,6 @@ function expressbase_preprocess_html(&$vars) {
   drupal_add_html_head($element, 'ie_compatibility_mode');
 
   // Add apple touch icons
-  global $base_url;
   $touch_icons = array(
     '57',
     '72',
@@ -108,6 +108,13 @@ function expressbase_preprocess_html(&$vars) {
 
   // Add focus js
   drupal_add_js(drupal_get_path('theme','expressbase') .'/js/track-focus.js', array('scope' => 'footer'));
+
+  // Add svg to png logo fallback
+  $logo = theme_get_setting('logo');
+  drupal_add_js('jQuery(document).ready(function () { if (!Modernizr.svgasimg) {
+  jQuery("img#logo").attr("src", "' . $logo . '");} });',
+    array('type' => 'inline', 'scope' => 'footer', 'weight' => 5)
+  );
 
   // Set skip to link
   $vars['skip_link_anchor'] = 'main';
@@ -334,6 +341,7 @@ function expressbase_preprocess_region(&$vars) {
   switch ($vars['region']) {
     case 'branding':
       $vars['logo'] = theme_get_setting('logo');
+      $vars['svg_logo'] = $base_url . '/' . drupal_get_path('theme', 'expressbase') . '/images/cu-logo.svg';
       $vars['front_page'] = url('<front>');
 
       if (variable_get('site_name_2', '')) {
