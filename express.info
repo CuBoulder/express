@@ -16,7 +16,6 @@ dependencies[] = express_settings
 dependencies[] = express_version
 dependencies[] = cu_colorbox
 ;dependencies[] = express_permissions
-
 ;dependencies[] = cu_settings
 ;dependencies[] = cu_permissions
 
@@ -25,7 +24,6 @@ dependencies[] = block
 dependencies[] = contextual
 dependencies[] = field
 dependencies[] = field_sql_storage
-dependencies[] = field_ui
 dependencies[] = file
 dependencies[] = filter
 dependencies[] = help
@@ -40,14 +38,12 @@ dependencies[] = system
 dependencies[] = taxonomy
 dependencies[] = text
 dependencies[] = user
-dependencies[] = views_content_cache
 
 ; Layout Contib Dependencies
 dependencies[] = entity
 dependencies[] = entitycache
 dependencies[] = inline_entity_form
 dependencies[] = bean
-dependencies[] = bean_admin_ui
 dependencies[] = context
 
 ; Express Core Contrib Dependencies
@@ -72,12 +68,10 @@ dependencies[] = globalredirect
 dependencies[] = pathologic
 dependencies[] = pathauto
 dependencies[] = redirect
-dependencies[] = securepages
 dependencies[] = auto_entitylabel
 
 ; Admin UI Improvements
 dependencies[] = navbar
-dependencies[] = module_filter
 dependencies[] = responsive_preview
 
 ; Site Structure
@@ -90,7 +84,6 @@ dependencies[] = strongarm
 dependencies[] = cu_jquery
 dependencies[] = jquery_update
 dependencies[] = cu_accessibility
-
 dependencies[] = profile_module_manager
 
 ; ============ CU AUTHENTICATION AND PERMISSIONS ============
@@ -191,14 +184,11 @@ dependencies[] = honeypot
 dependencies[] = transliteration
 dependencies[] = vppr
 dependencies[] = content_menu
-dependencies[] = cu_back_to_top
 dependencies[] = cu_give_buttons
 dependencies[] = cu_font_awesome
 dependencies[] = eva
 dependencies[] = smart_trim
 dependencies[] = stringoverrides
-dependencies[] = cu_content_lock
-dependencies[] = content_lock
 dependencies[] = context_sitewide_public
 
 ; ============ FEATURE EXPORTS ============
@@ -211,3 +201,13 @@ dependencies[] = grid_size_blocks
 dependencies[] = cu_bean_override_view
 dependencies[] = cu_people_administration_override
 dependencies[] = cu_content_administration_override
+
+; ============= Not needed during testing ===========
+;dependencies[] = bean_admin_ui
+;dependencies[] = cu_content_lock
+;dependencies[] = content_lock
+;dependencies[] = cu_back_to_top
+;dependencies[] = module_filter
+;dependencies[] = securepages
+;dependencies[] = field_ui
+;dependencies[] = views_content_cache

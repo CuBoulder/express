@@ -7,6 +7,7 @@ dependencies[] = cu_redirect
 dependencies[] = cu_help
 dependencies[] = rave_alerts
 dependencies[] = cu_alerts
+dependencies[] = performance
 ; enable bundles for testing
 dependencies[] = cu_advanced_content_bundle
 dependencies[] = cu_advanced_design_bundle

@@ -1,9 +1,9 @@
 language: php
 # We want to avoid sudo. This allow us to use Travis docker infrastructure, which means builds start faster and have more CPU available.
-sudo: false
+sudo: required
 
 php:
-  - '5.3'
+  - '5.6'
 
 # We want builds of master and dev branches only.
 branches:
@@ -36,6 +36,11 @@ cache:
 # OPTIONAL after_deploy, after_script.
 
 install:
+  # Make sure we know where the php.ini file is.
+  #- find ~/ -name my.cnf
+  #- ls -alR /home/travis/.phpenv/versions/5.6.5/
+  - ls -al /etc
+
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:6.*"
@@ -72,6 +77,7 @@ install:
   - chmod -R 777 drupal/sites
   - mkdir tmp
   - chmod -R 777 tmp
+  - ls -al /home/travis/build/CuBoulder
 
   # Setup display for Selenium
   - export DISPLAY=:99.0
@@ -91,7 +97,8 @@ install:
   - echo "extension=memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Bump up max execution time.
-  - echo "max_execution_time=60" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "max_execution_time=90" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "memory_limit=-1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Increase the MySQL connection timeout on the PHP end.
   - echo "mysql.connect_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -101,20 +108,28 @@ install:
   - mysql -e "SET GLOBAL wait_timeout = 36000;"
   - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
 
+
 before_script:
+  # Move to Drupal root.
+  - cd drupal
+
+  # Tune MYSQL INNODB performance. Need sudo here.
+  - cat "profiles/express/tests/travis-ci/my.cnf" | sudo tee -a /etc/mysql/my.cnf
+  - sudo service mysql reload
 
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
 
+  # Create Drupal database
   - mysql -e 'create database drupal;'
 
   # Do the site install (either the current revision or old for the upgrade).
-  - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
   - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
-
-  # Enable all the bundles
-  # - drush en cu_advanced_content_bundle cu_advanced_design_bundle cu_advanced_layout_bundle cu_debug_admin_bundle cu_events_bundle cu_forms_bundle cu_news_bundle cu_people_bundle cu_photo_gallery_bundle cu_seo_bundle cu_social_media_bundle -y
+  - drush --version
+  - drush pm-info cu_testing_core
+  - drush pm-info cu_core
+  - drush pm-info performance
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
@@ -127,11 +142,20 @@ before_script:
   - BEHAT_PARAMS=`echo $BEHAT_PARAMS | sed -e s#BUILD_TOP#$BUILD_TOP#`
   - export BEHAT_PARAMS
 
+  # Travis environment info.
+  #- chmod ugo+x tests/travis-ci/env-info.sh
+  #- ./tests/travis-ci/env-info.sh
+
+  # Disable modules that don't need to be on.
+  - drush dis content_lock -y
+
 script:
+
   # Run Behat tests.
   - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
-  # Run tests that were timing out.
-  #- ./bin/behat --config behat.yml --verbose --tags @max_execution_time
+
+  # Output performance logging data.
+  - drush scr profiles/express/tests/travis-ci/log-express-performance.php
 
 notifications:
   slack:

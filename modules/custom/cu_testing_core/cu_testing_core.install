@@ -50,6 +50,13 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
       ->condition('name', 'small')
     )
   ->execute();
+
+  // Setting performance logging variables.
+  variable_set('performance_detail', 1);
+  variable_set('performance_summary', 1);
+  variable_set('performance_query', 1);
+  variable_set('performance_nodrush', 1);
+  variable_set('performance_threshold_accesses', '2');
 }
 
 /**

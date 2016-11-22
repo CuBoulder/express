@@ -157,8 +157,15 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   public function iClickTheElement($element) {
     $page_element = $this->getSession()
       ->getPage()
-      ->find("css", $element)
-      ->click();
+      ->find("css", $element);
+
+    // Only try clicking if css is element is actually there.
+    if (empty($page_element)) {
+      throw new \Exception(sprintf('No element "%s" found on the current page', $element));
+    }
+
+    // Click element if it exists.
+    $page_element->click();
   }
 
   /**
