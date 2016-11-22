@@ -13,7 +13,7 @@
  * not launched.
  */
 function cu_atlas_cron() {
-  if (atlas_up() && !_check_site_launched()) {
+  if (atlas_up() && !_cu_atlas_check_site_launched()) {
     $atlas_id = variable_get('atlas_id', FALSE);
     $cron_last = variable_get('cron_last', NULL);
     // Run once a day.
@@ -129,21 +129,21 @@ function _atlas_notify_inactive_site_owners($days) {
   if ($days >= 30 && $days < 55) {
     $email_sent = variable_get("inactive_30_email", FALSE);
     if (!$email_sent) {
-      drupal_mail("atlas", "inactive_30_email", _get_site_owners(), language_default(), $send = TRUE);
+      drupal_mail("atlas", "inactive_30_email", _cu_atlas_get_site_owners(), language_default(), $send = TRUE);
       variable_set("inactive_30_email", TRUE);
     }
   }
   if ($days >= 55 && $days < 60) {
     $email_sent = variable_get("inactive_55_email", FALSE);
     if (!$email_sent) {
-      drupal_mail("atlas", "inactive_55_email", _get_site_owners(), language_default(), $send = TRUE);
+      drupal_mail("atlas", "inactive_55_email", _cu_atlas_get_site_owners(), language_default(), $send = TRUE);
       variable_set("inactive_55_email", TRUE);
     }
   }
   elseif ($days >= 60) {
     $email_sent = variable_get("inactive_60_email", FALSE);
     if (!$email_sent) {
-      drupal_mail("atlas", "inactive_60_email", _get_site_owners(), language_default(), $send = TRUE);
+      drupal_mail("atlas", "inactive_60_email", _cu_atlas_get_site_owners(), language_default(), $send = TRUE);
       drupal_mail("atlas", "site_take_down_email", "websupport@colorado.edu", language_default(), $send = TRUE);
       variable_set("inactive_60_email", TRUE);
       $atlas_id = variable_get('atlas_id', FALSE);
@@ -183,9 +183,9 @@ function cu_atlas_form_user_external_invite_form_validate($form, &$form_state) {
  * Get comma separated list of site owner email addresses.
  *
  * @return string
- *   String of emails, comma seperated.
+ *   String of emails, comma separated.
  */
-function _get_site_owners() {
+function _cu_atlas_get_site_owners() {
   $role = user_role_load_by_name('site_owner');
   if ($role) {
     $role_rid = (integer) $role->rid;
@@ -206,7 +206,7 @@ function _get_site_owners() {
  *
  * Assumes the site is launched if Atlas is down.
  */
-function _check_site_launched() {
+function _cu_atlas_check_site_launched() {
   $atlas_id = variable_get('atlas_id', FALSE);
   $site_array = atlas_api_request('sites', $atlas_id);
   if (isset($site_array['status']) && $site_array['status'] != 'launched') {
