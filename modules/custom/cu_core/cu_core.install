@@ -588,9 +588,11 @@ sites/default/files/webform/*';
 }
 
 /**
- * Core Update 7016 for Express 2.2.7
+ * Core Update 7016 for Express 2.2.7.
+ *
  * Rename block_styles to cu_block_theme module.
  * Enable cu_block_theme, blank out block_styles.
+ * Disable, uninstall grid_size_blocks module, delete related variables.
  */
 function cu_core_update_7016() {
   module_enable(array('cu_block_theme'));
@@ -599,6 +601,13 @@ function cu_core_update_7016() {
     module_disable(array('block_styles'));
     drupal_uninstall_modules(array('block_styles'));
   }
+  if (module_exists('grid_size_blocks')) {
+    module_disable(array('grid_size_blocks'));
+    drupal_uninstall_modules(array('grid_size_blocks'));
+  }
+  variable_del('grid_size_blocks');
+  variable_del('grid_size_clear');
+  variable_del('grid_size_omega');
 }
 
 /**
@@ -675,4 +684,3 @@ function cu_core_scramble_admin() {
     user_save($user);
   }
 }
-
