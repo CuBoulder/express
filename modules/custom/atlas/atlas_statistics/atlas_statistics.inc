@@ -1,0 +1,93 @@
+<?php
+
+/**
+ * @file
+ * Functions that run on cron to create an array of statistics.
+ */
+
+/**
+ * Create an array of statistics for the Atlas.
+ *
+ * @return array
+ *   $site_data: A complete update to the statistics document in Atlas.
+ */
+function atlas_statistics_process_site_stats($process = TRUE) {
+  $statistics_data = array();
+
+  $atlas_id = variable_get('atlas_id');
+  $site_array = atlas_api_request('sites', $atlas_id);
+  $statistics_id = $site_array['statistics'];
+
+  // Count Nodes.
+  $node_query = db_select('node', 'n');
+  $node_query->addExpression('MAX(changed)', 'max_changed');
+  $node_query->orderBy('max_changed', 'DESC');
+  $node_result = $node_query->execute();
+  $all_nodes = $node_result->fetchAll();
+
+  $statistics_data['nodes_total'] = count($all_nodes);
+
+  // Days since last edit.
+  $most_recent_edit = $all_nodes[0]->max_changed;
+  $days_since_last_edit = ((time() - $most_recent_edit) / 86400);
+  $statistics_data['days_since_last_edit'] = floor($days_since_last_edit);
+
+  // List users.
+  $users = entity_load('user');
+  $usernames = array();
+  $useremails = array();
+  foreach ($users as $user_id => $user) {
+    // Make sure username and email exist before putting them in the array.
+    // Removes user 0 (aka Anonymous).
+    if ($user->name) {
+      $usernames[] = $user->name;
+    }
+    if ($user->mail) {
+      $useremails[] = $user->mail;
+    }
+  }
+  $statistics_data['users']['username'] = implode('; ', $usernames);
+  $statistics_data['users']['email_address'] = implode('; ', $useremails);
+
+  // Add report of overridden features.
+  if (module_exists('features')) {
+    $statistics_data['overridden_features'] = _atlas_statistics_get_features_statuses();
+  }
+
+  // Function defaults to true.
+  if ($process && module_exists('atlas')) {
+    // Ready to update the Statistics item.
+    atlas_api_request('statistics', $statistics_id, 'PUT', $statistics_data);
+  }
+  else {
+    return $statistics_data;
+  }
+}
+
+/**
+ * Function that checks each feature and returns a list of overridden ones.
+ *
+ * @return array
+ *   List of overridden features and their statuses.
+ */
+function _atlas_statistics_get_features_statuses() {
+  module_load_include('inc', 'features', 'features.export');
+  $overridden_features = array();
+  $feature_statuses = array(
+    1 => 'Overridden',
+    2 => 'Needs Review',
+    3 => 'Rebuilding',
+    4 => 'Conflict',
+    5 => 'Disabled',
+    6 => 'Checking',
+  );
+  // Loop through each feature, check the status, and capture overridden ones.
+  $features = features_get_features();
+  foreach ($features as $feature) {
+    $feature_status = features_get_storage($feature->name);
+    if ($feature_status != 0) {
+      $overridden_features[$feature->name] = $feature_statuses[$feature_status];
+    }
+  }
+  return $overridden_features;
+}

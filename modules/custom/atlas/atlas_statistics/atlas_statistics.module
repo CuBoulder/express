@@ -45,6 +45,15 @@ function atlas_statistics() {
     return;
   }
 
+  module_load_include('inc', 'atlas_statistics');
+  $atlas_statistics = atlas_statistics_process_site_stats(FALSE);
+
+  $form['atlas_statistics'] = array(
+    '#type' => 'markup',
+    '#prefix' => '<pre>',
+    '#markup' => print_r($atlas_statistics, TRUE),
+    '#suffix' => '</pre>',
+  );
 
 
   // Store the etag when we load the form for concurrency control with Atlas.
