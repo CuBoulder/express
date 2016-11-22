@@ -1676,18 +1676,22 @@ function cu_article_list_filter_form($form, &$form_state) {
   if ($show_category_filter) {
     $filters['category']['name'] = 'Category';
     $filters['category']['vocabulary'] = 'category';
-    $filters['category']['pre_filters'] = cu_article_pre_filter_map($node->field_article_page_category[LANGUAGE_NONE], 'category', $child_terms);
-    if (!empty($node->field_article_exclude_category)) {
-      $filters['category']['exclude'] = cu_article_pre_filter_map($node->field_article_exclude_category[LANGUAGE_NONE], 'category', $child_terms);
+    if (!empty($node->field_article_page_category[LANGUAGE_NONE])) {
+      $filters['category']['pre_filters'] = cu_article_pre_filter_map($node->field_article_page_category[LANGUAGE_NONE], 'category', $child_terms);
+      if (!empty($node->field_article_exclude_category)) {
+        $filters['category']['exclude'] = cu_article_pre_filter_map($node->field_article_exclude_category[LANGUAGE_NONE], 'category', $child_terms);
+      }
     }
   }
   // Build tag filter options
   if ($show_tag_filter) {
     $filters['tags']['name'] = 'Tag';
     $filters['tags']['vocabulary'] = 'tags';
-    $filters['tags']['pre_filters'] = cu_article_pre_filter_map($node->field_article_page_filter[LANGUAGE_NONE], 'tags', $child_terms);
-    if (!empty($node->field_article_exclude_tag)) {
-      $filters['tags']['exclude'] = cu_article_pre_filter_map($node->field_article_exclude_tag[LANGUAGE_NONE], 'tags', $child_terms);
+    if (!empty($node->field_article_page_filter[LANGUAGE_NONE])) {
+      $filters['tags']['pre_filters'] = cu_article_pre_filter_map($node->field_article_page_filter[LANGUAGE_NONE], 'tags', $child_terms);
+      if (!empty($node->field_article_exclude_tag)) {
+        $filters['tags']['exclude'] = cu_article_pre_filter_map($node->field_article_exclude_tag[LANGUAGE_NONE], 'tags', $child_terms);
+      }
     }
   }
   // Build filters if they exist
