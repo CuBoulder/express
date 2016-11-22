@@ -198,10 +198,15 @@ function atlas_admin_settings_submit($form, &$form_state) {
     $request_data['code']['package'] = $form_state['values']['atlas_packages'];
   }
 
-  // Set the etag from the form.
-  $request_data['_etag'] = $form_state['values']['atlas_etag'];
-
-  atlas_api_request('sites', $atlas_id, 'PATCH', $request_data);
+  // We only want to send a patch if something has changed.
+  if (!empty($request_data)) {
+    // Set the etag from the form.
+    $request_data['_etag'] = $form_state['values']['atlas_etag'];
+    atlas_api_request('sites', $atlas_id, 'PATCH', $request_data);
+  }
+  else {
+    drupal_set_message(t('No data was changed.'), 'warning');
+  }
 }
 
 /**
