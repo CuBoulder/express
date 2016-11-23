@@ -3,20 +3,30 @@
 /**
  * @file
  * Functions that run on cron to create an array of statistics.
+ *
+ * Also defines an API for adding statistics.
  */
 
 /**
- * Create an array of statistics for the Atlas.
+ * Get all statistics defined by the API.
+ */
+function atlas_statistics_get_statistics()
+{
+  // TODO: Support overriding statisitcs. array_unique won't work here because
+  // we need to compare the keys not the values.
+  $statistics = array_merge(module_invoke_all('atlas_statistics'));
+  return $statistics;
+}
+
+
+/**
+ * Implements hook_atlas_statistics().
  *
  * @return array
- *   $site_data: A complete update to the statistics document in Atlas.
+ *   $statistics_data: A statistics document in Atlas.
  */
-function atlas_statistics_process_site_stats() {
+function atlas_statistics_atlas_statistics() {
   $statistics_data = array();
-
-  $atlas_id = variable_get('atlas_id');
-  $site_array = atlas_api_request('sites', $atlas_id);
-  $statistics_id = $site_array['statistics'];
 
   // Count Nodes.
   $node_query = db_select('node', 'n');
