@@ -11,7 +11,7 @@
  * @return array
  *   $site_data: A complete update to the statistics document in Atlas.
  */
-function atlas_statistics_process_site_stats($process = TRUE) {
+function atlas_statistics_process_site_stats() {
   $statistics_data = array();
 
   $atlas_id = variable_get('atlas_id');
@@ -46,22 +46,15 @@ function atlas_statistics_process_site_stats($process = TRUE) {
       $useremails[] = $user->mail;
     }
   }
-  $statistics_data['users']['username'] = implode('; ', $usernames);
-  $statistics_data['users']['email_address'] = implode('; ', $useremails);
+  $statistics_data['users']['username'] = $usernames;
+  $statistics_data['users']['email_address'] = $useremails;
 
   // Add report of overridden features.
   if (module_exists('features')) {
     $statistics_data['overridden_features'] = _atlas_statistics_get_features_statuses();
   }
 
-  // Function defaults to true.
-  if ($process && module_exists('atlas')) {
-    // Ready to update the Statistics item.
-    atlas_api_request('statistics', $statistics_id, 'PUT', $statistics_data);
-  }
-  else {
-    return $statistics_data;
-  }
+  return $statistics_data;
 }
 
 /**
