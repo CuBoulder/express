@@ -408,7 +408,7 @@ function cu_shortcodes_buttongroup($attrs, $content = NULL) {
  * Buttongroup tips.
  */
 function cu_shortcodes_buttongroup_tips($format, $long) {
-  $output = '[buttongroup color=blue,gold,black,gray,white size=regular,small,large]Button Shortcodes[/button]';
+  $output = '[buttongroup color="blue" size="regular"]Button Shortcodes[/buttongroup]("color" can also be gold, black, gray or white; "size" can be also small or large)';
   return $output;
 }
 
