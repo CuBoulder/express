@@ -10,20 +10,15 @@
 /**
  * Get all statistics defined by the API.
  */
-function atlas_statistics_get_statistics()
-{
+function atlas_statistics_get_statistics() {
   // TODO: Support overriding statisitcs. array_unique won't work here because
   // we need to compare the keys not the values.
   $statistics = array_merge(module_invoke_all('atlas_statistics'));
   return $statistics;
 }
 
-
 /**
  * Implements hook_atlas_statistics().
- *
- * @return array
- *   $statistics_data: A statistics document in Atlas.
  */
 function atlas_statistics_atlas_statistics() {
   $statistics_data = array();

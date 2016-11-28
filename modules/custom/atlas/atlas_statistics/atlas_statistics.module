@@ -88,7 +88,5 @@ function atlas_statistics_submit($form, &$form_state) {
   $request_data['_etag'] = $form_state['values']['atlas_etag'];
   $request_data['site'] = $atlas_id;
 
-  dpm($request_data);
-
   atlas_api_request('statistics', $statistics_id, 'PUT', $request_data);
 }

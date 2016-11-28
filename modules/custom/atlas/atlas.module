@@ -265,7 +265,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
       }
     }
     // JSON encode the data.
-    if(isset($data['code']['package'])){
+    if (isset($data['code']['package'])) {
       $data['code']['package'] = array_filter(array_values($data['code']['package']));
     }
     $request_options['data'] = drupal_json_encode($data);
@@ -284,13 +284,13 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
     }
   }
   // If error property exists in the response object.
-  elseif(property_exists($response, 'error')) {
-    if(property_exists($response, 'data')) {
+  elseif (property_exists($response, 'error')) {
+    if (property_exists($response, 'data')) {
       $response_json = drupal_json_decode($response->data);
-      if(array_key_exists('_error', $response_json)) {
+      if (array_key_exists('_error', $response_json)) {
         $error_message = 'Atlas response: ' . $response->error . ' - Error Code: ' . $response_json['_error']['code'] . ' - ' . $response_json['_error']['message'];
       }
-      if(array_key_exists('_issues', $response_json)) {
+      if (array_key_exists('_issues', $response_json)) {
         $error_message = 'Atlas response: ' . $response->error . ' - ' . implode(', ', $response_json['_issues']);
       }
     }

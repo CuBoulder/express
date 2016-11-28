@@ -268,13 +268,8 @@ function _cu_atlas_recursive(&$element) {
   return $element;
 }
 
-
-
 /**
  * Implements hook_atlas_statistics().
- *
- * @return array
- *   $statistics_data: A statistics document in Atlas.
  */
 function cu_atlas_atlas_statistics() {
   $statistics_data = array();
@@ -335,7 +330,8 @@ function cu_atlas_atlas_statistics() {
     if ($diff = profile_module_manager_is_config_ideal()) {
       $checks = implode(", ", $diff);
       $statistics_data['profile_module_manager'] = $checks;
-    } else {
+    }
+    else {
       $statistics_data['profile_module_manager'] = NULL;
     }
   }
@@ -355,20 +351,20 @@ function cu_atlas_atlas_statistics() {
     $statistics_data['bundles'] = _get_bundle_stats();
   }
 
-  dpm($statistics_data, 'CU Atlas');
   return $statistics_data;
 }
 
 /**
  * Helper to return the schema_version of any module, theme, or profile.
  *
- * drupal_get_installed_schema_version does not return profiles again
+ * Because drupal_get_installed_schema_version() does not return profiles again
  * at this bootstrap level as of 7.41.  SEE FIT-1165.
  *
  * @param string $project_name
  *   String of the modules, theme or profile.
  *
  * @return int $installed_schema_version
+ *  Value from the schema_version column.
  */
 function _get_installed_schema_version($project_name = NULL) {
   $installed_schema_version = db_query("SELECT schema_version FROM {system} WHERE name = :name", array(':name' => $project_name))->fetchField();
@@ -386,7 +382,8 @@ function _get_bundle_stats() {
   // Get enabled bundles.
   $enabled_bundles = db_query("SELECT name, schema_version FROM {system} WHERE type = 'module' AND status = 1 AND name LIKE '%_bundle' ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
   // Turn returned object into an array.
-  // Compare to list of Express bundles, we do not report for Express Plus bundles.
+  // Compare to list of Express bundles. We do not report for Express Plus
+  // bundles. They can hook in themselves.
   $express_bundles = array(
     'cu_advanced_content_bundle',
     'cu_advanced_design_bundle',
@@ -404,7 +401,6 @@ function _get_bundle_stats() {
     'cu_debug_admin_bundle',
   );
   foreach ($enabled_bundles as $key => $bundle) {
-    dpm($bundle);
     if (in_array($bundle->name, $express_bundles)) {
       $bundle_stats[$bundle->name] = array(
         'schema_version' => $bundle->schema_version,
