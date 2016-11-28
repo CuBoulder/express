@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Install hooks for site_navigation_menus module.
