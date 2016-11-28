@@ -335,27 +335,37 @@ function _cu_newsletter_publish_nodes($nid) {
         }
       }
     }
+    // Chunk modules into groups.
+    $operations = array();
     foreach ($nids as $nid) {
-      $node_reference = node_load($nid);
-      if ($node_reference->status == 0) {
-        $node_reference->status = 1;
-        node_save($node_reference);
-        $message = t('%title is now published',
-          array(
-            '%title' => $node_reference->title,
-          )
-        );
-        drupal_set_message($message);
-      }
+      $operations[] = array('cu_newsletter_publish_batch', array($nid));
+    }
+
+    // Set batch operation and redirect to bundles list when done.
+    $batch = array(
+      'title' => t('Publishing attached articles'),
+      'operations' => $operations,
+      'finished' => 'cu_newsletter_publish_batch_finished',
+      'init_message' => t('Initializing...'),
+      'progress_message' => t('Operation @current out of @total.'),
+      'error_message' => t('Articles failed to be published.'),
+    );
+    batch_set($batch);
+
+    foreach ($nids as $nid) {
+
     }
     $node->status = 1;
     node_save($node);
-    $message = t('%title and all attached articles are now published',
-      array(
-        '%title' => $node->title,
-      )
-    );
-    drupal_set_message($message);
+    batch_process('node/' . $node->nid);
+  }
+}
+
+function cu_newsletter_publish_batch($nid) {
+  $node_reference = node_load($nid);
+  if ($node_reference->status == 0) {
+    $node_reference->status = 1;
+    node_save($node_reference);
   }
 }
 
