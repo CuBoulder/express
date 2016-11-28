@@ -363,8 +363,8 @@ function cu_atlas_atlas_statistics() {
  * @param string $project_name
  *   String of the modules, theme or profile.
  *
- * @return int $installed_schema_version
- *  Value from the schema_version column.
+ * @return int
+ *   Value from the schema_version column.
  */
 function _get_installed_schema_version($project_name = NULL) {
   $installed_schema_version = db_query("SELECT schema_version FROM {system} WHERE name = :name", array(':name' => $project_name))->fetchField();
