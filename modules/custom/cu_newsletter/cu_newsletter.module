@@ -142,7 +142,7 @@ function cu_newsletter_preprocess_node(&$vars) {
       // Add teaser for email intro
       $newsletter_node = node_load($vars['node']->nid);
       $newsletter = node_view($newsletter_node, 'teaser');
-      $vars['content']['teaser'] = $newsletter['body'];
+      $vars['content']['teaser'] = !empty($newsletter['body']) ? $newsletter['body'] : array();
     }
     else {
       $vars['column_classes'] = array(

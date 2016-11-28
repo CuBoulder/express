@@ -76,6 +76,6 @@
 <?php
   //$html = render($page['content']);
   // fixing weird encoding of &nbsp that is inserted from wysiwyg
-  print htmlentities($compressed, ENT_COMPAT | ENT_HTML401, 'UTF-8');
+  print htmlentities($compressed, ENT_COMPAT | 'ENT_HTML401', 'UTF-8');
 ?>
 </textarea>
