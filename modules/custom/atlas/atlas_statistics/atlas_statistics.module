@@ -45,6 +45,15 @@ function atlas_statistics() {
     return;
   }
 
+  module_load_include('inc', 'atlas_statistics');
+  $atlas_statistics = atlas_statistics_get_statistics();
+
+  $form['atlas_statistics'] = array(
+    '#type' => 'markup',
+    '#prefix' => '<pre>',
+    '#markup' => print_r($atlas_statistics, TRUE),
+    '#suffix' => '</pre>',
+  );
 
 
   // Store the etag when we load the form for concurrency control with Atlas.
@@ -57,7 +66,7 @@ function atlas_statistics() {
 
   $form['submit'] = array(
     '#type' => 'submit',
-    '#value' => 'Send Statistics',
+    '#value' => 'Save Statistics',
     '#submit' => array('atlas_statistics_submit'),
   );
 
@@ -72,11 +81,12 @@ function atlas_statistics_submit($form, &$form_state) {
   $site_array = atlas_api_request('sites', $atlas_id);
   $statistics_id = $site_array['statistics'];
 
-  // Setup empty array for data that is changing.
-  $request_data = array();
+  module_load_include('inc', 'atlas_statistics');
+  $request_data = atlas_statistics_get_statistics();
 
   // Set the etag from the form.
   $request_data['_etag'] = $form_state['values']['atlas_etag'];
+  $request_data['site'] = $atlas_id;
 
-  atlas_api_request('statistics', $statistics_id, 'PATCH', $request_data);
+  atlas_api_request('statistics', $statistics_id, 'PUT', $request_data);
 }

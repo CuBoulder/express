@@ -110,21 +110,24 @@ function atlas_admin_settings() {
   );
 
   $package_options = _get_code_options('module');
-  $active_packages = array();
-  // Check and see if we have any packages.
-  if(array_key_exists('package', $site_array['code'])) {
-    $active_modules_list = $site_array['code']['package'];
-    foreach($active_modules_list as $module) {
-      $active_packages[] = $module;
+  // If there are packages, add the field.
+  if (!empty($package_options)) {
+    $active_packages = array();
+    // Check and see if we have any packages.
+    if (array_key_exists('package', $site_array['code'])) {
+      $active_modules_list = $site_array['code']['package'];
+      foreach ($active_modules_list as $module) {
+        $active_packages[] = $module;
+      }
     }
-  }
 
-  $form['atlas_code']['atlas_packages'] = array(
-    '#type' => 'checkboxes',
-    '#title' => t('packages'),
-    '#options' => $package_options,
-    '#default_value' => $active_packages,
-  );
+    $form['atlas_code']['atlas_packages'] = array(
+      '#type' => 'checkboxes',
+      '#title' => t('packages'),
+      '#options' => $package_options,
+      '#default_value' => $active_packages,
+    );
+  }
 
   // Set the options and description. Override if status is not 'Launched'.
   $update_group_options = array(range(0, 14));
@@ -195,10 +198,15 @@ function atlas_admin_settings_submit($form, &$form_state) {
     $request_data['code']['package'] = $form_state['values']['atlas_packages'];
   }
 
-  // Set the etag from the form.
-  $request_data['_etag'] = $form_state['values']['atlas_etag'];
-
-  atlas_api_request('sites', $atlas_id, 'PATCH', $request_data);
+  // We only want to send a patch if something has changed.
+  if (!empty($request_data)) {
+    // Set the etag from the form.
+    $request_data['_etag'] = $form_state['values']['atlas_etag'];
+    atlas_api_request('sites', $atlas_id, 'PATCH', $request_data);
+  }
+  else {
+    drupal_set_message(t('No data was changed.'), 'warning');
+  }
 }
 
 /**
@@ -257,7 +265,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
       }
     }
     // JSON encode the data.
-    if(isset($data['code']['package'])){
+    if (isset($data['code']['package'])) {
       $data['code']['package'] = array_filter(array_values($data['code']['package']));
     }
     $request_options['data'] = drupal_json_encode($data);
@@ -265,7 +273,6 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
 
   // Make the request.
   $response = drupal_http_request($request_url, $request_options);
-  //dpm($response);
 
   if (in_array($response->code, array(200, 201))) {
     // Clear the Drupal cache for $site_array because we just updated something.
@@ -277,11 +284,15 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
     }
   }
   // If error property exists in the response object.
-  elseif(property_exists($response, 'error')) {
-    //dpm($response, 'in loop');
-    if(property_exists($response, 'data')) {
+  elseif (property_exists($response, 'error')) {
+    if (property_exists($response, 'data')) {
       $response_json = drupal_json_decode($response->data);
-      $error_message = 'Atlas response: ' . $response->error . ' - Error Code: ' . $response_json['_error']['code'] . ' - ' . $response_json['_error']['message'];
+      if (array_key_exists('_error', $response_json)) {
+        $error_message = 'Atlas response: ' . $response->error . ' - Error Code: ' . $response_json['_error']['code'] . ' - ' . $response_json['_error']['message'];
+      }
+      if (array_key_exists('_issues', $response_json)) {
+        $error_message = 'Atlas response: ' . $response->error . ' - ' . implode(', ', $response_json['_issues']);
+      }
     }
     else {
       $error_message = 'Atlas response: ' . $response->error;
