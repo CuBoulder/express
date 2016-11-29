@@ -5,6 +5,21 @@ sudo: false
 php:
   - '5.3'
 
+# Split up test runs by suites using build matrix.
+env:
+  - SUITES=express
+  - SUITES=cu_advanced_content_bundle
+  - SUITES=cu_advanced_design_bundle
+  - SUITES=cu_advanced_layout_bundle
+  - SUITES=cu_debug_admin_bundle
+  - SUITES=cu_events_bundle
+  - SUITES=cu_forms_bundle
+  - SUITES=cu_social_media_bundle
+  - SUITES=cu_news_bundle
+  - SUITES=cu_people_bundle
+  - SUITES=cu_photo_gallery_bundle
+  - SUITES=cu_seo_bundle
+
 # We want builds of master and dev branches only.
 branches:
   only:
@@ -129,7 +144,7 @@ before_script:
 
 script:
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
+  - ./bin/behat --config behat.yml --verbose --suite=$SUITES --tags '~@exclude_all_bundles'
   # Run tests that were timing out.
   #- ./bin/behat --config behat.yml --verbose --tags @max_execution_time
 
