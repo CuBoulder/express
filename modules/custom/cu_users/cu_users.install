@@ -313,3 +313,10 @@ function cu_users_update_7024() {
  $query->values(array('uid' => $account->uid, 'rid' => $developer_role->rid));
  $query->execute();
 }
+
+/**
+ * Set activation email to not be sent.
+ */
+function cu_users_update_7025() {
+  variable_set('user_mail_status_activated_notify ', 0);
+}
