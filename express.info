@@ -106,6 +106,7 @@ dependencies[] = chain_menu_access
 dependencies[] = cu_wysiwyg
 dependencies[] = cu_shortcodes
 dependencies[] = cu_shortcodes_wysiwyg
+dependencies[] = cu_soundcloud_embed
 dependencies[] = wysiwyg
 dependencies[] = wysiwyg_filter
 dependencies[] = shortcode
