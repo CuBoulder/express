@@ -1,3 +1,4 @@
+<?php
 #!/usr/bin/env drush
 
 // Get all data the performance module has logged.
