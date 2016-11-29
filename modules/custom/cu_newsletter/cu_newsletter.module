@@ -335,27 +335,33 @@ function _cu_newsletter_publish_nodes($nid) {
         }
       }
     }
+    // Chunk modules into groups.
+    $operations = array();
     foreach ($nids as $nid) {
-      $node_reference = node_load($nid);
-      if ($node_reference->status == 0) {
-        $node_reference->status = 1;
-        node_save($node_reference);
-        $message = t('%title is now published',
-          array(
-            '%title' => $node_reference->title,
-          )
-        );
-        drupal_set_message($message);
-      }
+      $operations[] = array('cu_newsletter_publish_batch', array($nid));
     }
+
+    // Set batch operation and redirect to bundles list when done.
+    $batch = array(
+      'title' => t('Publishing attached articles'),
+      'operations' => $operations,
+      'finished' => 'cu_newsletter_publish_batch_finished',
+      'init_message' => t('Initializing...'),
+      'progress_message' => t('Operation @current out of @total.'),
+      'error_message' => t('Articles failed to be published.'),
+    );
+    batch_set($batch);
     $node->status = 1;
     node_save($node);
-    $message = t('%title and all attached articles are now published',
-      array(
-        '%title' => $node->title,
-      )
-    );
-    drupal_set_message($message);
+    batch_process('node/' . $node->nid);
+  }
+}
+
+function cu_newsletter_publish_batch($nid) {
+  $node_reference = node_load($nid);
+  if ($node_reference->status == 0) {
+    $node_reference->status = 1;
+    node_save($node_reference);
   }
 }
 
@@ -364,7 +370,7 @@ function _cu_newsletter_unpublish_nodes($nid) {
   if ($node && ($node->type == 'newsletter')) {
     $node->status = 0;
     node_save($node);
-    $message = t('%title has been set to published',
+    $message = t('%title has been set to unpublished',
       array(
         '%title' => $node->title,
       )
@@ -515,9 +521,36 @@ function cu_newsletter_form_newsletter_node_form_alter(&$form, &$form_state, $fo
 function cu_newsletter_publish_confirm($form, &$form_state) {
 
   if ($form_state['values']['status'] == 1 && isset($form_state['values']['nid'])) {
-    $_GET['destination'] = 'admin/newsletter/publish/confirm/' . $form_state['values']['nid'];
-  }
 
+    // Check for unpublished attached articles
+    $articles = array();
+    // Go through each section
+    foreach ($form_state['values']['field_newsletter_section'][LANGUAGE_NONE] as $key => $section) {
+      if (is_int($key)) {
+        foreach ($section['entity']->field_newsletter_section_content[LANGUAGE_NONE] as $article) {
+          if (isset($article['field_newsletter_articles'][LANGUAGE_NONE][0]['target_id'])) {
+            $articles[] = $article['field_newsletter_articles'][LANGUAGE_NONE][0]['target_id'];
+
+          }
+        }
+      }
+    }
+    if (!empty($articles)) {
+      // Query to see if any of these are unpublished
+      $query = db_select('node', 'n');
+      $query->condition('n.type', 'article', '=');
+      $query->condition('n.status', 0, '=');
+      $query->fields('n', array('nid', 'status'));
+      $query->condition('n.nid', $articles, 'in');
+      $result = $query->execute();
+      $rows = $result->rowCount();
+
+      // If there is an unpublished node, send to confirm form
+      if ($rows > 0) {
+        $_GET['destination'] = 'admin/newsletter/publish/confirm/' . $form_state['values']['nid'];
+      }
+    }
+  }
 }
 
 /**
@@ -529,9 +562,9 @@ function cu_newsletter_publish_confirm($form, &$form_state) {
 function cu_newsletter_publish_confirm_form($form, &$form_state, $nid) {
   $form = array();
   $form['message'] = array(
-    '#markup' => 'Do you want to publish the newsletter and its attached articles? <strong>You cannot undo this action.</strong>',
-    '#prefix' => '<p>',
-    '#suffix' => '</p>',
+    '#markup' => '<p class="warning"><strong>This newsletter contains references to unpublished content.</strong></p>',
+    '#prefix' => '<div>',
+    '#suffix' => '</div>',
 
   );
   // Node ID of newsletter
@@ -539,30 +572,36 @@ function cu_newsletter_publish_confirm_form($form, &$form_state, $nid) {
     '#type' => 'hidden',
     '#value' => $nid,
   );
-  $form['publish'] = array(
-    '#type' => 'submit',
-    '#value' => 'Publish',
-    '#description' => 'Publish the newsletter and the attached articles',
-    '#submit' => array('cu_newsletter_publish_confirm_submit'),
-    '#attributes' => array('class' => array('btn-success')),
+  $form['newsletter_publishing_options'] = array(
+    '#type' => 'radios',
+    '#options' => array(
+      '0' => t('Save newsletter as unpublished and keep attached articles in their current state'),
+      '1' => t('Publish the newsletter and the attached articles'),
+    ),
+    '#default_value' => '1',
+    '#prefix' => '<p>',
+    '#suffix' => '</p>',
   );
-  $form['unpublish'] = array(
+  $form['newsletter_publish_submit'] = array(
     '#type' => 'submit',
-    '#value' => 'Cancel and unpublish newsletter',
-    '#submit' => array('cu_newsletter_publish_confirm_unpublish'),
+    '#value' => 'Save',
+    '#submit' => array('cu_newsletter_publish_submit'),
+    '#attributes' => array('class' => array('btn-success')),
   );
   return $form;
 }
 
-function cu_newsletter_publish_confirm_submit($form, &$form_state) {
-  _cu_newsletter_publish_nodes($form_state['values']['nid']);
-  drupal_goto('node/' . $form_state['values']['nid']);
+function cu_newsletter_publish_submit($form, &$form_state) {
+  if ($form_state['values']['newsletter_publishing_options']) {
+    _cu_newsletter_publish_nodes($form_state['values']['nid']);
+    drupal_goto('node/' . $form_state['values']['nid']);
+  }
+  else {
+    _cu_newsletter_unpublish_nodes($form_state['values']['nid']);
+    drupal_goto('node/' . $form_state['values']['nid']);
+  }
 }
 
-function cu_newsletter_publish_confirm_unpublish($form, &$form_state) {
-  _cu_newsletter_unpublish_nodes($form_state['values']['nid']);
-  drupal_goto('node/' . $form_state['values']['nid']);
-}
 
 /**
  * Page callback function for newsletter/%.
