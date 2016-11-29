@@ -1,13 +1,15 @@
 <?php
+
 /**
- * Provides additional styles for quicktabs.
  * @file
+ * Provides additional styles for quicktabs.
  */
 
 /**
  * Implements hook_quicktabs_tabstyles().
  *
  * @return array
+ *   An array of tabstyles.
  */
 function cu_quicktab_styles_quicktabs_tabstyles() {
   $tabstyles_directory = drupal_get_path('module', 'cu_quicktab_styles') . '/tabstyles';
@@ -33,18 +35,21 @@ function cu_quicktab_styles_quicktabs_tabstyles() {
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * @param $form
- * @param $form_state
- * @param $form_id
+ * @param array $form
+ *   Quicktabs form array.
+ * @param array $form_state
+ *   Current values in quicktabs form.
+ * @param array $form_id
+ *   Form ID of the quicktabs form.
  */
-function cu_quicktab_styles_form_quicktabs_form_alter(&$form, &$form_state, $form_id){
+function cu_quicktab_styles_form_quicktabs_form_alter(&$form, &$form_state, $form_id) {
 
   // When adding a quicktab, it will not initially have a machine name.
   $machine_name = isset($form['machine_name']['#value']) ? $form['machine_name']['#value'] : '';
 
   // The quicktab renderer should be returned with the form, but it is not.
   // Rather than fix in quicktab project, we are adding it here to avoid the module issue queue.
-  $qt_renderer = db_query('SELECT renderer FROM {quicktabs} q WHERE q.machine_name = :name', array( ':name' => $machine_name))->fetchField();
+  $qt_renderer = db_query('SELECT renderer FROM {quicktabs} q WHERE q.machine_name = :name', array(':name' => $machine_name))->fetchField();
 
   unset($form['style']['#options']['Arrows']);
   unset($form['style']['#options']['Basic']);
@@ -73,18 +78,21 @@ function cu_quicktab_styles_form_quicktabs_form_alter(&$form, &$form_state, $for
     '#type' => 'markup',
     '#markup' => '<p><strong>' . t('Note: ') . '</strong>' .
       t('There are several known issues with displaying quicktabs. If you are experiencing issues, please read: !help_link',
-      array('!help_link' => '<a href="' . variable_get('express_help_base_url') . '/troubleshooting-quicktabs">Troubleshooting Quicktabs</a>')) . '</p>',
+        array('!help_link' => '<a href="' . variable_get('express_help_base_url') . '/troubleshooting-quicktabs">Troubleshooting Quicktabs</a>')) . '</p>',
   );
 }
 
 /**
  * Implements hook_form_FORM_ID_alter().
  *
- * @param $form
- * @param $form_state
- * @param $form_id
+ * @param array $form
+ *   Quicktabs form array.
+ * @param array $form_state
+ *   Current values in quicktabs form.
+ * @param array $form_id
+ *   Form ID of the quicktabs form.
  */
-function cu_quicktab_styles_form_quicktabs_tabstyles_styles_alter(&$form, &$form_state, $form_id){
+function cu_quicktab_styles_form_quicktabs_tabstyles_styles_alter(&$form, &$form_state, $form_id) {
   unset($form['quicktabs_tabstyle']['#options']['Arrows']);
   unset($form['quicktabs_tabstyle']['#options']['Basic']);
   unset($form['quicktabs_tabstyle']['#options']['Bullets']);
@@ -104,5 +112,9 @@ function cu_quicktab_styles_form_quicktabs_tabstyles_styles_alter(&$form, &$form
  */
 function cu_quicktab_styles_page_alter(&$page) {
   drupal_add_css(drupal_get_path('module', 'cu_quicktab_styles') . '/css/cu_quicktab_styles.css');
-  drupal_add_js(drupal_get_path('module','cu_quicktab_styles') . '/js/cu_quicktab_styles.js', array('type' => 'file', 'scope' => 'footer', 'weight' => 50));
+  drupal_add_js(drupal_get_path('module', 'cu_quicktab_styles') . '/js/cu_quicktab_styles.js', array(
+    'type' => 'file',
+    'scope' => 'footer',
+    'weight' => 50
+  ));
 }
