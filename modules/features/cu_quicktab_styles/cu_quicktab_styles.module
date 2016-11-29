@@ -73,7 +73,7 @@ function cu_quicktab_styles_form_quicktabs_form_alter(&$form, &$form_state, $for
     '#type' => 'markup',
     '#markup' => '<p><strong>' . t('Note: ') . '</strong>' .
       t('There are several known issues with displaying quicktabs. If you are experiencing issues, please read: !help_link',
-      array('!help_link' => '<a href="http://www.colorado.edu/webcentral/troubleshooting-quicktabs">Troubleshooting Quicktabs</a>')) . '</p>',
+      array('!help_link' => '<a href="' . variable_get('express_help_base_url') . '/troubleshooting-quicktabs">Troubleshooting Quicktabs</a>')) . '</p>',
   );
 }
 
