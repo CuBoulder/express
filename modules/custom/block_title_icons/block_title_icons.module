@@ -18,6 +18,10 @@ function block_title_icons_page_alter(&$page) {
  * Implements hook_form_alter().
  */
 function block_title_icons_form_block_admin_configure_alter(&$form, &$form_state, &$form_id) {
+
+  $options = array('none' => 'none');
+  $options = array_merge($options, cu_font_awesome_icon_list());
+
   // Get saved values.
   $module = $form['module']['#value'];
   $delta = $form['delta']['#value'];
@@ -33,7 +37,7 @@ function block_title_icons_form_block_admin_configure_alter(&$form, &$form_state
   $form['block_title_icons']['block_title_icons_options'] = array(
     '#type' => 'radios',
     '#title' => '',
-    '#options' => cu_font_awesome_icon_list(),
+    '#options' => $options,
     '#default_value' => isset($block_icon[$var_name]) ? $block_icon[$var_name] : '',
   );
   $form['#submit'][] = 'block_title_icons_update';
@@ -49,6 +53,8 @@ function block_title_icons_form_block_admin_configure_alter(&$form, &$form_state
 function block_title_icons_form_bean_form_alter(&$form, &$form_state, $form_id) {
 
   $delta = $form['bean']['#value']->delta;
+  $options = array('none' => 'none');
+  $options = array_merge($options, cu_font_awesome_icon_list());
 
   if(isset($delta)) {
     $form['module'] = array(
@@ -72,7 +78,7 @@ function block_title_icons_form_bean_form_alter(&$form, &$form_state, $form_id) 
     $form['block_title_icons']['block_title_icons_options'] = array(
       '#type' => 'radios',
       '#title' => '',
-      '#options' => cu_font_awesome_icon_list(),
+      '#options' => $options,
       '#default_value' => isset($block_icon[$var_name]) ? $block_icon[$var_name] : '',
     );
     $form['#submit'][] = 'block_title_icons_update';
