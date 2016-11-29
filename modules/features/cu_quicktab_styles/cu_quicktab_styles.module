@@ -77,8 +77,8 @@ function cu_quicktab_styles_form_quicktabs_form_alter(&$form, &$form_state, $for
   $form['troubleshooting_link'] = array(
     '#type' => 'markup',
     '#markup' => '<p><strong>' . t('Note: ') . '</strong>' .
-      t('There are several known issues with displaying quicktabs. If you are experiencing issues, please read: !help_link',
-        array('!help_link' => '<a href="' . variable_get('express_help_base_url') . '/troubleshooting-quicktabs">Troubleshooting Quicktabs</a>')) . '</p>',
+    t('There are several known issues with displaying quicktabs. If you are experiencing issues, please read: !help_link',
+    array('!help_link' => '<a href="' . variable_get('express_help_base_url') . '/troubleshooting-quicktabs">Troubleshooting Quicktabs</a>')) . '</p>',
   );
 }
 
@@ -108,7 +108,8 @@ function cu_quicktab_styles_form_quicktabs_tabstyles_styles_alter(&$form, &$form
 /**
  * Implements hook_page_alter().
  *
- * @param $page
+ * @param array $page
+ *   The page array that will be rendered to the screen.
  */
 function cu_quicktab_styles_page_alter(&$page) {
   drupal_add_css(drupal_get_path('module', 'cu_quicktab_styles') . '/css/cu_quicktab_styles.css');
