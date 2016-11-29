@@ -66,7 +66,7 @@
 
         </div>
 				<center>
-          <?php if ($_GET['issue-contents'] == 1): ?>
+          <?php if (isset($_GET['issue-contents']) && ($_GET['issue-contents'] == 1)): ?>
             <table class="container content-top">
               <tr>
                 <td class="article-list">
@@ -97,7 +97,7 @@
 
 
 					<!-- start issue contents -->
-					<table class="container <?php if (!$has_intro) { print 'content-top'; } ?>">
+					<table class="container <?php if (!isset($has_intro) || !$has_intro) { print 'content-top'; } ?>">
 						<tr>
 							<td class="newsletter-sections">
                 <?php print render($content['field_newsletter_section']); ?>
