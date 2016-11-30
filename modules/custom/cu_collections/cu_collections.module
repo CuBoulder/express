@@ -36,7 +36,6 @@ function cu_collections_preprocess_entity(&$vars) {
 
   // Only do this on collection grid beans
   if ($vars['elements']['#bundle'] == 'collection_grid') {
-    dpm($vars['bean']);
     // Collection grid options
     $filter_type = $vars['bean']->field_collection_filter_type[LANGUAGE_NONE][0]['value'];
     $summary = ($vars['bean']->field_collection_display_summary[LANGUAGE_NONE][0]['value'] == 'show') ? 1 : 0;
