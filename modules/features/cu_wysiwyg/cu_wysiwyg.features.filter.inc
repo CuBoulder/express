@@ -298,9 +298,7 @@ sup,',
         'weight' => 50,
         'status' => 1,
         'settings' => array(
-          'local_paths' => '/p136f5e238fe
-http://www.colorado.edu/p136f5e238fe
-https://www.colorado.edu/p136f5e238fe',
+          'local_paths' => _create_cu_pathologic_paths(),
           'protocol_style' => 'proto-rel',
         ),
       ),
@@ -308,4 +306,26 @@ https://www.colorado.edu/p136f5e238fe',
   );
 
   return $formats;
+}
+
+function _create_cu_pathologic_paths() {
+  $cu_sid = variable_get('cu_sid', FALSE);
+  $cu_path = variable_get('cu_path', FALSE);
+  if ($cu_sid || $cu_path) {
+    $paths = array();
+    // Build hash paths
+    if ($cu_sid) {
+      $paths[] = "/$cu_sid";
+      $paths[] = "http://www.colorado.edu/$cu_sid";
+      $paths[] = "https://www.colorado.edu/$cu_sid";
+    }
+    // Build real paths
+    if ($cu_path) {
+      $paths[] = "/$cu_path";
+      $paths[] = "http://www.colorado.edu/$cu_path";
+      $paths[] = "https://www.colorado.edu/$cu_path";
+    }
+    // Build pathologic settings on one path per line
+    return $all_paths = join("\n", $paths);
+  }
 }
