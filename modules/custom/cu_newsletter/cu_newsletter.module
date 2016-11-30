@@ -108,12 +108,6 @@ function cu_newsletter_preprocess_page(&$vars) {
           ),
         );
       }
-
-      $newsletter_name = $vars['node']->field_newsletter_type[LANGUAGE_NONE][0]['taxonomy_term']->name;
-      $newsletter_logo = $vars['node']->field_newsletter_type[LANGUAGE_NONE][0]['taxonomy_term']->field_newsletter_name_image;
-      $newsletter_node_title = $vars['node']->title;
-      $newsletter_title = $newsletter_name . ' - ' . $newsletter_node_title;
-      //drupal_set_title($newsletter_title);
     }
   }
 }
