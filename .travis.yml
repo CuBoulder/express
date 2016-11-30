@@ -130,8 +130,10 @@ before_script:
 script:
   # Run Behat tests.
   - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
-  # Run tests that were timing out.
-  #- ./bin/behat --config behat.yml --verbose --tags @max_execution_time
+
+  # Output performance logging data.
+  - drush scr profiles/express/tests/travis-ci/log-express-performance.php
+
 
 notifications:
   slack:

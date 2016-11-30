@@ -7,7 +7,8 @@ dependencies[] = cu_redirect
 dependencies[] = cu_help
 dependencies[] = rave_alerts
 dependencies[] = cu_alerts
-; enable bundles for testing
+
+; Enable bundles for testing.
 dependencies[] = cu_advanced_content_bundle
 dependencies[] = cu_advanced_design_bundle
 dependencies[] = cu_advanced_layout_bundle
@@ -18,3 +19,7 @@ dependencies[] = cu_people_bundle
 dependencies[] = cu_photo_gallery_bundle
 dependencies[] = cu_seo_bundle
 dependencies[] = cu_social_media_bundle
+
+; Enable performance module for reporting at end of test run.
+dependencies[] = performance
+
