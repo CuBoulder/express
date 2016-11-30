@@ -1,6 +1,9 @@
 <?php
 
-function cu_font_awesome_requirements($phase) {
+/**
+ * Implements hook_requirements().
+ */
+function block_title_icons_requirements($phase) {
   if ($phase == 'runtime') {
     $library = libraries_load(BLOCKTITLEICONS_LIBRARY);
     if (!$library['loaded']) {
