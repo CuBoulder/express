@@ -64,7 +64,7 @@ function cu_help_express_help($variables) {
     'short_title' => 'Hero Unit',
     'url' => '/node/438',
     );
-    
+
   $variables['block/edit/hero-unit'][] = array(
     'title' => 'Hero Unit Block Help',
     'short_title' => 'Hero Unit',
@@ -82,7 +82,7 @@ function cu_help_express_help($variables) {
     'short_title' => 'Slider Block',
     'url' => '/node/440',
   );
-  
+
   $variables['block/add/block'][] = array(
     'title' => 'Text Block Help',
     'short_title' => 'Text Block Help',
@@ -94,7 +94,7 @@ function cu_help_express_help($variables) {
     'short_title' => 'Text Block Help',
     'url' => '/node/426',
   );
-  
+
   $variables['admin/content/files'][] = array(
     'title' => 'Files Help',
     'short_title' => 'Files Help',
@@ -197,7 +197,12 @@ function cu_help_express_help($variables) {
     'url' => '/node/656',
   );
 
-  return $variables;
+  return array_map(
+    function($a) {
+      $a[0]['module'] = 'cu_help';
+      return $a;
+    },
+    $variables);
  }
 
 /**
@@ -227,7 +232,12 @@ function cu_help_express_help_fields($variables) {
     ),
   );
 
-  return $variables;
+  return array_map(
+    function($a) {
+      $a[0]['module'] = 'cu_help';
+      return $a;
+    },
+    $variables);
 }
 
 /**

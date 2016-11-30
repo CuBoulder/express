@@ -26,6 +26,7 @@ dependencies[] = taxonomy_formatter
 dependencies[] = text
 dependencies[] = views
 dependencies[] = views_slideshow
+dependencies[] = cu_related_articles
 features[bean_type][] = article_feature
 features[bean_type][] = article_grid
 features[bean_type][] = article_slider

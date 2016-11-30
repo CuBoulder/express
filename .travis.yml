@@ -51,14 +51,15 @@ install:
   - cd ../../../
 
   # Build Codebase
-  - mkdir profiles
-  - mv express profiles/
+  - drush dl drupal-7.52
   - mkdir drupal
-  - mv profiles drupal/
+  - mv drupal-7.52/* drupal/
+  - mkdir profiles
+  - mv express drupal/profiles/
 
   # Build the current branch
   - cd drupal
-  - drush make --yes profiles/express/drupal-org-core.make
+  #- drush make --yes profiles/express/drupal-org-core.make
   #- drush make --yes profiles/express/drupal-org.make --no-core --contrib-destination=profiles/express
   - cd ../
 
@@ -129,8 +130,10 @@ before_script:
 script:
   # Run Behat tests.
   - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
-  # Run tests that were timing out.
-  #- ./bin/behat --config behat.yml --verbose --tags @max_execution_time
+
+  # Output performance logging data.
+  - drush scr profiles/express/tests/travis-ci/log-express-performance.php
+
 
 notifications:
   slack:

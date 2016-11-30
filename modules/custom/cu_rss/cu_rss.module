@@ -269,7 +269,12 @@ function cu_rss_express_help($variables) {
     'url' => '/node/1080',
   );
 
-  return $variables;
+  return array_map(
+    function($a) {
+      $a[0]['module'] = 'cu_rss';
+      return $a;
+    },
+    $variables);
 }
 
 /**
@@ -278,8 +283,6 @@ function cu_rss_express_help($variables) {
  * Provide callback function for editing rss feed*/
 function cu_rss_express_help_custom_paths($variables) {
   $variables['admin/settings/feeds/rss/manage/%/edit'] = 'cu_rss_express_help_callback';
-
-  return $variables;
 }
 
 /**
