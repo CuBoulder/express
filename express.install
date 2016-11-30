@@ -130,7 +130,7 @@ function express_install() {
   // Update the menu router information.
   menu_rebuild();
   // revert features to ensure they are all installed
-  //$features = array('files', 'block_styles', 'cu_block_selector', 'cu_view_modes','cu_jquery', 'quicktab_beans');
+  //$features = array('files', 'cu_block_theme', 'cu_block_selector', 'cu_view_modes','cu_jquery', 'quicktab_beans');
   //features_revert($features);
   // ignore any rebuild messages
   node_access_needs_rebuild(FALSE);

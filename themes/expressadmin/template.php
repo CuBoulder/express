@@ -149,6 +149,7 @@ function _expressadmin_colorize_text($string, $default = '') {
         t('Search')             => 'primary',
         t('Add')                => 'primary',
         t('Create')             => 'primary',
+        t('Send')               => 'primary',
 
         // Success class.
         t('Save')               => 'success',
