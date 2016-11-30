@@ -441,7 +441,7 @@ function cu_shortcodes_filter_info_alter(&$info) {
   // Enable callout shortcode.
   $filters['shortcode']->settings['callout'] = 1;
   // Enable close margin shortcode.
-    $filters['shortcode']->settings['close-margin'] = 1;
+  $filters['shortcode']->settings['close-margin'] = 1;
 }
 
 /**
