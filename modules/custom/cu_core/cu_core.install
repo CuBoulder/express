@@ -226,6 +226,8 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
   user_save($admin_user);
 
   watchdog('express', 'attempted to disable uid 1');
+
+  variable_set('profile_module_manager_bundle_ignore', array('cu_newsletter_bundle' => 'cu_newsletter_bundle'));
 }
 
 /**
@@ -615,6 +617,22 @@ function cu_core_update_7016() {
   variable_del('grid_size_clear');
   variable_del('grid_size_omega');
 }
+
+/**
+ * Core Update 7017 for Express 2.3.0.
+ *
+ * Hide cu_newsletter from most users.
+ */
+function cu_core_update_7017() {
+  // Set SEO bundle to be hidden in bundle list form.
+  variable_set('profile_module_manager_bundle_ignore', array('cu_newsletter_bundle' => 'cu_newsletter_bundle'));
+
+  cu_core_revert_features();
+
+  cu_core_express_update('7017');
+}
+
+
 
 /**
  * Revert features by passing features in an array.
