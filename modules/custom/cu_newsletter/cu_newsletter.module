@@ -658,3 +658,32 @@ function cu_newsletter_load_by_path($path) {
   $term = $query->execute()->fetch();
   return $term;
 }
+
+/**
+ * Implements hook_express_help()
+ *
+ * Add contextual help for the Advanced content like Quicktabs.
+ *
+ * @param $variables
+ *   Array with information about help hooks
+ * @return $variables
+ */
+function cu_newsletter_express_help($variables) {
+  $variables['node/add/newsletter'][] = array(
+    'title' => 'Newsletter help',
+    'short_title' => 'Newsletter help',
+    'url' => '/node/1370',
+  );
+  $variables['block/add/newsletter-list'][] = array(
+    'title' => 'Newsletter list block help',
+    'short_title' => 'Newsletter list block help',
+    'url' => '/node/1372',
+  );
+
+  return array_map(
+    function($a) {
+      $a[0]['module'] = 'advanced_content_bundle';
+      return $a;
+    },
+    $variables);
+}
