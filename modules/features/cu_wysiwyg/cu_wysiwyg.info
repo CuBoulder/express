@@ -17,4 +17,3 @@ features[features_api][] = api:2
 features[filter][] = full_html
 features[filter][] = wysiwyg
 features[wysiwyg][] = wysiwyg
-required = 1
