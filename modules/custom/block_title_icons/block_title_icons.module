@@ -34,52 +34,42 @@ function block_title_icons_libraries_info() {
  * Return array of icons for option lists.
  */
 function block_title_icons_icon_list($add_icon = TRUE) {
-  // Make sure library is loaded first
-  $library = libraries_load(BLOCKTITLEICONS_LIBRARY);
-  if (!$library['loaded']) {
-    drupal_set_message($library['error message'] . t('Please make sure that '
-      . 'fontawesome was download & extracted at sites/all/libraries/fontawesome directory.'
-      . 'Please check README.txt for more details.'),
-      'warning');
-  }
-  else {
-    // Check to see if this is saved already
-    $icons = variable_get('block_title_icons_list', array());
-    if (empty($icons)) {
-      // Load icon scss file
-      $icons_file = file_get_contents($library['library path'] . '/' . BLOCKTITLEICONS_ICONS_URL);
-      $icons = array();
-      // Break each line into array
-      $icons_styles = explode("\n", $icons_file);
-      // Use this to see if it's a line we want
-      $icon_query = 'content: $fa-var-';
-      foreach ($icons_styles as $icon_style) {
-        // Check to see if line includes our query variable
-        if (strpos($icon_style, $icon_query) !== FALSE) {
-          // Get the part out of the string that we want and add to array
-          $icon_name = _block_title_icons_regex($icon_style);
-          $icons[] = $icon_name;
-        }
-      }
-      // Sort icons alphabetically
-      asort($icons);
-      // Save icons array
-      variable_set('block_title_icons_list', $icons);
-    }
-    $icon_names = array();
-    // Theme the option list.
-    foreach ($icons as $icon) {
-      if ($add_icon) {
-        // If type is radio, render icon as well
-        $icon_names['fa-' . $icon] = theme('block_title_icons_option', array('icon' => $icon));
-      }
-      else {
-        // Otherwise just add name (for a select list).
-        $icon_names['fa-' . $icon] = $icon;
+  // Check to see if this is saved already
+  $icons = variable_get('block_title_icons_list', array());
+  if (empty($icons)) {
+    // Load icon scss file
+    $icons_file = file_get_contents($library['library path'] . '/' . BLOCKTITLEICONS_ICONS_URL);
+    $icons = array();
+    // Break each line into array
+    $icons_styles = explode("\n", $icons_file);
+    // Use this to see if it's a line we want
+    $icon_query = 'content: $fa-var-';
+    foreach ($icons_styles as $icon_style) {
+      // Check to see if line includes our query variable
+      if (strpos($icon_style, $icon_query) !== FALSE) {
+        // Get the part out of the string that we want and add to array
+        $icon_name = _block_title_icons_regex($icon_style);
+        $icons[] = $icon_name;
       }
     }
-    return $icon_names;
+    // Sort icons alphabetically
+    asort($icons);
+    // Save icons array
+    variable_set('block_title_icons_list', $icons);
   }
+  $icon_names = array();
+  // Theme the option list.
+  foreach ($icons as $icon) {
+    if ($add_icon) {
+      // If type is radio, render icon as well
+      $icon_names['fa-' . $icon] = theme('block_title_icons_option', array('icon' => $icon));
+    }
+    else {
+      // Otherwise just add name (for a select list).
+      $icon_names['fa-' . $icon] = $icon;
+    }
+  }
+  return $icon_names;
 }
 
 /**

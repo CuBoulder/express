@@ -1,0 +1,15 @@
+<?php
+
+function cu_font_awesome_requirements($phase) {
+  if ($phase == 'runtime') {
+    $library = libraries_load(BLOCKTITLEICONS_LIBRARY);
+    if (!$library['loaded']) {
+      $requirements['font_awesome_library'] = array(
+        'title' => 'Font Awesome Library',
+        'description' => 'The Font Awesome Library is missing.',
+        'value' => '',
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+  }
+}
