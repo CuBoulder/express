@@ -89,8 +89,8 @@ function cu_collections_preprocess_entity(&$vars) {
         foreach ($categories as $key => $category) {
           $links['items'][] = l($category, '',  array(
             'attributes' => array('data-collection' => 'collection-' . $vars['bean']->bid),
-            'fragment' => $anchor . $category ,
-            'external' => TRUE)
+            'fragment' => $anchor . _cu_collections_clean_string($category),
+            'external' => TRUE, 'html' => TRUE)
           );
         }
         // Add links to output
@@ -105,7 +105,7 @@ function cu_collections_preprocess_entity(&$vars) {
         }
         $output = '<label for="' . $anchor . '">Filter</label> <select id=' . $anchor .'select" class="collection-filter">';
         foreach ($options as $key => $option) {
-          $output .= '<option value="#' . $key . '">' . $option . '</option>';
+          $output .= '<option value="#' . _cu_collections_clean_string($key) . '">' . $option . '</option>';
         }
         $output .= '</select>';
         $vars['content']['filter']['#markup'] = $output;
@@ -122,7 +122,7 @@ function cu_collections_preprocess_entity(&$vars) {
     if (!empty($categories) && count($categories) > 1) {
       foreach ($categories as $key => $category) {
         $vars['content']['items'][$key] = _cu_collections_category_query($types, array($key), $summary);
-        $vars['content']['items'][$key]['#prefix'] = '<div class="collection-items collection-items-categories" id="' . $anchor . $category . '"><h3 class="element-invisible">' . $category . '</h3><div class="clear clearfix row">';
+        $vars['content']['items'][$key]['#prefix'] = '<div class="collection-items collection-items-categories" id="' . $anchor . _cu_collections_clean_string($category) . '"><h3 class="element-invisible">' . $category . '</h3><div class="clear clearfix row">';
         $vars['content']['items'][$key]['#suffix'] = '</div></div>';
       }
     }
@@ -130,6 +130,12 @@ function cu_collections_preprocess_entity(&$vars) {
     $vars['content']['#prefix'] = '<div id="collection-' . $vars['bean']->bid. '">';
     $vars['content']['#suffix'] = '</div>';
   }
+}
+
+function _cu_collections_clean_string($string) {
+   $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+
+   return preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
 }
 
 /**
