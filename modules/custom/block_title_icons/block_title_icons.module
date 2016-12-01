@@ -38,6 +38,7 @@ function block_title_icons_icon_list($add_icon = TRUE) {
   $icons = variable_get('block_title_icons_list', array());
   if (empty($icons)) {
     // Load icon scss file
+    $library = libraries_load(BLOCKTITLEICONS_LIBRARY);
     $icons_file = file_get_contents($library['library path'] . '/' . BLOCKTITLEICONS_ICONS_URL);
     $icons = array();
     // Break each line into array
