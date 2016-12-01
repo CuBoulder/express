@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Install functions for block_title_icons module.
+ */
+
+/**
  * Implements hook_requirements().
  */
 function block_title_icons_requirements($phase) {
