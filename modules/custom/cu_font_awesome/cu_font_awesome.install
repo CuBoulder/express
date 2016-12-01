@@ -3,3 +3,10 @@
 function cu_font_awesome_uninstall() {
   variable_del('cu_font_awesome_icons');
 }
+
+/**
+ * Delete font awesome variable, rebuild from library.
+ */
+function cu_font_awesome_update_7000() {
+  variable_del('cu_font_awesome_icons');
+}

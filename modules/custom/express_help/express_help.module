@@ -112,14 +112,15 @@ function _express_help_list() {
       ),
     ),
   );
+
   foreach ($express_help as $help) {
     foreach ($help as $key => $value) {
-      $help_list['items'][$value['short_title']] = l($value['short_title'], $value['url'], array('attributes' => array('target' => '_blank')));
+      $help_list['items'][$value['short_title']] = l($value['short_title'], $value['url'], array('attributes' => array('target' => '_blank'))) . " <small>(" . $value['module'] . ')</small>';
     }
   }
   foreach ($help_fields as $form_id => $form) {
     foreach ($form['fields'] as $field_name => $field) {
-      $help_list['items'][$field['short_title']] = l($field['short_title'], $field['url'], array('attributes' => array('target' => '_blank')));
+      $help_list['items'][$field['short_title']] = l($field['short_title'], $field['url'], array('attributes' => array('target' => '_blank'))) . " <small>(" . $value['module'] . ')</small>';
     }
   }
   ksort($help_list['items']);
