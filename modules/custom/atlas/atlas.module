@@ -216,7 +216,7 @@ function atlas_admin_settings_submit($form, &$form_state) {
  *   TRUE if api returns 200 else FALSE if non 200 or not configured.
  */
 function atlas_up() {
-  $url = getenv("ATLAS_URI");
+  $url = variable_get('atlas_url');
   $response = drupal_http_request($url);
   if ($response->code == 200) {
     return TRUE;
@@ -237,7 +237,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
   }
 
   // Environmental variable has a trailing slash.
-  $atlas_url = getenv("ATLAS_URI");
+  $atlas_url = variable_get('atlas_url');
   $request_url = $atlas_url . $resource . $query;
 
   $request_options = array(

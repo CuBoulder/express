@@ -13,6 +13,20 @@ function atlas_requirements($phase) {
 
   if ($phase == 'runtime') {
     $t = get_t();
+    if ($atlas_url = variable_get('atlas_url', FALSE)) {
+      $requirements['atlas_url'] = array(
+        'title' => $t('Atlas URL'),
+        'value' => $t('Connected to Atlas at !atlas_url.', array('!atlas_url' => $atlas_url)),
+        'severity' => REQUIREMENT_OK,
+      );
+    }
+    else {
+      $requirements['atlas_url'] = array(
+        'title' => $t('Atlas URL'),
+        'value' => $t('not configured.'),
+        'severity' => REQUIREMENT_WARNING,
+      );
+    }
     if ($atlas_id = variable_get('atlas_id', FALSE)) {
       $requirements['atlas_id'] = array(
         'title' => $t('Atlas Site ID'),
