@@ -167,11 +167,18 @@ function cu_shortcodes_shortcode_info() {
     'default settings' => array(),
     'demo callback' => 'cu_shortcodes_expand_demo',
   );
-    $shortcodes['googlecalendar'] = array(
+  $shortcodes['googlecalendar'] = array(
     'title' => t('Google Calendar'),
     'description' => t('Insert a Google Calendar'),
     'process callback' => 'cu_shortcodes_googlecalendar',
     'tips callback' => 'cu_shortcodes_googlecalendar_tips',
+    'default settings' => array(),
+  );
+  $shortcodes['html'] = array(
+    'title' => t('HTML'),
+    'description' => t('Display HTML code'),
+    'process callback' => 'cu_shortcodes_html',
+    'tips callback' => 'cu_shortcodes_html_tips',
     'default settings' => array(),
   );
   $shortcodes['icon'] = array(
@@ -440,6 +447,8 @@ function cu_shortcodes_filter_info_alter(&$info) {
   $filters = filter_list_format($format->format);
   // Enable callout shortcode
   $filters['shortcode']->settings['callout'] = 1;
+  // Enable HTML shortcode
+  $filters['shortcode']->settings['html'] = 1;
   // Enable close margin shortcode if advanced design bundle is enabled.
   if (module_exists('cu_advanced_design_bundle')) {
     $filters['shortcode']->settings['close-margin'] = 1;
@@ -611,6 +620,22 @@ function cu_shortcodes_googlecalendar_tips($format, $long) {
   $output = '[calendar]https://www.google.com/calendar/embed?title=Faculty%20Planning%20Calendar&height=600&wkst=1&bgcolor=%23FFFFFF&src=fqd9tj22sodte3oosui2h5e13o%40group.calendar.google.com&color=%23875509&src=270ehpc2jeu16j00p4st3nvb2c%40group.calendar.google.com&color=%2342104A&src=jm056q7sfv17ngqj3e4ph60iuk%40group.calendar.google.com&color=%232952A3&src=jazzmountainclimber%40gmail.com&color=%23711616&src=hgk9ielvps4qkv7uehs6q8rc18%40group.calendar.google.com&color=%232F6309&src=625jneetmcajuamdvv3as9tft8%40group.calendar.google.com&color=%236B3304&src=en.usa%23holiday%40group.v.calendar.google.com&color=%23125A12&ctz=America%2FDenver[/calendar]';
   return $output;
 }
+
+/**
+ * HTML shortcode.
+ */
+ function cu_shortcodes_html($attrs, $content = NULL ) {
+   extract(shortcode_attrs(array(
+   'tag'       => 'div',
+   ), $attrs));
+   $output = '&lt;' . $tag . '&gt;' . $content . '&lt;/' . $tag . '&gt;';
+   return $output;
+ }
+
+ function cu_shortcodes_html_tips($format, $long) {
+   $output = '[html tag="sub"]This is subscript[/html]';
+   return $output;
+ }
 
 /**
  * Icon shortcode.
