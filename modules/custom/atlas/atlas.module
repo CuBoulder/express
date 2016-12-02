@@ -198,6 +198,10 @@ function atlas_admin_settings_submit($form, &$form_state) {
     $request_data['code']['package'] = $form_state['values']['atlas_packages'];
   }
 
+  if ($form_state['values']['atlas_update_group'] != $site_array['update_group']) {
+    $request_data['update_group'] = $form_state['values']['atlas_update_group'];
+  }
+
   // We only want to send a patch if something has changed.
   if (!empty($request_data)) {
     // Set the etag from the form.
@@ -249,6 +253,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
     // Set Content-Type header to application/json.
     $request_options['headers'] = array(
       'Content-Type' => 'application/json',
+      'User-Agent' => 'Web Express',
     );
 
     // When modifying the record, we need to set the If-Match header to the
