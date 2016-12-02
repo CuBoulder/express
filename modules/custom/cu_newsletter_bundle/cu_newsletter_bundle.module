@@ -8,7 +8,7 @@
  * Implements hook_secure_permissions().
  */
 function cu_newsletter_bundle_secure_permissions($role) {
-   $permissions = array(
+  $permissions = array(
     'administrator' => array(
       'create newsletter content',
       'delete any newsletter content',
@@ -92,9 +92,11 @@ function cu_newsletter_bundle_express_bean_list_groups($bundles) {
  *
  * Add contextual help for the Advanced content like Quicktabs.
  *
- * @param $variables
- *   Array with information about help hooks
- * @return $variables
+ * @param array $variables
+ *   Passed array with information about help hooks.
+ *
+ * @return array $variables
+ *   Returned array with additional information about help hooks.
  */
 function cu_newsletter_bundle_express_help($variables) {
   $variables['node/add/newsletter'][] = array(
@@ -109,7 +111,7 @@ function cu_newsletter_bundle_express_help($variables) {
   );
 
   return array_map(
-    function($a) {
+    function ($a) {
       $a[0]['module'] = 'cu_newsletter_bundle';
       return $a;
     },
