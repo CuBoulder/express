@@ -54,7 +54,7 @@ function cu_help_express_help($variables) {
   );
 
   $variables['block/add'][] = array(
-   	'title' => 'Adding Bundles',
+    'title' => 'Adding Bundles',
     'short_title' => 'Adding Bundles',
     'url' => '/node/656',
   );
@@ -63,13 +63,13 @@ function cu_help_express_help($variables) {
     'title' => 'Hero Unit Block Help',
     'short_title' => 'Hero Unit',
     'url' => '/node/438',
-    );
+  );
 
   $variables['block/edit/hero-unit'][] = array(
     'title' => 'Hero Unit Block Help',
     'short_title' => 'Hero Unit',
     'url' => '/node/438',
-    );
+  );
 
   $variables['block/add/slider'][] = array(
     'title' => 'Slider Block Help',
@@ -198,12 +198,12 @@ function cu_help_express_help($variables) {
   );
 
   return array_map(
-    function($a) {
+    function ($a) {
       $a[0]['module'] = 'cu_help';
       return $a;
     },
     $variables);
- }
+}
 
 /**
  * Implements hook_express_help_fields().
@@ -233,8 +233,9 @@ function cu_help_express_help_fields($variables) {
   );
 
   return array_map(
-    function($a) {
-      $a[0]['module'] = 'cu_help';
+    function ($a) {
+      $field = current(array_keys($a['fields']));
+      $a['fields'][$field]['module'] = 'cu_help';
       return $a;
     },
     $variables);
@@ -251,8 +252,7 @@ function cu_help_page_alter(&$page) {
       if (drupal_valid_path('admin/settings/bundles/list')) {
         $link = l(t('<i class="fa fa-plus-circle"></i> Enable bundles for additional content types'), '/admin/settings/bundles/list', array(
           'attributes' => array(
-            'class' => array(
-            ),
+            'class' => array(),
           ),
           'html' => TRUE
         ));
@@ -263,8 +263,7 @@ function cu_help_page_alter(&$page) {
       if (drupal_valid_path('admin/settings/bundles/list')) {
         $link = l(t('<i class="fa fa-plus-circle"></i> Enable bundles for additional block types'), '/admin/settings/bundles/list', array(
           'attributes' => array(
-            'class' => array(
-            ),
+            'class' => array(),
           ),
           'html' => TRUE
         ));
