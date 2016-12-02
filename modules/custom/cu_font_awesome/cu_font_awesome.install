@@ -23,10 +23,10 @@ function cu_font_awesome_requirements($phase) {
   if ($phase == 'runtime') {
     $library = libraries_load(CUFA_FONTAWESOME_LIBRARY);
     if (!$library['loaded']) {
-      $t = get_t();
+      //$t = get_t();
       $requirements['font_awesome_library'] = array(
-        'title' => $t('Font Awesome Library'),
-        'value' => $t('The Font Awesome Library is missing.'),
+        'title' => 'Font Awesome Library',
+        'value' => 'The Font Awesome Library is missing.',
         'severity' => REQUIREMENT_ERROR,
       );
       return $requirements;
