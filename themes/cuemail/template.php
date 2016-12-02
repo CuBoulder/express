@@ -51,24 +51,21 @@ function cuemail_preprocess_node(&$vars) {
     $list = array();
     foreach ($vars['content']['field_newsletter_section']['#items'] as $key => $item) {
       $key_2 = key($vars['content']['field_newsletter_section'][$key]['entity']['field_collection_item']);
-      $articles = array();
-      if (!empty($vars['content']['field_newsletter_section'][$key]['entity']['field_collection_item'][$key_2]['field_newsletter_articles']['#items'])) {
+      if (!empty($vars['content']['field_newsletter_section'][$key]['entity']['field_collection_item'][$key_2]['field_newsletter_articles'])) {
         $articles = $vars['content']['field_newsletter_section'][$key]['entity']['field_collection_item'][$key_2]['field_newsletter_articles']['#items'];
-      }
-      foreach ($articles as $article) {
-        $node = node_load($article['target_id']);
-        $list[] = $node->title;
+        foreach ($articles as $article) {
+          $node = node_load($article['target_id']);
+          $list[] = $node->title;
+        }
       }
     }
-    if (isset($vars['newsletter_logo_uri'])) {
-      $newsletter_logo_image_style_uri = image_style_path('medium', $vars['newsletter_logo_uri']);
-      if (!file_exists($newsletter_logo_image_style_uri)) {
-        image_style_create_derivative(image_style_load('medium'), $vars['newsletter_logo_uri'], $newsletter_logo_image_style_uri);
-      }
-      $image_info = image_get_info($newsletter_logo_image_style_uri);
-      $vars['newsletter_logo_width'] = round($image_info['width'] * .46333);
-      $vars['newsletter_logo_height'] = round($image_info['height'] * .46333);
+    $newsletter_logo_image_style_uri = image_style_path('medium', $vars['newsletter_logo_uri']);
+    if (!file_exists($newsletter_logo_image_style_uri)) {
+      image_style_create_derivative(image_style_load('medium'), $vars['newsletter_logo_uri'], $newsletter_logo_image_style_uri);
     }
+    $image_info = image_get_info($newsletter_logo_image_style_uri);
+    $vars['newsletter_logo_width'] = round($image_info['width'] * .46333);
+    $vars['newsletter_logo_height'] = round($image_info['height'] * .46333);
     $vars['content']['list'] = theme('item_list', array(
       'items' => $list,
       'type' => 'ul',
@@ -158,4 +155,8 @@ function cuemail_logo_color($design = 'design-01') {
   $logos['design-04'] = 'logo-black-2x.gif';
   $logos['design-05'] = 'logo-black-2x.gif';
   return $logos[$design];
+}
+
+function cuemail_html_compress($email){
+  return str_replace(array("\n","\r","\t"),'',$email);
 }
