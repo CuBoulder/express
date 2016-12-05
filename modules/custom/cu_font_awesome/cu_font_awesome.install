@@ -13,24 +13,17 @@ function cu_font_awesome_update_7000() {
 
 /**
  * Implements hook_requirements().
- *
- * @param string $phase
- *   Install, update, or runtime.
- * @return array $requirements
- *   An array with the info for the status report page.
  */
 function cu_font_awesome_requirements($phase) {
   $requirements = array();
   if ($phase == 'runtime') {
     $library = libraries_load(CUFA_FONTAWESOME_LIBRARY);
     if (!$library['loaded']) {
-      //$t = get_t();
       $requirements['font_awesome_library'] = array(
         'title' => 'Font Awesome Library',
         'value' => 'The Font Awesome Library is missing.',
         'severity' => REQUIREMENT_ERROR,
       );
-      return $requirements;
     }
   }
   return $requirements;

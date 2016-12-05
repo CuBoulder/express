@@ -38,6 +38,7 @@ function cu_font_awesome_icon_list($add_icon = TRUE) {
   $icons = variable_get('cu_font_awesome_icons', array());
   if (empty($icons)) {
     // Load icon scss file
+    $library = libraries_load(CUFA_FONTAWESOME_LIBRARY);
     $icons_file = file_get_contents($library['library path'] . '/' . CUFA_FONTAWESOME_ICONS_URL);
     $icons = array();
     // Break each line into array
@@ -139,6 +140,7 @@ function cu_font_awesome_icons() {
  * Add variables to js settings.
  */
 function cu_font_awesome_init() {
+  $library = libraries_load(CUFA_FONTAWESOME_LIBRARY);
   if (!user_is_anonymous()) {
     // Link to icon list.
     global $base_url;
