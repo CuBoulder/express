@@ -201,6 +201,7 @@ dependencies[] = stringoverrides
 dependencies[] = cu_content_lock
 dependencies[] = content_lock
 dependencies[] = context_sitewide_public
+dependencies[] = field_reference_delete
 
 ; ============ FEATURE EXPORTS ============
 dependencies[] = express_linkit_profiles
