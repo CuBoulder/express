@@ -129,7 +129,7 @@ function _express_help_list() {
 
   ksort($help_list['items']);
   $output['list']['#markup'] = theme('item_list', $help_list);
-  $output['more']['#markup'] = l(t('Find more Web Express help at www.colorado.edu/webcentral'), 'http://www.colorado.edu/webcentral', array(
+  $output['more']['#markup'] = l(t('Find more Express help at: !base_url', array('!base_url' => $base_help_url)), $base_help_url, array(
     'attributes' => array(
       'target' => '_blank',
       'class' => array('help-more-link')
