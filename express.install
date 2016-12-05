@@ -172,17 +172,4 @@ function express_update_7002() {
 function express_update_7003() {
   // Enable module.
   module_enable(array('field_reference_delete'));
-
-  // If module is enabled, delete references.
-  // Since this goes through every taxonomy term, it could take awhile.
-  // I'm leaving this in commented out, because it doesn't work in my testing but theoretically should work.
-  /*
- if (module_exists('field_reference_delete')) {
-   $type = 'taxonomy_term';
-   $entities = entity_load($type);
-   foreach ($entities as $entity) {
-     field_reference_delete_references($entity, $type);
-   }
- }
- */
 }
