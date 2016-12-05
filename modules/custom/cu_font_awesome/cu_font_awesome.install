@@ -12,6 +12,7 @@ function cu_font_awesome_update_7000() {
 }
 
 function cu_font_awesome_requirements($phase) {
+  $requirements = array();
   if ($phase == 'runtime') {
     $library = libraries_load(CUFA_FONTAWESOME_LIBRARY);
     if (!$library['loaded']) {
@@ -23,4 +24,5 @@ function cu_font_awesome_requirements($phase) {
       );
     }
   }
+  return $requirements;
 }
