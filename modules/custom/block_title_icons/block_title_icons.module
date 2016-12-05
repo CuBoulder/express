@@ -243,3 +243,10 @@ function block_title_icons_get() {
   }
   return $icons_value;
 }
+
+/**
+ * Implements hook_init().
+ */
+function block_title_icons_init() {
+  $library = libraries_load(BLOCKTITLEICONS_LIBRARY);
+}
