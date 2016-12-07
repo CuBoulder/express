@@ -439,13 +439,6 @@ function expressbase_preprocess_block(&$vars) {
     $footer_columns = theme_get_setting('footer_columns') ? theme_get_setting('footer_columns') : 1;
     $footer_columns = (isset($vars['column_override'])) ? $vars['column_override'] : $footer_columns;
   }
-  // Check to see if block has custom column size first
-  if (!empty($vars['grid_size_blocks'])) {
-    $grid_classes = expressbase_grid_blocks($vars['grid_size_blocks']);
-    foreach ($grid_classes as $grid_class) {
-      $vars['classes_array'][] = $grid_class;
-    }
-  }
   else {
     // Add column classes to blocks
     $classes = expressbase_size_column_classes();
@@ -760,22 +753,7 @@ function expressbase_size_column_classes() {
   return $classes;
 }
 
-/**
- * Translate grid_size_blocks classes into epressbase grid classes.
- */
- function expressbase_grid_blocks($class) {
-   $parts = explode('-', $class);
-   $size = $parts[1];
-   $classes = array();
-   $classes[] = 'col-xs-12';
-   $classes[] = 'col-sm-12';
-   $classes[] = 'col-md-' . $size;
-   $classes[] = 'col-lg-' . $size;
-
-   return $classes;
- }
-
- function expressbase_theme(&$existing, $type, $theme, $path) {
+function expressbase_theme(&$existing, $type, $theme, $path) {
   $registry = array();
   $template_dir = drupal_get_path('theme', 'expressbase') . '/templates';
   $registry['page_title_image'] = array(
