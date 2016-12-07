@@ -207,7 +207,7 @@ dependencies[] = field_reference_delete
 dependencies[] = express_linkit_profiles
 
 ; REMOVE IN FUTURE
-dependencies[] = grid_size_blocks
+
 
 ; STILL NEEDS WORK?
 dependencies[] = cu_bean_override_view
