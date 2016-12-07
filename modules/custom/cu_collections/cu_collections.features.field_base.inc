@@ -56,7 +56,7 @@ function cu_collections_field_default_field_bases() {
         'show' => 'Show',
       ),
       'allowed_values_function' => '',
-      'allowed_values_php' => '',
+      'allowed_values_php' => FALSE,
     ),
     'translatable' => 0,
     'type' => 'list_text',

@@ -14,9 +14,13 @@ function cu_collections_field_default_field_instances() {
   // 'bean-collection_grid-field_collection_display_summary'.
   $field_instances['bean-collection_grid-field_collection_display_summary'] = array(
     'bundle' => 'collection_grid',
-    'default_value' => NULL,
+    'default_value' => array(
+      0 => array(
+        'value' => 'hide',
+      ),
+    ),
     'default_value_function' => '',
-    'default_value_php' => '',
+    'default_value_php' => FALSE,
     'deleted' => 0,
     'description' => '',
     'display' => array(
