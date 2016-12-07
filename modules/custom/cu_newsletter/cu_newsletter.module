@@ -68,15 +68,6 @@ function cu_newsletter_email_node_theme($node) {
 }
 
 /**
-* Implements hook_custom_theme().
-*/
-function mymodule_custom_theme() {
-  if ((arg(0) == 'node') && (arg(2) == 'email') && (user_access('edit any newsletter content'))) {
-    //return 'emailnewsletter';
-  }
-}
-
-/**
  * Implements hook_page_alter().
  * Add newsletter css
  */
