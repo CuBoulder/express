@@ -27,7 +27,7 @@ function cu_collections_node_info() {
     'collection_item' => array(
       'name' => t('Collection Item'),
       'base' => 'node_content',
-      'description' => '',
+      'description' => 'Create collections of items grouped by custom filters.',
       'has_title' => '1',
       'title_label' => t('Title'),
       'help' => '',
