@@ -16,7 +16,7 @@ function cu_newsletter_list_bean_admin_ui_types() {
   $bean_type->name = 'newsletter_list';
   $bean_type->label = 'Newsletter List';
   $bean_type->options = '';
-  $bean_type->description = 'Display a list of latest issues of a newsletter';
+  $bean_type->description = 'Display a list of latest issues of a newsletter.';
   $export['newsletter_list'] = $bean_type;
 
   return $export;
