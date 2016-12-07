@@ -264,3 +264,31 @@ function cu_collections_secure_permissions($role) {
     return $permissions[$role];
   }
 }
+
+/**
+ * Implements hook_express_help()
+ *
+ * Add contextual help for the collections functionality.
+ *
+ * @param $variables
+ *   Array with information about help hooks
+ * @return $variables
+ */
+function cu_collections_express_help($variables) {
+
+  $variables['node/add/collection-item'][] = array(
+    'title' => 'Collection Item tutorial',
+    'short_title' => 'Collections tutorial',
+    'url' => '/node/1380',
+    'module' => 'cu_collections',
+  );
+
+  $variables['block/add/collection-grid'][] = array(
+    'title' => 'Collection Grid tutorial',
+    'short_title' => 'Collection Grid tutorial',
+    'url' => '/node/1382',
+    'module' => 'cu_collections',
+  );
+
+  return $variables;
+}
