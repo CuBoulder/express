@@ -309,7 +309,7 @@ function cu_collections_field_default_field_instances() {
       'active' => 1,
       'module' => 'image',
       'settings' => array(
-        'insert' => 0,
+        'insert' => 1,
         'insert_absolute' => FALSE,
         'insert_class' => '',
         'insert_default' => 'auto',
