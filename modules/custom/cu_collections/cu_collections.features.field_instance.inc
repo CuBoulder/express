@@ -132,7 +132,7 @@ function cu_collections_field_default_field_instances() {
     'fences_wrapper' => 'no_wrapper',
     'field_name' => 'field_collection_grid_type',
     'label' => 'Type',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
