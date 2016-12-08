@@ -104,7 +104,7 @@ a.button:visited, p.field-name-field-newsletter-more-link a:visited { color: #FF
 
 a.button-full { display: block !important; }
 
-a.button:hover, a.button:active, a.button:focus, p.field-name-field-newsletter-more-link a:hover, p.field-name-field-newsletter-more-link a:active, p.field-name-field-newsletter-more-link a:focus { color: #FFFFFF !important; background-color: #222222 !important; border-color: #222222; }
+a.button:hover, a.button:active, a.button:focus, p.field-name-field-newsletter-more-link a:hover, p.field-name-field-newsletter-more-link a:active, p.field-name-field-newsletter-more-link a:focus { color: #FFFFFF !important; background-color: #222222 !important; border-color: #222222 !important; }
 
 a.button-large { font-size: 16px !important; border-color: #007bc8; border-style: solid; border-top-width: 10px; border-bottom-width: 10px; border-left-width: 10px; border-right-width: 10px; }
 
