@@ -188,10 +188,12 @@ websupport@colorado.edu');
     '/^Metatag support has been enabled for the .*?$/i',
     '/^You can now .+configure the CAPTCHA module.+ for your site.$/i',
     '/^Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.$/i',
+    '/^The block System help was assigned to the invalid region help and has been disabled.$/i',
   ));
   variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .+
 You can now .+configure the CAPTCHA module.+ for your site.
-Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
+Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.
+The block System help was assigned to the invalid region help and has been disabled.');
 
   variable_set('express_layout_node_type_ignore', array('file'));
 
@@ -632,7 +634,27 @@ function cu_core_update_7017() {
   cu_core_express_update('7017');
 }
 
+/**
+ * Core Update 7017 for Express 2.3.0.
+ *
+ * Add to disabled messages array to hide message displayed to user after enabling newsletter bundle.
+ */
+function cu_core_update_7018() {
 
+  // It looks like the original string of messages was truncated to one line so
+  // I am adding all disabled messages once again in addition to new message.
+  variable_set('disable_messages_ignore_regex', array(
+    '/^Metatag support has been enabled for the .*?$/i',
+    '/^You can now .+configure the CAPTCHA module.+ for your site.$/i',
+    '/^Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.$/i',
+    '/^The block System help was assigned to the invalid region help and has been disabled.$/i'
+  ));
+
+  variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .+
+You can now .+configure the CAPTCHA module.+ for your site.
+Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.
+The block System help was assigned to the invalid region help and has been disabled.');
+}
 
 /**
  * Revert features by passing features in an array.
