@@ -26,6 +26,12 @@ function cu_collections_theme_registry_alter(&$theme_registry) {
 }
 
 /**
+ * Sort terms alphabetically
+ */
+function _cu_collections_category_name_sort($a, $b) {
+  return strcmp($a['name'], $b['name']);
+}
+/**
  * Implements module_preprocess_entity().
  *
  * Get the collection bean output.
@@ -47,6 +53,7 @@ function cu_collections_preprocess_entity(&$vars) {
     $terms = array();
 
     // Get the collection types
+
     foreach ($vars['bean']->field_collection_grid_type[LANGUAGE_NONE] as $type) {
       $terms[] = (array) taxonomy_term_load($type['tid']);
       $types[] = $type['tid'];
@@ -57,14 +64,27 @@ function cu_collections_preprocess_entity(&$vars) {
     }
 
     // Get the collection categories
+    taxonomy_terms_static_reset();
     $categories = array();
     $terms = array();
+    $sort = 0;
     foreach ($vars['bean']->field_collection_grid_category[LANGUAGE_NONE] as $category) {
       $term = taxonomy_term_load($category['tid']);
-      $categories[$term->tid] = $term->name;
+      $categories[$term->tid] = array(
+        'name' => $term->name,
+        'weight' => $term->weight,
+      );
+      if ($term->weight != 0) {
+        $sort = 1;
+      }
     }
-    ksort($categories);
-
+    // Sort categories by weight or by name
+    if ($sort) {
+      uasort($categories, 'drupal_sort_weight');
+    }
+    else {
+      uasort($categories, '_cu_collections_category_name_sort');
+    }
     // If there are > 2 categories, let's add navigation
     if (!empty($categories) && count($categories) > 1) {
       // Link navigation
@@ -87,9 +107,9 @@ function cu_collections_preprocess_entity(&$vars) {
 
         // Add links for each category
         foreach ($categories as $key => $category) {
-          $links['items'][] = l($category, '',  array(
+          $links['items'][] = l($category['name'], '',  array(
             'attributes' => array('data-collection' => 'collection-' . $vars['bean']->bid),
-            'fragment' => $anchor . _cu_collections_clean_string($category),
+            'fragment' => $anchor . _cu_collections_clean_string($category['name']),
             'external' => TRUE, 'html' => TRUE)
           );
         }
@@ -100,8 +120,8 @@ function cu_collections_preprocess_entity(&$vars) {
       elseif ($filter_type == 'select') {
         $options = array();
         $options[$anchor . 'all'] = 'All';
-        foreach ($categories as $key => $category) {
-          $options[$anchor . $category] = $category;
+        foreach ($categories as $key => $category['name']) {
+          $options[$anchor . $category['name']] = $category['name'];
         }
         $output = '<label for="' . $anchor . '">Filter</label> <select id=' . $anchor .'select" class="collection-filter">';
         foreach ($options as $key => $option) {
@@ -122,7 +142,7 @@ function cu_collections_preprocess_entity(&$vars) {
     if (!empty($categories) && count($categories) > 1) {
       foreach ($categories as $key => $category) {
         $vars['content']['items'][$key] = _cu_collections_category_query($types, array($key), $summary);
-        $vars['content']['items'][$key]['#prefix'] = '<div class="collection-items collection-items-categories" id="' . $anchor . _cu_collections_clean_string($category) . '"><h3 class="element-invisible">' . $category . '</h3><div class="clear clearfix row">';
+        $vars['content']['items'][$key]['#prefix'] = '<div class="collection-items collection-items-categories" id="' . $anchor . _cu_collections_clean_string($category['name']) . '"><h3 class="element-invisible">' . $category['name'] . '</h3><div class="clear clearfix row">';
         $vars['content']['items'][$key]['#suffix'] = '</div></div>';
       }
     }
