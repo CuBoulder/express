@@ -173,7 +173,7 @@ function cu_collections_field_default_field_instances() {
           'trim_length' => 50,
           'trim_link' => 0,
           'trim_options' => array(
-            'text' => 0,
+            'text' => 'text',
           ),
           'trim_preserve_tags' => '',
           'trim_suffix' => '...',
@@ -318,7 +318,7 @@ function cu_collections_field_default_field_instances() {
       'active' => 1,
       'module' => 'image',
       'settings' => array(
-        'insert' => 0,
+        'insert' => 1,
         'insert_absolute' => FALSE,
         'insert_class' => '',
         'insert_default' => 'auto',
