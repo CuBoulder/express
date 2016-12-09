@@ -31,18 +31,6 @@ function profile_module_manager_admin_settings() {
       ),
     ),
   );
-  // Add explode of ignore variable.
-  $ignore_modules = variable_get('profile_module_manager_ignore', array());
-  $ignore_modules = implode(',', $ignore_modules);
-
-  $form['profile_module_manager_ignore'] = array(
-    '#type' => 'textarea',
-    '#cols' => 40,
-    '#rows' => 5,
-    '#default_value' => $ignore_modules,
-    '#title' => t('Ignore these projects'),
-    '#description' => t('Comma separated list of the machine names of the permissions to ignore like \'varnish, memcache\'.'),
-  );
 
   $bundles = array_keys(profile_module_manager_get_bundles('all'));
   $form['profile_module_manager_bundle_ignore'] = array(
