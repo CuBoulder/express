@@ -118,6 +118,7 @@ function cu_collections_preprocess_entity(&$vars) {
       }
       // Select list navigation
       elseif ($filter_type == 'select') {
+        //uasort($categories, '_cu_collections_category_name_sort');
         $options = array();
         $options[$anchor . 'all'] = 'All';
         foreach ($categories as $key => $category) {
@@ -315,4 +316,42 @@ function cu_collections_express_help($variables) {
   );
 
   return $variables;
+}
+
+/** Implements hook_form_FORM_ID_alter().
+ *
+ * Add validation function to term edit form.
+*/
+function cu_collections_form_taxonomy_form_term_alter(&$form, &$form_state, $form_id) {
+ $form['relations']['#access'] = FALSE;
+}
+
+/**
+* Implements hook_form_FORM_ID_alter().
+*
+* Add validation function to terms overview form.
+*/
+function cu_collections_form_taxonomy_overview_terms_alter(&$form, &$form_state, $form_id) {
+ if ($form['#vocabulary']->machine_name == 'collection_categories') {
+   $form['#validate'][] = 'cu_collections_taxonomy_overview_form_validate';
+ }
+}
+
+/**
+ * Validation function for cu_article_form_taxonomy_overview_terms_alter().
+ *
+ * Prevents user from exceeding maximum depth on taxonomy terms.
+ */
+function cu_collections_taxonomy_overview_form_validate($form, &$form_state) {
+  $limit = 0;
+  foreach ($form_state['input'] as $key => $term) {
+    if (!empty($term['depth']) && $term['depth'] > $limit && (substr($key, 0, 3) == 'tid')) {
+      $error_link = l('This change', NULL, array(
+        'external' => TRUE,
+        'fragment' => 'edit-tid' . $term['tid'] . '0-edit'
+      ));
+      form_set_error($key . '[depth]', t('!change has caused the taxonomy to exceed its maximum depth of 1 levels.', array('!change' => $error_link)));
+
+    }
+  }
 }
