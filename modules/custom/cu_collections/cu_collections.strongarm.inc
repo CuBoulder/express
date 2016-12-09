@@ -35,7 +35,7 @@ function cu_collections_strongarm() {
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
   $strongarm->api_version = 1;
   $strongarm->name = 'cache_flush_cache_entity_field_collection_item';
-  $strongarm->value = 1479330189;
+  $strongarm->value = 1481305917;
   $export['cache_flush_cache_entity_field_collection_item'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -120,16 +120,16 @@ function cu_collections_strongarm() {
     'extra_fields' => array(
       'form' => array(
         'metatags' => array(
-          'weight' => '8',
+          'weight' => '10',
         ),
         'title' => array(
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '7',
+          'weight' => '9',
         ),
         'redirect' => array(
-          'weight' => '6',
+          'weight' => '8',
         ),
       ),
       'display' => array(),
