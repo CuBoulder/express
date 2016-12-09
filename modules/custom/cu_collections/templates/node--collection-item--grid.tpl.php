@@ -10,8 +10,9 @@
     <h4><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h4>
     <div class="collection-summary">
       <?php
+
         if (!empty($content['field_collection_preview'])) {
-          print render($content['field_collection_body']);
+          print render($content['field_collection_preview']);
         }
         else {
           print render($content['field_collection_body']);
