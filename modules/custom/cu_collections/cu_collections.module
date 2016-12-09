@@ -174,8 +174,11 @@ function _cu_collections_category_query($types, $category = NULL, $summary = FAL
   // Remove summary if it set to be hidden
   if (!$summary) {
     foreach ($items['nodes'] as $nid => $item) {
-      if (!empty($items['nodes'][$nid]['body'])) {
-        unset($items['nodes'][$nid]['body']);
+      if (!empty($items['nodes'][$nid]['field_collection_body'])) {
+        unset($items['nodes'][$nid]['field_collection_body']);
+      }
+      if (!empty($items['nodes'][$nid]['field_collection_preview'])) {
+        unset($items['nodes'][$nid]['field_collection_preview']);
       }
     }
   }

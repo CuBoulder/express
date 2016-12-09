@@ -8,7 +8,16 @@
 
   <div class="collection-view-mode-grid-content node-view-mode-grid-content">
     <h4><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h4>
-    <div class="collection-summary"><?php print render($content['body']); ?></div>
+    <div class="collection-summary">
+      <?php
+        if (!empty($content['field_collection_preview'])) {
+          print render($content['field_collection_body']);
+        }
+        else {
+          print render($content['field_collection_body']);
+        }
+      ?>
+    </div>
   </div>
 </div>
 </div>
