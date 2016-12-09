@@ -441,7 +441,6 @@ function expressbase_preprocess_block(&$vars) {
   }
   // Add column classes to blocks
   $classes = expressbase_size_column_classes();
-  dpm($classes);
   switch ($vars['block']->region) {
     case 'after_content':
       $vars['classes_array'][] = $classes['xs'][$after_content_columns];
