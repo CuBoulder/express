@@ -120,8 +120,9 @@ function cu_collections_preprocess_entity(&$vars) {
       elseif ($filter_type == 'select') {
         $options = array();
         $options[$anchor . 'all'] = 'All';
-        foreach ($categories as $key => $category['name']) {
-          $options[$anchor . $category['name']] = $category['name'];
+        foreach ($categories as $key => $category) {
+          $option_value = $anchor . $category['name'];
+          $options[$option_value] = $category['name'];
         }
         $output = '<label for="' . $anchor . '">Filter</label> <select id=' . $anchor .'select" class="collection-filter">';
         foreach ($options as $key => $option) {
