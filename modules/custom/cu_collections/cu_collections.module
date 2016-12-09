@@ -64,7 +64,7 @@ function cu_collections_preprocess_entity(&$vars) {
     }
 
     // Get the collection categories
-    taxonomy_terms_static_reset();
+
     $categories = array();
     $terms = array();
     $sort = 0;
@@ -343,6 +343,7 @@ function cu_collections_form_taxonomy_overview_terms_alter(&$form, &$form_state,
  * Prevents user from exceeding maximum depth on taxonomy terms.
  */
 function cu_collections_taxonomy_overview_form_validate($form, &$form_state) {
+  taxonomy_terms_static_reset();
   $limit = 0;
   foreach ($form_state['input'] as $key => $term) {
     if (!empty($term['depth']) && $term['depth'] > $limit && (substr($key, 0, 3) == 'tid')) {
