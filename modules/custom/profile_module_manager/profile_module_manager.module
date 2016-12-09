@@ -59,7 +59,7 @@ function profile_module_manager_menu() {
     'page callback' => 'drupal_get_form',
     'page arguments' => array('profile_module_manager_admin_settings'),
     'file' => 'profile_module_manager.admin.inc',
-    'access arguments' => array('administer modules'),
+    'access arguments' => array('configure profile module manager'),
   );
 
   return $items;
@@ -77,6 +77,10 @@ function profile_module_manager_permission() {
     'enable admin bundles' => array(
       'title' => t('Enable Admin Bundles'),
       'description' => t('Enable modules in admin bundles without administer modules permission.'),
+    ),
+    'configure profile module manager' => array(
+      'title' => t('Configure Profile Module Manager'),
+      'description' => t('Manage hidden bundles and access to UI.'),
     ),
   );
 }

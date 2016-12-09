@@ -247,6 +247,7 @@ function express_permissions_secure_permissions($role) {
       'view status messages',
       'view warning messages',
       'view error messages',
+      'configure profile module manager',
     ),
     'developer' => array(
       'access administration pages',
@@ -401,6 +402,7 @@ function express_permissions_secure_permissions($role) {
       'view warning messages',
       'view error messages',
       'exclude from message filtering',
+      'configure profile module manager',
     ),
     'edit_my_content' => array(
       'access ckeditor link',
