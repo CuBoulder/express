@@ -105,18 +105,18 @@ function express_settings_menu() {
     'weight' => 0,
   );
 
-  // DEFINES PERFORMANCE SECTION
-  $items['admin/settings/performance'] = array(
-    'title' => 'Performance',
+  // DEFINES ADMINSTRATOR SECTION
+  $items['admin/settings/admin'] = array(
+    'title' => 'Administrator',
     'description' => '',
-    'position' => 'right',
+    'position' => 'left',
     'page callback' => 'system_admin_menu_block_page',
     'access arguments' => array('administer express settings'),
     'file' => 'system.admin.inc',
     'file path' => drupal_get_path('module', 'system'),
-    'weight' => -99,
+    'weight' => 99,
   );
-  $items['admin/settings/performance/clear-cache'] = array(
+  $items['admin/settings/admin/clear-cache'] = array(
     'title' => 'Clear Cache',
     'description' => 'Delete and rebuild all site caches.',
     'type' => MENU_NORMAL_ITEM,
@@ -125,6 +125,18 @@ function express_settings_menu() {
     'access arguments' => array('administer cache settings'),
     'weight' => 0,
   );
+    $items['admin/settings/admin/bundle-settings'] = array(
+    'title' => 'Bundle Settings',
+    'description' => 'Control which bundles are visible to users',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('profile_module_manager_admin_settings'),
+    'access arguments' => array('configure profile module manager'),
+    'file' => 'profile_module_manager.admin.inc',
+    'file path' => drupal_get_path('module', 'profile_module_manager'),
+    'weight' => -10,
+  );
+
   return $items;
 }
 

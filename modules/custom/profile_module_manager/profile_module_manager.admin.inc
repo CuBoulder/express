@@ -49,25 +49,7 @@ function profile_module_manager_admin_settings() {
     ),
   );
 
-  return $form;
-}
-
-/**
- * Submit handler for admin settings form.
- *
- * @param $form
- * @param $form_state
- */
-function profile_module_manager_admin_settings_submit($form, &$form_state) {
-  // Save module ignore variable as array.
-  $ignore_modules = explode(',', $form_state['values']['profile_module_manager_ignore']);
-  variable_set('profile_module_manager_ignore', $ignore_modules);
-
-  // Unset ignore modules values.
-  unset($form_state['values']['profile_module_manager_ignore']);
-
-  // Save rest of form values.
-  system_settings_form_submit($form, $form_state);
+  return system_settings_form($form);
 }
 
 /**
