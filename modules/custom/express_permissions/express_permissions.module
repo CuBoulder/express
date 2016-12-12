@@ -153,8 +153,9 @@ function express_permissions_secure_permissions($role) {
       'enable module bundles',
       'view status messages',
       'view warning messages',
-      'view error messages',
-      'administer cache settings' // currently the only perm diff with site owner
+      'view error messages', // currently only the perms bellow diff with site owner role
+      'administer cache settings',
+      'configure profile module manager',
     ),
     'anonymous user' => array(
       'access content',
@@ -402,7 +403,6 @@ function express_permissions_secure_permissions($role) {
       'view warning messages',
       'view error messages',
       'exclude from message filtering',
-      'configure profile module manager',
     ),
     'edit_my_content' => array(
       'access ckeditor link',
