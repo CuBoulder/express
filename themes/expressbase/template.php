@@ -439,29 +439,27 @@ function expressbase_preprocess_block(&$vars) {
     $footer_columns = theme_get_setting('footer_columns') ? theme_get_setting('footer_columns') : 1;
     $footer_columns = (isset($vars['column_override'])) ? $vars['column_override'] : $footer_columns;
   }
-  else {
-    // Add column classes to blocks
-    $classes = expressbase_size_column_classes();
-    switch ($vars['block']->region) {
-      case 'after_content':
-        $vars['classes_array'][] = $classes['xs'][$after_content_columns];
-        $vars['classes_array'][] = $classes['sm'][$after_content_columns];
-        $vars['classes_array'][] = $classes['md'][$after_content_columns];
-        $vars['classes_array'][] = $classes['lg'][$after_content_columns];
-        break;
-      case 'lower':
-        $vars['classes_array'][] = $classes['xs'][$lower_columns];
-        $vars['classes_array'][] = $classes['sm'][$lower_columns];
-        $vars['classes_array'][] = $classes['md'][$lower_columns];
-        $vars['classes_array'][] = $classes['lg'][$lower_columns];
-        break;
-      case 'footer':
-        $vars['classes_array'][] = $classes['xs'][$footer_columns];
-        $vars['classes_array'][] = $classes['sm'][$footer_columns];
-        $vars['classes_array'][] = $classes['md'][$footer_columns];
-        $vars['classes_array'][] = $classes['lg'][$footer_columns];
-        break;
-    }
+  // Add column classes to blocks
+  $classes = expressbase_size_column_classes();
+  switch ($vars['block']->region) {
+    case 'after_content':
+      $vars['classes_array'][] = $classes['xs'][$after_content_columns];
+      $vars['classes_array'][] = $classes['sm'][$after_content_columns];
+      $vars['classes_array'][] = $classes['md'][$after_content_columns];
+      $vars['classes_array'][] = $classes['lg'][$after_content_columns];
+      break;
+    case 'lower':
+      $vars['classes_array'][] = $classes['xs'][$lower_columns];
+      $vars['classes_array'][] = $classes['sm'][$lower_columns];
+      $vars['classes_array'][] = $classes['md'][$lower_columns];
+      $vars['classes_array'][] = $classes['lg'][$lower_columns];
+      break;
+    case 'footer':
+      $vars['classes_array'][] = $classes['xs'][$footer_columns];
+      $vars['classes_array'][] = $classes['sm'][$footer_columns];
+      $vars['classes_array'][] = $classes['md'][$footer_columns];
+      $vars['classes_array'][] = $classes['lg'][$footer_columns];
+      break;
   }
 }
 

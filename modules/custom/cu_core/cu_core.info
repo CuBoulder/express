@@ -15,3 +15,13 @@ dependencies[] = user_external_invite
 dependencies[] = syslog
 dependencies[] = rave_alerts
 dependencies[] = cu_alerts
+
+optional-dependencies[] = cu_users
+optional-dependencies[] = cu_inventory
+optional-dependencies[] = cu_inventory_stats
+optional-dependencies[] = memcache
+optional-dependencies[] = varnish
+optional-dependencies[] = entityreference
+optional-dependencies[] = express_layout
+optional-dependencies[] = secure_permissions
+optional-dependencies[] = express_permissions
