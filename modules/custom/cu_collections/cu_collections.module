@@ -317,7 +317,6 @@ function cu_collections_express_help($variables) {
 
   return $variables;
 }
-
 /** Implements hook_form_FORM_ID_alter().
  *
  * Add validation function to term edit form.
