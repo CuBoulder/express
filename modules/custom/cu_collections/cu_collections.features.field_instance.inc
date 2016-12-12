@@ -22,7 +22,7 @@ function cu_collections_field_default_field_instances() {
     'default_value_function' => '',
     'default_value_php' => FALSE,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'You can choose whether or no to include a truncated version of body field text of the collection items.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -60,7 +60,7 @@ function cu_collections_field_default_field_instances() {
     'default_value_function' => '',
     'default_value_php' => '',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Links appear in a row above the grid as clickable buttons. Select list appears as a dropdown above the grid.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -123,7 +123,7 @@ function cu_collections_field_default_field_instances() {
     'bundle' => 'collection_grid',
     'default_value' => NULL,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'You must add all types of collections you want to display in the collection grid. If you leave a type off of the list, it won\'t display in the grid even if it is tagged with a category that is included.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -136,7 +136,7 @@ function cu_collections_field_default_field_instances() {
     'fences_wrapper' => 'no_wrapper',
     'field_name' => 'field_collection_grid_type',
     'label' => 'Type',
-    'required' => 0,
+    'required' => 1,
     'settings' => array(
       'user_register_form' => FALSE,
     ),
