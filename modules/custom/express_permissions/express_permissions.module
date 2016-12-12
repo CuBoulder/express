@@ -403,6 +403,7 @@ function express_permissions_secure_permissions($role) {
       'view error messages',
       'exclude from message filtering',
       'configure profile module manager',
+      'administer cache settings',
     ),
     'edit_my_content' => array(
       'access ckeditor link',
