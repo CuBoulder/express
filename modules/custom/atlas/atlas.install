@@ -54,7 +54,7 @@ function atlas_requirements($phase) {
         'severity' => REQUIREMENT_WARNING,
       );
     }
-    if (atlas_up()) {
+    if (atlas_up() && is_bool(atlas_up())) {
       $requirements['atlas_is_up'] = array(
         'title' => $t('Atlas Status'),
         'value' => $t('Is up and running.'),
@@ -62,9 +62,10 @@ function atlas_requirements($phase) {
       );
     }
     else {
+      $code = atlas_up();
       $requirements['atlas_is_up'] = array(
         'title' => $t('Atlas Status'),
-        'value' => $t('is down.'),
+        'value' => $t('Atlas is down. Response code is !code.', array('!code' => $code)),
         'severity' => REQUIREMENT_WARNING,
       );
     }

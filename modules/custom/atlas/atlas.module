@@ -226,7 +226,7 @@ function atlas_up() {
     return TRUE;
   }
   else {
-    return FALSE;
+    return $response->code;
   }
 }
 
