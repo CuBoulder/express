@@ -214,19 +214,22 @@ function atlas_admin_settings_submit($form, &$form_state) {
 }
 
 /**
- * Determine if Atlas is up.
+ * Determine if Atlas is up. Included a 5 second timeout.
  *
  * @return bool
  *   TRUE if api returns 200 else FALSE if non 200 or not configured.
  */
 function atlas_up() {
   $url = variable_get('atlas_url');
-  $response = drupal_http_request($url);
+  $options = array(
+    'timeout' => 5.0,
+  );
+  $response = drupal_http_request($url, $options);
   if ($response->code == 200) {
     return TRUE;
   }
   else {
-    return $response->code;
+    return FALSE;
   }
 }
 
@@ -249,11 +252,15 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
     'timeout' => 15,
   );
 
+  global $user;
+
   if (in_array($method, array('POST', 'PUT', 'PATCH', 'DELETE'))) {
     // Set Content-Type header to application/json.
+    $user_string = base64_encode(variable_get('atlas_username'). ':' . variable_get('atlas_password'));
     $request_options['headers'] = array(
       'Content-Type' => 'application/json',
       'User-Agent' => 'Web Express',
+      'Authorization' => 'Basic ' . $user_string,
     );
 
     // When modifying the record, we need to set the If-Match header to the
@@ -269,6 +276,8 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
         unset($data[$k]);
       }
     }
+    // Add the username here since we are using a service account for the PATCH.
+    $data['modified_by'] = $user->name;
     // JSON encode the data.
     if (isset($data['code']['package'])) {
       $data['code']['package'] = array_filter(array_values($data['code']['package']));
@@ -290,7 +299,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
   }
   // If error property exists in the response object.
   elseif (property_exists($response, 'error')) {
-    if (property_exists($response, 'data')) {
+    if (property_exists($response, 'data') && $response->code != 500) {
       $response_json = drupal_json_decode($response->data);
       if (array_key_exists('_error', $response_json)) {
         $error_message = 'Atlas response: ' . $response->error . ' - Error Code: ' . $response_json['_error']['code'] . ' - ' . $response_json['_error']['message'];
@@ -310,12 +319,11 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
     $sid = variable_get('sid');
     watchdog(
       'atlas',
-      '%method sent to %resource for %sid - %site_data',
+      '%method sent to %resource for %sid',
       array(
         '%method' => $method,
         '%resource' => $resource,
         '%sid' => $sid,
-        '%site_data' => drupal_json_encode($data),
       ),
       WATCHDOG_INFO,
       NULL
