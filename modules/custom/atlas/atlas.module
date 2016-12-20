@@ -194,7 +194,7 @@ function atlas_admin_settings_submit($form, &$form_state) {
     $request_data['code']['profile'] = $form_state['values']['atlas_profile'];
   }
 
-  if (isset($form_state['values']['atlas_packages']) && $form_state['values']['atlas_packages'] !=  $site_array['code']['package']) {
+  if (isset($form_state['values']['atlas_packages']) && (!array_key_exists('package', $site_array['code']) || $form_state['values']['atlas_packages'] !=  $site_array['code']['package'])) {
     $request_data['code']['package'] = $form_state['values']['atlas_packages'];
   }
 
