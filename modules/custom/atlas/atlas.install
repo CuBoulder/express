@@ -68,7 +68,7 @@ function atlas_requirements($phase) {
         'severity' => REQUIREMENT_WARNING,
       );
     }
-    if ($atlas_up) {
+    if ($atlas_up) {
       $requirements['atlas_is_up'] = array(
         'title' => $t('Atlas Status'),
         'value' => $t('Is up and running.'),
