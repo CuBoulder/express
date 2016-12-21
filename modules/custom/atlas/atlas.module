@@ -130,10 +130,10 @@ function atlas_admin_settings() {
   }
 
   // Set the options and description. Override if status is not 'Launched'.
-  $update_group_options = array(range(0, 14));
+  $update_group_options = range(0, 14);
   $update_group_description = 'Groups 0-10 are considered "normal" and can be arbitrarily reassigned. Groups 11-14 should only be used for sites that need special attention.';
   if($site_array['status'] != 'launched'){
-    $update_group_options = array(range(0, 2));
+    $update_group_options = range(0, 2);
     $update_group_description = 'Installed sites can be put into groups 0-2. These groups can be arbitrarily reassigned.';
   }
   $active_update_group = $site_array['update_group'];
