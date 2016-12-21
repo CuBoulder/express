@@ -48,8 +48,6 @@ function atlas_admin_settings() {
     return;
   }
 
-  $form['#submit'][] = 'atlas_admin_settings_submit';
-
   $site_array = atlas_api_request('sites', $atlas_id);
   
   // Options are limited based on permissions.
@@ -163,7 +161,19 @@ function atlas_admin_settings() {
     '#default_value' => $site_array['_etag'],
   );
 
+  $form['#validate'][] = 'validate_atlas_admin_settings';
+  $form['#submit'][] = 'atlas_admin_settings_submit';
+
   return system_settings_form($form);
+}
+
+
+function validate_atlas_admin_settings($form, &$form_state) {
+  $atlas_id = variable_get('atlas_id', FALSE);
+  $site_array = atlas_api_request('sites', $atlas_id);
+  if ($form['atlas_path']['#value'] ==  $site_array['sid'] && ($form['atlas_status']['#value'] == 'launching' || $form['atlas_status']['#value'] == 'launched')) {
+    form_set_error('atlas_path', t('You cannot launch a site at it\'s \'p1\' URL.'));
+  }
 }
 
 /**
