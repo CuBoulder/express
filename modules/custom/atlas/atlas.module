@@ -237,11 +237,11 @@ function atlas_up() {
  * Send a request to the Atlas API.
  *
  * @param string $resource
- *   'sites','commands','code','statistics'
- * @param null $query
- *   query string or single item identifier, do not include the first separator.
+ *   Options include 'sites','commands','code','statistics'.
+ * @param string $query
+ *   Query string or single item identifier, do not include the first separator.
  * @param string $method
- *   HTTP method to use
+ *   HTTP method to use.
  * @param array $data
  *   Array of data to use when creating or updating an item.
  */
