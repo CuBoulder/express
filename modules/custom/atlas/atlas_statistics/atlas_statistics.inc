@@ -46,13 +46,21 @@ function atlas_statistics_atlas_statistics() {
     // Removes user 0 (aka Anonymous).
     if ($user->name) {
       $usernames[] = $user->name;
+      if (in_array('site_owner', $user->roles)) {
+        $usernames_site_contact[] = $user->name;
+      }
     }
     if ($user->mail) {
       $useremails[] = $user->mail;
+      if (in_array('site_owner', $user->roles)) {
+        $useremails_site_contact[] = $user->mail;
+      }
     }
   }
-  $statistics_data['users']['username'] = $usernames;
-  $statistics_data['users']['email_address'] = $useremails;
+  $statistics_data['users']['username']['all'] = $usernames;
+  $statistics_data['users']['username']['site_contact'] = $usernames_site_contact;
+  $statistics_data['users']['email_address']['all'] = $useremails;
+  $statistics_data['users']['email_address']['site_contact'] = $useremails_site_contact;
 
   // Add report of overridden features.
   if (module_exists('features')) {

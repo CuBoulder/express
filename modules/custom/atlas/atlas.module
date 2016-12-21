@@ -233,6 +233,18 @@ function atlas_up() {
   }
 }
 
+/**
+ * Send a request to the Atlas API.
+ *
+ * @param string $resource
+ *   'sites','commands','code','statistics'
+ * @param null $query
+ *   query string or single item identifier, do not include the first separator.
+ * @param string $method
+ *   HTTP method to use
+ * @param array $data
+ *   Array of data to use when creating or updating an item.
+ */
 function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NULL) {
   // We want to figure out what kind of query we are running (Resource endpoint
   // vs. single item) and adjust the separator.
