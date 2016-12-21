@@ -84,6 +84,11 @@ function ldap_servers_requirements($phase) {
         try {
           $connect_result = $server->connect();
           if ($connect_result == LDAP_SUCCESS) {
+            if ($server->bind_method == LDAP_SERVERS_BIND_METHOD_USER) {
+              $requirements[$server_req_key]['value'] = $t('Connection: Success, Bind: Not tested due to method', $server_tokens);
+              $requirements[$server_req_key]['severity'] = REQUIREMENT_OK;
+              return $requirements;
+            }
             $bind_result = $server->bind();
             if ($bind_result == LDAP_SUCCESS) {
               $requirements[$server_req_key]['value'] = $t('Connection: Success, Bind: Success', $server_tokens);
