@@ -62,9 +62,11 @@ function atlas_statistics_atlas_statistics() {
   $statistics_data['users']['email_address']['all'] = $useremails;
   $statistics_data['users']['email_address']['site_contact'] = $useremails_site_contact;
 
-  // Add report of overridden features.
-  if (module_exists('features')) {
-    $statistics_data['overridden_features'] = _atlas_statistics_get_features_statuses();
+  // Add report of overridden features if the module is enabled and there are
+  // overridden features.
+  $overridden = _atlas_statistics_get_features_statuses();
+  if (module_exists('features') && !empty($overridden)) {
+    $statistics_data['overridden_features'] = $overridden;
   }
 
   return $statistics_data;
