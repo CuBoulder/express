@@ -29,8 +29,6 @@ function cu_core_install() {
   // these modules need to be enabled late in the install process and/or to be ignored by profile_module_manager's report.
   $module_array = array(
     'cu_users',
-    'cu_inventory',
-    'cu_inventory_stats',
     'memcache',
     'varnish'  // Adding caching modules here for changes involving Travis CI testing.
   );
@@ -654,6 +652,30 @@ function cu_core_update_7018() {
 You can now .+configure the CAPTCHA module.+ for your site.
 Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.
 The block System help was assigned to the invalid region help and has been disabled.');
+}
+
+/**
+ * Core Update 7019 for Express 2.3.1.
+ *
+ * Disable old inventory modules and enable Atlas modules.
+ */
+function cu_core_update_7019() {
+
+  if (module_exists('cu_inventory_stats')) {
+    module_disable(array('cu_inventory_stats'));
+    drupal_uninstall_modules(array('cu_inventory_stats'));
+  }
+
+  if (module_exists('cu_inventory')) {
+    module_disable(array('cu_inventory'));
+    drupal_uninstall_modules(array('cu_inventory'));
+  }
+
+  module_enable(array('cu_atlas'));
+
+  cu_core_revert_features();
+
+  cu_core_express_update('7019');
 }
 
 /**

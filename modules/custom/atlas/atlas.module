@@ -48,8 +48,6 @@ function atlas_admin_settings() {
     return;
   }
 
-  $form['#submit'][] = 'atlas_admin_settings_submit';
-
   $site_array = atlas_api_request('sites', $atlas_id);
   
   // Options are limited based on permissions.
@@ -109,7 +107,7 @@ function atlas_admin_settings() {
     '#default_value' => $active_profile,
   );
 
-  $package_options = _get_code_options('module');
+  $package_options = _get_package_options();
   // If there are packages, add the field.
   if (!empty($package_options)) {
     $active_packages = array();
@@ -130,10 +128,10 @@ function atlas_admin_settings() {
   }
 
   // Set the options and description. Override if status is not 'Launched'.
-  $update_group_options = array(range(0, 14));
+  $update_group_options = range(0, 14);
   $update_group_description = 'Groups 0-10 are considered "normal" and can be arbitrarily reassigned. Groups 11-14 should only be used for sites that need special attention.';
   if($site_array['status'] != 'launched'){
-    $update_group_options = array(range(0, 2));
+    $update_group_options = range(0, 2);
     $update_group_description = 'Installed sites can be put into groups 0-2. These groups can be arbitrarily reassigned.';
   }
   $active_update_group = $site_array['update_group'];
@@ -163,7 +161,27 @@ function atlas_admin_settings() {
     '#default_value' => $site_array['_etag'],
   );
 
+  $form['#validate'][] = 'validate_atlas_admin_settings';
+  $form['#submit'][] = 'atlas_admin_settings_submit';
+
   return system_settings_form($form);
+}
+
+/**
+ * Validate the Atlas form.
+ *
+ * @param $form
+ * @param $form_state
+ */
+function validate_atlas_admin_settings($form, &$form_state) {
+  $atlas_id = variable_get('atlas_id', FALSE);
+  $site_array = atlas_api_request('sites', $atlas_id);
+  if ($form['atlas_path']['#value'] == $site_array['sid'] && ($form['atlas_status']['#value'] == 'launching' || $form['atlas_status']['#value'] == 'launched')) {
+    form_set_error('atlas_path', t('You cannot launch a site at it\'s \'p1\' URL.'));
+  }
+  if ($form['atlas_status']['#value'] == 'available') {
+    form_set_error('atlas_status', t('You cannot make any changes to a site while it is in the \'Available\' state.'));
+  }
 }
 
 /**
@@ -334,13 +352,39 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
 /**
  * Get code options.
  */
-function _get_code_options($type, $name = NULL ) {
-  if($name){
+function _get_code_options($type = NULL, $name = NULL) {
+  if($name && $type){
     $query = 'where={"meta.name":"' . $name . '","meta.code_type":"' . $type . '"}';
+  }
+  elseif($type){
+    $query = 'where={"meta.code_type":"' . $type . '"}';
+  }
+  elseif($name){
+    $query = 'where={"meta.name":"' . $name . '"}';
   }
   else{
     $query = 'where={"meta.code_type":"' . $type . '"}';
   }
+  $options_data = atlas_api_request('code', $query);
+  $options_data = (array) $options_data;
+  $options_data = $options_data['_items'];
+
+  $options = array();
+  foreach($options_data as $option) {
+    $option_label = $option['meta']['name'] . ' ' . $option['meta']['version'];
+    if($option['meta']['is_current']) {
+      $option_label = $option_label . ' - Current';
+    }
+    $options[$option['_id']] = $option_label;
+  }
+  return $options;
+}
+
+/**
+ * Get package options.
+ */
+function _get_package_options() {
+  $query = 'where={"meta.code_type":{"$in":["module","theme","library"]}}';
   $options_data = atlas_api_request('code', $query);
   $options_data = (array) $options_data;
   $options_data = $options_data['_items'];
