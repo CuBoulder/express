@@ -25,12 +25,23 @@ function atlas_statistics_atlas_statistics() {
 
   // Count Nodes.
   $node_query = db_select('node', 'n');
+  $node_query->addExpression('COUNT(type)', 'count_type');
   $node_query->addExpression('MAX(changed)', 'max_changed');
   $node_query->orderBy('max_changed', 'DESC');
   $node_result = $node_query->execute();
   $all_nodes = $node_result->fetchAll();
 
-  $statistics_data['nodes_total'] = count($all_nodes);
+  // Count by type.
+  $node_type_counts = array();
+  foreach ($all_nodes as $object) {
+    $node_type_counts[] = $object->count_type;
+  }
+  // Total up the number of nodes.
+  $number_nodes = array_sum($node_type_counts);
+  if (empty($number_nodes)) {
+    $number_nodes = 0;
+  }
+  $statistics_data['nodes_total'] = $number_nodes;
 
   // Days since last edit.
   $most_recent_edit = $all_nodes[0]->max_changed;

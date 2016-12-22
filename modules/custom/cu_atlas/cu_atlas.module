@@ -274,6 +274,24 @@ function _cu_atlas_recursive(&$element) {
 function cu_atlas_atlas_statistics() {
   $statistics_data = array();
 
+  // Count Nodes.
+  $node_query = db_select('node', 'n');
+  $node_query->fields('n', array('type'));
+  $node_query->addExpression('COUNT(type)', 'count_type');
+  $node_query->addExpression('MAX(changed)', 'max_changed');
+  $node_query->groupBy('n.type');
+  $node_query->orderBy('max_changed', 'DESC');
+
+  $node_result = $node_query->execute();
+
+  // Counts for each node type.
+  $all_node_types = $node_result->fetchAll();
+  $node_type_counts = array();
+  foreach ($all_node_types as $object) {
+    $node_type_counts[$object->type] = $object->count_type;
+  }
+  $statistics_data['nodes_by_type'] = $node_type_counts;
+
   // Count Beans.
   $bean_query = db_select('bean', 'b');
   $bean_query->fields('b', array('type'));
@@ -286,11 +304,13 @@ function cu_atlas_atlas_statistics() {
 
   $bean_counts = array();
   foreach ($all_beans as $object) {
-    $bean_count = 'bean_type_' . $object->type;
-    $bean_counts[$bean_count] = $object->count_bean;
+    $bean_counts[$object->type] = $object->count_bean;
   }
-  // Count the beans.
-  $number_beans = count($all_beans);
+  // Total up the number of nodes.
+  $number_beans = array_sum($bean_counts);
+  if (empty($number_beans)) {
+    $number_beans = 0;
+  }
   // If there are no beans, don't add empty statistics.
   if ($number_beans > 0) {
     $statistics_data['beans_by_type'] = $bean_counts;
