@@ -169,9 +169,6 @@ function atlas_admin_settings() {
 
 /**
  * Validate the Atlas form.
- *
- * @param $form
- * @param $form_state
  */
 function validate_atlas_admin_settings($form, &$form_state) {
   $atlas_id = variable_get('atlas_id', FALSE);
@@ -362,7 +359,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
  */
 function _get_code_options($type = NULL, $name = NULL) {
 
-  if($name && $type){
+  if ($name && $type) {
     if($type == 'packages') {
       $query = 'where={"meta.name":"' . $name . '","meta.code_type":{"$in":["module","theme","library"]}}';
     }
@@ -370,7 +367,7 @@ function _get_code_options($type = NULL, $name = NULL) {
       $query = 'where={"meta.name":"' . $name . '","meta.code_type":"' . $type . '"}';
     }
   }
-  elseif($type){
+  elseif ($type) {
     if($type == 'packages') {
       $query = 'where={"meta.code_type":{"$in":["module","theme","library"]}}';
     }
@@ -378,10 +375,10 @@ function _get_code_options($type = NULL, $name = NULL) {
       $query = 'where={"meta.code_type":"' . $type . '"}';
     }
   }
-  elseif($name){
+  elseif ($name) {
     $query = 'where={"meta.name":"' . $name . '"}';
   }
-  else{
+  else {
     $query = NULL;
   }
 
