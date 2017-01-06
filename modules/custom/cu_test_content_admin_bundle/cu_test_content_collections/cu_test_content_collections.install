@@ -18,7 +18,7 @@ function cu_test_content_collections_install() {
   $nodes =  array(
     '1' => array(
       'title' => 'Anthropology',
-	     'body' => _cu_test_content_collections_create_nodes_dummy_text(),
+	    'body' => _cu_test_content_collections_create_nodes_dummy_text(),
 	   ),
 	   '2' => array(
         'title' => 'Chemistry & Bio Chemistry',
@@ -129,11 +129,11 @@ function _cu_test_content_collections_create_nodes($nodes) {
     $node->title = $node_title;
     $node->language = LANGUAGE_NONE;
     if (isset($elem['body'])) {
-      $node->body[$node->language][0]['value'] = $elem['body'];
-      $node->body[$node->language][0]['safe_value'] = $elem['body'];
+      $node->field_collection_body[$node->language][0]['value'] = $elem['body'];
+      $node->field_collection_body[$node->language][0]['safe_value'] = $elem['body'];
     }
 
-    $node->body[$node->language][0]['format']  = 'wysiwyg';
+    $node->field_collection_body[$node->language][0]['format']  = 'wysiwyg';
 
     $rand_tags = array_rand($collection_categories, 2);
 
