@@ -1,4 +1,4 @@
-name = Photo Gallery
+name = Photo Gallery Bundle
 description = Collections of photos with lightbox functionality
 core = 7.x
 package = CU-Photo Gallery
