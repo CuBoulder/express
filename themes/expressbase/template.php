@@ -74,6 +74,9 @@ function expressbase_preprocess_html(&$vars) {
   // Add Campus name to title
   $slogan_title = variable_get('site_slogan_title', 'University of Colorado Boulder');
   $vars['head_title_array']['slogan'] = $slogan_title;
+  if (isset($vars['head_title'])) {
+    $vars['head_title_array']['title'] = $vars['head_title'];
+  }
   $vars['head_title'] = implode(' | ', $vars['head_title_array']);
 
   // set classes for theme configs
