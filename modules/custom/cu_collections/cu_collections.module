@@ -68,22 +68,26 @@ function cu_collections_preprocess_entity(&$vars) {
     $categories = array();
     $terms = array();
     $sort = 0;
-    foreach ($vars['bean']->field_collection_grid_category[LANGUAGE_NONE] as $category) {
-      $term = taxonomy_term_load($category['tid']);
-      $categories[$term->tid] = array(
-        'name' => $term->name,
-        'weight' => $term->weight,
-      );
-      if ($term->weight != 0) {
-        $sort = 1;
+
+    if (!empty($vars['bean']->field_collection_grid_category)) {
+      foreach ($vars['bean']->field_collection_grid_category[LANGUAGE_NONE] as $category) {
+        $term = taxonomy_term_load($category['tid']);
+        $categories[$term->tid] = array(
+          'name' => $term->name,
+          'weight' => $term->weight,
+        );
+        if ($term->weight != 0) {
+          $sort = 1;
+        }
       }
-    }
-    // Sort categories by weight or by name
-    if ($sort) {
-      uasort($categories, 'drupal_sort_weight');
-    }
-    else {
-      uasort($categories, '_cu_collections_category_name_sort');
+
+      // Sort categories by weight or by name
+      if ($sort) {
+        uasort($categories, 'drupal_sort_weight');
+      }
+      else {
+        uasort($categories, '_cu_collections_category_name_sort');
+      }
     }
     // If there are > 2 categories, let's add navigation
     if (!empty($categories) && count($categories) > 1) {
