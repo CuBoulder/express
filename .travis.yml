@@ -113,7 +113,7 @@ before_script:
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
   #- drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
   - ls -al
-  - drush sql-cli < education_1_12_2017.sql
+  - drush sql-cli < profiles/express/tests/behat/education_1_12_2017.sql
 
   # Enable all the bundles
   # - drush en cu_advanced_content_bundle cu_advanced_design_bundle cu_advanced_layout_bundle cu_debug_admin_bundle cu_events_bundle cu_forms_bundle cu_news_bundle cu_people_bundle cu_photo_gallery_bundle cu_seo_bundle cu_social_media_bundle -y
