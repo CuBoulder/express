@@ -107,7 +107,7 @@ function atlas_admin_settings() {
     '#default_value' => $active_profile,
   );
 
-  $package_options = _get_package_options();
+  $package_options = _get_code_options('packages', NULL);
   // If there are packages, add the field.
   if (!empty($package_options)) {
     $active_packages = array();
@@ -169,9 +169,6 @@ function atlas_admin_settings() {
 
 /**
  * Validate the Atlas form.
- *
- * @param $form
- * @param $form_state
  */
 function validate_atlas_admin_settings($form, &$form_state) {
   $atlas_id = variable_get('atlas_id', FALSE);
@@ -363,40 +360,40 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
 
 /**
  * Get code options.
+ *
+ * @param string $type optional
+ *   Either type in code schema or 'packages' to get all modules, themes, and
+ *   libraries.
+ * @param string $name optional
+ *   All versions of a specifically named code item. *
+ * @return array option list
+ *   Form ready list of options with '_id' field as the key.
  */
 function _get_code_options($type = NULL, $name = NULL) {
-  if($name && $type){
-    $query = 'where={"meta.name":"' . $name . '","meta.code_type":"' . $type . '"}';
+
+  if ($name && $type) {
+    if($type == 'packages') {
+      $query = 'where={"meta.name":"' . $name . '","meta.code_type":{"$in":["module","theme","library"]}}';
+    }
+    else {
+      $query = 'where={"meta.name":"' . $name . '","meta.code_type":"' . $type . '"}';
+    }
   }
-  elseif($type){
-    $query = 'where={"meta.code_type":"' . $type . '"}';
+  elseif ($type) {
+    if($type == 'packages') {
+      $query = 'where={"meta.code_type":{"$in":["module","theme","library"]}}';
+    }
+    else {
+      $query = 'where={"meta.code_type":"' . $type . '"}';
+    }
   }
-  elseif($name){
+  elseif ($name) {
     $query = 'where={"meta.name":"' . $name . '"}';
   }
-  else{
-    $query = 'where={"meta.code_type":"' . $type . '"}';
+  else {
+    $query = NULL;
   }
-  $options_data = atlas_api_request('code', $query);
-  $options_data = (array) $options_data;
-  $options_data = $options_data['_items'];
 
-  $options = array();
-  foreach($options_data as $option) {
-    $option_label = $option['meta']['name'] . ' ' . $option['meta']['version'];
-    if($option['meta']['is_current']) {
-      $option_label = $option_label . ' - Current';
-    }
-    $options[$option['_id']] = $option_label;
-  }
-  return $options;
-}
-
-/**
- * Get package options.
- */
-function _get_package_options() {
-  $query = 'where={"meta.code_type":{"$in":["module","theme","library"]}}';
   $options_data = atlas_api_request('code', $query);
   $options_data = (array) $options_data;
   $options_data = $options_data['_items'];
