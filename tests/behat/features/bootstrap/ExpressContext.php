@@ -16,6 +16,16 @@ use Behat\Behat\Context\Step\Given;
 class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
+   * Current authenticated user.
+   *
+   * A value of FALSE denotes an anonymous user.
+   *
+   * @var stdClass|bool
+   */
+  public $user = FALSE;
+
+
+  /**
    * Initializes context.
    *
    * Every scenario gets its own context instance.
@@ -86,13 +96,25 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * @BeforeScenario
    */
-  public function before($event) {
-    //set_time_limit(60);
+  public function beforeScenario($event) {
+    // If this is a @javascript test, then resize the window.
+    if ($event->getScenario()->hasTag('javascript')) {
+      $this->getSession()->resizeWindow(1280, 1024, 'current');
+    }
   }
 
 
   /**
-   * Creates and authenticates a user with the given role(s).
+   * @AfterScenario
+   */
+  public function afterScenario($event) {
+    // @todo Handle user logouts better.
+    // assertAuthenticatedByRole() should log users out at the beginning, but
+    // no user seems to be logged in when that check is run.
+  }
+
+  /**
+   * Authenticates a user with the given role.
    *
    * @Given CU - I am logged in as a user with the :role role(s)
    * @Given CU - I am logged in as a/an :role
@@ -113,15 +135,18 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     );
 
     // Check if logged in.
-    if ($this->loggedIn()) {
-      $this->logout();
+    if ($this->cuLoggedIn()) {
+      // If logged in, logout and go to user page.
+      $this->getSession()->visit($this->locatePath('/user/logout'));
+      $this->getSession()->visit($this->locatePath('/user'));
     }
 
     if (!$this->user) {
       throw new \Exception('Tried to login without a user.');
     }
 
-    $this->getSession()->visit($this->locatePath('/user'));
+    // Don't need to visit user page since that should have been done in cuLoggedIn().
+    //$this->getSession()->visit($this->locatePath('/user'));
     $element = $this->getSession()->getPage();
     $element->fillField($this->getDrupalText('username_field'), $this->user->name);
     $element->fillField($this->getDrupalText('password_field'), $this->user->pass);
@@ -134,12 +159,30 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     // Log in.
     $submit->click();
 
-    // Need to figure out better way to check if logged in.
-    /*
-    if (!$this->loggedIn()) {
+    if (!$this->cuLoggedIn()) {
       throw new \Exception(sprintf("Failed to log in as user '%s' with role '%s'", $this->user->name, $this->user->role));
     }
-    */
+
+  }
+
+  /**
+   * Determine if the a user is already logged in.
+   *
+   * @return boolean
+   *   Returns TRUE if a user is logged in for this session.
+   */
+  public function cuLoggedIn() {
+    $session = $this->getSession();
+    $page = $session->getPage();
+
+    // The user page always kicks to an HTTPS response with the admin theme.
+    // Better to check admin theme since sites can have various themes that conflict with the log out link.
+    $session = $this->getSession();
+    $session->visit($this->locatePath('/user'));
+
+    // If a logout link is found, we are logged in. While not perfect, this is
+    // how Drupal SimpleTests currently work as well.
+    return $page->findLink($this->getDrupalText('log_out'));
   }
 
   /**
@@ -412,7 +455,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
       if (!($driver instanceof Selenium2Driver)) {
         return;
       }
-      file_put_contents('/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
+      file_put_contents('/data/code/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
     }
   }
 
