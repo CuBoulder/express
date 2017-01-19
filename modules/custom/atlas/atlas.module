@@ -332,7 +332,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
         $error_message = 'Atlas response: ' . $response->error . ' - Error Code: ' . $response_json['_error']['code'] . ' - ' . $response_json['_error']['message'];
       }
       if (array_key_exists('_issues', $response_json)) {
-        $error_message = 'Atlas response: ' . $response->error . ' - ' . implode(', ', $response_json['_issues']);
+        $error_message = 'Atlas response: ' . $response->error . ' - ' . $response->data;
       }
     }
     else {
