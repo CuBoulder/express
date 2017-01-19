@@ -44,7 +44,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   public static function prepare($scope) {
 
     // List needed users.
-    $users = array('developer', 'administrator', 'content_editor', 'site_owner');
+    $users = array('developer', 'administrator', 'content_editor', 'site_owner', 'edit_my_content');
 
     // Create users.
     foreach ($users as $user_name) {
