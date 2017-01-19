@@ -450,15 +450,21 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    * @AfterStep
    */
   public function takeScreenShotAfterFailedStep($scope) {
+    // 99 is the code for a failed test.
     if (99 === $scope->getTestResult()->getResultCode()) {
+      // Return if the test is not a @javascript one.
       $driver = $this->getSession()->getDriver();
       if (!($driver instanceof Selenium2Driver)) {
         return;
       }
-      file_put_contents('/data/code/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
+
+      // Check for directory on VM and take screenshot.
+      // Place in this directory so it is easier to see outside of VM.
+      if (file_exists('/data/code')) {
+        file_put_contents('/data/code/test.png', $this->getSession()->getDriver()->getScreenshot());
+      }
     }
   }
-
 
 
   /**
