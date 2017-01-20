@@ -15,66 +15,66 @@ function cu_test_content_collections_install() {
   );
   _cu_test_content_collections_terms_create_taxonomy_terms_insert('collection_categories', $terms);
 
-  $nodes =  array(
+  $nodes = array(
     '1' => array(
       'title' => 'Anthropology',
-	    'body' => _cu_test_content_collections_create_nodes_dummy_text(),
-	   ),
-	   '2' => array(
-        'title' => 'Chemistry & Bio Chemistry',
-	      'body' => _cu_test_content_collections_create_nodes_dummy_text(),
-	   ),
-	   '3' => array(
-	     'title' => 'Economics',
-	     'body' => _cu_test_content_collections_create_nodes_dummy_text(),
-	   ),
-	   '4' => array(
-	     'title' => 'Film Studies',
-	     'body' => _cu_test_content_collections_create_nodes_dummy_text(),
-	   ),
-	   '5' => array(
-	     'title' => 'Geography',
-	     'body' => _cu_test_content_collections_create_nodes_dummy_text(),
-	   ),
-	   '6' => array(
-	     'title' => 'History',
-	     'body' => _cu_test_content_collections_create_nodes_dummy_text(),
-	   ),
-	   '7' => array(
-	     'title' => 'Linguistics',
-	     'body' => _cu_test_content_collections_create_nodes_dummy_text(),
-	   ),
-	   '8' => array(
-	     'title' => 'Neuroscience',
-	     'body' => _cu_test_content_collections_create_nodes_dummy_text(),
-	   ),
-	   '9' => array(
-	     'title' => 'Philosophy',
-	     'body' => _cu_test_content_collections_create_nodes_dummy_text(),
-	   ),
-	   '10' => array(
-	     'title' => 'Religious Studies',
-	     'body' => _cu_test_content_collections_create_nodes_dummy_text(),
-	   ),
-	   '11' => array(
+      'body' => _cu_test_content_collections_create_nodes_dummy_text(),
+    ),
+    '2' => array(
+      'title' => 'Chemistry & Bio Chemistry',
+      'body' => _cu_test_content_collections_create_nodes_dummy_text(),
+    ),
+    '3' => array(
+      'title' => 'Economics',
+      'body' => _cu_test_content_collections_create_nodes_dummy_text(),
+    ),
+    '4' => array(
+      'title' => 'Film Studies',
+      'body' => _cu_test_content_collections_create_nodes_dummy_text(),
+    ),
+    '5' => array(
+      'title' => 'Geography',
+      'body' => _cu_test_content_collections_create_nodes_dummy_text(),
+    ),
+    '6' => array(
+      'title' => 'History',
+      'body' => _cu_test_content_collections_create_nodes_dummy_text(),
+    ),
+    '7' => array(
+      'title' => 'Linguistics',
+      'body' => _cu_test_content_collections_create_nodes_dummy_text(),
+    ),
+    '8' => array(
+      'title' => 'Neuroscience',
+      'body' => _cu_test_content_collections_create_nodes_dummy_text(),
+    ),
+    '9' => array(
+      'title' => 'Philosophy',
+      'body' => _cu_test_content_collections_create_nodes_dummy_text(),
+    ),
+    '10' => array(
+      'title' => 'Religious Studies',
+      'body' => _cu_test_content_collections_create_nodes_dummy_text(),
+    ),
+    '11' => array(
       'title' => 'Sociology',
-	     'body' => _cu_test_content_collections_create_nodes_dummy_text(),
-	   ),
-	   '12' => array(
-        'title' => 'Speech, Language & Hearing Sciences',
-	      'body' => _cu_test_content_collections_create_nodes_dummy_text(),
-	   ),
-	   '13' => array(
-	     'title' => 'Theatre & Dance',
-	     'body' => _cu_test_content_collections_create_nodes_dummy_text(),
-	   ),
-	   '14' => array(
-	     'title' => 'Women & Gender Studies',
-	     'body' => _cu_test_content_collections_create_nodes_dummy_text(),
-	   ),
-	 );
-	 _cu_test_content_collections_create_nodes($nodes);
-   _cu_test_content_collections_block();
+      'body' => _cu_test_content_collections_create_nodes_dummy_text(),
+    ),
+    '12' => array(
+      'title' => 'Speech, Language & Hearing Sciences',
+      'body' => _cu_test_content_collections_create_nodes_dummy_text(),
+    ),
+    '13' => array(
+      'title' => 'Theatre & Dance',
+      'body' => _cu_test_content_collections_create_nodes_dummy_text(),
+    ),
+    '14' => array(
+      'title' => 'Women & Gender Studies',
+      'body' => _cu_test_content_collections_create_nodes_dummy_text(),
+    ),
+  );
+  _cu_test_content_collections_create_nodes($nodes);
+  _cu_test_content_collections_block();
 }
 
 /*
@@ -121,9 +121,10 @@ function _cu_test_content_collections_create_nodes($nodes) {
 
   $weight = 0;
   $time = time();
-  $date_range = 60 * 60 * 24 * 15; // 15 days
+  // Set date range to 15 days.
+  $date_range = 60 * 60 * 24 * 15;
   foreach ($nodes as $elem) {
-    $count = $weight+1;
+    $count = $weight + 1;
     $node_title = $elem['title'];
     $node = new StdClass();
     $node->title = $node_title;
@@ -133,7 +134,7 @@ function _cu_test_content_collections_create_nodes($nodes) {
       $node->field_collection_body[$node->language][0]['safe_value'] = $elem['body'];
     }
 
-    $node->field_collection_body[$node->language][0]['format']  = 'wysiwyg';
+    $node->field_collection_body[$node->language][0]['format'] = 'wysiwyg';
 
     $rand_tags = array_rand($collection_categories, 2);
 
@@ -141,7 +142,6 @@ function _cu_test_content_collections_create_nodes($nodes) {
     $node->field_collection_category[$node->language][1]['tid'] = $rand_tags[1];
 
     $node->field_collection_type[$node->language][0]['tid'] = $collection_tid;
-
 
 
     $file_path = system_retrieve_file('https://unsplash.it/1500/1000?random');
@@ -173,7 +173,8 @@ function _cu_test_content_collections_create_nodes_dummy_text() {
   $response = drupal_http_request('http://loripsum.net/api/10/');
   if ($response->code == '200') {
     return $response->data;
-  } else {
+  }
+  else {
     return 'No dummy text.';
   }
 }
