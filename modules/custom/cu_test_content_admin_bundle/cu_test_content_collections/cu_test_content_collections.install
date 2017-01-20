@@ -86,10 +86,15 @@ function cu_test_content_collections_install() {
 /**
  * Create collections terms.
  *
- * @param $vocab_name
- * @param $terms
- * @param null $parent
+ * @param string $vocab_name
+ *   Name of the vocabulary.
+ * @param array $terms
+ *   Array of vocabulary terms.
+ * @param integer|null $parent
+ *   Vocabulary ID of parent.
+ *
  * @return bool
+ *
  * @throws \Exception
  */
 function _cu_test_content_collections_terms_create_taxonomy_terms_insert($vocab_name, $terms, $parent = NULL) {
@@ -125,7 +130,8 @@ function _cu_test_content_collections_terms_create_taxonomy_terms_insert($vocab_
 /**
  * Create collections nodes.
  *
- * @param $nodes
+ * @param array $nodes
+ *   Nodes for which to create content.
  */
 function _cu_test_content_collections_create_nodes($nodes) {
   $collection_type = taxonomy_get_term_by_name('Academic Program', 'collection_type');
@@ -184,6 +190,11 @@ function _cu_test_content_collections_create_nodes($nodes) {
   variable_set('cu_test_content_collections', $temp_collections);
 }
 
+/**
+ * Create dummy text.
+ *
+ * @return string
+ */
 function _cu_test_content_collections_create_nodes_dummy_text() {
   $response = drupal_http_request('http://loripsum.net/api/10/');
   if ($response->code == '200') {
