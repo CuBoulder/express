@@ -1,4 +1,10 @@
 <?php
+
+/**
+ * @file
+ * Install test content for collections feature.
+ */
+
 /**
  * Implements hook_install().
  */
@@ -77,9 +83,14 @@ function cu_test_content_collections_install() {
   _cu_test_content_collections_block();
 }
 
-/*
- * Create terms
+/**
+ * Create collections terms.
  *
+ * @param $vocab_name
+ * @param $terms
+ * @param null $parent
+ * @return bool
+ * @throws \Exception
  */
 function _cu_test_content_collections_terms_create_taxonomy_terms_insert($vocab_name, $terms, $parent = NULL) {
   $temp_terms = variable_get('cu_test_content_collections_terms_' . $vocab_name, array());
@@ -111,6 +122,11 @@ function _cu_test_content_collections_terms_create_taxonomy_terms_insert($vocab_
   return TRUE;
 }
 
+/**
+ * Create collections nodes.
+ *
+ * @param $nodes
+ */
 function _cu_test_content_collections_create_nodes($nodes) {
   $collection_type = taxonomy_get_term_by_name('Academic Program', 'collection_type');
   $collection_tid = key($collection_type);
@@ -143,7 +159,6 @@ function _cu_test_content_collections_create_nodes($nodes) {
 
     $node->field_collection_type[$node->language][0]['tid'] = $collection_tid;
 
-
     $file_path = system_retrieve_file('https://unsplash.it/1500/1000?random');
     $file = (object) array(
       'uid' => $count,
@@ -151,14 +166,14 @@ function _cu_test_content_collections_create_nodes($nodes) {
       'filemime' => file_get_mimetype($file_path),
       'status' => 1,
     );
-    // You can specify a subdirectory, e.g. public://foo/
+    // You can specify a subdirectory, e.g. "public://foo/".
     $file = file_copy($file, 'public://');
     $node->field_collection_thumbnail[LANGUAGE_NONE][0] = (array) $file;
     $node->field_collection_thumbnail[LANGUAGE_NONE][0]['alt'] = 'Photo Alt Text';
     $node->type = 'collection_item';
     $node->uid = 1;
 
-    // Set created date
+    // Set created date.
     $created = $time - ($date_range * $weight);
     $node->created = $created;
     node_save($node);
@@ -179,11 +194,10 @@ function _cu_test_content_collections_create_nodes_dummy_text() {
   }
 }
 
-/*
- * Implements hook_uninstall
+/**
+ * Implements hook_uninstall().
  *
- * remove test collections
- *
+ * Remove test collections.
  */
 function cu_test_content_collections_uninstall() {
   $temp_colections = variable_get('cu_test_content_collections', NULL);
