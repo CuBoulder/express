@@ -62,7 +62,7 @@ function site_navigation_menus_menu_block_blocks() {
       'admin_title' => 'Toggle Subnavigation',
       'level'       => 2,
       'follow'      => 'child',
-      'depth'       => 2,
+      'depth'       => 0,
       'expanded'    => 0,
       'sort'        => 0,
     ),
