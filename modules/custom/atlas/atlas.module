@@ -208,9 +208,15 @@ function atlas_admin_settings_submit($form, &$form_state) {
   if ($form_state['values']['atlas_profile'] != $site_array['code']['profile']) {
     $request_data['code']['profile'] = $form_state['values']['atlas_profile'];
   }
-
-  if (isset($form_state['values']['atlas_packages']) && (!array_key_exists('package', $site_array['code']) || $form_state['values']['atlas_packages'] != $site_array['code']['package'])) {
-    $request_data['code']['package'] = $form_state['values']['atlas_packages'];
+  if (isset($form_state['values']['atlas_packages'])) {
+    # Drop all the keys with zero as a value.
+    $form_state['values']['atlas_packages'] = array_diff($form_state['values']['atlas_packages'], array(0));
+    # Check to see if the new arrays are different.
+    $packages_diff = array_diff($form_state['values']['atlas_packages'], $site_array['code']['package']);
+    # Check for First added package, Remove all packages, or Change packages.
+    if (!array_key_exists('package', $site_array['code']) || (array_key_exists('package', $site_array['code']) &&  empty($form_state['values']['atlas_packages']) ) || !empty($packages_diff)) {
+      $request_data['code']['package'] = $form_state['values']['atlas_packages'];
+    }
   }
 
   if ($form_state['values']['atlas_update_group'] != $site_array['update_group']) {
@@ -293,8 +299,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
     // When modifying the record, we need to set the If-Match header to the
     // _etag.
     if (in_array($method, array('PUT', 'PATCH', 'DELETE'))) {
-      $etag = $data['_etag'];
-      $request_options['headers']['If-Match'] = $etag;
+      $request_options['headers']['If-Match'] = $data['_etag'];
 
       // Remove Atlas private fields because we cannot modify them. They all
       // begin with an underscore.
@@ -303,7 +308,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
         unset($data[$k]);
       }
     }
-    // Add the username here since we are using a service account for the PATCH.
+    // Add the username here since we are using a service account.
     $data['modified_by'] = $user->name;
     // JSON encode the data.
     if (isset($data['code']['package'])) {
