@@ -293,8 +293,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
     // When modifying the record, we need to set the If-Match header to the
     // _etag.
     if (in_array($method, array('PUT', 'PATCH', 'DELETE'))) {
-      $etag = $data['_etag'];
-      $request_options['headers']['If-Match'] = $etag;
+      $request_options['headers']['If-Match'] = $data['_etag'];
 
       // Remove Atlas private fields because we cannot modify them. They all
       // begin with an underscore.
@@ -303,7 +302,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
         unset($data[$k]);
       }
     }
-    // Add the username here since we are using a service account for the PATCH.
+    // Add the username here since we are using a service account.
     $data['modified_by'] = $user->name;
     // JSON encode the data.
     if (isset($data['code']['package'])) {
