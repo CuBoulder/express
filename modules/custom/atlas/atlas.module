@@ -228,6 +228,39 @@ function atlas_admin_settings_submit($form, &$form_state) {
   }
 }
 
+
+/**
+ * Create an array w/ core version to send to Atlas.
+ *
+ * @param int $version
+ *   Express core version to process.
+ *
+ * @return array
+ *   $site_data: A partial PATCH to the site item in Atlas.
+ */
+function atlas_process_core_schema_version($version) {
+ $data = array();
+
+  // We need to know the 'atlas_id' to get the 'statistics_id'.
+  $atlas_id = variable_get('atlas_id', FALSE);
+
+
+  $site_array = atlas_api_request('sites', $atlas_id);
+  $statistics_id = $site_array['statistics'];
+  $statistics_array = atlas_api_request('statistics', $statistics_id);
+  $request_data['_etag'] = $statistics_array['_etag'];
+
+  if (!$version) {
+    // drupal_get_installed_schema_version doesn't appear at the bootstrap level
+    // of an updated so query the value.
+    $version = drupal_get_installed_schema_version(variable_get('express_core_version', 'cu_core'));
+  }
+  $request_data['express_core_schema_version'] = (int) $version;
+
+  // Ready to patch.
+  atlas_api_request('statistics', $statistics_id, 'PATCH', $request_data);
+}
+
 /**
  * Determine if Atlas is up. Included a 5 second timeout.
  *
