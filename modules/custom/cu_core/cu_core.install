@@ -674,8 +674,6 @@ function cu_core_update_7019() {
   module_enable(array('cu_atlas'));
 
   cu_core_revert_features();
-
-  cu_core_express_update('7019');
 }
 
 /**
