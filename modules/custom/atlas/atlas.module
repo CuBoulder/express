@@ -173,7 +173,7 @@ function atlas_admin_settings() {
 function validate_atlas_admin_settings($form, &$form_state) {
   $atlas_id = variable_get('atlas_id', FALSE);
   $site_array = atlas_api_request('sites', $atlas_id);
-  if ($form['atlas_path']['#value'] == $site_array['sid'] && ($form['atlas_status']['#value'] == 'launching' || $form['atlas_status']['#value'] == 'launched')) {
+  if ($form['atlas_path']['#value'] == $site_array['sid'] && $site_array['pool'] != 'poolb-homepage' && ($form['atlas_status']['#value'] == 'launching' || $form['atlas_status']['#value'] == 'launched')) {
     form_set_error('atlas_path', t('You cannot launch a site at it\'s \'p1\' URL.'));
   }
   if ($form['atlas_status']['#value'] == 'available') {
@@ -226,6 +226,39 @@ function atlas_admin_settings_submit($form, &$form_state) {
   else {
     drupal_set_message(t('No data was changed.'), 'warning');
   }
+}
+
+
+/**
+ * Create an array w/ core version to send to Atlas.
+ *
+ * @param int $version
+ *   Express core version to process.
+ *
+ * @return array
+ *   $site_data: A partial PATCH to the site item in Atlas.
+ */
+function atlas_process_core_schema_version($version) {
+ $data = array();
+
+  // We need to know the 'atlas_id' to get the 'statistics_id'.
+  $atlas_id = variable_get('atlas_id', FALSE);
+
+
+  $site_array = atlas_api_request('sites', $atlas_id);
+  $statistics_id = $site_array['statistics'];
+  $statistics_array = atlas_api_request('statistics', $statistics_id);
+  $request_data['_etag'] = $statistics_array['_etag'];
+
+  if (!$version) {
+    // drupal_get_installed_schema_version doesn't appear at the bootstrap level
+    // of an updated so query the value.
+    $version = drupal_get_installed_schema_version(variable_get('express_core_version', 'cu_core'));
+  }
+  $request_data['express_core_schema_version'] = (int) $version;
+
+  // Ready to patch.
+  atlas_api_request('statistics', $statistics_id, 'PATCH', $request_data);
 }
 
 /**

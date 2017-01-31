@@ -543,7 +543,7 @@ function cu_core_update_7012() {
   $admin_user->mail = 'websupport@colorado.edu';
   user_save($admin_user);
 
-  cu_core_express_update('7012');
+  cu_core_inventory_update('7012');
 }
 
 /**
@@ -557,7 +557,7 @@ function cu_core_update_7013() {
 
   drupal_uninstall_modules(array('module_missing_message_fixer'));
 
-  cu_core_express_update('7013');
+  cu_core_inventory_update('7013');
 }
 
 /**
@@ -576,7 +576,7 @@ function cu_core_update_7014() {
 
   cu_core_revert_features();
 
-  cu_core_express_update('7014');
+  cu_core_inventory_update('7014');
 }
 
 
@@ -592,7 +592,7 @@ function cu_core_update_7015() {
 sites/default/files/webform/*';
   variable_set('securepages_pages', $pages);
 
-  cu_core_express_update('7015');
+  cu_core_inventory_update('7015');
 }
 
 /**
@@ -629,7 +629,7 @@ function cu_core_update_7017() {
 
   cu_core_revert_features();
 
-  cu_core_express_update('7017');
+  cu_core_inventory_update('7017');
 }
 
 /**
@@ -674,8 +674,6 @@ function cu_core_update_7019() {
   module_enable(array('cu_atlas'));
 
   cu_core_revert_features();
-
-  cu_core_express_update('7019');
 }
 
 /**
@@ -715,7 +713,7 @@ function cu_core_revert_features($features = NULL) {
  */
 function cu_core_express_update($version) {
 
-  cu_core_inventory_update($version);
+  cu_core_atlas_update($version);
 
   // Change admin user/pass.
   cu_core_scramble_admin();
@@ -725,8 +723,16 @@ function cu_core_express_update($version) {
  * Updates inventory with profile version.
  */
 function cu_core_inventory_update($version) {
-  if (module_exists('cu_inventory')) {
-    cu_inventory_process_core_version($version);
+  // Nulling this function out so that older update hooks will still work.
+  return;
+}
+
+/**
+ * Updates Atlas with profile version.
+ */
+function cu_core_atlas_update($version) {
+  if (module_exists('atlas')) {
+    atlas_process_core_schema_version($version);
   }
 }
 
