@@ -173,7 +173,7 @@ function atlas_admin_settings() {
 function validate_atlas_admin_settings($form, &$form_state) {
   $atlas_id = variable_get('atlas_id', FALSE);
   $site_array = atlas_api_request('sites', $atlas_id);
-  if ($form['atlas_path']['#value'] == $site_array['sid'] && ($form['atlas_status']['#value'] == 'launching' || $form['atlas_status']['#value'] == 'launched')) {
+  if ($form['atlas_path']['#value'] == $site_array['sid'] && $site_array['pool'] != 'poolb-homepage' && ($form['atlas_status']['#value'] == 'launching' || $form['atlas_status']['#value'] == 'launched')) {
     form_set_error('atlas_path', t('You cannot launch a site at it\'s \'p1\' URL.'));
   }
   if ($form['atlas_status']['#value'] == 'available') {
@@ -234,6 +234,39 @@ function atlas_admin_settings_submit($form, &$form_state) {
   else {
     drupal_set_message(t('No data was changed.'), 'warning');
   }
+}
+
+
+/**
+ * Create an array w/ core version to send to Atlas.
+ *
+ * @param int $version
+ *   Express core version to process.
+ *
+ * @return array
+ *   $site_data: A partial PATCH to the site item in Atlas.
+ */
+function atlas_process_core_schema_version($version) {
+ $data = array();
+
+  // We need to know the 'atlas_id' to get the 'statistics_id'.
+  $atlas_id = variable_get('atlas_id', FALSE);
+
+
+  $site_array = atlas_api_request('sites', $atlas_id);
+  $statistics_id = $site_array['statistics'];
+  $statistics_array = atlas_api_request('statistics', $statistics_id);
+  $request_data['_etag'] = $statistics_array['_etag'];
+
+  if (!$version) {
+    // drupal_get_installed_schema_version doesn't appear at the bootstrap level
+    // of an updated so query the value.
+    $version = drupal_get_installed_schema_version(variable_get('express_core_version', 'cu_core'));
+  }
+  $request_data['express_core_schema_version'] = (int) $version;
+
+  // Ready to patch.
+  atlas_api_request('statistics', $statistics_id, 'PATCH', $request_data);
 }
 
 /**
@@ -301,8 +334,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
     // When modifying the record, we need to set the If-Match header to the
     // _etag.
     if (in_array($method, array('PUT', 'PATCH', 'DELETE'))) {
-      $etag = $data['_etag'];
-      $request_options['headers']['If-Match'] = $etag;
+      $request_options['headers']['If-Match'] = $data['_etag'];
 
       // Remove Atlas private fields because we cannot modify them. They all
       // begin with an underscore.
@@ -311,7 +343,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
         unset($data[$k]);
       }
     }
-    // Add the username here since we are using a service account for the PATCH.
+    // Add the username here since we are using a service account.
     $data['modified_by'] = $user->name;
     // JSON encode the data.
     if (isset($data['code']['package'])) {
@@ -340,7 +372,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
         $error_message = 'Atlas response: ' . $response->error . ' - Error Code: ' . $response_json['_error']['code'] . ' - ' . $response_json['_error']['message'];
       }
       if (array_key_exists('_issues', $response_json)) {
-        $error_message = 'Atlas response: ' . $response->error . ' - ' . implode(', ', $response_json['_issues']);
+        $error_message = 'Atlas response: ' . $response->error . ' - ' . $response->data;
       }
     }
     else {

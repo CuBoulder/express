@@ -403,9 +403,6 @@ function cu_atlas_atlas_statistics() {
       $checks = implode(", ", $diff);
       $statistics_data['profile_module_manager'] = $checks;
     }
-    else {
-      $statistics_data['profile_module_manager'] = NULL;
-    }
   }
 
   // Check if the selected theme is responsive.
