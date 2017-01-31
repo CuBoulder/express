@@ -23,7 +23,7 @@ function atlas_menu() {
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -10,
   );
-  
+
   return $items;
 }
 
@@ -49,7 +49,7 @@ function atlas_admin_settings() {
   }
 
   $site_array = atlas_api_request('sites', $atlas_id);
-  
+
   // Options are limited based on permissions.
   $status_options = array(
     'installed' => t('Installed'),
@@ -212,7 +212,9 @@ function atlas_admin_settings_submit($form, &$form_state) {
     # Drop all the keys with zero as a value.
     $form_state['values']['atlas_packages'] = array_diff($form_state['values']['atlas_packages'], array(0));
     # Check to see if the new arrays are different.
-    $packages_diff = array_diff($form_state['values']['atlas_packages'], $site_array['code']['package']);
+    if (isset($site_array['code']['package'])) {
+      $packages_diff = array_diff($form_state['values']['atlas_packages'], $site_array['code']['package']);
+    }
     # Check for First added package, Remove all packages, or Change packages.
     if (!array_key_exists('package', $site_array['code']) || (array_key_exists('package', $site_array['code']) &&  empty($form_state['values']['atlas_packages']) ) || !empty($packages_diff)) {
       $request_data['code']['package'] = $form_state['values']['atlas_packages'];
