@@ -209,14 +209,14 @@ function atlas_admin_settings_submit($form, &$form_state) {
     $request_data['code']['profile'] = $form_state['values']['atlas_profile'];
   }
   if (isset($form_state['values']['atlas_packages'])) {
-    # Drop all the keys with zero as a value.
+    // Drop all the keys with zero as a value.
     $form_state['values']['atlas_packages'] = array_diff($form_state['values']['atlas_packages'], array(0));
-    # Check to see if the new arrays are different.
+    // Check to see if the new arrays are different.
     if (isset($site_array['code']['package'])) {
       $packages_diff = array_diff($form_state['values']['atlas_packages'], $site_array['code']['package']);
     }
-    # Check for First added package, Remove all packages, or Change packages.
-    if (!array_key_exists('package', $site_array['code']) || (array_key_exists('package', $site_array['code']) &&  empty($form_state['values']['atlas_packages']) ) || !empty($packages_diff)) {
+    // Check for First added package, Remove all packages, or Change packages.
+    if (!array_key_exists('package', $site_array['code']) || (array_key_exists('package', $site_array['code']) &&  empty($form_state['values']['atlas_packages'])) || !empty($packages_diff)) {
       $request_data['code']['package'] = $form_state['values']['atlas_packages'];
     }
   }
@@ -343,8 +343,15 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
         unset($data[$k]);
       }
     }
-    // Add the username here since we are using a service account.
-    $data['modified_by'] = $user->name;
+    // Add the username here since we are using a service account. Need the else
+    // statement to handle running via drush.
+    if (isset($user->name)) {
+      $data['modified_by'] = $user->name;
+    }
+    else {
+      $data['modified_by'] = variable_get('atlas_username');
+    }
+
     // JSON encode the data.
     if (isset($data['code']['package'])) {
       $data['code']['package'] = array_filter(array_values($data['code']['package']));
