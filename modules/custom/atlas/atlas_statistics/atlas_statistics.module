@@ -5,7 +5,6 @@
  * Provides statistics reporting for Atlas.
  */
 
-
 /**
  * Implements hook_cron().
  */
