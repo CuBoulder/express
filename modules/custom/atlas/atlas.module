@@ -341,8 +341,15 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
         unset($data[$k]);
       }
     }
-    // Add the username here since we are using a service account.
-    $data['modified_by'] = $user->name;
+    // Add the username here since we are using a service account. Need the else
+    // statement to handle running via drush.
+    if (isset($user->name)) {
+      $data['modified_by'] = $user->name;
+    }
+    else {
+      $data['modified_by'] = variable_get('atlas_username');
+    }
+
     // JSON encode the data.
     if (isset($data['code']['package'])) {
       $data['code']['package'] = array_filter(array_values($data['code']['package']));
