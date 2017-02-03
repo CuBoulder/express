@@ -23,7 +23,7 @@ function atlas_menu() {
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -10,
   );
-  
+
   return $items;
 }
 
@@ -49,7 +49,7 @@ function atlas_admin_settings() {
   }
 
   $site_array = atlas_api_request('sites', $atlas_id);
-  
+
   // Options are limited based on permissions.
   $status_options = array(
     'installed' => t('Installed'),
@@ -173,7 +173,7 @@ function atlas_admin_settings() {
 function validate_atlas_admin_settings($form, &$form_state) {
   $atlas_id = variable_get('atlas_id', FALSE);
   $site_array = atlas_api_request('sites', $atlas_id);
-  if ($form['atlas_path']['#value'] == $site_array['sid'] && ($form['atlas_status']['#value'] == 'launching' || $form['atlas_status']['#value'] == 'launched')) {
+  if ($form['atlas_path']['#value'] == $site_array['sid'] && $site_array['pool'] != 'poolb-homepage' && ($form['atlas_status']['#value'] == 'launching' || $form['atlas_status']['#value'] == 'launched')) {
     form_set_error('atlas_path', t('You cannot launch a site at it\'s \'p1\' URL.'));
   }
   if ($form['atlas_status']['#value'] == 'available') {
@@ -212,7 +212,9 @@ function atlas_admin_settings_submit($form, &$form_state) {
     # Drop all the keys with zero as a value.
     $form_state['values']['atlas_packages'] = array_diff($form_state['values']['atlas_packages'], array(0));
     # Check to see if the new arrays are different.
-    $packages_diff = array_diff($form_state['values']['atlas_packages'], $site_array['code']['package']);
+    if (isset($site_array['code']['package'])) {
+      $packages_diff = array_diff($form_state['values']['atlas_packages'], $site_array['code']['package']);
+    }
     # Check for First added package, Remove all packages, or Change packages.
     if (!array_key_exists('package', $site_array['code']) || (array_key_exists('package', $site_array['code']) &&  empty($form_state['values']['atlas_packages']) ) || !empty($packages_diff)) {
       $request_data['code']['package'] = $form_state['values']['atlas_packages'];
