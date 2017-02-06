@@ -290,7 +290,28 @@ function cu_atlas_atlas_statistics() {
   foreach ($all_node_types as $object) {
     $node_type_counts[$object->type] = $object->count_type;
   }
-  $statistics_data['nodes_by_type'] = $node_type_counts;
+
+  $node_key_white_list = array(
+    'page',
+    'file',
+    'faqs',
+    'content_list_page',
+    'webform',
+    'article',
+    'article_list_page',
+    'person',
+    'person_list_page',
+    'photo_gallery',
+  );
+  $node_counts_white_listed = array_intersect_key($node_type_counts, array_flip($node_key_white_list));
+  $node_types_off_list = array_diff_key($node_type_counts, array_flip($node_key_white_list));
+
+  if (!empty($node_counts_white_listed)) {
+    $statistics_data['nodes_by_type'] = $node_counts_white_listed;
+  }
+  if (!empty($node_types_off_list)) {
+    $statistics_data['nodes_other'] = implode(", ", array_keys($node_types_off_list));
+  }
 
   // Count Beans.
   $bean_query = db_select('bean', 'b');
@@ -311,10 +332,41 @@ function cu_atlas_atlas_statistics() {
   if (empty($number_beans)) {
     $number_beans = 0;
   }
-  // If there are no beans, don't add empty statistics.
   if ($number_beans > 0) {
-    $statistics_data['beans_by_type'] = $bean_counts;
     $statistics_data['beans_total'] = $number_beans;
+  }
+
+  $bean_key_white_list = array(
+    'hero_unit',
+    'slider',
+    'block',
+    'content_list',
+    'feature_callout',
+    'quicktab',
+    'video_reveal',
+    'block_row',
+    'block_section',
+    'cu_events_calendar_block',
+    'events_calendar_grid',
+    'rss',
+    'articles',
+    'article_feature',
+    'article_grid',
+    'article_slider',
+    'people_list_block',
+    'social_links',
+    'facebook_activity',
+    'facebook_like_button',
+    'twitter_block',
+  );
+  $bean_counts_white_listed = array_intersect_key($bean_counts, array_flip($bean_key_white_list));
+  $bean_types_off_list = array_diff_key($bean_counts, array_flip($bean_key_white_list));
+
+  if (!empty($bean_counts_white_listed)) {
+    $statistics_data['beans_by_type'] = $bean_counts_white_listed;
+  }
+  if (!empty($bean_types_off_list)) {
+    $statistics_data['beans_other'] = implode(", ", array_keys($bean_types_off_list));
   }
 
   // String variables.
@@ -350,9 +402,6 @@ function cu_atlas_atlas_statistics() {
     if ($diff = profile_module_manager_is_config_ideal()) {
       $checks = implode(", ", $diff);
       $statistics_data['profile_module_manager'] = $checks;
-    }
-    else {
-      $statistics_data['profile_module_manager'] = NULL;
     }
   }
 
