@@ -8,7 +8,7 @@ $zen-gutter-width:  40px;
 }
 /* removing bottom margin since nested blocks will already have one */
 .block.block-bean-type-block-row {
-  margin-bottom: 0;
+  //margin-bottom: 0;
 }
 
 .block-row-wrapper {
@@ -251,5 +251,27 @@ table.cu-block-row-table-example {
   width:200px;
   td {
     border:3px solid #fff;
+  }
+}
+
+.block-row-column .block {
+  margin-bottom: 40px;
+
+
+}
+.block-row-column .block:last-child {
+  margin-bottom: 0;
+}
+.block-row-column .block-inner-wrapper {
+  //background-color: #fff !important;
+}
+@media screen and (max-width: 767px) {
+  .block-row-wrapper .block-inner-wrapper {
+    height: auto !important;
+
+  }
+  .block-row-column .block,
+  .block-row-column .block:last-child {
+    margin-bottom: 20px;
   }
 }

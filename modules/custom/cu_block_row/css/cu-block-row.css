@@ -2,8 +2,6 @@
 .block-row-wrapper .block .contextual-links-wrapper { top: 30px; }
 
 /* removing bottom margin since nested blocks will already have one */
-.block.block-bean-type-block-row { margin-bottom: 0; }
-
 .block-row-wrapper { margin: 0 auto; }
 
 @media screen and (min-width: 480px) { .block-row-columns-2, .block-row-columns-4 { margin-right: -20px; margin-left: -20px; }
@@ -87,3 +85,10 @@
   .block-row-columns-4.block-row-distribution-right .block-row-column-4 { float: left; width: 40%; margin-left: 60%; margin-right: -100%; padding-left: 20px; padding-right: 20px; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; -ms-box-sizing: border-box; box-sizing: border-box; word-wrap: break-word; } }
 table.cu-block-row-table-example { width: 200px; }
 table.cu-block-row-table-example td { border: 3px solid #fff; }
+
+.block-row-column .block { margin-bottom: 40px; }
+
+.block-row-column .block:last-child { margin-bottom: 0; }
+
+@media screen and (max-width: 767px) { .block-row-wrapper .block-inner-wrapper { height: auto !important; }
+  .block-row-column .block, .block-row-column .block:last-child { margin-bottom: 20px; } }

@@ -6,6 +6,23 @@
 
 include_once 'cu_block_row.features.inc';
 
+function cu_block_row_libraries_info() {
+  $libraries = array();
+  $libraries['match-height'] = array(
+    'name' => t('Match Height'),
+    'vendor url' => 'http://brm.io/jquery-match-height/',
+    'download url' => 'https://github.com/liabru/jquery-match-height',
+    'version' => '0.7.0',
+    'files' => array(
+      'js' => array(
+        'jquery.matchHeight-min.js' => array(),
+      ),
+    ),
+  );
+
+  return $libraries;
+}
+
 function cu_block_row_theme_registry_alter(&$theme_registry) {
   $module_path = drupal_get_path('module', 'cu_block_row');
   $theme_registry_copy = $theme_registry;
@@ -28,8 +45,19 @@ function cu_block_row_theme_registry_alter(&$theme_registry) {
 
 function cu_block_row_page_alter(&$page) {
   drupal_add_css(drupal_get_path('module', 'cu_block_row') . '/css/cu-block-row.css');
-}
 
+  // Is the library installed?
+  $path = libraries_get_path('match-height') . '/jquery.matchHeight-min.js';
+  $installed = file_exists($path);
+  if (!$installed) {
+    return;
+  }
+  // Add the library reference
+  drupal_add_js($path, array(
+    'group' => JS_LIBRARY,
+    'every_page' => TRUE,
+  ));
+}
 
 /*
  * Implements hook_preprocess_entity().
@@ -65,6 +93,8 @@ function cu_block_row_preprocess_entity(&$vars) {
     }
     // add a variable of the columns so the content can be formatted properly
     $vars['column_count'] = count($vars['content']['field_block_row_collection']['#items']);
+    // Set class for height matching
+    $vars['match_height'] = (isset($vars['field_block_row_match_height']) && $vars['field_block_row_match_height'][0]['value']) ? 'block-row-match-height' : '';
   }
 }
 
