@@ -9,10 +9,6 @@
 
 .hero-unit.hero-size-small { font-size: 18px; }
 
-.hero-unit-links { line-height: 100%; font-size: 75%; }
-
-.hero-unit p { line-height: 125%; }
-
 .hero-unit h2 { font-size: 200%; }
 
 /* PADDING */
@@ -94,4 +90,7 @@
 
 .hero-links-outline-black a:link, .hero-links-outline-black a:visited { color: #000; line-height: 100%; padding: 10px; border: 1px solid #000; display: inline-block; font-weight: bold; background: rgba(0, 0, 0, 0.1); }
 
-.hero-unit video { position: fixed; right: 0; bottom: 0; min-width: 100%; min-height: 100%; width: auto; height: auto; z-index: -100; }
+.hero-block-overlay { position: relative; }
+.hero-block-overlay .hero-unit-content-wrapper { z-index: 2; position: relative; }
+
+.hero-block-overlay:after { content: ' '; background: rgba(0, 0, 0, 0.5); top: 0; left: 0; right: 0; bottom: 0; position: absolute; z-index: 1; }

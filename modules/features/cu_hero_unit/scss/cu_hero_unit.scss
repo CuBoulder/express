@@ -35,11 +35,11 @@ $radius_small: 3px;
 }
 
 .hero-unit-links {
-  line-height: 100%;
-  font-size: 75%;
+  //line-height: 100%;
+  //font-size: 75%;
 }
 .hero-unit p {
-  line-height: 125%;
+  //line-height: 125%;
 }
 .hero-unit {
   h2 {
@@ -295,8 +295,20 @@ $radius_small: 3px;
 }
 
 
-.hero-unit video {
-  position: fixed; right: 0; bottom: 0;
-  min-width: 100%; min-height: 100%;
-  width: auto; height: auto; z-index: -100;
+.hero-block-overlay {
+  position: relative;
+  .hero-unit-content-wrapper {
+    z-index: 2;
+    position: relative;
+  }
+}
+.hero-block-overlay:after {
+  content: ' ';
+  background:rgba(0,0,0,.5);
+  top:0;
+  left:0;
+  right:0;
+  bottom:0;
+  position: absolute;
+  z-index: 1;
 }
