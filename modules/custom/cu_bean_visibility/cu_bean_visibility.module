@@ -1,0 +1,117 @@
+<?php
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * This will be used to alter the block bean creation/modification to add
+ *  a style selection.
+ */
+function cu_bean_visibility_form_bean_form_alter(&$form, &$form_state, $form_id) {
+
+  $delta = $form['bean']['#value']->delta;
+
+  if(isset($delta)) {
+    $form['module'] = array(
+      '#type' => 'hidden',
+      '#value' => 'bean',
+    );
+    $module = 'bean';
+    $form['delta'] = array(
+      '#type' => 'hidden',
+      '#value' => $form['bean']['#value']->delta,
+    );
+
+    $var_name = $module . '-' . $delta;
+
+    $bean_visibility_settings = variable_get('cu_bean_visibility', array());
+    $visibility_settings = isset($bean_visibility_settings[$var_name]) ? $bean_visibility_settings[$var_name] : array();
+
+    $form['bean_visibility'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('Block Visibility'),
+      '#weight' => 100,
+      '#collapsible' => TRUE,
+      '#collapsed' => TRUE,
+    );
+    $form['bean_visibility']['bean_visibility_xs'] = array(
+      '#type' => 'radios',
+      '#title' => t('Mobile Visibility'),
+      '#default_value' => isset($bean_visibility_settings[$var_name]) ? $bean_visibility_settings[$var_name]['bean_visibility_xs'] : 'visible',
+      '#options' => _cu_bean_visibility_options(),
+    );
+    $form['bean_visibility']['bean_visibility_sm'] = array(
+      '#type' => 'radios',
+      '#title' => t('Tablet Visibility'),
+      '#default_value' => isset($bean_visibility_settings[$var_name]) ? $bean_visibility_settings[$var_name]['bean_visibility_sm'] : 'visible',
+      '#options' => _cu_bean_visibility_options(),
+    );
+    $form['bean_visibility']['bean_visibility_md'] = array(
+      '#type' => 'radios',
+      '#title' => t('Desktop Visibility'),
+      '#default_value' => isset($bean_visibility_settings[$var_name]) ? $bean_visibility_settings[$var_name]['bean_visibility_md'] : 'visible',
+      '#options' => _cu_bean_visibility_options(),
+    );
+
+    $form['#submit'][] = 'cu_bean_visibility_update';
+  }
+}
+
+function cu_bean_visibility_update($form_id, &$form_state) {
+  $bean_visibility_settings = variable_get('cu_bean_visibility', array());
+  $var_name = $form_state['values']['module'] . '-' . $form_state['values']['delta'];
+  $bean_visibility_settings[$var_name] = array(
+    'bean_visibility_xs' => $form_state['values']['bean_visibility_xs'],
+    'bean_visibility_sm' => $form_state['values']['bean_visibility_sm'],
+    'bean_visibility_md' => $form_state['values']['bean_visibility_md'],
+  );
+  variable_set('cu_bean_visibility', $bean_visibility_settings);
+}
+
+function _cu_bean_visibility_options() {
+  $options = array(
+    'visible' => 'Visible',
+    'hidden' => 'Hidden',
+  );
+  return $options;
+}
+
+function _cu_bean_visibility_classes($value, $display) {
+  $classes = array(
+    'default' => '',
+    'visible' => '',
+    'hidden' => '',
+  );
+  $classes['bean_visibility_xs'] = array(
+    'default' => '',
+    'visible' => 'visible-xs',
+    'hidden' => 'hidden-xs',
+  );
+  $classes['bean_visibility_sm'] = array(
+    'default' => '',
+    'visible' => 'visible-sm',
+    'hidden' => 'hidden-sm',
+  );
+  $classes['bean_visibility_md'] = array(
+    'default' => '',
+    'visible' => 'visible-md visible-lg',
+    'hidden' => 'hidden-md hidden-lg',
+  );
+  return $classes[$display][$value];
+}
+
+/**
+ * Implements hook_preprocess_block().
+ */
+function cu_bean_visibility_preprocess_block(&$variables) {
+  $var_name = $variables['block']->module . '-' . $variables['block']->delta;
+  $bean_visibility_settings = variable_get('cu_bean_visibility', array());
+  if (!empty($bean_visibility_settings[$var_name])) {
+    $classes = array();
+    foreach ($bean_visibility_settings[$var_name] as $key => $value) {
+      if (_cu_bean_visibility_classes($value, $key) != '') {
+        $variables['classes_array'][] = _cu_bean_visibility_classes($value, $key);
+      }
+    }
+  }
+
+}

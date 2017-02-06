@@ -1,0 +1,7 @@
+name = CU Bean Visibility
+description = Show/Hide beans based on viewport media queries.
+core = 7.x
+package = CU-Core
+version = 7.x-1.1
+
+stylesheets[all][] = css/cu-bean-visibility.css
