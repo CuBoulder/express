@@ -17,7 +17,7 @@ projects[video_filter][patch][] = "https://www.drupal.org/files/issues/video_fil
 
 projects[navbar][patch][] = "https://www.drupal.org/files/issues/navbar-shortcut_switch_menu_display-2653122-2-7.patch"
 
-projects[ldap_servers][patch][] =  "https://www.drupal.org/files/issues/ldap-changed_ldap_servers_bind_method_field-1839798-17.patch"
+projects[ldap_servers][patch][] = "https://www.drupal.org/files/issues/ldap-changed_ldap_servers_bind_method_field-1839798-17.patch"
 
 projects[video_embed_field][patch][] = "https://www.drupal.org/files/issues/video_embed_field-youtube_options_not_applied-2580459-7.patch"
 
@@ -52,3 +52,6 @@ projects[module_missing_message_fixer][patch][] = file://modules/contrib/module_
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-1474
 projects[field_reference_delete][patch][] = https://www.drupal.org/files/issues/bulk-delete-using-drush-2772589-2.patch
+
+; @see https://cuboulder.atlassian.net/browse/FIT-2363
+projects[ldap_servers][patch][] = "https://www.drupal.org/files/issues/2838389-skip-bind-test-when-using-user-cred-method.patch"
