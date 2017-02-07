@@ -90,7 +90,9 @@
 
 .hero-links-outline-black a:link, .hero-links-outline-black a:visited { color: #000; line-height: 100%; padding: 10px; border: 1px solid #000; display: inline-block; font-weight: bold; background: rgba(0, 0, 0, 0.1); }
 
-.hero-block-overlay { position: relative; }
-.hero-block-overlay .hero-unit-content-wrapper { z-index: 2; position: relative; }
+.hero-unit-overlay { position: relative; }
+.hero-unit-overlay .hero-unit-content-wrapper { z-index: 2; position: relative; }
 
-.hero-block-overlay:after { content: ' '; background: rgba(0, 0, 0, 0.5); top: 0; left: 0; right: 0; bottom: 0; position: absolute; z-index: 1; }
+.hero-unit-overlay:after { content: ' '; background: rgba(0, 0, 0, 0.5); top: 0; left: 0; right: 0; bottom: 0; position: absolute; z-index: 1; }
+
+.hero-text-black.hero-unit-overlay:after { background: rgba(255, 255, 255, 0.75); }

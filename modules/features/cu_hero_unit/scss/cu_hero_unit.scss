@@ -295,14 +295,14 @@ $radius_small: 3px;
 }
 
 
-.hero-block-overlay {
+.hero-unit-overlay {
   position: relative;
   .hero-unit-content-wrapper {
     z-index: 2;
     position: relative;
   }
 }
-.hero-block-overlay:after {
+.hero-unit-overlay:after {
   content: ' ';
   background:rgba(0,0,0,.5);
   top:0;
@@ -311,4 +311,7 @@ $radius_small: 3px;
   bottom:0;
   position: absolute;
   z-index: 1;
+}
+.hero-text-black.hero-unit-overlay:after {
+  background: rgba(255,255,255,.75);
 }
