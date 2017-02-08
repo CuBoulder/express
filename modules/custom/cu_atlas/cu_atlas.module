@@ -215,26 +215,6 @@ function _cu_atlas_check_site_launched() {
   return TRUE;
 }
 
-/**
- * Custom version of https://www.drupal.org/project/disable_all_forms.
- *
- * Disable all form elements.
- */
-function cu_atlas_init() {
-  global $base_url;
-  if ($atlas_id = variable_get('atlas_id', FALSE)) {
-    $site_array = atlas_api_request('sites', $atlas_id);
-    if ($site_array['status'] == 'available') {
-      if (user_is_logged_in()) {
-        drupal_set_message(
-          t('Most forms are disabled because this site is in the <i>available</i> status. <a href="@base_url/admin/config/development/atlas">Update Atlas Settings</a> or <a href="@base_url/admin/people/invite">Invite a User</a>',
-            array('@base_url' => $base_url)
-          ),
-          'warning');
-      }
-    }
-  }
-}
 
 /**
  * Implements hook_form_alter().
