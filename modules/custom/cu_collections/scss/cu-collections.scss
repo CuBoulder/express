@@ -73,8 +73,15 @@ select.collection-filter {
 .collection-item {
   opacity: 1;
   @include transition(opacity, .15s, linear);
+  display: block;
 
 }
 .collection-item.collection-item-disabled {
   opacity: .15;
+  display: none;
+}
+@media screen and (min-width:768px) {
+  .collection-item.collection-item-disabled {
+    display: block;
+  }
 }

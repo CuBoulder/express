@@ -18,6 +18,8 @@ select.collection-filter { margin-bottom: 10px; }
 @media (min-width: 960px) and (max-width: 1199px) { .collection-items .col-md-4:nth-child(3n+1) { clear: left; } }
 @media (min-width: 768px) and (max-width: 959px) { .collection-items .col-sm-6:nth-child(2n+1) { clear: left; } }
 
-.collection-item { opacity: 1; -webkit-transition: opacity 0.15s linear; -moz-transition: opacity 0.15s linear; -ms-transition: opacity 0.15s linear; -o-transition: opacity 0.15s linear; transition: opacity 0.15s linear; }
+.collection-item { opacity: 1; -webkit-transition: opacity 0.15s linear; -moz-transition: opacity 0.15s linear; -ms-transition: opacity 0.15s linear; -o-transition: opacity 0.15s linear; transition: opacity 0.15s linear; display: block; }
 
-.collection-item.collection-item-disabled { opacity: .15; }
+.collection-item.collection-item-disabled { opacity: .15; display: none; }
+
+@media screen and (min-width: 768px) { .collection-item.collection-item-disabled { display: block; } }
