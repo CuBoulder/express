@@ -1,3 +1,11 @@
+@mixin transition($transition-property, $transition-time, $method) {
+  -webkit-transition: $transition-property $transition-time $method;
+  -moz-transition: $transition-property $transition-time $method;
+  -ms-transition: $transition-property $transition-time $method;
+  -o-transition: $transition-property $transition-time $method;
+  transition: $transition-property $transition-time $method;
+}
+
 .collection-view-mode-grid {
   h4 {
     font-size: 100%;
@@ -61,4 +69,12 @@ select.collection-filter {
       clear:left;
     }
   }
+}
+.collection-item {
+  opacity: 1;
+  @include transition(opacity, .15s, linear);
+
+}
+.collection-item.collection-item-disabled {
+  opacity: .15;
 }
