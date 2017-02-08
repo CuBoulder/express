@@ -387,6 +387,15 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
     }
 
     //drupal_set_message($error_message, 'error');
+    watchdog(
+      'atlas',
+      'API Request Error - %error',
+      array(
+        '%error' => $response->error,
+      ),
+      WATCHDOG_WARNING,
+      NULL
+    );
   }
 
   if ($method != 'GET') {
