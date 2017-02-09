@@ -72,13 +72,20 @@ select.collection-filter {
 }
 .collection-item {
   opacity: 1;
-  @include transition(opacity, .15s, linear);
+  @include transition(opacity, .3s, linear);
   display: block;
+  img {
+    filter: grayscale(0);
+    @include transition(filter, .3s, linear);
+  }
 
 }
 .collection-item.collection-item-disabled {
-  opacity: .15;
+  opacity: .25;
   display: none;
+  img {
+    filter: grayscale(1);
+  }
 }
 @media screen and (min-width:768px) {
   .collection-item.collection-item-disabled {
