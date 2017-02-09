@@ -25,6 +25,6 @@ select.collection-filter { margin-bottom: 10px; }
 .collection-item img { filter: grayscale(0); -webkit-transition: filter 0.3s linear; -moz-transition: filter 0.3s linear; -ms-transition: filter 0.3s linear; -o-transition: filter 0.3s linear; transition: filter 0.3s linear; }
 
 .collection-item.collection-item-disabled { opacity: .25; display: none; }
-.collection-item.collection-item-disabled img { filter: grayscale(1); }
+.collection-item.collection-item-disabled img, .collection-item.collection-item-disabled a { filter: grayscale(1); }
 
 @media screen and (min-width: 768px) { .collection-filter-effect-fade .collection-item.collection-item-disabled { display: block; } }

@@ -93,7 +93,7 @@ select.collection-filter {
 .collection-item.collection-item-disabled {
   opacity: .25;
   display: none;
-  img {
+  img,a {
     filter: grayscale(1);
   }
 }
