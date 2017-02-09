@@ -132,12 +132,12 @@ function cu_collections_preprocess_entity(&$vars) {
         $options = array();
         $options[$anchor . 'all'] = 'All';
         foreach ($categories as $key => $category) {
-          $option_value = $anchor . $category['name'];
+          $option_value = _cu_collections_clean_string($category['name']);
           $options[$option_value] = $category['name'];
         }
-        $output = '<label for="' . $anchor . '">Filter</label> <select id=' . $anchor .'select" class="collection-filter">';
+        $output = '<label for="' . $anchor . '">Filter</label> <select id=' . $anchor .'select" class="collection-filter" data-collection="collection-' . $vars['bean']->bid . '">';
         foreach ($options as $key => $option) {
-          $output .= '<option value="#' . _cu_collections_clean_string($key) . '">' . $option . '</option>';
+          $output .= '<option value="' . _cu_collections_clean_string($key) . '">' . $option . '</option>';
         }
         $output .= '</select>';
         $vars['content']['filter']['#markup'] = $output;
