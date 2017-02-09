@@ -58,9 +58,9 @@ function cu_collections_field_default_field_instances() {
       ),
     ),
     'default_value_function' => '',
-    'default_value_php' => FALSE,
+    'default_value_php' => '',
     'deleted' => 0,
-    'description' => 'Select how filtered items are displayed',
+    'description' => 'Select how filtered items are displayed for desktop and tablet users. The remove option is applied for mobile users regardless of the setting.',
     'display' => array(
       'default' => array(
         'label' => 'above',
@@ -670,7 +670,7 @@ function cu_collections_field_default_field_instances() {
   t('Links appear in a row above the grid as clickable buttons. Select list appears as a dropdown above the grid.');
   t('Photo');
   t('Preview');
-  t('Select how filtered items are displayed');
+  t('Select how filtered items are displayed for desktop and tablet users. The remove option is applied for mobile users regardless of the setting.');
   t('Selecting more than one category will automatically add a filter for the displayed items');
   t('Thumbnail');
   t('Type');
