@@ -45,7 +45,7 @@ function cu_collections_preprocess_entity(&$vars) {
     // Collection grid options
     $filter_type = $vars['bean']->field_collection_filter_type[LANGUAGE_NONE][0]['value'];
     $summary = ($vars['bean']->field_collection_display_summary[LANGUAGE_NONE][0]['value'] == 'show') ? 1 : 0;
-
+    $filter_effect = !empty($vars['bean']->field_collection_filter_effect) ? $vars['bean']->field_collection_filter_effect[LANGUAGE_NONE][0]['value'] : 'fade';
     // Build anchor link prefix
     $anchor = 'collection-' . $vars['bean']->bid . '-';
     $vars['content'] = array();
@@ -153,7 +153,7 @@ function cu_collections_preprocess_entity(&$vars) {
     // Only do separate groups if there are more than 2 categories selected
 
     // Add wrapper for collections to give specificity to selectors
-    $vars['content']['#prefix'] = '<div id="collection-' . $vars['bean']->bid. '">';
+    $vars['content']['#prefix'] = '<div id="collection-' . $vars['bean']->bid. '" class="collection-filter-effect-' . $filter_effect . '">';
     $vars['content']['#suffix'] = '</div>';
   }
 }
