@@ -130,7 +130,7 @@ function cu_collections_preprocess_entity(&$vars) {
       elseif ($filter_type == 'select') {
         //uasort($categories, '_cu_collections_category_name_sort');
         $options = array();
-        $options[$anchor . 'all'] = 'All';
+        $options['all'] = 'All';
         foreach ($categories as $key => $category) {
           $option_value = _cu_collections_clean_string($category['name']);
           $options[$option_value] = $category['name'];
