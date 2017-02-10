@@ -9,12 +9,12 @@
     $("ul.collection-items-navigation a").click(function(){
       // Get the collection to operate on
       var collectionTarget = $(this).attr("data-collection");
-      // Remove disabled class from all items in collection
-      $("#" + collectionTarget + " .collection-item").removeClass('collection-item-disabled');
+      // Remove disabled class, aria from all items in collection
+      $("#" + collectionTarget + " .collection-item").removeClass('collection-item-disabled').removeAttr('aria-hidden').removeAttr('role');
       // Get the collection category
       var target = $(this).attr("data-collection-category");
-      // Apply disabled class to all items not in category
-      $('#' + collectionTarget + ' .collection-item').not('.collection-category-' + target).addClass('collection-item-disabled');
+      // Apply disabled class, aria to all items not in category
+      $('#' + collectionTarget + ' .collection-item').not('.collection-category-' + target).addClass('collection-item-disabled').attr('aria-hidden', 'true').attr('role', 'presentation');
       // Remove active class from category links
       $("ul.collection-items-navigation a").removeClass('active');
       // Apply active class to the clicked link
@@ -25,8 +25,8 @@
     $("ul.collection-items-navigation a.collection-category-all").click(function(){
       // Get the collection to operate on
       var collectionTarget = $(this).attr("data-collection");
-      // Remove disabled class from all items in collection
-      $("#" + collectionTarget + " .collection-item").removeClass('collection-item-disabled');
+      // Remove disabled class, aria from all items in collection
+      $("#" + collectionTarget + " .collection-item").removeClass('collection-item-disabled').removeAttr('aria-hidden').removeAttr('role');
       // Remove active class from category links
       $("ul.collection-items-navigation a").removeClass('active');
       // Apply active class to the clicked link
@@ -39,11 +39,11 @@
       // Get the collection category
       var target = $(this).val();
       // Show all collection items
-      $("#" + collectionTarget + " .collection-item").removeClass('collection-item-disabled');
-      // Add disabled class to collection items that are not part of the category chosen
-      $('#' + collectionTarget + ' .collection-item').not('.collection-category-' + target).addClass('collection-item-disabled');
-
-
+      $("#" + collectionTarget + " .collection-item").removeClass('collection-item-disabled').removeAttr('aria-hidden').removeAttr('role');
+      // Add disabled class, aria to collection items that are not part of the category chosen
+      if (target != 'all') {
+        $('#' + collectionTarget + ' .collection-item').not('.collection-category-' + target).addClass('collection-item-disabled').attr('aria-hidden', 'true').attr('role', 'presentation');
+      }
     });
   });
 })(jQuery);
