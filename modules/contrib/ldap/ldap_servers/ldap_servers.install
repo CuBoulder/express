@@ -18,7 +18,7 @@ function ldap_servers_install() {
  */
 function ldap_servers_uninstall() {
   variable_del('ldap_servers_encryption');
-  variable_del('ldap_servers_require_ssl_for_credentails');
+  variable_del('ldap_servers_require_ssl_for_credentials');
   variable_del('ldap_servers_encrypt_key');
 
 }
@@ -84,11 +84,6 @@ function ldap_servers_requirements($phase) {
         try {
           $connect_result = $server->connect();
           if ($connect_result == LDAP_SUCCESS) {
-            if ($server->bind_method == LDAP_SERVERS_BIND_METHOD_USER) {
-              $requirements[$server_req_key]['value'] = $t('Connection: Success, Bind: Not tested due to method', $server_tokens);
-              $requirements[$server_req_key]['severity'] = REQUIREMENT_OK;
-              return $requirements;
-            }
             $bind_result = $server->bind();
             if ($bind_result == LDAP_SUCCESS) {
               $requirements[$server_req_key]['value'] = $t('Connection: Success, Bind: Success', $server_tokens);
@@ -860,6 +855,16 @@ function ldap_servers_update_7206() {
       )
     );
   }
+}
+
+/**
+ * Fixes a typo in an LDAP variable name.
+ */
+function ldap_servers_update_7207() {
+    if (!is_null($old_var = variable_get('ldap_servers_require_ssl_for_credentails'))) {
+      variable_set('ldap_servers_require_ssl_for_credentials', $old_var);
+      variable_del('ldap_servers_require_ssl_for_credentails');
+    }
 }
 
 function ldap_servers_install_update_schema($schema, &$change_log) {
