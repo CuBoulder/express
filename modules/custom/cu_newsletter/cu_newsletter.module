@@ -495,7 +495,6 @@ function cu_newsletter_design_options() {
  */
 function cu_newsletter_form_newsletter_node_form_alter(&$form, &$form_state, $form_id) {
   $form['#submit'][] = 'cu_newsletter_publish_confirm';
-
 }
 
 /**
