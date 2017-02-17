@@ -296,7 +296,7 @@ function atlas_up() {
  *   TRUE if api returns 200 else FALSE if non 200 or not configured.
  */
 function atlas_version() {
-  $url = variable_get('atlas_url') . '/version';
+  $url = variable_get('atlas_url') . 'version';
   $options = array(
     'timeout' => 5.0,
   );
