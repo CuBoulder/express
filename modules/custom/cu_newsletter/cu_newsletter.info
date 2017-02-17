@@ -88,5 +88,3 @@ features[variable][] = node_submitted_newsletter
 features[variable][] = pathauto_node_newsletter_pattern
 features[variable][] = pathauto_taxonomy_term_newsletter_pattern
 features_exclude[dependencies][ds] = ds
-
-scripts[] = js/cu-newsletter.js
