@@ -54,4 +54,4 @@ projects[module_missing_message_fixer][patch][] = file://modules/contrib/module_
 projects[field_reference_delete][patch][] = https://www.drupal.org/files/issues/bulk-delete-using-drush-2772589-2.patch
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-2363
-projects[ldap_servers][patch][] = "https://www.drupal.org/files/issues/2838389-skip-bind-test-when-using-user-cred-method.patch"
+projects[ldap_servers][patch][] = "https://www.drupal.org/files/issues/ldap_bind_failure-2780393-7-7.patch"
