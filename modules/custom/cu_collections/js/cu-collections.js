@@ -1,7 +1,15 @@
 (function ($) {
   $(document).ready(function(){
-    $(".bean-collection-grid").each(function(){
+    $(".bean-collection-grid .expand-trigger").each(function(i){
+      //alert(i);
+      $(this).addClass('xxx');
+      var trigger = $(this).attr('href');
+      var trigger2 = trigger + '-' + i;
+      var target = trigger2.substring(1);
 
+
+      $(this).attr('href', trigger2);
+      $(this).next('.expand-content').attr('id', target);
     });
     $(".collection-items-categories").hide();
 
