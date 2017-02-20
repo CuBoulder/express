@@ -495,7 +495,7 @@ function cu_newsletter_design_options() {
  */
 function cu_newsletter_form_newsletter_node_form_alter(&$form, &$form_state, $form_id) {
   $form['#submit'][] = 'cu_newsletter_publish_confirm';
-  drupal_add_js(drupal_get_path('module','cu_newsletter') .'/js/cu-newsletter.js');
+  drupal_add_js(drupal_get_path('module', 'cu_newsletter') . '/js/cu-newsletter.js');
 
 }
 
