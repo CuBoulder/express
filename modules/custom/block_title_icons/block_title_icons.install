@@ -9,6 +9,7 @@
  * Implements hook_requirements().
  */
 function block_title_icons_requirements($phase) {
+  $requirements = array();
   if ($phase == 'runtime') {
     $library = libraries_load(BLOCKTITLEICONS_LIBRARY);
     if (!$library['loaded']) {
@@ -18,7 +19,8 @@ function block_title_icons_requirements($phase) {
         'value' => '',
         'severity' => REQUIREMENT_ERROR,
       );
-      return $requirements;
+
     }
   }
+  return $requirements;
 }
