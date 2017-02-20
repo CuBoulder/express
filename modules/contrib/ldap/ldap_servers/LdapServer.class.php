@@ -463,6 +463,10 @@ class LdapServer {
       return FALSE;
     }
 
+    if (!empty($attributes['unicodePwd']) && ($this->ldap_type == 'ad')) {
+      $attributes['unicodePwd'] = ldap_servers_convert_password_for_active_directory_unicodePwd($attributes['unicodePwd']);
+    }
+
     $result = @ldap_add($this->connection, $dn, $attributes);
     if (!$result) {
       $error = "LDAP Server ldap_add(%dn) Error Server ID = %sid, LDAP Err No: %ldap_errno LDAP Err Message: %ldap_err2str ";
@@ -549,6 +553,11 @@ class LdapServer {
         $old_attributes =  $entries[0];
       }
     }
+
+    if (!empty($attributes['unicodePwd']) && ($this->ldap_type == 'ad')) {
+      $attributes['unicodePwd'] = ldap_servers_convert_password_for_active_directory_unicodePwd($attributes['unicodePwd']);
+    }
+
     $attributes = $this->removeUnchangedAttributes($attributes, $old_attributes);
 
     foreach ($attributes as $key => $cur_val) {
@@ -1139,7 +1148,12 @@ class LdapServer {
         && isset($ldap_entry[$this->unique_persistent_attr][0])
         && is_scalar($ldap_entry[$this->unique_persistent_attr][0])
         ) {
-      $puid = $ldap_entry[$this->unique_persistent_attr][0];
+      if (is_array($ldap_entry[$this->unique_persistent_attr])) {
+        $puid = $ldap_entry[$this->unique_persistent_attr][0];
+      }
+      else {
+        $puid = $ldap_entry[$this->unique_persistent_attr];
+      }
       return ($this->unique_persistent_attr_binary) ? ldap_servers_binary($puid) : $puid;
     }
     else {

@@ -492,6 +492,15 @@ function ldap_user_form_password_policy_password_tab_alter(&$form, &$form_state)
 }
 
 /**
+* Implements hook_form_FORM_ID_alter(). for user-pass-reset form. Useful for
+* sites where this is the form ID for a user to intially set their password
+* (user clicks an emailed registration link, is prompted to set their password).
+*/
+function ldap_user_form_user_pass_reset_alter(&$form, &$form_state) {
+  array_unshift($form['#validate'], 'ldap_user_grab_password_validate');
+}
+
+/**
  * store password from logon forms in ldap_user_ldap_provision_pwd static variable
  * for use in provisioning to ldap
  */
@@ -763,10 +772,8 @@ function ldap_user_provision_to_drupal($ldap_user, $user_edit = array()) {
  *   and protect unencrypted user password from other modules
  *
  *   @param enum string $action 'get' | 'set'
- *   @param string | FALE $value as user entered password
+ *   @param string | FALSE $value as user entered password
  */
-
-
 function ldap_user_ldap_provision_pwd($action, $value = NULL, $reset = FALSE) {
 
   //$calling_function = FALSE;

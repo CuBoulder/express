@@ -509,7 +509,7 @@ class LdapUserConf {
     if (is_scalar($account)) {
       $username = $account;
       $account = new stdClass();
-      $acount->name = $username;
+      $account->name = $username;
     }
 
     list($account, $user_entity) = ldap_user_load_user_acct_and_entity($account->name);
@@ -867,9 +867,8 @@ class LdapUserConf {
     // determine server that is associated with user
 
     $boolean_result = FALSE;
-    $language = ($account->language) ? $account->language : LANGUAGE_NONE;
-    if (isset($account->ldap_user_prov_entries[$language][0])) {
-      foreach ($account->ldap_user_prov_entries[$language] as $i => $field_instance) {
+    if (isset($account->ldap_user_prov_entries[LANGUAGE_NONE][0])) {
+      foreach ($account->ldap_user_prov_entries[LANGUAGE_NONE] as $i => $field_instance) {
         $parts = explode('|', $field_instance['value']);
         if (count($parts) == 2) {
 
