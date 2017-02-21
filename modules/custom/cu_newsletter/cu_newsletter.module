@@ -521,6 +521,24 @@ function cu_newsletter_design_options() {
  *  Implements hook_form_FORM_ID_alter.
  */
 function cu_newsletter_form_newsletter_node_form_alter(&$form, &$form_state, $form_id) {
+  // Check to see if there are any newsletter type terms.
+  // Display warning if there is no terms.
+  if (count($form['field_newsletter_type'][LANGUAGE_NONE]['#options']) < 2) {
+    $link = l(t('create a newsletter type'), 'admin/structure/taxonomy/newsletter/add', array('query' => array('destination' => 'node/add/newsletter')));
+    $message = "You must first $link before creating a newsletter.";
+    drupal_set_message($message, 'warning');
+  }
+  // Select available term if there is only one term.
+  elseif (count($form['field_newsletter_type'][LANGUAGE_NONE]['#options']) == 2) {
+    $options = $form['field_newsletter_type'][LANGUAGE_NONE]['#options'];
+    $options = array_keys($options);
+    $form['field_newsletter_type'][LANGUAGE_NONE]['#default_value'] = $options[1];
+  }
+  // Add link to add type terms in type field description.
+  $link = l(t('Add a newsletter type'), 'admin/structure/taxonomy/newsletter/add', array('query' => array('destination' => 'node/add/newsletter')));
+  $message = "Select the type of newsletter. $link.";
+  $form['field_newsletter_type'][LANGUAGE_NONE]['#description'] = $message;
+  // Add confirmation on submit.
   $form['#submit'][] = 'cu_newsletter_publish_confirm';
   drupal_add_js(drupal_get_path('module', 'cu_newsletter') . '/js/cu-newsletter.js');
 
