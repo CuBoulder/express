@@ -10,7 +10,8 @@
  *
  * @ingroup themeable
  */
-function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
+
+function _views_slideshow_cycle_preprocess_views_slideshow_cycle_main_frame(&$vars) {
   $settings = $vars['settings'];
   $rows = $vars['rows'];
   $view = $vars['view'];
@@ -25,7 +26,7 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
       $value = trim($value);
 
       if (is_numeric($value)) {
-        $value = (int) $value;
+        $value = (int)$value;
       }
       elseif (strtolower($value) == 'true') {
         $value = TRUE;
@@ -40,7 +41,7 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
 
   $settings = array_merge(
     array(
-      'num_divs' => count($rows),
+      'num_divs' => sizeof($rows),
       'id_prefix' => '#views_slideshow_cycle_main_',
       'div_prefix' => '#views_slideshow_cycle_div_',
       'vss_id' => $vss_id,
@@ -53,7 +54,7 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
   // to the id to make it unique.
   $slideshow_count = 1;
   $current_settings = drupal_add_js();
-  foreach ($current_settings['settings']['data'] as $current_setting) {
+  foreach ($current_settings['settings']['data'] AS $current_setting) {
     if (isset($current_setting['viewsSlideshowCycle'])) {
       $current_keys = array_keys($current_setting['viewsSlideshowCycle']);
       if (stristr($current_keys[0], '#views_slideshow_cycle_main_' . $vss_id)) {
@@ -69,36 +70,36 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
 
   // Don't load JavaScript unless libraries module is present.
   if (module_exists('libraries')) {
-    // Load jQuery Cycle.
+    // Load jQuery Cycle
     if ($cycle_path = _views_slideshow_cycle_library_path()) {
       drupal_add_js($cycle_path);
     }
 
-    // Load Json2.
+    // Load Json2
     $json_path = libraries_get_path('json2');
     if (!empty($json_path) && file_exists($json_path . '/json2.js')) {
       drupal_add_js($json_path . '/json2.js');
     }
 
-    // Load our cycle js.
+    // Load our cycle js
     $module_path = drupal_get_path('module', 'views_slideshow_cycle');
     drupal_add_js($module_path . '/js/views_slideshow_cycle.js');
 
-    // Load the pause library.
+    // Load the pause library
     if (!empty($settings['pause_in_middle']) && $pause_path = _views_slideshow_cycle_pause_library_path()) {
       drupal_add_js($pause_path);
     }
   }
 
-  // Load our cycle css.
+  // Load our cycle css
   drupal_add_css($module_path . '/views_slideshow_cycle.css', 'file');
 
   drupal_add_js(array('viewsSlideshowCycle' => array('#views_slideshow_cycle_main_' . $vss_id => $settings)), 'setting');
 
-  // Add hover intent library.
+  // Add hover intent library
   if ($settings['pause']) {
     if (module_exists('libraries')) {
-      // Load jQuery hoverIntent.
+      // Load jQuery hoverIntent
       $hoverIntent_path = libraries_get_path('jquery.hoverIntent');
       if (!empty($hoverIntent_path) && file_exists($hoverIntent_path . '/jquery.hoverIntent.js')) {
         drupal_add_js($hoverIntent_path . '/jquery.hoverIntent.js');
@@ -119,7 +120,7 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
     $styles_default = $view->display['default']->display_options['style_options']['views_slideshow_cycle'];
   }
 
-  // Retrive the number of items per frame.
+  // Retrive the number of items per frame
   if (isset($styles['items_per_slide']) && $styles['items_per_slide'] > 0) {
     $items_per_slide = $styles['items_per_slide'];
   }
@@ -132,29 +133,13 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
 
   $vars['items_per_slide'] = $items_per_slide;
 
-  //drupal_set_message(var_export($vars['options']['widgets'],TRUE));
-  $widgets = $vars['options']['widgets'];
-  if (isset($options['top']['views_slideshow_pager']['enabled']) && $options['top']['views_slideshow_pager']['enabled']) {
-    $aria = "aria-labelledby='views_slideshow_pager_field_item_top_${vss_id}_";
-  }
-  else {
-    $aria = "aria-labelledby='views_slideshow_pager_field_item_bottom_${vss_id}_";
-  }
-
-
   $items = array();
   $slideshow_count = 0;
   $rendered_rows = '';
   foreach ($rows as $count => $item) {
     $items[] = $item;
-    if (count($items) == $items_per_slide || $count == (count($rows) - 1)) {
-      $rendered_rows .= theme(views_theme_functions('views_slideshow_cycle_main_frame_row', $vars['view'], $vars['view']->display[$vars['view']->current_display]), array(
-        'vss_id' => $vss_id,
-        'items' => $items,
-        'count' => $slideshow_count,
-        'view' => $vars['view'],
-        'aria' => $aria . $slideshow_count . "'",
-      ));
+    if (count($items) == $items_per_slide || $count == (count($rows)-1)) {
+      $rendered_rows .= theme(views_theme_functions('views_slideshow_cycle_main_frame_row', $vars['view'], $vars['view']->display[$vars['view']->current_display]), array('vss_id' => $vss_id, 'items' => $items, 'count' => $slideshow_count, 'view' => $vars['view']));
       $items = array();
       $slideshow_count++;
     }
@@ -168,34 +153,25 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
  *
  * @ingroup themeable
  */
-function template_preprocess_views_slideshow_cycle_main_frame_row(&$vars) {
+function _views_slideshow_cycle_preprocess_views_slideshow_cycle_main_frame_row(&$vars) {
   $current = $vars['count'] + 1;
   $vars['classes_array'][] = 'views_slideshow_cycle_slide';
   $vars['classes_array'][] = 'views_slideshow_slide views-row-' . $current;
 
   if ($vars['count']) {
-    $vars['classes_array'][] = 'views_slideshow_cycle_hidden';
+    $vars['classes_array'][] =  'views_slideshow_cycle_hidden';
   }
   $vars['classes_array'][] = ($vars['count'] % 2) ? 'views-row-even' : 'views-row-odd';
 
   $vars['rendered_items'] = '';
   foreach ($vars['items'] as $item_count => $item) {
-    $vars['rendered_items'] .= theme(views_theme_functions('views_slideshow_cycle_main_frame_row_item', $vars['view'], $vars['view']->display[$vars['view']->current_display]), array(
-      'item' => $item,
-      'item_count' => $item_count,
-      'count' => $vars['count'],
-      'view' => $vars['view'],
-      'length' => count($vars['items']),
-    ));
+    $vars['rendered_items'] .= theme(views_theme_functions('views_slideshow_cycle_main_frame_row_item', $vars['view'], $vars['view']->display[$vars['view']->current_display]), array('item' => $item, 'item_count' => $item_count, 'count' => $vars['count'], 'view' => $vars['view'], 'length' => count($vars['view']->result)));
   }
 }
 
-/**
- * Implements hook_preprocess_views_slideshow_cycle_main_frame_row_item().
- */
-function template_preprocess_views_slideshow_cycle_main_frame_row_item(&$vars) {
-  $vars['classes_array'][] = 'views-row views-row-' . $vars['item_count'];
-  $vars['classes_array'][] = ($vars['item_count'] % 2) ? 'views-row-even' : 'views-row-odd';
+function _views_slideshow_cycle_preprocess_views_slideshow_cycle_main_frame_row_item(&$vars) {
+  $vars['classes_array'][] = 'views-row views-row-' . $vars['count'];
+  $vars['classes_array'][] = ($vars['count'] % 2) ? 'views-row-even' : 'views-row-odd';
   if ($vars['count'] == 0) {
     $vars['classes_array'][] = 'views-row-first';
   }
@@ -203,14 +179,16 @@ function template_preprocess_views_slideshow_cycle_main_frame_row_item(&$vars) {
     $vars['classes_array'][] = 'views-row-last';
   }
 
-  // Support custom row classes.
+  /**
+   * Support custom row classes.
+   */
   if ($row_class = $vars['view']->style_plugin->get_row_class($vars['count'])) {
     $vars['classes_array'][] = $row_class;
   }
 }
 
 /**
- * Implements hook_preprocess_views_slideshow_pager_fields().
+ * Implements hook_preprocess_views_slideshow_pager_fields()
  */
 function views_slideshow_cycle_preprocess_views_slideshow_pager_fields(&$vars) {
   $slide_count = count($vars['view']->result);
@@ -228,58 +206,21 @@ function views_slideshow_cycle_preprocess_views_slideshow_pager_fields(&$vars) {
         $rendered_fields = '';
         foreach ($vars['settings']['views_slideshow_pager_fields_fields'] as $field => $use) {
           if ($use !== 0 && is_object($vars['view']->field[$field])) {
-            $rendered_fields .= theme(views_theme_functions('views_slideshow_pager_field_field', $vars['view'], $vars['view']->display[$vars['view']->current_display]), array(
-              'view' => $vars['view'],
-              'field' => $field,
-              'count' => $count,
-            ));
+            $rendered_fields .= theme(views_theme_functions('views_slideshow_pager_field_field', $vars['view'], $vars['view']->display[$vars['view']->current_display]), array('view' => $vars['view'], 'field' => $field, 'count' => $count));
           }
         }
-        $vars['rendered_field_items'] .= theme(views_theme_functions('views_slideshow_pager_field_item', $vars['view'], $vars['view']->display[$vars['view']->current_display]), array(
-          'vss_id' => $vars['vss_id'],
-          'item' => $rendered_fields,
-          'count' => $count,
-          'location' => $vars['location'],
-          'view' => $vars['view'],
-        ));
+        $vars['rendered_field_items'] .= theme(views_theme_functions('views_slideshow_pager_field_item', $vars['view'], $vars['view']->display[$vars['view']->current_display]), array('vss_id' => $vars['vss_id'], 'item' => $rendered_fields, 'count' => $count, 'location' => $vars['location']));
       }
     }
   }
 }
 
 /**
- * Implements hook_preprocess_views_slideshow_slide_counter().
+ * Implement hook_preprocess_views_slideshow_slide_counter()
  */
 function views_slideshow_cycle_preprocess_views_slideshow_slide_counter(&$vars) {
   if ($vars['view']->style_options['slideshow_type'] == 'views_slideshow_cycle') {
     $vars['slide_count'] = $vars['slide_count'] / $vars['view']->style_options['views_slideshow_cycle']['items_per_slide'];
     $vars['slide_count'] = ceil($vars['slide_count']);
   }
-}
-
-/**
- * Backwards compatability wrapper.
- *
- * @see template_preprocess_views_slideshow_cycle_main_frame().
- */
-function _views_slideshow_cycle_preprocess_views_slideshow_cycle_main_frame(&$vars) {
-  template_preprocess_views_slideshow_cycle_main_frame($vars);
-}
-
-/**
- * Backwards compatability wrapper.
- *
- * @see template_preprocess_views_slideshow_cycle_main_frame_row().
- */
-function _views_slideshow_cycle_preprocess_views_slideshow_cycle_main_frame_row(&$vars) {
-  template_preprocess_views_slideshow_cycle_main_frame_row($vars);
-}
-
-/**
- * Backwards compatability wrapper.
- *
- * @see template_preprocess_views_slideshow_cycle_main_frame_row_item().
- */
-function _views_slideshow_cycle_preprocess_views_slideshow_cycle_main_frame_row_item(&$vars) {
-  template_preprocess_views_slideshow_cycle_main_frame_row_item($vars);
 }

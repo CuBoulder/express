@@ -5,9 +5,13 @@ dependencies[] = libraries
 package = Views
 core = 7.x
 
-; Information added by Drupal.org packaging script on 2017-01-19
-version = "7.x-3.5"
+files[] = views_slideshow_cycle.module
+files[] = views_slideshow_cycle.views_slideshow.inc
+files[] = theme/views_slideshow_cycle.theme.inc
+
+; Information added by Drupal.org packaging script on 2016-12-26
+version = "7.x-3.2"
 core = "7.x"
 project = "views_slideshow"
-datestamp = "1484857386"
+datestamp = "1482784086"
 

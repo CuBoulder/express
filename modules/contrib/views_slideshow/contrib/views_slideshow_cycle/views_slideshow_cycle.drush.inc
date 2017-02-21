@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Drush integration for Views Slideshow.

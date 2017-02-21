@@ -14,14 +14,13 @@ Installation
 1) Assure that you are using Views 3.x. http://drupal.org/project/views
 2) Upload/install the Libraries API module. http://drupal.org/project/libraries
 3) Upload/install the ctools library. http://drupal.org/project/ctools
-4)If enabling via drush, the libraries will be automatically downloaded. Otherwise, you will need to manually download the library.
-  a) Create a sites/all/libraries directory on your server.
-  b) Create a directory within sites/all/libraries named jquery.cycle.
-  c) Locate/download the jQuery cycle plugin. http://malsup.com/jquery/cycle
-  d) Upload/install the jQuery cycle plugin: place it inside the jquery.cycle
+4) Create a sites/all/libraries directory on your server.
+5) Create a directory within sites/all/libraries named jquery.cycle.
+6) Locate/download the jQuery cycle plugin. http://malsup.com/jquery/cycle
+7) Upload/install the jQuery cycle plugin: place it inside the jquery.cycle
    directory.
-5) Enable the Views slideshow and Views Slideshow: Cycle modules
-6) You should now see the new views style option called "Slideshow"
+8) Enable the Views slideshow and Views Slideshow: Cycle modules
+9) You should now see the new views style option called "Slideshow"
 
 Upgrading from 2.x
 ===================
@@ -40,7 +39,7 @@ find deficiencies, please post an issue.
 6) Upload/install the Libraries API module. http://drupal.org/project/libraries
 7) Create a sites/all/libraries directory on your server.
 8) Create a directory within sites/all/libraries named jquery.cycle
-9) Locate/download the jQuery cycle plugin from github: https://raw.githubusercontent.com/malsup/cycle/3.0.3/jquery.cycle.all.js
+9) Locate/download the jQuery cycle plugin from the internet.
 10) Upload/install the jQuery cycle plugin: place it inside the jquery.cycle
    directory.
 11) Enable the Views slideshow and Views Slideshow: Cycle modules
@@ -69,12 +68,6 @@ jQuery slideshow.
 
 Settings are available for fade, timing, mode, and more.
 
-Known Issues
-============
-
-* Do not use the block cache for Views Slideshow blocks as this may prevent the
-JavaScript from being added to the page. See https://www.drupal.org/node/1460766
-and https://www.drupal.org/node/2448157.
 
 Authors/maintainers
 ===================
@@ -82,18 +75,15 @@ Authors/maintainers
 Original Author:
 
 Aaron Winborn (winborn at advomatic dot com)
-https://drupal.org/user/33420
+http://drupal.org/user/33420
 
--maintainers:
-
-NickWilde
-https://www.drupal.org/u/nickwilde
+Co-maintainers:
 
 redndahead
-https://drupal.org/user/160320
+http://drupal.org/user/160320
 
 psynaptic
-https://drupal.org/user/93429
+http://drupal.org/user/93429
 
 
 Support
@@ -101,4 +91,4 @@ Support
 
 Issues should be posted in the issue queue on drupal.org:
 
-https://drupal.org/project/issues/views_slideshow
+http://drupal.org/project/issues/views_slideshow

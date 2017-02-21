@@ -13,8 +13,8 @@
 /**
  * Define the type of the slideshow (eg.: cycle, imageflow, ddblock).
  *
- * @return array
- *   Associative array of slideshow type and its information.
+ * @return
+ *  Associative array of slideshow type and its information.
  */
 function hook_views_slideshow_slideshow_info() {
   $options = array(
@@ -43,7 +43,6 @@ function hook_views_slideshow_slideshow_info() {
 
 /**
  * Define form fields to be displayed in the views settings form.
- *
  * These fields would help configure your slideshow type.
  */
 function hook_views_slideshow_slideshow_type_form(&$form, &$form_state, &$view) {
@@ -52,28 +51,28 @@ function hook_views_slideshow_slideshow_type_form(&$form, &$form_state, &$view) 
     '#title' => t('Effect'),
     '#options' => $effects,
     '#default_value' => $view->options['views_slideshow_cycle']['effect'],
-    '#description' => t('The transition effect that will be used to change between images. Not all options below may be relevant depending on the effect. !link', array('!link' => l(t('Follow this link to see examples of each effect.'), 'http://jquery.malsup.com/cycle/browser.html', array('attributes' => array('target' => '_blank'))))),
+    '#description' => t('The transition effect that will be used to change between images. Not all options below may be relevant depending on the effect. ' . l('Follow this link to see examples of each effect.', 'http://jquery.malsup.com/cycle/browser.html', array('attributes' => array('target' => '_blank')))),
   );
 }
 
 /**
- * Set default values for options specified in hook_views_slideshow_type_form.
+ * Set default values for your form fields specified in hook_views_slideshow_type_form
  *
- * @return array
- *   Associative array of slideshow type name and options.
+ * @return
+ *  Associative array of slideshow type name and options.
  */
 function hook_views_slideshow_option_definition() {
   $options['views_slideshow_cycle'] = array(
     'contains' => array(
-      // Transition.
+      // Transition
       'effect' => array('default' => 'fade'),
       'transition_advanced' => array('default' => 0),
       'timeout' => array('default' => 5000),
-      'speed' => array('default' => 700),
+      'speed' => array('default' => 700), //normal
       'delay' => array('default' => 0),
       'sync' => array('default' => 1),
       'random' => array('default' => 0),
-    ),
+    )
   );
   return $options;
 }
@@ -121,10 +120,10 @@ function hook_views_slideshow_skin_info() {
  *  - previousSlide
  *  - goToSlide
  *  - transitionBegin
- *  - transitionEnd.
+ *  - transitionEnd
  *
- * @return array
- *   Array keyed by the widget names.
+ * @return
+ *  Array keyed by the widget names.
  */
 function hook_views_slideshow_widget_info() {
   return array(
@@ -132,9 +131,9 @@ function hook_views_slideshow_widget_info() {
       'name' => t('Pager'),
       'accepts' => array(
         'transitionBegin' => array('required' => TRUE),
-        'goToSlide' => array(),
-        'previousSlide' => array(),
-        'nextSlide' => array(),
+        'goToSlide',
+        'previousSlide',
+        'nextSlide',
       ),
       'calls' => array(
         'goToSlide',
@@ -159,9 +158,9 @@ function hook_views_slideshow_widget_info() {
       'name' => t('Slide Counter'),
       'accepts' => array(
         'transitionBegin' => array('required' => TRUE),
-        'goToSlide' => array(),
-        'previousSlide' => array(),
-        'nextSlide' => array(),
+        'goToSlide',
+        'previousSlide',
+        'nextSlide',
       ),
       'calls' => array(),
     ),
@@ -169,10 +168,7 @@ function hook_views_slideshow_widget_info() {
 }
 
 /**
- * Form fields to be added for a specific widget type.
- *
- * Example of a widget type would be views_slideshow_pager
- * or views_slideshow_slide_counter.
+ * Form fields to be added for a specific widget type. Example of a widget type would be views_slideshow_pager or views_slideshow_slide_counter.
  */
 function INSERT_WIDGET_TYPE_HERE_views_slideshow_widget_form_options(&$form, $form_state, $view, $defaults, $dependency) {
 }
