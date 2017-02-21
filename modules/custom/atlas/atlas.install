@@ -14,10 +14,11 @@ function atlas_requirements($phase) {
   if ($phase == 'runtime') {
     $t = get_t();
     $atlas_up = atlas_up();
+    $atlas_version = atlas_version();
     if ($atlas_url = variable_get('atlas_url', FALSE)) {
       $requirements['atlas_url'] = array(
         'title' => $t('Atlas URL'),
-        'value' => $t('Connected to Atlas at !atlas_url.', array('!atlas_url' => $atlas_url)),
+        'value' => $t('Connected to !atlas_url - Atlas v!atlas_version.', array('!atlas_url' => $atlas_url, '!atlas_version' => $atlas_version)),
         'severity' => REQUIREMENT_OK,
       );
     }
@@ -42,7 +43,7 @@ function atlas_requirements($phase) {
         'severity' => REQUIREMENT_WARNING,
       );
     }
-    if ($atlas_id = variable_get('atlas_id', FALSE) && $cu_sid = variable_get('cu_sid', FALSE) ) {
+    if (($atlas_id = variable_get('atlas_id', FALSE)) && ($cu_sid = variable_get('cu_sid', FALSE))) {
       $requirements['atlas_id'] = array(
         'title' => $t('Atlas Site ID'),
         'value' => $t('This site reports an Atlas id of !atlas_id and a CU SID of !cu_sid', array('!atlas_id' => $atlas_id, '!cu_sid' => $cu_sid)),
