@@ -41,7 +41,7 @@ function views_slideshow_cycle_help($path, $arg) {
   switch ($path) {
     case 'admin/help#views_slideshow_cycle':
       if (module_exists('advanced_help')) {
-        $output = '<p>' . l('Click here to view the documentation for Views Slideshow Cycle.',  'admin/advanced_help/views_slideshow_cycle') . '</p>';
+        $output = '<p>' . l('Click here to view the documentation for Views Slideshow Cycle.',  'admin/help/ah/views_slideshow_cycle') . '</p>';
       }
       else {
         $output = '<p>' . t('Views Slideshow Cycle help can be found by installing and enabling the !advanced_help',  array('!advanced_help' => l('Advanced Help module', 'http://drupal.org/project/advanced_help'))) . '</p>';
@@ -118,7 +118,7 @@ function _views_slideshow_cycle_pause_library_path() {
  */
 
 // Trying to make sure the theme.inc get's loaded.
-include_once('theme/views_slideshow_cycle.theme.inc');
+module_load_include('inc', 'views_slideshow_cycle', 'theme/views_slideshow_cycle.theme');
 
 function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
   _views_slideshow_cycle_preprocess_views_slideshow_cycle_main_frame($vars);

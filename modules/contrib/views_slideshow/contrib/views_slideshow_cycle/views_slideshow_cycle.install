@@ -5,6 +5,7 @@
  */
 function views_slideshow_cycle_requirements($phase) {
   $requirements = array();
+
   // Ensure translations do not break at install time
   $t = get_t();
   if ($phase == 'install' || $phase == 'runtime') {

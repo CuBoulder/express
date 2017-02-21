@@ -109,7 +109,7 @@ class views_slideshow_plugin_style_slideshow extends views_plugin_style {
     }
     else {
       $form['enable_module'] = array(
-        '#markup' => t('There is no Views Slideshow plugin enabled. Go to the !modules and enable a Views Slideshow plugin module. For example Views Slideshow Singleframe.', array('!modules' => l('Modules Page', 'admin/modules'))),
+        '#markup' => t('There is no Views Slideshow plugin enabled. Go to the !modules and enable a Views Slideshow plugin module. For example Views Slideshow: Cycle.', array('!modules' => l('Modules Page', 'admin/modules'))),
       );
     }
 
@@ -152,7 +152,7 @@ class views_slideshow_plugin_style_slideshow extends views_plugin_style {
             $is_compatible = 1;
             // Check if every required accept value in the widget has a
             // corresponding calls value in the slideshow.
-            foreach($widget_info['accepts'] as $accept_key => $accept_value) {
+            foreach ($widget_info['accepts'] as $accept_key => $accept_value) {
               if (is_array($accept_value) && !empty($accept_value['required']) && !in_array($accept_key, $slideshow_info['calls'])) {
                 $is_compatible = 0;
                 break;
@@ -163,7 +163,7 @@ class views_slideshow_plugin_style_slideshow extends views_plugin_style {
             if ($is_compatible) {
               // Check if every required calls value in the widget has a
               // corresponding accepts call.
-              foreach($widget_info['calls'] as $calls_key => $calls_value) {
+              foreach ($widget_info['calls'] as $calls_key => $calls_value) {
                 if (is_array($calls_value) && !empty($calls_value['required']) && !in_array($calls_key, $slideshow_info['accepts'])) {
                   $is_compatible = 0;
                   break;

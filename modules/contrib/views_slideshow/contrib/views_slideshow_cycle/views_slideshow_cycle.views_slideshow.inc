@@ -52,7 +52,7 @@ function views_slideshow_cycle_views_slideshow_option_definition() {
       'pause' => array('default' => 1),
       'pause_on_click' => array('default' => 0),
       'action_advanced' => array('default' => 0),
-      'start_paused' => array('default', 0),
+      'start_paused' => array('default' => 0),
       'remember_slide' => array('default' => 0),
       'remember_slide_days' => array('default' => 1),
       'pause_in_middle' => array('default' => 0),
@@ -520,12 +520,12 @@ function views_slideshow_cycle_form_options_js($element, &$form_state, &$form) {
  */
 function views_slideshow_cycle_views_slideshow_options_form_validate(&$form, &$form_state, &$view) {
   if (!is_numeric($form_state['values']['style_options']['views_slideshow_cycle']['speed'])) {
-    form_error($form['views_slideshow_cycle']['speed'], t('!setting must be numeric!', array('Speed')));
+    form_error($form['views_slideshow_cycle']['speed'], t('!setting must be numeric!', array('!setting' => 'Speed')));
   }
   if (!is_numeric($form_state['values']['style_options']['views_slideshow_cycle']['timeout'])) {
-    form_error($form['views_slideshow_cycle']['speed'], t('!setting must be numeric!', array('timeout')));
+    form_error($form['views_slideshow_cycle']['timeout'], t('!setting must be numeric!', array('!setting' => 'Timeout')));
   }
   if (!is_numeric($form_state['values']['style_options']['views_slideshow_cycle']['remember_slide_days'])) {
-    form_error($form['views_slideshow_cycle']['remember_slide_days'], t('!setting must be numeric!', array('Slide days')));
+    form_error($form['views_slideshow_cycle']['remember_slide_days'], t('!setting must be numeric!', array('!setting' => 'Slide days')));
   }
 }

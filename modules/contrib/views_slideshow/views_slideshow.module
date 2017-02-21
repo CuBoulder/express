@@ -106,10 +106,7 @@ function views_slideshow_library() {
       drupal_get_path('module', 'views_slideshow') . '/js/views_slideshow.js' => array(),
     ),
     'css' => array(
-      drupal_get_path('module', 'views_slideshow') . '/views_slideshow.css' => array(
-        'type' => 'file',
-        'media' => 'screen',
-      ),
+      drupal_get_path('module', 'views_slideshow') . '/views_slideshow.css' => array(),
     ),
   );
 
@@ -182,7 +179,7 @@ function views_slideshow_pager_views_slideshow_widget_form_options(&$form, &$for
 
   if (!empty($pagers)) {
     $pager_options = array();
-    foreach($pagers as $pager_id => $pager_info) {
+    foreach ($pagers as $pager_id => $pager_info) {
       $pager_options[$pager_id] = $pager_info['name'];
     }
     asort($pager_options);
@@ -346,7 +343,7 @@ function views_slideshow_controls_views_slideshow_widget_form_options(&$form, &$
 
   if (!empty($controls)) {
     $control_type_options = array();
-    foreach($controls as $control_id => $control_info) {
+    foreach ($controls as $control_id => $control_info) {
       $control_type_options[$control_id] = $control_info['name'];
     }
     asort($control_type_options);
@@ -481,7 +478,7 @@ function views_slideshow_views_slideshow_option_definition() {
  */
 
 // Trying to make sure the theme.inc get's loaded.
-include_once('theme/views_slideshow.theme.inc');
+module_load_include('inc', 'views_slideshow', 'theme/views_slideshow.theme');
 
 function template_preprocess_views_slideshow(&$vars) {
   _views_slideshow_preprocess_views_slideshow($vars);

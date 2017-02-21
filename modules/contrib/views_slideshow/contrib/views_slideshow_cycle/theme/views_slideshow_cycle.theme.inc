@@ -68,7 +68,7 @@ function _views_slideshow_cycle_preprocess_views_slideshow_cycle_main_frame(&$va
     $settings['vss_id'] = $vss_id;
   }
 
-  // Don't load javascript unless libraries module is present.
+  // Don't load JavaScript unless libraries module is present.
   if (module_exists('libraries')) {
     // Load jQuery Cycle
     if ($cycle_path = _views_slideshow_cycle_library_path()) {
@@ -184,5 +184,43 @@ function _views_slideshow_cycle_preprocess_views_slideshow_cycle_main_frame_row_
    */
   if ($row_class = $vars['view']->style_plugin->get_row_class($vars['count'])) {
     $vars['classes_array'][] = $row_class;
+  }
+}
+
+/**
+ * Implements hook_preprocess_views_slideshow_pager_fields()
+ */
+function views_slideshow_cycle_preprocess_views_slideshow_pager_fields(&$vars) {
+  $slide_count = count($vars['view']->result);
+  $items_per_slide = $vars['view']->style_options['views_slideshow_cycle']['items_per_slide'];
+
+  if ($vars['view']->style_options['slideshow_type'] == 'views_slideshow_cycle') {
+    $slide_count = $slide_count / $items_per_slide;
+    $slide_count = ceil($slide_count);
+  }
+
+  $vars['rendered_field_items'] = '';
+  if (empty($vars['settings']['hide_on_single_slide']) || $slide_count > 1) {
+    foreach ($vars['view']->result as $count => $node) {
+      if ($count < $slide_count) {
+        $rendered_fields = '';
+        foreach ($vars['settings']['views_slideshow_pager_fields_fields'] as $field => $use) {
+          if ($use !== 0 && is_object($vars['view']->field[$field])) {
+            $rendered_fields .= theme(views_theme_functions('views_slideshow_pager_field_field', $vars['view'], $vars['view']->display[$vars['view']->current_display]), array('view' => $vars['view'], 'field' => $field, 'count' => $count));
+          }
+        }
+        $vars['rendered_field_items'] .= theme(views_theme_functions('views_slideshow_pager_field_item', $vars['view'], $vars['view']->display[$vars['view']->current_display]), array('vss_id' => $vars['vss_id'], 'item' => $rendered_fields, 'count' => $count, 'location' => $vars['location']));
+      }
+    }
+  }
+}
+
+/**
+ * Implement hook_preprocess_views_slideshow_slide_counter()
+ */
+function views_slideshow_cycle_preprocess_views_slideshow_slide_counter(&$vars) {
+  if ($vars['view']->style_options['slideshow_type'] == 'views_slideshow_cycle') {
+    $vars['slide_count'] = $vars['slide_count'] / $vars['view']->style_options['views_slideshow_cycle']['items_per_slide'];
+    $vars['slide_count'] = ceil($vars['slide_count']);
   }
 }
