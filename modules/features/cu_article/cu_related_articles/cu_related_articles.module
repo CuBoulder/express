@@ -31,6 +31,7 @@ function cu_related_articles_block_view($delta = '') {
 }
 
 function cu_related_articles_block_output($view_mode) {
+  $block = array();
   $related_articles = array();
   // Get current node
   if (($node = menu_get_object()) && $node->type =='article') {
