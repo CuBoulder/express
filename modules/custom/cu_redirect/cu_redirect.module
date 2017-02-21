@@ -228,7 +228,7 @@ function cu_redirect_form_redirect_edit_form_alter(&$form, &$form_state, $form_i
  *
  * Displays a message on redirect creation.
  *
- * @param stdClass $redirect
+ * @param object $redirect
  *   The redirect object that is being inserted.
  */
 function cu_redirect_redirect_insert($redirect) {
