@@ -40,7 +40,7 @@ function views_slideshow_cycle_requirements($phase) {
         include_once drupal_get_path('module', 'libraries') . '/libraries.module';
       }
       if (!$cycle_path = _views_slideshow_cycle_library_path()) {
-        $requirements['views_slideshow_jquery_cycle'] = array(
+        $requirements['jquery.cycle'] = array(
           'title' => t('jQuery Cycle Library'),
           'severity' => REQUIREMENT_ERROR,
           'value' => t('Library required for Views Slideshow Cycle'),
