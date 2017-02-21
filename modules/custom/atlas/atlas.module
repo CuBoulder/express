@@ -290,6 +290,26 @@ function atlas_up() {
 }
 
 /**
+ * Determine if Atlas is up. Included a 5 second timeout.
+ *
+ * @return bool
+ *   TRUE if api returns 200 else FALSE if non 200 or not configured.
+ */
+function atlas_version() {
+  $url = variable_get('atlas_url') . 'version';
+  $options = array(
+    'timeout' => 5.0,
+  );
+  $response = drupal_http_request($url, $options);
+  if (!property_exists($response, 'error')) {
+    return $response->data;
+  }
+  else {
+    return NULL;
+  }
+}
+
+/**
  * Send a request to the Atlas API.
  *
  * @param string $resource
@@ -386,7 +406,16 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
       $error_message = 'Atlas response: ' . $response->error;
     }
 
-    drupal_set_message($error_message, 'error');
+    //drupal_set_message($error_message, 'error');
+    watchdog(
+      'atlas',
+      'API Request Error - %error',
+      array(
+        '%error' => $response->error,
+      ),
+      WATCHDOG_WARNING,
+      NULL
+    );
   }
 
   if ($method != 'GET') {
