@@ -301,7 +301,12 @@ function atlas_version() {
     'timeout' => 5.0,
   );
   $response = drupal_http_request($url, $options);
-  return $response->data;
+  if (!property_exists($response, 'error')) {
+    return $response->data;
+  }
+  else {
+    return NULL;
+  }
 }
 
 /**
