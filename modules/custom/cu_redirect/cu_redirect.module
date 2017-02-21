@@ -223,6 +223,14 @@ function cu_redirect_form_redirect_edit_form_alter(&$form, &$form_state, $form_i
   }
 }
 
+/**
+ * Implements hook_redirect_insert().
+ *
+ * Displays a message on redirect creation.
+ *
+ * @param stdClass $redirect
+ *   The redirect object that is being inserted.
+ */
 function cu_redirect_redirect_insert($redirect) {
   drupal_set_message(t('Redirect from !source to !redirect was created.', array(
     '!source' => l($redirect->source, $redirect->source),
