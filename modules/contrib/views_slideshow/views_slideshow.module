@@ -249,19 +249,6 @@ function views_slideshow_pager_views_slideshow_widget_form_options(&$form, &$for
       '#markup' => '<div class="vs-dependent">',
     );
 
-    // Option for master_pager to control all slideshows in this location.
-    $form['master_pager'] = array(
-      '#type' => 'checkbox',
-      '#title' => t('Master Pager'),
-      '#default_value' => $defaults['master_pager'],
-      '#description' => t('Should this pager control all slideshows in this location.'),
-      '#states' => array(
-        'visible' => array(
-          ':input[name="' . $dependency . '[enable]"]' => array('checked' => TRUE),
-        ),
-      ),
-    );
-
     // Add field to see if they would like to hide pager if there is only one
     // slide.
     $form['hide_on_single_slide'] = array(
@@ -526,7 +513,6 @@ function views_slideshow_views_slideshow_option_definition() {
 
   // Defaults for the pager widget.
   foreach ($locations as $location) {
-    $options['widgets']['contains'][$location]['contains']['views_slideshow_pager']['contains']['master_pager'] = array('default' => 0);
     $options['widgets']['contains'][$location]['contains']['views_slideshow_pager']['contains']['hide_on_single_slide'] = array('default' => 0);
     $options['widgets']['contains'][$location]['contains']['views_slideshow_pager']['contains']['type'] = array('default' => 0);
     $options['widgets']['contains'][$location]['contains']['views_slideshow_pager']['contains']['views_slideshow_pager_numbered_hover'] = array('default' => 0);

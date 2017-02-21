@@ -1,3 +1,4 @@
+
 /**
  *  @file
  *  A simple jQuery Cycle Div Slideshow Rotator.
@@ -23,21 +24,10 @@
             settings.processedAfter = 1;
             slideNum = (typeof settings.opts.startingSlide == 'undefined') ? 0 : settings.opts.startingSlide;
           }
-          if (settings.pause_after_slideshow) {
-            opts.counter += 1;
-            if (opts.counter == settings.num_divs + 1) {
-              opts.counter = 1;
-              Drupal.viewsSlideshow.action({ "action": 'pause', "slideshowID": settings.slideshowId, "force": true });
-            }
-          }
           Drupal.viewsSlideshow.action({ "action": 'transitionEnd', "slideshowID": settings.slideshowId, "slideNum": slideNum });
         }
         // Pager before function.
         var pager_before_fn = function(curr, next, opts) {
-          $(document).trigger('drupal:views_slideshow_cycle:before', {
-            curr: curr, next: next, opts: opts, settings: settings
-          });
-
           var slideNum = opts.nextSlide;
 
           // Remember last slide.
@@ -70,8 +60,6 @@
           sync:settings.sync,
           random:settings.random,
           nowrap:settings.nowrap,
-          pause_after_slideshow:settings.pause_after_slideshow,
-          counter:0,
           after:pager_after_fn,
           before:pager_before_fn,
           cleartype:(settings.cleartype)? true : false,
@@ -132,7 +120,7 @@
             $('#views_slideshow_cycle_teaser_section_' + settings.vss_id).hover(mouseIn, mouseOut);
           }
         }
-
+        
         // Play on hover.
         if (settings.play_on_hover) {
           var mouseIn = function() {
@@ -388,75 +376,6 @@
           Drupal.viewsSlideshowCycle.load(fullId);
         }
       });
-    }
-  };
-
-  /**
-   * Views Slideshow swipe support.
-   */
-  Drupal.behaviors.viewsSlideshowSwipe = {
-    attach: function (context) {
-      var isTouch = (('ontouchstart' in window) || (navigator.msMaxTouchPoints > 0));
-      if (isTouch === true && $('.views-slideshow-cycle-main-frame').length) {
-        var $slider = $('.views-slideshow-cycle-main-frame'),
-          opts = {
-            start: {x: 0, y: 0},
-            end: {x: 0, y: 0},
-            hdiff: 0,
-            vdiff: 0,
-            length: 0,
-            angle: null,
-            direction: null,
-          },
-          optsReset = $.extend(true, {}, opts),
-         H_THRESHOLD =  110, // roughly one inch effective resolution on ipad
-         V_THRESHOLD = 50;
-        $slider.data('bw', opts)
-        .bind('touchstart.cycle', function (e) {
-          var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-          if (e.originalEvent.touches.length == 1) {
-            var data = $(this).data('bw');
-            data.start.x = touch.pageX;
-            data.start.y = touch.pageY;
-            $(this).data('bw', data);
-          }
-        })
-        .bind('touchend.cycle', function (e) {
-          var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-          var data = $(this).data('bw');
-          data.end.x = touch.pageX;
-          data.end.y = touch.pageY;
-          $(this).data('bw', data);
-          if (data.start.x != 0 && data.start.y != 0) {
-            data.vdiff = data.start.x - data.end.x;
-            data.hdiff = data.end.y - data.start.y;
-            if (Math.abs(data.vdiff) == data.start.x && Math.abs(data.hdiff) == data.start.y) {
-              data.vdiff = 0;
-              data.hdiff = 0;
-            }
-            var length = Math.round(Math.sqrt(Math.pow(data.vdiff,2) + Math.pow(data.hdiff,2)));
-            var rads = Math.atan2(data.hdiff, data.vdiff);
-            var angle = Math.round(rads*180/Math.PI);
-            if (angle < 0) { angle = 360 - Math.abs(angle); }
-            if (length > H_THRESHOLD && V_THRESHOLD > data.hdiff) {
-              e.preventDefault();
-              if (angle > 135 && angle < 225) {
-                var cyopt = $slider.data('cycle.opts');
-                if (cyopt.currSlide > 0) {
-                  $slider.cycle((cyopt.currSlide - 1), 'scrollRight');
-                }
-                else {
-                   $slider.cycle((cyopt.slideCount - 1), 'scrollRight');
-                }
-              }
-              else if (angle > 315 || angle < 45) {
-                $slider.cycle('next');
-              }
-            }
-          }
-          data = $.extend(true, {}, optsReset);
-        });
-      }
     }
   };
 

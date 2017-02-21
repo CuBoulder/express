@@ -61,7 +61,6 @@ function views_slideshow_cycle_views_slideshow_option_definition() {
       'pause_when_hidden_type' => array('default' => 'full'),
       'amount_allowed_visible' => array('default' => ''),
       'nowrap' => array('default' => 0),
-      'pause_after_slideshow' => array('default' => 0),
       'fixed_height' => array('default' => 1),
       'items_per_slide' => array('default' => 1),
       'wait_for_image_load' => array('default' => 1),
@@ -359,17 +358,6 @@ function views_slideshow_cycle_views_slideshow_slideshow_type_form(&$form, &$for
       ),
     ),
   );
-  $form['views_slideshow_cycle']['pause_after_slideshow'] = array(
-    '#type' => 'checkbox',
-    '#title' => t('Pause slideshow and return to first slide after running one slideshow'),
-    '#default_value' => $view->options['views_slideshow_cycle']['pause_after_slideshow'],
-    '#description' => t('If selected the slideshow will pause and return to first slide after completeing one slideshow. This option will not work if you are using it with End slideshow after last slide option'),
-    '#states' => array(
-      'visible' => array(
-        ':input[name="style_options[views_slideshow_cycle][action_advanced]"]' => array('checked' => TRUE),
-      ),
-    ),
-  );
   $form['views_slideshow_cycle']['fixed_height'] = array(
     '#type' => 'checkbox',
     '#title' => t('Make the slide window height fit the largest slide'),
@@ -458,7 +446,7 @@ function views_slideshow_cycle_views_slideshow_slideshow_type_form(&$form, &$for
   }
   else {
     $form['views_slideshow_cycle']['advanced_options_info'] = array(
-      '#markup' => '<p>' . t('You can find a list of all the available options at !documentation.  If one of the options you add uses a function, example fxFn, then you need to only enter what goes inside the function call. The variables that are in the !documentation on the jquery cycle site will be available to you.', array(
+      '#markup' => '<p>' . t('You can find a list of all the available options at !url.  If one of the options you add uses a function, example fxFn, then you need to only enter what goes inside the function call. The variables that are in the !documentation on the jquery cycle site will be available to you.', array(
         '!documentation' => l(t('documentation'), 'http://malsup.com/jquery/cycle/options.html'),
       )) . '</p>',
     );

@@ -202,7 +202,6 @@ function theme_views_slideshow_pager_widget_render($vars) {
       $vars['vss_id'] => array(
         $vars['location'] => array(
           'type' => views_slideshow_format_addons_name($vars['settings']['type']),
-          'master_pager' => views_slideshow_format_addons_name($vars['settings']['master_pager']),
         ),
       ),
     ),

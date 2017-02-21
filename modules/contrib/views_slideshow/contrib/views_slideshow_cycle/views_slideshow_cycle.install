@@ -30,7 +30,7 @@ function views_slideshow_cycle_requirements($phase) {
     else {
       if ($phase == 'install') {
         $views_slideshow = drupal_get_path('module', 'views_slideshow_cycle');
-        require_once($views_slideshow . '/views_slideshow_cycle.module');
+        require_once $views_slideshow . '/views_slideshow_cycle.module';
       }
       // Libraries module may not be installed,
       // even if it is listed as dependency in .info file.

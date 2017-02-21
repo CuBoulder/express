@@ -20,12 +20,8 @@ Installation
   c) Locate/download the jQuery cycle plugin. http://malsup.com/jquery/cycle
   d) Upload/install the jQuery cycle plugin: place it inside the jquery.cycle
    directory.
-5) There are also a few optional libraries to improve/increase options:
-  a) jQuery.easing:
-    http://gsgd.co.uk/sandbox/jquery/easing/jquery.easing.1.3.js, should be
-    saved as libraries/jquery.easing/jquery.easing.1.3.js.
-6) Enable the Views slideshow and Views Slideshow: Cycle modules
-7) You should now see the new views style option called "Slideshow"
+5) Enable the Views slideshow and Views Slideshow: Cycle modules
+6) You should now see the new views style option called "Slideshow"
 
 Upgrading from 2.x
 ===================
