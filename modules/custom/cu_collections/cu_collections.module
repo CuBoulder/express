@@ -359,3 +359,19 @@ function cu_collections_taxonomy_overview_form_validate($form, &$form_state) {
     }
   }
 }
+
+/**
+ * Implements hook_express_bean_list_groups().
+ */
+function cu_collections_express_bean_list_groups($bundles) {
+  $bundles['advanced_content']['types'][] = 'Collection Grid';
+  return $bundles;
+}
+
+/**
+ * Implements hook_express_node_list_groups().
+ */
+ function cu_collections_express_node_list_groups($bundles) {
+   $bundles['advanced_content']['types'][] = 'Collection Item';
+   return $bundles;
+ }
