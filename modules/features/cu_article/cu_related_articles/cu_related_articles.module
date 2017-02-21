@@ -155,12 +155,13 @@ function cu_related_articles_block_output($view_mode) {
 
       // Get date display setting
       $date_display = variable_get('cu_related_articles_grid_date_display', 0);
+      $show_date = $date_display;
       $date_display = ($date_display) ? 'related-articles-show-date' : 'related-articles-hide-date';
-
       if ($view_mode == 'grid') {
         foreach ($nodes as $key => $node) {
           $nodes[$key]->heading_tag['#tag'] = 'h3';
           $nodes[$key]->grid_date['#show'] = TRUE;
+          $nodes[$key]->publish_date['#publish_date'] = ($show_date) ? format_date($node->created, 'cu_short_date') : NULL;
         }
         $block['content']['articles'] = node_view_multiple($nodes, 'grid');
         unset($block['content']['articles']['nodes']['#sorted']);
@@ -187,6 +188,7 @@ function cu_related_articles_block_output($view_mode) {
  * Implements hook_block_configure().
  */
 function cu_related_articles_block_configure($delta = '') {
+  $form = array();
   switch($delta) {
     case 'related_articles_block_grid':
       $form['cu_related_articles_grid_date_display'] = array(
