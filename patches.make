@@ -47,3 +47,9 @@ projects[module_missing_message_fixer][patch][] = file://modules/contrib/module_
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-1474
 projects[field_reference_delete][patch][] = https://www.drupal.org/files/issues/bulk-delete-using-drush-2772589-2.patch
+
+; @see https://cuboulder.atlassian.net/browse/FIT-2363
+projects[ldap_servers][patch][] = "https://www.drupal.org/files/issues/2838389-skip-bind-test-when-using-user-cred-method.patch"
+
+; @see https://cuboulder.atlassian.net/browse/FIT-2466
+projects[views_slideshow][patch][] = "https://www.drupal.org/files/issues/drush-cli-check-remove-2854640-2.patch"
