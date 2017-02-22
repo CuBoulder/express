@@ -52,15 +52,18 @@ function atlas_admin_settings() {
 
   // Options are limited based on permissions.
   $status_options = array(
-    'installed' => t('Installed'),
+    'installing' => t('Installing'),
     'launching' => t('Launching'),
     'take_down' => t('Take Down Site'),
   );
 
-  // If site is Available or Launched, add that option. You cannot go to those
-  // states.
+  // If site is Available, Installed, or Launched, add that option. You cannot
+  // go to those states.
   if ($site_array['status'] == 'available') {
     $status_options['available'] = t('Available');
+  }
+  elseif ($site_array['status'] == 'installed') {
+    $status_options['installed'] = t('Installed');
   }
   elseif ($site_array['status'] == 'launched') {
     $status_options['launched'] = t('Launched');
