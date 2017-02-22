@@ -55,7 +55,6 @@ function atlas_admin_settings() {
     'installed' => t('Installed'),
     'launching' => t('Launching'),
     'take_down' => t('Take Down Site'),
-    'delete' => t('Delete'),
   );
 
   // If site is Available or Launched, add that option. You cannot go to those
