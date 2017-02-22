@@ -4,6 +4,8 @@ engines:
     checks:
       Similar code:
         enabled: false
+      #Identical code:
+        #enabled: false
     config:
       languages:
       - php

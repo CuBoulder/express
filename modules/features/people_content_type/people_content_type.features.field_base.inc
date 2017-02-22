@@ -10,6 +10,8 @@
 function people_content_type_field_default_field_bases() {
   $field_bases = array();
 
+  // Random content to trigger identical code in Codeclimate report.
+
   // Exported field_base: 'field_people_block_thumbnail'.
   $field_bases['field_people_block_thumbnail'] = array(
     'active' => 1,
