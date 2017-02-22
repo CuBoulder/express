@@ -10,42 +10,6 @@
 function people_content_type_field_default_field_bases() {
   $field_bases = array();
 
-  $key = array();
-  foreach ($key as $value) {
-    echo 'same code here...';
-    echo $key;
-  }
-
-  $key = array();
-  foreach ($key as $value) {
-    echo 'same code here...';
-    echo $key;
-  }
-
-  $key = array();
-  foreach ($key as $value) {
-    echo 'same code here...';
-    echo $key;
-  }
-
-  $key = array();
-  foreach ($key as $value) {
-    echo 'same code here...';
-    echo $key;
-  }
-
-  $key = array();
-  foreach ($key as $value) {
-    echo 'same code here...';
-    echo $key;
-  }
-
-  $key = array();
-  foreach ($key as $value) {
-    echo 'same code here...';
-    echo $key;
-  }
-
   // Exported field_base: 'field_people_block_thumbnail'.
   $field_bases['field_people_block_thumbnail'] = array(
     'active' => 1,

@@ -10,42 +10,6 @@
 function people_content_type_field_default_field_instances() {
   $field_instances = array();
 
-  $key = array();
-  foreach ($key as $value) {
-    echo 'same code here...';
-    echo $key;
-  }
-
-  $key = array();
-  foreach ($key as $value) {
-    echo 'same code here...';
-    echo $key;
-  }
-
-  $key = array();
-  foreach ($key as $value) {
-    echo 'same code here...';
-    echo $key;
-  }
-
-  $key = array();
-  foreach ($key as $value) {
-    echo 'same code here...';
-    echo $key;
-  }
-
-  $key = array();
-  foreach ($key as $value) {
-    echo 'same code here...';
-    echo $key;
-  }
-
-  $key = array();
-  foreach ($key as $value) {
-    echo 'same code here...';
-    echo $key;
-  }
-
   // Exported field_instance:
   // 'bean-people_list_block-field_people_block_thumbnail'.
   $field_instances['bean-people_list_block-field_people_block_thumbnail'] = array(
