@@ -117,8 +117,8 @@ before_script:
   # - drush en cu_advanced_content_bundle cu_advanced_design_bundle cu_advanced_layout_bundle cu_debug_admin_bundle cu_events_bundle cu_forms_bundle cu_news_bundle cu_people_bundle cu_photo_gallery_bundle cu_seo_bundle cu_social_media_bundle -y
 
   # Start server.
-  - drush runserver 127.0.0.1:8080 &
-  - nc -zvv 127.0.0.1 8080; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8080..."; nc -zvv localhost 8080; out=$?; sleep 5; done
+  #- drush runserver 127.0.0.1:8080 &
+  #- nc -zvv 127.0.0.1 8080; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8080..."; nc -zvv localhost 8080; out=$?; sleep 5; done
   - cd profiles/express/tests/behat
 
   # Setting Behat environment
