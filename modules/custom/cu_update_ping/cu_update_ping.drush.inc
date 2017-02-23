@@ -41,9 +41,10 @@ function cu_update_ping_drush_help($section) {
  * Command callback to ping all enabled modules or a passed list of modules.
  */
 function drush_cu_update_ping_update_ping() {
+  global $base_url;
+
   // Generate site key to send to drupal.org.
   // The site key is what adds a reported install to useage stats.
-  global $base_url;
   $site_key = drupal_hmac_base64($base_url, drupal_get_private_key());
 
   if ($modules = drush_get_option('modules')) {
@@ -56,19 +57,22 @@ function drush_cu_update_ping_update_ping() {
 
   // Loop through each module and ping d.o servers.
   foreach ($modules_list as $module) {
-    // Reset counter.
-    $failed_attempts = 0;
 
-    $info = drupal_parse_info_file(str_replace('.module', '.info', $module->filename));
-
-    // If project has no version or is core module, then skip the ping.
-    if (!isset($info['version']) || $info['package'] == 'Core') {
+    // If a core module, then skip.
+    // I don't think Drupal cares about those, but maybe remove this if that stat helps report usage.
+    if (substr($module->filename, 0, 7) == 'modules') {
       continue;
     }
 
-    // This url was gathered from update.fetch.inc#152
+    // Parse info file for version.
+    $info = drupal_parse_info_file(str_replace('.module', '.info', $module->filename));
+
+    // This url was gathered from update.fetch.inc#152.
     $url = 'http://updates.drupal.org/release-history/' . $module->name . '/7.x?site_key=' . $site_key . '&version=' . $info['version'] . '&list=' . $module->name;
     $xml = drupal_http_request($url);
+
+    // Reset counter.
+    $failed_attempts = 0;
 
     // If request fails, retry.
     while ($failed_attempts < 2 && $xml->status_message != 'OK') {
@@ -76,12 +80,9 @@ function drush_cu_update_ping_update_ping() {
       $failed_attempts++;
     }
 
-    // Write a watchdog message if request fails three times.
+    // Write a watchdog message if all request attempts fail.
     if ($xml->status_message != 'OK') {
-      watchdog('cu_update_ping', $module->name . ' didn\'t successfully ping Drupal\'s update servers.');
+      watchdog('cu_update_ping', ':module didn\'t successfully ping Drupal\'s update servers.', array(':module', $module->name));
     }
-
-    // Just in case the Drupal server is suspicious as I am.
-    sleep(1);
   }
 }
