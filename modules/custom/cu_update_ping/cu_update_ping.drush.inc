@@ -82,7 +82,7 @@ function drush_cu_update_ping_update_ping() {
 
     // Write a watchdog message if all request attempts fail.
     if ($xml->status_message != 'OK') {
-      watchdog('cu_update_ping', ':module didn\'t successfully ping Drupal\'s update servers.', array(':module', $module->name));
+      watchdog('cu_update_ping', '%module didn\'t successfully ping Drupal\'s update servers.', array('%module', $module->name));
     }
   }
 }
