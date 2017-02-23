@@ -50,9 +50,6 @@ function atlas_admin_settings() {
 
   $site_array = atlas_api_request('sites', $atlas_id);
 
-  // Set the site status variable
-  variable_set('atlas_status', $site_array['status']);
-
   // Options are limited based on permissions.
   $status_options = array(
     'installed' => t('Installed'),

@@ -292,13 +292,13 @@ function cu_atlas_form_alter(&$form, &$form_state, $form_id) {
  * Bundle enable isn't an actual form, so we have to alter the menu as well.
  */
 function cu_atlas_menu_alter(&$items) {
-  //if (variable_get('atlas_status') == 'available') {
+  if (variable_get('atlas_status') == 'available') {
     $items['admin/settings/bundles/list/confirm/%']['page callback'] = 'cu_atlas_redirect';
-  //}
+  }
 }
 
 /**
- * Callback function for admin/settings/bundles/list/confirm/%
+ * Callback function for admin/settings/bundles/list/confirm/%.
  *
  * Redirect away from bundle enable while site status is "available".
  */
