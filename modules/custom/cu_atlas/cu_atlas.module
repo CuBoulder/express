@@ -22,9 +22,9 @@ function cu_atlas_form_user_external_invite_form_validate($form, &$form_state) {
   $site_array = atlas_api_request('sites', $atlas_id);
   if ($site_array && $site_array['status'] == 'available') {
     $site_data = $site_array;
-    $site_data['status'] = 'installed';
+    $site_data['status'] = 'installing';
     atlas_api_request('sites', $atlas_id, 'PATCH', $site_data);
-    drupal_set_message('Site status updated to Installed');
+    drupal_set_message('Site status updated to Installing');
   }
 }
 
