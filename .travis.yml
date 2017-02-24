@@ -128,8 +128,10 @@ before_script:
   - export BEHAT_PARAMS
 
 script:
-  # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
+  # Only run branch tags if pull request.
+  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; ./pull-requests.sh fi
+  # Run Behat all tests on build.
+  - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles' fi
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
