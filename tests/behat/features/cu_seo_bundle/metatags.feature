@@ -8,4 +8,4 @@ Feature: Metatags
       And I fill in "edit-title" with "Metatag Title Page"
       And I fill in "edit-metatags-und-title-value" with "[node:title] | [current-page:pager][site:name] | Added Title"
       And I press the "Save" button
-    Then the "title" element should contain "Metatag Title Page | Site Name | Added Title | University of Colorado Boulder"
+    Then the "title" element should contain "Metatag Title Page | University of Colorado Boulder | Added Title | University of Colorado Boulder"
