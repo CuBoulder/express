@@ -323,7 +323,6 @@ function express_layout_image_default_styles() {
  * Implements hook_page_alter().
  */
 function express_layout_page_alter(&$page) {
-
   // Get node object
   $node = menu_get_object();
   if ($node) {
@@ -354,7 +353,9 @@ function express_layout_page_alter(&$page) {
             $beans[] = $block['target_id'];
           }
           // Load the bean objects
-          $beans = bean_load_multiple($beans);
+          if (!empty($beans)) {
+            $beans = bean_load_multiple($beans);
+          }
           // Loop through all bean objects.
           $block_output = array();
           foreach ($beans as $bean) {
@@ -451,190 +452,6 @@ function express_layout_page_alter(&$page) {
       }
     }
   }
-}
-
-/**
- * Implements hook_block_info().
- */
-function express_layout_block_info() {
-  return array(
-    'el_block_header' => array(
-      'info' => t('Node Header'),
-      'cache' => DRUPAL_NO_CACHE,
-      'weight' => -50,
-    ),
-    'el_block_footer' => array(
-      'info' => t('Node Footer'),
-      'cache' => DRUPAL_NO_CACHE,
-      'weight' => 50,
-    ),
-    'el_block_sidebar_first' => array(
-      'info' => t('Node Sidebar First'),
-      'cache' => DRUPAL_NO_CACHE
-    ),
-    'el_block_sidebar_second' => array(
-      'info' => t('Node Sidebar Second'),
-      'cache' => DRUPAL_NO_CACHE,
-    ),
-    'el_block_inner_content_left' => array(
-      'info' => t('Node Inner Content Left'),
-      'cache' => DRUPAL_NO_CACHE,
-    ),
-    'el_block_inner_content_right' => array(
-      'info' => t('Node Inner Content Right'),
-      'cache' => DRUPAL_NO_CACHE,
-    ),
-    'el_block_intro' => array(
-      'info' => t('Intro'),
-      'cache' => DRUPAL_NO_CACHE,
-    ),
-    'el_block_slider' => array(
-      'info' => t('Slider'),
-      'cache' => DRUPAL_NO_CACHE,
-    ),
-    'el_block_wide_2' => array(
-      'info' => t('Post Wide'),
-      'cache' => DRUPAL_NO_CACHE,
-    ),
-    'el_block_inner_content_bottom' => array(
-      'info' => t('Node Inner Content Bottom'),
-      'cache' => DRUPAL_NO_CACHE,
-    ),
-  );
-}
-/**
- * Implements hook_contextual_links_view_alter().
- *
- * Remove contextual links from layout blocks.
- */
-function express_layout_contextual_links_view_alter(&$element, &$items) {
-  if (isset($element['#element']['#block'])) {
-    switch ($element['#element']['#block']->delta) {
-      case 'el_block_header':
-      case 'el_block_footer':
-      case 'el_block_sidebar_first':
-      case 'el_block_sidebar_second':
-      case 'el_block_inner_content_left':
-      case 'el_block_inner_content_right':
-      case 'el_block_intro':
-      case 'el_block_slider':
-      case 'el_block_wide_2':
-      case 'el_block_inner_content_bottom':
-        unset($element['#links']);
-        break;
-    }
-  }
-}
-
-/**
- * Implements hook_block_view().
- *
- * Return a rendered or renderable view of a block.
- *
- * @param array $delta
- *   Which block to render. This is a unique identifier for the block
- *   within the module, defined in hook_block_info().
- *
- * @return array
- *   An array containing the following elements:
- *   - subject: The default localized title of the block. If the block does not
- *     have a default title, this should be set to NULL.
- *   - content: The content of the block's body. This may be a renderable array
- *     (preferable) or a string containing rendered HTML content.
- */
-function express_layout_block_view($delta = '') {
-  $block = array();
-  $node = menu_get_object();
-
-  // If not on a node
-  if (!isset($node->nid)) {
-    return array();
-  }
-
-  //$layout = entity_load_single('express_layout', $node->nid);
-
-  // Map fields to regions.
-  if (isset ($delta)) {
-    switch ($delta) {
-      case 'el_block_header':
-        $field = 'field_header';
-        $region = 'content';
-        break;
-
-      case 'el_block_footer':
-        $field = 'field_footer';
-        $region = 'content';
-        break;
-
-      case 'el_block_sidebar_first':
-        $field = 'field_sidebar_first';
-        $region = 'sidebar_first';
-        break;
-
-      case 'el_block_sidebar_second':
-        $field = 'field_sidebar_second';
-        $region = 'sidebar_second';
-        break;
-
-      case 'el_block_inner_content_right':
-        $field = 'field_inner_content_right';
-        $region = 'content_sidebar_right';
-        break;
-
-      case 'el_block_inner_content_left':
-        $field = 'field_inner_content_left';
-        $region = 'content_sidebar_left';
-        break;
-
-      case 'el_block_intro':
-        $field = 'field_intro';
-        $region = 'intro';
-        break;
-
-      case 'el_block_slider':
-        $field = 'field_slider';
-        $region = 'slider';
-        break;
-
-      case 'el_block_wide_2':
-        $field = 'field_wide_2';
-        $region = 'wide_2';
-        break;
-
-      case 'el_block_inner_content_bottom':
-        $field = 'field_content_bottom';
-        $region = 'content_bottom';
-        break;
-    }
-  }
-
-  // Only show blocks on nodes
-  if (isset($node->nid)) {
-    // If the field is not empty,
-    // @todo fix the undefined index notice for $field
-    if (!empty($layout->{$field})) {
-      // Loop through all referenced beans.
-      foreach ($layout->{$field}[LANGUAGE_NONE] as $block) {
-        $beans[] = $block['target_id'];
-      }
-      // Load the bean objects
-      $beans = bean_load_multiple($beans);
-      // Loop through all bean objects.
-      foreach ($beans as $bean) {
-        // If user has view access.
-        if (bean_access('view', $bean)) {
-          // Add to $extra.
-          $extra[$bean->delta] = _express_layout_bean_to_block($bean, $region);
-        }
-      }
-    }
-  }
-  // If we have beans to render, add them to $block['content'].
-  if (isset($extra)) {
-    $block['content'] = $extra;
-    $block['subject'] = '';
-  }
-  return $block;
 }
 
 /**
