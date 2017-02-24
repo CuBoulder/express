@@ -6,7 +6,7 @@
 
 [ordered list the process to finding and recreating the issue, example below]
 
-1. Login to site as a Site Owner
+1. Login to site as a [SO, CE, EO, ADMIN or DEV]
 2. Click Administer
 3. Click Webform
 4. Enter "Kevin, don't do that" in the body field
