@@ -18,7 +18,7 @@
 
 ## Current result
 
-[describe what you you currently experience from this process, and thereby explain the bug]
+[describe what you currently experience from this process, and thereby explain the bug]
 
 ## Possible Fix
 
