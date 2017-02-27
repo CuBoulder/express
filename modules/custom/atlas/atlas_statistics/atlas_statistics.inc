@@ -80,6 +80,10 @@ function atlas_statistics_atlas_statistics() {
     $statistics_data['overridden_features'] = $overridden;
   }
 
+  // Returns system status boolean.
+  module_load_include('inc', 'system', 'system.admin');
+  $statistics_data['drupal_system_status'] = system_status(TRUE);
+
   return $statistics_data;
 }
 
