@@ -1,6 +1,0 @@
-/*
- * Don't display the provisioned user field table on user edit pages
- */
-.field-name-ldap-user-prov-entries {
-  display: none;
-}
