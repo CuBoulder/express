@@ -335,7 +335,7 @@ function cu_users_update_7025() {
 }
 
 /**
- * Update user_external_invite template for when invite is first sent.
+ * Update user_external_invite email template for when invite is first sent.
  */
 function cu_users_update_7026() {
   variable_set('user_external_invite_confirmation_template', 'We have received your request to grant [user_external_invite:invite_role] access to the following users:
