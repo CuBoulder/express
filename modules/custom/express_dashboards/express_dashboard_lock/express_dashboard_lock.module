@@ -1,7 +1,8 @@
 <?php
-
 /**
  * @file
+ *
+ * Sets up the lock dashbaord.
  */
 
 /**
