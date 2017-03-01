@@ -1,9 +1,6 @@
 <?php
-/**
- * @file
- *
- * Sets up the lock dashbaord.
- */
+
+/* Sets up the lock dashbaord. */
 
 /**
  * Implements hook_express_dashboard().
