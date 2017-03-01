@@ -1,7 +1,5 @@
 <?php
 
-/* Sets up the lock dashbaord. */
-
 /**
  * Implements hook_express_dashboard().
  *
