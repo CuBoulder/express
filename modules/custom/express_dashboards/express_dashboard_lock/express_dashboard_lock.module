@@ -1,12 +1,6 @@
 <?php
 
 /**
- * @file
- *
- * Setus up the "Lock" express dashboard where you can lock users from making changes to the site.
- */
-
-/**
  * Implements hook_express_dashboard().
  *
  * Adding user Dashboard.
@@ -186,13 +180,14 @@ function _lock_by_role_check() {
  */
 function _lock_final_check() {
   global $user;
+  $output = FALSE;
+
   if (isset($user->name)) {
     if (!user_has_role(5) && !_lock_allow_users_check($user->name) && _lock_by_role_check()) {
-      return TRUE;
-    } else {
-      return FALSE;
+      $output = TRUE;
     }
   }
+  return $output;
 }
 
 /**
