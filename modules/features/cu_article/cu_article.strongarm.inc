@@ -72,7 +72,7 @@ function cu_article_strongarm() {
         'custom_settings' => FALSE,
       ),
       'rss' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'token' => array(
         'custom_settings' => FALSE,

@@ -1135,6 +1135,25 @@ function cu_article_field_default_field_instances() {
         'type' => 'smart_trim_format',
         'weight' => 0,
       ),
+      'rss' => array(
+        'label' => 'hidden',
+        'module' => 'smart_trim',
+        'settings' => array(
+          'more_link' => 0,
+          'more_text' => 'Read more',
+          'summary_handler' => 'full',
+          'trim_length' => 75,
+          'trim_link' => 0,
+          'trim_options' => array(
+            'text' => 'text',
+          ),
+          'trim_preserve_tags' => '',
+          'trim_suffix' => '...',
+          'trim_type' => 'words',
+        ),
+        'type' => 'smart_trim_format',
+        'weight' => 1,
+      ),
       'sidebar' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -1260,6 +1279,12 @@ function cu_article_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'rss' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
       ),
       'sidebar' => array(
         'label' => 'above',
@@ -1393,6 +1418,12 @@ function cu_article_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'rss' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
+      ),
       'sidebar' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1515,6 +1546,12 @@ function cu_article_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => 0,
       ),
+      'rss' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
+      ),
       'sidebar' => array(
         'label' => 'above',
         'settings' => array(),
@@ -1611,6 +1648,12 @@ function cu_article_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 0,
+      ),
+      'rss' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
       ),
       'sidebar' => array(
         'label' => 'above',
@@ -1753,6 +1796,16 @@ function cu_article_field_default_field_instances() {
         'settings' => array(
           'image_link' => 'content',
           'image_style' => 'large_wide_thumbnail',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
+      'rss' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => 'content',
+          'image_style' => 'medium',
         ),
         'type' => 'image',
         'weight' => 0,
@@ -1963,6 +2016,12 @@ function cu_article_field_default_field_instances() {
         'type' => 'hidden',
         'weight' => -1,
       ),
+      'rss' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
+      ),
       'sidebar' => array(
         'label' => 'hidden',
         'settings' => array(),
@@ -2148,6 +2207,12 @@ function cu_article_field_default_field_instances() {
         'settings' => array(),
         'type' => 'hidden',
         'weight' => 10,
+      ),
+      'rss' => array(
+        'label' => 'hidden',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
       ),
       'sidebar' => array(
         'label' => 'above',
