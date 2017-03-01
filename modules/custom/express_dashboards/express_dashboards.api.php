@@ -29,6 +29,12 @@ function hook_express_dashboard($variables) {
     'callback' => 'express_dashboard_seo_content',
     'access arguments' => array('use seo dashboard'),
   );
+  $variables['lock'] = array(
+    'title' => 'Lock',
+    'callback' => 'owen_lock_user_form',
+    'weight' => 100,
+    'access arguments' => array('dashboard user lock'),
+  );
 
   return $variables;
 }
