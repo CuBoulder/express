@@ -1,6 +1,10 @@
 <?php
 
 /**
+ * @file
+ */
+
+/**
  * Implements hook_express_dashboard().
  *
  * Adding user Dashboard.
@@ -117,16 +121,7 @@ function express_dashboard_lock_permission() {
 }
 
 /**
- * Define site permissions in code.
- *
- * Create a secure_permissions_data module directory and place this function
- * in secure_permissions_data.module.
- *
- * @param $role
- *   The role for which the permissions are being requested.
- *
- * @return
- *   An array defining all the permissions for the site.
+ * Implements hook_secure_permissions().
  */
 function express_dashboard_lock_secure_permissions($role) {
   $permissions = array(
