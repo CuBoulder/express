@@ -84,6 +84,11 @@ function atlas_statistics_atlas_statistics() {
   module_load_include('inc', 'system', 'system.admin');
   $statistics_data['drupal_system_status'] = system_status(TRUE);
 
+  // Set webform data.
+  $statistics_data['webforms']['total_submissions'] = atlas_statistics_webform_total_submissions();
+  $statistics_data['webforms']['active_forms'] = atlas_statistics_webform_active_forms();
+  $statistics_data['webforms']['inactive_forms'] = atlas_statistics_webform_inactive_forms();
+
   return $statistics_data;
 }
 
