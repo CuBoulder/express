@@ -31,11 +31,11 @@ function express_version_requirements($phase) {
     // thrown an error.
     if (VERSION < MINIMUM_CORE) {
       $requirements['minimum_core']['severity'] = REQUIREMENT_ERROR;
-      $requirements['minimum_core']['value'] = 'Please update Drupal to at least version ' . MINIMUM_CORE . '.';
+      $requirements['minimum_core']['value'] = 'Please update Drupal to version ' . MINIMUM_CORE . ' or higher.';
     }
     else {
       $requirements['minimum_core']['severity'] = REQUIREMENT_OK;
-      $requirements['minimum_core']['value'] = 'You are using a supported version of Drupal. Minimum: ' . MINIMUM_CORE;
+      $requirements['minimum_core']['value'] = 'You are using a supported version of Drupal core.';
     }
   }
 
