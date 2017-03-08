@@ -1,0 +1,69 @@
+<?php
+
+/**
+ * @file
+ * Google CSE module tests.
+ */
+
+class GoogleCSETestCase extends DrupalWebTestCase {
+  protected $privileged_user;
+
+  /**
+   * Tell Drupal about the module's tests.
+   *
+   * @return array
+   *   An array of information to display on Testing UI page.
+   */
+  public static function getInfo() {
+    // Note: getInfo() strings are not translated with t().
+    return array(
+      'name' => 'Tracking Pixel Tests',
+      'description' => 'Test addition of tracking pixels to pages.',
+      //'group' => 'Search',
+    );
+  }
+
+  /**
+   *  Perform steps to setup Drupal installation for test runs.
+   */
+  public function setUp() {
+    // Add the context modules to test that functionality even though it isn't
+    // a dependency.
+    $modules = array(
+      'tracking_pixel',
+      'entity',
+      'context',
+      'context_ui',
+    );
+
+    parent::setUp($modules);
+  }
+
+  /**
+   * Tests adding a basic Facebook tracking pixel.
+   */
+  public function testFacebookPixel() {
+
+  }
+
+  /**
+   * Tests adding a basic custom tracking pixel.
+   */
+  public function testCustomPixel() {
+
+  }
+
+  /**
+   * Tests adding a tracking pixel via Context.
+   */
+  public function testContextPixel() {
+
+  }
+
+  /**
+   * Tests deleting and publish/unpublish tracking pixels.
+   */
+  public function testDeletePublish() {
+
+  }
+}

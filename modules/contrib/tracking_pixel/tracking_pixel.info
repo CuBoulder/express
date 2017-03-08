@@ -1,0 +1,6 @@
+name = Tracking Pixels
+description = Provide a custom entity for embedding pixel tracking codes.
+core = 7.x
+dependencies[] = entity
+
+files[] = tests/tracking_pixel.test
