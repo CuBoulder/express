@@ -1,5 +1,5 @@
 name = Tracking Pixel
-description = Provide a custom entity for embedding pixel tracking codes.
+description = Provide a custom entity for embedding tracking pixel codes.
 core = 7.x
 dependencies[] = entity
 dependencies[] = cu_tracking_pixel_overview
