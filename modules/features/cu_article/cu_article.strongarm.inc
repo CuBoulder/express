@@ -72,7 +72,7 @@ function cu_article_strongarm() {
         'custom_settings' => FALSE,
       ),
       'rss' => array(
-        'custom_settings' => FALSE,
+        'custom_settings' => TRUE,
       ),
       'token' => array(
         'custom_settings' => FALSE,
@@ -125,6 +125,9 @@ function cu_article_strongarm() {
       'email_teaser' => array(
         'custom_settings' => TRUE,
       ),
+      'teaser_large' => array(
+        'custom_settings' => TRUE,
+      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -132,10 +135,10 @@ function cu_article_strongarm() {
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '2',
+          'weight' => '3',
         ),
         'redirect' => array(
-          'weight' => '3',
+          'weight' => '4',
         ),
         'metatags' => array(
           'weight' => '7',
@@ -312,6 +315,27 @@ function cu_article_strongarm() {
   $strongarm->name = 'pathauto_node_article_pattern';
   $strongarm->value = '[node:created:custom:Y]/[node:created:custom:m]/[node:created:custom:d]/[node:title]';
   $export['pathauto_node_article_pattern'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_taxonomy_term_byline_pattern';
+  $strongarm->value = '';
+  $export['pathauto_taxonomy_term_byline_pattern'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_taxonomy_term_category_pattern';
+  $strongarm->value = '';
+  $export['pathauto_taxonomy_term_category_pattern'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'pathauto_taxonomy_term_tags_pattern';
+  $strongarm->value = '';
+  $export['pathauto_taxonomy_term_tags_pattern'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
