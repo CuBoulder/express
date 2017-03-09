@@ -680,6 +680,9 @@ function cu_core_update_7019() {
  * Enable bean_entitycache module
  */
 function cu_core_update_7020() {
+  if (db_table_exists('cache_entity_bean')) {
+    db_drop_primary_key('cache_entity_bean');
+  }
   module_enable(array('bean_entitycache'));
 }
 
