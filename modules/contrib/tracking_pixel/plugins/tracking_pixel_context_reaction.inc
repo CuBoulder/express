@@ -42,7 +42,7 @@ class tracking_pixel_context_reaction extends context_reaction {
    *
    * @return array
    */
-  function execute() {
+  function execute(&$page) {
     foreach ($this->get_contexts() as $context) {
       if (!empty($context->reactions[$this->plugin])) {
 
@@ -50,13 +50,18 @@ class tracking_pixel_context_reaction extends context_reaction {
         $pixel = entity_load_single('tracking_pixel', $id);
 
         $js = _tracking_pixel_get_js($pixel);
-        drupal_add_js($js, array(
-          'type' => 'inline',
-          'scope' => $pixel->position,
-        ));
+
+        // Ad weight based on position.
+        $weight = $pixel->position == 'top' ? -9999 : 9999;
+
+        // Add JS to proper section of $page array.
+        $page['page_' . $pixel->position]['tracking_pixel'][] = array(
+          '#markup' => $js,
+          '#weight' => $weight,
+        );
       }
     }
-    return array();
+    return $page;
   }
 
   /**

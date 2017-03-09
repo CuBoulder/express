@@ -11,9 +11,7 @@ Creation Date: <?php print check_plain($variables['doubleclick_creation']) ?>
   document.write('<iframe src="https://<?php print check_plain($variables['doubleclick_id']); ?>.fls.doubleclick.net/activityi;src=<?php print check_plain($variables['doubleclick_id']); ?>;type=invmedia;cat=buyulyok;ord=' + a + '?" width="1" height="1" frameborder="0" style="display:none"></iframe>');
 </script>
 <noscript>
-  <iframe
-    src="https://<?php print check_plain($variables['doubleclick_id']); ?>.fls.doubleclick.net/activityi;src=<?php print check_plain($variables['doubleclick_id']); ?>;type=invmedia;cat=buyulyok;ord=1?"
-    width="1" height="1" frameborder="0" style="display:none"></iframe>
+  <iframe src="https://<?php print check_plain($variables['doubleclick_id']); ?>.fls.doubleclick.net/activityi;src=<?php print check_plain($variables['doubleclick_id']); ?>;type=invmedia;cat=buyulyok;ord=1?" width="1" height="1" frameborder="0" style="display:none"></iframe>
 </noscript>
 <!-- End of DoubleClick Floodlight Tag: Please do not remove -->
 

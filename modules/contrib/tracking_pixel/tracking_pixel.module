@@ -252,12 +252,12 @@ function _tracking_pixel_title_autocomplete($search) {
  *
  * @param $page
  */
-function tracking_pixel_page_build(&$page) {
+function tracking_pixel_page_alter(&$page) {
 
   // If context module exists, see if there is a reaction for the page.
   if (module_exists('context')) {
     if ($plugin = context_get_plugin('reaction', 'tracking_pixel')) {
-      $plugin->execute();
+      $plugin->execute($page);
     }
   }
 
@@ -272,11 +272,17 @@ function tracking_pixel_page_build(&$page) {
 
   if ($matches) {
     foreach ($matches as $match) {
+      // Get JS for tracking pixel.
       $js = _tracking_pixel_get_js($match);
-      drupal_add_js($js, array(
-        'type' => 'inline',
-        'scope' => $match->position
-      ));
+
+      // Ad weight based on position.
+      $weight = $match->position == 'top' ? -9999 : 9999;
+
+      // Add JS to proper section of $page array.
+      $page['page_' . $match->position]['tracking_pixel'][] = array(
+        '#markup' => $js,
+        '#weight' => $weight,
+      );
     }
   }
 }

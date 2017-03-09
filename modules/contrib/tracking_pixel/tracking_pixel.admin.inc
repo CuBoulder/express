@@ -298,7 +298,7 @@ function tracking_pixel_form($form, &$form_state, $tracking_pixel_id = NULL) {
   // Search field for existing paths.
   $form['pixel']['path'] = array(
     '#title' => t('Path'),
-    '#description' => 'The page you will add the tracking pixel to. To add pixels to multiple pages, please use context.',
+    '#description' => 'The page you will add the tracking pixel to. To add pixels to multiple pages, please leave blank and use the Context module.',
     '#type' => 'textfield',
     '#autocomplete_path' => 'titles/autocomplete',
     '#default_value' => $path,
@@ -376,8 +376,8 @@ function tracking_pixel_form($form, &$form_state, $tracking_pixel_id = NULL) {
     '#weight' => 10,
   );
   $position_options = array(
-    'header' => 'Top',
-    'footer' => 'Bottom',
+    'top' => 'Top',
+    'bottom' => 'Bottom',
   );
   $form['settings']['position'] = array(
     '#title' => t('Location'),
@@ -472,12 +472,15 @@ function tracking_pixel_form_submit(&$form, &$form_state) {
       $data['custom']['code'] = $form_state['values']['code'];
     }
 
+    // Account for pixels with no paths. Used for Context.
+    $path = !empty($form_state['values']['path']) ? $form_state['values']['path'] : '<none>';
+
     // If editing a tracking pixel, add data to existing pixel object.
     // Otherwise, make a new tracking pixel entity.
     if (isset($form_state['tracking_pixels']->id)) {
       $tracking_pixel = $form_state['tracking_pixels'];
       $tracking_pixel->name = $form_state['values']['label'];
-      $tracking_pixel->path = $form_state['values']['path'];
+      $tracking_pixel->path = $path;
       $tracking_pixel->type = $type;
       $tracking_pixel->position = $form_state['values']['position'];
       $tracking_pixel->status = $form_state['values']['status'];
@@ -486,7 +489,7 @@ function tracking_pixel_form_submit(&$form, &$form_state) {
     else {
       $values = array(
         'name' => $form_state['values']['label'],
-        'path' => $form_state['values']['path'],
+        'path' => $path,
         'type' => $type,
         'position' => $form_state['values']['position'],
         'status' => $form_state['values']['status'],
@@ -554,7 +557,6 @@ function tracking_pixel_confirm(&$form, &$form_state) {
           unset($form_state['tracking_pixels'][$table_options[$key]['id']]);
         }
       }
-
     }
 
     // Build confirm form that is sent back to user.
@@ -564,6 +566,7 @@ function tracking_pixel_confirm(&$form, &$form_state) {
       'type' => 'ul',
       'attributes' => array()
     ));
+
     return confirm_form(
       $form,
       t('Do you really want to !op the following tracking pixels?', array('!op' => $op)),

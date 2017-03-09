@@ -20,9 +20,9 @@
     document, 'script', '//connect.facebook.net/en_US/fbevents.js');
 
   fbq('init', '<?php print check_plain($variables['facebook_id']); ?>');
-  fbq('track', "PageView");
+  fbq('track', 'PageView');
   <?php if (isset($variables['facebook_action'])): ?>
-  fbq('track', "<?php print check_plain($variables['facebook_action']); ?>");
+  fbq('track', '<?php print check_plain($variables['facebook_action']); ?>');
   <?php endif; ?>
 </script>
 <noscript><img height="1" width="1" style="display:none"
