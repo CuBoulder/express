@@ -1,0 +1,218 @@
+<?php
+
+/**
+ * @file
+ * Contains search form functionality leveraging Google CSE.
+ */
+
+
+/**
+ * Implements hook_permission().
+ *
+ * @return array
+ */
+function cu_search_cse_permission() {
+
+  return array(
+    'access google cse content' => array(
+      'title' => t('Use Google CSE searches'),
+    ),
+  );
+}
+
+/**
+ * Define site permissions in code.
+ *
+ * Create a secure_permissions_data module directory and place this function
+ * in secure_permissions_data.module.
+ *
+ * @param $role
+ *   The role for which the permissions are being requested.
+ *
+ * @return
+ *   An array defining all the permissions for the site.
+ */
+function cu_search_cse_secure_permissions($role) {
+  $permissions = array(
+    'administrator' => array(
+      'access google cse content',
+    ),
+    'anonymous user' => array(
+      'access google cse content'
+    ),
+    'authenticated user' => array(
+      'access google cse content'
+    ),
+    'content_editor' => array(
+      'access google cse content'
+    ),
+    'developer' => array(
+      'access google cse content',
+    ),
+    'edit_my_content' => array(
+      'access google cse content'
+    ),
+    'site_owner' => array(
+      'access google cse content',
+    ),
+  );
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ *
+ * @return array
+ */
+function cu_search_cse_block_info() {
+  $blocks = array();
+
+  $blocks['cse_header_search_form'] = array(
+    'info' => t('Google CSE search form for header'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  $blocks['cse_content_search_form'] = array(
+    'info' => t('Google CSE search form for content'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  $blocks['cse_search_results'] = array(
+    'info' => t('Google CSE search results'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * @param string $delta
+ * @return array
+ */
+function cu_search_cse_block_view($delta = '') {
+  $block = array();
+
+  if (user_access('access google cse content')) {
+    switch ($delta) {
+
+      case 'cse_header_search_form':
+        $block['content'] = drupal_get_form('cse_header_search_form');
+        break;
+
+      case 'cse_content_search_form':
+        $block['content'] = drupal_get_form('cse_content_search_form');
+        break;
+
+      case 'cse_search_results':
+        $block['content'] = _get_cse_search_results();
+        break;
+    }
+  }
+
+  return $block;
+}
+
+/**
+ * Search block form.
+ *
+ * @param $form
+ * @param $form_state
+ * @return array
+ */
+function cse_header_search_form($form, &$form_state) {
+  $form = array();
+
+  $form['search_keys'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Enter the terms you wish to search for.'),
+    '#title_display' => 'invisible',
+    '#size' => 15,
+    '#weight' => 0,
+    '#default_value' => '',
+    '#prefix' => '<div class="cu-search clearfix">',
+  );
+
+  $form['cu_links'] = array(
+    '#markup' => '<div class="culinks"><strong>CU:</strong> <a href="/">Home</a> &bull; <a href="/atoz">A to Z</a> &bull; <a href="/campusmap">Campus Map</a></div>',
+    '#weight' => 99,
+  );
+
+  $form['actions'] = array(
+    '#type' => 'actions',
+    'submit' => array(
+      '#type' => 'submit',
+      '#value' => t('Search'),
+    ),
+    '#weight' => 1,
+    '#suffix' => '</div>',
+  );
+
+  return $form;
+}
+
+/**
+ * Search block form.
+ *
+ * @param $form
+ * @param $form_state
+ * @return array
+ */
+function cse_content_search_form($form, &$form_state) {
+  $form = array();
+
+  $form['search_keys'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Enter the terms you wish to search for.'),
+    '#title_display' => 'invisible',
+    '#default_value' => '',
+  );
+
+  $form['actions'] = array(
+    '#type' => 'actions',
+    'submit' => array(
+      '#type' => 'submit',
+      '#value' => t('Search'),
+    ),
+  );
+
+  $form['#submit'][] = 'cse_header_search_form_submit';
+
+  return $form;
+}
+
+function cse_header_search_form_submit($form, &$form_state) {
+  // Get search keys and encode for URL.
+  $search_keys = urlencode($form_state['values']['search_keys']);
+
+  dpm($search_keys);
+
+  // Redirect user to search page.
+  $options = array(
+    'query' => array(
+      'cse' => $search_keys,
+    ),
+  );
+
+  drupal_goto(variable_get('cu_search_cse_page', 'search') , $options);
+}
+
+/**
+ * Adds JS and tag needs to display search results.
+ *
+ * @return array
+ *   Markup for the block output.
+ */
+function _get_cse_search_results() {
+
+  drupal_add_js(drupal_get_path('module', 'cu_search_cse') . '/js/google_cse.js');
+
+  return array(
+    '#markup' => '<h2>Search Results</h2><gcse:searchresults-only></gcse:searchresults-only>',
+  );
+
+}
