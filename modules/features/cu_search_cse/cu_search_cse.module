@@ -15,9 +15,10 @@ function cu_search_cse_ctools_plugin_api($module = NULL, $api = NULL) {
 }
 
 /**
+ * Provides a path for the search page to exist on.
  *
- *
- * @return array
+ * @return array $items
+ *   The search page menu item.
  */
 function cu_search_cse_menu() {
   $items = array();
@@ -39,6 +40,7 @@ function cu_search_cse_menu() {
  * Callback to return a blank page for Search context.
  *
  * @return string
+ *   An empty string for the search page to render.
  */
 function google_cse_search_page() {
   return '';
@@ -48,6 +50,7 @@ function google_cse_search_page() {
  * Implements hook_permission().
  *
  * @return array
+ *   Permissions for CSE search.
  */
 function cu_search_cse_permission() {
 
@@ -64,10 +67,10 @@ function cu_search_cse_permission() {
  * Create a secure_permissions_data module directory and place this function
  * in secure_permissions_data.module.
  *
- * @param $role
+ * @param string $role
  *   The role for which the permissions are being requested.
  *
- * @return
+ * @return array $permissions
  *   An array defining all the permissions for the site.
  */
 function cu_search_cse_secure_permissions($role) {
@@ -103,7 +106,8 @@ function cu_search_cse_secure_permissions($role) {
 /**
  * Implements hook_block_info().
  *
- * @return array
+ * @return array $blocks
+ *   Blocks for search module.
  */
 function cu_search_cse_block_info() {
   $blocks = array();
@@ -130,8 +134,10 @@ function cu_search_cse_block_info() {
  * Implements hook_block_view().
  *
  * @param string $delta
+ *   Name of current block being viewed.
  *
- * @return array
+ * @return array $block
+ *   Content to be rendered for block.
  */
 function cu_search_cse_block_view($delta = '') {
   $block = array();
@@ -160,9 +166,12 @@ function cu_search_cse_block_view($delta = '') {
  * Search block form.
  *
  * @param $form
+ *   Form array.
  * @param $form_state
+ *   Values relating to current state of the form.
  *
- * @return array
+ * @return array $form
+ *   Form to be rendered.
  */
 function cse_header_search_form($form, &$form_state) {
   $form = array();
@@ -199,9 +208,12 @@ function cse_header_search_form($form, &$form_state) {
  * Search block form.
  *
  * @param $form
+ *   Form array.
  * @param $form_state
+ *   Values relating to current state of the form.
  *
  * @return array
+ *   Form to be rendered.
  */
 function cse_content_search_form($form, &$form_state) {
   $form = array();
@@ -234,7 +246,9 @@ function cse_content_search_form($form, &$form_state) {
  * Form submission callback to send user to search page.
  *
  * @param $form
+ *   Form being submitted.
  * @param $form_state
+ *   Values of form submission.
  */
 function cse_header_search_form_submit($form, &$form_state) {
   // Get search keys and encode for URL.
@@ -276,5 +290,4 @@ function _get_cse_search_results() {
   return array(
     '#markup' => '<h2>Search Results</h2><gcse:searchresults-only></gcse:searchresults-only>',
   );
-
 }

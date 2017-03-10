@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Context reaction for cu_search_cse module.
