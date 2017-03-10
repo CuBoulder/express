@@ -5,6 +5,44 @@
  * Contains search form functionality leveraging Google CSE.
  */
 
+/**
+ * Implements hook_ctools_plugin_api().
+ */
+function cu_search_cse_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "context" && $api == "context") {
+    return array("version" => "3");
+  }
+}
+
+/**
+ *
+ *
+ * @return array
+ */
+function cu_search_cse_menu() {
+  $items = array();
+
+  $search_page = variable_get('cu_search_cse_page', 'search');
+
+  $items[$search_page] = array(
+    'title' => 'Search This Site',
+    'description' => 'Google CSE Search Page',
+    'page callback' => 'google_cse_search_page',
+    'access arguments' => array('access google cse content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Callback to return a blank page for Search context.
+ *
+ * @return string
+ */
+function google_cse_search_page() {
+  return '';
+}
 
 /**
  * Implements hook_permission().
@@ -92,6 +130,7 @@ function cu_search_cse_block_info() {
  * Implements hook_block_view().
  *
  * @param string $delta
+ *
  * @return array
  */
 function cu_search_cse_block_view($delta = '') {
@@ -122,6 +161,7 @@ function cu_search_cse_block_view($delta = '') {
  *
  * @param $form
  * @param $form_state
+ *
  * @return array
  */
 function cse_header_search_form($form, &$form_state) {
@@ -160,16 +200,21 @@ function cse_header_search_form($form, &$form_state) {
  *
  * @param $form
  * @param $form_state
+ *
  * @return array
  */
 function cse_content_search_form($form, &$form_state) {
   $form = array();
 
+  // Get query string for default values.
+  $query = drupal_get_query_parameters();
+  $default_search_term = isset($query['cse']) ? urldecode($query['cse']) : '';
+
   $form['search_keys'] = array(
     '#type' => 'textfield',
     '#title' => t('Enter the terms you wish to search for.'),
     '#title_display' => 'invisible',
-    '#default_value' => '',
+    '#default_value' => $default_search_term,
   );
 
   $form['actions'] = array(
@@ -185,11 +230,15 @@ function cse_content_search_form($form, &$form_state) {
   return $form;
 }
 
+/**
+ * Form submission callback to send user to search page.
+ *
+ * @param $form
+ * @param $form_state
+ */
 function cse_header_search_form_submit($form, &$form_state) {
   // Get search keys and encode for URL.
   $search_keys = urlencode($form_state['values']['search_keys']);
-
-  dpm($search_keys);
 
   // Redirect user to search page.
   $options = array(
@@ -198,7 +247,7 @@ function cse_header_search_form_submit($form, &$form_state) {
     ),
   );
 
-  drupal_goto(variable_get('cu_search_cse_page', 'search') , $options);
+  drupal_goto(variable_get('cu_search_cse_page', 'search'), $options);
 }
 
 /**
@@ -209,7 +258,20 @@ function cse_header_search_form_submit($form, &$form_state) {
  */
 function _get_cse_search_results() {
 
-  drupal_add_js(drupal_get_path('module', 'cu_search_cse') . '/js/google_cse.js');
+  $google_cse_id = variable_get('google_cse_id', '');
+
+  // JS to add.
+  $js = "(function() {
+  var cx = '" . $google_cse_id . "';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();";
+
+  drupal_add_js($js, array('type' => 'inline', 'scope' => 'footer'));
 
   return array(
     '#markup' => '<h2>Search Results</h2><gcse:searchresults-only></gcse:searchresults-only>',
