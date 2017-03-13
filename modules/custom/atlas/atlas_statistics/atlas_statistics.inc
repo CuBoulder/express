@@ -96,7 +96,7 @@ function atlas_statistics_atlas_statistics() {
   $c = variable_get('custom_logo_retina');
   if (!empty($a) || !empty($b) || !empty($c)) {
     // Flag this as an offending site.
-    $statistics_data['custom_logo'] = TRUE;
+    $statistics_data['custom_logo_settings'] = TRUE;
   }
 
   return $statistics_data;
