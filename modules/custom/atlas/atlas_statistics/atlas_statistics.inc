@@ -85,8 +85,8 @@ function atlas_statistics_atlas_statistics() {
   $statistics_data['drupal_system_status'] = system_status(TRUE);
 
   // If webform is enabled then gather its statistics.
-  $webform_stats = _atlas_statistics_get_webform_statistics();
   if (module_exists('webform')) {
+    $webform_stats = _atlas_statistics_get_webform_statistics();
     $statistics_data['webforms'] = $webform_stats;
   }
 
