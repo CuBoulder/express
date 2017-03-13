@@ -90,6 +90,15 @@ function atlas_statistics_atlas_statistics() {
     $statistics_data['webforms'] = $webform_stats;
   }
 
+  // If custom_white_logo, custom_black_logo, or custom_logo_retina is set...
+  $a = variable_get('custom_white_logo');
+  $b = variable_get('custom_black_logo');
+  $c = variable_get('custom_logo_retina');
+  if (!empty($a) || !empty($b) || !empty($c)) {
+    // Flag this as an offending site.
+    $statistics_data['custom_logo'] = TRUE;
+  }
+
   return $statistics_data;
 }
 
