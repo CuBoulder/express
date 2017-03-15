@@ -200,8 +200,8 @@ function _atlas_statistics_owner_not_ldap_user() {
   // Get all users with the site_owner role.
   $role = user_role_load_by_name('site_owner');
   $query = 'SELECT DISTINCT(ur.uid) 
-  FROM {users_roles} AS ur
-  WHERE ur.rid = (:rid)';
+    FROM {users_roles} AS ur
+    WHERE ur.rid = (:rid)';
   $result = db_query($query, array(':rid' => $role->rid));
   $uids = $result->fetchCol();
   $site_owners = user_load_multiple($uids);
