@@ -90,6 +90,9 @@ function atlas_statistics_atlas_statistics() {
     $statistics_data['webforms'] = $webform_stats;
   }
 
+  // Determine if the SO still is employed by the University.
+  $statistics_data['no_site_owner'] = _atlas_statistics_owner_not_ldap_user();
+
   // If custom_white_logo, custom_black_logo, or custom_logo_retina is set...
   $a = variable_get('custom_white_logo');
   $b = variable_get('custom_black_logo');
@@ -185,4 +188,28 @@ function atlas_statistics_webform_is_active($nid, $date = '13 months ago') {
     $last_submission = end($submissions);
     return $last_submission->submitted > strtotime($date);
   }
+}
+
+/**
+ * Determines if there's only one site owner, and if that owner is in LDAP.
+ *
+ * @return bool
+ *   TRUE if there's only one SO that's no longer in LDAP. FALSE otherwise.
+ */
+function _atlas_statistics_owner_not_ldap_user() {
+  // Get all users with the site_owner role.
+  $role = user_role_load_by_name('site_owner');
+  $query = 'SELECT DISTINCT(ur.uid) 
+  FROM {users_roles} AS ur
+  WHERE ur.rid = (:rid)';
+  $result = db_query($query, array(':rid' => $role->rid));
+  $uids = $result->fetchCol();
+  $site_owners = user_load_multiple($uids);
+
+  // If there's only one site owner...
+  if (count($site_owners) === 1) {
+    // Make sure the SO is still authenticated via LDAP.
+  }
+
+  return FALSE;
 }
