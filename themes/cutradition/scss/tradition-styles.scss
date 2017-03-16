@@ -141,9 +141,11 @@ body {
   color: #fff;
   background-color: $bg_dark2;
 }
-
+.region-post-title-wide {
+  margin-bottom: 0;
+}
 // Breadcrumbs
-.breadcrumb {
+#page-title-wrapper .breadcrumb {
   display: inline-block;
   color:#000;
   padding: 0;
@@ -164,7 +166,7 @@ body {
   }
 }
 @media screen and (min-width: 720px)  {
-  .breadcrumb .current-crumb {
+  #page-title-wrapper .breadcrumb .current-crumb {
     padding: 3px 10px 3px 20px;
     background-image: url(../images/breadcrumb-arrow.png);
     background-position: left center;
@@ -361,6 +363,7 @@ $border: #e7e7e7;
   color:#fff;
 }
 
+.has-title-background,
 .has-feature-title-image {
   #page-title-wrapper {
     display: none;
