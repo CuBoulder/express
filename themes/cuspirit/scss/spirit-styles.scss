@@ -53,6 +53,7 @@ a:hover {
 #main-menu-wrapper {
   background: #fff;
   @include rgbashadow(0, 2px, 5px, #000000, .10);
+  position: relative;
   #navigation ul#main-menu {
     a:link,
     a:visited {
@@ -272,32 +273,4 @@ $border: #e7e7e7;
 }
 .blockunderline > .block-inner {
   //border-bottom-width: 4px;
-}
-.article-view-mode-grid1  {
-
-  .field-name-field-article-thumbnail {
-    width:100%;
-    height: auto;
-    overflow: hidden;
-    display: inline-block;
-    position: relative;
-    img {
-      -webkit-transition: all .5s ease; /* Safari and Chrome */
-      -moz-transition: all .5s ease; /* Firefox */
-      -ms-transition: all .5s ease; /* IE 9 */
-      -o-transition: all .5s ease; /* Opera */
-      transition: all .5s ease;
-      display: block;
-      vertical-align: middle;
-      margin: 0;
-
-    }
-  }
-  .field-name-field-article-thumbnail:hover img {
-  	-webkit-transform:scale(1.25); /* Safari and Chrome */
-          -moz-transform:scale(1.25); /* Firefox */
-          -ms-transform:scale(1.25); /* IE 9 */
-          -o-transform:scale(1.25); /* Opera */
-           transform:scale(1.25);
-  }
 }
