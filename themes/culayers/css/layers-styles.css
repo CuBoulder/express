@@ -74,3 +74,6 @@ body { background-color: #333; }
 #mobile-navigation-wrapper ul#secondary-menu-mobile a { color: #fff; border-bottom: 1px solid #272727; }
 #mobile-navigation-wrapper ul#secondary-menu-mobile a.active, #mobile-navigation-wrapper ul#secondary-menu-mobile a.active-trail { color: #cfb87c; background-color: #222; font-weight: 600; border-bottom: 1px solid #333; }
 #mobile-navigation-wrapper ul#secondary-menu-mobile, #mobile-navigation-wrapper ul#footer-menu-mobile { border-top: 3px solid #444; }
+
+/* Title Background */
+.title-background-lightgray { background-color: #f1f1f1; }
