@@ -50,6 +50,16 @@ function express_layout_form($form, &$form_state, $op = 'edit', $express_layout 
   // Close fieldset
   $form['field_feature_title_image']["#suffix"] = '</div></fieldset>';
 
+  // Get feature title background
+  $layout_field_background = $form['field_title_background_color'][LANGUAGE_NONE]['#title'];
+  // Unset field title
+  unset($form['field_title_background_color'][LANGUAGE_NONE]['#title']);
+
+  // Add fieldset and title
+  $form['field_title_background_color']["#prefix"] = "<fieldset class=\"form-wrapper\"><legend><span class=\"fieldset-legend\">$layout_field_background</span></legend><div class=\"fieldset-wrapper\">";
+  // Close fieldset
+  $form['field_title_background_color']["#suffix"] = '</div></fieldset>';
+
   $form['actions'] = array(
     '#type' => 'actions',
     'submit' => array(

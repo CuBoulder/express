@@ -288,6 +288,9 @@ function express_layout_preprocess_html(&$vars) {
     if ($layout && !empty($layout->field_feature_title_image)) {
       $vars['classes_array'][] = 'has-feature-title-image';
     }
+    if ($layout && !empty($layout->field_title_background_color) && ($layout->field_title_background_color[LANGUAGE_NONE][0]['value'] != 'none')) {
+      $vars['classes_array'][] = 'has-title-background';
+    }
   }
 }
 
@@ -357,7 +360,29 @@ function express_layout_page_alter(&$page) {
         $img_mobile = image_style_url('medium', $layout->field_feature_title_image [LANGUAGE_NONE][0]['uri']);
         $vars['img_mobile'] = $img_mobile;
 
+        if (field_get_items('node', $node, 'field_page_intro')) {
+          $page_intro = field_view_field('node', $node, 'field_page_intro', 'default');
+          if ($page_intro) {
+            $vars['subhead'] = render($page_intro);
+          }
+        }
+
         $page['intro']['el_hero_cover_image']['#markup'] = theme('express_layout_title_image', $vars);
+      }
+      elseif (!empty($layout->field_title_background_color[LANGUAGE_NONE][0]['value']) && ($layout->field_title_background_color[LANGUAGE_NONE][0]['value'] != 'none') && isset($settings['field_title_background_color'])) {
+        $vars['background_color'] = 'title-background-' . $layout->field_title_background_color[LANGUAGE_NONE][0]['value'];
+        // Add node title to variables
+        $vars['title'] = $node->title;
+        if (function_exists('expressbase_breadcrumb')) {
+          $vars['breadcrumb'] = expressbase_breadcrumb();
+        }
+        if (field_get_items('node', $node, 'field_page_intro')) {
+          $page_intro = field_view_field('node', $node, 'field_page_intro', 'default');
+          if ($page_intro) {
+            $vars['subhead'] = render($page_intro);
+          }
+        }
+        $page['intro']['el_hero_cover_image']['#markup'] = theme('express_layout_title_background', $vars);
       }
       if (isset($settings) && $settings['field_feature_layout_toggle']) {
         // Check feature/default layout setting
@@ -668,9 +693,9 @@ function express_layout_preprocess_node(&$vars) {
     if (!empty($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value']) && ($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value'] == 'feature_layout') && (!path_is_admin(current_path()))) {
       $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__featurelayout';
     }
-
-
-
+    if (!empty($layout->field_feature_title_image) || !empty($layout->field_title_background_color)) {
+      unset($vars['content']['field_page_intro']);
+    }
   }
 
   // add inner sidebar regions to nodes
@@ -964,5 +989,19 @@ function express_layout_theme() {
     'template' => 'express-layout-title-image',
     'path' => $template_dir,
   );
+  $registry['express_layout_title_background'] = array(
+    'template' => 'express-layout-title-background',
+    'path' => $template_dir,
+  );
   return $registry;
+}
+
+function express_layout_title_background_colors() {
+  $options = array(
+    'white' => 'White',
+    'black' => 'Black',
+    'lightgray' => 'Light Gray',
+    'darkgray' => 'Dark Gray',
+  );
+  return $options;
 }

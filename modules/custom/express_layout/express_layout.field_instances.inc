@@ -655,6 +655,50 @@ $field_instances['layout-block_layout-field_content_bottom'] = array(
   ),
 );
 
+// Exported field_instance: 'node-temp-field_title_background_color'.
+$field_instances['layout-block_layout-field_title_background_color'] = array(
+  'bundle' => 'express_layout',
+  'default_value' => array(
+    0 => array(
+      'value' => 'none',
+    ),
+  ),
+  'default_value_function' => '',
+  'default_value_php' => FALSE,
+  'deleted' => 0,
+  'description' => 'Choose a background color for the page title.',
+  'display' => array(
+    'default' => array(
+      'label' => 'hidden',
+      'module' => 'list',
+      'settings' => array(),
+      'type' => 'list_default',
+      'weight' => 1,
+    ),
+    'teaser' => array(
+      'label' => 'hidden',
+      'settings' => array(),
+      'type' => 'hidden',
+      'weight' => 0,
+    ),
+  ),
+  'entity_type' => 'express_layout',
+  'fences_wrapper' => 'no_wrapper',
+  'field_name' => 'field_title_background_color',
+  'label' => 'Title Background Color',
+  'required' => 0,
+  'settings' => array(
+    'user_register_form' => FALSE,
+  ),
+  'widget' => array(
+    'active' => 1,
+    'module' => 'options',
+    'settings' => array(),
+    'type' => 'options_select',
+    'weight' => 41,
+  ),
+);
+
 // Translatables
 // Included for use with string extractors like potx.
 t('Above Content');
@@ -672,6 +716,8 @@ t('Right Sidebar');
 t('Slider');
 t('Title Image');
 t('Inner Content Bottom');
+t('Title Background Color');
+
 
 foreach($field_instances as $instance) {
 
