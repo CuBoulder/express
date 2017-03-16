@@ -199,7 +199,19 @@ function atlas_statistics_webform_is_active($nid, $date = '13 months ago') {
 function _atlas_statistics_owner_not_ldap_user($usernames_site_contact) {
   // If there's only one site owner...
   if (count($usernames_site_contact) === 1) {
+    // Load the user's record in LDAP.
+    $link_identifier = ldap_connect('directory.colorado.edu', 391);
+    $base_dn = "dc=colorado,dc=edu";
+    $filter = "uid=" . $usernames_site_contact[0];
+    $result_identifier = ldap_search($link_identifier, $base_dn, $filter);
+    $info = ldap_get_entries($link_identifier, $result_identifier);
+
     // Make sure the SO is still authenticated via LDAP.
+    if ($info['count'] === 1) {
+      $so_ldap_record = $info[0];
+      // We have the LDAP record... not sure what to validate though.
+      // dpm($so_ldap_record);
+    }
   }
 
   return FALSE;
