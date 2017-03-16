@@ -69,6 +69,8 @@ function cu_shortcodes_page_alter(&$page) {
   drupal_add_css(drupal_get_path('module', 'cu_shortcodes') . '/css/cu-shortcodes-columns.css');
   // Add shortcode js.
   drupal_add_js(drupal_get_path('module', 'cu_shortcodes') . '/js/cu_shortcodes.js');
+  drupal_add_js(drupal_get_path('module', 'cu_shortcodes') . '/js/counter.js');
+  drupal_add_js(drupal_get_path('module', 'cu_shortcodes') . '/js/waypoints.js');
 }
 
 
@@ -157,6 +159,13 @@ function cu_shortcodes_shortcode_info() {
     'description' => t('Divide list content into columns'),
     'process callback' => 'cu_shortcodes_columnlist',
     'tips callback' => 'cu_shortcodes_columnlist_tips',
+    'default settings' => array(),
+  );
+  $shortcodes['countup'] = array(
+    'title' => t('Count Up'),
+    'description' => t('Have a number count up to a set value when it comes into view.'),
+    'process callback' => 'cu_shortcodes_countup',
+    'tips callback' => 'cu_shortcodes_countup_tips',
     'default settings' => array(),
   );
   $shortcodes['expand'] = array(
@@ -418,8 +427,16 @@ function cu_shortcodes_buttongroup_tips($format, $long) {
 function cu_shortcodes_callout($attrs, $content = NULL) {
   extract(shortcode_attrs(array(
     'size' => 'small',
+    'float' => 'right',
   ), $attrs));
-  $output = '<div class="feature-layout-callout feature-layout-callout-' . $size . ' clearfix">' . $content . '</div>';
+  $classes = array();
+  $classes[] = 'feature-layout-callout';
+  $classes[] = 'feature-layout-callout-' . $size;
+  $classes[] = 'feature-layout-callout-float-' . $float;
+  $classes[] = 'clearfix';
+
+  $classes = join(' ', $classes);
+  $output = '<div class="' . $classes . '">' . $content . '</div>';
   return $output;
 }
 /**
@@ -532,6 +549,25 @@ function cu_shortcodes_columnlist_tips($format, $long) {
  */
 function cu_shortcodes_column_demo() {
   $output = '<div class="content-column column-one-half">your content here</div><div class"content-column column-one-half last">your content here</div><div class="clear"></div>';
+  return $output;
+}
+
+/**
+ * Countup shortcode.
+ */
+function cu_shortcodes_countup($attrs, $content = NULL) {
+  extract(shortcode_attrs(array(
+      ), $attrs));
+
+  $output = '<span class="counter">' . $content . '</span>';
+  return $output;
+}
+
+/**
+ * Columnlist tips.
+ */
+function cu_shortcodes_countup_tips($format, $long) {
+  $output = '[countup]5000[/countup]';
   return $output;
 }
 
