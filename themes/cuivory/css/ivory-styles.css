@@ -84,3 +84,6 @@ ul#main-menu a#home-link:hover, ul#main-menu a#home-link.active { color: #333; b
 #mobile-navigation-wrapper ul#secondary-menu-mobile a { color: #fff; border-bottom: 1px solid #555; }
 #mobile-navigation-wrapper ul#secondary-menu-mobile a.active, #mobile-navigation-wrapper ul#secondary-menu-mobile a.active-trail { color: #fff; background-color: #333; font-weight: 600; border-bottom: 1px solid #333; }
 #mobile-navigation-wrapper ul#secondary-menu-mobile, #mobile-navigation-wrapper ul#footer-menu-mobile { border-top: 3px solid #ddd; }
+
+/* Title Background */
+.feature-layout-title-background.title-background-lightgray, .feature-layout-title-background.title-background-white { border-top: 1px solid #e7e7e7; }
