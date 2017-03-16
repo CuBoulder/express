@@ -12,7 +12,7 @@ body { background-color: #1e1e1e; border-top: 4px solid #cfb87c; }
 #secondary-menu-wrapper { background: #fff; color: #666; }
 #secondary-menu-wrapper a { color: #333; }
 
-#main-menu-wrapper { background: #f2f2f2; border-top: 1px solid #e7e7e7; }
+#main-menu-wrapper { background: #f7f7f7; border-top: 1px solid #e7e7e7; }
 
 #navigation { margin-top: -1px; }
 
@@ -29,7 +29,7 @@ body { background-color: #1e1e1e; border-top: 4px solid #cfb87c; }
 
 .page-title-image-boxed { padding-top: 20px; }
 
-.has-feature-title-image #page-title-wrapper { display: none; }
+.has-feature-title-image #page-title-wrapper, .has-title-background #page-title-wrapper { display: none; }
 
 .feature-layout-title-image a { color: #fff; }
 
@@ -47,6 +47,10 @@ h1#page-title-image-title { font-size: 140%; }
   .page-title-inner h1#page-title { width: 66.666%; padding-right: 40px; font-size: 180%; }
   .page-title-inner .breadcrumb { text-align: right; }
   .page-title-inner .breadcrumb a, .page-title-inner .breadcrumb span { white-space: nowrap; } }
+.region-post-title { padding-top: 20px; }
+
+.region-post-title-wide { margin-bottom: 0; }
+
 #content-wrapper { background: #fff; }
 
 #after-content-wrapper { background-color: #fff; padding-top: 40px; padding-bottom: 20px; }
@@ -92,3 +96,5 @@ h1#page-title-image-title { font-size: 140%; }
 #page-title-image { overflow: visible; }
 #page-title-image .page-title-image-inner h1 { margin: 0 20px; }
 #page-title-image .page-title-image-inner .breadcrumb { background-color: #fff; padding: 10px 20px 0; }
+
+.title-background-lightgray { border-top: 1px solid #e7e7e7; }
