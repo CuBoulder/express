@@ -17,7 +17,6 @@ function _wrapper_block_list() {
   $included_deltas = variable_get('cu_block_to_bean_delta_include', NULL);
   $excluded_deltas = variable_get('cu_block_to_bean_delta_exclude', NULL);
 
-
   foreach ($included_modules as $included_module) {
     if ($included_module) {
       $include[] = $included_module;
@@ -42,6 +41,7 @@ function _wrapper_block_list() {
     $excluded_deltas = array();
   }
   $options = array();
+
   foreach ($blocks as $key => $block) {
     if ($block['module'] == 'bean') {
 
