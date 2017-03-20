@@ -83,6 +83,9 @@ function cu_hero_unit_preprocess_entity(&$vars) {
   }
 }
 
+/**
+ * Background color options.
+ */
 function cu_hero_unit_bg_color_options() {
   $options = array(
     'white' => 'White',

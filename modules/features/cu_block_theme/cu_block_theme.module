@@ -123,6 +123,9 @@ function _cu_block_theme_examples() {
     return $output;
 }
 
+/**
+ * Implements hook_page_alter().
+ */
 function cu_block_theme_page_alter(&$vars) {
   //drupal_add_js(drupal_get_path('module', 'cu_block_theme') . '/cu_block_theme.js');
   drupal_add_css(drupal_get_path('module', 'cu_block_theme') . '/css/cu_block_theme.css');
