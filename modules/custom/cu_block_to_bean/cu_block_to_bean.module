@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the wrapper feature.
@@ -6,6 +7,9 @@
 
 include_once 'cu_block_to_bean.features.inc';
 
+/**
+ * Return available blocks.
+ */
 function _wrapper_block_list() {
   module_load_include('inc', 'block', 'block.admin');
   global $theme_key;
@@ -81,6 +85,9 @@ function cu_block_to_bean_preprocess_entity(&$vars) {
   }
 }
 
+/**
+ * Implements hook_menu().
+ */
 function cu_block_to_bean_menu() {
   $items = array();
   $items['admin/config/content/wrapper/settings'] = array(
@@ -93,6 +100,9 @@ function cu_block_to_bean_menu() {
   return $items;
 }
 
+/**
+ * Config form for block_to_bean.
+ */
 function cu_block_to_bean_config_form($form, &$form_state) {
 
   module_load_include('inc', 'block', 'block.admin');
@@ -129,6 +139,9 @@ function cu_block_to_bean_config_form($form, &$form_state) {
   return $form;
 }
 
+/**
+ * Submit funtion for cu_block_to_bean_config_form().
+ */
 function cu_block_to_bean_config_form_submit($form, &$form_state) {
   $modules = $form_state['values']['cu_block_to_bean_module_include'];
   $delta_exclude = $form_state['values']['cu_block_to_bean_delta_exclude'];
@@ -138,6 +151,11 @@ function cu_block_to_bean_config_form_submit($form, &$form_state) {
   variable_set('cu_block_to_bean_delta_include', $delta_include);
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Remove title field from wrapper beans.
+ */
 function cu_block_to_bean_form_bean_form_alter(&$form, &$form_state, $form_id) {
   if ($form['bean']['#value']->type == 'wrapper') {
     $form['title']['#access'] = FALSE;

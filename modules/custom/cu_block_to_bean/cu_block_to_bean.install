@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * Implements hook_install().
+ *
  * Default settings.
  */
 function cu_block_to_bean_install() {
@@ -16,5 +18,4 @@ function cu_block_to_bean_install() {
 
   variable_set('cu_block_to_bean_module_include', $included_modules);
   variable_set('cu_block_to_bean_delta_exclude', $excluded_deltas);
-
 }
