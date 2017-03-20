@@ -88,8 +88,8 @@ function cu_block_row_preprocess_entity(&$vars) {
         $vars['content']['blocks'][$child]['#markup'] .= render($bean);
       }
       $counter++;
-      $vars['content']['blocks'][$child]['#prefix'] = '<div class="block-row-column block-row-column-' . $counter . '">';
-      $vars['content']['blocks'][$child]['#suffix'] = '</div>';
+      $vars['content']['blocks'][$child]['#prefix'] = '<div class="block-row-column block-row-column-' . $counter . '"><div class="block-row-column-inner">';
+      $vars['content']['blocks'][$child]['#suffix'] = '</div></div>';
     }
     // add a variable of the columns so the content can be formatted properly
     $vars['column_count'] = count($vars['content']['field_block_row_collection']['#items']);

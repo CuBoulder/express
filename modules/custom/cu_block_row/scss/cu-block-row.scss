@@ -8,18 +8,24 @@ table.cu-block-row-table-example {
 .block-row-wrapper .block .contextual-links-wrapper {
   top:30px;
 }
+
+.block-bean-type-block-row {
+  clear: both;
+}
+
 .block-row-column .block {
   margin-bottom: 40px;
 }
-
+// IE 10/11 flexbox/box model bug
+.block-row-column-inner {
+  padding:0 20px;
+}
 .block-row-inner {
   display: flex;
   flex-direction: column;
   margin:0 -20px;
   flex-wrap: wrap;
   .block-row-column  {
-
-    padding:0 20px;
     .block {
 
       .block-inner {
@@ -37,13 +43,14 @@ table.cu-block-row-table-example {
     display: flex;
     flex-direction: row;
     margin:0 -20px;
-    .block-row-column  {
+    .block-row-column,
+    .block-row-column-inner  {
       display: flex;
       justify-content: stretch;
       flex-direction: column;
-      padding:0 20px;
+      flex-grow:1;
       .block:only-child {
-        flex: 1;
+        flex-grow:1;
         display: flex;
         justify-content: stretch;
         flex-direction: column;
@@ -51,7 +58,7 @@ table.cu-block-row-table-example {
       .block {
 
         .block-inner {
-          flex: 1;
+          flex-grow:1;
           display: flex;
           justify-content: stretch;
           flex-direction: column;
@@ -99,7 +106,7 @@ table.cu-block-row-table-example {
   /* 3 Columns */
   .block-row-columns-3 {
     .block-row-column {
-      // width:33.3333%;
+      width:33.3333%;
       flex-basis: 33.3333%;
     }
   }
@@ -129,7 +136,6 @@ table.cu-block-row-table-example {
     .block-row-column {
       // width:50%;
       flex-basis: 25%;
-      flex-grow: 0;
     }
   }
   .block-row-distribution-right.block-row-columns-4,
@@ -168,7 +174,7 @@ table.cu-block-row-table-example {
   .block-row-distribution-left.block-row-columns-5 {
     .block-row-column {
       // width:33.3333%;
-      flex-basis: 33%;
+      flex-basis: 25%;
       flex-grow: 1;
     }
   }
@@ -251,7 +257,7 @@ table.cu-block-row-table-example {
   /* 3 Columns */
   .block-row-columns-3 {
     .block-row-column {
-      // width:33.3333%;
+      //width:33.3333%;
       flex-basis: 33.3333%;
     }
   }
@@ -309,6 +315,7 @@ table.cu-block-row-table-example {
     .block-row-column {
       // width:20%;
       flex-basis: 20%;
+      flex-grow: 0;
     }
   }
   .block-row-distribution-right.block-row-columns-5,
