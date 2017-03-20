@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * cu_block_to_bean.install
+ */
+
+/**
  * Implements hook_install().
  *
  * Default settings.
