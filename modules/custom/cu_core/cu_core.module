@@ -1,5 +1,10 @@
 <?php
 /**
+ * @file
+ * Contains hooks for cu_core module.
+ */
+
+/**
  * Implements hook_module_implements_alter().
  *
  * @param array $implementations

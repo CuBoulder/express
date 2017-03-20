@@ -3,10 +3,6 @@ description = Provides CU-specific functionality, like adding variables, to Expr
 core = 7.x
 version = 7.x-3.3
 package = CU-Core
-dependencies[] = cu_redirect
-dependencies[] = cu_help
-dependencies[] = rave_alerts
-dependencies[] = cu_alerts
 
 ; Enable bundles for testing.
 dependencies[] = cu_advanced_content_bundle
