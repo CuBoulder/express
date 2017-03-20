@@ -6,6 +6,9 @@
 
 include_once 'cu_block_row.features.inc';
 
+/**
+ * Implements hook_libraries_info().
+ */
 function cu_block_row_libraries_info() {
   $libraries = array();
   $libraries['match-height'] = array(
@@ -23,6 +26,9 @@ function cu_block_row_libraries_info() {
   return $libraries;
 }
 
+/**
+ * Implements hook_registry_alter().
+ */
 function cu_block_row_theme_registry_alter(&$theme_registry) {
   $module_path = drupal_get_path('module', 'cu_block_row');
   $theme_registry_copy = $theme_registry;
@@ -42,7 +48,6 @@ function cu_block_row_theme_registry_alter(&$theme_registry) {
  * adds custom css.
  *
  */
-
 function cu_block_row_page_alter(&$page) {
   drupal_add_css(drupal_get_path('module', 'cu_block_row') . '/css/cu-block-row.css');
 
@@ -52,7 +57,7 @@ function cu_block_row_page_alter(&$page) {
   if (!$installed) {
     return;
   }
-  // Add the library reference
+  // Add the library reference.
   drupal_add_js($path, array(
     'group' => JS_LIBRARY,
     'every_page' => TRUE,
@@ -91,9 +96,9 @@ function cu_block_row_preprocess_entity(&$vars) {
       $vars['content']['blocks'][$child]['#prefix'] = '<div class="block-row-column block-row-column-' . $counter . '"><div class="block-row-column-inner">';
       $vars['content']['blocks'][$child]['#suffix'] = '</div></div>';
     }
-    // add a variable of the columns so the content can be formatted properly
+    // add a variable of the columns so the content can be formatted properly.
     $vars['column_count'] = count($vars['content']['field_block_row_collection']['#items']);
-    // Set class for height matching
+    // Set class for height matching.
     $vars['match_height'] = (isset($vars['field_block_row_match_height']) && $vars['field_block_row_match_height'][0]['value']) ? 'block-row-match-height' : '';
   }
 }
