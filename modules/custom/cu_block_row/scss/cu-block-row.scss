@@ -87,7 +87,7 @@ table.cu-block-row-table-example {
   .block-row-distribution-left.block-row-columns-2 {
     .block-row-column {
       //width:33.3333%;
-      flex-basis: 33%;
+      flex-basis: 33.3333%;
     }
   }
   .block-row-distribution-left.block-row-columns-2 {
@@ -106,7 +106,7 @@ table.cu-block-row-table-example {
   /* 3 Columns */
   .block-row-columns-3 {
     .block-row-column {
-      width:33.3333%;
+      //width:33.3333%;
       flex-basis: 33.3333%;
     }
   }
