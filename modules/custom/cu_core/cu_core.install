@@ -684,6 +684,14 @@ function cu_core_update_7020() {
 }
 
 /**
+ * Enable erus module.
+ * https://github.com/CuBoulder/express/issues/956
+ */
+function cu_core_update_7021() {
+  module_enable(array('erus'));
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
