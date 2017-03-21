@@ -5,10 +5,10 @@
  * cu_block_theme.install
  */
 
-
 /**
  * Update block styles list to include subnav style 5.
  */
+
 function cu_block_theme_update_7010() {
   features_revert('cu_block_theme');
 }
@@ -16,6 +16,7 @@ function cu_block_theme_update_7010() {
 /**
  * Update block styles list to include new background colors.
  */
+ 
 function cu_block_theme_update_7011() {
   features_revert('cu_block_theme');
 }
