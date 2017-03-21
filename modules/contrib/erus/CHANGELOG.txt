@@ -1,0 +1,7 @@
+External Repository Update Status x.x-x.x, xxxx-xx-xx
+-----------------------------------------------------
+
+7.x-1.1                   2015-06-26
+------------------------------------
+- Add check for drush version
+- Fixed incorrect function call
