@@ -576,3 +576,15 @@ function cu_share_share_on_twitter($attrs, $content = NULL) {
 
   return $share_link;
 }
+
+/**
+ * Implements hook_filter_info_alter().
+ */
+function cu_share_filter_info_alter(&$info) {
+  // Load the wysiwyg text format
+    $format = filter_format_load('wysiwyg');
+    // Get the filters on the wysiwyg text format
+    $filters = filter_list_format($format->format);
+    // Enable countdown shortcode
+    $filters['shortcode']->settings['share_on_twitter'] = 1;
+}
