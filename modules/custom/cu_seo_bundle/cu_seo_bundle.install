@@ -26,5 +26,5 @@ function cu_seo_bundle_update_7001() {
  */
 
 function cu_seo_bundle_update_7002() {
-  module_enable(array('metatag_opengraph'));
+  module_enable(array('metatag_opengraph', 'metatag_twitter_cards'));
 }
