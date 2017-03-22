@@ -804,7 +804,7 @@ function cu_core_environment_check() {
   $check['no_environment?'] = TRUE;
 
   // Check for Travis.
-  print_r($_ENV);
+  print_r($_SERVER);
   if (isset($_ENV['TRAVIS'])) {
     $check['no_environment?'] = FALSE;
     module_enable(array('cu_testing_core'));
