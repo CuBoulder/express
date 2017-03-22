@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Drupal hooks for express_dashboard_lock module.
+ */
+
+/**
  * Implements hook_express_dashboard().
  *
  * Adding user Dashboard.
