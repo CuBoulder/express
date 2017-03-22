@@ -794,7 +794,7 @@ function cu_core_scramble_admin() {
 /**
  * A function that checks for external environments and performs tasks if needed.
  *
- * @return array $check
+ * @return array
  *   Results of checks for server environment.
  */
 function cu_core_environment_check() {

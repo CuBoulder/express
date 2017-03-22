@@ -7,7 +7,7 @@
 /**
  * Implements hook_module_implements_alter().
  *
- * @param array $implementations
+ * @param array
  *   List of modules that implement hook.
  * @param string $hook
  *   Name of the hook being fired.
