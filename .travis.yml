@@ -36,7 +36,6 @@ cache:
 # OPTIONAL after_deploy, after_script.
 
 install:
-  # Print out environmental variables.
   - printenv
 
   # Install latest Drush 6.
