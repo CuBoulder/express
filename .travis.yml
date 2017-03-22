@@ -37,7 +37,7 @@ cache:
 
 install:
   # Print out environmental variables.
-  printenv
+  - printenv
 
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
