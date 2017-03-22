@@ -333,3 +333,13 @@ function cu_users_update_7025() {
   $query->values(array('uid' => $account->uid, 'rid' => $developer_role->rid));
   $query->execute();
 }
+
+/**
+ * Remove unused OSR staff and testing accounts.
+ */
+function cu_users_update_7026() {
+  // Remove CU's unused auto-created users.
+  $uids = array_keys(user_load_multiple(array(), array('name' => array_keys(cu_users_get_users()), 'login' => 0)));
+  user_delete_multiple($uids);
+  watchdog('cu_users', 'Deleted unused OSR admin and test accounts.');
+}
