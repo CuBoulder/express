@@ -36,6 +36,9 @@ cache:
 # OPTIONAL after_deploy, after_script.
 
 install:
+  # Print out environmental variables.
+  printenv
+
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:6.*"
