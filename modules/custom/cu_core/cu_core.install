@@ -685,7 +685,8 @@ function cu_core_update_7020() {
 
 /**
  * Enable erus module.
- * https://github.com/CuBoulder/express/issues/956
+ *
+ * See https://github.com/CuBoulder/express/issues/956.
  */
 function cu_core_update_7021() {
   module_enable(array('erus'));
