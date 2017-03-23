@@ -12,11 +12,3 @@
 function cu_block_theme_update_7010() {
   features_revert('cu_block_theme');
 }
-
-/**
- * Update block styles list to include new background colors.
- */
- 
-function cu_block_theme_update_7011() {
-  features_revert('cu_block_theme');
-}
