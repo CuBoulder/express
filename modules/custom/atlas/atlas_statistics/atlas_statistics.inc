@@ -23,6 +23,8 @@ function atlas_statistics_get_statistics() {
 function atlas_statistics_atlas_statistics() {
   $statistics_data = array();
 
+  $statistics_data['name'] = variable_get('site_name', NULL);
+
   // Count Nodes.
   $node_query = db_select('node', 'n');
   $node_query->addExpression('COUNT(type)', 'count_type');

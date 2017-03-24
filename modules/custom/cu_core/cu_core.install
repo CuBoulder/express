@@ -684,6 +684,15 @@ function cu_core_update_7020() {
 }
 
 /**
+ * Core Update 7020 for Express 2.4.0.
+ *
+ * Revert cu_block_theme feature.
+ */
+function cu_core_update_7020() {
+  cu_core_revert_features(array('cu_block_theme' => 'cu_block_theme'));
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
