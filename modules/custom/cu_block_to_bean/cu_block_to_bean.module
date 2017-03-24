@@ -160,7 +160,7 @@ function cu_block_to_bean_config_form_submit($form, &$form_state) {
  * Remove title field from wrapper beans.
  */
 function cu_block_to_bean_form_bean_form_alter(&$form, &$form_state, $form_id) {
-  if ($form['bean']['#value']->type == 'wrapper') {
+  if ($form['bean']['#value']->type == 'block_wrapper') {
     $form['title']['#access'] = FALSE;
   }
 }
@@ -184,35 +184,35 @@ function cu_block_to_bean_permission() {
 function cu_block_to_bean_secure_permissions($role) {
   $permissions = array(
     'anonymous user' => array(
-      'view any wrapper bean',
+      'view any block_wrapper bean',
     ),
     'authenticated user' => array(
-      'view any wrapper bean',
+      'view any block_wrapper bean',
     ),
     'administrator' => array(
-      'create any wrapper bean',
-      'delete any wrapper bean',
-      'edit any wrapper bean',
-      'view any wrapper bean',
+      'create any block_wrapper bean',
+      'delete any block_wrapper bean',
+      'edit any block_wrapper bean',
+      'view any block_wrapper bean',
     ),
     'content_editor' => array(
-      'create any wrapper bean',
-      'delete any wrapper bean',
-      'edit any wrapper bean',
-      'view any wrapper bean',
+      'create any block_wrapper bean',
+      'delete any block_wrapper bean',
+      'edit any block_wrapper bean',
+      'view any block_wrapper bean',
     ),
     'developer' => array(
-      'create any wrapper bean',
-      'delete any wrapper bean',
-      'edit any wrapper bean',
-      'view any wrapper bean',
+      'create any block_wrapper bean',
+      'delete any block_wrapper bean',
+      'edit any block_wrapper bean',
+      'view any block_wrapper bean',
       'administer block wrapper',
     ),
     'site_owner' => array(
-      'create any wrapper bean',
-      'delete any wrapper bean',
-      'edit any wrapper bean',
-      'view any wrapper bean',
+      'create any block_wrapper bean',
+      'delete any block_wrapper bean',
+      'edit any block_wrapper bean',
+      'view any block_wrapper bean',
     ),
   );
 
