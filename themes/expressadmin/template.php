@@ -149,6 +149,7 @@ function _expressadmin_colorize_text($string, $default = '') {
         t('Search')             => 'primary',
         t('Add')                => 'primary',
         t('Create')             => 'primary',
+        t('Send')               => 'primary',
 
         // Success class.
         t('Save')               => 'success',
@@ -368,7 +369,8 @@ function expressadmin_preprocess_admin_block(&$vars) {
     'url-management' => 'link',
     'advanced-content' => 'th-list',
     'search-engine-optimization' => 'line-chart',
-    'social-media' => 'share-alt'
+    'social-media' => 'share-alt',
+    'administrator' => 'fire-extinguisher'
   );
   $key = strtolower(str_replace(' ','-', $vars['block']['link_title']));
   if (array_key_exists($key, $titles)) {

@@ -1,10 +1,10 @@
 <?php
-/**
- * @file
- * Tests for the Metatag module and user entities.
- */
 
+/**
+ * Tests for the Metatag module of user entities.
+ */
 class MetatagCoreUserTest extends MetatagTestHelper {
+
   /**
    * {@inheritdoc}
    */
@@ -13,6 +13,7 @@ class MetatagCoreUserTest extends MetatagTestHelper {
       'name' => 'Metatag core tests for users',
       'description' => 'Test Metatag edit functionality for users.',
       'group' => 'Metatag',
+      'dependencies' => array('ctools', 'token'),
     );
   }
 
@@ -21,7 +22,9 @@ class MetatagCoreUserTest extends MetatagTestHelper {
    */
   public function testEntityCreationWorkflow() {
     // Create an admin user and log them in.
-    $this->adminUser = $this->createAdminUser();
+    if (!isset($this->adminUser)) {
+      $this->adminUser = $this->createAdminUser();
+    }
     $this->drupalLogin($this->adminUser);
 
     // Assign default values for the new vocabulary.
@@ -36,7 +39,7 @@ class MetatagCoreUserTest extends MetatagTestHelper {
 
     // Submit the form with some values.
     $this->drupalPost(NULL, array(
-      'metatags[und][dcterms.subject][value]' => '[user:name]',
+      'metatags[und][abstract][value]' => '[user:name]',
     ), t('Save'));
     $this->assertResponse(200);
 
@@ -56,13 +59,12 @@ class MetatagCoreUserTest extends MetatagTestHelper {
 
     // Verify that it's possible to submit values to the form.
     $this->drupalPost(NULL, array(
-      'metatags[und][dcterms.subject][value]' => '[user:name] ponies',
+      'metatags[und][abstract][value]' => '[user:name] ponies',
     ), t('Save'));
     $this->assertResponse(200);
 
-    // Verify that the node saved correctly.
-    $t_args = array('%name' => $this->adminUser->name);
-
+    // Verify that the user object saved correctly.
+    // $t_args = array('%name' => $this->adminUser->name);
     // This doesn't work for some reason, it seems the HTML is stripped off
     // during output so the %name's standard Drupal wrappers don't match.
     // $this->assertText(t('The changes have been saved.'));
@@ -75,20 +77,15 @@ class MetatagCoreUserTest extends MetatagTestHelper {
     // Only the non-default values are stored.
     $expected = array(
       'und' => array(
-        'dcterms.subject' => array(
+        'abstract' => array(
           'value' => '[user:name] ponies',
         ),
       ),
     );
     $this->assertEqual($expected, $account->metatags);
 
-    // Load the user's profile page.
-    $this->drupalGet('user/' . $this->adminUser->uid);
-    $this->assertResponse(200);
-
-    // Verify the title is using the custom default for this vocabulary.
-    $xpath = $this->xpath("//meta[@name='dcterms.subject']");
-    $this->assertEqual(count($xpath), 1, 'Exactly one dcterms.subject meta tag found.');
-    $this->assertEqual($xpath[0]['content'], $this->adminUser->name . " ponies");
+    // Confirm the user profile tags work correctly.
+    $this->assertUserEntityTags($this->adminUser);
   }
+
 }

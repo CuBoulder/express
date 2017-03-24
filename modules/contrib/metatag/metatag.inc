@@ -165,7 +165,10 @@ class DrupalDefaultMetaTag implements DrupalMetaTagInterface {
   public function tidyValue($value) {
     // Check for Media strings from the WYSIWYG submodule.
     if (module_exists('media_wysiwyg') && strpos($value, '[[{') !== FALSE) {
-      $value = media_wysiwyg_filter($value);
+      // In https://www.drupal.org/node/2129273 media_wysiwyg_filter() was
+      // changed to require several additional arguments.
+      $langcode = language_default('language');
+      $value = media_wysiwyg_filter($value, NULL, NULL, $langcode, NULL, NULL);
     }
 
     // Specifically replace encoded spaces, because some WYSIWYG editors are
@@ -199,8 +202,9 @@ class DrupalDefaultMetaTag implements DrupalMetaTagInterface {
    */
   function convertUrlToAbsolute($url) {
     // Convert paths relative to the hostname, that start with a slash, to
-    // ones that are relative to the Drupal root path.
-    if (strpos($url, base_path()) === 0) {
+    // ones that are relative to the Drupal root path; ignore protocol-relative
+    // URLs.
+    if (strpos($url, base_path()) === 0 && strpos($url, '//') !== 0) {
       // Logic:
       // * Get the length of the base_path(), 
       // * Get a portion of the image's path starting from the position equal
@@ -252,6 +256,11 @@ class DrupalTextMetaTag extends DrupalDefaultMetaTag {
       $form['value']['#description'] .= ' ' . t('This will be able to extract the URL from an image field.');
     }
 
+    // Optional handling for languages.
+    if (!empty($this->info['is_language'])) {
+      $form['value']['#description'] .= ' ' . t('This will not be displayed if it is set to the "Language neutral" (i.e. "und").');
+    }
+
     // Optional support for select_or_other.
     if ($form['value']['#type'] == 'select' && !empty($this->info['select_or_other']) && module_exists('select_or_other')) {
       $form['value']['#type'] = 'select_or_other';
@@ -300,8 +309,17 @@ class DrupalTextMetaTag extends DrupalDefaultMetaTag {
       $value = token_replace($value, $options['token data'], $options);
     }
 
-    // Special handling for images.
-    if (!empty($this->info['image'])) {
+    // Special handling for language meta tags.
+    if (!empty($this->info['is_language'])) {
+      // If the meta tag value equals LANGUAGE_NONE, i.e. "und", then don't
+      // output it.
+      if (is_string($value) && $value == LANGUAGE_NONE) {
+        $value = '';
+      }
+    }
+
+    // Special handling for images and other URLs.
+    if (!empty($this->info['image']) || !empty($this->info['url'])) {
       // Support multiple items, whether it's needed or not. Also remove the
       // empty values.
       $values = array_filter(explode(',', $value));
@@ -317,7 +335,7 @@ class DrupalTextMetaTag extends DrupalDefaultMetaTag {
         $image_value = trim($image_value);
 
         // If this contains embedded image tags, extract the image URLs.
-        if (strip_tags($image_value) != $image_value) {
+        if (!empty($this->info['image']) && strip_tags($image_value) != $image_value) {
           $matches = array();
           preg_match('/src="([^"]*)"/', $image_value, $matches);
           if (!empty($matches[1])) {
