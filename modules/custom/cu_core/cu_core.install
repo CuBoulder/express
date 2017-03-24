@@ -688,7 +688,7 @@ function cu_core_update_7020() {
  *
  * Revert cu_block_theme feature.
  */
-function cu_core_update_7020() {
+function cu_core_update_7021() {
   cu_core_revert_features(array('cu_block_theme' => 'cu_block_theme'));
 }
 
