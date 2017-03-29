@@ -1,46 +1,9 @@
 <?php
 
 /**
- * Implements hook_install().
- *
- * Creates a set of default users with specified roles.
+ * @file
+ * Mostly contains update hooks to add and remove users.
  */
-function cu_users_install() {
-  // High module weight in order to come after every module that we declare
-  // permissions for.
-  db_query("UPDATE {system} SET weight = 98 WHERE name = 'cu_users'");
-
-  $developer_role = user_role_load_by_name('developer');
-  $administrator_role = user_role_load_by_name('administrator');
-  $site_owner_role = user_role_load_by_name('site_owner');
-  $content_editor_role = user_role_load_by_name('content_editor');
-  $edit_own_role = user_role_load_by_name('edit_my_content');
-
-  // Create default users keyed by role id.
-  $default_users = array(
-    $developer_role->rid => cu_users_get_users('developer'),
-    $administrator_role->rid => cu_users_get_users('administrator'),
-    $site_owner_role->rid => cu_users_get_users('site_owner'),
-    $content_editor_role->rid => cu_users_get_users('content_editor'),
-    $edit_own_role->rid => cu_users_get_users('edit_my_content'),
-  );
-
-  foreach ($default_users as $rid => $users) {
-    foreach ($users as $name => $mail) {
-      // Create the account.
-      $account = new stdClass();
-      $account->name = $name;
-      $account->mail = $mail;
-      $account->status = 1;
-      $account = user_save($account);
-
-      // Grant user the role.
-      $query = db_insert('users_roles')->fields(array('uid', 'rid'));
-      $query->values(array('uid' => $account->uid, 'rid' => $rid));
-      $query->execute();
-    }
-  }
-}
 
 /**
  * Set module weight for pre-1.0 sites.
