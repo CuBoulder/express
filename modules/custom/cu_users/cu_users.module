@@ -6,15 +6,18 @@
  */
 
 /**
- * Returns an array of that type of user.
+ * Returns an array of that type of user, or a specific user's role name.
  *
  * @param string $type
  *   Which set of accounts to return.
+ * @param string $account_name
+ *   An account name to return the role for.
  *
- * @return array
- *   Associative array of user accounts.
+ * @return array|string
+ *   Associative array of user accounts, or a user's role name if an account
+ *   name is provided.
  */
-function cu_users_get_users($type = 'all') {
+function cu_users_get_users($type = 'all', $account_name = NULL) {
 
   $user_array['developer'] = array(
     'crafts' => 'Kevin.Crafts@Colorado.EDU',
@@ -46,9 +49,32 @@ function cu_users_get_users($type = 'all') {
     'osr-test-edit-own' => 'osr-test-edit-own@colorado.edu',
   );
 
+  // If a account name was provided then return the user's role name to
+  // cu_users_get_user_role().
+  if ($type === NULL && $account_name) {
+    foreach ($user_array as $role_name => $users) {
+      if (in_array($account_name, array_keys($users))) {
+        return $role_name;
+      }
+    }
+  }
+
   $user_array['all'] = array_merge($user_array['developer'], $user_array['administrator'], $user_array['site_owner'], $user_array['content_editor'], $user_array['edit_my_content']);
 
   return $user_array[$type];
+}
+
+/**
+ * Wrapper to get the role name for a user.
+ *
+ * @param string $account_name
+ *   An account name to return the role name for.
+ *
+ * @return string
+ *   The role name of the provided account name.
+ */
+function cu_users_get_user_role($account_name) {
+  return cu_users_get_users(NULL, $account_name);
 }
 
 /**
@@ -222,9 +248,17 @@ function cu_users_user_update(&$edit, $account, $category) {
 /**
  * Implements hook_user_insert().
  *
- * Save a message to the log when a user is inserted containing the new info.
+ * Assign appropriate role to user and save a message to the log containing the
+ * new info when a user is inserted.
  */
 function cu_users_user_insert(&$edit, $account, $category) {
+
+  // If the user is in the admin/developer list, give them the appropriate role.
+  if (cu_users_check_user($account->name)) {
+    $role_name = cu_users_get_user_role($account->name);
+    $role = user_role_load_by_name($role_name);
+    $account->roles[$role->rid] = $role_name;
+  }
 
   $user_vars = array(
     '%uid' => $account->uid,
