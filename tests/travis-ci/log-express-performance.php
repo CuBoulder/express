@@ -69,5 +69,22 @@ foreach ($output as $key => $path) {
   // print_r('Query Count: ' . $query_count_average . " Queries\n");
   // print_r('Query Time: ' . $query_time_average . " Milliseconds\n");
   print_r("\n");
+
+  // Send data to logstash
+  $data = array(
+    'path' => $path['path'],
+    'accessed' => $count,
+    'memory_consumption' => $memory_average,
+    'loadtime' => $load_average,
+  );
+  $data_string = json_encode($data);
+
+  $ch = curl_init('http://wlogstash.colorado.edu:8080');
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+
+  $result = curl_exec($ch);
+
   $i++;
 }
