@@ -82,6 +82,7 @@ foreach ($output as $key => $path) {
   $ch = curl_init('http://wlogstash.colorado.edu:8080');
   curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
   curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+  curl_setopt($ch, CURLOPT_TIMEOUT, 10);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
 
   $result = curl_exec($ch);
