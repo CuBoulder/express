@@ -83,13 +83,17 @@ foreach ($output as $key => $path) {
   # TravisCI env. https://docs.travis-ci.com/user/ip-addresses/.
   # Currently is
   # workers-nat-org-shared-2.aws-us-east-1.travisci.net (52.45.185.117/32 52.54.31.11/32 54.87.185.35/32 54.87.141.246/32)
-  $ch = curl_init('http://wlogstash.colorado.edu:8080');
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, "http://wlogstash.colorado.edu:8080");
   curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
   curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
   curl_setopt($ch, CURLOPT_TIMEOUT, 10);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
 
-  $result = curl_exec($ch);
+  if( ! $result = curl_exec($ch)) {
+      print_r("cURL error\n" . curl_error($ch));
+  } 
+  curl_close($ch);
   print_r("cURL result\n" . $result);
 
   $i++;
