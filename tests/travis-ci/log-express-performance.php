@@ -90,7 +90,7 @@ foreach ($output as $key => $path) {
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
 
   $result = curl_exec($ch);
-  print_r($result);
+  print_r("cURL result\n" . $result);
 
   $i++;
 }
