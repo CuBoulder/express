@@ -45,9 +45,6 @@ print_r("\n");
 // Build individual page output to screen. Only list top 15 pages by access count.
 $i = 0;
 foreach ($output as $key => $path) {
-  if ($i >= 15) {
-    return;
-  }
   $count = count($path['memory']);
   $memory_sum = array_sum($path['memory']);
   $load_sum = array_sum($path['load']);
@@ -77,6 +74,7 @@ foreach ($output as $key => $path) {
     'memory_consumption' => $memory_average,
     'loadtime' => $load_average,
   );
+
   $data_string = json_encode($data);
 
   # If data is not getting into the logging stack, check the IP range of the
