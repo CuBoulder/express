@@ -91,10 +91,24 @@ foreach ($output as $key => $path) {
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
 
   if( ! $result = curl_exec($ch)) {
-      print_r("cURL error\n" . curl_error($ch));
-  } 
+    print_r("cURL error\n" . curl_error($ch));
+    $starttime = microtime(true);
+    $file      = fsockopen ('wlogstash.colorado.edu', 80, $errno, $errstr, 10);
+    $stoptime  = microtime(true);
+    $status    = 0;
+
+    if (!$file) $status = -1;  // Site is down
+    else {
+        fclose($file);
+        $status = ($stoptime - $starttime) * 1000;
+        $status = floor($status);
+    }
+    print_r("fsock result\n" . $status);
+  } else {
+    print_r("cURL result\n" . $result);
+  }
   curl_close($ch);
-  print_r("cURL result\n" . $result);
+
 
   $i++;
 }
