@@ -44,7 +44,7 @@ print_r('Average Load Time: ' . $average_results['load'] . " Milliseconds\n");
 
 // Prep data to send to logstash
 $data = array(
-  'type' => 'full_test_run',
+  'test_type' => 'full_test_run',
   'average_memory_consumption' => $average_results['memory'],
   'average_loadtime' => $average_results['load'],
   'build_branch' => $build_branch,
@@ -84,7 +84,7 @@ foreach ($output as $key => $path) {
 
   // Prep data per test to send to logstash
   $data = array(
-    'type' => 'indvidual_test',
+    'test_type' => 'indvidual_test',
     'path' => $path['path'],
     'accessed' => $count,
     'memory_consumption' => $memory_average,
