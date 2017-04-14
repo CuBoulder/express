@@ -43,6 +43,7 @@ else {
 $build_number = getenv('TRAVIS_BUILD_NUMBER');
 $build_type = getenv('TRAVIS_EVENT_TYPE');
 $build_repo = getenv('TRAVIS_REPO_SLUG');
+$build_job_number = getenv('TRAVIS_JOB_NUMBER');
 
 // Print out aggregate stats.
 print_r('Average Memory Consumption: ' . $average_results['memory'] . "MB\n");
@@ -53,6 +54,7 @@ $data = array(
   'test_type' => 'full_test_run',
   'average_memory_consumption' => $average_results['memory'],
   'average_loadtime' => $average_results['load'],
+  '$build_job_number' => $build_job_number,
   'build_repo' => $build_repo,
   'build_branch' => $build_branch,
   'build_number' => $build_number,
