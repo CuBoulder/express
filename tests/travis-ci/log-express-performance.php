@@ -33,9 +33,25 @@ usort($output, function ($a, $b) {
   return count($a['memory']) < count($b['memory']);
 });
 
+// Get environmental variables for sending to logstash
+$build_branch = getenv('TRAVIS_BRANCH');
+$build_number = getenv('TRAVIS_BUILD_NUMBER');
+$build_type = getenv('TRAVIS_EVENT_TYPE');
+
 // Print out aggregate stats.
 print_r('Average Memory Consumption: ' . $average_results['memory'] . "MB\n");
 print_r('Average Load Time: ' . $average_results['load'] . " Milliseconds\n");
+
+// Prep data to send to logstash
+$data = array(
+  'type' => 'full_test_run',
+  'average_memory_consumption' => $average_results['memory'],
+  'average_loadtime' => $average_results['load'],
+  'build_branch' => $build_branch,
+  'build_number' => $build_number,
+  'build_type' => $build_type,
+);
+curl_logstash($data);
 
 // Removed query stats due to memory load.
 // print_r('Average Query Count: ' . $average_results['query_count'] . " Queries\n");
@@ -43,7 +59,6 @@ print_r('Average Load Time: ' . $average_results['load'] . " Milliseconds\n");
 print_r("\n");
 
 // Build individual page output to screen. Only list top 15 pages by access count.
-$i = 0;
 foreach ($output as $key => $path) {
   $count = count($path['memory']);
   $memory_sum = array_sum($path['memory']);
@@ -67,14 +82,21 @@ foreach ($output as $key => $path) {
   // print_r('Query Time: ' . $query_time_average . " Milliseconds\n");
   print_r("\n");
 
-  // Send data to logstash
+  // Prep data per test to send to logstash
   $data = array(
+    'type' => 'indvidual_test',
     'path' => $path['path'],
     'accessed' => $count,
     'memory_consumption' => $memory_average,
     'loadtime' => $load_average,
+    'build_branch' => $build_branch,
+    'build_number' => $build_number,
+    'build_type' => $build_type,
   );
+ curl_logstash($data);
+}
 
+function curl_logstash($data) {
   $data_string = json_encode($data);
 
   # If data is not getting into the logging stack, check the IP range of the
@@ -106,7 +128,4 @@ foreach ($output as $key => $path) {
     print_r("cURL result: " . $result . "\n\n");
   }
   curl_close($ch);
-
-
-  $i++;
 }
