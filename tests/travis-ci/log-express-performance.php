@@ -108,7 +108,7 @@ function curl_logstash($data) {
   curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
   curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
   curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-  curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json','User-Agent: TravisCI'));
 
   if( ! $result = curl_exec($ch)) {
     print_r("cURL error: " . curl_error($ch) . "\n\n");
