@@ -34,9 +34,16 @@ usort($output, function ($a, $b) {
 });
 
 // Get environmental variables for sending to logstash
-$build_branch = getenv('TRAVIS_BRANCH');
+if (getenv('TRAVIS_PULL_REQUEST_BRANCH')) {
+  $build_branch = getenv('TRAVIS_PULL_REQUEST_BRANCH');
+}
+else {
+  $build_branch = getenv('TRAVIS_BRANCH');
+}
 $build_number = getenv('TRAVIS_BUILD_NUMBER');
 $build_type = getenv('TRAVIS_EVENT_TYPE');
+
+
 
 // Print out aggregate stats.
 print_r('Average Memory Consumption: ' . $average_results['memory'] . "MB\n");
