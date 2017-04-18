@@ -7,6 +7,14 @@
 
 /**
  * Implements hook_ctools_plugin_api().
+ *
+ * @param string $module
+ *   Module name being passed into function.
+ * @param string $api
+ *   Version of ctools being passed in.
+ *
+ * @return array
+ *   Info needed for ctools API.
  */
 function cu_search_cse_ctools_plugin_api($module = NULL, $api = NULL) {
   if ($module == "context" && $api == "context") {
@@ -165,9 +173,9 @@ function cu_search_cse_block_view($delta = '') {
 /**
  * Search block form.
  *
- * @param $form
+ * @param array $form
  *   Form array.
- * @param $form_state
+ * @param array $form_state
  *   Values relating to current state of the form.
  *
  * @return array $form
@@ -207,12 +215,12 @@ function cse_header_search_form($form, &$form_state) {
 /**
  * Search block form.
  *
- * @param $form
+ * @param array $form
  *   Form array.
- * @param $form_state
+ * @param array $form_state
  *   Values relating to current state of the form.
  *
- * @return array
+ * @return array $form
  *   Form to be rendered.
  */
 function cse_content_search_form($form, &$form_state) {
@@ -245,9 +253,9 @@ function cse_content_search_form($form, &$form_state) {
 /**
  * Form submission callback to send user to search page.
  *
- * @param $form
+ * @param array $form
  *   Form being submitted.
- * @param $form_state
+ * @param array $form_state
  *   Values of form submission.
  */
 function cse_header_search_form_submit($form, &$form_state) {
