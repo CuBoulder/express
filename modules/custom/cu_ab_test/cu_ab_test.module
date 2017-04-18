@@ -13,7 +13,7 @@ include_once 'cu_ab_test.features.inc';
  * @param string $role
  *   The user role being checked for permissions.
  *
- * @return array|mixed $permissions
+ * @return array|mixed
  *   An array of granted permissions for a specific user role.
  */
 function cu_ab_test_secure_permissions($role) {
