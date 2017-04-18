@@ -13,7 +13,7 @@ include_once 'cu_ab_test.features.inc';
  * @param string $role
  *   The user role being checked for permissions.
  *
- * @return array mixed
+ * @return array|mixed $permissions
  *   An array of granted permissions for a specific user role.
  */
 function cu_ab_test_secure_permissions($role) {
@@ -63,7 +63,7 @@ function cu_ab_test_secure_permissions($role) {
  * @param array $vars
  *   A whole slew of things that make up a render array for generating an A/B block.
  */
-function cu_ab_test_preprocess_entity(&$vars) {
+function cu_ab_test_preprocess_entity(array &$vars) {
   if ($vars['elements']['#entity_type'] === 'bean' && $vars['elements']['#bundle'] === 'a_b_block') {
     // Add CSS and JS to page.
     drupal_add_css(drupal_get_path('module', 'cu_ab_test') . '/css/cu-ab.css');
@@ -110,7 +110,7 @@ function cu_ab_test_preprocess_entity(&$vars) {
  * @param string $form_id
  *   The ID of the form that is currently loaded.
  */
-function cu_ab_test_form_alter(&$form, &$form_state, $form_id) {
+function cu_ab_test_form_alter(array &$form, array &$form_state, $form_id) {
   if ($form['#entity_type'] === 'bean' && $form['#bundle'] === 'a_b_block') {
 
     // Loop through field collection items.
@@ -138,7 +138,7 @@ function cu_ab_test_form_alter(&$form, &$form_state, $form_id) {
  * @param array $form_state
  *   An array with values of the current state of the form.
  */
-function cu_ab_test_validate_percentages($form, &$form_state) {
+function cu_ab_test_validate_percentages(array $form, array &$form_state) {
 
   // Add up all of the percentages.
   $counter = 0;
