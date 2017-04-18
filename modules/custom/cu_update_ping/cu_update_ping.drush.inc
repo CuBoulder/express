@@ -8,10 +8,10 @@
 /**
  * Implements hook_drush_command().
  *
- * @return array
+ * @return array $items
  *   An associative array describing your command(s).
  *
- * @see drush_parse_command()
+ * @see drush_parse_command().
  */
 function cu_update_ping_drush_command() {
   $items = array();
@@ -28,14 +28,19 @@ function cu_update_ping_drush_command() {
 
 /**
  * Implements hook_drush_help().
+ *
+ * @param string $command
+ *   The command to return help for.
+ *
+ * @return string|mixed
+ *   The help message to print for that command.
  */
-function cu_update_ping_drush_help($section) {
-  switch ($section) {
+function cu_update_ping_drush_help($command) {
+  switch ($command) {
     case 'drush:update-ping':
-      return dt("Sends pings to Drupal's update server to add to module useage stats.");
+      return dt("Sends pings to Drupal's update server to add to module usage stats.");
   }
 }
-
 
 /**
  * Command callback to ping all enabled modules or a passed list of modules.
