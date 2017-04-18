@@ -24,7 +24,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    */
   public $user = FALSE;
 
-
   /**
    * Initializes context.
    *
@@ -35,7 +34,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   public function __construct() {
 
   }
-
 
   /**
    * @BeforeSuite
@@ -302,7 +300,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
       throw new \Exception(sprintf('No image had no src="..." attribute in the "%s" region on the page %s', $region, $this->getSession()->getCurrentUrl()));
     }
   }
-
 
   /**
    * @Then /^I should see the image alt "(?P<text>(?:[^"]|\\")*)" in the "(?P<region>[^"]*)" region$/
