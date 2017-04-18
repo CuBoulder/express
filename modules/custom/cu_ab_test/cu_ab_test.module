@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Code for the CU A/B Test feature.
@@ -9,9 +10,11 @@ include_once 'cu_ab_test.features.inc';
 /**
  * Implements hook_secure_permissions().
  *
- * @param $role
+ * @param string $role
+ *   The user role being checked for permissions.
  *
- * @return mixed
+ * @return array mixed
+ *   An array of granted permissions for a specific user role.
  */
 function cu_ab_test_secure_permissions($role) {
   $permissions = array(
@@ -57,7 +60,8 @@ function cu_ab_test_secure_permissions($role) {
 /**
  * Implements hook_page_build().
  *
- * @param $vars
+ * @param array $vars
+ *   A whole slew of things that make up a render array for generating an A/B block.
  */
 function cu_ab_test_preprocess_entity(&$vars) {
   if ($vars['elements']['#entity_type'] === 'bean' && $vars['elements']['#bundle'] === 'a_b_block') {
@@ -99,9 +103,12 @@ function cu_ab_test_preprocess_entity(&$vars) {
  *
  * Hides the counter field on forms.
  *
- * @param $form
- * @param $form_state
- * @param $form_id
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   An array with values of the current state of the form.
+ * @param string $form_id
+ *   The ID of the form that is currently loaded.
  */
 function cu_ab_test_form_alter(&$form, &$form_state, $form_id) {
   if ($form['#entity_type'] === 'bean' && $form['#bundle'] === 'a_b_block') {
@@ -126,8 +133,10 @@ function cu_ab_test_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Validation handler to ensure percentages entered for options add up to 100.
  *
- * @param $form
- * @param $form_state
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   An array with values of the current state of the form.
  */
 function cu_ab_test_validate_percentages($form, &$form_state) {
 
