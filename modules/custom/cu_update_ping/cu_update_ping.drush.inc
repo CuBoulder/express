@@ -8,10 +8,10 @@
 /**
  * Implements hook_drush_command().
  *
- * @return array $items
+ * @return array
  *   An associative array describing your command(s).
  *
- * @see drush_parse_command().
+ * @see drush_parse_command()
  */
 function cu_update_ping_drush_command() {
   $items = array();
