@@ -36,17 +36,16 @@ function _express_dashboard_lock_users() {
  */
 function express_dashboard_lock_admin_form($form, &$form_state) {
   global $user;
+  $users_list = implode(',', variable_get('lock_allow_users'));
+  /*
   $form['instructions'] = array(
     '#type' => 'markup',
     '#title' => t('Lock instructions'),
     '#markup' => t('
-      <p>This form allows you to lock users from making changes to the site. Users will still be able to log in, but 
-       certain pages and forms will be disabled for them. They will not be able to add or edit content and will see the
-       message you set below when they try to access a page or form that has been locked.</p>
-       <p>It\'s recommended to leave contact information in the message below so that users can contact you about the 
-       site.</p>
+       <p>This form allows you to lock users from making changes to the site.</p>
     ')
   );
+  */
   $form['lock_by_role'] = array(
     '#type' => 'checkboxes',
     '#multiple' => TRUE,
@@ -65,8 +64,8 @@ function express_dashboard_lock_admin_form($form, &$form_state) {
     '#type' => 'textfield',
     '#multiple' => TRUE,
     '#title' => t('Allow specific users to be exempt from their role\'s lock'),
-    '#default_value' => variable_get('lock_allow_users'),
-    '#description' => t('Separate usernames with spaces only. For example, "user1 user2 user3".'),
+    '#default_value' => $users_list,
+    '#description' => t('Separate usernames with commas. For example, "user1, user2, user3".'),
   );
   $form['lock_leave_message'] = array(
     '#type' => 'textarea',
@@ -89,6 +88,13 @@ function express_dashboard_lock_admin_form_submit($form, &$form_state) {
   global $user;
   // Exclude unnecessary elements.
   form_state_values_clean($form_state);
+  $allowed_users = explode(',', $form_state['values']['lock_allow_users']);
+
+  foreach ($allowed_users as $user) {
+    trim($user);
+  }
+
+  $form_state['values']['lock_allow_users'] = $allowed_users;
 
   foreach ($form_state['values'] as $key => $value) {
     if (is_array($value) && isset($form_state['values']['array_filter'])) {
@@ -97,13 +103,8 @@ function express_dashboard_lock_admin_form_submit($form, &$form_state) {
     variable_set($key, $value);
   }
 
-  $dont_lock_yourself_out_when_submitting = $form_state['values']['lock_allow_users'];
-  $dont_lock_yourself_out_when_submitting .= t(' ') . $user->name;
-
-  $allowed_users = explode(' ', variable_get('lock_allow_users'));
-
   if (!in_array($user->name, $allowed_users)) {
-    variable_set('lock_allow_users', $dont_lock_yourself_out_when_submitting);
+    drupal_set_message(t('You just locked yourself out. Goodbye.'));
   }
 
   drupal_set_message(t('Lock has been enabled.'));
@@ -147,7 +148,7 @@ function express_dashboard_lock_secure_permissions($role) {
  */
 function _lock_allow_users_check($username) {
   $output = FALSE;
-  $allowed_users = explode(' ', variable_get('lock_allow_users'));
+  $allowed_users = variable_get('lock_allow_users');
 
   if (in_array($username, $allowed_users)) {
     $output = TRUE;
@@ -164,7 +165,7 @@ function _lock_by_role_check() {
   $user_roles = variable_get('lock_by_role');
 
   foreach (array_keys($user->roles) as $rid) {
-    if (in_array($rid, $user_roles)) {
+    if (isset($user_roles) && in_array($rid, $user_roles)) {
       $output = TRUE;
     }
   }
