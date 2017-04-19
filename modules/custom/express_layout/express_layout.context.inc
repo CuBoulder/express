@@ -7,10 +7,17 @@
 /**
  * Context condition for entity layouts.
  */
-class express_layout_layout_context_condition extends context_condition_node {
+class ExpressLayoutLayoutContextCondition extends context_condition_node {
+  /**
+   * Get the form options.
+   */
   function condition_values() {
     return _express_layout_form_options();
   }
+
+  /**
+   * Get the reactions.
+   */
   function execute($node, $op) {
     $layout = entity_load_single('express_layout', $node->nid);
     foreach ($this->get_contexts($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value']) as $context) {
@@ -110,8 +117,8 @@ function express_layout_context_default_contexts() {
   );
   $context->condition_mode = 0;
 
-// Translatables
-// Included for use with string extractors like potx.
+  // Translatables
+  // Included for use with string extractors like potx.
   t('Places blocks on a page according to Express Layout settings');
 
   $export['express_layout_blocks'] = $context;

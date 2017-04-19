@@ -4,22 +4,26 @@
  * @file
  * Holds admin forms and functionality for the layout entity
  */
+
+/**
+ * Form for creating and modifying a Layout.
+ */
 function express_layout_form($form, &$form_state, $op = 'edit', $express_layout = NULL) {
 
-  // Set title of page
+  // Set title of page.
   drupal_set_title('Edit Layout');
 
   $form = array();
 
-  // Add region layout diagram
+  // Add region layout diagram.
   $form['region_layout']['#weight'] = 0;
   $form['region_layout']['#markup'] = _express_layout_region_diagram();
 
-  // Load layout entity and attach fields to it
+  // Load layout entity and attach fields to it.
   $express_layout = entity_load_single('express_layout', arg(1));
   field_attach_form('express_layout', $express_layout, $form, $form_state);
 
-  // Hide regions if they aren't allowed to be included by the settings form
+  // Hide regions if they aren't allowed to be included by the settings form.
   if ($express_layout) {
     $form_state['#express_layout_node_type'] = $express_layout->node_type;
     $settings = variable_get('express_layout_settings_' . $express_layout->node_type, NULL);
@@ -30,24 +34,24 @@ function express_layout_form($form, &$form_state, $op = 'edit', $express_layout 
     }
   }
 
-  // Get layout field title
+  // Get layout field title.
   $layout_field_title = $form['field_feature_layout_toggle'][LANGUAGE_NONE]['#title'];
-  // Unset field title
+  // Unset field title.
   unset($form['field_feature_layout_toggle'][LANGUAGE_NONE]['#title']);
 
-  // Add fieldset and title
+  // Add fieldset and title.
   $form['field_feature_layout_toggle']["#prefix"] = "<fieldset class=\"form-wrapper\"><legend><span class=\"fieldset-legend\">$layout_field_title</span></legend><div class=\"fieldset-wrapper\">";
-  // Close fieldset
+  // Close fieldset.
   $form['field_feature_layout_toggle']["#suffix"] = '</div></fieldset>';
 
-  // Get feature image field title
+  // Get feature image field title.
   $layout_field_image = $form['field_feature_title_image'][LANGUAGE_NONE][0]['#title'];
-  // Unset field title
+  // Unset field title.
   unset($form['field_feature_title_image'][LANGUAGE_NONE][0]['#title']);
 
-  // Add fieldset and title
+  // Add fieldset and title.
   $form['field_feature_title_image']["#prefix"] = "<fieldset class=\"form-wrapper\"><legend><span class=\"fieldset-legend\">$layout_field_image</span></legend><div class=\"fieldset-wrapper\">";
-  // Close fieldset
+  // Close fieldset.
   $form['field_feature_title_image']["#suffix"] = '</div></fieldset>';
 
   $form['actions'] = array(
@@ -62,13 +66,14 @@ function express_layout_form($form, &$form_state, $op = 'edit', $express_layout 
 }
 
 /**
- * Validate fonction for express_layout_form.
+ * Validate function for express_layout_form.
+ *
  * Add #access alters from original form on validation.
  */
 function _express_layout_validate($form, &$form_state) {
-  // Load layout enity
+  // Load layout entity.
 
-  // Hide regions if they aren't allowed to be included by the settings form
+  // Hide regions if they aren't allowed to be included by the settings form.
   $type = $form_state['#express_layout_node_type'];
   $settings = variable_get('express_layout_settings_' . $type, NULL);
   foreach ($settings as $key => $setting) {
@@ -76,16 +81,15 @@ function _express_layout_validate($form, &$form_state) {
       $form_state['complete form'][$key]['#access'] = FALSE;
     }
   }
-
-
 }
+
 /**
- * Submit handler for Express Layout form
+ * Submit handler for Express Layout form.
  */
 function express_layout_form_submit($form, &$form_state) {
 
-  // Loading layout entity again since IEF resets the form values
-  // @todo Figure out the proper controller to not have to reload layout
+  // Loading layout entity again since IEF resets the form values.
+  // @todo Figure out the proper controller to not have to reload layout.
   $express_layout = entity_load_single('express_layout', arg(1));
 
   // Make a new layout entity if node doesn't have one already.
@@ -109,7 +113,7 @@ function express_layout_form_submit($form, &$form_state) {
   $form_state['redirect'] = 'node/' . arg(1);
 
   if (module_exists('varnish')) {
-    // Purge this node's path to reflect layout changes
+    // Purge this node's path to reflect layout changes.
     $path = base_path() . drupal_get_path_alias('node/' . arg(1));
     $host = _varnish_get_host();
     varnish_purge($host, $path);
@@ -138,10 +142,10 @@ function express_layout_settings_form($form, &$form_state) {
   $types = node_type_get_types();
   ksort($types);
 
-  // Build region fields for each content type
+  // Build region fields for each content type.
   foreach ($types as $key => $type) {
-    // Get default settings for node type
-    $default = variable_get('express_layout_settings_' . $key,'');
+    // Get default settings for node type.
+    $default = variable_get('express_layout_settings_' . $key, '');
     $type_key = 'layout-regions-' . $key;
     $form[$type_key . '-available'] = array(
       '#type' => 'fieldset',
@@ -163,12 +167,12 @@ function express_layout_settings_form($form, &$form_state) {
  * Submit function for express_layout_settings_form.
  */
 function express_layout_settings_form_submit($form, &$form_state) {
-  // Save regions of node types
+  // Save regions of node types.
   foreach ($form_state['values'] as $key => $value) {
     if (is_array($value)) {
-      // Save settings for each content type
+      // Save settings for each content type.
       variable_set('express_layout_settings_' . $key, $value);
-      // Save node types that have > 0 regions
+      // Save node types that have > 0 regions.
       foreach ($value as $field) {
         if ($field) {
           variable_set('express_layout_type_' . $key, $key);
@@ -188,7 +192,7 @@ function express_layout_attach_layouts_form($form, &$form_state) {
   $form['description'] = array(
     '#markup' => '<p>By clicking the button below, you\'ll add a layout entity to each node that doesn\'t have one yet.</p>',
   );
-  $form['submit'] = array('#type' => 'submit', '#value' => t(' Attach Layouts to Nodes'));
+  $form['submit'] = array('#type' => 'submit', '#value' => t('Attach Layouts to Nodes'));
   $form['#submit'][] = 'express_attach_layouts';
   return $form;
 }
@@ -196,7 +200,7 @@ function express_layout_attach_layouts_form($form, &$form_state) {
  * Submit function for express_layout_attach_layouts_form.
  */
 function express_attach_layouts() {
-  // Make sure all nodes have layout entities
+  // Make sure all nodes have layout entities.
   $nodes = entity_load('node');
   foreach ($nodes as $node) {
     express_layout_create_layout($node);
@@ -215,8 +219,8 @@ function express_attach_layouts() {
     foreach ($result as $record) {
       $record->entity_type = 'express_layout';
       $record->bundle = 'express_layout';
-      //$record->revision_id = $record->entity_id;
-      drupal_write_record ($data_field, $record);
+      // $record->revision_id = $record->entity_id;
+      drupal_write_record($data_field, $record);
       drupal_set_message('Layout reference migrated');
     }
     $revision_field = 'field_revision_' . $key;
@@ -224,8 +228,8 @@ function express_attach_layouts() {
     foreach ($result as $record) {
       $record->entity_type = 'express_layout';
       $record->bundle = 'express_layout';
-      //$record->revision_id = $record->entity_id;
-      drupal_write_record ($revision_field, $record);
+      // $record->revision_id = $record->entity_id;
+      drupal_write_record($revision_field, $record);
       drupal_set_message('Layout reference revision migrated');
     }
   }
