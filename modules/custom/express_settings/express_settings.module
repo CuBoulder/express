@@ -352,7 +352,7 @@ function express_settings_cache_form($form, &$form_state) {
     $form['drupal']['clear_drupal_cache'] = array(
       '#type' => 'submit',
       '#value' => t('Clear full Drupal cache'),
-      '#submit' => array('express_clear_drupal_cache_submit'),
+      '#submit' => array('express_settings_clear_drupal_cache_submit'),
       '#attributes' => array('class' => array('btn-warning')),
     );
   } else {
@@ -375,7 +375,7 @@ function express_settings_cache_form($form, &$form_state) {
   $form['varnish']['page']['clear_varnish_path_cache'] = array(
     '#type' => 'submit',
     '#value' => t('Clear path from Varnish cache'),
-    '#submit' => array('express_clear_varnish_path_cache_submit'),
+    '#submit' => array('express_settings_clear_varnish_path_cache_submit'),
     '#attributes' => array('class' => array('btn-warning')),
   );
   $form['varnish']['full'] = array(
@@ -388,7 +388,7 @@ function express_settings_cache_form($form, &$form_state) {
     $form['varnish']['full']['clear_varnish_cache'] = array(
       '#type' => 'submit',
       '#value' => t('Clear full Varnish cache'),
-      '#submit' => array('express_clear_varnish_path_cache_submit'),
+      '#submit' => array('express_settings_clear_varnish_path_cache_submit'),
       '#attributes' => array('class' => array('btn-warning')),
     );
   } else {
@@ -402,7 +402,7 @@ function express_settings_cache_form($form, &$form_state) {
  *
  * @ingroup forms
  */
-function express_clear_drupal_cache_submit($form, &$form_state) {
+function express_settings_clear_drupal_cache_submit($form, &$form_state) {
   variable_set('cache_drupal_last', REQUEST_TIME);
   drupal_flush_all_caches();
   drupal_set_message(t('Drupal cache cleared.'));
@@ -413,7 +413,7 @@ function express_clear_drupal_cache_submit($form, &$form_state) {
  *
  * @ingroup forms
  */
-function express_clear_varnish_cache_submit($form, &$form_state) {
+function express_settings_clear_varnish_cache_submit($form, &$form_state) {
   variable_set('cache_varnish_last', REQUEST_TIME);
   varnish_purge_all_pages();
   drupal_set_message(t('Varnish cache cleared.'));
@@ -424,7 +424,7 @@ function express_clear_varnish_cache_submit($form, &$form_state) {
  *
  * @ingroup forms
  */
-function express_clear_varnish_path_cache_submit($form, &$form_state) {
+function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
   variable_set('cache_varnish_last', REQUEST_TIME);
   // Check to see if they included parts of base path
   $path = $form['varnish']['page']['clear_varnish_path_cache_path']['#value'];
