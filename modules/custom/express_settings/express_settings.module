@@ -426,26 +426,45 @@ function express_settings_clear_varnish_cache_submit($form, &$form_state) {
  */
 function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
   variable_set('cache_varnish_last', REQUEST_TIME);
-  // Check to see if they included parts of base path
-  $path = $form['varnish']['page']['clear_varnish_path_cache_path']['#value'];
-  // In case scheme relative URI is passed in.
-  $path = trim($path, '/');
-  // Remove trailing slash
-  $path = rtrim($path, '/');
-  // If scheme not included, prepend it.
-  if (!preg_match('#^http(s)?://#', $path)) {
-    $path = 'http://' . $path;
+  // Check to see if they included parts of base path and clean up the URL.
+  // If a path was not passed, the submit came from a node/edit form and we can look up the appropriate path.
+  if (array_key_exists('varnish', $form)) {
+    $path = $form['varnish']['page']['clear_varnish_path_cache_path']['#value'];
+    // In case scheme relative URI is passed in.
+    $path = trim($path, '/');
+    // Remove trailing slash
+    $path = rtrim($path, '/');
+    // If scheme not included, prepend it.
+    if (!preg_match('#^http(s)?://#', $path)) {
+      $path = 'http://' . $path;
+    }
+    $urlParts = parse_url($path);
+    $path = $urlParts['path'];
+    // Remove base path.
+    // TODO: test with complex base path.
+    if (substr($path, 0, strlen(base_path())) == base_path()) {
+      $path = substr($path, strlen(base_path()));
+    }
   }
-  $urlParts = parse_url($path);
-  $path = $urlParts['path'];
-  // Remove base path.
-  // TODO: test with complex base path.
-  if (substr($path, 0, strlen(base_path())) == base_path()) {
-    $path = substr($path, strlen(base_path()));
+  else {
+    $path = drupal_get_path_alias('node/' . $form['nid']['#value']);
   }
   // Cast form value as an array.
   varnish_expire_cache((array) $path);
   drupal_set_message(t('URL cleared from Varnish cache.'));
+}
+
+/**
+ * Form alter to add Varnish clear buttons to all node/edit forms.
+ */
+function express_settings_form_node_form_alter(&$form, &$form_state, $form_id) {
+  $form['actions']['clear_varnish_path_cache'] = array(
+    '#type' => 'submit',
+    '#value' => t('Clear from Varnish cache'),
+    '#weight' => 9999,
+    '#submit' => array('express_settings_clear_varnish_path_cache_submit'),
+    '#attributes' => array('class' => array('btn-warning')),
+  );
 }
 
 /**
