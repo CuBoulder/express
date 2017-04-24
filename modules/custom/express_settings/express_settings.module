@@ -425,25 +425,27 @@ function express_settings_clear_varnish_cache_submit($form, &$form_state) {
  * @ingroup forms
  */
 function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
-  variable_set('cache_varnish_last', REQUEST_TIME);
   // Check to see if they included parts of base path and clean up the URL.
   // If a path was not passed, the submit came from a node/edit form and we can look up the appropriate path.
-  if (array_key_exists('varnish', $form)) {
-    $path = $form['varnish']['page']['clear_varnish_path_cache_path']['#value'];
+  if (array_key_exists('clear_varnish_path_cache_path', $form_state['values'])) {
+    $path = $form_state['values']['clear_varnish_path_cache_path'];
     // In case scheme relative URI is passed in.
     $path = trim($path, '/');
     // Remove trailing slash
     $path = rtrim($path, '/');
-    // If scheme not included, prepend it.
-    if (!preg_match('#^http(s)?://#', $path)) {
-      $path = 'http://' . $path;
-    }
-    $urlParts = parse_url($path);
-    $path = $urlParts['path'];
-    // Remove base path.
-    // TODO: test with complex base path.
-    if (substr($path, 0, strlen(base_path())) == base_path()) {
-      $path = substr($path, strlen(base_path()));
+    // Check if $path contains the base path.
+    if (strpos($path, base_path()) !== false) {
+      // If scheme not included, prepend it.
+      if (!preg_match('#^http(s)?://#', $path)) {
+        $path = 'http://' . $path;
+      }
+      $urlParts = parse_url($path);
+      $path = $urlParts['path'];
+      // Remove base path.
+      // TODO: test with complex base path.
+      if (substr($path, 0, strlen(base_path())) == base_path()) {
+        $path = substr($path, strlen(base_path()));
+      }
     }
   }
   else {
