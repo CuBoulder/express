@@ -44,7 +44,7 @@ function atlas_statistics_drush_help($section) {
 function drush_atlas_statistics()
 {
   $atlas_id = variable_get('atlas_id', NULL);
-  $site_array = atlas_api_request('sites', $atlas_id);
+  $site_array = atlas_api_request('instance', $atlas_id);
   $statistics_id = $site_array['statistics'];
   $statistics_array = atlas_api_request('statistics', $statistics_id);
 

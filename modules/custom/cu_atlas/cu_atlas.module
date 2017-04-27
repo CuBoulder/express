@@ -19,11 +19,11 @@ function cu_atlas_form_user_external_invite_form_alter(&$form, &$form_state, $fo
  */
 function cu_atlas_form_user_external_invite_form_validate($form, &$form_state) {
   $atlas_id = variable_get('atlas_id', FALSE);
-  $site_array = atlas_api_request('sites', $atlas_id);
+  $site_array = atlas_api_request('instance', $atlas_id);
   if ($site_array && $site_array['status'] == 'available') {
     $site_data = $site_array;
     $site_data['status'] = 'installing';
-    atlas_api_request('sites', $atlas_id, 'PATCH', $site_data);
+    atlas_api_request('instance', $atlas_id, 'PATCH', $site_data);
     drupal_set_message('Site status updated to Installing');
   }
 }

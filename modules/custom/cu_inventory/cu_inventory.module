@@ -73,7 +73,7 @@ function cu_inventory_admin_settings() {
     '#type' => 'textfield',
     '#title' => t('Path'),
     '#default_value' => $site_array['path'],
-    '#description' => t('Sites cannot be launched without a path.  Path cannot be changes once the site has launched.'),
+    '#description' => t('Instances cannot be launched without a path. Path cannot be changes once the instance has launched.'),
   );
 
   if ($site_array['status'] == 'launched' || $site_array['status'] == 'launching') {
@@ -412,7 +412,7 @@ function cu_inventory_update_site($site_data) {
     if (!isset($site_data['_etag'])) {
       $site_data['_etag'] = $site_array['_etag'];
     }
-    return cu_inventory_request('sites', $site_data['_id'], 'PATCH', $site_data);
+    return cu_inventory_request('instance', $site_data['_id'], 'PATCH', $site_data);
   }
 
   return FALSE;
@@ -486,7 +486,7 @@ function cu_inventory_request($resource, $query = NULL, $method = 'GET', $data =
     // site array should have the most recent etag. If not, try updating the
     // _etag and resubmitting the data.
     $cu_sid = variable_get('cu_sid', FALSE);
-    $site_array = cu_inventory_request('sites', $cu_sid);
+    $site_array = cu_inventory_request('instance', $cu_sid);
 
     // Confirm path, status, sid are still in sync with the cache.
     if (isset($options['data']['path']) != $site_array['path']) {
@@ -623,7 +623,7 @@ function cu_inventory_get_site($cu_sid = FALSE, $use_cache = TRUE) {
   // If we aren't using the cache or it hasn't been set go get the site_array
   // and set the cache if valid.
   if (!$site_array) {
-    $site_array = cu_inventory_request('sites', $cu_sid);
+    $site_array = cu_inventory_request('instance', $cu_sid);
   }
 
   if (cu_inventory_validate_site($site_array)) {

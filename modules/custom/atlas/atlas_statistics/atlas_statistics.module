@@ -18,7 +18,7 @@ function atlas_statistics_cron() {
       // Switch so that we can easily stop the processing.
       if (variable_get('atlas_statistics_site_cron', TRUE)) {
         $atlas_id = variable_get('atlas_id', NULL);
-        $site_array = atlas_api_request('sites', $atlas_id);
+        $site_array = atlas_api_request('instance', $atlas_id);
         $statistics_id = $site_array['statistics'];
         $statistics_array = atlas_api_request('statistics', $statistics_id);
 
@@ -66,7 +66,7 @@ function atlas_statistics() {
 
   // We need to know the 'statistics_id'.
   $atlas_id = variable_get('atlas_id', NULL);
-  $site_array = atlas_api_request('sites', $atlas_id);
+  $site_array = atlas_api_request('instance', $atlas_id);
   $statistics_id = $site_array['statistics'];
   $statistics_array = atlas_api_request('statistics', $statistics_id);
 
@@ -108,7 +108,7 @@ function atlas_statistics() {
  */
 function atlas_statistics_submit($form, &$form_state) {
   $atlas_id = variable_get('atlas_id', NULL);
-  $site_array = atlas_api_request('sites', $atlas_id);
+  $site_array = atlas_api_request('instance', $atlas_id);
   $statistics_id = $site_array['statistics'];
 
   module_load_include('inc', 'atlas_statistics');

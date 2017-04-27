@@ -48,7 +48,7 @@ function atlas_admin_settings() {
     return;
   }
 
-  $site_array = atlas_api_request('sites', $atlas_id);
+  $site_array = atlas_api_request('instance', $atlas_id);
 
   // Options are limited based on permissions.
   $status_options = array(
@@ -133,10 +133,10 @@ function atlas_admin_settings() {
 
   // Set the options and description. Override if status is not 'Launched'.
   $update_group_options = range(0, 14);
-  $update_group_description = 'Groups 0-10 are considered "normal" and can be arbitrarily reassigned. Groups 11-14 should only be used for sites that need special attention.';
+  $update_group_description = 'Groups 0-10 are considered "normal" and can be arbitrarily reassigned. Groups 11-14 should only be used for instances that need special attention.';
   if($site_array['status'] != 'launched'){
     $update_group_options = range(0, 2);
-    $update_group_description = 'Installed sites can be put into groups 0-2. These groups can be arbitrarily reassigned.';
+    $update_group_description = 'Installed instances can be put into groups 0-2. These groups can be arbitrarily reassigned.';
   }
   $active_update_group = $site_array['update_group'];
 
@@ -180,7 +180,7 @@ function atlas_admin_settings() {
  */
 function validate_atlas_admin_settings($form, &$form_state) {
   $atlas_id = variable_get('atlas_id', FALSE);
-  $site_array = atlas_api_request('sites', $atlas_id);
+  $site_array = atlas_api_request('instance', $atlas_id);
   if ($form['atlas_path']['#value'] == $site_array['sid'] && $site_array['pool'] != 'poolb-homepage' && ($form['atlas_status']['#value'] == 'launching' || $form['atlas_status']['#value'] == 'launched')) {
     form_set_error('atlas_path', t('You cannot launch a site at it\'s \'p1\' URL.'));
   }
@@ -194,7 +194,7 @@ function validate_atlas_admin_settings($form, &$form_state) {
  */
 function atlas_admin_settings_submit($form, &$form_state) {
   $atlas_id = variable_get('atlas_id', NULL);
-  $site_array = atlas_api_request('sites', $atlas_id);
+  $site_array = atlas_api_request('instance', $atlas_id);
 
   // Setup empty array for data that is changing.
   $request_data = array();
@@ -237,7 +237,7 @@ function atlas_admin_settings_submit($form, &$form_state) {
   if (!empty($request_data)) {
     // Set the etag from the form.
     $request_data['_etag'] = $form_state['values']['atlas_etag'];
-    atlas_api_request('sites', $atlas_id, 'PATCH', $request_data);
+    atlas_api_request('instance', $atlas_id, 'PATCH', $request_data);
   }
   else {
     drupal_set_message(t('No data was changed.'), 'warning');
@@ -261,7 +261,7 @@ function atlas_process_core_schema_version($version) {
   $atlas_id = variable_get('atlas_id', FALSE);
 
 
-  $site_array = atlas_api_request('sites', $atlas_id);
+  $site_array = atlas_api_request('instance', $atlas_id);
   $statistics_id = $site_array['statistics'];
   $statistics_array = atlas_api_request('statistics', $statistics_id);
   $request_data['_etag'] = $statistics_array['_etag'];
