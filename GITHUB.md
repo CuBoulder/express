@@ -22,39 +22,39 @@ Before an Epic is assigned to a sprint and any work is done, the [needs:Director
 
 ### [needs:Review Accessibility Impact](https://github.com/CuBoulder/express/labels/needs%3AReview%20Accessibility%20Impact)
 
-[ADD LINK TO WHO CAN DO THIS AND HOW IT IS DONE]
+Everyone [ADD LINK TO WHO CAN DO THIS AND HOW IT IS DONE]
 
 ### needs:Review Automated Testing Needs
 
-[ADD LINK TO WHO CAN DO THIS AND HOW IT IS DONE]
+Alex and James - [ADD LINK TO WHO CAN DO THIS AND HOW IT IS DONE]
 
-### needs:Review D8 Upgrade Path
+### [needs:Review D8 Upgrade Path](https://github.com/CuBoulder/express/labels/needs%3AReview%20D8%20Upgrade)
 
-[ADD LINK TO WHO CAN DO THIS AND HOW IT IS DONE]
+Kevin R and Owen - As on ??/??/2017, all new features added to the Express install must have an upgrade path to D8.  Anyone on the development can do this review.
 
 ### needs:Review Documentation Needs
 
-[ADD LINK TO WHO CAN DO THIS AND HOW IT IS DONE]
+Emily [ADD LINK TO WHO CAN DO THIS AND HOW IT IS DONE]
 
 ### needs:Review Impact on Performance
 
-[ADD LINK TO WHO CAN DO THIS AND HOW IT IS DONE]
+James [ADD LINK TO WHO CAN DO THIS AND HOW IT IS DONE]
 
 ### needs:Review Impact on Security
 
-[ADD LINK TO WHO CAN DO THIS AND HOW IT IS DONE]
+Kevin R and James [ADD LINK TO WHO CAN DO THIS AND HOW IT IS DONE]
 
 ### needs:Review Impact on Support
 
-[ADD LINK TO WHO CAN DO THIS AND HOW IT IS DONE]
+Emily and Cathy [ADD LINK TO WHO CAN DO THIS AND HOW IT IS DONE]
 
 ### needs:Review Impact on Usability
 
-[ADD LINK TO WHO CAN DO THIS AND HOW IT IS DONE]
+Kevin Crafts [ADD LINK TO WHO CAN DO THIS AND HOW IT IS DONE]
 
 ## improvements:
 
-These tags are mainly for reporting.
+These tags are mainly for reporting the number of tasks that contributed to an improvements vs. bugs.  If you are unsure of which type of improvemnt, use the general improvement tags. 
 
 
 
