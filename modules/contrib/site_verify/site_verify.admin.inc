@@ -126,28 +126,31 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
         '#maxlength' => NULL,
       );
 
-      $form['file_upload'] = array(
-        '#type' => 'file',
-        '#title' => t('Upload an existing verification file'),
-        '#description' => t('If you have been provided with an actual file, you can simply upload the file.'),
-        '#access' => $record['engine']['file'],
-      );
-      $form['file'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Verification file'),
-        '#default_value' => $record['file'],
-        '#description' => t('The name of the HTML verification file you were asked to upload.'),
-        '#element_validate' => $record['engine']['file_validate'],
-        '#access' => $record['engine']['file'],
-      );
-      $form['file_contents'] = array(
-        '#type' => 'textarea',
-        '#title' => t('Verification file contents'),
-        '#default_value' => $record['file_contents'],
-        '#element_validate' => $record['engine']['file_contents_validate'],
-        '#wysiwyg' => FALSE,
-        '#access' => $record['engine']['file_contents'],
-      );
+      if (user_access('administer site verify uploads')) {
+        $form['file_upload'] = array(
+          '#type' => 'file',
+          '#title' => t('Upload an existing verification file'),
+          '#description' => t('If you have been provided with an actual file, you can simply upload the file.'),
+          '#access' => $record['engine']['file'],
+        );
+        $form['file'] = array(
+          '#type' => 'textfield',
+          '#title' => t('Verification file'),
+          '#default_value' => $record['file'],
+          '#description' => t('The name of the HTML verification file you were asked to upload.'),
+          '#element_validate' => $record['engine']['file_validate'],
+          '#access' => $record['engine']['file'],
+        );
+        $form['file_contents'] = array(
+          '#type' => 'textarea',
+          '#title' => t('Verification file contents'),
+          '#default_value' => $record['file_contents'],
+          '#element_validate' => $record['engine']['file_contents_validate'],
+          '#wysiwyg' => FALSE,
+          '#access' => $record['engine']['file_contents'],
+        );
+      }
+
       // Add a warning message if Clean URLs is not available.
       if (!variable_get('clean_url', 0)) {
         drupal_set_message(t('Using verification files will not work if <a href="@clean-urls">clean URLs</a> are disabled.', array('@clean-urls' => url('admin/settings/clean-url'))), 'error', FALSE);
