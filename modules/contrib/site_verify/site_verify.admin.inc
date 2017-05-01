@@ -116,6 +116,7 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
       );
       $form['#engine'] = $record['engine'];
 
+      //@TODO: sanitize this input
       $form['meta'] = array(
         '#type' => 'textfield',
         '#title' => t('Verification META tag'),
@@ -126,6 +127,7 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
         '#maxlength' => NULL,
       );
 
+      //@TODO: display errror or lock form if upload exists, but user doesn't have perm
       if (user_access('administer site verify uploads')) {
         $form['file_upload'] = array(
           '#type' => 'file',
@@ -159,8 +161,9 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
         $form['file_upload']['#disabled'] = TRUE;
       }
 
+      //@TODO: $record['engine']['file'] is always TRUE
       if ($record['engine']['file']) {
-        $form['#validate'][] = 'site_verify_validate_file';
+        $form['#validate'][] = 'site_verify_validate';
         $form['#attributes'] = array('enctype' => 'multipart/form-data');
       }
 
@@ -183,11 +186,49 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
 }
 
 /**
- * Validation callback; save the uploaded file and check file name uniqueness.
+ * Validation callback; sanitize metatag and save the uploaded file
+ */
+function site_verify_validate($form, &$form_state) {
+  if (isset($form_state['values']['meta']) && $form_state['values']['meta']) {
+    site_verify_sanitize_metatag($form, &$form_state);
+  }
+
+  if (isset($form_state['values']['file']) && $form_state['values']['file']) {
+    site_verify_validate_file($form, &$form_state);
+  } else {
+    $form_state['values']['file_contents'] = NULL;
+  }
+
+}
+
+/**
+ * Sanitize metatag input
+ */
+function site_verify_sanitize_metatag($form, &$form_state) {
+  $valid_metatag_set = FALSE;
+
+  $html = $form_state['values']['meta'];
+  $dom = new DOMDocument;
+  $dom->loadHTML($html);
+  //@TODO: If we only care about the first metatag... why foreach?  why not [0]?
+  foreach ($dom->getElementsByTagName('meta') as $tag) {
+    if ($tag->getAttribute('name') && $tag->getAttribute('content')) {
+      $form_state['values']['meta'] = '<meta name="' . $tag->getAttribute('name') . '" content="' . $tag->getAttribute('content') . '" />';
+      $valid_metatag_set = TRUE;
+    }
+  }
+
+  if (!$valid_metatag_set) {
+    form_set_error('meta', t('A valid metatag was not found'));
+  }
+}
+
+
+/**
+ * Save the uploaded file and check file name uniqueness.
  */
 function site_verify_validate_file($form, &$form_state) {
   $values = &$form_state['values'];
-
   // Import the uploaded verification file.
   $validators = array('file_validate_extensions' => array());
   if ($file = file_save_upload('file_upload', $validators, FALSE, FILE_EXISTS_REPLACE)) {
