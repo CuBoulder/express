@@ -116,7 +116,6 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
       );
       $form['#engine'] = $record['engine'];
 
-      //@TODO: sanitize this input
       $form['meta'] = array(
         '#type' => 'textfield',
         '#title' => t('Verification META tag'),
