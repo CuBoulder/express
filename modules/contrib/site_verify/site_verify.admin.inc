@@ -162,7 +162,6 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
 
       //@TODO: $record['engine']['file'] is always TRUE
       if ($record['engine']['file']) {
-        $form['#validate'][] = 'site_verify_validate';
         $form['#attributes'] = array('enctype' => 'multipart/form-data');
       }
 
@@ -187,70 +186,59 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
 /**
  * Validation callback; sanitize metatag and save the uploaded file
  */
-function site_verify_validate($form, &$form_state) {
-  if (isset($form_state['values']['meta']) && $form_state['values']['meta']) {
-    site_verify_sanitize_metatag($form, &$form_state);
-  }
+function site_verify_edit_form_validate($form, &$form_state) {
+  if ($form_state['storage']['step']) {
+    // validate metatag
+    if (isset($form_state['values']['meta']) && $form_state['values']['meta']) {
+      $valid_metatag_set = FALSE;
 
-  if (isset($form_state['values']['file']) && $form_state['values']['file']) {
-    site_verify_validate_file($form, &$form_state);
-  } else {
-    $form_state['values']['file_contents'] = NULL;
-  }
+      $html = $form_state['values']['meta'];
+      $dom = new DOMDocument;
+      $dom->loadHTML($html);
+      //@TODO: If we only care about the first metatag... why foreach?  why not [0]?
+      foreach ($dom->getElementsByTagName('meta') as $tag) {
+        if ($tag->getAttribute('name') && $tag->getAttribute('content')) {
+          $form_state['values']['meta'] = '<meta name="' . $tag->getAttribute('name') . '" content="' . $tag->getAttribute('content') . '" />';
+          $valid_metatag_set = TRUE;
+        }
+      }
 
-}
+      if (!$valid_metatag_set) {
+        form_set_error('meta', t('A valid metatag was not found'));
+      }
+    }
 
-/**
- * Sanitize metatag input
- */
-function site_verify_sanitize_metatag($form, &$form_state) {
-  $valid_metatag_set = FALSE;
+    //
+    if (isset($form_state['values']['file']) && $form_state['values']['file']) {
+      $values = &$form_state['values'];
+      // Import the uploaded verification file.
+      $validators = array('file_validate_extensions' => array());
+      if ($file = file_save_upload('file_upload', $validators, FALSE, FILE_EXISTS_REPLACE)) {
+        $contents = @file_get_contents($file->uri);
+        file_delete($file);
+        if ($contents === FALSE) {
+          drupal_set_message(t('The verification file import failed, because the file %filename could not be read.', array('%filename' => $file->filename)), 'error');
+        }
+        else {
+          $values['file'] = $file->filename;
+          $values['file_contents'] = $contents;
+          //drupal_set_message(t('The verification file <a href="@filename">@filename</a> was successfully imported.', array('@filename' => $file->filename)));
+        }
+      }
 
-  $html = $form_state['values']['meta'];
-  $dom = new DOMDocument;
-  $dom->loadHTML($html);
-  //@TODO: If we only care about the first metatag... why foreach?  why not [0]?
-  foreach ($dom->getElementsByTagName('meta') as $tag) {
-    if ($tag->getAttribute('name') && $tag->getAttribute('content')) {
-      $form_state['values']['meta'] = '<meta name="' . $tag->getAttribute('name') . '" content="' . $tag->getAttribute('content') . '" />';
-      $valid_metatag_set = TRUE;
+      // Confirm that the desired filename isn't already in use by another
+      // verification.
+      if ($values['file']) {
+        $existing_file = db_query("SELECT svid FROM {site_verify} WHERE LOWER(file) = LOWER(:file) AND svid <> :svid", array(':file' => $values['file'], ':svid' => $values['svid']))->fetchField();
+        if ($existing_file) {
+          form_set_error('file', t('The file %filename is already being used in another verification.', array('%filename' => $values['file'])));
+        }
+      }
+    } else {
+      $form_state['values']['file_contents'] = NULL;
     }
   }
 
-  if (!$valid_metatag_set) {
-    form_set_error('meta', t('A valid metatag was not found'));
-  }
-}
-
-
-/**
- * Save the uploaded file and check file name uniqueness.
- */
-function site_verify_validate_file($form, &$form_state) {
-  $values = &$form_state['values'];
-  // Import the uploaded verification file.
-  $validators = array('file_validate_extensions' => array());
-  if ($file = file_save_upload('file_upload', $validators, FALSE, FILE_EXISTS_REPLACE)) {
-    $contents = @file_get_contents($file->uri);
-    file_delete($file);
-    if ($contents === FALSE) {
-      drupal_set_message(t('The verification file import failed, because the file %filename could not be read.', array('%filename' => $file->filename)), 'error');
-    }
-    else {
-      $values['file'] = $file->filename;
-      $values['file_contents'] = $contents;
-      //drupal_set_message(t('The verification file <a href="@filename">@filename</a> was successfully imported.', array('@filename' => $file->filename)));
-    }
-  }
-
-  // Confirm that the desired filename isn't already in use by another
-  // verification.
-  if ($values['file']) {
-    $existing_file = db_query("SELECT svid FROM {site_verify} WHERE LOWER(file) = LOWER(:file) AND svid <> :svid", array(':file' => $values['file'], ':svid' => $values['svid']))->fetchField();
-    if ($existing_file) {
-      form_set_error('file', t('The file %filename is already being used in another verification.', array('%filename' => $values['file'])));
-    }
-  }
 }
 
 /**
