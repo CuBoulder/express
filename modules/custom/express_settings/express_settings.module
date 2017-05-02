@@ -367,10 +367,12 @@ function express_settings_cache_form($form, &$form_state) {
   );
   $form['varnish']['page'] = array(
     '#type' => 'fieldset',
+    '#title' => 'Varnish Cache: Path Specific',
   );
   $form['varnish']['page']['clear_varnish_path_cache_path'] = array(
     '#type' => 'textfield',
-    '#description' => ('Enter the specific URL to clear from the Varnish cache'),
+    '#description' => ('Enter the specific path or URL to clear from the Varnish cache'),
+    '#title' => 'Path to Clear',
   );
   $form['varnish']['page']['clear_varnish_path_cache'] = array(
     '#type' => 'submit',
@@ -380,6 +382,7 @@ function express_settings_cache_form($form, &$form_state) {
   );
   $form['varnish']['full'] = array(
     '#type' => 'fieldset',
+    '#title' => 'Varnish Cache: Full Site',
   );
   $form['varnish']['full']['markup'] = array(
     '#markup' => ('<p><em>Useful when you made a change to the footer or some site-wide element.</em></p>'),
