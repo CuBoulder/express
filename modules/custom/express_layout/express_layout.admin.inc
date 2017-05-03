@@ -4,7 +4,7 @@
  * @file
  * Holds admin forms and functionality for the layout entity
  */
-function express_layout_form($form, &$form_state, $op = 'edit', $express_layout = NULL) {
+function express_layout_form($field, &$form_state, $op = 'edit', $express_layout = NULL) {
 
   // Set title of page
   drupal_set_title('Edit Layout');
@@ -76,8 +76,6 @@ function _express_layout_validate($form, &$form_state) {
       $form_state['complete form'][$key]['#access'] = FALSE;
     }
   }
-
-
 }
 /**
  * Submit handler for Express Layout form
@@ -88,6 +86,19 @@ function express_layout_form_submit($form, &$form_state) {
   // @todo Figure out the proper controller to not have to reload layout
   $express_layout = entity_load_single('express_layout', arg(1));
 
+  $deltas = array();
+
+  foreach ($form_state['inline_entity_form'] as $hash => $ief) {
+    // $var['inline_entity_form']['5b323df50e45436b7baecb05752adee2d8d0e6af']['instance']['field_name']
+    $field_name = $ief['instance']['field_name'];
+    $deltas[$field_name] = array();
+    foreach ($ief['entities'] as $key => $entity) {
+      $bid = $entity['entity']->bid;
+      // $var['values']['field_sidebar_second'][LANGUAGE_NONE]['entities']
+      $delta = $form_state['values'][$field_name][LANGUAGE_NONE]['entities'][$key]['delta'];
+      $deltas[$field_name][$bid] = $delta;
+    }
+  }
   // Make a new layout entity if node doesn't have one already.
   if ($express_layout == FALSE) {
     $node = node_load(arg(1));
@@ -95,14 +106,17 @@ function express_layout_form_submit($form, &$form_state) {
       'layout_id' => $node->nid,
       'title' => 'Layout: ' . $node->title,
       'node_type' => $node->type,
+      'weights' => NULL,
     );
 
     $express_layout = entity_create('express_layout', $values);
   }
-
+  else {
+    $express_layout->weights = serialize($deltas);
+  }
   entity_form_submit_build_entity('express_layout', $express_layout, $form, $form_state);
   entity_save('express_layout', $express_layout);
-
+  //$express_layout->save();
   drupal_set_message(t('"@layout_title" has been updated.', array(
     '@layout_title' => $express_layout->title,
   )));
