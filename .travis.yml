@@ -1,6 +1,4 @@
 language: php
-# Work around https://github.com/travis-ci/travis-ci/issues/4757
-dist: trusty
 # We want to avoid sudo. This allow us to use Travis docker infrastructure, which means builds start faster and have more CPU available.
 sudo: false
 
