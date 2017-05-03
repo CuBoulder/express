@@ -16,7 +16,8 @@ function express_layout_form($field, &$form_state, $op = 'edit', $express_layout
   $form['region_layout']['#markup'] = _express_layout_region_diagram();
 
   // Load layout entity and attach fields to it
-  $express_layout = entity_load_single('express_layout', arg(1));
+  $express_layout = express_layout_load_layout_single(arg(1));
+  dpm($express_layout);
   field_attach_form('express_layout', $express_layout, $form, $form_state);
 
   // Hide regions if they aren't allowed to be included by the settings form
@@ -84,7 +85,7 @@ function express_layout_form_submit($form, &$form_state) {
 
   // Loading layout entity again since IEF resets the form values
   // @todo Figure out the proper controller to not have to reload layout
-  $express_layout = entity_load_single('express_layout', arg(1));
+  $express_layout = express_layout_load_layout_single(arg(1));
 
   $deltas = array();
 

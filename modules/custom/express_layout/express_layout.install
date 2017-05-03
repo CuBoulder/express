@@ -34,6 +34,24 @@ function express_layout_schema() {
         'type' => 'blob',
         'not null' => FALSE,
       ),
+      'node_id' => array(
+        'description' => 'Node ID the Layout is associated with',
+        'type' => 'int',
+        'length' => 'medium',
+        'not null' => FALSE,
+      ),
+      'path' => array(
+        'description' => 'Path the Layout is associated with',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+      'layout_type' => array(
+        'description' => 'Type of layout',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
     ),
     'primary key' => array('layout_id'),
   );
