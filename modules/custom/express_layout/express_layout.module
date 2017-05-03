@@ -337,44 +337,52 @@ function express_layout_page_alter(&$page) {
     drupal_add_css(drupal_get_path('module', 'express_layout') . '/css/express-layout.css');
 
     // Load node layout
+    $layouts = array();
+    $layouts[$node->nid] = $node->nid;
+    $layouts[2] = 2;
 
-    if ($layout = entity_load_single('express_layout', $node->nid)) {
+    foreach ($layouts as $key) {
+      if ($layout = entity_load_single('express_layout', $key)) {
+        // Place blocks
+        $fields = express_layout_field_to_region_map();
 
-      // Place blocks
-
-      $fields = express_layout_field_to_region_map();
-      foreach ($fields as $field => $field_data) {
-        $block_output = array();
-        if (!empty($layout->{$field})) {
-          $region = $field_data['region'];
-          // Loop through all referenced beans.
-          $beans = array();
-          foreach ($layout->{$field}[LANGUAGE_NONE] as $block) {
-            $beans[] = $block['target_id'];
-          }
-          // Load the bean objects
-          if (!empty($beans)) {
-            $beans = bean_load_multiple($beans);
-          }
-          // Loop through all bean objects.
+        foreach ($fields as $field => $field_data) {
+          $blocks = array();
           $block_output = array();
-          foreach ($beans as $bean) {
-            // If user has view access.
-            if (bean_access('view', $bean)) {
-              // Add to $extra.
-              $block_output[] = _express_layout_bean_to_block($bean, $region);
+          if (!empty($layout->{$field})) {
+            $region = $field_data['region'];
+            // Loop through all referenced beans.
+            $beans = array();
+            foreach ($layout->{$field}[LANGUAGE_NONE] as $block) {
+              $beans[] = $block['target_id'];
             }
+            // Load the bean objects
+            if (!empty($beans)) {
+              $beans = bean_load_multiple($beans);
+            }
+            // Loop through all bean objects.
+            $block_output = array();
+            foreach ($beans as $bean) {
+              // If user has view access.
+              if (bean_access('view', $bean)) {
+                // Add to $extra.
+                $block_output[] = _express_layout_bean_to_block($bean, $region);
+              }
+            }
+            $blocks = array(
+              'content' => $block_output,
+              '#weight' => $field_data['weight'],
+            );
+            foreach ($block_output as $output) {
+              $page[$region]['layout_blocks_' . $field][] = $output;
+            }
+            //$page[$region]['layout_blocks_' . $field][] = $block_output;
+            $page[$region]['#sorted'] = FALSE;
           }
-          $blocks = array(
-            'content' => $block_output,
-            '#weight' => $field_data['weight'],
-          );
-          $page[$region]['layout_blocks_' . $field] = $blocks;
-          $page[$region]['#sorted'] = FALSE;
         }
       }
-
-
+    }
+    if ($layout = entity_load_single('express_layout', $node->nid)) {
 
       // Add cover image
       if (!empty($layout->field_feature_title_image[LANGUAGE_NONE][0]['uri']) && isset($settings['field_feature_title_image'])) {

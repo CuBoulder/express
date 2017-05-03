@@ -1,0 +1,381 @@
+<?php
+
+function express_layout_copy_menu() {
+
+  $items['node/%node/layout/copy'] = array(
+    'title' => 'Copy Layout',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('express_layout_copy_form', 1),
+    'access callback' => 'express_layout_access',
+    'access arguments' => array('update', 1),
+    'weight' => 0,
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['admin/express-layout/autocomplete-callback'] = array(
+    'page callback' => 'express_layout_copy_unique_node_autocomplete_callback',
+    'type' => MENU_CALLBACK,
+    'access callback' => 'user_access',
+    'access arguments' => array('edit express layouts'),
+  );
+
+  return $items;
+}
+
+
+function express_layout_copy_form($form, &$form_state) {
+  drupal_set_title('Import Layout');
+  $form = array();
+  if (!isset($form_state['storage']['confirm'])) {
+    $form['express_layout_copy'] = array(
+      '#markup' => '<p>Replace the current layout of this page with the layout from another.</p><p>This function does <strong>not</strong> create copies of any blocks included in a layout.</p>',
+    );
+    $form['node'] = array(
+      '#type' => 'textfield',
+      '#title' => t('Choose a page to import the layout from:'),
+      // The autocomplete path is provided in hook_menu in ajax_example.module.
+      '#autocomplete_path' => 'admin/express-layout/autocomplete-callback',
+    );
+    $form['action'] = array(
+      '#type' => 'select',
+      '#options' => array(
+        'replace' => 'Replace',
+        'placeholder' => 'Placeholder',
+      ),
+      '#title' => 'Action',
+      '#default_value' => 'replace',
+    );
+    $form['#validate'][] = 'express_layout_copy_validate';
+    $form['actions'] = array(
+      '#type' => 'actions',
+      'submit' => array(
+        '#type' => 'submit',
+        '#value' => t('Import layout'),
+      ),
+    );
+  }
+  else {
+
+    $l = entity_load_single('express_layout', arg(1));
+
+    $path = 'node/' . arg(1) . '/layout';
+    $question = 'Replace layout';
+    $description = 'Do you really want to replace the layout on this page? You cannot undo this action.';
+    return confirm_form($form, $question, $path, $description, $yes = "Replace layout");
+  }
+  return $form;
+}
+
+function express_layout_copy_form_submit($form, &$form_state) {
+  $current_layout_id = arg(1);
+  if (empty($form_state['storage']['confirm'])) {
+    $form_state['storage']['confirm'] = 1;
+    $form_state['storage']['values'] = $form_state['values'];
+    $form_state['rebuild'] = TRUE;
+  }
+  else {
+    $layout_id = $form_state['storage']['values']['node'];
+    $action = $form_state['storage']['values']['action'];
+    express_layout_copy_replace($current_layout_id, $layout_id, $action);
+  }
+}
+
+function express_layout_copy_replace($current_layout_id = NULL, $layout_id = NULL, $action) {
+
+  $placeholder = ($action == 'placeholder') ? 1 : 0;
+  if (($copy_to = entity_load_single('express_layout', $current_layout_id)) && ($copy_from = entity_load_single('express_layout', $layout_id))) {
+    // Update the values.
+    $copy_from->layout_id = $copy_to->layout_id;
+    $copy_from->node_type  = $copy_to->node_type;
+    $copy_from->title  = $copy_to->title;
+    if ($placeholder) {
+      $fields = express_layout_copy_layout_fields();
+      foreach ($fields as $field) {
+        if (!empty($copy_from->{$field})) {
+          //dpm($copy_from->{$field}[LANGUAGE_NONE]);
+
+          $query = db_select('bean', 'b')
+          ->fields('b', array('bid'))
+          ->execute();
+          $num_of_results = $query->rowCount();
+
+          $i = 1;
+          foreach ($copy_from->{$field}[LANGUAGE_NONE] as $key => $target) {
+            $delta = $num_of_results + $i;
+            $placeholder_bean = express_layout_copy_create_placeholder_bean('Placeholder', $delta);
+            //dpm($placeholder_bean);
+            $copy_from->{$field}[LANGUAGE_NONE][$key]['target_id'] = $placeholder_bean->bid;
+            $i++;
+          }
+        }
+      }
+    }
+    entity_save('express_layout', $copy_from);
+    drupal_set_message('Layout has been copied.', 'status');
+  }
+  else {
+    drupal_set_message('Something went wrong.', 'error');
+  }
+  $path = 'node/' . $current_layout_id;
+  drupal_goto($path);
+}
+
+function express_layout_copy_validate($form, &$form_state) {
+  $title = $form_state['values']['node'];
+  $matches = array();
+
+  // This preg_match() looks for the last pattern like [33334] and if found
+  // extracts the numeric portion.
+  $result = preg_match('/\[([0-9]+)\]$/', $title, $matches);
+  if ($result > 0) {
+    // If $result is nonzero, we found a match and can use it as the index into
+    // $matches.
+    $nid = $matches[$result];
+    // Verify that it's a valid nid.
+    $node = node_load($nid);
+    if (empty($node)) {
+      form_error($form['node'], t('Sorry, no node with nid %nid can be found', array('%nid' => $nid)));
+      return;
+    }
+  }
+  // BUT: Not everybody will have javascript turned on, or they might hit ESC
+  // and not use the autocomplete values offered. In that case, we can attempt
+  // to come up with a useful value. This is not absolutely necessary, and we
+  // *could* just emit a form_error() as below.
+  else {
+    $nid = db_select('node')
+      ->fields('node', array('nid'))
+      ->condition('title', db_like($title) . '%', 'LIKE')
+      ->range(0, 1)
+      ->execute()
+      ->fetchField();
+  }
+
+  // Now, if we somehow found a nid, assign it to the node. If we failed, emit
+  // an error.
+  if (!empty($nid)) {
+    $form_state['values']['node'] = $nid;
+  }
+  else {
+    form_error($form['node'], t('Sorry, no node starting with %title can be found', array('%title' => $title)));
+  }
+}
+
+function express_layout_copy_unique_node_autocomplete_callback($string = "") {
+  $matches = array();
+  if ($string) {
+    $result = db_select('node')
+      ->fields('node', array('nid', 'title'))
+      ->condition('title', db_like($string) . '%', 'LIKE')
+      ->range(0, 10)
+      ->execute();
+    foreach ($result as $node) {
+      $matches[$node->title . " [$node->nid]"] = check_plain($node->title);
+    }
+  }
+
+  drupal_json_output($matches);
+}
+
+function express_layout_copy_form_express_layout_form_alter(&$form, &$form_state, $form_id) {
+  $layout_id = arg(1);
+  $link = l('Import Layout', 'node/' . $layout_id . '/layout/copy');
+  $form['express_layout_copy'] = array(
+    '#markup' => $link,
+  );
+}
+
+/**
+ * Implements hook_admin_paths().
+ * Set edit layout paths to be admin paths.
+ */
+function express_layout_copy_admin_paths() {
+  $paths = array(
+    'node/*/layout/copy' => TRUE,
+  );
+  return $paths;
+}
+
+function express_layout_copy_create_placeholder_bean($label = 'Placeholder Block', $delta) {
+
+
+  $values = array(
+    'delta' => $label .'-' . $delta,
+    'label' => $label .'-' . $delta,
+    'title' => '',
+    'type' => 'placeholder',
+    'view_mode' => 'default',
+  );
+  $bean = bean_create($values);
+  $bean->save();
+  return $bean;
+}
+
+function express_layout_copy_layout_fields() {
+  $fields = array(
+    'field_footer',
+    'field_header',
+    'field_inner_content_left',
+    'field_inner_content_right',
+    'field_intro',
+    'field_sidebar_first',
+    'field_sidebar_second',
+    'field_slider',
+    'field_wide_2',
+    'field_content_bottom',
+
+  );
+  return $fields;
+}
+
+function express_layout_copy_entity_insert($entity, $type) {
+
+
+}
+
+function express_layout_copy_entity_update($entity, $type) {
+  if ($type == 'bean' && $entity->type == 'placeholder') {
+    express_layout_copy_placeholder_replace($entity);
+  }
+}
+
+function express_layout_copy_placeholder_replace($entity) {
+  $bid = !empty($entity->field_express_layout_make_block[LANGUAGE_NONE]) ?  $entity->field_express_layout_make_block[LANGUAGE_NONE][0]['target_id'] : NULL;
+
+  $layout_id = isset($_GET['layout_id']) ? check_plain($_GET['layout_id']) : NULL;
+
+  $express_placeholder = isset($_GET['express_placeholder']) ? check_plain($_GET['express_placeholder']) : NULL;
+
+  $placeholder_id = isset($_GET['express_placeholder_id']) ? check_plain($_GET['express_placeholder_id']) : NULL;
+
+  if ($bid && isset($layout_id) && $express_placeholder == 'replace') {
+    if ($layout = entity_load_single('express_layout', $layout_id)) {
+      $fields = express_layout_copy_layout_fields();
+      foreach ($fields as $field) {
+        if (!empty($layout->{$field})) {
+          foreach ($layout->{$field}[LANGUAGE_NONE] as $key => $target) {
+            if ($placeholder_id == $target['target_id']) {
+              $layout->{$field}[LANGUAGE_NONE][$key]['target_id'] = $bid;
+
+              entity_save('express_layout', $layout);
+              entity_delete('bean', $placeholder_id);
+              drupal_set_message('Placeholder has been replaced.', 'status');
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+
+/**
+ * Add edit button to placeholder bean output.
+ */
+function express_layout_copy_preprocess_entity(&$vars) {
+  $entity_type = $vars['elements']['#entity_type'];
+  $bundle = $vars['elements']['#bundle'];
+  if ($entity_type == 'bean' && $bundle == 'placeholder') {
+    $delta = $vars['elements']['#entity']->delta;
+    $vars['content']['#markup'] = l('Edit Placeholder Content', 'block/' . $delta . '/edit', array('attributes' => array('class' => array('button', 'button-blue')), 'query' => array('destination' => 'node/' . arg(1), 'express_placeholder' => 'replace', 'express_placeholder_id' => $vars['elements']['#entity']->bid, 'layout_id' => arg(1))));
+  }
+}
+
+function express_layout_copy_form_bean_form_alter(&$form, &$form_state, $form_id) {
+
+  if ($form['bean']['#value']->type == 'placeholder') {
+
+    $hidden = array(
+      'title',
+      'custom_block_theme',
+      'block_title_icons',
+    );
+    $disabled = array(
+      'label',
+    );
+    foreach ($hidden as $key) {
+      $form[$key]['#access'] = FALSE;
+    }
+    foreach ($disabled as $key) {
+      $form[$key]['#disabled'] = TRUE;
+    }
+  }
+}
+
+/**
+ * Apply express layout IEF formatting to the placeholder form.
+ */
+function express_layout_copy_field_widget_form_alter(&$element, &$form_state, $context)	{
+  if (!empty($element['#field_name']) && ($element['#field_name'] == 'field_express_layout_make_block')) {
+    // Add 'or' separator between submit actions
+    if (isset($element['actions']['ief_add']) && isset($element['actions']['ief_add_existing'])) {
+      $element['actions']['ief_add']['#weight'] = 10;
+      $element['actions']['ief_add_existing']['#weight'] = 12;
+      $element['actions']['ief_separator'] = array(
+        '#markup' => '<span class="ief-separator">or</span>',
+        '#weight' => 11,
+      );
+
+      // Add 'Add New Block' label to available options and add class
+      $element['actions']['bundle']['#empty_option'] = t('Add new block');
+      //$element['actions']['bundle']['#options']['add_new'] = t('Add new block');
+      $element['actions']['bundle']['#attributes']['class'][] = 'new-block-options';
+      // Add ajax from submit to select menu
+
+      $element['actions']['bundle']['#ajax'] = $element['actions']['ief_add']['#ajax'];
+      $element['actions']['bundle']['#ajax']['event'] = 'change';
+      $element['actions']['bundle']['#ajax']['trigger_as'] = array('name' => $element['actions']['ief_add']['#name']);
+      // Hide add new submit action
+      $element['actions']['ief_add']['#attributes']['class'][] = 'element-invisible';
+
+      $option_array =  $element['actions']['bundle']['#options'];
+
+      // Remove beans where the user isn't specifically allowed to create
+      foreach ($option_array as $key => $option) {
+        if (!express_layout_bean_access_check($key)) {
+          unset($option_array[$key]);
+        }
+      }
+      // Sort bean types by label instead of key/machine name
+      asort($option_array);
+      $element['actions']['bundle']['#options'] = $option_array;
+    }
+  }
+}
+
+/*
+ * Implements hook_secure_permissions
+ *
+ * Adding permissions for block row bean
+ */
+function express_layout_copy_secure_permissions($role) {
+  $permissions = array(
+    'anonymous user' => array(
+    ),
+    'authenticated user' => array(
+    ),
+    'administrator' => array(
+      'delete any block_row bean',
+      'edit any block_row bean',
+      'view any block_row bean',
+    ),
+    'content_editor' => array(
+      'delete any block_row bean',
+      'edit any block_row bean',
+      'view any block_row bean',
+    ),
+    'developer' => array(
+      'delete any block_row bean',
+      'edit any block_row bean',
+      'view any block_row bean',
+    ),
+    'site_owner' => array(
+      'delete any block_row bean',
+      'edit any block_row bean',
+      'view any block_row bean',
+    ),
+  );
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}

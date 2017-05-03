@@ -1,0 +1,8 @@
+name = Express Layout Copy
+description = Copy a layout from one page to another
+core = 7.x
+version = 7.x-1.0
+
+dependencies[] = express_layout
+
+stylesheets[all][] = css/express-layout-copy.css

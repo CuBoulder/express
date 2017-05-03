@@ -1,0 +1,17 @@
+.bean-placeholder .content {
+  padding:20px;
+  border:1px solid rgba(177,177,177,.5);
+  background: rgba(177,177,177,.15);
+  text-align: center;
+  font-size: 75%;
+}
+.ief-separator {
+  padding-right:10px;
+  padding-left: 10px;
+  color:#858585;
+  font-weight: bold;
+
+}
+#hero-61 {
+  background-image: linear-gradient(-225deg, #FF057C 0%, #7C64D5 48%, #4CC3FF 100%);
+}
