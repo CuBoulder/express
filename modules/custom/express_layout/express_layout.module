@@ -339,7 +339,7 @@ function express_layout_page_alter(&$page) {
     // Load node layout
     $layouts = array();
     $layouts[$node->nid] = $node->nid;
-    $layouts[2] = 2;
+    // $layouts[2] = 2;
 
     foreach ($layouts as $key) {
       if ($layout = entity_load_single('express_layout', $key)) {
@@ -376,7 +376,6 @@ function express_layout_page_alter(&$page) {
             foreach ($block_output as $output) {
               $page[$region]['layout_blocks_' . $field][] = $output;
             }
-            //$page[$region]['layout_blocks_' . $field][] = $block_output;
             $page[$region]['#sorted'] = FALSE;
           }
         }
@@ -525,6 +524,8 @@ function express_layout_preprocess_node(&$vars) {
 
   //$settings = variable_get('express_layout_settings_' . $node->type, array());
   //$type = variable_get('express_layout_type_' . $node->type, NULL);
+  $layout = NULL;
+  $fields = express_layout_field_to_region_map();
   if ($layout = entity_load_single('express_layout', $vars['nid'])) {
     if (!empty($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value']) && ($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value'] == 'feature_layout') && (!path_is_admin(current_path()))) {
       $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__featurelayout';
@@ -555,19 +556,20 @@ function express_layout_preprocess_node(&$vars) {
       $vars['classes_array'][] = 'content-bottom';
     }
   }
-  if ($content_sidebar_left_blocks = block_get_blocks_by_region('content_sidebar_left')) {
+  if ($content_sidebar_left_blocks = express_layout_node_region_insert('field_inner_content_left', $layout)) {
     $vars['content_sidebar_left'] = $content_sidebar_left_blocks;
     $vars['content_sidebar_left']['#theme_wrappers'] = array('region');
     $vars['content_sidebar_left']['#region'] = 'content_sidebar_left';
     $vars['classes_array'][] = 'content-sidebar-left';
   }
-  if ($content_sidebar_right_blocks = block_get_blocks_by_region('content_sidebar_right')) {
+
+  if ($content_sidebar_right_blocks = express_layout_node_region_insert('field_inner_content_right', $layout)) {
     $vars['content_sidebar_right'] = $content_sidebar_right_blocks;
     $vars['content_sidebar_right']['#theme_wrappers'] = array('region');
     $vars['content_sidebar_right']['#region'] = 'content_sidebar_right';
     $vars['classes_array'][] = 'content-sidebar-right';
   }
-  if ($context_content_bottom_blocks = block_get_blocks_by_region('content_bottom')) {
+  if ($context_content_bottom_blocks = express_layout_node_region_insert('field_inner_content_bottom', $layout)) {
     $vars['content_bottom'] = $context_content_bottom_blocks;
     $vars['content_bottom']['#theme_wrappers'] = array('region');
     $vars['content_bottom']['#region'] = 'content_bottom';
@@ -846,9 +848,68 @@ function express_layout_field_to_region_map($field = NULL) {
       'region' => 'sidebar_second',
       'weight' => '-100',
     ),
+    'field_intro' => array(
+      'region' => 'intro',
+      'weight' => '-100',
+    ),
+    'field_slider' => array(
+      'region' => 'slider',
+      'weight' => '-100',
+    ),
+    'field_wide_2' => array(
+      'region' => 'wide_2',
+      'weight' => '-100',
+    ),
+    'field_inner_content_right' => array(
+      'region' => 'content_sidebar_right',
+      'weight' => '-100',
+    ),
+    'field_inner_content_left' => array(
+      'region' => 'content_sidebar_left',
+      'weight' => '-100',
+    ),
   );
   if ($field) {
     return $fields[$field];
   }
   return $fields;
+}
+
+/**
+ * Inserts layout blocks into node regions.
+ */
+function express_layout_node_region_insert($field = NULL, $layout = NULL) {
+  if ($field && $layout) {
+    $region_blocks = array();
+    if (!empty($layout->{$field})) {
+      $region = $field_data['region'];
+      // Loop through all referenced beans.
+      $beans = array();
+      foreach ($layout->{$field}[LANGUAGE_NONE] as $block) {
+        $beans[] = $block['target_id'];
+      }
+      // Load the bean objects
+      if (!empty($beans)) {
+        $beans = bean_load_multiple($beans);
+      }
+      // Loop through all bean objects.
+      $block_output = array();
+      foreach ($beans as $bean) {
+        // If user has view access.
+        if (bean_access('view', $bean)) {
+          // Add to $extra.
+          $block_output[] = _express_layout_bean_to_block($bean, $region);
+        }
+      }
+      $blocks = array(
+        'content' => $block_output,
+        '#weight' => $field_data['weight'],
+      );
+      foreach ($block_output as $output) {
+        $region_blocks[] = $output;
+      }
+      return $region_blocks;
+    }
+
+  }
 }
