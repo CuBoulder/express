@@ -1,4 +1,10 @@
 <?php
+/**
+ * @file
+ * Code for the Express Layout Copy feature.
+ */
+
+include_once 'express_layout_copy.features.inc';
 
 function express_layout_copy_menu() {
 
