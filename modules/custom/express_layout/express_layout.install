@@ -37,7 +37,6 @@ function express_layout_schema() {
       'node_id' => array(
         'description' => 'Node ID the Layout is associated with',
         'type' => 'int',
-        'length' => 'medium',
         'not null' => FALSE,
       ),
       'path' => array(
@@ -51,6 +50,45 @@ function express_layout_schema() {
         'type' => 'varchar',
         'length' => 255,
         'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('layout_id'),
+  );
+  $schema['express_layout_conditions'] = array(
+    'description' => 'The base table for layout conditions.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'Primary key for Layout Conditions.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'title' => array(
+        'description' => 'Name of the Layout Condition',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+      'description' => array(
+        'description' => 'Description of layout condition',
+        'type' => 'blob',
+        'not null' => FALSE,
+      ),
+      'conditions' => array(
+        'description' => 'Conditions for layout to be active',
+        'type' => 'blob',
+        'not null' => FALSE,
+      ),
+      'layout_id' => array(
+        'description' => 'layout id',
+        'type' => 'int',
+        'not null' => FALSE,
+      ),
+      'status' => array(
+        'description' => 'Boolean indicating whether the layout condition is active.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 1,
       ),
     ),
     'primary key' => array('layout_id'),

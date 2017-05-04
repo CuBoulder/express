@@ -35,6 +35,10 @@ function express_layout_copy_form($form, &$form_state) {
       // The autocomplete path is provided in hook_menu in ajax_example.module.
       '#autocomplete_path' => 'admin/express-layout/autocomplete-callback',
     );
+    $form['layout_destination_nid'] = array(
+      '#type' => 'hidden',
+      '#value' => arg(1),
+    );
     $form['action'] = array(
       '#type' => 'select',
       '#options' => array(
@@ -54,10 +58,10 @@ function express_layout_copy_form($form, &$form_state) {
     );
   }
   else {
+    $destination_id = $form_state['values']['layout_destination_nid'];
+    $l = express_layout_load_layout_single($destination_id);
 
-    $l = entity_load_single('express_layout', arg(1));
-
-    $path = 'node/' . arg(1) . '/layout';
+    $path = 'node/' . $destination_id . '/layout';
     $question = 'Replace layout';
     $description = 'Do you really want to replace the layout on this page? You cannot undo this action.';
     return confirm_form($form, $question, $path, $description, $yes = "Replace layout");
@@ -66,32 +70,33 @@ function express_layout_copy_form($form, &$form_state) {
 }
 
 function express_layout_copy_form_submit($form, &$form_state) {
-  $current_layout_id = arg(1);
   if (empty($form_state['storage']['confirm'])) {
     $form_state['storage']['confirm'] = 1;
     $form_state['storage']['values'] = $form_state['values'];
     $form_state['rebuild'] = TRUE;
   }
   else {
+    $destination_id = $form_state['storage']['values']['layout_destination_nid'];
     $layout_id = $form_state['storage']['values']['node'];
     $action = $form_state['storage']['values']['action'];
-    express_layout_copy_replace($current_layout_id, $layout_id, $action);
+    express_layout_copy_replace($destination_id, $layout_id, $action);
   }
 }
 
-function express_layout_copy_replace($current_layout_id = NULL, $layout_id = NULL, $action) {
-
+function express_layout_copy_replace($destination_id = NULL, $layout_id = NULL, $action) {
   $placeholder = ($action == 'placeholder') ? 1 : 0;
-  if (($copy_to = entity_load_single('express_layout', $current_layout_id)) && ($copy_from = entity_load_single('express_layout', $layout_id))) {
+  if (($copy_to = express_layout_load_layout_single($destination_id)) && ($copy_from = express_layout_load_layout_single($layout_id))) {
+
     // Update the values.
     $copy_from->layout_id = $copy_to->layout_id;
     $copy_from->node_type  = $copy_to->node_type;
+    $copy_from->node_id  = $copy_to->node_id;
     $copy_from->title  = $copy_to->title;
     if ($placeholder) {
+      $weights = unserialize($copy_from->weights);
       $fields = express_layout_copy_layout_fields();
       foreach ($fields as $field) {
         if (!empty($copy_from->{$field})) {
-          //dpm($copy_from->{$field}[LANGUAGE_NONE]);
 
           $query = db_select('bean', 'b')
           ->fields('b', array('bid'))
@@ -100,12 +105,20 @@ function express_layout_copy_replace($current_layout_id = NULL, $layout_id = NUL
 
           $i = 1;
           foreach ($copy_from->{$field}[LANGUAGE_NONE] as $key => $target) {
+
             $delta = $num_of_results + $i;
             $placeholder_bean = express_layout_copy_create_placeholder_bean('Placeholder', $delta);
-            //dpm($placeholder_bean);
+
+            $previous_bid = $copy_from->{$field}[LANGUAGE_NONE][$key]['target_id'];
+
             $copy_from->{$field}[LANGUAGE_NONE][$key]['target_id'] = $placeholder_bean->bid;
+
+            $previous_weight = $weights[$field][$previous_bid];
+            $weights[$field][$placeholder_bean->bid] = $previous_weight;
+            unset($weights[$field][$previous_bid]);
             $i++;
           }
+          $copy_from->weights = serialize($weights);
         }
       }
     }
@@ -115,7 +128,7 @@ function express_layout_copy_replace($current_layout_id = NULL, $layout_id = NUL
   else {
     drupal_set_message('Something went wrong.', 'error');
   }
-  $path = 'node/' . $current_layout_id;
+  $path = 'node/' . $destination_id;
   drupal_goto($path);
 }
 
@@ -248,7 +261,7 @@ function express_layout_copy_placeholder_replace($entity) {
   $placeholder_id = isset($_GET['express_placeholder_id']) ? check_plain($_GET['express_placeholder_id']) : NULL;
 
   if ($bid && isset($layout_id) && $express_placeholder == 'replace') {
-    if ($layout = entity_load_single('express_layout', $layout_id)) {
+    if ($layout = express_layout_load_layout_single($layout_id)) {
       $fields = express_layout_copy_layout_fields();
       foreach ($fields as $field) {
         if (!empty($layout->{$field})) {
@@ -256,6 +269,11 @@ function express_layout_copy_placeholder_replace($entity) {
             if ($placeholder_id == $target['target_id']) {
               $layout->{$field}[LANGUAGE_NONE][$key]['target_id'] = $bid;
 
+              $weights = unserialize($layout->weights);
+              $weight = $weights[$field][$placeholder_id];
+              $weights[$field][$bid] = $weight;
+              unset($weights[$field][$placeholder_id]);
+              $layout->weights = serialize($weights);
               entity_save('express_layout', $layout);
               entity_delete('bean', $placeholder_id);
               drupal_set_message('Placeholder has been replaced.', 'status');
@@ -283,7 +301,6 @@ function express_layout_copy_preprocess_entity(&$vars) {
 function express_layout_copy_form_bean_form_alter(&$form, &$form_state, $form_id) {
 
   if ($form['bean']['#value']->type == 'placeholder') {
-
     $hidden = array(
       'title',
       'custom_block_theme',
@@ -354,24 +371,25 @@ function express_layout_copy_secure_permissions($role) {
     'authenticated user' => array(
     ),
     'administrator' => array(
-      'delete any block_row bean',
-      'edit any block_row bean',
-      'view any block_row bean',
+      'delete any temporary_block bean',
+      'edit any temporary_block bean',
+      'view any temporary_block bean',
     ),
     'content_editor' => array(
-      'delete any block_row bean',
-      'edit any block_row bean',
-      'view any block_row bean',
+      'delete any temporary_block bean',
+      'edit any temporary_block bean',
+      'view any temporary_block bean',
     ),
     'developer' => array(
-      'delete any block_row bean',
-      'edit any block_row bean',
-      'view any block_row bean',
+      'delete any temporary_block bean',
+      'edit any temporary_block bean',
+      'view any temporary_block bean',
+      'create any temporary_block bean',
     ),
     'site_owner' => array(
-      'delete any block_row bean',
-      'edit any block_row bean',
-      'view any block_row bean',
+      'delete any temporary_block bean',
+      'edit any temporary_block bean',
+      'view any temporary_block bean',
     ),
   );
 

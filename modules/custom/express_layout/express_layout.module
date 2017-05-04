@@ -351,9 +351,10 @@ function express_layout_load_layout_single($nid = NULL, $path = NULL, $type = NU
     $query->condition('el.layout_id', $layout_id, '=');
   }
   $results = $query->execute()->fetch();
-  $key = $results->layout_id;
-  if ($key && $layout = entity_load_single('express_layout', $key)) {
-    return $layout;
+  if (isset($results->layout_id)) {
+    if ($layout = entity_load_single('express_layout', $results->layout_id)) {
+      return $layout;
+    }
   }
 
 
@@ -381,8 +382,44 @@ function express_layout_page_alter(&$page) {
   if ($nid && $type) {
     express_layout_attach($page, $nid, $type);
   }
-}
 
+  $condition = array(
+    'id' => 1,
+    'title' => 'Page Master Layout',
+    'description' => 'active on basic pages',
+    'conditions' => array(
+      'node' => array(
+        'page',
+      ),
+    ),
+    'layout_id' => 9,
+    'status' => 1,
+  );
+  $condition['conditions'] = serialize($condition['conditions']);
+}
+function express_layouts_get_master_layouts($args) {
+
+  $layouts = array();
+  $query = db_select('express_layout_conditions', 'elc');
+  $query->fields('elc', array('id', 'conditions', 'layout_id', 'status'));
+  $query->condition('elc.status', 1, '=');
+
+  $masters = $query->execute()->fetchAll();
+
+  foreach ($masters as $master) {
+    $conditions = unserialize($master->conditions);
+    foreach ($conditions as $type => $condition) {
+      if ($type == 'node') {
+        if (!empty($condition)) {
+          if (in_array($args['node']->type, $condition)) {
+            $layouts[] = $master->layout_id;
+          }
+        }
+      }
+    }
+  }
+  return $layouts;
+}
 
 function express_layout_attach(&$page, $nid, $type) {
   // Is this a node id that allows custom layouts?
@@ -400,24 +437,32 @@ function express_layout_attach(&$page, $nid, $type) {
       }
     }
 
+    // Get layouts from conditions
+    $args = array(
+      'path' => array(
+        'drupal' => current_path(),
+        'alias' => drupal_get_path_alias(current_path()),
+      ),
+      'node' => menu_get_object(),
+    );
+    $master_layouts = express_layouts_get_master_layouts($args);
+    foreach ($master_layouts as $layout) {
+      $layouts[$layout] = $layout;
+    }
 
+    // Put added layouts into &$page variable so other hooks can use them.
+    $page['#express_layouts'] = $layouts;
     $layout_regions = array();
-    foreach ($layouts as $key) {
+    foreach ($page['#express_layouts'] as $key) {
       if ($layout = express_layout_load_layout_single($key)) {
-        // Place blocks
+        // Gather all blocks
         $fields = express_layout_field_to_region_map();
         $deltas = unserialize($layout->weights);
-
-
-
         foreach ($fields as $field => $field_data) {
-
           $blocks = array();
           $block_output = array();
           if (!empty($layout->{$field})) {
             $region = $field_data['region'];
-
-
             // Loop through all referenced beans.
             $beans = array();
             foreach ($layout->{$field}[LANGUAGE_NONE] as $block) {
@@ -435,26 +480,44 @@ function express_layout_attach(&$page, $nid, $type) {
                 // Add to $extra.
                 $bid = $bean->bid;
                 $delta = $deltas[$field][$bid];
-                $layout_regions[$region][$delta] = _express_layout_bean_to_block($bean, $region);
+
+                if ($field == 'field_header'){
+                  $layout_regions[$region]['above_content'][$delta] = _express_layout_bean_to_block($bean, $region);
+                }
+                elseif ($field == 'field_footer') {
+                  $layout_regions[$region]['below_content'][$delta] = _express_layout_bean_to_block($bean, $region);
+                }
+                else {
+                  $layout_regions[$region][$delta] = _express_layout_bean_to_block($bean, $region);
+                }
               }
             }
+
 
             $blocks = array(
               'content' => $block_output,
               '#weight' => $field_data['weight'],
             );
-
-
-            foreach ($block_output as $output) {
-              //$page[$region]['layout_blocks_' . $field][] = $output;
-            }
-            //$page[$region]['#sorted'] = FALSE;
           }
 
         }
+        // Place gathered blocks in regions
         foreach($layout_regions as $region => $blocks) {
           ksort($blocks);
-          $page[$region]['layout_blocks'] = $blocks;
+          if ($region == 'content') {
+            if (!empty($blocks['above_content'])) {
+              $page[$region]['above_content'] = $blocks['above_content'];
+              $page[$region]['above_content']['#weight'] = -100;
+            }
+            if (!empty($blocks['below_content'])) {
+              $page[$region]['below_content'] = $blocks['below_content'];
+              $page[$region]['below_content']['#weight'] = 100;
+            }
+          }
+          else {
+            $page[$region]['layout_blocks'] = $blocks;
+          }
+
           $page[$region]['#sorted'] = FALSE;
         }
       }
@@ -982,10 +1045,6 @@ function express_layout_node_region_insert($field = NULL, $layout = NULL) {
           $block_output[] = _express_layout_bean_to_block($bean, $region);
         }
       }
-      $blocks = array(
-        'content' => $block_output,
-        '#weight' => $field_data['weight'],
-      );
       foreach ($block_output as $output) {
         $region_blocks[] = $output;
       }

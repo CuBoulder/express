@@ -17,8 +17,25 @@ function express_layout_form($field, &$form_state, $op = 'edit', $express_layout
 
   // Load layout entity and attach fields to it
   $express_layout = express_layout_load_layout_single(arg(1));
-  dpm($express_layout);
   field_attach_form('express_layout', $express_layout, $form, $form_state);
+
+  // Apply saved weights back to ief fields.
+  if ($express_layout && !empty($express_layout->weights)) {
+    $weights =  unserialize($express_layout->weights);
+    $fields = express_layout_field_to_region_map();
+    foreach ($fields as $layout_field => $value) {
+      $field_weights = array();
+      if (!empty($weights[$layout_field])) {
+        asort($weights[$layout_field]);
+        foreach ($weights[$layout_field] as $weight) {
+          $field_weights[] = $weight;
+        }
+      }
+      foreach ($field_weights as $key => $weight) {
+        $form[$layout_field][LANGUAGE_NONE]['entities'][$key]['delta']['#default_value'] = $weight;
+      }
+    }
+  }
 
   // Hide regions if they aren't allowed to be included by the settings form
   if ($express_layout) {
