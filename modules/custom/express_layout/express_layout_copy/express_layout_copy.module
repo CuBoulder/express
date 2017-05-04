@@ -59,7 +59,8 @@ function express_layout_copy_form($form, &$form_state) {
   }
   else {
     $destination_id = $form_state['values']['layout_destination_nid'];
-    $l = express_layout_load_layout_single($destination_id);
+    $params['nid'] = $destination_id;
+    $l = express_layout_load_layout_single($params);
 
     $path = 'node/' . $destination_id . '/layout';
     $question = 'Replace layout';
@@ -85,7 +86,8 @@ function express_layout_copy_form_submit($form, &$form_state) {
 
 function express_layout_copy_replace($destination_id = NULL, $layout_id = NULL, $action) {
   $placeholder = ($action == 'placeholder') ? 1 : 0;
-  if (($copy_to = express_layout_load_layout_single($destination_id)) && ($copy_from = express_layout_load_layout_single($layout_id))) {
+
+  if (($copy_to = express_layout_load_layout_single(array('nid' => $destination_id))) && ($copy_from = express_layout_load_layout_single(array('nid' => $layout_id)))) {
 
     // Update the values.
     $copy_from->layout_id = $copy_to->layout_id;
@@ -261,7 +263,8 @@ function express_layout_copy_placeholder_replace($entity) {
   $placeholder_id = isset($_GET['express_placeholder_id']) ? check_plain($_GET['express_placeholder_id']) : NULL;
 
   if ($bid && isset($layout_id) && $express_placeholder == 'replace') {
-    if ($layout = express_layout_load_layout_single($layout_id)) {
+    $params['nid'] = $layout_id;
+    if ($layout = express_layout_load_layout_single($params)) {
       $fields = express_layout_copy_layout_fields();
       foreach ($fields as $field) {
         if (!empty($layout->{$field})) {

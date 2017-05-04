@@ -206,7 +206,11 @@ function express_layout_node_update($node) {
     return;
   }
   $nid = $node->nid;
-  if ($layout = express_layout_load_layout_single($nid, NULL, 'node')) {
+  $params = array(
+    'nid' => $nid,
+    'type' => 'node',
+  );
+  if ($layout = express_layout_load_layout_single($params)) {
     $layout->title = 'Layout: ' . $node->title;
     entity_save('express_layout', $layout);
   } else {
@@ -228,7 +232,11 @@ function express_layout_node_update($node) {
  */
 function express_layout_node_delete($node) {
   $nid = $node->nid;
-  if ($layout = express_layout_load_layout_single($nid, NULL, 'node')) {
+  $params = array(
+    'nid' => $nid,
+    'type' => 'node',
+  );
+  if ($layout = express_layout_load_layout_single($params)) {
     entity_delete('express_layout', $layout->layout_id);
     drupal_set_message($layout->title . ' Deleted');
   }
@@ -294,7 +302,8 @@ function express_layout_node_view($node, $view_mode) {
 function express_layout_preprocess_html(&$vars) {
   $node = menu_get_object();
   if ($node) {
-    $layout = express_layout_load_layout_single($node->nid);
+    $params['nid'] = $node->nid;
+    $layout = express_layout_load_layout_single($params);
     if ($layout && $layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value'] == 'feature_layout') {
       $vars['classes_array'][] = 'layout-feature';
     } else {
@@ -334,8 +343,15 @@ function express_layout_image_default_styles() {
   return $styles;
 }
 
-function express_layout_load_layout_single($nid = NULL, $path = NULL, $type = NULL, $layout_id = NULL) {
+function express_layout_load_layout_single($params) {
   $key = NULL;
+  // $nid = NULL, $path = NULL, $type = NULL, $layout_id = NULL
+  $nid = isset($params['nid']) ? $params['nid']: NULL;
+  $path = isset($params['path']) ? $params['path']: NULL;
+  $type = isset($params['type']) ? $params['type']: NULL;
+  $layout_id = isset($params['layout_id']) ? $params['layout_id']: NULL;
+
+
   $query = db_select('express_layout', 'el');
   $query->fields('el', array('layout_id', 'node_id', 'path', 'layout_type'));
   if ($nid) {
@@ -454,7 +470,8 @@ function express_layout_attach(&$page, $nid, $type) {
     $page['#express_layouts'] = $layouts;
     $layout_regions = array();
     foreach ($page['#express_layouts'] as $key) {
-      if ($layout = express_layout_load_layout_single($key)) {
+      $params['nid'] = $key;
+      if ($layout = express_layout_load_layout_single($params)) {
         // Gather all blocks
         $fields = express_layout_field_to_region_map();
         $deltas = unserialize($layout->weights);
@@ -522,7 +539,8 @@ function express_layout_attach(&$page, $nid, $type) {
         }
       }
     }
-    if ($layout = express_layout_load_layout_single($nid)) {
+    $params['nid'] = $nid;
+    if ($layout = express_layout_load_layout_single($params)) {
 
       // Add cover image
       if (!empty($layout->field_feature_title_image[LANGUAGE_NONE][0]['uri']) && isset($settings['field_feature_title_image'])) {
@@ -669,7 +687,11 @@ function express_layout_preprocess_node(&$vars) {
   //$type = variable_get('express_layout_type_' . $node->type, NULL);
   $layout = NULL;
   $fields = express_layout_field_to_region_map();
-  if ($layout = express_layout_load_layout_single($vars['nid'], NULL, 'node')) {
+  $params = array(
+    'nid' => $vars['nid'],
+    'type' => 'node',
+  );
+  if ($layout = express_layout_load_layout_single($params)) {
     if (!empty($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value']) && ($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value'] == 'feature_layout') && (!path_is_admin(current_path()))) {
       $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__featurelayout';
     }
