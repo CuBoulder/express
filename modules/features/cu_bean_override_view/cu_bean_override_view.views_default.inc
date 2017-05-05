@@ -36,6 +36,7 @@ function cu_bean_override_view_views_default_views() {
     'label' => 'label',
     'title' => 'title',
     'type' => 'type',
+    'delta' => 'operations',
     'operations' => 'operations',
     'delete_link' => 'operations',
   );
@@ -56,6 +57,13 @@ function cu_bean_override_view_views_default_views() {
       'empty_column' => 0,
     ),
     'type' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'delta' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -91,6 +99,15 @@ function cu_bean_override_view_views_default_views() {
   $handler->display->display_options['fields']['type']['id'] = 'type';
   $handler->display->display_options['fields']['type']['table'] = 'bean';
   $handler->display->display_options['fields']['type']['field'] = 'type';
+  /* Field: Block: Block Delta */
+  $handler->display->display_options['fields']['delta']['id'] = 'delta';
+  $handler->display->display_options['fields']['delta']['table'] = 'bean';
+  $handler->display->display_options['fields']['delta']['field'] = 'delta';
+  $handler->display->display_options['fields']['delta']['label'] = 'View';
+  $handler->display->display_options['fields']['delta']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['delta']['alter']['text'] = 'View Block';
+  $handler->display->display_options['fields']['delta']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['delta']['alter']['path'] = 'block/[delta]/view';
   /* Field: Block: Contextual / Operation links */
   $handler->display->display_options['fields']['operations']['id'] = 'operations';
   $handler->display->display_options['fields']['operations']['table'] = 'bean';
