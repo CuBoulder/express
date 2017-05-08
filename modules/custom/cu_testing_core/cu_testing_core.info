@@ -22,4 +22,3 @@ dependencies[] = cu_social_media_bundle
 
 ; Enable performance module for reporting at end of test run.
 dependencies[] = performance
-
