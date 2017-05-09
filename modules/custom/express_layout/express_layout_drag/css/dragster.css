@@ -1,0 +1,192 @@
+/*@preserve
+ * Dragster - drag'n'drop library v1.4.2
+ * https://github.com/sunpietro/dragster
+ *
+ * Copyright 2015-2017 Piotr Nalepa
+ * http://blog.piotrnalepa.pl
+ *
+ * Released under the MIT license
+ * https://github.com/sunpietro/dragster/blob/master/LICENSE
+ *
+ * Date: 2017-03-30T16:30Z
+ */
+.view-draggable-beans .view-content > div {
+  display: inline-block;
+}
+.dragster-draggable { cursor: move !important; }
+.dragster-block .contextual-links-wrapper {
+  display:none !important;
+}
+.dragster-block {
+  position: relative;
+}
+
+.block-remove {
+  position: absolute;
+  top:0;
+  right:0;
+  padding:4px 6px;
+  background: red;
+  color:#fff !important;
+  line-height: 1;
+  font-size: 24px;
+  display: none;
+}
+.layout-area .dragster-block:hover .block-remove {
+  display: block;
+}
+.bean-tray-bean {
+  padding:10px;
+  background:#fff;
+  color:#333;
+  font-weight:bold;
+  text-align: center;
+  margin:5px;
+  display: inline-block;
+}
+strong.bean-tray-type {
+  display: block;
+  font-weight: bold;
+  padding:10px 5px 0;
+}
+.bean-tray {
+  position: fixed;
+  right:0;
+  left:0;
+  bottom:0;
+  overflow-y: scroll;
+  padding:5px;
+  z-index: 5;
+  height:240px;
+  background:#444;
+  color:#fff;
+  font-size: 75%;
+
+}
+.bean-tray .dragster-region {
+  outline:none !important;
+}
+.bean-tray .dragster-draggable {
+  display: inline-block;
+}
+.bean-tray .dragster-block .block-remove {
+  display: none !important;
+}
+.bean-tray .dragster-draggable + .dragster-draggable {
+    margin-top: 0;
+}
+.dragster-temp {
+  max-width: 200px;
+  height: auto !important;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body1 {
+    width: 100%;
+    max-width: 80vw;
+    margin: auto;
+    font: 100%/1.4 Arial, sans-serif;
+    text-align: center;
+}
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+      user-select: none;
+  -khtml-user-drag: element;
+  -webkit-user-drag: element;
+}
+
+.regions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.dragster-region {
+    flex: 1 1 30%;
+    outline: 1px solid blue;
+    padding:20px;
+    vertical-align: top;
+    min-height: 3rem;
+    transition: height .3s cubic-bezier(.4, 0, .2, 1);
+
+}
+.dragster-region11:hover {
+  padding:20px;
+}
+
+.dragster-region + .dragster-region1 {
+    outline: 1px solid red;
+}
+
+.dragster-draggable {
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.dragster-draggable + .dragster-draggable {
+    margin-top: 1rem;
+}
+
+.dragster-draggable.is-dragging {
+    cursor: move;
+}
+
+.dragster-temp {
+    pointer-events: none;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    cursor: move;
+    opacity: 1;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.5);
+    transition:
+        opacity .3s cubic-bezier(.4, 0, .2, 1),
+        box-shadow .3s cubic-bezier(.4, 0, .2, 1);
+}
+
+.dragster-block {
+    background: #eee;
+    padding: .5rem;
+    opacity: 1;
+}
+
+.dragster-block svg {
+    width: 100%;
+}
+
+.dragster-draggable.is-dragging > * {
+    opacity: 0.5;
+}
+
+.dragster-drop-placeholder {
+    height: 2rem;
+    border: 1px dashed #000;
+}
+
+.dragster-block + .dragster-drop-placeholder,
+.dragster-drop-placeholder + .dragster-block {
+    margin-top: .5rem;
+}
+
+.dragster-is-hidden,
+.dragster-temp.dragster-is-hidden {
+    opacity: 0;
+    box-shadow: none;
+}
+
+.dragster-draggable.dragster-replacable {
+    outline: 2px solid #b30;
+}
+
+.dragster-block .dragster-block {
+    background: #ddd;
+}

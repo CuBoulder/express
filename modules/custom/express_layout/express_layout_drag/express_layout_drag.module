@@ -1,0 +1,348 @@
+<?php
+
+/**
+ * Implements hook_menu().
+ */
+function express_layout_drag_menu() {
+  $items = array();
+  $items['node/%node/layout-edit'] = array(
+    'title' => 'Edit Layout 2',
+    'page callback' => 'express_layout_drag_edit',
+    'page arguments' => array(1),
+    'access callback' => 'express_layout_access',
+    'access arguments' => array('update', 1),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 0,
+  );
+  // Display all regions.
+  /*
+  $items['express-layout-region-demo'] = array(
+    'title' => 'Region Demo',
+    'page callback' => array(),
+    'access callback' => TRUE,
+  );
+  */
+  return $items;
+}
+
+/**
+ * Implements hook_admin_paths().
+ *
+ * Set layout edit as an admin path.
+ */
+function express_layout_drag_admin_paths() {
+  $paths = array(
+    'node/*/layout-edit' => TRUE,
+  );
+  return $paths;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function express_layout_drag_theme(&$existing, $type, $theme, $path) {
+  $registry = array();
+  $template_dir = drupal_get_path('module', 'express_layout_drag') . '/templates';
+  $registry['express_layout_editor'] = array(
+    'template' => 'express-layout-editor',
+    'path' => $template_dir,
+    'render element' => 'elements',
+  );
+  $registry['express_layout_editor_vertical'] = array(
+    'template' => 'express-layout-editor-vertical',
+    'path' => $template_dir,
+    'render element' => 'elements',
+  );
+  $registry['express_layout_editor_region'] = array(
+    'template' => 'express-layout-editor-region',
+    'path' => $template_dir,
+    'render element' => 'elements',
+  );
+  $registry['express_layout_editor_block'] = array(
+    'template' => 'express-layout-editor-block',
+    'path' => $template_dir,
+    'render element' => 'elements',
+  );
+  return $registry;
+}
+
+/**
+ * Callback function for 'node/%node/layout-edit'.
+ *
+ * Builds drag and drop interface for page building.
+ */
+function express_layout_drag_edit($node) {
+  $params = array('nid' => $node->nid);
+  // Lad layout for this node.
+  $layout = express_layout_load_layout_single($params);
+  // Load layout form.
+  $layout_form = drupal_get_form('express_layout_drag_form', $layout);
+  // Load field data.
+  $fields = express_layout_field_to_region_map();
+
+  // Build variables for theme functions.
+  $variables = array(
+    'fields' => $fields,
+    'layout' => $layout,
+    'node' => $node,
+  );
+
+  // Get beans and build an array grouped by bean type.
+  $beans = express_layout_drag_bean_information();
+  $bean_info = bean_entity_info();
+  $bean_types = $bean_info['bean']['bundles'];
+  // This will store all of the beans for UI output.
+  $all_beans = array();
+  // THis will store all of the beans for the search autocomplete.
+  $auto_complete = array();
+  foreach ($bean_types as $key => $type) {
+    $label = $type['label'];
+    foreach ($beans as $bid => $bean) {
+      if ($bean->type == $key) {
+        $all_beans[$label][] = $bean;
+        $auto_complete[$bid] = $bean->label . ' ' . $bean->title;
+        unset($beans['bid']);
+      }
+    }
+  }
+  // Sort the autocomplete results and add to js drupal settings.
+  asort($auto_complete);
+  drupal_add_js(array('layoutBlocks' => $auto_complete), 'setting');
+  // Sort all the beans by type
+  ksort($all_beans);
+  $variables['beans'] = $all_beans;
+  $variables['form'] = $layout_form;
+  // Build an add block link that will return user to layout editor.
+  $current = current_path();
+  $variables['add_block_link'] = url('block/add', array('query' => array('destination' => $current)));
+  $content = array();
+  $content['regions']['#markup'] = theme('express_layout_editor_vertical', array('layout_edit' => $variables));
+
+  return $content;
+}
+
+/**
+ * Returns all bean data from bean table.
+ */
+function express_layout_drag_bean_information($bid = NULL, $limit = NULL) {
+  //$beans = bean_get_all_beans();
+
+  $query = db_select('bean', 'b');
+  $query->fields('b', array('bid', 'delta', 'label' ,'title', 'type', 'changed'));
+
+  // Allow to get just a single bean.
+  if ($bid) {
+    $query->condition('b.bid', $bid, '=');
+  }
+
+  // Allow a limit on the number of beans returned.
+  if ($limit) {
+      $query->orderBy('changed', 'DESC');
+      $query->range(0, $limit);
+    }
+  $beans = $query->execute()->fetchAllAssoc('bid');
+  return $beans;
+}
+
+/**
+ * Get the pretty name, not machine name of the bean type.
+ */
+function express_layout_drag_get_bean_type_name($type = NULL) {
+  if ($type) {
+    $bean_info = bean_entity_info();
+    $bean_types = $bean_info['bean']['bundles'];
+    return $bean_types[$type]['label'];
+  }
+}
+
+/**
+ * Implements hook_page_alter().
+ */
+function express_layout_drag_page_alter(&$page) {
+
+  // Build region demo.
+  $item = menu_get_item();
+  if ($item['path'] == 'express-layout-region-demo') {
+    global $theme;
+    // Fetch a list of regions for the current theme.
+    $all_regions = system_region_list($theme);
+    foreach (express_layout_field_to_region_map() as $field => $region) {
+      $key = $region['region'];
+      if ($key != 'content') {
+        $description = '<div class="block-region-demo">' . $key . '</div>';
+        $page[$key]['block_description'] = array(
+          '#markup' => $description,
+          '#weight' => 15,
+        );
+      }
+      else {
+        $page[$key]['header'] = array(
+          '#markup' => '<div class="block-region-demo">Above Content</div>',
+          '#weight' => -15,
+        );
+        $page[$key]['cs']['csl'] = array(
+          '#markup' => '<div class="block-region-demo">Content Sidebar Left</div>',
+          '#weight' => -15,
+        );
+        $page[$key]['cs']['csl']['#prefix'] = '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">';
+        $page[$key]['cs']['csl']['#suffix'] = '</div>';
+        $page[$key]['cs']['csr'] = array(
+          '#markup' => '<div class="block-region-demo">Content Sidebar Right</div>',
+          '#weight' => -15,
+        );
+        $page[$key]['cs']['csr']['#prefix'] = '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">';
+        $page[$key]['cs']['csr']['#suffix'] = '</div>';
+        $page[$key]['cs']['#prefix'] = '<div class="row clearfix">';
+        $page[$key]['cs']['#suffix'] = '</div>';
+        $page[$key]['cs']['#weight'] = -5;
+
+
+        $page[$key]['footer'] = array(
+          '#markup' => '<div class="block-region-demo">Below Content</div>',
+          '#weight' => 15,
+        );
+      }
+    }
+    if (isset($_GET['destination'])) {
+      $page['content']['backlink'] = array(
+        '#type' => 'link',
+        '#title' => t('Exit  region demonstration'),
+        '#href' => $_GET['destination'],
+        '#options' => array('attributes' => array('class' => array('button', 'button-blue'))),
+        '#weight' => 0,
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ *
+ * Let Drupal know we have template and theme files in this module.
+ */
+function express_layout_drag_theme_registry_alter(&$theme_registry) {
+  $module_path = drupal_get_path('module', 'express_layout_drag');
+  $theme_registry_copy = $theme_registry;
+  _theme_process_registry($theme_registry_copy, 'phptemplate', 'theme_engine', 'view', $module_path);
+  $theme_registry += array_diff_key($theme_registry_copy, $theme_registry);
+  $hooks = array('view');
+  foreach ($hooks as $h) {
+    if (isset($theme_registry[$h]['theme paths'])) {
+      $first_element = array_shift($theme_registry[$h]['theme paths']);
+      array_unshift($theme_registry[$h]['theme paths'], array_shift($theme_registry[$h]['theme paths']), $module_path);
+    }
+  }
+}
+
+/**
+ * Get the newest/recently updated beans.
+ */
+function express_layout_drag_latest_blocks() {
+  $beans = express_layout_drag_bean_information($bid = NULL, $limit = 5);
+  $bean_info = bean_entity_info();
+  $bean_types = $bean_info['bean']['bundles'];
+  $all_beans = array();
+  foreach ($beans as $bid => $bean) {
+    $block_vars = express_layout_drag_bean_information($bid);
+    $type = current($block_vars)->type;
+    current($block_vars)->type_label = express_layout_drag_get_bean_type_name($type);
+    //print theme('express_layout_editor_block', array('layout_edit' => $block_vars, 'bid' => $bid));
+  }
+  return $beans;
+}
+
+/**
+ * Sort function for bean labels.
+ */
+function sort_blocks_alpha($a, $b) {
+    return strcmp($a->label, $b->label);
+}
+
+/**
+ * Get the permissions for bean types.
+ */
+function express_layout_drag_bean_permissions($type = NULL) {
+  $bean_info = bean_entity_info();
+}
+
+function express_layout_drag_form($form, &$form_state, $layout) {
+  $form = array();
+  $fields = express_layout_field_to_region_map();
+  $layout_config = array();
+  if (isset($layout->node_type)) {
+    $layout_config = variable_get('express_layout_settings_' . $layout->node_type, array());
+  }
+
+  foreach ($fields as $key => $field) {
+    $values = array();
+    if (!empty($layout->{$key})) {
+      foreach ($layout->{$key}[LANGUAGE_NONE] as $target) {
+        $values[] = $target['target_id'];
+
+      }
+    }
+    $id = str_replace('_', '-', $key);
+    $form[$key] = array(
+      '#type' => 'hidden',
+      '#title' => $key,
+      '#default_value' => join(',', $values),
+      '#attributes' => array(
+        'id' => 'edit-' . $id,
+      ),
+    );
+    if (!$layout_config[$key]) {
+      $form[$key]['#access'] = FALSE;
+    }
+  }
+
+  $form['layout'] = array(
+    '#type' => 'hidden',
+    '#value' => $layout->layout_id,
+  );
+  $form['actions']['save'] = array(
+    '#value' => 'Save Layout',
+    '#type' => 'submit',
+  );
+  $form['actions']['cancel'] = array(
+    '#value' => 'Cancel',
+    '#type' => 'submit',
+    '#submit' => array('express_layout_drag_form_cancel'),
+    '#limit_validation_errors' => array(),
+  );
+  if (isset($layout->node_id)) {
+    $_GET['destination'] = 'node/' . $layout->node_id;
+  }
+  return $form;
+}
+
+function express_layout_drag_form_cancel($form, &$form_state) {
+
+}
+function express_layout_drag_form_submit($form, &$form_state) {
+  $params['layout_id'] = $form_state['values']['layout'];
+  if ($layout = express_layout_load_layout_single($params)) {
+    $layout_wrapper = entity_metadata_wrapper('express_layout', $layout);
+    $fields = express_layout_field_to_region_map();
+    foreach ($fields as $key => $field) {
+      if (!empty($form_state['values'][$key])) {
+        $values = explode(',', $form_state['values'][$key]);
+        $save = array();
+        foreach($values as $value) {
+          $save[] = array(
+            'target_id' => $value,
+          );
+        }
+        $layout_wrapper->{$key}->set($save);
+      }
+      else {
+        $layout_wrapper->{$key} = NULL;
+      }
+    }
+
+    $layout_wrapper->save();
+    drupal_set_message('Layout changes have been saved.');
+  }
+  else {
+    drupal_set_message(t('oops'));
+  }
+}

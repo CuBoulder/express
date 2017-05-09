@@ -1,0 +1,242 @@
+.express-layout-edit-region-label {
+  font-size: 100%;
+  font-weight: bold;
+  margin:0 0 5px 0;
+  text-transform: uppercase;
+}
+
+.layout-area {
+  margin-bottom: 10px;
+}
+
+.block-tray {
+  outline:none;
+  padding:0;
+  .dragster-block {
+    margin: 0;
+    //margin-bottom: 10px;
+  }
+}
+.dragster-block {
+  position: relative;
+  font-size: 85%;
+}
+.dragster-block {
+  position: relative;
+  padding-right: 50px;
+  .operations {
+    display: none;
+    font-size: 75%;
+  }
+  &:after {
+    content: '\f047';
+    font-family: FontAwesome;
+    padding:10px;
+    position: absolute;
+    top:calc(50% - 21px);
+    right:0;
+    opacity: .25;
+  }
+  &:hover{
+    &:after {
+      opacity: .75;
+    }
+  }
+}
+.layout-area {
+ .dragster-block {
+   background-color: #555;
+   color:#fff;
+   &:after {
+     opacity: .5;
+   }
+   .operations {
+     display: block;
+   }
+   span.operations {
+     display: inline-block;
+     margin-left:10px;
+     font-size: 110%;
+     a {
+       padding: 5px;
+       color:#fff;
+     }
+     a.operation-remove1 {
+       color:red;
+     }
+   }
+ }
+}
+.dragster-region {
+  outline: none;
+  border: 2px solid #eee;
+  padding: 10px;
+}
+.block-tray {
+  outline: none;
+}
+.block-category {
+  clear:both;
+  display: flex;
+  flex-wrap: wrap;
+  margin:0 -10px;
+  .dragster-draggable + .dragster-draggable {
+    margin: 10px;
+  }
+  .dragster-draggable {
+    margin: 10px;
+    background: #eee;
+  }
+}
+
+.layout-edit-operations,
+.layout-editor-block-category {
+  border-bottom:1px solid #eee;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+.layout-editor-block-category:last-child {
+  border:none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+a.preview-regions-link {
+  font-size:65%;
+  font-weight: normal;
+  float: right;
+}
+
+.block-region-demo {
+  background-color: #eee;
+  color:#333;
+  padding:40px;
+  text-align: center;
+  font-weight: bold;
+}
+.layout-editor-block-filter {
+  margin-bottom: 20px;
+  border:2px solid #eee;
+  padding:10px;
+  label {
+    margin-bottom: 10px;
+  }
+  input {
+    margin-right:10px;
+  }
+
+}
+.ui-autocomplete.layout-edit-autocomplete {
+  max-width:320px;
+  a {
+    padding:5px;
+    display: block;
+    color:#333;
+    &:hover {
+      background:#eee;
+    }
+  }
+  -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.search-hidden {
+  display: none;
+}
+.search-found {
+  display: inline-block;
+}
+@media screen and (min-width:768px) {
+  .layout-editor-regions {
+    overflow-y: scroll;
+    padding:10px;
+    border:2px solid #eee;
+    padding-bottom:100px;
+
+
+  }
+  .fixed {
+    top:0;
+    position: fixed;
+    margin-top: 100px;
+
+  }
+}
+.layout-editor-regions-wrapper1 {
+  height: 200px;
+  overflow-y: scroll;
+}
+
+.express-layout-editor-vertical {
+  padding-bottom: 33vh;
+}
+.layout-region-map {
+  position: relative;
+  .express-layout-edit-region-label {
+    text-align: center;
+  }
+}
+.vertical-block-tray {
+  padding:20px;
+  background:#eee;
+  position: fixed;
+  height:33vh;
+  overflow-y: scroll;
+  bottom:0;
+  left:0;
+  right:0;
+  z-index: 2;
+  -webkit-box-shadow: 0 25px 10px rgba(0, 0, 0, 0.25);
+    -moz-box-shadow: 0 25px 10px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+    border-top:1px solid #ccc;
+    .dragster-region,
+    .layout-editor-block-filter {
+      background: #fff;
+    }
+}
+.vertical-block-tray.block-tray-minimized {
+  height: 50px;
+  padding:10px 20px;
+}
+
+.latest-blocks {
+  border:2px solid #eee;
+  padding:10px;
+  margin-bottom: 20px;
+}
+.latest-blocks.block-category {
+  margin: 0 0 20px 0;
+}
+
+.layout-region-disabled {
+  border: 2px solid #eee;
+  padding: 10px;
+  background:#f5f5f5;
+  color:#656565;
+  margin-bottom: 10px;
+}
+.layout-changed-warning {
+  padding:20px;
+  border:1px solid #eee;
+  background: #eee;
+  font-size: 125%;
+  margin-bottom: 20px;
+  display: none;
+}
+
+a.block-tray-toggle {
+  position: absolute;
+  top:15px;
+  right:40px;
+  z-index: 1;
+  color: #666;
+  &:hover,
+  &:active,
+  &:focus {
+    color: #666;
+  }
+}
+.block-tray-minimal {
+  display: none;
+}

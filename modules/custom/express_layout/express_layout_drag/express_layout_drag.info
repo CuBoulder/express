@@ -1,0 +1,14 @@
+name = Express Layout Drag
+description = Drag blocks around in different regions
+core = 7.x
+package = Other
+version = 7.x-1.0
+
+scripts[] = js/jquery-ui-1.9.2.custom.js
+scripts[] = js/dragster.js
+scripts[] = js/express-layout-drag.js
+scripts[] = js/jquery.stickyelement.min.js
+
+
+stylesheets[all][] = css/dragster.css
+stylesheets[all][] = css/express-layout-drag.css
