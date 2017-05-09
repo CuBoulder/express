@@ -62,7 +62,7 @@
       $('i.fa', this).toggleClass('fa-expand').toggleClass('fa-compress');
     })
 
-    $('button.express-layout-editor-submit').click(function(){
+    $('button.express-layout-editor-save').click(function(){
       $('form#express-layout-drag-form').submit();
     });
     $('button.express-layout-editor-cancel').click(function(){

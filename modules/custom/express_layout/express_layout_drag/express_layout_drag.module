@@ -331,8 +331,8 @@ function express_layout_drag_form($form, &$form_state, $layout) {
     '#submit' => array('express_layout_drag_form_cancel'),
     '#limit_validation_errors' => array(),
   );
-  $form['actions']['#prefix'] = '<div class="element-invisible1">';
-  $form['actions']['#suffix'] = '</div>';
+
+  $form['actions']['#weight'] = 100;
 
   if (isset($layout->node_id)) {
     $form_state['#layout_node_id'] = $layout->node_id;
@@ -343,7 +343,20 @@ function express_layout_drag_form($form, &$form_state, $layout) {
     'field_feature_layout_toggle' => 'field_feature_layout_toggle',
     'field_feature_title_image' => 'field_feature_title_image',
   ));
-  dpm($layout);
+
+  $form['feature_layout'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Layout Design Options',
+  );
+  $form['field_feature_layout_toggle'][LANGUAGE_NONE]['#description'] = 'Choosing the Feature Layout option removes the sidebar regions to focus on the page content.';
+  $form['feature_layout']['field_feature_layout_toggle'] = $form['field_feature_layout_toggle'];
+  unset($form['field_feature_layout_toggle']);
+
+
+  $form['feature_layout']['field_feature_title_image'] = $form['field_feature_title_image'];
+  unset($form['field_feature_title_image']);
+
+
   return $form;
 }
 

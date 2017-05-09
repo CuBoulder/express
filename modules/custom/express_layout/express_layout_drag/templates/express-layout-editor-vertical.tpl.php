@@ -31,7 +31,7 @@
         </div>
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 
-          <button class="btn btn-success express-layout-editor-save">Save</button> <button class="btn btn-default express-layout-editor-cancel">Cancel</button>
+          <button class="btn btn-success express-layout-editor-save">Save Layout</button> <button class="btn btn-default express-layout-editor-cancel">Cancel</button>
         </div>
       </div>
       <P>
