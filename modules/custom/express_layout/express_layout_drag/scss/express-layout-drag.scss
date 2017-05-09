@@ -47,6 +47,9 @@
  .dragster-block {
    background-color: #555;
    color:#fff;
+   &:hover {
+     background-color: #007BC8;
+   }
    &:after {
      opacity: .5;
    }
@@ -67,6 +70,7 @@
    }
  }
 }
+
 .dragster-region {
   outline: none;
   border: 2px solid #eee;

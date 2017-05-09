@@ -362,3 +362,13 @@ function express_layout_update_7004() {
     }
   }
 }
+/**
+ * Add additional fields to express_layout table.
+ */
+function express_layout_update_7005() {
+    $table = 'express_layout';
+    $schema = drupal_get_schema_unprocessed('express_layout', $table);
+    foreach (array('weights', 'node_id', 'path', 'layout_type') as $field) {
+      db_add_field($table, $field, $schema['fields'][$field]);
+    }
+}

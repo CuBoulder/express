@@ -13,6 +13,7 @@
 .dragster-block:hover:after { opacity: .75; }
 
 .layout-area .dragster-block { background-color: #555; color: #fff; }
+.layout-area .dragster-block:hover { background-color: #007BC8; }
 .layout-area .dragster-block:after { opacity: .5; }
 .layout-area .dragster-block .operations { display: block; }
 .layout-area .dragster-block span.operations { display: inline-block; margin-left: 10px; font-size: 110%; }

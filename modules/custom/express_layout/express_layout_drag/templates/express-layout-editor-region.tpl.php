@@ -6,7 +6,7 @@
     $region = 'footer';
   }
   else {
-    $region = $variables['layout_edit']['field']['settings']['region'];
+    $region = $variables['layout_edit']['field']['settings']['field'];
   }
 ?>
 

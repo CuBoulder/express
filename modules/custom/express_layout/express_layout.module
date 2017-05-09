@@ -343,6 +343,14 @@ function express_layout_image_default_styles() {
   return $styles;
 }
 
+/**
+ * Load a single layout entity.
+ *
+ * nid: the node id of the layout.
+ * path: the path of the layout (future).
+ * type: the type of the layout (future, such as master layout, node layout).
+ * layout_id: the id of the layout.
+ */
 function express_layout_load_layout_single($params) {
   $key = NULL;
   // $nid = NULL, $path = NULL, $type = NULL, $layout_id = NULL
@@ -350,7 +358,6 @@ function express_layout_load_layout_single($params) {
   $path = isset($params['path']) ? $params['path']: NULL;
   $type = isset($params['type']) ? $params['type']: NULL;
   $layout_id = isset($params['layout_id']) ? $params['layout_id']: NULL;
-
 
   $query = db_select('express_layout', 'el');
   $query->fields('el', array('layout_id', 'node_id', 'path', 'layout_type'));
@@ -372,8 +379,6 @@ function express_layout_load_layout_single($params) {
       return $layout;
     }
   }
-
-
 }
 
 /**
@@ -384,6 +389,8 @@ function express_layout_page_alter(&$page) {
   $node = menu_get_object();
   $type = NULL;
   $nid = NULL;
+
+  // Build parameters for loading the layout for this page.
   if ($node) {
     // Load Settings
     $settings = variable_get('express_layout_settings_' . $node->type, array());
@@ -394,11 +401,15 @@ function express_layout_page_alter(&$page) {
     $nid = arg(1);
     $type = 'page';
   }
-  //express_layout_load_layout_single($nid);
+  $params = array('nid' => $nid);
+
+  // Load layout and attach.
+  $layout = express_layout_load_layout_single($params);
   if ($nid && $type) {
     express_layout_attach($page, $nid, $type);
   }
 
+  /*
   $condition = array(
     'id' => 1,
     'title' => 'Page Master Layout',
@@ -412,16 +423,20 @@ function express_layout_page_alter(&$page) {
     'status' => 1,
   );
   $condition['conditions'] = serialize($condition['conditions']);
-}
-function express_layouts_get_master_layouts($args) {
+  */
 
+}
+
+/**
+ * Load master layouts.
+ */
+function express_layouts_get_master_layouts($args) {
   $layouts = array();
+  /*
   $query = db_select('express_layout_conditions', 'elc');
   $query->fields('elc', array('id', 'conditions', 'layout_id', 'status'));
   $query->condition('elc.status', 1, '=');
-
   $masters = $query->execute()->fetchAll();
-
   foreach ($masters as $master) {
     $conditions = unserialize($master->conditions);
     foreach ($conditions as $type => $condition) {
@@ -434,18 +449,24 @@ function express_layouts_get_master_layouts($args) {
       }
     }
   }
+  */
   return $layouts;
 }
 
+/**
+ * Function for attaching layouts to page.
+ */
 function express_layout_attach(&$page, $nid, $type) {
   // Is this a node id that allows custom layouts?
   if (isset($type) && isset($nid) && !path_is_admin(current_path())) {
     // Add css
     drupal_add_css(drupal_get_path('module', 'express_layout') . '/css/express-layout.css');
 
-    // Load node layout
+    // Build list of layouts for this page.
     $layouts = array();
     $layouts[$nid] = $nid;
+
+    // experiment with loading multiple layouts
     if (!empty($_GET['layouts'])) {
       $add_layouts = explode(' ', $_GET['layouts']);
       foreach ($add_layouts as $id) {
@@ -461,84 +482,113 @@ function express_layout_attach(&$page, $nid, $type) {
       ),
       'node' => menu_get_object(),
     );
+    // Get master layouts.
     $master_layouts = express_layouts_get_master_layouts($args);
     foreach ($master_layouts as $layout) {
       $layouts[$layout] = $layout;
     }
 
-    // Put added layouts into &$page variable so other hooks can use them.
+    // Put added layout ids into &$page variable so other hooks can use them.
     $page['#express_layouts'] = $layouts;
     $layout_regions = array();
+    // Loop through layouts.
     foreach ($page['#express_layouts'] as $key) {
       $params['nid'] = $key;
+
+      // Load layout
       if ($layout = express_layout_load_layout_single($params)) {
         // Gather all blocks
         $fields = express_layout_field_to_region_map();
+        // Get delta information
         $deltas = unserialize($layout->weights);
+        // Loop through layout fields and get beans, build blocks.
         foreach ($fields as $field => $field_data) {
           $blocks = array();
           $block_output = array();
+
+          // If field is not empty, let's do stuff.
           if (!empty($layout->{$field})) {
             $region = $field_data['region'];
             // Loop through all referenced beans.
             $beans = array();
             foreach ($layout->{$field}[LANGUAGE_NONE] as $block) {
+              // Build list of beans so we can load them all at once.
               $beans[] = $block['target_id'];
             }
             // Load the bean objects
             if (!empty($beans)) {
               $beans = bean_load_multiple($beans);
             }
-            // Loop through all bean objects.
+            // Loop through all bean objects and build the blocks.
             $block_output = array();
+            $delta = 0;
             foreach ($beans as $bean) {
+              $delta++;
               // If user has view access.
               if (bean_access('view', $bean)) {
-                // Add to $extra.
                 $bid = $bean->bid;
-                $delta = $deltas[$field][$bid];
-
+                // Beans that are header/footer are part of same region.
                 if ($field == 'field_header'){
-                  $layout_regions[$region]['above_content'][$delta] = _express_layout_bean_to_block($bean, $region);
+                  $layout_regions[$region]['header'][$delta] = _express_layout_bean_to_block($bean, $region);
+                  $layout_regions[$region]['header'][$delta]['#bid'] = $bean->bid;
+
                 }
                 elseif ($field == 'field_footer') {
-                  $layout_regions[$region]['below_content'][$delta] = _express_layout_bean_to_block($bean, $region);
+                  $layout_regions[$region]['footer'][$delta] = _express_layout_bean_to_block($bean, $region);
+                  $layout_regions[$region]['footer'][$delta]['#bid'] = $bean->bid;
                 }
                 else {
                   $layout_regions[$region][$delta] = _express_layout_bean_to_block($bean, $region);
+                  $layout_regions[$region][$delta]['#bid'] = $bean->bid;
                 }
               }
             }
-
-
-            $blocks = array(
-              'content' => $block_output,
-              '#weight' => $field_data['weight'],
-            );
           }
-
         }
         // Place gathered blocks in regions
         foreach($layout_regions as $region => $blocks) {
-          ksort($blocks);
+          //ksort($blocks);
+          $drag_region = $region;
+          // Blocks in content region have two sub regions.
           if ($region == 'content') {
-            if (!empty($blocks['above_content'])) {
-              $page[$region]['above_content'] = $blocks['above_content'];
-              $page[$region]['above_content']['#weight'] = -100;
+            // Header blocks go first in content region.
+            if (!empty($blocks['header'])) {
+              $sub_region = 'header';
+              $page[$region][$sub_region]['layout_blocks'] = $blocks['header'];
+              $page[$region][$sub_region]['#weight'] = -100;
             }
-            if (!empty($blocks['below_content'])) {
-              $page[$region]['below_content'] = $blocks['below_content'];
-              $page[$region]['below_content']['#weight'] = 100;
+            // Footer blocks go last in content region.
+            if (!empty($blocks['footer'])) {
+              $sub_region = 'footer';
+              $page[$region][$sub_region]['layout_blocks'] = $blocks['footer'];
+              $page[$region][$sub_region]['#weight'] = 100;
             }
           }
           else {
             $page[$region]['layout_blocks'] = $blocks;
+            $drag_region = $region;
+            $page[$region]['layout_blocks']['#weight'] = -10;
           }
-
           $page[$region]['#sorted'] = FALSE;
+
+          // Make sure subnavigation blocks are at the top.
+          if (!empty($page[$region]['menu_block_site_navigation_menus-1'])) {
+            $page[$region]['menu_block_site_navigation_menus-1']['#weight'] = -1000;
+          }
+          if (!empty($page[$region]['menu_block_site_navigation_menus-2'])) {
+            $page[$region]['menu_block_site_navigation_menus-1']['#weight'] = -1000;
+          }
+          if (!empty($page[$region]['menu_block_site_navigation_menus-3'])) {
+            $page[$region]['menu_block_site_navigation_menus-1']['#weight'] = -1000;
+          }
+          if (!empty($page[$region]['menu_block_site_navigation_menus-4'])) {
+            $page[$region]['menu_block_site_navigation_menus-1']['#weight'] = -1000;
+          }
         }
       }
     }
+
+    // Add title image, feature/default layout settings.
     $params['nid'] = $nid;
     if ($layout = express_layout_load_layout_single($params)) {
 
@@ -695,9 +745,6 @@ function express_layout_preprocess_node(&$vars) {
     if (!empty($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value']) && ($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value'] == 'feature_layout') && (!path_is_admin(current_path()))) {
       $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__featurelayout';
     }
-
-
-
   }
 
   // add inner sidebar regions to nodes
@@ -886,89 +933,91 @@ function express_layout_inline_entity_form_entity_table($variables) {
 
   // Build an array of entity rows for the table.
   $rows = array();
+
   foreach (element_children($form) as $key) {
-    $entity = $form[$key]['#entity'];
-    list($entity_id) = entity_extract_ids($entity_type, $entity);
-    // Many field formatters (such as the ones for files and images) need
-    // certain data that might be missing on unsaved entities because the field
-    // load hooks haven't run yet. Because of that, those hooks are invoked
-    // explicitly. This is the same trick used by node_preview().
-    if ($form[$key]['#needs_save']) {
-      _field_invoke_multiple('load', $entity_type, array($entity_id => $entity));
-    }
 
-    $row_classes = array('ief-row-entity');
-    $cells = array();
-    if ($has_tabledrag) {
-      $cells[] = array('data' => '', 'class' => array('ief-tabledrag-handle'));
-      $cells[] = drupal_render($form[$key]['delta']);
-      $row_classes[] = 'draggable';
-    }
-    // Add a special class to rows that have a form underneath, to allow
-    // for additional styling.
-    if (!empty($form[$key]['form'])) {
-      $row_classes[] = 'ief-row-entity-form';
-    }
-
-    // Add fields that represent the entity.
-    $wrapper = entity_metadata_wrapper($entity_type, $entity);
-    foreach ($fields as $field_name => $field) {
-      $data = '';
-      if ($field['type'] == 'property') {
-        // Small 'hack' for beans to correctly get title/label.
-        if ($entity_type == 'bean') {
-          $data = $entity->{$field_name};
-        }
-        else {
-          $property = $wrapper->{$field_name};
-          // label() returns human-readable versions of token and list properties.
-          $data = $property->label() ? $property->label() : $property->value();
-        }
-        $data = empty($field['sanitized']) ? check_plain($data) : $data;
+      $entity = $form[$key]['#entity'];
+      list($entity_id) = entity_extract_ids($entity_type, $entity);
+      // Many field formatters (such as the ones for files and images) need
+      // certain data that might be missing on unsaved entities because the field
+      // load hooks haven't run yet. Because of that, those hooks are invoked
+      // explicitly. This is the same trick used by node_preview().
+      if ($form[$key]['#needs_save']) {
+        _field_invoke_multiple('load', $entity_type, array($entity_id => $entity));
       }
-      elseif ($field['type'] == 'field' && isset($entity->{$field_name})) {
-        $display = array(
-            'label' => 'hidden',
-          ) + $field;
-        // The formatter needs to be under the 'type' key.
-        if (isset($display['formatter'])) {
-          $display['type'] = $display['formatter'];
-          unset($display['formatter']);
-        }
 
-        $renderable_data = field_view_field($entity_type, $entity, $field_name, $display);
-        // The field has specified an exact delta to display.
-        if (isset($field['delta'])) {
-          if (!empty($renderable_data[$field['delta']])) {
-            $renderable_data = $renderable_data[$field['delta']];
+      $row_classes = array('ief-row-entity');
+      $cells = array();
+      if ($has_tabledrag) {
+        $cells[] = array('data' => '', 'class' => array('ief-tabledrag-handle'));
+        $cells[] = drupal_render($form[$key]['delta']);
+        $row_classes[] = 'draggable';
+      }
+      // Add a special class to rows that have a form underneath, to allow
+      // for additional styling.
+      if (!empty($form[$key]['form'])) {
+        $row_classes[] = 'ief-row-entity-form';
+      }
+
+      // Add fields that represent the entity.
+      $wrapper = entity_metadata_wrapper($entity_type, $entity);
+      foreach ($fields as $field_name => $field) {
+        $data = '';
+        if ($field['type'] == 'property') {
+          // Small 'hack' for beans to correctly get title/label.
+          if ($entity_type == 'bean') {
+            $data = $entity->{$field_name};
           }
           else {
-            // The field has no value for the specified delta, show nothing.
-            $renderable_data = array();
+            $property = $wrapper->{$field_name};
+            // label() returns human-readable versions of token and list properties.
+            $data = $property->label() ? $property->label() : $property->value();
           }
+          $data = empty($field['sanitized']) ? check_plain($data) : $data;
         }
-        $data = drupal_render($renderable_data);
+        elseif ($field['type'] == 'field' && isset($entity->{$field_name})) {
+          $display = array(
+              'label' => 'hidden',
+            ) + $field;
+          // The formatter needs to be under the 'type' key.
+          if (isset($display['formatter'])) {
+            $display['type'] = $display['formatter'];
+            unset($display['formatter']);
+          }
+
+          $renderable_data = field_view_field($entity_type, $entity, $field_name, $display);
+          // The field has specified an exact delta to display.
+          if (isset($field['delta'])) {
+            if (!empty($renderable_data[$field['delta']])) {
+              $renderable_data = $renderable_data[$field['delta']];
+            }
+            else {
+              // The field has no value for the specified delta, show nothing.
+              $renderable_data = array();
+            }
+          }
+          $data = drupal_render($renderable_data);
+        }
+        elseif ($field['type'] == 'callback' && isset($field['render_callback']) && function_exists($field['render_callback'])) {
+          $data = call_user_func($field['render_callback'], $entity_type, $entity);
+        }
+
+        $cells[] = array('data' => $data, 'class' => array('inline-entity-form-' . $entity_type . '-' . $field_name));
       }
-      elseif ($field['type'] == 'callback' && isset($field['render_callback']) && function_exists($field['render_callback'])) {
-        $data = call_user_func($field['render_callback'], $entity_type, $entity);
+      // Add the buttons belonging to the "Operations" column.
+      $cells[] = drupal_render($form[$key]['actions']);
+      // Create the row.
+      $rows[] = array('data' => $cells, 'class' => $row_classes);
+
+      // If the current entity array specifies a form, output it in the next row.
+      if (!empty($form[$key]['form'])) {
+        $row = array(
+          array('data' => drupal_render($form[$key]['form']), 'colspan' => count($fields) + 1),
+        );
+        $rows[] = array('data' => $row, 'class' => array('ief-row-form'), 'no_striping' => TRUE);
       }
 
-      $cells[] = array('data' => $data, 'class' => array('inline-entity-form-' . $entity_type . '-' . $field_name));
-    }
-    // Add the buttons belonging to the "Operations" column.
-    $cells[] = drupal_render($form[$key]['actions']);
-    // Create the row.
-    $rows[] = array('data' => $cells, 'class' => $row_classes);
-
-    // If the current entity array specifies a form, output it in the next row.
-    if (!empty($form[$key]['form'])) {
-      $row = array(
-        array('data' => drupal_render($form[$key]['form']), 'colspan' => count($fields) + 1),
-      );
-      $rows[] = array('data' => $row, 'class' => array('ief-row-form'), 'no_striping' => TRUE);
-    }
   }
-
   if (!empty($rows)) {
     $id = 'ief-entity-table-' . $form['#id'];
     if ($has_tabledrag) {
@@ -1000,38 +1049,62 @@ function express_layout_field_to_region_map($field = NULL) {
     'field_header' => array(
       'region' => 'content',
       'weight' => '-100',
+      'label' => 'Above Content',
+      'field' => 'header',
     ),
     'field_footer' => array(
       'region' => 'content',
       'weight' => '100',
+      'label' => 'Below Content',
+      'field' => 'footer',
     ),
     'field_sidebar_first' => array(
       'region' => 'sidebar_first',
       'weight' => '-100',
+      'label' => 'Sidebar First',
+      'field' => 'sidebar_first',
     ),
     'field_sidebar_second' => array(
       'region' => 'sidebar_second',
       'weight' => '-100',
+      'label' => 'Sidebar Second',
+      'field' => 'sidebar_second',
     ),
     'field_intro' => array(
       'region' => 'intro',
       'weight' => '-100',
+      'label' => 'Intro',
+      'field' => 'intro',
     ),
     'field_slider' => array(
       'region' => 'slider',
       'weight' => '-100',
+      'label' => 'Slider',
+      'field' => 'slider',
     ),
     'field_wide_2' => array(
       'region' => 'wide_2',
       'weight' => '-100',
+      'label' => 'Post Wide',
+      'field' => 'wide_2',
     ),
     'field_inner_content_right' => array(
       'region' => 'content_sidebar_right',
       'weight' => '-100',
+      'label' => 'Content Sidebar Right',
+      'field' => 'inner_content_right',
     ),
     'field_inner_content_left' => array(
       'region' => 'content_sidebar_left',
       'weight' => '-100',
+      'label' => 'Content Sidebar Left',
+      'field' => 'inner_content_left',
+    ),
+    'field_content_bottom' => array(
+      'region' => 'content_bottom',
+      'weight' => '-100',
+      'label' => 'Content Bottom',
+      'field' => 'content_bottom',
     ),
   );
   if ($field) {
