@@ -125,10 +125,15 @@ function express_layout_drag_edit($node) {
  * Returns all bean data from bean table.
  */
 function express_layout_drag_bean_information($bid = NULL, $limit = NULL) {
-  //$beans = bean_get_all_beans();
 
   $query = db_select('bean', 'b');
   $query->fields('b', array('bid', 'delta', 'label' ,'title', 'type', 'changed'));
+
+  // Check bean permissions
+  $permissions = express_layout_drag_bean_permissions();
+  if (!empty($permissions)) {
+    $query->condition('b.type', $permissions, 'IN');
+  }
 
   // Allow to get just a single bean.
   if ($bid) {
@@ -137,9 +142,10 @@ function express_layout_drag_bean_information($bid = NULL, $limit = NULL) {
 
   // Allow a limit on the number of beans returned.
   if ($limit) {
-      $query->orderBy('changed', 'DESC');
-      $query->range(0, $limit);
-    }
+    $query->orderBy('changed', 'DESC');
+    $query->range(0, $limit);
+  }
+
   $beans = $query->execute()->fetchAllAssoc('bid');
   return $beans;
 }
@@ -238,6 +244,7 @@ function express_layout_drag_theme_registry_alter(&$theme_registry) {
  * Get the newest/recently updated beans.
  */
 function express_layout_drag_latest_blocks() {
+
   $beans = express_layout_drag_bean_information($bid = NULL, $limit = 5);
   $bean_info = bean_entity_info();
   $bean_types = $bean_info['bean']['bundles'];
@@ -262,7 +269,20 @@ function sort_blocks_alpha($a, $b) {
  * Get the permissions for bean types.
  */
 function express_layout_drag_bean_permissions($type = NULL) {
+  $permissions = array();
   $bean_info = bean_entity_info();
+  $bean_types = $bean_info['bean']['bundles'];
+  foreach ($bean_types as $key => $value) {
+    if (user_access('create any ' . $key . ' bean')) {
+      $permissions[$key] = $key;
+    }
+  }
+  if ($type) {
+    return array($type => $permissions[$type]);
+  }
+  else {
+    return $permissions;
+  }
 }
 
 function express_layout_drag_form($form, &$form_state, $layout) {
@@ -290,11 +310,11 @@ function express_layout_drag_form($form, &$form_state, $layout) {
         'id' => 'edit-' . $id,
       ),
     );
-    if (!$layout_config[$key]) {
+    if (isset($layout_config[$key]) && !$layout_config[$key]) {
       $form[$key]['#access'] = FALSE;
     }
   }
-
+  //dpm($layout);
   $form['layout'] = array(
     '#type' => 'hidden',
     '#value' => $layout->layout_id,
