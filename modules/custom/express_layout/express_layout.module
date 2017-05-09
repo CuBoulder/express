@@ -625,8 +625,9 @@ function express_layout_attach(&$page, $nid, $type) {
       if (isset($settings) && $settings['field_feature_layout_toggle']) {
         // Check feature/default layout setting
         if (!empty($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value']) && ($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value'] == 'feature_layout') && (!path_is_admin(current_path()))) {
+
           // Get body content
-          $content = $page['content']['system_main']['nodes'][$node->nid]['body'][0]['#markup'];
+          $content = $page['content']['system_main']['nodes'][$nid]['body'][0]['#markup'];
 
           // Remove empty paragraphs
           $content = str_replace('<p></p>','',$content);
@@ -669,7 +670,7 @@ function express_layout_attach(&$page, $nid, $type) {
           $page['feature_layout']['#prefix'] = '<div class="feature-story-wrapper">';
           $page['feature_layout']['#suffix'] = '</div>';
           // Add feature layout formatted content
-          $page['feature_layout']['system_main']['nodes'][$node->nid]['body'][0]['#markup'] = $new_content;
+          $page['feature_layout']['system_main']['nodes'][$nid]['body'][0]['#markup'] = $new_content;
           $page['feature_layout']['system_main']['#weight'] = 0;
           // Remove sidebars
           unset($page['sidebar_first']);
