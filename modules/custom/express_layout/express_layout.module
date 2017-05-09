@@ -374,6 +374,16 @@ function express_layout_load_layout_single($params) {
     $query->condition('el.layout_id', $layout_id, '=');
   }
   $results = $query->execute()->fetch();
+  // If a layout wasn't loaded, try to load it the old way: node id = layout id.
+  if (empty($results)) {
+    $query = db_select('express_layout', 'el');
+    $query->fields('el', array('layout_id', 'node_id', 'path', 'layout_type'));
+    if ($nid) {
+      $query->condition('el.layout_id', $nid, '=');
+    }
+    $results = $query->execute()->fetch();
+  }
+
   if (isset($results->layout_id)) {
     if ($layout = entity_load_single('express_layout', $results->layout_id)) {
       return $layout;
