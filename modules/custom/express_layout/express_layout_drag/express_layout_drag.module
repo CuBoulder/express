@@ -288,6 +288,8 @@ function express_layout_drag_bean_permissions($type = NULL) {
 function express_layout_drag_form($form, &$form_state, $layout) {
   $form = array();
   $fields = express_layout_field_to_region_map();
+
+
   $layout_config = array();
   if (isset($layout->node_type)) {
     $layout_config = variable_get('express_layout_settings_' . $layout->node_type, array());
@@ -329,18 +331,40 @@ function express_layout_drag_form($form, &$form_state, $layout) {
     '#submit' => array('express_layout_drag_form_cancel'),
     '#limit_validation_errors' => array(),
   );
+  $form['actions']['#prefix'] = '<div class="element-invisible1">';
+  $form['actions']['#suffix'] = '</div>';
+
   if (isset($layout->node_id)) {
-    $_GET['destination'] = 'node/' . $layout->node_id;
+    $form_state['#layout_node_id'] = $layout->node_id;
   }
+
+  // Add title image, layout toggle fields to form.
+  field_attach_form('express_layout', $layout, $form, $form_state, NULL, array(
+    'field_feature_layout_toggle' => 'field_feature_layout_toggle',
+    'field_feature_title_image' => 'field_feature_title_image',
+  ));
+  dpm($layout);
   return $form;
 }
 
 function express_layout_drag_form_cancel($form, &$form_state) {
-
+  if (!empty($form_state['#layout_node_id'])) {
+    $form_state['redirect'] = 'node/' . $form_state['#layout_node_id'];
+  }
 }
 function express_layout_drag_form_submit($form, &$form_state) {
+  dpm($form_state);
+  if (!empty($form_state['#layout_node_id'])) {
+    $form_state['redirect'] = 'node/' . $form_state['#layout_node_id'];
+  }
   $params['layout_id'] = $form_state['values']['layout'];
   if ($layout = express_layout_load_layout_single($params)) {
+
+    $layout->field_feature_layout_toggle = $form_state['values']['field_feature_layout_toggle'];
+
+    $layout->field_feature_title_image = $form_state['values']['field_feature_title_image'];
+
+
     $layout_wrapper = entity_metadata_wrapper('express_layout', $layout);
     $fields = express_layout_field_to_region_map();
     foreach ($fields as $key => $field) {
@@ -358,6 +382,10 @@ function express_layout_drag_form_submit($form, &$form_state) {
         $layout_wrapper->{$key} = NULL;
       }
     }
+
+    //$layout_wrapper->field_feature_layout_toggle->set( $form_state['values']['field_feature_layout_toggle']);
+
+    //$layout_wrapper->field_feature_title_image = $form_state['values']['field_feature_title_image'];
 
     $layout_wrapper->save();
     drupal_set_message('Layout changes have been saved.');

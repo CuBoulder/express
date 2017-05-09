@@ -30,7 +30,8 @@
           <h2>Blocks</h2>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-          <?php print render($variables['layout_edit']['form']); ?>
+
+          <button class="btn btn-success express-layout-editor-save">Save</button> <button class="btn btn-default express-layout-editor-cancel">Cancel</button>
         </div>
       </div>
       <P>
@@ -133,7 +134,7 @@
     </div>
   </div>
 
-
+  <?php print render($variables['layout_edit']['form']); ?>
 
 
 </div>

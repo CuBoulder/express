@@ -372,3 +372,10 @@ function express_layout_update_7005() {
       db_add_field($table, $field, $schema['fields'][$field]);
     }
 }
+
+/**
+ * Add node id to existing layout entities.
+ */
+function express_layout_update_7006() {
+
+}

@@ -61,6 +61,13 @@
       $('.vertical-block-tray').toggleClass('block-tray-minimized');
       $('i.fa', this).toggleClass('fa-expand').toggleClass('fa-compress');
     })
+
+    $('button.express-layout-editor-submit').click(function(){
+      $('form#express-layout-drag-form').submit();
+    });
+    $('button.express-layout-editor-cancel').click(function(){
+      $('form#express-layout-drag-form #edit-cancel').click();
+    });
   });
 
   // Update block search results
@@ -75,8 +82,6 @@
         $(this).show();
       }
     });
-
-
   }
 
   // Update block region fields
@@ -101,4 +106,5 @@
     var link = '<a href="#" onclick="document.getElementById(\'express-layout-drag-form\').submit();"> Save changes</a>.';
     $('.layout-changed-warning').html('<i class="fa fa-exclamation-triangle"></i> You have made changes to this layout. Navigating away from this page without saving will discard those changes. ' + link).fadeIn();
   }
+
 })( jQuery );

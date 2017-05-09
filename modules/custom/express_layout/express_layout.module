@@ -601,7 +601,7 @@ function express_layout_attach(&$page, $nid, $type) {
     // Add title image, feature/default layout settings.
     $params['nid'] = $nid;
     if ($layout = express_layout_load_layout_single($params)) {
-
+      $settings = variable_get('express_layout_settings_' . $layout->node_type, array());
       // Add cover image
       if (!empty($layout->field_feature_title_image[LANGUAGE_NONE][0]['uri']) && isset($settings['field_feature_title_image'])) {
         // Add node title to variables
@@ -674,6 +674,7 @@ function express_layout_attach(&$page, $nid, $type) {
           // Remove sidebars
           unset($page['sidebar_first']);
           unset($page['sidebar_second']);
+
         }
       }
     }

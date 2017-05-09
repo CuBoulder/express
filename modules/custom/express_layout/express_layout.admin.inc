@@ -18,7 +18,6 @@ function express_layout_form($field, &$form_state, $op = 'edit', $express_layout
   // Load layout entity and attach fields to it
   $params['nid'] = arg(1);
   $express_layout = express_layout_load_layout_single($params);
-  dpm($express_layout1);
   field_attach_form('express_layout', $express_layout, $form, $form_state);
 
   // Apply saved weights back to ief fields.
