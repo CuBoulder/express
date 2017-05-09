@@ -82,6 +82,7 @@
         $(this).show();
       }
     });
+    $('.layout-edit-block-recent').hide();
   }
 
   // Update block region fields

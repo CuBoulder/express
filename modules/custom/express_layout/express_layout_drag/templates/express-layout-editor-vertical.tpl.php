@@ -62,7 +62,7 @@
 
         <?php
         $beans = express_layout_drag_latest_blocks();
-        print '<div class="layout-editor-block-category"><h3 class="express-layout-edit-region-label">New/Recently Updated</h3><div class="block-category">';
+        print '<div class="layout-editor-block-category layout-edit-block-recent"><h3 class="express-layout-edit-region-label">New/Recently Updated</h3><div class="block-category">';
         foreach ($beans as $bean) {
           $block_vars = express_layout_drag_bean_information($bean->bid);
           $type = current($block_vars)->type;
