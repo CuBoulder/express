@@ -1,6 +1,5 @@
-.express-layout-edit-region-label { font-size: 100%; font-weight: bold; margin: 0 0 5px 0; text-transform: uppercase; }
-
-.layout-area { margin-bottom: 10px; }
+.express-layout-edit-region-label { font-size: 100%; font-weight: bold; margin: 0 0 5px 0; text-transform: uppercase; display: inline-block; }
+.express-layout-edit-region-label + a { font-size: 75%; margin-left: 10px; }
 
 .block-tray { outline: none; padding: 0; }
 .block-tray .dragster-block { margin: 0; }
@@ -18,9 +17,15 @@
 .layout-area .dragster-block .operations { display: block; }
 .layout-area .dragster-block span.operations { display: inline-block; margin-left: 10px; font-size: 110%; }
 .layout-area .dragster-block span.operations a { padding: 5px; color: #fff; }
+.layout-area .dragster-block span.operations a:hover { cursor: pointer; }
 .layout-area .dragster-block span.operations a.operation-remove1 { color: red; }
 
-.dragster-region { outline: none; border: 2px solid #eee; padding: 10px; }
+.layout-editor-region-wrapper { border: 5px solid #eee; padding: 10px; margin-bottom: 10px; }
+.layout-editor-region-wrapper .express-layout-edit-add { display: none; padding-bottom: 10px; }
+
+a.express-layout-edit-add-block-link { white-space: nowrap; }
+
+.dragster-region { outline: none; min-height: 20px; padding: 0; }
 
 .block-tray { outline: none; }
 
@@ -28,7 +33,7 @@
 .block-category .dragster-draggable + .dragster-draggable { margin: 10px; }
 .block-category .dragster-draggable { margin: 10px; background: #eee; }
 
-.layout-edit-operations, .layout-editor-block-category { border-bottom: 1px solid #eee; margin-bottom: 20px; padding-bottom: 20px; }
+.layout-edit-operations, .layout-editor-block-category { border-bottom: 1px solid #eee; margin-bottom: 0px; padding: 20px; }
 
 .layout-editor-block-category:last-child { border: none; margin-bottom: 0; padding-bottom: 0; }
 
@@ -44,6 +49,8 @@ a.preview-regions-link { font-size: 65%; font-weight: normal; float: right; }
 .ui-autocomplete.layout-edit-autocomplete a { padding: 5px; display: block; color: #333; }
 .ui-autocomplete.layout-edit-autocomplete a:hover { background: #eee; }
 
+.layout-edit-block-search { max-width: 100%; }
+
 .search-hidden { display: none; }
 
 .search-found { display: inline-block; }
@@ -55,7 +62,7 @@ a.preview-regions-link { font-size: 65%; font-weight: normal; float: right; }
 .express-layout-editor-vertical { padding-bottom: 33vh; }
 
 .layout-region-map { position: relative; }
-.layout-region-map .express-layout-edit-region-label { text-align: center; }
+.layout-region-map .express-layout-edit-region-label-wrapper1 { text-align: center; }
 
 .vertical-block-tray { padding: 20px; background: #eee; position: fixed; height: 33vh; overflow-y: scroll; bottom: 0; left: 0; right: 0; z-index: 2; -webkit-box-shadow: 0 25px 10px rgba(0, 0, 0, 0.25); -moz-box-shadow: 0 25px 10px rgba(0, 0, 0, 0.25); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25); border-top: 1px solid #ccc; }
 .vertical-block-tray .dragster-region, .vertical-block-tray .layout-editor-block-filter { background: #fff; }
@@ -66,11 +73,11 @@ a.preview-regions-link { font-size: 65%; font-weight: normal; float: right; }
 
 .latest-blocks.block-category { margin: 0 0 20px 0; }
 
-.layout-region-disabled { border: 2px solid #eee; padding: 10px; background: #f5f5f5; color: #656565; margin-bottom: 10px; }
+.layout-region-disabled { border: 5px solid #eee; padding: 10px; background: #eee; color: #656565; margin-bottom: 10px; }
 
 .layout-changed-warning { padding: 20px; border: 1px solid #eee; background: #eee; font-size: 125%; margin-bottom: 20px; display: none; }
 
-a.block-tray-toggle { position: absolute; top: 15px; right: 40px; z-index: 1; color: #666; }
+a.block-tray-toggle { position: absolute; top: 15px; right: 40px; z-index: 1; color: #666; font-size: 125%; }
 a.block-tray-toggle:hover, a.block-tray-toggle:active, a.block-tray-toggle:focus { color: #666; }
 
 .block-tray-minimal { display: none; }

@@ -6,7 +6,7 @@
   $combined = array($label, $title);
 ?>
 
-<div class="dragster-block" data-drag-block-id="<?php print $bid ; ?>" id="dragster-block-<?php print $bid; ?>" data-block-title="<?php print $title; ?>" data-block-label="<?php print $label; ?>" data-block-combined="<?php print join(' ', $combined); ?>">
+<div class="dragster-block" data-drag-block-id="<?php print $bid ; ?>" id="dragster-block-<?php print $bid; ?>" data-block-title="<?php print $title; ?>" data-block-label="<?php print $label; ?>" data-block-combined="<?php print join(' | ', $combined); ?>">
   <?php
 
     $label = array();
@@ -18,11 +18,6 @@
 
   ?>
   <strong><?php print join(' &bull; ', $label); ?></strong>
-  <!--
-  <div class="operations1 btn-group-xs element-invisble">
-    <a href="<?php print $edit; ?>" class="btn  btn-primary ">edit</a> <a href="#" class="btn  btn-danger operation-remove">remove</a>
-  </div>
--->
   <span class="operations">
     <a href="<?php print $edit; ?>" class="operation-edit"><i class="fa fa-pencil"></i><span class="element-invisible">edit</span></a> <a href="#" class="operation-remove"><i class="fa fa-times"></i><span class="element-invisible">remove</span></a>
   </span>

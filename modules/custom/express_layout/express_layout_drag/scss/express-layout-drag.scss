@@ -3,10 +3,15 @@
   font-weight: bold;
   margin:0 0 5px 0;
   text-transform: uppercase;
+  display: inline-block;
+  & + a {
+    font-size: 75%;
+    margin-left: 10px;
+  }
 }
 
 .layout-area {
-  margin-bottom: 10px;
+
 }
 
 .block-tray {
@@ -64,17 +69,35 @@
        padding: 5px;
        color:#fff;
      }
+     a:hover {
+       cursor: pointer;
+     }
      a.operation-remove1 {
        color:red;
      }
    }
  }
 }
+.layout-editor-region-wrapper {
+  border: 5px solid #eee;
+  padding: 10px;
+  margin-bottom: 10px;
 
+  .express-layout-edit-add {
+    display: none;
+    padding-bottom: 10px;
+  }
+  &:hover .express-layout-edit-add {
+    //display: block;
+  }
+}
+a.express-layout-edit-add-block-link {
+  white-space: nowrap;
+}
 .dragster-region {
   outline: none;
-  border: 2px solid #eee;
-  padding: 10px;
+  min-height: 20px;
+  padding:0;
 }
 .block-tray {
   outline: none;
@@ -96,8 +119,8 @@
 .layout-edit-operations,
 .layout-editor-block-category {
   border-bottom:1px solid #eee;
-  margin-bottom: 20px;
-  padding-bottom: 20px;
+  margin-bottom: 0px;
+  padding: 20px;
 }
 .layout-editor-block-category:last-child {
   border:none;
@@ -143,7 +166,9 @@ a.preview-regions-link {
     -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
-
+.layout-edit-block-search {
+  max-width: 100%;
+}
 .search-hidden {
   display: none;
 }
@@ -169,6 +194,7 @@ a.preview-regions-link {
 .layout-editor-regions-wrapper1 {
   height: 200px;
   overflow-y: scroll;
+
 }
 
 .express-layout-editor-vertical {
@@ -176,7 +202,7 @@ a.preview-regions-link {
 }
 .layout-region-map {
   position: relative;
-  .express-layout-edit-region-label {
+  .express-layout-edit-region-label-wrapper1 {
     text-align: center;
   }
 }
@@ -214,9 +240,9 @@ a.preview-regions-link {
 }
 
 .layout-region-disabled {
-  border: 2px solid #eee;
+  border: 5px solid #eee;
   padding: 10px;
-  background:#f5f5f5;
+  background:#eee;
   color:#656565;
   margin-bottom: 10px;
 }
@@ -235,6 +261,7 @@ a.block-tray-toggle {
   right:40px;
   z-index: 1;
   color: #666;
+  font-size: 125%;
   &:hover,
   &:active,
   &:focus {

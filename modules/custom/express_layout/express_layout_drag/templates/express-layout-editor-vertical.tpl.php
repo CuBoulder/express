@@ -18,16 +18,19 @@
 
 <div class="express-layout-editor express-layout-editor-vertical">
   <div class="layout-changed-warning"></div>
+  <P>
+    Drag blocks from below to the region you want them to appear, or click the add link to place an existing block into a region.
+  </P>
   <div class="row clearfix vertical-block-tray">
     <a href="#" class="block-tray-toggle"><i class="fa fa-compress"></i> <span class="element-invisible">Toggle Block Tray Visibility</span></a>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 block-tray-minimal">
-      <h2>Blocks</h2>
+      <h2>Available Blocks</h2>
 
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 block-tray-inner">
       <div class="row clearfix">
         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-          <h2>Blocks</h2>
+          <h2>Available Blocks</h2>
         </div>
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 
@@ -35,10 +38,7 @@
         </div>
       </div>
       <P>
-        Drag blocks from below to the region you want it to appear in.
-      </P>
-      <P>
-        <a href="<?php print $variables['layout_edit']['add_block_link']; ?>" class="btn btn-primary"><i class="fa fa-plus-square"></i> Add Block</a>
+        <a href="<?php print $variables['layout_edit']['add_block_link']; ?>" class="btn btn-primary"><i class="fa fa-plus-square"></i> Add New Block</a>
       </P>
 
       <div class="row clearfix">
@@ -51,18 +51,18 @@
             <label class="express-layout-edit-region-label" for="layout-editor-block-filter-field">
               Search Blocks by title or label:
             </label>
-            <input class="form-text" name="layout-editor-block-filter-field" type="text" id="layout-editor-block-filter-field" placeholder="Search" size="40"/>
+            <input class="form-text layout-edit-block-filter" name="layout-editor-block-filter-field" type="text" id="layout-editor-block-filter-field" placeholder="Search" size="40"/>
             <button id="layout-editor-filter-reset">Reset</button>
           </div>
         </div>
       </div>
 
 
-      <div class="dragster-region dragster-region--drag-only block-tray" data-drag-block-region="block-tray">
+      <div class="dragster-region dragster-region--drag-only block-tray" data-drag-block-region="block-tray" id="block-tray" tabindex="-1">
 
         <?php
         $beans = express_layout_drag_latest_blocks();
-        print '<div class="layout-editor-block-category layout-edit-block-recent"><h3 class="express-layout-edit-region-label">New/Recently Updated</h3><div class="block-category">';
+        print '<div class="layout-editor-block-category layout-edit-block-recent"><h3 class="express-layout-edit-region-label">New/Recently Updated Blocks</h3><div class="block-category">';
         foreach ($beans as $bean) {
           $block_vars = express_layout_drag_bean_information($bean->bid);
           $type = current($block_vars)->type;
@@ -94,10 +94,12 @@
       <?php express_layout_drag_get_field('field_intro', $variables); ?>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <?php express_layout_drag_get_field('field_slider', $variables); ?>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <?php express_layout_drag_get_field('field_slider', $variables); ?>
+      </div>
     </div>
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-      <div class="row clearfix">
+      <div class="row1 clearfix">
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
           <?php express_layout_drag_get_field('field_sidebar_first', $variables); ?>
         </div>

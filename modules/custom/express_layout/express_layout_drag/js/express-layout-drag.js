@@ -1,4 +1,5 @@
 (function( $ ){
+  var dragster;
   jQuery(document).ready(function($){
     // Array of available block for autocomplete
     var blocks = new Array();
@@ -7,7 +8,7 @@
     var layoutChanged = false;
 
     // Create new Dragster object
-    var dragster = new window.Dragster({
+    dragster = new window.Dragster({
         elementSelector: '.dragster-block',
         regionSelector: '.dragster-region',
         dragOnlyRegionCssClass: 'dragster-region--drag-only',
@@ -36,18 +37,42 @@
       }
     }
 
+    $('input.layout-edit-block-search').autocomplete({
+      source: blocks,
+      select: function(event, ui) {
+        if(ui.item){
+            $(this).val(ui.item.value);
+            //alert(ui.item.value);
+            //var search = ui.item.value;
+            //updateResults(search);
+            var instance = $(this).attr('id');
+            insertBlock(instance, ui.item.value);
+        }
+      }
+    }).autocomplete("widget");
+
+
+
     // Add autocomplete function to block search form
     $('input#layout-editor-block-filter-field').autocomplete({
       source: blocks,
       select: function(event, ui) {
         if(ui.item){
-            $('input#layout-editor-block-filter-field').val(ui.item.value);
+            $(this).val(ui.item.value);
             //alert(ui.item.value);
             var search = ui.item.value;
             updateResults(search);
         }
       }
-    }).autocomplete("widget").addClass('layout-edit-autocomplete');
+    }).autocomplete("widget");
+    $('#layout-editor-filter-reset').click(function(){
+      $('input#layout-editor-block-filter-field').val('');
+      $('.block-tray .dragster-block').parent().removeClass('search-hidden').removeClass('search-found');
+      $('.layout-editor-block-category').show();
+    });
+
+    $('.ui-autocomplete').addClass('layout-edit-autocomplete');
+
     $('#layout-editor-filter-reset').click(function(){
       $('input#layout-editor-block-filter-field').val('');
       $('.block-tray .dragster-block').parent().removeClass('search-hidden').removeClass('search-found');
@@ -68,6 +93,23 @@
     $('button.express-layout-editor-cancel').click(function(){
       $('form#express-layout-drag-form #edit-cancel').click();
     });
+
+    $('a.express-layout-edit-add-block-link').attr('aria-expanded', 'false');
+    $('a.express-layout-edit-add-block-link').click(function(event){
+      // https://www.w3.org/WAI/GL/wiki/Using_aria-expanded_to_indicate_the_state_of_a_collapsible_element
+
+      event.preventDefault();
+      if ($(this).attr('aria-expanded') == 'true') {
+        $(this).attr('aria-expanded', 'false');
+      } else {
+        $(this).attr('aria-expanded', 'true');
+      }
+      $('input.layout-edit-block-search').val('');
+      $('.express-layout-edit-add').hide();
+      var target = $(this).attr('href');
+      $(target).parent().fadeIn();
+      $(target).focus();
+    });
   });
 
   // Update block search results
@@ -83,7 +125,19 @@
       }
     });
     $('.layout-edit-block-recent').hide();
+    $('#block-tray').focus();
   }
+
+  function insertBlock(instance, block) {
+    var newBlock = $(".block-tray .dragster-block[data-block-combined*='" + block + "']").first();
+    $('input.layout-edit-block-search').val('');
+    $('.express-layout-edit-add').hide();
+    $('#' + instance).parent().next().prepend(newBlock);
+    dragster.update();
+    updateDragRegions();
+  }
+
+
 
   // Update block region fields
   function updateDragRegions() {
@@ -104,8 +158,8 @@
 
   // Display message if layout has been changed
   function layoutChangedWarning() {
-    var link = '<a href="#" onclick="document.getElementById(\'express-layout-drag-form\').submit();"> Save changes</a>.';
-    $('.layout-changed-warning').html('<i class="fa fa-exclamation-triangle"></i> You have made changes to this layout. Navigating away from this page without saving will discard those changes. ' + link).fadeIn();
+    var link = '<button style="float:right" class="btn btn-success" onclick="document.getElementById(\'express-layout-drag-form\').submit();"> Save Layout</button>';
+    $('.layout-changed-warning').html('<i class="fa fa-exclamation-triangle warning-color"></i> You have made changes to this layout. Navigating away from this page without saving will discard those changes. ' + link).addClass('warning-background').fadeIn();
   }
 
 })( jQuery );
