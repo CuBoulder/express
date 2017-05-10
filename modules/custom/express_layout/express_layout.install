@@ -374,8 +374,13 @@ function express_layout_update_7005() {
 }
 
 /**
- * Add node id to existing layout entities.
+ * Add node id, layout type to existing layout entities.
  */
 function express_layout_update_7006() {
-
+  $result = db_query('SELECT * FROM {express_layout}');
+   foreach ($result as $record) {
+     $record->node_id = $record->layout_id;
+     $record->layout_type = 'node';
+     drupal_write_record('express_layout', $record, 'layout_id');
+   }
 }
