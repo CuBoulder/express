@@ -302,7 +302,9 @@ function express_layout_node_view($node, $view_mode) {
 function express_layout_preprocess_html(&$vars) {
   $node = menu_get_object();
   if ($node) {
-    $params['nid'] = $node->nid;
+    $params= array(
+      'nid' => $node->nid,
+    );
     $layout = express_layout_load_layout_single($params);
     if ($layout && $layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value'] == 'feature_layout') {
       $vars['classes_array'][] = 'layout-feature';
@@ -354,10 +356,10 @@ function express_layout_image_default_styles() {
 function express_layout_load_layout_single($params) {
   $key = NULL;
   // $nid = NULL, $path = NULL, $type = NULL, $layout_id = NULL
-  $nid = isset($params['nid']) ? $params['nid']: NULL;
-  $path = isset($params['path']) ? $params['path']: NULL;
-  $type = isset($params['type']) ? $params['type']: NULL;
-  $layout_id = isset($params['layout_id']) ? $params['layout_id']: NULL;
+  $nid = !empty($params['nid']) ? $params['nid'] : NULL;
+  $path = !empty($params['path']) ? $params['path'] : NULL;
+  $type = !empty($params['type']) ? $params['type'] : NULL;
+  $layout_id = !empty($params['layout_id']) ? $params['layout_id']: NULL;
 
   $query = db_select('express_layout', 'el');
   $query->fields('el', array('layout_id', 'node_id', 'path', 'layout_type'));
@@ -503,7 +505,7 @@ function express_layout_attach(&$page, $nid, $type) {
     $layout_regions = array();
     // Loop through layouts.
     foreach ($page['#express_layouts'] as $key) {
-      $params['nid'] = $key;
+      $params = array('nid' => $key);
 
       // Load layout
       if ($layout = express_layout_load_layout_single($params)) {
@@ -701,14 +703,23 @@ function express_layout_preprocess_node(&$vars) {
   //$settings = variable_get('express_layout_settings_' . $node->type, array());
   //$type = variable_get('express_layout_type_' . $node->type, NULL);
   $layout = NULL;
+  $layouts = array();
   $fields = express_layout_field_to_region_map();
   $params = array(
     'nid' => $vars['nid'],
     'type' => 'node',
   );
   if ($layout = express_layout_load_layout_single($params)) {
+    $layouts[$layout->layout_id] = $layout->layout_id;
     if (!empty($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value']) && ($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value'] == 'feature_layout') && (!path_is_admin(current_path()))) {
       $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__featurelayout';
+    }
+  }
+
+  if (!empty($_GET['layouts'])) {
+    $add_layouts = explode(' ', $_GET['layouts']);
+    foreach ($add_layouts as $id) {
+      $layouts[$id] = $id;
     }
   }
 
@@ -733,24 +744,30 @@ function express_layout_preprocess_node(&$vars) {
       $vars['classes_array'][] = 'content-bottom';
     }
   }
-  if ($content_sidebar_left_blocks = express_layout_node_region_insert('field_inner_content_left', $layout)) {
-    $vars['content_sidebar_left'] = $content_sidebar_left_blocks;
-    $vars['content_sidebar_left']['#theme_wrappers'] = array('region');
-    $vars['content_sidebar_left']['#region'] = 'content_sidebar_left';
-    $vars['classes_array'][] = 'content-sidebar-left';
-  }
+  foreach ($layouts as $layout_id) {
+    $params = array(
+      'layout_id' => $layout_id,
+    );
+    $layout = express_layout_load_layout_single($params);
+    if ($content_sidebar_left_blocks = express_layout_node_region_insert('field_inner_content_left', $layout)) {
+      $vars['content_sidebar_left'][$layout->layout_id] = $content_sidebar_left_blocks;
+      $vars['content_sidebar_left'][$layout->layout_id]['#theme_wrappers'] = array('region');
+      $vars['content_sidebar_left'][$layout->layout_id]['#region'] = 'content_sidebar_left';
+      $vars['classes_array'][] = 'content-sidebar-left';
+    }
 
-  if ($content_sidebar_right_blocks = express_layout_node_region_insert('field_inner_content_right', $layout)) {
-    $vars['content_sidebar_right'] = $content_sidebar_right_blocks;
-    $vars['content_sidebar_right']['#theme_wrappers'] = array('region');
-    $vars['content_sidebar_right']['#region'] = 'content_sidebar_right';
-    $vars['classes_array'][] = 'content-sidebar-right';
-  }
-  if ($context_content_bottom_blocks = express_layout_node_region_insert('field_inner_content_bottom', $layout)) {
-    $vars['content_bottom'] = $context_content_bottom_blocks;
-    $vars['content_bottom']['#theme_wrappers'] = array('region');
-    $vars['content_bottom']['#region'] = 'content_bottom';
-    $vars['classes_array'][] = 'content-bottom';
+    if ($content_sidebar_right_blocks = express_layout_node_region_insert('field_inner_content_right', $layout)) {
+      $vars['content_sidebar_right'][$layout->layout_id] = $content_sidebar_right_blocks;
+      $vars['content_sidebar_right'][$layout->layout_id]['#theme_wrappers'] = array('region');
+      $vars['content_sidebar_right'][$layout->layout_id]['#region'] = 'content_sidebar_right';
+      $vars['classes_array'][] = 'content-sidebar-right';
+    }
+    if ($context_content_bottom_blocks = express_layout_node_region_insert('field_inner_content_bottom', $layout)) {
+      $vars['content_bottom'][$layout->layout_id] = $context_content_bottom_blocks;
+      $vars['content_bottom'][$layout->layout_id]['#theme_wrappers'] = array('region');
+      $vars['content_bottom'][$layout->layout_id]['#region'] = 'content_bottom';
+      $vars['classes_array'][] = 'content-bottom';
+    }
   }
   if (!empty($vars['content_sidebar_left']) && !empty($vars['content_sidebar_right'])) {
     $vars['content_sidebar_left']['#region'] = 'content_sidebars';
