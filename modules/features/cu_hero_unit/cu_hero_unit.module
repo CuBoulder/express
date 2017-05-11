@@ -85,3 +85,19 @@ function cu_hero_unit_preprocess_entity(&$vars) {
     $vars['hero_classes'] = join(' ', $classes_array);
   }
 }
+
+/**
+ * Background color options.
+ */
+function cu_hero_unit_bg_color_options() {
+  $options = array(
+    'white' => 'White',
+    'gray' => 'Gray',
+    'black' => 'Black',
+    'dark_gray' => 'Dark Gray',
+    'gold' => 'Gold',
+    'tan' => 'Tan',
+    'light_blue' => 'Light Blue',
+  );
+  return $options;
+}

@@ -19,7 +19,7 @@ function cu_hero_unit_field_default_field_instances() {
       ),
     ),
     'default_value_function' => '',
-    'default_value_php' => '',
+    'default_value_php' => FALSE,
     'deleted' => 0,
     'description' => '',
     'display' => array(
