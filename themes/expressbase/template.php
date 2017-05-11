@@ -75,9 +75,8 @@ function expressbase_preprocess_html(&$vars) {
   $slogan_title = variable_get('site_slogan_title', 'University of Colorado Boulder');
   $vars['head_title_array']['slogan'] = $slogan_title;
   if (isset($vars['head_title'])) {
-    $vars['head_title_array']['title'] = $vars['head_title'];
+    $vars['head_title'] .= ' | University of Colorado Boulder';
   }
-  $vars['head_title'] = implode(' | ', $vars['head_title_array']);
 
   // set classes for theme configs
   $headings = theme_get_setting('headings') ? theme_get_setting('headings') : 'headings-bold';
@@ -289,7 +288,7 @@ function expressbase_image_style(&$vars) {
 /**
  * Implements theme_breadcrumb().
  */
-function expressbase_breadcrumb($vars) {
+function expressbase_breadcrumb($vars = NULL) {
   $breadcrumb = !empty($vars['breadcrumb']) ? $vars['breadcrumb'] : drupal_get_breadcrumb();
   $theme = variable_get('theme_default','');
   if (!empty($breadcrumb) && theme_get_setting('use_breadcrumbs', $theme)) {
