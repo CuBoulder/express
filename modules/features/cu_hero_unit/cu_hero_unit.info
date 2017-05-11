@@ -45,4 +45,3 @@ features[field_instance][] = bean-hero_unit-field_hero_unit_text
 features[field_instance][] = bean-hero_unit-field_hero_unit_text_align
 features[field_instance][] = bean-hero_unit-field_hero_unit_text_color
 features[image][] = hero
-required = 1
