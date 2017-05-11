@@ -35,7 +35,7 @@
 
 .csstransforms .hero-unit-image .hero-unit-content-wrapper { width: 100%; margin: 0 auto; }
 
-.hero-unit-image-content-wrapper { position: absolute; left: 0; width: 100%; top: 30%; top: 50%; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); transform: translateY(-50%); }
+.hero-unit-image-content-wrapper { position: absolute; left: 0; width: 100%; top: 30%; top: 50%; -webkit-transform: translateY(-50%); -ms-transform: translateY(-50%); transform: translateY(-50%); z-index: 2; }
 
 /* ALIGNMENT */
 .hero-align-left { text-align: left; }
