@@ -1,4 +1,5 @@
 name = CU A/B Test
+description = Adds a bean tht can be used for A/B tests.
 core = 7.x
 package = CU-Search Engine Optimization
 version = 7.x-1.0
