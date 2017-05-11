@@ -275,7 +275,7 @@ function wysiwyg_pre_render_text_format($element) {
         'toggle' => 1,
       );
       $loaded = TRUE;
-      if (isset($profile->settings['add_to_summaries']) && !$profile->settings['add_to_summaries']) {
+      if (isset($profile->preferences['add_to_summaries']) && !$profile->preferences['add_to_summaries']) {
         $settings[$format]['skip_summary'] = 1;
       }
       $settings[$format]['editor'] = $profile->editor;

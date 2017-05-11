@@ -677,13 +677,6 @@ function cu_core_update_7019() {
 }
 
 /**
- * Enable bean_entitycache module
- */
-function cu_core_update_7020() {
-  module_enable(array('bean_entitycache'));
-}
-
-/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {

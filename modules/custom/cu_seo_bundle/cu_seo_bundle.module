@@ -40,6 +40,7 @@ function cu_seo_bundle_secure_permissions($role) {
       'administer linkchecker',
       'edit link settings',
       'administer site verify',
+      'administer site verify uploads',
       'view seo dashboard',
     ),
     'edit_my_content' => array(
