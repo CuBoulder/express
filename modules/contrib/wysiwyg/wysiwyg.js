@@ -247,12 +247,11 @@ Drupal.wysiwygAttach = function(context, fieldId) {
   }
   // Detach any previous editor instance if enabled, else remove the grippie.
   detachFromField(context, {'editor': previousEditor, 'status': previousStatus, 'field': fieldId, 'resizable': fieldInfo.resizable}, 'unload');
-  if (doSummary) {
+  var wasSummary = !!_internalInstances[fieldInfo.summary];
+  if (doSummary || wasSummary) {
     // Summary instances may have a different status if no real editor was
     // attached yet because the field was hidden.
-    if (_internalInstances[fieldInfo.summary]) {
-      previousStatus = _internalInstances[fieldInfo.summary]['status'];
-    }
+    previousStatus = _internalInstances[fieldInfo.summary] ? _internalInstances[fieldInfo.summary]['status'] : false;
     detachFromField(context, {'editor': previousEditor, 'status': previousStatus, 'field': fieldInfo.summary, 'resizable': fieldInfo.resizable}, 'unload');
   }
   // Store this field id, so (external) plugins can use it.
@@ -264,10 +263,10 @@ Drupal.wysiwygAttach = function(context, fieldId) {
   // Attach to main field.
   attachToField(context, {'status': fieldInfo.enabled, 'editor': editor, 'field': fieldId, 'format': fieldInfo.activeFormat, 'resizable': fieldInfo.resizable}, editorSettings);
   // Attach to summary field.
-  if (doSummary) {
+  if (doSummary || wasSummary) {
     // If the summary wrapper is visible, attach immediately.
     if ($('#' + fieldInfo.summary).parents('.text-summary-wrapper').is(':visible')) {
-      attachToField(context, {'status': fieldInfo.enabled, 'editor': editor, 'field': fieldInfo.summary, 'format': fieldInfo.activeFormat, 'resizable': fieldInfo.resizable}, editorSettings);
+      attachToField(context, {'status': doSummary && fieldInfo.enabled, 'editor': editor, 'field': fieldInfo.summary, 'format': fieldInfo.activeFormat, 'resizable': fieldInfo.resizable}, editorSettings);
     }
     else {
       // Attach an instance of the 'none' editor to have consistency while the
@@ -276,7 +275,7 @@ Drupal.wysiwygAttach = function(context, fieldId) {
       // Unbind any existing click handler to avoid double toggling.
       $('#' + fieldId).parents('.text-format-wrapper').find('.link-edit-summary').unbind('click.wysiwyg').bind('click.wysiwyg', function () {
         detachFromField(context, {'status': false, 'editor': editor, 'field': fieldInfo.summary, 'format': fieldInfo.activeFormat, 'resizable': fieldInfo.resizable}, editorSettings);
-        attachToField(context, {'status': fieldInfo.enabled, 'editor': editor, 'field': fieldInfo.summary, 'format': fieldInfo.activeFormat, 'resizable': fieldInfo.resizable}, editorSettings);
+        attachToField(context, {'status': doSummary && fieldInfo.enabled, 'editor': editor, 'field': fieldInfo.summary, 'format': fieldInfo.activeFormat, 'resizable': fieldInfo.resizable}, editorSettings);
         $(this).unbind('click.wysiwyg');
       });
     }
