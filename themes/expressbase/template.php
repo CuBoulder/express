@@ -25,6 +25,7 @@ function expressbase_css_alter(&$css) {
  * Implements theme_preprocess_html.
  */
 function expressbase_preprocess_html(&$vars) {
+  global $base_url;
   // Add web fonts from fonts.com
   $element = array(
     '#tag' => 'link', // The #tag is the html tag - <link />
@@ -49,7 +50,6 @@ function expressbase_preprocess_html(&$vars) {
   drupal_add_html_head($element, 'ie_compatibility_mode');
 
   // Add apple touch icons
-  global $base_url;
   $touch_icons = array(
     '57',
     '72',
@@ -74,7 +74,9 @@ function expressbase_preprocess_html(&$vars) {
   // Add Campus name to title
   $slogan_title = variable_get('site_slogan_title', 'University of Colorado Boulder');
   $vars['head_title_array']['slogan'] = $slogan_title;
-  $vars['head_title'] = implode(' | ', $vars['head_title_array']);
+  if (isset($vars['head_title'])) {
+    $vars['head_title'] .= ' | University of Colorado Boulder';
+  }
 
   // set classes for theme configs
   $headings = theme_get_setting('headings') ? theme_get_setting('headings') : 'headings-bold';
@@ -108,6 +110,13 @@ function expressbase_preprocess_html(&$vars) {
 
   // Add focus js
   drupal_add_js(drupal_get_path('theme','expressbase') .'/js/track-focus.js', array('scope' => 'footer'));
+
+  // Add svg to png logo fallback
+  $logo = theme_get_setting('logo');
+  drupal_add_js('jQuery(document).ready(function () { if (!Modernizr.svgasimg) {
+  jQuery("img#logo").attr("src", "' . $logo . '");} });',
+    array('type' => 'inline', 'scope' => 'footer', 'weight' => 5)
+  );
 
   // Set skip to link
   $vars['skip_link_anchor'] = 'main';
@@ -279,7 +288,7 @@ function expressbase_image_style(&$vars) {
 /**
  * Implements theme_breadcrumb().
  */
-function expressbase_breadcrumb($vars) {
+function expressbase_breadcrumb($vars = NULL) {
   $breadcrumb = !empty($vars['breadcrumb']) ? $vars['breadcrumb'] : drupal_get_breadcrumb();
   $theme = variable_get('theme_default','');
   if (!empty($breadcrumb) && theme_get_setting('use_breadcrumbs', $theme)) {
@@ -334,6 +343,7 @@ function expressbase_preprocess_region(&$vars) {
   switch ($vars['region']) {
     case 'branding':
       $vars['logo'] = theme_get_setting('logo');
+      $vars['svg_logo'] = $base_url . '/' . drupal_get_path('theme', 'expressbase') . '/images/cu-logo.svg';
       $vars['front_page'] = url('<front>');
 
       if (variable_get('site_name_2', '')) {
@@ -431,36 +441,27 @@ function expressbase_preprocess_block(&$vars) {
     $footer_columns = theme_get_setting('footer_columns') ? theme_get_setting('footer_columns') : 1;
     $footer_columns = (isset($vars['column_override'])) ? $vars['column_override'] : $footer_columns;
   }
-  // Check to see if block has custom column size first
-  if (!empty($vars['grid_size_blocks'])) {
-    $grid_classes = expressbase_grid_blocks($vars['grid_size_blocks']);
-    foreach ($grid_classes as $grid_class) {
-      $vars['classes_array'][] = $grid_class;
-    }
-  }
-  else {
-    // Add column classes to blocks
-    $classes = expressbase_size_column_classes();
-    switch ($vars['block']->region) {
-      case 'after_content':
-        $vars['classes_array'][] = $classes['xs'][$after_content_columns];
-        $vars['classes_array'][] = $classes['sm'][$after_content_columns];
-        $vars['classes_array'][] = $classes['md'][$after_content_columns];
-        $vars['classes_array'][] = $classes['lg'][$after_content_columns];
-        break;
-      case 'lower':
-        $vars['classes_array'][] = $classes['xs'][$lower_columns];
-        $vars['classes_array'][] = $classes['sm'][$lower_columns];
-        $vars['classes_array'][] = $classes['md'][$lower_columns];
-        $vars['classes_array'][] = $classes['lg'][$lower_columns];
-        break;
-      case 'footer':
-        $vars['classes_array'][] = $classes['xs'][$footer_columns];
-        $vars['classes_array'][] = $classes['sm'][$footer_columns];
-        $vars['classes_array'][] = $classes['md'][$footer_columns];
-        $vars['classes_array'][] = $classes['lg'][$footer_columns];
-        break;
-    }
+  // Add column classes to blocks
+  $classes = expressbase_size_column_classes();
+  switch ($vars['block']->region) {
+    case 'after_content':
+      $vars['classes_array'][] = $classes['xs'][$after_content_columns];
+      $vars['classes_array'][] = $classes['sm'][$after_content_columns];
+      $vars['classes_array'][] = $classes['md'][$after_content_columns];
+      $vars['classes_array'][] = $classes['lg'][$after_content_columns];
+      break;
+    case 'lower':
+      $vars['classes_array'][] = $classes['xs'][$lower_columns];
+      $vars['classes_array'][] = $classes['sm'][$lower_columns];
+      $vars['classes_array'][] = $classes['md'][$lower_columns];
+      $vars['classes_array'][] = $classes['lg'][$lower_columns];
+      break;
+    case 'footer':
+      $vars['classes_array'][] = $classes['xs'][$footer_columns];
+      $vars['classes_array'][] = $classes['sm'][$footer_columns];
+      $vars['classes_array'][] = $classes['md'][$footer_columns];
+      $vars['classes_array'][] = $classes['lg'][$footer_columns];
+      break;
   }
 }
 
@@ -752,22 +753,7 @@ function expressbase_size_column_classes() {
   return $classes;
 }
 
-/**
- * Translate grid_size_blocks classes into epressbase grid classes.
- */
- function expressbase_grid_blocks($class) {
-   $parts = explode('-', $class);
-   $size = $parts[1];
-   $classes = array();
-   $classes[] = 'col-xs-12';
-   $classes[] = 'col-sm-12';
-   $classes[] = 'col-md-' . $size;
-   $classes[] = 'col-lg-' . $size;
-
-   return $classes;
- }
-
- function expressbase_theme(&$existing, $type, $theme, $path) {
+function expressbase_theme(&$existing, $type, $theme, $path) {
   $registry = array();
   $template_dir = drupal_get_path('theme', 'expressbase') . '/templates';
   $registry['page_title_image'] = array(

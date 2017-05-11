@@ -29,8 +29,6 @@ function cu_core_install() {
   // these modules need to be enabled late in the install process and/or to be ignored by profile_module_manager's report.
   $module_array = array(
     'cu_users',
-    'cu_inventory',
-    'cu_inventory_stats',
     'memcache',
     'varnish'  // Adding caching modules here for changes involving Travis CI testing.
   );
@@ -188,10 +186,12 @@ websupport@colorado.edu');
     '/^Metatag support has been enabled for the .*?$/i',
     '/^You can now .+configure the CAPTCHA module.+ for your site.$/i',
     '/^Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.$/i',
+    '/^The block System help was assigned to the invalid region help and has been disabled.$/i',
   ));
   variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .+
 You can now .+configure the CAPTCHA module.+ for your site.
-Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.');
+Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.
+The block System help was assigned to the invalid region help and has been disabled.');
 
   variable_set('express_layout_node_type_ignore', array('file'));
 
@@ -208,7 +208,12 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
   ->execute();
 
   // Disable user 1 & set random name
-  $random_name = 'admin-' . user_password(50);
+  $random_name = 'admin-' . user_password(10);
+
+  // Generate hashed password.
+  $unhashed_pass = user_password(50);
+  require_once DRUPAL_ROOT . '/' . variable_get('password_inc', 'includes/password.inc');
+  $hashed_pass = user_hash_password(trim($unhashed_pass));
 
   variable_set('user_mail_status_activated_notify ', 0);
 
@@ -216,10 +221,13 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
   $admin_user = user_load(1);
   $admin_user->mail = 'websupport@colorado.edu';
   $admin_user->name = $random_name;
+  $admin_user->pass = $hashed_pass;
   $admin_user->status = 0;
   user_save($admin_user);
 
   watchdog('express', 'attempted to disable uid 1');
+
+  variable_set('profile_module_manager_bundle_ignore', array('cu_newsletter_bundle' => 'cu_newsletter_bundle'));
 }
 
 /**
@@ -535,7 +543,7 @@ function cu_core_update_7012() {
   $admin_user->mail = 'websupport@colorado.edu';
   user_save($admin_user);
 
-  cu_core_express_update('7012');
+  cu_core_inventory_update('7012');
 }
 
 /**
@@ -549,7 +557,7 @@ function cu_core_update_7013() {
 
   drupal_uninstall_modules(array('module_missing_message_fixer'));
 
-  cu_core_express_update('7013');
+  cu_core_inventory_update('7013');
 }
 
 /**
@@ -568,8 +576,9 @@ function cu_core_update_7014() {
 
   cu_core_revert_features();
 
-  cu_core_express_update('7014');
+  cu_core_inventory_update('7014');
 }
+
 
 
 /**
@@ -583,7 +592,104 @@ function cu_core_update_7015() {
 sites/default/files/webform/*';
   variable_set('securepages_pages', $pages);
 
-  cu_core_express_update('7015');
+  cu_core_inventory_update('7015');
+}
+
+/**
+ * Core Update 7016 for Express 2.2.7.
+ *
+ * Rename block_styles to cu_block_theme module.
+ * Enable cu_block_theme, blank out block_styles.
+ * Disable, uninstall grid_size_blocks module, delete related variables.
+ */
+function cu_core_update_7016() {
+  module_enable(array('cu_block_theme'));
+
+  if (module_exists('block_styles')) {
+    module_disable(array('block_styles'));
+    drupal_uninstall_modules(array('block_styles'));
+  }
+  if (module_exists('grid_size_blocks')) {
+    module_disable(array('grid_size_blocks'));
+    drupal_uninstall_modules(array('grid_size_blocks'));
+  }
+  variable_del('grid_size_blocks');
+  variable_del('grid_size_clear');
+  variable_del('grid_size_omega');
+}
+
+/**
+ * Core Update 7017 for Express 2.3.0.
+ *
+ * Hide cu_newsletter from most users.
+ */
+function cu_core_update_7017() {
+  // Set SEO bundle to be hidden in bundle list form.
+  variable_set('profile_module_manager_bundle_ignore', array('cu_newsletter_bundle' => 'cu_newsletter_bundle'));
+
+  cu_core_revert_features();
+
+  cu_core_inventory_update('7017');
+}
+
+/**
+ * Core Update 7017 for Express 2.3.0.
+ *
+ * Add to disabled messages array to hide message displayed to user after enabling newsletter bundle.
+ */
+function cu_core_update_7018() {
+
+  // It looks like the original string of messages was truncated to one line so
+  // I am adding all disabled messages once again in addition to new message.
+  variable_set('disable_messages_ignore_regex', array(
+    '/^Metatag support has been enabled for the .*?$/i',
+    '/^You can now .+configure the CAPTCHA module.+ for your site.$/i',
+    '/^Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.$/i',
+    '/^The block System help was assigned to the invalid region help and has been disabled.$/i'
+  ));
+
+  variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .+
+You can now .+configure the CAPTCHA module.+ for your site.
+Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.
+The block System help was assigned to the invalid region help and has been disabled.');
+}
+
+/**
+ * Core Update 7019 for Express 2.3.1.
+ *
+ * Disable old inventory modules and enable Atlas modules.
+ */
+function cu_core_update_7019() {
+
+  if (module_exists('cu_inventory_stats')) {
+    module_disable(array('cu_inventory_stats'));
+    drupal_uninstall_modules(array('cu_inventory_stats'));
+  }
+
+  if (module_exists('cu_inventory')) {
+    module_disable(array('cu_inventory'));
+    drupal_uninstall_modules(array('cu_inventory'));
+  }
+
+  module_enable(array('cu_atlas'));
+
+  cu_core_revert_features();
+}
+
+/**
+ * Enable bean_entitycache module
+ */
+function cu_core_update_7020() {
+  module_enable(array('bean_entitycache'));
+}
+
+/**
+ * Core Update 7020 for Express 2.4.0.
+ *
+ * Revert cu_block_theme feature.
+ */
+function cu_core_update_7021() {
+  cu_core_revert_features(array('cu_block_theme' => 'cu_block_theme'));
 }
 
 /**
@@ -623,7 +729,7 @@ function cu_core_revert_features($features = NULL) {
  */
 function cu_core_express_update($version) {
 
-  cu_core_inventory_update($version);
+  cu_core_atlas_update($version);
 
   // Change admin user/pass.
   cu_core_scramble_admin();
@@ -633,8 +739,16 @@ function cu_core_express_update($version) {
  * Updates inventory with profile version.
  */
 function cu_core_inventory_update($version) {
-  if (module_exists('cu_inventory')) {
-    cu_inventory_process_core_version($version);
+  // Nulling this function out so that older update hooks will still work.
+  return;
+}
+
+/**
+ * Updates Atlas with profile version.
+ */
+function cu_core_atlas_update($version) {
+  if (module_exists('atlas')) {
+    atlas_process_core_schema_version($version);
   }
 }
 

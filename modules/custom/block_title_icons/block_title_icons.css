@@ -13,7 +13,7 @@
 }
 #edit-block-title-icons-options .form-type-radio {
   padding:5px;
-  color:#aaa;
+  color:#757575;
   font-size: 85%;
 }
 #edit-block-title-icons-options .form-type-radio:hover {
@@ -28,6 +28,9 @@ i.blockicon {
   display: inline-block;
   margin:3px 5px 0px 0;
   float:left;
+}
+i.blockicon.none {
+  display: none;
 }
 span.blockicontext {
   overflow: hidden;

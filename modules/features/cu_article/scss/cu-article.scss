@@ -84,6 +84,10 @@ p.date,
   margin-bottom: 20px;
   font-size:85%;
 }
+p.related-date {
+  margin-bottom: 0;
+  font-size: 75%;
+}
 .author-meta-separator {
   opacity: .5;
 }
@@ -266,4 +270,6 @@ p.tags {
   float: left;
   margin-bottom:10px;
   margin-top:5px;
+  font-size: 11px;
+  font-weight: 500;
 }

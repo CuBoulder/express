@@ -31,68 +31,46 @@ function cu_font_awesome_libraries_info() {
 }
 
 /**
- * Implements hook_theme_page_alter().
- */
-function cu_font_awesome_page_alter(&$page) {
-  $library = libraries_load(CUFA_FONTAWESOME_LIBRARY);
-  if (!$library['loaded']) {
-    drupal_set_message($library['error message'] . t('Please make sure that '
-      . 'fontawesome was download & extracted at sites/all/libraries/fontawesome directory.'
-      . 'Please check README.txt for more details.'),
-      'warning');
-  }
-}
-
-/**
  * Return array of icons for option lists.
  */
 function cu_font_awesome_icon_list($add_icon = TRUE) {
-  // Make sure library is loaded first
-  $library = libraries_load(CUFA_FONTAWESOME_LIBRARY);
-  if (!$library['loaded']) {
-    drupal_set_message($library['error message'] . t('Please make sure that '
-      . 'fontawesome was download & extracted at sites/all/libraries/fontawesome directory.'
-      . 'Please check README.txt for more details.'),
-      'warning');
-  }
-  else {
-    // Check to see if this is saved already
-    $icons = variable_get('cu_font_awesome_icons', array());
-    if (empty($icons)) {
-      // Load icon scss file
-      $icons_file = file_get_contents($library['library path'] . '/' . CUFA_FONTAWESOME_ICONS_URL);
-      $icons = array();
-      // Break each line into array
-      $icons_styles = explode("\n", $icons_file);
-      // Use this to see if it's a line we want
-      $icon_query = 'content: $fa-var-';
-      foreach ($icons_styles as $icon_style) {
-        // Check to see if line includes our query variable
-        if (strpos($icon_style, $icon_query) !== FALSE) {
-          // Get the part out of the string that we want and add to array
-          $icon_name = _cu_font_awesome_regex($icon_style);
-          $icons[] = $icon_name;
-        }
-      }
-      // Sort icons alphabetically
-      asort($icons);
-      // Save icons array
-      variable_set('cu_font_awesome_icons', $icons);
-    }
-    $icon_names = array();
-    // Theme the option list.
-    foreach ($icons as $icon) {
-      if ($add_icon) {
-        // If type is radio, render icon as well
-        $icon_names['fa-' . $icon] = theme('cu_font_awesome_option', array('icon' => $icon));
-      }
-      else {
-        // Otherwise just add name (for a select list).
-        $icon_names['fa-' . $icon] = $icon;
+  // Check to see if this is saved already
+  $icons = variable_get('cu_font_awesome_icons', array());
+  if (empty($icons)) {
+    // Load icon scss file
+    $library = libraries_load(CUFA_FONTAWESOME_LIBRARY);
+    $icons_file = file_get_contents($library['library path'] . '/' . CUFA_FONTAWESOME_ICONS_URL);
+    $icons = array();
+    // Break each line into array
+    $icons_styles = explode("\n", $icons_file);
+    // Use this to see if it's a line we want
+    $icon_query = 'content: $fa-var-';
+    foreach ($icons_styles as $icon_style) {
+      // Check to see if line includes our query variable
+      if (strpos($icon_style, $icon_query) !== FALSE) {
+        // Get the part out of the string that we want and add to array
+        $icon_name = _cu_font_awesome_regex($icon_style);
+        $icons[] = $icon_name;
       }
     }
-    return $icon_names;
+    // Sort icons alphabetically
+    asort($icons);
+    // Save icons array
+    variable_set('cu_font_awesome_icons', $icons);
   }
+  $icon_names = array();
+  // Theme the option list.
+  foreach ($icons as $icon) {
+    if ($add_icon) {
+      // If type is radio, render icon as well
+      $icon_names['fa-' . $icon] = theme('cu_font_awesome_option', array('icon' => $icon));
+    }
+    else {
+      // Otherwise just add name (for a select list).
+      $icon_names['fa-' . $icon] = $icon;
+    }
+  }
+  return $icon_names;
 }
 
 /**
@@ -162,6 +140,7 @@ function cu_font_awesome_icons() {
  * Add variables to js settings.
  */
 function cu_font_awesome_init() {
+  $library = libraries_load(CUFA_FONTAWESOME_LIBRARY);
   if (!user_is_anonymous()) {
     // Link to icon list.
     global $base_url;
