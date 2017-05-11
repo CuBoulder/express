@@ -23,7 +23,7 @@ function atlas_menu() {
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -10,
   );
-  
+
   return $items;
 }
 
@@ -49,19 +49,23 @@ function atlas_admin_settings() {
   }
 
   $site_array = atlas_api_request('sites', $atlas_id);
-  
+
   // Options are limited based on permissions.
   $status_options = array(
-    'installed' => t('Installed'),
     'launching' => t('Launching'),
     'take_down' => t('Take Down Site'),
-    'delete' => t('Delete'),
   );
 
-  // If site is Available or Launched, add that option. You cannot go to those
-  // states.
+  // If site is Available, Installed, or Launched, add options. You shouldn't
+  // go to these states.
   if ($site_array['status'] == 'available') {
-    $status_options['available'] = t('Available');
+    $status_options = array(
+      'installing' => t('Installing'),
+      'available' => t('Available'),
+    );
+  }
+  elseif ($site_array['status'] == 'installed') {
+    $status_options['installed'] = t('Installed');
   }
   elseif ($site_array['status'] == 'launched') {
     $status_options['launched'] = t('Launched');
@@ -153,6 +157,10 @@ function atlas_admin_settings() {
     drupal_set_message(t("You can only modify 'status' while the site is '<i>available</i>'."), 'warning');
   }
 
+  if ($site_array['status'] == 'launched') {
+    $form['atlas_path']['#disabled'] = TRUE;
+  }
+
   // Store the etag when we load the form for concurrency control with Atlas.
   // Need to make sure the Atlas item hasn't changed since we loaded the form.
   $form['atlas_etag'] = array(
@@ -173,7 +181,7 @@ function atlas_admin_settings() {
 function validate_atlas_admin_settings($form, &$form_state) {
   $atlas_id = variable_get('atlas_id', FALSE);
   $site_array = atlas_api_request('sites', $atlas_id);
-  if ($form['atlas_path']['#value'] == $site_array['sid'] && ($form['atlas_status']['#value'] == 'launching' || $form['atlas_status']['#value'] == 'launched')) {
+  if ($form['atlas_path']['#value'] == $site_array['sid'] && $site_array['pool'] != 'poolb-homepage' && ($form['atlas_status']['#value'] == 'launching' || $form['atlas_status']['#value'] == 'launched')) {
     form_set_error('atlas_path', t('You cannot launch a site at it\'s \'p1\' URL.'));
   }
   if ($form['atlas_status']['#value'] == 'available') {
@@ -208,9 +216,17 @@ function atlas_admin_settings_submit($form, &$form_state) {
   if ($form_state['values']['atlas_profile'] != $site_array['code']['profile']) {
     $request_data['code']['profile'] = $form_state['values']['atlas_profile'];
   }
-
-  if (isset($form_state['values']['atlas_packages']) && (!array_key_exists('package', $site_array['code']) || $form_state['values']['atlas_packages'] != $site_array['code']['package'])) {
-    $request_data['code']['package'] = $form_state['values']['atlas_packages'];
+  if (isset($form_state['values']['atlas_packages'])) {
+    // Drop all the keys with zero as a value.
+    $form_state['values']['atlas_packages'] = array_diff($form_state['values']['atlas_packages'], array(0));
+    // Check to see if the new arrays are different.
+    if (isset($site_array['code']['package'])) {
+      $packages_diff = array_diff($form_state['values']['atlas_packages'], $site_array['code']['package']);
+    }
+    // Check for First added package, Remove all packages, or Change packages.
+    if (!array_key_exists('package', $site_array['code']) || (array_key_exists('package', $site_array['code']) &&  empty($form_state['values']['atlas_packages'])) || !empty($packages_diff)) {
+      $request_data['code']['package'] = $form_state['values']['atlas_packages'];
+    }
   }
 
   if ($form_state['values']['atlas_update_group'] != $site_array['update_group']) {
@@ -226,6 +242,39 @@ function atlas_admin_settings_submit($form, &$form_state) {
   else {
     drupal_set_message(t('No data was changed.'), 'warning');
   }
+}
+
+
+/**
+ * Create an array w/ core version to send to Atlas.
+ *
+ * @param int $version
+ *   Express core version to process.
+ *
+ * @return array
+ *   $site_data: A partial PATCH to the site item in Atlas.
+ */
+function atlas_process_core_schema_version($version) {
+ $data = array();
+
+  // We need to know the 'atlas_id' to get the 'statistics_id'.
+  $atlas_id = variable_get('atlas_id', FALSE);
+
+
+  $site_array = atlas_api_request('sites', $atlas_id);
+  $statistics_id = $site_array['statistics'];
+  $statistics_array = atlas_api_request('statistics', $statistics_id);
+  $request_data['_etag'] = $statistics_array['_etag'];
+
+  if (!$version) {
+    // drupal_get_installed_schema_version doesn't appear at the bootstrap level
+    // of an updated so query the value.
+    $version = drupal_get_installed_schema_version(variable_get('express_core_version', 'cu_core'));
+  }
+  $request_data['express_core_schema_version'] = (int) $version;
+
+  // Ready to patch.
+  atlas_api_request('statistics', $statistics_id, 'PATCH', $request_data);
 }
 
 /**
@@ -245,6 +294,26 @@ function atlas_up() {
   }
   else {
     return FALSE;
+  }
+}
+
+/**
+ * Determine if Atlas is up. Included a 5 second timeout.
+ *
+ * @return bool
+ *   TRUE if api returns 200 else FALSE if non 200 or not configured.
+ */
+function atlas_version() {
+  $url = variable_get('atlas_url') . 'version';
+  $options = array(
+    'timeout' => 5.0,
+  );
+  $response = drupal_http_request($url, $options);
+  if (!property_exists($response, 'error')) {
+    return $response->data;
+  }
+  else {
+    return NULL;
   }
 }
 
@@ -293,8 +362,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
     // When modifying the record, we need to set the If-Match header to the
     // _etag.
     if (in_array($method, array('PUT', 'PATCH', 'DELETE'))) {
-      $etag = $data['_etag'];
-      $request_options['headers']['If-Match'] = $etag;
+      $request_options['headers']['If-Match'] = $data['_etag'];
 
       // Remove Atlas private fields because we cannot modify them. They all
       // begin with an underscore.
@@ -303,8 +371,15 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
         unset($data[$k]);
       }
     }
-    // Add the username here since we are using a service account for the PATCH.
-    $data['modified_by'] = $user->name;
+    // Add the username here since we are using a service account. Need the else
+    // statement to handle running via drush.
+    if (isset($user->name)) {
+      $data['modified_by'] = $user->name;
+    }
+    else {
+      $data['modified_by'] = variable_get('atlas_username');
+    }
+
     // JSON encode the data.
     if (isset($data['code']['package'])) {
       $data['code']['package'] = array_filter(array_values($data['code']['package']));
@@ -332,14 +407,23 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
         $error_message = 'Atlas response: ' . $response->error . ' - Error Code: ' . $response_json['_error']['code'] . ' - ' . $response_json['_error']['message'];
       }
       if (array_key_exists('_issues', $response_json)) {
-        $error_message = 'Atlas response: ' . $response->error . ' - ' . implode(', ', $response_json['_issues']);
+        $error_message = 'Atlas response: ' . $response->error . ' - ' . $response->data;
       }
     }
     else {
       $error_message = 'Atlas response: ' . $response->error;
     }
 
-    drupal_set_message($error_message, 'error');
+    //drupal_set_message($error_message, 'error');
+    watchdog(
+      'atlas',
+      'API Request Error - %error',
+      array(
+        '%error' => $response->error,
+      ),
+      WATCHDOG_WARNING,
+      NULL
+    );
   }
 
   if ($method != 'GET') {

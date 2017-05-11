@@ -1,13 +1,4 @@
 engines:
-  duplication:
-    enabled: true
-    checks:
-      Similar code:
-        enabled: false
-    config:
-      languages:
-      - php
-      - javascript
   phpmd:
     enabled: true
     config:
@@ -29,3 +20,4 @@ exclude_paths:
 - "libraries/"
 - "tests/"
 - "modules/contrib/"
+- "**.tpl.php"
