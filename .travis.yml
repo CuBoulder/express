@@ -3,7 +3,7 @@ language: php
 sudo: false
 
 php:
-  - '5.3'
+  - '5.6'
 
 # We want builds of master and dev branches only.
 branches:
