@@ -148,7 +148,7 @@ function metatag_twitter_cards_metatag_info() {
     ),
   ) + $defaults;
   $info['tags']['twitter:title'] = array(
-    'label' => t('Page Title'),
+    'label' => t('Title'),
     'description' => t('The page\'s title, which should be concise; it will be truncated at 70 characters by Twitter. This field is required unless this the \'type\' field is set to "photo".'),
     'weight' => ++$weight,
   ) + $defaults;
