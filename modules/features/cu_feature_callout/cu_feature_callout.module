@@ -331,7 +331,6 @@ function cu_feature_callout_style() {
     'slider_killer' => 'Slider Killer',
     'offset' => 'Offset',
     'cards' => 'Cards',
-    'tiles' => 'Tiles',
     'teaser' => 'Teaser',
   );
   return $options;
