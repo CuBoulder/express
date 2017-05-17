@@ -538,6 +538,9 @@ function cu_share_flush_caches() {
   }
 }
 
+/**
+ * Implements hook_shortcode_info().
+ */
 function cu_share_shortcode_info() {
   $shortcodes = array();
   $shortcodes['share_on_twitter'] = array(
@@ -550,6 +553,17 @@ function cu_share_shortcode_info() {
   return $shortcodes;
 }
 
+/**
+ * Tips function for share_on_twitter shortcode.
+ */
+function cu_share_share_on_twitter_tips($format, $long) {
+  $output = '[share_on_twitter]Text to share on Twitter[/share_on_twitter]';
+  return $output;
+}
+
+/**
+ * Process function for share_on_twitter shortcode.
+ */
 function cu_share_share_on_twitter($attrs, $content = NULL) {
   extract(shortcode_attrs(array(
   ), $attrs));
