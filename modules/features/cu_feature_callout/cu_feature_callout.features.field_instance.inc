@@ -91,7 +91,7 @@ function cu_feature_callout_field_default_field_instances() {
     'bundle' => 'feature_callout',
     'default_value' => array(
       0 => array(
-        'value' => 'stacked',
+        'value' => 'columns',
       ),
     ),
     'default_value_function' => '',
