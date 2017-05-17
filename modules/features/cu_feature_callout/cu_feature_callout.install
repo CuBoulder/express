@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * Update content grids to 2.0.
+ */
+function cu_feature_callout_update_7001() {
+  $query = db_select('bean', 'b');
+  $query->condition('b.type', 'feature_callout', '=');
+  $query->fields('b', array('bid'));
+  $bids = $query->execute()->fetchCol();
+
+  foreach ($bids as $bid) {
+    $bean = bean_load($bid);
+    if ($bean->field_callout_columns[LANGUAGE_NONE][0]['value'] == 1) {
+      $bean->field_callout_style[LANGUAGE_NONE][0]['value'] = 'teaser';
+    }
+    else {
+      $bean->field_callout_style[LANGUAGE_NONE][0]['value'] = 'columns';
+    }
+    $bean->save();
+  }
+}
