@@ -141,7 +141,7 @@ $text: #202020;
   }
 }
 
-.content-grid-style-slider_killer {
+.content-grid-style-feature {
   @include headers;
   display: block;
   flex-direction: column;
@@ -250,7 +250,7 @@ $text: #202020;
   }
 }
 @media screen and (min-width:960px) {
-  .content-grid-style-slider_killer {
+  .content-grid-style-feature {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

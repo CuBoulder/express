@@ -31,7 +31,7 @@ function cu_feature_callout_theme_registry_alter(&$theme_registry) {
  * TODO: Write doco.
  */
 function cu_feature_callout_page_alter(&$page) {
-  // Add cu slider css.
+  // Add css.
   drupal_add_css(drupal_get_path('module', 'cu_feature_callout') . '/css/cu_feature_callout.css');
 }
 
@@ -72,8 +72,8 @@ function cu_feature_callout_theme(&$existing, $type, $theme, $path) {
     'path' => $template_dir,
     'render element' => 'elements',
   );
-  $registry['cu_feature_callout_item__slider_killer'] = array(
-    'template' => 'cu-feature-callout-item--slider-killer',
+  $registry['cu_feature_callout_item__feature'] = array(
+    'template' => 'cu-feature-callout-item--feature',
     'path' => $template_dir,
     'render element' => 'elements',
   );
@@ -95,7 +95,7 @@ function cu_feature_callout_style_themes($style) {
   $themes['columns'] = 'cu_feature_callout_item__columns';
   $themes['large_teaser'] = 'cu_feature_callout_item__large_teaser';
   $themes['large_teaser_alt'] = 'cu_feature_callout_item__large_teaser';
-  $themes['slider_killer'] = 'cu_feature_callout_item__slider_killer';
+  $themes['feature'] = 'cu_feature_callout_item__feature';
   $themes['offset'] = 'cu_feature_callout_item__columns';
   $themes['cards'] = 'cu_feature_callout_item__columns';
   $themes['overlay'] = 'cu_feature_callout_item__overlay';
@@ -141,8 +141,7 @@ function cu_feature_callout_preprocess_entity(&$vars) {
   $entity_type = $vars['elements']['#entity_type'];
   $bundle = $vars['elements']['#bundle'];
 
-  // Only preprocess social_link beans.
-  // Only preprocess slider field collections.
+  // Only preprocess feature callout field collections.
 
   if ($entity_type == 'bean' && $bundle == 'feature_callout') {
 
@@ -174,8 +173,8 @@ function cu_feature_callout_preprocess_entity(&$vars) {
     $column_count = 1;
     $callout_items = array_intersect_key($vars['content']['field_callouts'], element_children($vars['content']['field_callouts']));
     $total_items = count($callout_items);
-    // Limit slider killer to 3 items
-    if ($style == 'slider_killer') {
+    // Limit feature to 3 items
+    if ($style == 'feature') {
       $callout_items = array_slice($callout_items, 0, 3);
     }
     else if ($style == 'offset') {
@@ -217,9 +216,9 @@ function cu_feature_callout_preprocess_entity(&$vars) {
       }
       // Build image.
 
-      // change size if slider killer
+      // change size if feature
 
-      if (($key == 0) && ($style == 'slider_killer')) {
+      if (($key == 0) && ($style == 'feature')) {
         $size = 'large_rectangle_thumbnail';
       }
       else {
@@ -328,7 +327,7 @@ function cu_feature_callout_style() {
     'overlay' => 'Overlay',
     'large_teaser' => 'Large Teaser',
     'large_teaser_alt' => 'Large Teaser Alternate',
-    'slider_killer' => 'Slider Killer',
+    'feature' => 'Feature',
     'offset' => 'Offset',
     'cards' => 'Cards',
     'teaser' => 'Teaser',
