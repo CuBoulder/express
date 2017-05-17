@@ -53,3 +53,7 @@ projects[ldap_servers][patch][] = "https://www.drupal.org/files/issues/2838389-s
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-2466
 projects[views_slideshow][patch][] = "https://www.drupal.org/files/issues/drush-cli-check-remove-2854640-2.patch"
+
+; @see https://cuboulder.atlassian.net/browse/FIT-2495
+projects[wysiwyg][patch][] = "https://www.drupal.org/files/issues/wysiwyg-enable_summary-2843308-7-6.patch"
+projects[wysiwyg][patch][] = "https://www.drupal.org/files/issues/wysiwyg-summary.2851313.5.patch"
