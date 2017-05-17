@@ -99,18 +99,6 @@ Epics are the only issue type that require `evaluate` labels.
 * Epics, Tasks and Bugs all use different templates.
 * `type:QA` gives information about how a code change may impact current functioanlity to aid in testing during the Release window.
 
-## improvements:
+## Use of Improvement Labels
 
-These tags are mainly for reporting the number of tasks that contributed to an improvements vs. bugs.  If you are unsure of which type of improvemnt, use the general improvement tags. 
-
-## ready fors:
-
-Description
-
-### ready-for:Feature Branch Review
-
-Description
-
-
-
-
+These tags are mainly for reporting the number of tasks that contributed to an improvements vs. bugs. If you are unsure of which type of improvemnt, use the general improvement tags. 
