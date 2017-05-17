@@ -22,3 +22,4 @@ exclude_paths:
 - "modules/contrib/"
 - "**.tpl.php"
 - "/usr/src/app/vendor/*"
+- "/code/.phpmd.xml"
