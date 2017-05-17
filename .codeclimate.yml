@@ -2,8 +2,12 @@ engines:
   phpmd:
     enabled: true
     config:
-      file_extensions: "php,inc,module,install"
-      rulesets: ".phpmd.xml"
+      file_extensions:
+        - php
+        - inc
+        - module
+        - install
+      #rulesets: ".phpmd.xml"
   phpcodesniffer:
     enabled: true
     config:
@@ -21,5 +25,3 @@ exclude_paths:
 - "tests/"
 - "modules/contrib/"
 - "**.tpl.php"
-- "/usr/src/app/vendor/*"
-- "/code/.phpmd.xml"
