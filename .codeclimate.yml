@@ -4,7 +4,7 @@ engines:
     config:
       file_extensions: "php,inc,module,install"
       rulesets: ".phpmd.xml"
-    exclude_paths: - /code/.phpmd.xml
+    exclude_paths: - /usr/src/app/vendor/phpmd/phpmd/src/main/php/PHPMD/RuleSetFactory.php
   phpcodesniffer:
     enabled: true
     config:
