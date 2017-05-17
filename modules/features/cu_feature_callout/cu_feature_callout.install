@@ -24,7 +24,7 @@ function cu_feature_callout_update_7001() {
 
 /**
  * Update content grids to 2.0.
- * If Columns were set to 1, style should be set to teaser and columns set to 3.
+ * If Columns were set to 1, style should be set to teaser and columns set to 2.
  * Otherwise, style should be set to teaser.
  */
 function cu_feature_callout_update_7002() {
@@ -37,7 +37,7 @@ function cu_feature_callout_update_7002() {
     if ($bean = bean_load($bid)) {
       if ($bean->field_callout_columns[LANGUAGE_NONE][0]['value'] == 1) {
         $bean->field_callout_style[LANGUAGE_NONE][0]['value'] = 'teaser';
-        $bean->field_callout_columns[LANGUAGE_NONE][0]['value'] = 3;
+        $bean->field_callout_columns[LANGUAGE_NONE][0]['value'] = 2;
       }
       else {
         $bean->field_callout_style[LANGUAGE_NONE][0]['value'] = 'columns';

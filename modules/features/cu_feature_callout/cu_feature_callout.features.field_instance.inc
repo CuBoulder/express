@@ -15,7 +15,7 @@ function cu_feature_callout_field_default_field_instances() {
     'bundle' => 'feature_callout',
     'default_value' => array(
       0 => array(
-        'value' => 1,
+        'value' => 2,
       ),
     ),
     'default_value_function' => '',
