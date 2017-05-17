@@ -1,11 +1,4 @@
 engines:
-  phpmd:
-    enabled: true
-    config:
-      file_extensions: "php,inc,module,install"
-      rulesets: ".phpmd.xml"
-      exclude_paths:
-      - "vendor/"
   phpcodesniffer:
     enabled: true
     config:
