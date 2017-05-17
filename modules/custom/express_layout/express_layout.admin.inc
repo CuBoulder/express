@@ -56,6 +56,7 @@ function express_layout_form($form, &$form_state, $op = 'edit', $express_layout 
       '#type' => 'submit',
       '#value' => t('Update layout'),
     ),
+    '#weight' => 500,
   );
   $form['#validate'][] = '_express_layout_validate';
   return $form;
