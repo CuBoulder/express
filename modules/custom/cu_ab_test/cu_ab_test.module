@@ -1,0 +1,153 @@
+<?php
+
+/**
+ * @file
+ * Code for the CU A/B Test feature.
+ */
+
+include_once 'cu_ab_test.features.inc';
+
+/**
+ * Implements hook_secure_permissions().
+ *
+ * @param string $role
+ *   The user role being checked for permissions.
+ *
+ * @return array|mixed
+ *   An array of granted permissions for a specific user role.
+ */
+function cu_ab_test_secure_permissions($role) {
+  $permissions = array(
+    'administrator' => array(
+      'create any a_b_block bean',
+      'edit any a_b_block bean',
+      'view any a_b_block bean',
+      'delete any a_b_block bean',
+    ),
+    'anonymous user' => array(
+      'view any a_b_block bean',
+    ),
+    'authenticated user' => array(
+      'view any a_b_block bean',
+    ),
+    'content_editor' => array(
+      'create any a_b_block bean',
+      'edit any a_b_block bean',
+      'view any a_b_block bean',
+      'delete any a_b_block bean',
+    ),
+    'developer' => array(
+      'create any a_b_block bean',
+      'edit any a_b_block bean',
+      'view any a_b_block bean',
+      'delete any a_b_block bean',
+    ),
+    'edit_my_content' => array(
+      'view any a_b_block bean',
+    ),
+    'site_owner' => array(
+      'create any a_b_block bean',
+      'edit any a_b_block bean',
+      'view any a_b_block bean',
+      'delete any a_b_block bean',
+    ),
+  );
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
+ * Implements hook_page_build().
+ *
+ * @param array $vars
+ *   A whole slew of things that make up a render array for generating an A/B block.
+ */
+function cu_ab_test_preprocess_entity(array &$vars) {
+  if ($vars['elements']['#entity_type'] === 'bean' && $vars['elements']['#bundle'] === 'a_b_block') {
+    // Add CSS and JS to page.
+    drupal_add_css(drupal_get_path('module', 'cu_ab_test') . '/css/cu-ab.css');
+    drupal_add_js(drupal_get_path('module', 'cu_ab_test') . '/js/cu-ab.js');
+
+    // Unset anything in the content key.
+    // We will replace this with block content.
+    foreach ($vars['content'] as $key => $item) {
+      unset($vars['content'][$key]);
+    }
+
+    // Get field collection items.
+    foreach ($vars['field_block_option'] as $key => $item) {
+      // Load field collection.
+      $fc = array_shift(entity_load('field_collection_item', array($item['value'])));
+      $bean = $fc->field_block[LANGUAGE_NONE][0]['entity'];
+      $percentage = $fc->field_percentage['und'][0]['value'];
+
+      // Load the default bean choice to be rendered if JS breaks.
+      if ($key === 0) {
+        $vars['content']['blocks'][$key . '-default'] = $bean->view($bean->view_mode);
+        $vars['content']['blocks'][$key . '-default']['#prefix'] = '<div class="ab-block-wrapper">';
+        $vars['content']['blocks'][$key . '-default']['#suffix'] = '</div>';
+      }
+
+      // Add rendered bean to block content.
+      // These are hidden until a decision is made on which block to show.
+      $vars['content']['blocks'][$key] = $bean->view($bean->view_mode);
+      $vars['content']['blocks'][$key]['#prefix'] = '<div class="ab-block-option" ab-bean="' . $bean->bid . '" ab-id="' . $key . '" ab-percent="' . $percentage . '">';
+      $vars['content']['blocks'][$key]['#suffix'] = '</div>';
+    }
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Hides the counter field on forms.
+ *
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   An array with values of the current state of the form.
+ * @param string $form_id
+ *   The ID of the form that is currently loaded.
+ */
+function cu_ab_test_form_alter(array &$form, array &$form_state, $form_id) {
+  if ($form['#entity_type'] === 'bean' && $form['#bundle'] === 'a_b_block') {
+
+    // Loop through field collection items.
+    foreach ($form['field_block_option'][LANGUAGE_NONE] as $key => $item) {
+      // Remove array keys that aren't about fields.
+      if (strpos($key, '#') === FALSE && $key !== 'add_more') {
+        if (isset($item['field_counter'])) {
+          // Hide the counter field. It is used for tallying number of times each
+          // option has been shown to the user.
+          $form['field_block_option'][LANGUAGE_NONE][$key]['field_counter']['#access'] = FALSE;
+        }
+      }
+    }
+
+    // Add validation handler.
+    $form['#validate'][] = 'cu_ab_test_validate_percentages';
+  }
+}
+
+/**
+ * Validation handler to ensure percentages entered for options add up to 100.
+ *
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   An array with values of the current state of the form.
+ */
+function cu_ab_test_validate_percentages(array $form, array &$form_state) {
+
+  // Add up all of the percentages.
+  $counter = 0;
+  foreach ($form_state['values']['field_block_option'][LANGUAGE_NONE] as $key => $value) {
+    $counter += $value['field_percentage']['und'][0]['value'];
+  }
+
+  // If the final sum doesn't equal 100, then set error for user.
+  if ($counter !== 100) {
+    form_set_error('field_percentage', t('The percentages don\'t add up to 100. Adjust the percentages and resave the form.'));
+  }
+}
