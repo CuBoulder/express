@@ -1,0 +1,301 @@
+<?php
+
+/**
+ * @file
+ * Contains search form functionality leveraging Google CSE.
+ */
+
+/**
+ * Implements hook_ctools_plugin_api().
+ *
+ * @param string $module
+ *   Module name being passed into function.
+ * @param string $api
+ *   Version of ctools being passed in.
+ *
+ * @return array
+ *   Info needed for ctools API.
+ */
+function cu_search_cse_ctools_plugin_api($module = NULL, $api = NULL) {
+  if ($module == "context" && $api == "context") {
+    return array("version" => "3");
+  }
+}
+
+/**
+ * Provides a path for the search page to exist on.
+ *
+ * @return array
+ *   The search page menu item.
+ */
+function cu_search_cse_menu() {
+  $items = array();
+
+  $search_page = variable_get('cu_search_cse_page', 'search');
+
+  $items[$search_page] = array(
+    'title' => 'Search This Site',
+    'description' => 'Google CSE Search Page',
+    'page callback' => 'google_cse_search_page',
+    'access arguments' => array('access google cse content'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Callback to return a blank page for Search context.
+ *
+ * @return string
+ *   An empty string for the search page to render.
+ */
+function google_cse_search_page() {
+  return '';
+}
+
+/**
+ * Implements hook_permission().
+ *
+ * @return array
+ *   Permissions for CSE search.
+ */
+function cu_search_cse_permission() {
+
+  return array(
+    'access google cse content' => array(
+      'title' => t('Use Google CSE searches'),
+    ),
+  );
+}
+
+/**
+ * Define site permissions in code.
+ *
+ * Create a secure_permissions_data module directory and place this function
+ * in secure_permissions_data.module.
+ *
+ * @param string $role
+ *   The role for which the permissions are being requested.
+ *
+ * @return array
+ *   An array defining all the permissions for the site.
+ */
+function cu_search_cse_secure_permissions($role) {
+  $permissions = array(
+    'administrator' => array(
+      'access google cse content',
+    ),
+    'anonymous user' => array(
+      'access google cse content'
+    ),
+    'authenticated user' => array(
+      'access google cse content'
+    ),
+    'content_editor' => array(
+      'access google cse content'
+    ),
+    'developer' => array(
+      'access google cse content',
+    ),
+    'edit_my_content' => array(
+      'access google cse content'
+    ),
+    'site_owner' => array(
+      'access google cse content',
+    ),
+  );
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
+ * Implements hook_block_info().
+ *
+ * @return array
+ *   Blocks for search module.
+ */
+function cu_search_cse_block_info() {
+  $blocks = array();
+
+  $blocks['cse_header_search_form'] = array(
+    'info' => t('Google CSE search form for header'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  $blocks['cse_content_search_form'] = array(
+    'info' => t('Google CSE search form for content'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  $blocks['cse_search_results'] = array(
+    'info' => t('Google CSE search results'),
+    'cache' => DRUPAL_NO_CACHE,
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ *
+ * @param string $delta
+ *   Name of current block being viewed.
+ *
+ * @return array
+ *   Content to be rendered for block.
+ */
+function cu_search_cse_block_view($delta = '') {
+  $block = array();
+
+  if (user_access('access google cse content')) {
+    switch ($delta) {
+
+      case 'cse_header_search_form':
+        $block['content'] = drupal_get_form('cse_header_search_form');
+        break;
+
+      case 'cse_content_search_form':
+        $block['content'] = drupal_get_form('cse_content_search_form');
+        break;
+
+      case 'cse_search_results':
+        $block['content'] = _get_cse_search_results();
+        break;
+    }
+  }
+
+  return $block;
+}
+
+/**
+ * Search block form.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Values relating to current state of the form.
+ *
+ * @return array
+ *   Form to be rendered.
+ */
+function cse_header_search_form(array $form, array &$form_state) {
+  $form = array();
+
+  $form['search_keys'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Enter the terms you wish to search for.'),
+    '#title_display' => 'invisible',
+    '#size' => 15,
+    '#weight' => 0,
+    '#default_value' => '',
+    '#prefix' => '<div class="cu-search clearfix">',
+  );
+
+  $form['cu_links'] = array(
+    '#markup' => '<div class="culinks"><strong>CU:</strong> <a href="/">Home</a> &bull; <a href="/atoz">A to Z</a> &bull; <a href="/campusmap">Campus Map</a></div>',
+    '#weight' => 99,
+  );
+
+  $form['actions'] = array(
+    '#type' => 'actions',
+    'submit' => array(
+      '#type' => 'submit',
+      '#value' => t('Search'),
+    ),
+    '#weight' => 1,
+    '#suffix' => '</div>',
+  );
+
+  return $form;
+}
+
+/**
+ * Search block form.
+ *
+ * @param array $form
+ *   Form array.
+ * @param array $form_state
+ *   Values relating to current state of the form.
+ *
+ * @return array
+ *   Form to be rendered.
+ */
+function cse_content_search_form(array $form, array &$form_state) {
+  $form = array();
+
+  // Get query string for default values.
+  $query = drupal_get_query_parameters();
+  $default_search_term = isset($query['cse']) ? urldecode($query['cse']) : '';
+
+  $form['search_keys'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Enter the terms you wish to search for.'),
+    '#title_display' => 'invisible',
+    '#default_value' => $default_search_term,
+  );
+
+  $form['actions'] = array(
+    '#type' => 'actions',
+    'submit' => array(
+      '#type' => 'submit',
+      '#value' => t('Search'),
+    ),
+  );
+
+  $form['#submit'][] = 'cse_header_search_form_submit';
+
+  return $form;
+}
+
+/**
+ * Form submission callback to send user to search page.
+ *
+ * @param array $form
+ *   Form being submitted.
+ * @param array $form_state
+ *   Values of form submission.
+ */
+function cse_header_search_form_submit(array $form, array &$form_state) {
+  // Get search keys and encode for URL.
+  $search_keys = urlencode($form_state['values']['search_keys']);
+
+  // Redirect user to search page.
+  $options = array(
+    'query' => array(
+      'cse' => $search_keys,
+    ),
+  );
+
+  drupal_goto(variable_get('cu_search_cse_page', 'search'), $options);
+}
+
+/**
+ * Adds JS and tag needs to display search results.
+ *
+ * @return array
+ *   Markup for the block output.
+ */
+function _get_cse_search_results() {
+
+  $google_cse_id = variable_get('google_cse_id', '');
+
+  // JS to add.
+  $js = "(function() {
+  var cx = '" . $google_cse_id . "';
+  var gcse = document.createElement('script');
+  gcse.type = 'text/javascript';
+  gcse.async = true;
+  gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+  var s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(gcse, s);
+})();";
+
+  drupal_add_js($js, array('type' => 'inline', 'scope' => 'footer'));
+
+  return array(
+    '#markup' => '<h2>Search Results</h2><gcse:searchresults-only></gcse:searchresults-only>',
+  );
+}

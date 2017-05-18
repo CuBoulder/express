@@ -1,0 +1,17 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for the cu_search_cse module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function cu_search_cse_install() {
+  // Set the search page that is picked up in hook_menu() and search Context.
+  variable_set('cu_search_cse_page', 'search');
+
+  // Set CSE ID.
+  variable_set('google_cse_id', '004087084483837606684:bu5knhuvyxi');
+}
