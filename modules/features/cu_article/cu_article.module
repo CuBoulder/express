@@ -99,6 +99,7 @@ function cu_article_form_article_list_page_node_form_alter(&$form, &$form_state,
  * Implements hook_page_alter().
  */
 function cu_article_page_alter(&$page) {
+  dpm($page);
   drupal_add_css(drupal_get_path('module', 'cu_article') . '/css/cu-article.css');
   drupal_add_css(drupal_get_path('module', 'cu_article') . '/css/cu-article-grid.css');
   drupal_add_css(drupal_get_path('module', 'cu_article') . '/css/owl.carousel.css');
@@ -139,6 +140,10 @@ function cu_article_theme_registry_alter(&$theme_registry) {
 function cu_article_preprocess_entity(&$vars) {
   $entity_type = $vars['elements']['#entity_type'];
   $bundle = $vars['elements']['#bundle'];
+
+  dpm($entity_type);
+  dpm($bundle);
+
   if ($vars['elements']['#bundle'] == 'articles') {
     $content = $vars['content'];
     global $base_url;
@@ -310,8 +315,7 @@ function cu_article_preprocess_entity(&$vars) {
     }
     else {
       $type = $vars['elements']['#bundle'];
-      _cu_article_bean_null_results($vars, $type);
-      $vars['content'] = array();
+      $vars['content'] = _cu_article_bean_null_results($vars, $type);
     }
 
   }
@@ -446,8 +450,7 @@ function cu_article_preprocess_entity(&$vars) {
     }
     else {
       $type = $vars['elements']['#bundle'];
-      _cu_article_bean_null_results($vars, $type);
-      $vars['content'] = array();
+      $vars['content'] = _cu_article_bean_null_results($vars, $type);
     }
 
   }
@@ -602,8 +605,7 @@ function cu_article_preprocess_entity(&$vars) {
     }
     else {
       $type = $vars['elements']['#bundle'];
-      _cu_article_bean_null_results($vars, $type);
-      $vars['content'] = array();
+      $vars['content'] = _cu_article_bean_null_results($vars, $type);
     }
   }
 
@@ -757,7 +759,7 @@ function _cu_article_bean_null_results($vars, $type = NULL) {
       $delta = $vars['elements']['#entity']->delta;
       $label = $vars['elements']['#entity']->label;
       $edit = l($label, 'block/' . $delta . '/edit');
-      drupal_set_message(t('!label has no results', array('!label' => $edit)), 'warning');
+      return t('The "!label" category has no results at this time.', array('!label' => $edit));
     }
   }
 }
