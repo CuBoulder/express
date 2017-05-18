@@ -99,7 +99,6 @@ function cu_article_form_article_list_page_node_form_alter(&$form, &$form_state,
  * Implements hook_page_alter().
  */
 function cu_article_page_alter(&$page) {
-  dpm($page);
   drupal_add_css(drupal_get_path('module', 'cu_article') . '/css/cu-article.css');
   drupal_add_css(drupal_get_path('module', 'cu_article') . '/css/cu-article-grid.css');
   drupal_add_css(drupal_get_path('module', 'cu_article') . '/css/owl.carousel.css');
@@ -750,8 +749,7 @@ function cu_article_preprocess_entity(&$vars) {
  */
 function _cu_article_bean_null_results($vars, $type = NULL) {
   if ($type) {
-    $delta = $vars['elements']['#entity']->delta;
-    return t('The <em>"!label"</em> article category has no results at this time.', array('!label' => $delta));
+    return t('There are no results at this time.');
   }
 }
 
