@@ -141,13 +141,9 @@ function cu_article_preprocess_entity(&$vars) {
   $entity_type = $vars['elements']['#entity_type'];
   $bundle = $vars['elements']['#bundle'];
 
-  dpm($entity_type);
-  dpm($bundle);
-
   if ($vars['elements']['#bundle'] == 'articles') {
     $content = $vars['content'];
     global $base_url;
-
 
     // Get configs.
     $items = $vars['elements']['#entity']->field_article_items_display[LANGUAGE_NONE][0]['value'];
@@ -754,13 +750,8 @@ function cu_article_preprocess_entity(&$vars) {
  */
 function _cu_article_bean_null_results($vars, $type = NULL) {
   if ($type) {
-    $permission = 'edit any ' . $type . ' bean';
-    if (user_access($permission)) {
-      $delta = $vars['elements']['#entity']->delta;
-      $label = $vars['elements']['#entity']->label;
-      $edit = l($label, 'block/' . $delta . '/edit');
-      return t('The "!label" category has no results at this time.', array('!label' => $edit));
-    }
+    $delta = $vars['elements']['#entity']->delta;
+    return t('The <em>"!label"</em> article category has no results at this time.', array('!label' => $delta));
   }
 }
 
