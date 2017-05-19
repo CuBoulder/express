@@ -19,12 +19,6 @@ function cu_profile_module_manager_menu() {
     'access arguments' => array('administer modules'),
   );
 
-  $items['admin/settings/bundles/list/core'] = array(
-    'title' => 'Core',
-    'type' => MENU_DEFAULT_LOCAL_TASK,
-    'weight' => -10
-  );
-
   $items['admin/settings/bundles/list/addon'] = array(
     'title' => 'Addon',
     'type' => MENU_LOCAL_TASK,
@@ -32,6 +26,7 @@ function cu_profile_module_manager_menu() {
     'page callback' => 'cu_profile_module_manager_addon_page',
     'page arguments' => array(1),
     'access arguments' => array('administer modules'),
+    'weight' => 10,
   );
 
   $items['admin/settings/bundles/list/request'] = array(
@@ -41,6 +36,17 @@ function cu_profile_module_manager_menu() {
     'page callback' => 'cu_profile_module_manager_request_page',
     'page arguments' => array(1),
     'access arguments' => array('administer modules'),
+    'weight' => 20,
+  );
+
+  $items['admin/settings/bundles/list/beta'] = array(
+    'title' => 'Beta',
+    'type' => MENU_LOCAL_TASK,
+    'description' => 'Add and request additional bundles',
+    'page callback' => 'cu_profile_module_manager_beta_page',
+    'page arguments' => array(1),
+    'access arguments' => array('administer modules'),
+    'weight' => 99,
   );
 
   return $items;
@@ -143,6 +149,9 @@ function _prepared_atlas_package($key, $item) {
   }
 }
 
+/**
+ * @return array
+ */
 function cu_profile_module_manager_addon_page() {
   /* Variables and whatnot--no form elements. */
   global $base_path;
@@ -159,7 +168,8 @@ function cu_profile_module_manager_addon_page() {
       '#type' => 'markup',
       '#markup' => '<p>These are bundles that can be added at any time by site owners. Once you add the bundle,
                     you will receive an email when it has finished downloading. Once downloaded, the bundle will
-                    be available to enable on this page.</p>',
+                    be available to enable.</p><p>Don\'t see your bundle available in Core yet? It takes a few 
+                    minutes to download. If it takes longer than 15 minutes, contact your site owner for help.</p>',
     ),
   );
 
@@ -191,7 +201,7 @@ function cu_profile_module_manager_addon_page() {
       $output[] = array(
         'atlas_item' => array(
           '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="#" class="pmm-actions btn btn-success" disabled ><i class="fa fa-check-circle"></i> Added to Core Bundles</a></div>',
+          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="' . $base_path . 'admin/settings/bundles/list/confirm/' . $name . '" id="' . $key . '" class="pmm-actions btn btn-info"><i class="fa fa-plus-circle"></i> Enable</a></div>',
         ),
       );
     }
@@ -201,14 +211,16 @@ function cu_profile_module_manager_addon_page() {
       $output[] = array(
         'atlas_item' => array(
           '#type' => 'markup',
-          '#markup' => t('In package array, and enabled.')
+          '#markup' => '<div class="bundle-enable atlas-add-bundle bundle-ready"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><span class="pmm-actions btn btn-info" disabled ><i class="fa fa-check-circle"></i> Ready to use</span></div>',
         ),
       );
     }
   }
   return $output;
 }
-
+/**
+ * @return array
+ */
 function cu_profile_module_manager_request_page() {
   /* Variables and whatnot--no form elements. */
   global $base_path;
@@ -245,17 +257,92 @@ function cu_profile_module_manager_request_page() {
       $output[] = array(
         'atlas_item' => array(
           '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="#" class="pmm-actions btn btn-primary" 
-                        disabled ><i class="fa fa-plus-circle "></i> Requires approval</a></div>',
+          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="' . $base_path . 'admin/settings/bundles/list/atlas/' . $name . '/confirm" id="' . $key . '" class="pmm-actions btn btn-primary"><i class="fa fa-plus-circle"></i> Add bundle</a></div>',
         ),
       );
     }
 
-    if (isset($tag) && ($tag[0] == 'approval_required_bundles') && in_array($key, $packages_array)) {
+    if (isset($tag) && ($tag[0] == 'approval_required_bundles') && in_array($key, $packages_array) && $enabled == FALSE) {
+      // Is NOT enabled.
       $output[] = array(
         'atlas_item' => array(
           '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="admin/settings/bundles/list" class="pmm-actions btn btn-success" disabled ><i class="fa fa-check-circle"></i> Added to Core Bundles</a></div>',
+          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="' . $base_path . 'admin/settings/bundles/list/confirm/' . $name . '" id="' . $key . '" class="pmm-actions btn btn-info"><i class="fa fa-plus-circle"></i> Enable</a></div>',
+        ),
+      );
+    }
+
+    if (isset($tag) && ($tag[0] == 'approval_required_bundles') && in_array($key, $packages_array) && $enabled == TRUE) {
+      // Is enabled.
+      $output[] = array(
+        'atlas_item' => array(
+          '#type' => 'markup',
+          '#markup' => '<div class="bundle-enable atlas-add-bundle bundle-ready"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><span class="pmm-actions btn btn-info" disabled ><i class="fa fa-check-circle"></i> Ready to use</span></div>',
+        ),
+      );
+    }
+  }
+  return $output;
+}
+
+/**
+ * @return array
+ */
+function cu_profile_module_manager_beta_page() {
+  /* Variables and whatnot--no form elements. */
+  global $base_path;
+
+  $atlas_id = variable_get('atlas_id', NULL);
+  $site_array = atlas_api_request('sites', $atlas_id);
+  if (isset($site_array['code']['package'])) {
+    $packages_array = $site_array['code']['package'];
+  } else {
+    $packages_array = array();
+  }
+
+  drupal_add_css(drupal_get_path('module', 'cu_profile_module_manager') . '/css/cu-profile-module-manager.css', array('group' => CSS_DEFAULT));
+
+  // Get code packages from atlas.
+  $packages = _get_code_options($type = 'module', $name = NULL);
+  $output = array(
+    'description' => array(
+      '#type' => 'markup',
+      '#markup' => '<p>These are beta bundles--even we don\'t know what they are exactly.</p>',
+    ),
+  );
+
+  foreach ($packages as $key => $package) {
+    $tag = _prepared_atlas_package($key, 'tag');
+    $name = _prepared_atlas_package($key, 'name');
+    $label = _prepared_atlas_package($key, 'label');
+
+    $enabled = module_exists($name) ? 1 : 0;
+
+    if (isset($tag) && ($tag[0] == 'beta_bundles') && !in_array($key, $packages_array)) {
+      $output[] = array(
+        'atlas_item' => array(
+          '#type' => 'markup',
+          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="' . $base_path . 'admin/settings/bundles/list/atlas/' . $name . '/confirm" id="' . $key . '" class="pmm-actions btn btn-primary"><i class="fa fa-plus-circle"></i> Add bundle</a></div>',
+        ),
+      );
+    }
+
+    if (isset($tag) && ($tag[0] == 'beta_bundles') && in_array($key, $packages_array) && $enabled == FALSE) {
+      // Is NOT enabled.
+      $output[] = array(
+        'atlas_item' => array(
+          '#type' => 'markup',
+          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="' . $base_path . 'admin/settings/bundles/list/confirm/' . $name . '" id="' . $key . '" class="pmm-actions btn btn-info"><i class="fa fa-plus-circle"></i> Enable</a></div>',
+        ),
+      );
+    }
+
+    if (isset($tag) && ($tag[0] == 'beta_bundles') && in_array($key, $packages_array) && $enabled == TRUE) {
+      // Is enabled.
+      $output[] = array(
+        'atlas_item' => array(
+          '#type' => 'markup',
+          '#markup' => '<div class="bundle-enable atlas-add-bundle bundle-ready"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><span class="pmm-actions btn btn-info" disabled ><i class="fa fa-check-circle"></i> Ready to use</span></div>',
         ),
       );
     }

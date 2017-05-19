@@ -33,14 +33,25 @@
   border-style: solid;
   border-image: linear-gradient(to bottom,#000,rgba(0,0,0,0)) 1 100%;
 }
-.pmm-actions, .bundle-enable-link, .alakazaam {
+.pmm-actions, .bundle-enable-link, .alakazaam, .bundle-enabled {
   bottom: 10%;
   position: absolute;
 }
 .bundle-demo-link {
-  position: relative;
-  right: -60%;
-  bottom: 3px;
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+}
+.bundle-ready::before {
+  content: '✓';
+  position: absolute;
+  right: 5%;
+  color: #cfb87c;
+  font-size: 2em;
+  border: 1px solid #000;
+  padding: 1.5%;
+  border-radius: 15px;
+  background: #fff;
 }
 @media screen and (max-width:768px) {
   .bundle-enable {

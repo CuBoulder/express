@@ -67,28 +67,32 @@ function profile_module_manager_bundle_list() {
 
     $bundle_machine_name = $bundle->name;
     $bundle_name = $info['name'];
+    $bundle_group = (isset($info['bundle_group']) ? $info['bundle_group'] : '');
+    $bundle_group_set = array('admin_bundles', 'addon_bundles', 'approval_required_bundles', 'custom_bundles');
     $bundle_description = (isset($info['description']) ? $info['description'] : '');
 
-    $page .= '<div class="bundle-enable" id="edit-' . $bundle_machine_name . '">';
-    $page .= '<h2>' . $bundle_name . '</h2>';
-    $page .= '<p>' . $bundle_description . '</p>';
-    foreach ($bundle_info as $key=>$value) {
-      $enabled = module_exists($key) ? 1 : 0;
-    }
-    foreach ($info as $key=>$value) {
-      //$page .= '<p>' . $key . ': ' . $value . '</p>';
-    }
-    $action_vars = array();
-    if ($enabled) {
-      $page .= theme('profile_module_manager_bundle_actions_enabled', array('actions' => $action_vars));
-    } else {
-      $action_vars['enable_url'] = current_path() . '/confirm/' . $bundle_machine_name;
-      if (isset($info['project_demo_url'])) {
-        $action_vars['demo_url'] = $info['project_demo_url'];
+    if (isset($bundle_group) && !in_array($bundle_group, $bundle_group_set)) {
+      $page .= '<div class="bundle-enable" id="edit-' . $bundle_machine_name . '">';
+      $page .= '<h2>' . $bundle_name . '</h2>';
+      $page .= '<p>' . $bundle_description . '</p>';
+      foreach ($bundle_info as $key => $value) {
+        $enabled = module_exists($key) ? 1 : 0;
       }
-      $page .= theme('profile_module_manager_bundle_actions_disabled', $action_vars);
+      foreach ($info as $key => $value) {
+        //$page .= '<p>' . $key . ': ' . $value . '</p>';
+      }
+      $action_vars = array();
+      if ($enabled) {
+        $page .= theme('profile_module_manager_bundle_actions_enabled', array('actions' => $action_vars));
+      } else {
+        $action_vars['enable_url'] = current_path() . '/confirm/' . $bundle_machine_name;
+        if (isset($info['project_demo_url'])) {
+          $action_vars['demo_url'] = $info['project_demo_url'];
+        }
+        $page .= theme('profile_module_manager_bundle_actions_disabled', $action_vars);
+      }
+      $page .= '</div>';
     }
-    $page .= '</div>';
   }
   return $page;
 }
