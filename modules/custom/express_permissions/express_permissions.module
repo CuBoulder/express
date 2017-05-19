@@ -439,7 +439,6 @@ function express_permissions_secure_permissions($role) {
       'access_google_appliance_content',
       'administer beans',
       'administer blocks',
-      'administer cache settings',
       'administer checked out documents',
       'administer contexts',
       'administer express settings',
