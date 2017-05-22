@@ -18,6 +18,13 @@
       $("#toggle i.fa").toggleClass('fa-times');
       return false;
     });
+    // Add close messages area
+    var closeMsgs = '<a href="#" class="close-msgs" tabindex="-1"><i class="fa fa-times-circle"></a>';
+    $('.logged-in .express-messages').append(closeMsgs);
+    $('a.close-msgs').click(function(event){
+      event.preventDefault();
+      $('.express-messages').hide();
+    });
   });
   $(window).on('resize', function(){
       var win = $(this);
