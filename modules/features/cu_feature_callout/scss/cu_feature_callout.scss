@@ -10,6 +10,22 @@
   transition: box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
 }
 
+@mixin gradient($color, $color2:false) {
+  @if $color2 {
+
+  }
+  @else {
+    $color2: darken($color, 5%);
+  }
+  background-color: $color;
+  background-image: -webkit-gradient(linear, left top, left bottom, from($color), to($color2));
+  background-image: -webkit-linear-gradient(top, $color, $color2);
+  background-image: -moz-linear-gradient(top, $color, $color2);
+  background-image: -o-linear-gradient(top, $color, $color2);
+  background-image: -ms-linear-gradient(top, $color, $color2);
+  background-image: linear-gradient(top, $color, $color2);
+}
+
 @mixin headers {
   h2.feature-callout-title,
   h3.feature-callout-title {
@@ -257,7 +273,6 @@ $text: #202020;
 
   }
 }
-
 .content-grid-style-overlay1 {
   .content-grid-item {
     background-position: left center;
@@ -445,5 +460,169 @@ $text: #202020;
 @media screen and (min-width:960px) {
   .content-grid-style-masonry {
     column-count: 3;
+  }
+}
+
+.content-grid-style-tiles_large {
+  margin:0;
+  padding :0;
+  @include headers;
+  display: block;
+  flex-direction: column;
+  flex-wrap: wrap;
+  text-shadow: 0px 1px 2px rgba(0,0,0,.5);
+  .content-grid-image {
+    margin-bottom: 20px;
+  }
+
+  .sub-item {
+    .content-grid-image {
+      display: flex;
+      flex-direction: row;
+    }
+    .content-grid-image-wrapper {
+      width:25%;
+      padding-right: 10px;
+    }
+    .content-grid-content {
+      position: static;
+      background: none;
+      width:75%;
+    }
+    h2.feature-callout-title,
+    h3.feature-callout-title {
+      margin: 0;
+      font-size: 100%;
+      font-weight: normal;
+    }
+  }
+  .main-item {
+    .content-grid-image {
+      position: relative;
+      overflow: hidden;
+      .content-grid-content {
+        position: absolute;
+        bottom:0;
+        left:0;
+        right:0;
+        padding:40px 10px 10px;
+        // background: rgba(0,0,0,.5);
+        @include gradient($color: rgba(0,0,0,0), $color2: rgba(0,0,0,.85));
+        h2.feature-callout-title,
+        h3.feature-callout-title {
+          margin: 0;
+        }
+        color:#fff;
+        a {
+          color:#fff;
+        }
+      }
+      .content-grid-content.content-grid-content-has-placeholder {
+        top: 0;
+        display: flex;
+        align-items: center;
+        padding: 40px;
+      }
+    }
+
+  }
+
+  @media screen and (min-width:768px) {
+    .content-grid-image {
+      margin: 0;
+    }
+    .sub-item .content-grid-image {
+      display: block;
+
+      .content-grid-image-wrapper {
+        width:auto;
+        padding:0;
+      }
+      .content-grid-content {
+
+        width:auto;
+      }
+    }
+    .main-item,
+    .sub-item {
+      .content-grid-image {
+        position: relative;
+        overflow: hidden;
+        .content-grid-content {
+          position: absolute;
+          bottom:0;
+          left:0;
+          right:0;
+          padding:50px 15px 15px;
+          // background: rgba(0,0,0,.5);
+          @include gradient($color: rgba(0,0,0,0), $color2: rgba(0,0,0,.85));
+          h2.feature-callout-title,
+          h3.feature-callout-title {
+            margin: 0;
+            font-size: 85%;
+            font-weight: bold;
+          }
+          color:#fff;
+          a {
+            color:#fff;
+          }
+        }
+      }
+    }
+    .main-item {
+      .content-grid-image .content-grid-content {
+        h2.feature-callout-title,
+        h3.feature-callout-title {
+          font-size: 100%;
+        }
+      }
+    }
+    .content-grid-image-wrapper a {
+      display: block;
+      position: relative;
+      &:before {
+        content: ' ';
+        position: absolute;
+        top:0;
+        bottom:0;
+        left:0;
+        right:0;
+        border:5px solid #fff;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+      }
+      &:hover:before,
+      &:focus:before {
+
+        opacity: .75;
+      }
+    }
+    .main-item,
+    .sub-item {
+      .content-grid-image .content-grid-content.content-grid-content-has-placeholder {
+        top: 0;
+        display: flex;
+        align-items: center;
+        padding: 40px;
+      }
+    }
+  }
+
+  .content-grid-text {
+    display: none;
+    overflow: hidden;
+  }
+  .grid-no-space {
+    margin:0;
+    padding:0;
+  }
+
+
+  .content-grid-image-placeholder:nth-child(odd) {
+    opacity: .85;
+  }
+  .content-grid-image-placeholder:nth-child(even) {
+    opacity: .65;
   }
 }

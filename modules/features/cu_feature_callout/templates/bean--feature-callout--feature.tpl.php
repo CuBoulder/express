@@ -6,5 +6,4 @@
     <?php print render($content[1]); ?>
     <?php print render($content[2]); ?>
   </div>
-
 </div>

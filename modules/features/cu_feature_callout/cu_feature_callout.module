@@ -87,6 +87,11 @@ function cu_feature_callout_theme(&$existing, $type, $theme, $path) {
     'path' => $template_dir,
     'render element' => 'elements',
   );
+  $registry['cu_feature_callout_item__tiles_large'] = array(
+    'template' => 'cu-feature-callout-item--tiles-large',
+    'path' => $template_dir,
+    'render element' => 'elements',
+  );
   return $registry;
 }
 
@@ -101,7 +106,7 @@ function cu_feature_callout_style_themes($style) {
   $themes['overlay'] = 'cu_feature_callout_item__overlay';
   $themes['tiles'] = 'cu_feature_callout_item__tile';
   $themes['teaser'] = 'cu_feature_callout_item__teaser';
-  $themes['masonry'] = 'cu_feature_callout_item__columns';
+  $themes['tiles_large'] = 'cu_feature_callout_item__tiles_large';
 
   return $themes[$style];
 }
@@ -164,8 +169,7 @@ function cu_feature_callout_preprocess_entity(&$vars) {
     }
     $default_size = $size;
 
-    // Theme suggestions for styles
-    $vars['theme_hook_suggestions'][] = 'bean__feature_callout__' . $style;
+
 
     // Find all the field_collection_items.
     $children = element_children($vars['content']['field_callouts']);
@@ -173,9 +177,17 @@ function cu_feature_callout_preprocess_entity(&$vars) {
     $column_count = 1;
     $callout_items = array_intersect_key($vars['content']['field_callouts'], element_children($vars['content']['field_callouts']));
     $total_items = count($callout_items);
+
+    // Theme suggestions for styles
+    $vars['theme_hook_suggestions'][] = 'bean__feature_callout__' . $style;
+
+
     // Limit feature to 3 items
     if ($style == 'feature') {
       $callout_items = array_slice($callout_items, 0, 3);
+    }
+    if ($style == 'tiles_large') {
+      $callout_items = array_slice($callout_items, 0, 9);
     }
     else if ($style == 'offset') {
       $remainder = $total_items % 3;
@@ -229,6 +241,10 @@ function cu_feature_callout_preprocess_entity(&$vars) {
         $size = 'square';
       }
 
+      if ($style == 'tiles_large') {
+        $size = 'widescreen';
+      }
+
 
       if (isset($fc_item['field_callout_image']['#items'][0]['uri'])) {
         // Get image uri.
@@ -242,6 +258,8 @@ function cu_feature_callout_preprocess_entity(&$vars) {
         $image = drupal_render($build);
         $image_url = image_style_url($size, $image_uri);
       }
+      // Placeholder image
+      $place_holder = '<img src="' . drupal_get_path('module', 'cu_feature_callout') . '/images/widescreen-black.png" alt />';
 
       // Remove title if link url field was used but link title field was not.
       // Leaving title field blank results in url being inserted as the title.
@@ -273,6 +291,7 @@ function cu_feature_callout_preprocess_entity(&$vars) {
           $image = l($image, $url['url'], array('html' => TRUE, 'query' => $url['query'], 'fragment' => $url['fragment']));
         } else {
           $image = '';
+          $place_holder = l($place_holder, $url['url'], array('html' => TRUE, 'query' => $url['query'], 'fragment' => $url['fragment']));
         }
       }
       else {
@@ -284,6 +303,7 @@ function cu_feature_callout_preprocess_entity(&$vars) {
       }
       $item_vars['content']['title'] = $title;
       $item_vars['content']['image'] = $image;
+      $item_vars['content']['place_holder'] = $place_holder;
       $item_vars['content']['image_url'] = $image_url;
       $item_vars['content']['text'] = $text;
       if ($style == 'columns' || $style == 'cards' || $style == 'overlay' || $style == 'tiles') {
@@ -331,6 +351,7 @@ function cu_feature_callout_style() {
     'offset' => 'Offset',
     'cards' => 'Cards',
     'teaser' => 'Teaser',
+    'tiles_large' => 'Tiles Large',
   );
   return $options;
 }
@@ -372,7 +393,6 @@ function cu_feature_callout_preprocess_radio (&$vars) {
 
   if ($vars['element']['#name'] == 'field_callout_style[und]') {
     //$variables['theme_hook_suggestion'] = 'radio__imglayout';
-    //dpm($vars);
   }
 }
 
