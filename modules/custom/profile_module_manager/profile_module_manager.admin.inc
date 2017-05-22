@@ -1,7 +1,9 @@
 <?php
 
 /**
- * Page callback for admin/config/development/module-manager/settings
+ * Page callback for admin/config/development/module-manager/settings.
+ *
+ * @return mixed
  */
 function profile_module_manager_admin_settings() {
   $form = array();
@@ -53,7 +55,9 @@ function profile_module_manager_admin_settings() {
 }
 
 /**
- * Callback for admin/settings/bundles/list
+ * Callback for admin/settings/bundles/list.
+ *
+ * @return string
  */
 function profile_module_manager_bundle_list() {
   $page = '';
@@ -98,7 +102,10 @@ function profile_module_manager_bundle_list() {
 }
 
 /**
- * Callback function for admin/settings/bundles/list/confirm/%
+ * Callback function for admin/settings/bundles/list/confirm/%.
+ *
+ * @param $bundle_name
+ * @return string
  */
 function profile_module_manager_bundle_confirm($bundle_name) {
   $output = '';
@@ -135,7 +142,10 @@ function profile_module_manager_bundle_confirm($bundle_name) {
 }
 
 /**
- * Callback function for admin/settings/bundles/list/enable/%
+ * Callback function for admin/settings/bundles/list/enable/%.
+ *
+ * @param $bundle
+ * @return string
  */
 function profile_module_manager_bundle_enable($bundle) {
 

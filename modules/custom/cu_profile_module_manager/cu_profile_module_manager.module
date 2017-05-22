@@ -1,12 +1,14 @@
 <?php
 
 /**
- * @file
  * Alters grouping in admin/modules for CU specific sites.
+ * @file
  */
 
 /**
  * Implements hook_menu().
+ *
+ * @return mixed
  */
 function cu_profile_module_manager_menu() {
 
@@ -54,6 +56,10 @@ function cu_profile_module_manager_menu() {
 
 /**
  * Implements hook_form().
+ *
+ * @param $form
+ * @param $form_state
+ * @return mixed
  */
 function cu_profile_module_manager_atlas_request_form($form, &$form_state) {
   $form = array();
@@ -79,6 +85,9 @@ function cu_profile_module_manager_atlas_request_form($form, &$form_state) {
 
 /**
  * Implements hook_validate_form().
+ *
+ * @param $form
+ * @param $form_state
  */
 function cu_profile_module_manager_validate_atlas_request($form, &$form_state) {
   $atlas_id = variable_get('atlas_id', FALSE);
@@ -93,6 +102,9 @@ function cu_profile_module_manager_validate_atlas_request($form, &$form_state) {
 
 /**
  * Submit function for cu_profile_module_manager_atlas_request_form().
+ *
+ * @param $form
+ * @param $form_state
  */
 function cu_profile_module_manager_atlas_request_submit($form, &$form_state) {
   $atlas_id = variable_get('atlas_id', NULL);
@@ -125,9 +137,11 @@ function cu_profile_module_manager_atlas_request_submit($form, &$form_state) {
 }
 
 /**
- * @param $package
- *
  * Check to see if the package has a label and return it.
+ *
+ * @param $key
+ * @param $item
+ * @return mixed
  */
 function _prepared_atlas_package($key, $item) {
   // Atlas code api call.
@@ -150,6 +164,8 @@ function _prepared_atlas_package($key, $item) {
 }
 
 /**
+ * Addon bundle page.
+ *
  * @return array
  */
 function cu_profile_module_manager_addon_page() {
@@ -219,6 +235,8 @@ function cu_profile_module_manager_addon_page() {
   return $output;
 }
 /**
+ * Approval required bundle page.
+ *
  * @return array
  */
 function cu_profile_module_manager_request_page() {
@@ -286,6 +304,8 @@ function cu_profile_module_manager_request_page() {
 }
 
 /**
+ * Beta bundles page.
+ *
  * @return array
  */
 function cu_profile_module_manager_beta_page() {
