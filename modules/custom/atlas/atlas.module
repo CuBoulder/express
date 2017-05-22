@@ -52,16 +52,20 @@ function atlas_admin_settings() {
 
   // Options are limited based on permissions.
   $status_options = array(
-    'installed' => t('Installed'),
     'launching' => t('Launching'),
     'take_down' => t('Take Down Site'),
-    'delete' => t('Delete'),
   );
 
-  // If site is Available or Launched, add that option. You cannot go to those
-  // states.
+  // If site is Available, Installed, or Launched, add options. You shouldn't
+  // go to these states.
   if ($site_array['status'] == 'available') {
-    $status_options['available'] = t('Available');
+    $status_options = array(
+      'installing' => t('Installing'),
+      'available' => t('Available'),
+    );
+  }
+  elseif ($site_array['status'] == 'installed') {
+    $status_options['installed'] = t('Installed');
   }
   elseif ($site_array['status'] == 'launched') {
     $status_options['launched'] = t('Launched');
@@ -151,6 +155,10 @@ function atlas_admin_settings() {
     $form['atlas_path']['#disabled'] = TRUE;
     $form['atlas_update_group']['#disabled'] = TRUE;
     drupal_set_message(t("You can only modify 'status' while the site is '<i>available</i>'."), 'warning');
+  }
+
+  if ($site_array['status'] == 'launched') {
+    $form['atlas_path']['#disabled'] = TRUE;
   }
 
   // Store the etag when we load the form for concurrency control with Atlas.
@@ -286,6 +294,26 @@ function atlas_up() {
   }
   else {
     return FALSE;
+  }
+}
+
+/**
+ * Determine if Atlas is up. Included a 5 second timeout.
+ *
+ * @return bool
+ *   TRUE if api returns 200 else FALSE if non 200 or not configured.
+ */
+function atlas_version() {
+  $url = variable_get('atlas_url') . 'version';
+  $options = array(
+    'timeout' => 5.0,
+  );
+  $response = drupal_http_request($url, $options);
+  if (!property_exists($response, 'error')) {
+    return $response->data;
+  }
+  else {
+    return NULL;
   }
 }
 
