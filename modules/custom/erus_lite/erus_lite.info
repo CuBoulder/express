@@ -1,0 +1,9 @@
+name = External Repository Update Status
+description = "Provides update information to the update status module from external repository hosts such as github."
+package = Administration
+core = 7.x
+version = 7.x-1.1
+configure = admin/config/administration/erus
+project = erus
+project status url = https://github.com/SU-SWS/erus
+dependencies[] = update
