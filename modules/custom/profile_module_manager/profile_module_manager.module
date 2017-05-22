@@ -356,8 +356,8 @@ function profile_module_manager_theme(&$existing, $type, $theme, $path) {
  * @return string
  */
 function profile_module_manager_admin_page() {
-  global $base_path;
   $page = '';
+  $mod_enabled = array();
 
   // Get the bundles' info array.
   $bundles = profile_module_manager_get_bundles($status = 'all');
@@ -394,6 +394,15 @@ function profile_module_manager_admin_page() {
       $page .= '</div>';
     }
   }
-  var_dump($base_path);
+
+  $page .= '<div class="enabled-modules-admin"><h2>Enabled Bundles</h2>';
+    foreach ($bundles as $bundle) {
+      if (module_exists($bundle->name)) {
+        $page .= '<span>' . $bundle->name . '</span><br>';
+      }
+    }
+  $page .= '</div>';
+
+  var_dump($bundles);
   return $page;
 }
