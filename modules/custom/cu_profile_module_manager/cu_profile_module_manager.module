@@ -18,7 +18,7 @@ function cu_profile_module_manager_menu() {
     'description' => 'Atlas confirmation.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('cu_profile_module_manager_atlas_request_form'),
-    'access arguments' => array('administer modules'),
+    'access arguments' => array('enable module bundles'),
   );
 
   $items['admin/settings/bundles/list/addon'] = array(
@@ -27,7 +27,7 @@ function cu_profile_module_manager_menu() {
     'description' => 'Add and request additional bundles',
     'page callback' => 'cu_profile_module_manager_addon_page',
     'page arguments' => array(1),
-    'access arguments' => array('administer modules'),
+    'access arguments' => array('enable module bundles'),
     'weight' => 10,
   );
 
@@ -37,7 +37,7 @@ function cu_profile_module_manager_menu() {
     'description' => 'Add and request additional bundles',
     'page callback' => 'cu_profile_module_manager_request_page',
     'page arguments' => array(1),
-    'access arguments' => array('administer modules'),
+    'access arguments' => array('enable module bundles'),
     'weight' => 20,
   );
 
@@ -47,7 +47,7 @@ function cu_profile_module_manager_menu() {
     'description' => 'Add and request additional bundles',
     'page callback' => 'cu_profile_module_manager_beta_page',
     'page arguments' => array(1),
-    'access arguments' => array('administer modules'),
+    'access arguments' => array('enable admin bundles'),
     'weight' => 99,
   );
 
@@ -327,7 +327,7 @@ function cu_profile_module_manager_beta_page() {
   $output = array(
     'description' => array(
       '#type' => 'markup',
-      '#markup' => '<p>These are beta bundles--even we don\'t know what they are exactly.</p>',
+      '#markup' => '<p>Beta bundles must be tagged apprpriately in Atlas to be shown here.</p>',
     ),
   );
 

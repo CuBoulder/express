@@ -51,7 +51,7 @@ function profile_module_manager_menu() {
       'description' => 'Add and request additional bundles',
       'page callback' => 'profile_module_manager_admin_page',
       'page arguments' => array(1),
-      'access arguments' => array('administer modules'),
+      'access arguments' => array('enable admin bundles'),
       'weight' => 100
     );
 
@@ -432,6 +432,5 @@ function profile_module_manager_admin_page() {
     }
   $page .= '</div>';
 
-  var_dump($bundles);
   return $page;
 }
