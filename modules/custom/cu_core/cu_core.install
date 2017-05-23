@@ -776,7 +776,7 @@ function cu_core_scramble_admin() {
 }
 
 /**
- * Enable bean_entitycache module
+ * Enable cu_profile_module_manager module
  */
 function cu_core_update_7022() {
   module_enable(array('cu_profile_module_manager'));
