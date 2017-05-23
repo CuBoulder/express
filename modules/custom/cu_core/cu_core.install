@@ -774,3 +774,10 @@ function cu_core_scramble_admin() {
     user_save($user);
   }
 }
+
+/**
+ * Enable bean_entitycache module
+ */
+function cu_core_update_7022() {
+  module_enable(array('cu_profile_module_manager'));
+}
