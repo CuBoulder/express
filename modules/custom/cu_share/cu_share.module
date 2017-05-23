@@ -557,7 +557,7 @@ function cu_share_shortcode_info() {
  * Tips function for share_on_twitter shortcode.
  */
 function cu_share_share_on_twitter_tips($format, $long) {
-  $output = '[share_on_twitter]Text to share on Twitter[/share_on_twitter]';
+  $output = '[share_on_twitter]Text to share on Twitter[/share_on_twitter] or [share_on_twitter text="Text to share on Twitter #hashtag"]Highlighted Text[/share_on_twitter]';
   return $output;
 }
 
@@ -566,9 +566,16 @@ function cu_share_share_on_twitter_tips($format, $long) {
  */
 function cu_share_share_on_twitter($attrs, $content = NULL) {
   extract(shortcode_attrs(array(
-  ), $attrs));
+        'text' => NULL,
+      ), $attrs));
   // Character count - 140, url, ellipsis
-  $character_count = 140;
+
+  // Save original content for inserting later.
+  $original_content = strip_tags($content);
+  // If custom text, save to $content.
+  if ($text) {
+    $content = $text;
+  }
   $content = strip_tags($content);
   if (arg(0) == 'node' && is_numeric(arg(1))) {
     // Get the nid
@@ -578,16 +585,28 @@ function cu_share_share_on_twitter($attrs, $content = NULL) {
   else {
     $current_url = url(current_path(), array('absolute' => TRUE));
   }
+  // Get the current url.
+  $current_url = url(current_path(), array('absolute' => TRUE));
+
+  // Encode url
   $encoded_url = urlencode($current_url);
-  if (strlen($content . ' ' . $encoded_url) > $character_count) {
-    $over = strlen($content . ' ' . $encoded_url) - 140 - 4;
+  // Get the url parts.
+  $url_parts = parse_url($current_url);
+  // Initial domain counts towards 140 characters, so figure out that length.
+  $link_length = strlen($url_parts['scheme'] . '://' . $url_parts['host']);
+  // Total character count is 140, minues domain length, minus 1 spaces
+  $character_count = 140 - $link_length - 1;
+  // If content length is greater than allowed count, truncate.
+  if (strlen($content) > $character_count) {
+    $over = strlen($content) - $link_length - 140 - 4;
     $content_length = strlen($content);
-    $short_content = substr($content, 0, '-' . $over) . '...';
+    $short_content = substr($content, 0, $over) . '...';
   } else {
     $short_content = $content;
   }
+  // Encode content.
   $encoded_text = urlencode($short_content);
-  $share_link = '<a href="https://twitter.com/intent/tweet?url=' . $encoded_url . '&text=' . $encoded_text . '" class="share-on-twitter">' . $content . '&nbsp;<i class="fa fa-twitter"></i></a>';
+  $share_link = '<a href="https://twitter.com/intent/tweet?url=' . $encoded_url . '&text=' . $encoded_text . '" class="share-on-twitter">' . $original_content . '&nbsp;<i class="fa fa-twitter"></i></a>';
 
   return $share_link;
 }
