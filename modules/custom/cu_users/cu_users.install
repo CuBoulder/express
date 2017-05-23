@@ -313,3 +313,21 @@ function cu_users_update_7024() {
  $query->values(array('uid' => $account->uid, 'rid' => $developer_role->rid));
  $query->execute();
 }
+
+/**
+ * Update user_external_invite email template for when invite is first sent.
+ */
+function cu_users_update_7025() {
+  variable_set('user_external_invite_confirmation_template', 'We have received your request to grant [user_external_invite:invite_role] access to the following users:
+
+[user_external_invite:invited_emails]
+
+An email invitation has been sent requesting the user to login to [site:url] and accept the invitation. Upon completion, a confirmation email will be sent.
+
+If you did not submit this request or need to modify it, please contact us at websupport@colorado.edu.
+
+--
+The Web Express Team
+http://www.colorado.edu/webcentral
+websupport@colorado.edu');
+}
