@@ -338,7 +338,7 @@ function express_settings_contact_info_form($form, &$form_state) {
 function express_settings_clear_cache() {
   $content['markup'] = array(
     '#type' => 'markup',
-    '#markup' => '<p>Repeatedly clearing caches will cause performance problems for you and your website\'s users, so you many only clear a full cache once an hour</p>',
+    '#markup' => '<p>Repeatedly clearing caches will cause performance problems for you and your website\'s users, therefore full cache clears are limited to once per hour.</p>',
   );
   $content[] = drupal_get_form('express_settings_drupal_cache_form');
   $content['varnish_markup'] = array(
@@ -372,6 +372,9 @@ function express_settings_drupal_cache_form($form, &$form_state) {
   } else {
     drupal_set_message(t('The Drupal cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until @time', array('@time' => date('h:i A', $cache_drupal_last + 3600))), 'warning');
   }
+  // Bypassing the CSRF protection because this action is idempotent and the only impact is increased server load.
+  // This should ONLY be done in very specific cases.
+  $form['#token'] = FALSE;
   return $form;
 }
 
@@ -385,7 +388,7 @@ function express_settings_varnish_cache_form($form, &$form_state) {
   );
   $form['varnish_page']['clear_varnish_path_cache_path'] = array(
     '#type' => 'textfield',
-    '#description' => ('Enter the specific path or URL to clear from the Varnish cache'),
+    '#description' => ('Enter the specific path or URL to clear from the Varnish cache.'),
     '#title' => 'Path to Clear',
   );
   $form['varnish_page']['clear_varnish_path_cache'] = array(
@@ -394,6 +397,9 @@ function express_settings_varnish_cache_form($form, &$form_state) {
     '#submit' => array('express_settings_clear_varnish_path_cache_submit'),
     '#attributes' => array('class' => array('btn-warning')),
   );
+  // Bypassing the CSRF protection because this action is idempotent and the only impact is increased server load.
+  // This should ONLY be done in very specific cases.
+  $form['#token'] = FALSE;
   return $form;
 }
 
@@ -419,6 +425,9 @@ function express_settings_varnish_site_cache_form($form, &$form_state) {
   } else {
     drupal_set_message(t('The whole Varnish cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until @time.', array('@time' => date('h:i A', $cache_varnish_last + 3600))), 'warning');
   }
+  // Bypassing the CSRF protection because this action is idempotent and the only impact is increased server load.
+  // This should ONLY be done in very specific cases.
+  $form['#token'] = FALSE;
   return $form;
 }
 
