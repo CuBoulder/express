@@ -686,6 +686,15 @@ function cu_core_update_7021() {
 }
 
 /**
+ * Core Update 7022 for Express 2.4.0.
+ *
+ * Rebuild perms for varnish button.
+ */
+function cu_core_update_7022() {
+  secure_permissions_rebuild();
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
