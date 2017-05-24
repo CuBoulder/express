@@ -1,6 +1,9 @@
 engines:
   phpmd:
-    enabled: false
+    enabled: true
+    config:
+      file_extensions: "php,inc,module,install"
+      rulesets: ".phpmd.xml"
   phpcodesniffer:
     enabled: true
     config:
