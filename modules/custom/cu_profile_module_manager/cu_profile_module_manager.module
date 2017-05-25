@@ -173,7 +173,6 @@ function cu_profile_module_manager_addon_page() {
   global $base_path;
 
   $atlas_id = variable_get('atlas_id', NULL);
-  $site_array = atlas_api_request('sites', $atlas_id);
 
   drupal_add_css(drupal_get_path('module', 'cu_profile_module_manager') . '/css/cu-profile-module-manager.css', array('group' => CSS_DEFAULT));
 
@@ -211,7 +210,7 @@ function cu_profile_module_manager_addon_page() {
 
     $enabled = module_exists($name) ? 1 : 0;
 
-    if (isset($tag) && ($tag == 'public_bundles') && !in_array($id, $packages_array)) {
+    if (isset($tag) && isset($label) && isset($name) && in_array('addon_bundles', $tags) && !in_array($id, $packages_array)) {
       $output[] = array(
         'atlas_item' => array(
           '#type' => 'markup',
@@ -220,7 +219,7 @@ function cu_profile_module_manager_addon_page() {
       );
     }
 
-    if (isset($tag) && ($tag == 'public_bundles') && in_array($id, $packages_array) && $enabled == FALSE) {
+    if (isset($tag) && isset($label) && isset($name) && in_array('addon_bundles', $tags) && in_array($id, $packages_array) && $enabled == FALSE) {
       // Is NOT enabled.
       $output[] = array(
         'atlas_item' => array(
@@ -230,7 +229,7 @@ function cu_profile_module_manager_addon_page() {
       );
     }
 
-    if (isset($tag) && ($tag == 'public_bundles') && in_array($id, $packages_array) && $enabled == TRUE) {
+    if (isset($tag) && isset($label) && isset($name) && in_array('addon_bundles', $tags) && in_array($id, $packages_array) && $enabled == TRUE) {
       // Is enabled.
       $output[] = array(
         'atlas_item' => array(
@@ -287,7 +286,7 @@ function cu_profile_module_manager_request_page() {
 
     $enabled = module_exists($name) ? 1 : 0;
 
-    if (isset($tag) && isset($label) && isset($name) && ($tag == 'approval_required_bundles') && !in_array($id, $packages_array)) {
+    if (isset($tag) && isset($label) && isset($name) && in_array('request_bundles', $tags) && !in_array($id, $packages_array)) {
       $output[] = array(
         'atlas_item' => array(
           '#type' => 'markup',
@@ -296,7 +295,7 @@ function cu_profile_module_manager_request_page() {
       );
     }
 
-    if (isset($tag) && isset($label) && isset($name) && ($tag == 'approval_required_bundles') && in_array($id, $packages_array) && $enabled == FALSE) {
+    if (isset($tag) && isset($label) && isset($name) && in_array('request_bundles', $tags) && in_array($id, $packages_array) && $enabled == FALSE) {
       // Is NOT enabled.
       $output[] = array(
         'atlas_item' => array(
@@ -306,7 +305,7 @@ function cu_profile_module_manager_request_page() {
       );
     }
 
-    if (isset($tag) && isset($label) && isset($name) && ($tag == 'approval_required_bundles') && in_array($id, $packages_array) && $enabled == TRUE) {
+    if (isset($tag) && isset($label) && isset($name) && in_array('request_bundles', $tags) && in_array($id, $packages_array) && $enabled == TRUE) {
       // Is enabled.
       $output[] = array(
         'atlas_item' => array(
