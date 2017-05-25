@@ -53,17 +53,6 @@
   border-style: solid;
   border-image: linear-gradient(to bottom,#000,rgba(0,0,0,0)) 1 100%;
 }
-.bundle-ready::before {
-  content: '✓';
-  position: absolute;
-  right: 5%;
-  color: #cfb87c;
-  font-size: 2em;
-  border: 1px solid #000;
-  padding: 1.5%;
-  border-radius: 15px;
-  background: #fff;
-}
 @media screen and (max-width:768px) {
   .bundle-enable {
     width: 100%;
