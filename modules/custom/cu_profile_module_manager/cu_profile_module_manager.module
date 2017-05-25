@@ -198,10 +198,16 @@ function cu_profile_module_manager_addon_page() {
   }
 
   foreach ($packages['_items'] as $package) {
-    $tag = (isset($package['meta']['tag'][0]) ? $package['meta']['tag'][0] : '');
     $name = (isset($package['meta']['name']) ? $package['meta']['name'] : '');
     $label = (isset($package['meta']['label']) ? $package['meta']['label'] : '');
     $id = (isset($package['_id']) ? $package['_id'] : '');
+
+    $tags = array();
+    if (!empty($package['meta']['tag'])) {
+      foreach ($package['meta']['tag'] as $tag) {
+        $tags[] = $tag;
+      }
+    }
 
     $enabled = module_exists($name) ? 1 : 0;
 
@@ -268,10 +274,16 @@ function cu_profile_module_manager_request_page() {
   );
 
   foreach ($packages['_items'] as $package) {
-    $tag = (isset($package['meta']['tag'][0]) ? $package['meta']['tag'][0] : '');
     $name = (isset($package['meta']['name']) ? $package['meta']['name'] : '');
     $label = (isset($package['meta']['label']) ? $package['meta']['label'] : '');
     $id = (isset($package['_id']) ? $package['_id'] : '');
+
+    $tags = array();
+    if (!empty($package['meta']['tag'])) {
+      foreach ($package['meta']['tag'] as $tag) {
+        $tags[] = $tag;
+      }
+    }
 
     $enabled = module_exists($name) ? 1 : 0;
 
@@ -337,14 +349,20 @@ function cu_profile_module_manager_beta_page() {
   );
 
   foreach ($packages['_items'] as $package) {
-    $tag = (isset($package['meta']['tag'][0]) ? $package['meta']['tag'][0] : '');
     $name = (isset($package['meta']['name']) ? $package['meta']['name'] : '');
     $label = (isset($package['meta']['label']) ? $package['meta']['label'] : '');
     $id = (isset($package['_id']) ? $package['_id'] : '');
 
+    $tags = array();
+    if (!empty($package['meta']['tag'])) {
+      foreach ($package['meta']['tag'] as $tag) {
+        $tags[] = $tag;
+      }
+    }
+
     $enabled = module_exists($name) ? 1 : 0;
 
-    if (isset($tag) && isset($label) && isset($name) && ($tag == 'beta_bundles') && !in_array($id, $packages_array)) {
+    if (!empty($tag) && isset($label) && isset($name) && in_array('beta_bundles', $tags) && !in_array($id, $packages_array)) {
       $output[] = array(
         'atlas_item' => array(
           '#type' => 'markup',
@@ -353,7 +371,7 @@ function cu_profile_module_manager_beta_page() {
       );
     }
 
-    if (isset($tag) && isset($label) && isset($name) && ($tag == 'beta_bundles') && in_array($id, $packages_array) && $enabled == FALSE) {
+    if (isset($tag) && isset($label) && isset($name) && in_array('beta_bundles', $tags) && in_array($id, $packages_array) && $enabled == FALSE) {
       // Is NOT enabled.
       $output[] = array(
         'atlas_item' => array(
@@ -363,7 +381,7 @@ function cu_profile_module_manager_beta_page() {
       );
     }
 
-    if (isset($tag) && isset($label) && isset($name) && ($tag == 'beta_bundles') && in_array($id, $packages_array) && $enabled == TRUE) {
+    if (isset($tag) && isset($label) && isset($name) && in_array('beta_bundles', $tags) && in_array($id, $packages_array) && $enabled == TRUE) {
       // Is enabled.
       $output[] = array(
         'atlas_item' => array(
