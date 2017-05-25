@@ -49,7 +49,7 @@ function expressbase_preprocess_html(&$vars) {
   );
   drupal_add_html_head($element, 'ie_compatibility_mode');
 
-  // Add apple touch icons
+  // Add apple touch icons.
   $touch_icons = array(
     '57',
     '72',
