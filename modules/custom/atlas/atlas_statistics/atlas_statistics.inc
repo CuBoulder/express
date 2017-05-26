@@ -141,6 +141,11 @@ function _atlas_statistics_get_webform_statistics() {
     'type' => 'webform',
   ));
 
+  // If there's no webforms, set flag and return as there's no need to continue.
+  if (empty($webforms)) {
+    return array('site_without_forms' => TRUE);
+  }
+
   // Loop through webforms and tally the statistic totals.
   module_load_include('inc', 'webform', 'includes/webform.submissions');
   foreach ($webforms as $webform) {
