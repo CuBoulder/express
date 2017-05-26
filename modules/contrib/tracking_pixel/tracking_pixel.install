@@ -1,0 +1,67 @@
+<?php
+/**
+ * @file
+ * Installation and schema hooks for the tracking_pixels module.
+ */
+
+
+/**
+ * Implements hook_schema().
+ *
+ * @return array
+ */
+function tracking_pixel_schema() {
+  $schema = array();
+
+  $schema['tracking_pixel'] = array(
+    'description' => 'The base table for the tracking pixel entity.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'Primary key of the tracking pixel entity.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'name' => array(
+        'description' => 'Human readable name of the tracking pixel.',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
+      'type' => array(
+        'description' => 'Pre-defined type of tracking pixel.',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
+      'path' => array(
+        'description' => 'Path to place the tracking pixel.',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
+      'position' => array(
+        'description' => 'Position of the tracking pixel.',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
+      'status' => array(
+        'description' => 'Published status of the tracking pixel.',
+        'type' => 'int',
+        'length' => '11',
+        'not null' => TRUE,
+      ),
+      'data' => array(
+        'description' => 'Custom options for tracking pixel.',
+        'type' => 'blob',
+        'not null' => TRUE,
+        'size' => 'big',
+      ),
+
+    ),
+    'primary key' => array('id'),
+  );
+  return $schema;
+}
+
