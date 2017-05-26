@@ -1,0 +1,199 @@
+<?php
+
+/**
+ * @file
+ * Google CSE module tests.
+ */
+
+class TrackingPixelTestCase extends DrupalWebTestCase {
+  protected $privileged_user;
+
+  /**
+   * Tell Drupal about the module's tests.
+   *
+   * @return array
+   *   An array of information to display on Testing UI page.
+   */
+  public static function getInfo() {
+    // Note: getInfo() strings are not translated with t().
+    return array(
+      'name' => 'Tracking Pixel Tests',
+      'description' => 'Test addition of tracking pixels to pages.',
+      'group' => 'Tracking Pixel',
+    );
+  }
+
+  /**
+   *  Perform steps to setup Drupal installation for test runs.
+   */
+  public function setUp() {
+    // Add the context modules to test that functionality even though it isn't
+    // a dependency.
+    $modules = array(
+      'tracking_pixel',
+      'entity',
+      'node',
+      'context',
+      'context_ui',
+    );
+
+    parent::setUp($modules);
+
+    // All tests essentially need a user who can create tracking pixels.
+    $this->setupUser();
+
+    // Setup a page with no tracking pixel so that we can make sure no pixels appear there.
+    $this->setupNoPixelPage();
+  }
+
+  /**
+   * Since most tests need a user and Google CSE to be default search, abstract to function.
+   */
+  private function setupUser() {
+    // Give the user all needed permissions to use in testing.
+    $this->privileged_user = $this->drupalCreateUser(array(
+      'access administration pages',
+      'view the administration theme',
+      'administer contexts',
+      'access content',
+      'create url aliases',
+      'administer tracking pixels',
+      'create custom tracking pixels',
+    ));
+
+    // Login user in order to edit config forms and use search.
+    $this->drupalLogin($this->privileged_user);
+  }
+
+  /**
+   * Creates a generic page with no tracking pixels on it.
+   */
+  function setupNoPixelPage() {
+    $node = new stdClass();
+    $node->title = 'No tracking pixel page';
+    $node->type = 'page';
+    node_object_prepare($node);
+    $node->status = 1;
+    $node->path['alias'] = 'node/2';
+
+    $node = node_submit($node);
+    node_save($node);
+  }
+
+  /**
+   * Creates custom tracking pixel.
+   *
+   * @param string $label
+   * @param string $path
+   * @param string $code
+   */
+  function setupCustomPixel($label = 'Custom pixel', $path = '', $code = '') {
+    // Post to config form to save a Facebook tracking pixel.
+    $edit = array();
+    $edit['label'] = $label;
+    $edit['path'] = $path;
+    $edit['types'] = 'custom';
+    $edit['code'] = $code;
+    $this->drupalPost('admin/content/trackingpixels/add', $edit, t('Save'));
+  }
+
+  /**
+   * Tests adding a basic Facebook tracking pixel.
+   */
+  public function testFacebookPixel() {
+
+    // @todo maybe test with pages already set up rather than node/1?
+
+    // Post to config form to save a Facebook tracking pixel.
+    $edit = array();
+    $edit['label'] = "Facebook Pixel";
+    $edit['path'] = 'node/1';
+    $edit['types'] = 'facebook';
+    $edit['facebook_id'] = '123456';
+    $edit['facebook_action'] = 'PageAction';
+    $this->drupalPost('admin/content/trackingpixels/add', $edit, t('Save'));
+
+    // Go to page with tracking pixel on it.
+    $this->drupalGet('node/1');
+
+    // Assert tracking pixel code is rendered.
+    // Need to use raw since code is not visible.
+    $this->assertRaw("fbq('init', '123456');", "Facebook ID found.");
+    $this->assertRaw("fbq('track', 'PageAction');", "Facebook tracking action found.");
+
+    // Go to page with no tracking pixel on it.
+    $this->drupalGet('node/2');
+
+    // Assert tracking pixel code is not rendered.
+    $this->assertNoRaw("fbq('init', '123456');", "No tracking pixel found.");
+  }
+
+  /**
+   * Tests adding a basic custom tracking pixel.
+   */
+  public function testCustomPixel() {
+
+    // Post to config form to save a custom tracking pixel.
+    $edit = array();
+    $edit['label'] = "Custom Pixel";
+    $edit['path'] = 'node/1';
+    $edit['types'] = 'custom';
+    $edit['code'] = '<script> var pixel = "Cool"; </script>';
+    $this->drupalPost('admin/content/trackingpixels/add', $edit, t('Save'));
+
+    // Go to page with tracking pixel on it.
+    $this->drupalGet('node/1');
+
+    // Assert tracking pixel code is rendered.
+    // Need to use raw since code is not visible.
+    $this->assertRaw('<script> var pixel = "Cool"; </script>', "Custom tracking code found.");
+
+    // Go to page with no tracking pixel on it.
+    $this->drupalGet('node/2');
+
+    // Assert tracking pixel code is not rendered.
+    $this->assertNoRaw('<script> var pixel = "Cool"; </script>', "No tracking pixel found.");
+  }
+
+  /**
+   * Tests adding a tracking pixel via Context.
+   */
+  /*
+  public function testContextPixel() {
+    // Setup custom pixel to add to Context reaction.
+    $this->setupCustomPixel('Custom Pixel', '', '<script> var pixel = "Cool"; </script>');
+
+    // Post to config form to save a Facebook tracking pixel.
+    $edit = array();
+    $edit['name'] = "custom_pixel";
+    $edit['conditions[selector]'] = 'path';
+    $edit['conditions-plugins-path-values'] = 'node/1';
+    $edit['reactions[selector]'] = 'tracking_pixel';
+    // The value is the ID of tracking pixel, which will be 1 since we only create one above.
+    $edit['reactions[plugins][tracking_pixel][tracking_pixels]'] = 1;
+    $this->drupalPost('admin/structure/context/add', $edit, t('Save'));
+
+    // Go to page with tracking pixel on it.
+    $this->drupalGet('node/1');
+
+    // Assert tracking pixel code is rendered.
+    // Need to use raw since code is not visible.
+    $this->assertRaw('<script> var pixel = "Cool"; </script>', "Custom tracking code found.");
+
+    // Go to page with no tracking pixel on it.
+    $this->drupalGet('node/2');
+
+    // Assert tracking pixel code is not rendered.
+    $this->assertNoRaw('<script> var pixel = "Cool"; </script>', "No tracking pixel found.");
+  }
+  */
+
+  /**
+   * Tests deleting and publish/unpublish tracking pixels.
+   */
+  /*
+  public function testDeletePublish() {
+
+  }
+  */
+}

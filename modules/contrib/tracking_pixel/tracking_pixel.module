@@ -1,0 +1,306 @@
+<?php
+/**
+ * @file
+ * Provides a custom entity for adding tracking pixels to pages.
+ */
+
+// Include admin form file.
+module_load_include('inc', 'tracking_pixel', 'tracking_pixel.admin');
+
+/**
+ * Implements hook_entity_info().
+ *
+ * @return array
+ */
+function tracking_pixel_entity_info() {
+  $info = array();
+
+  $info['tracking_pixel'] = array(
+    'label' => t('Tracking Pixel'),
+    'base table' => 'tracking_pixel',
+    'entity keys' => array(
+      'id' => 'id',
+    ),
+    'uri callback' => 'entity_class_uri',
+    'entity class' => 'Entity',
+    'controller class' => 'EntityAPIController',
+    'module' => 'cu_tracking_pixel',
+    'fieldable' => FALSE,
+  );
+
+  return $info;
+}
+
+/**
+ * Implements hook_menu().
+ *
+ * @return array
+ */
+function tracking_pixel_menu() {
+  $items = array();
+  $admin_form_file = 'tracking_pixel.admin.inc';
+  $access_permission = array('administer tracking pixels');
+
+  $items['admin/content/trackingpixels'] = array(
+    'title' => 'Tracking Pixels',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tracking_pixels_overview_form'),
+    'access arguments' => $access_permission,
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['admin/content/trackingpixels/add'] = array(
+    'title' => 'Add Tracking Pixel',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tracking_pixel_form'),
+    'access arguments' => $access_permission,
+    'file' => $admin_form_file,
+    'type' => MENU_LOCAL_ACTION,
+  );
+  $items['admin/content/trackingpixels/edit'] = array(
+    'title' => 'Edit Tracking Pixel',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('tracking_pixel_form'),
+    'access arguments' => $access_permission,
+    'file' => $admin_form_file,
+  );
+  $items['titles/autocomplete'] = array(
+    'page callback' => '_tracking_pixel_title_autocomplete',
+    'access arguments' => $access_permission,
+    'type' => MENU_CALLBACK,
+  );
+  $items['pixels/autocomplete'] = array(
+    'page callback' => '_tracking_pixel_pixels_autocomplete',
+    'access arguments' => $access_permission,
+    'type' => MENU_CALLBACK,
+  );
+
+  return $items;
+}
+
+
+/**
+ * Implements hook_permission().
+ *
+ * @return array
+ */
+function tracking_pixel_permission() {
+  return array(
+    'administer tracking pixels' => array(
+      'title' => t('Administer Tracking Pixels'),
+    ),
+    'create custom tracking pixels' => array(
+      'title' => t('Create Custom Tracking Pixels'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * Create a theme template for each pixel type.
+ *
+ * @param $existing
+ * @param $type
+ * @param $theme
+ * @param $path
+ *
+ * @return array
+ */
+function tracking_pixel_theme($existing, $type, $theme, $path) {
+  $pixel_types = tracking_pixel_get_pixel_types();
+  $templates = array();
+
+  foreach ($pixel_types as $key => $pixel_type) {
+    // Check for template path in case we have tracking pixels added through API hook.
+    $template_path = $pixel_type['custom_template'] != NULL ? $pixel_type['custom_template'] : 'templates/tracking-pixel-' . $key;
+
+    $templates['tracking_pixel_' . $key] = array(
+      'variables' => array('data' => NULL),
+      'template' => $template_path,
+    );
+  }
+
+  // Add custom template.
+  $templates['tracking_pixel_custom'] = array(
+    'variables' => array('data' => NULL),
+    'template' => 'templates/tracking-pixel-custom',
+  );
+
+  return $templates;
+}
+
+/**
+ * Implements hook_context_registry().
+ */
+function tracking_pixel_context_registry() {
+  return array(
+    'reactions' => array(
+      'tracking_pixel' => array(
+        'title' => t('Tracking Pixels'),
+        'plugin' => 'tracking_pixel',
+      ),
+    ),
+  );
+}
+
+/**
+ * Implmenets hook_context_plugins().
+ */
+function tracking_pixel_context_plugins() {
+  $plugins = array();
+  $plugins['tracking_pixel'] = array(
+    'handler' => array(
+      'path' => drupal_get_path('module', 'tracking_pixel') . '/plugins',
+      'file' => 'tracking_pixel_context_reaction.inc',
+      'class' => 'tracking_pixel_context_reaction',
+      'parent' => 'context_reaction',
+    ),
+  );
+  return $plugins;
+}
+
+/**
+ * Get all tracking pixels from database.
+ *
+ * @return array $tracking_pixels
+ *   A list of all tracking pixels with correct headers for table display.
+ */
+function tracking_pixel_get_pixels() {
+  $results = db_select('tracking_pixel', 'tp')
+    ->fields('tp')
+    ->execute()
+    ->fetchAllAssoc('id');
+
+  return $results;
+}
+
+/**
+ * Return all pixel types that are available.
+ *
+ * @return array
+ */
+function tracking_pixel_get_pixel_types() {
+  $types = array();
+
+  // Create a few initial tracking pixel types with callbacks for
+  $initial_types = array();
+  $initial_types['facebook'] = array(
+    'label' => 'Facebook',
+    'options' => array(
+      'id' => 'The ID of tracking pixel.',
+      'action' => 'An optional activity being tracked. "Pageview" is already added to the code.',
+    ),
+    'custom_template' => NULL,
+  );
+  $initial_types['doubleclick'] = array(
+    'label' => 'Doubleclick',
+    'options' => array(
+      'id' => 'Your Campaign ID.',
+      'activity' => 'Activity name of this tag.',
+      'creation' => 'Creation date of this campaign.',
+      'url' => 'URL where tracking pixel will be added.'
+    ),
+    'custom_template' => NULL,
+  );
+  $initial_types['twitter'] = array(
+    'label' => 'Twitter',
+    'options' => array(
+      'id' => 'The ID of tracking pixel.',
+      'action' => 'An optional activity being tracked. "Pageview" is already added to the code.',
+    ),
+    'custom_template' => NULL,
+  );
+  $types = array_merge($types, $initial_types);
+
+  // Add custom types other modules may have created.
+  $custom_types = module_invoke_all('hook_tracking_pixel_add_custom');
+  $types = array_merge($types, $custom_types);
+
+  return $types;
+}
+
+/**
+ * Return suggestions for path autocomplete.
+ *
+ * @param string $search
+ */
+function _tracking_pixel_title_autocomplete($search) {
+  $matches = array();
+
+  // Query node table based on titles.
+  $query = db_select('node', 'n');
+  $query->join('node_type', 'nt', 'n.type = nt.type');
+
+  $results = $query->fields('n')
+    ->fields('nt', array('name'))
+    ->condition('n.title', '%' . db_like($search) . '%', 'LIKE')
+    ->range(0, 10)
+    ->execute();
+
+  // Add results to JSON output. "Node path" => "node type: node title (node ID)"
+  foreach ($results as $result) {
+    $matches['node/' . $result->nid] = check_plain($result->name . ': ' . $result->title . ' (' . $result->nid . ')');
+  }
+
+  drupal_json_output($matches);
+}
+
+/**
+ * Implements hook_page_build().
+ *
+ * Add JS code to page in correct location: header or footer.
+ *
+ * @param $page
+ */
+function tracking_pixel_page_alter(&$page) {
+
+  // If context module exists, see if there is a reaction for the page.
+  if (module_exists('context')) {
+    if ($plugin = context_get_plugin('reaction', 'tracking_pixel')) {
+      $plugin->execute($page);
+    }
+  }
+
+  // Try the old fashioned way.
+  $path = current_path();
+  $matches = db_select('tracking_pixel', 'tp')
+    ->fields('tp')
+    ->condition('path', $path, '=')
+    ->condition('status', 1, '=')
+    ->execute()
+    ->fetchAllAssoc('id');
+
+  if ($matches) {
+    foreach ($matches as $match) {
+      // Get JS for tracking pixel.
+      $js = _tracking_pixel_get_js($match);
+
+      // Ad weight based on position.
+      $weight = $match->position == 'top' ? -9999 : 9999;
+
+      // Add JS to proper section of $page array.
+      $page['page_' . $match->position]['tracking_pixel'][] = array(
+        '#markup' => $js,
+        '#weight' => $weight,
+      );
+    }
+  }
+}
+
+/**
+ * Builds JS from pixel template.
+ *
+ * @param $tracking_pixel
+ *
+ * @return string
+ */
+function _tracking_pixel_get_js($tracking_pixel) {
+  // Get data.
+  $data = unserialize($tracking_pixel->data);
+
+  // Get type.
+  $type = $tracking_pixel->type;
+
+  // Pass data to proper template.
+  return theme('tracking_pixel_' . $type, array_shift($data));
+}
