@@ -306,6 +306,7 @@ class FieldCollectionItemEntity extends Entity {
         // right host entity.
         $query = new EntityFieldQuery();
         $query->fieldCondition($this->fieldInfo(), 'revision_id', $this->revision_id);
+        $query->addTag('DANGEROUS_ACCESS_CHECK_OPT_OUT');
         if (!$this->isInUse()) {
           $query->age(FIELD_LOAD_REVISION);
         }
