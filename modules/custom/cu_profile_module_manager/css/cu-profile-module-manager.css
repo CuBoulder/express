@@ -17,7 +17,3 @@
 .alakazaam {
   border: 1px solid red;
 }
-.bundle-ready::before {
-  color: #cfb87c !important;
-  border: 1px solid #cfb87c !important;
-}

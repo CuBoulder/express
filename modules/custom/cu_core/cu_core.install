@@ -695,6 +695,13 @@ function cu_core_update_7022() {
 }
 
 /**
+ * Enable cu_profile_module_manager module
+ */
+function cu_core_update_7023() {
+  module_enable(array('cu_profile_module_manager'));
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
@@ -775,11 +782,4 @@ function cu_core_scramble_admin() {
     $user->pass = $hashed_pass;
     user_save($user);
   }
-}
-
-/**
- * Enable cu_profile_module_manager module
- */
-function cu_core_update_7022() {
-  module_enable(array('cu_profile_module_manager'));
 }
