@@ -138,7 +138,6 @@ function express_dashboard_user_secure_permissions($role) {
   }
 }
 
-
 /**
  * Implements hook_theme_registry_alter().
  *
