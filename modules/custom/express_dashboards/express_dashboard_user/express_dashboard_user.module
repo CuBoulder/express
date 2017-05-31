@@ -29,12 +29,12 @@ function express_dashboard_user_user_login(&$edit, $account) {
  * Adding user Dashboard.
  */
 function express_dashboard_user_express_dashboard($variables) {
-  $variables['user'] = [
+  $variables['user'] = array(
     'title' => 'User',
     'callback' => 'express_dashboard_user_content',
     'weight' => -99,
-    'access arguments' => ['use user dashboard'],
-  ];
+    'access arguments' => array('use user dashboard'),
+  );
   return $variables;
 }
 
@@ -42,12 +42,12 @@ function express_dashboard_user_express_dashboard($variables) {
  * Implements hook_permission().
  */
 function express_dashboard_user_permission() {
-  return [
-    'use user dashboard' => [
+  return array(
+    'use user dashboard' => array(
       'title' => 'Use the User Dashboard',
       'description' => 'Access the user dashboard',
-    ],
-  ];
+  ),
+  );
 }
 
 /**
@@ -56,9 +56,9 @@ function express_dashboard_user_permission() {
 function express_dashboard_user_content() {
   global $user;
   $vars['user'] = (array) $user;
-  $excluded_roles = [
+  $excluded_roles = array(
     'authenticated user',
-  ];
+  );
   foreach ($vars['user']['roles'] as $rid => $role) {
     if (in_array($role, $excluded_roles)) {
       unset($vars['user']['roles'][$rid]);
@@ -87,13 +87,13 @@ function express_dashboard_user_content() {
  * Adds theme functions and tempalte files for dashboards
  */
 function express_dashboard_user_theme(&$existing, $type, $theme, $path) {
-  $registry = [];
+  $registry = array();
   $template_dir = drupal_get_path('module', 'express_dashboard_user') . '/templates';
-  $registry['express_dashboard_user_profile'] = [
+  $registry['express_dashboard_user_profile'] = array(
     'template' => 'express-dashboard-user-profile',
     'path' => $template_dir,
     'render element' => 'elements',
-  ];
+  );
   return $registry;
 }
 
@@ -112,26 +112,26 @@ function express_dashboard_user_theme(&$existing, $type, $theme, $path) {
 
 function express_dashboard_user_secure_permissions($role) {
 
-  $permissions = [
-    'authenticated user' => [
+  $permissions = array(
+    'authenticated user' => array(
       'use user dashboard',
-    ],
-    'administrator' => [
+    ),
+    'administrator' => array(
       'use user dashboard',
-    ],
-    'content_editor' => [
+    ),
+    'content_editor' => array(
       'use user dashboard',
-    ],
-    'developer' => [
+    ),
+    'developer' => array(
       'use user dashboard',
-    ],
-    'edit_my_content' => [
+    ),
+    'edit_my_content' => array(
       'use user dashboard',
-    ],
-    'site_owner' => [
+    ),
+    'site_owner' => array(
       'use user dashboard',
-    ],
-  ];
+    ),
+  );
 
   if (isset($permissions[$role])) {
     return $permissions[$role];
