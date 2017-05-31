@@ -72,10 +72,10 @@ function profile_module_manager_bundle_list() {
     $bundle_machine_name = $bundle->name;
     $bundle_name = $info['name'];
     $bundle_group = (isset($info['bundle_group']) ? $info['bundle_group'] : '');
-    $bundle_group_set = array('admin_bundles', 'addon_bundles', 'approval_required_bundles', 'custom_bundles');
+    $bundle_group_set = array('addon_bundles', 'request_bundles', 'beta_bundles', 'admin_bundles');
     $bundle_description = (isset($info['description']) ? $info['description'] : '');
 
-    if (isset($bundle_group) && !in_array($bundle_group, $bundle_group_set)) {
+    if (isset($bundle_group) && (!in_array($bundle_group, $bundle_group_set))) {
       $page .= '<div class="bundle-enable" id="edit-' . $bundle_machine_name . '">';
       $page .= '<h2>' . $bundle_name . '</h2>';
       $page .= '<p>' . $bundle_description . '</p>';

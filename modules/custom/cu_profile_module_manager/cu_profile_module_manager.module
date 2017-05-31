@@ -22,7 +22,7 @@ function cu_profile_module_manager_menu() {
   );
 
   $items['admin/settings/bundles/list/addon'] = array(
-    'title' => 'Addon',
+    'title' => 'Add-on',
     'type' => MENU_LOCAL_TASK,
     'description' => 'Add and request additional bundles',
     'page callback' => 'cu_profile_module_manager_addon_page',
@@ -173,12 +173,12 @@ function cu_profile_module_manager_addon_page() {
   global $base_path;
 
   $atlas_id = variable_get('atlas_id', NULL);
-  $site_array = atlas_api_request('sites', $atlas_id);
 
   drupal_add_css(drupal_get_path('module', 'cu_profile_module_manager') . '/css/cu-profile-module-manager.css', array('group' => CSS_DEFAULT));
 
   // Get code packages from atlas.
-  $packages = _get_code_options($type = 'module', $name = NULL);
+  $query = 'where={"meta.code_type":"module"}';
+  $packages = atlas_api_request('code', $query);
   $output = array(
     'description' => array(
       '#type' => 'markup',
@@ -196,33 +196,40 @@ function cu_profile_module_manager_addon_page() {
     $packages_array = array();
   }
 
-  foreach ($packages as $key => $package) {
-    $tag = _prepared_atlas_package($key, 'tag');
-    $name = _prepared_atlas_package($key, 'name');
-    $label = _prepared_atlas_package($key, 'label');
+  foreach ($packages['_items'] as $package) {
+    $name = (isset($package['meta']['name']) ? $package['meta']['name'] : '');
+    $label = (isset($package['meta']['label']) ? $package['meta']['label'] : '');
+    $id = (isset($package['_id']) ? $package['_id'] : '');
+
+    $tags = array();
+    if (!empty($package['meta']['tag'])) {
+      foreach ($package['meta']['tag'] as $tag) {
+        $tags[] = $tag;
+      }
+    }
 
     $enabled = module_exists($name) ? 1 : 0;
 
-    if (isset($tag) && ($tag[0] == 'public_bundles') && !in_array($key, $packages_array)) {
+    if (isset($tag) && isset($label) && isset($name) && in_array('addon_bundles', $tags) && !in_array($id, $packages_array)) {
       $output[] = array(
         'atlas_item' => array(
           '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="' . $base_path . 'admin/settings/bundles/list/atlas/' . $name . '/confirm" id="' . $key . '" class="pmm-actions btn btn-primary"><i class="fa fa-plus-circle"></i> Add bundle</a></div>',
+          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="' . $base_path . 'admin/settings/bundles/list/atlas/' . $name . '/confirm" id="' . $id . '" class="pmm-actions btn btn-primary"><i class="fa fa-plus-circle"></i> Add bundle</a></div>',
         ),
       );
     }
 
-    if (isset($tag) && ($tag[0] == 'public_bundles') && in_array($key, $packages_array) && $enabled == FALSE) {
+    if (isset($tag) && isset($label) && isset($name) && in_array('addon_bundles', $tags) && in_array($id, $packages_array) && $enabled == FALSE) {
       // Is NOT enabled.
       $output[] = array(
         'atlas_item' => array(
           '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="' . $base_path . 'admin/settings/bundles/list/confirm/' . $name . '" id="' . $key . '" class="pmm-actions btn btn-info"><i class="fa fa-plus-circle"></i> Enable</a></div>',
+          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="' . $base_path . 'admin/settings/bundles/list/confirm/' . $name . '" id="' . $id . '" class="pmm-actions btn btn-info"><i class="fa fa-plus-circle"></i> Enable</a></div>',
         ),
       );
     }
 
-    if (isset($tag) && ($tag[0] == 'public_bundles') && in_array($key, $packages_array) && $enabled == TRUE) {
+    if (isset($tag) && isset($label) && isset($name) && in_array('addon_bundles', $tags) && in_array($id, $packages_array) && $enabled == TRUE) {
       // Is enabled.
       $output[] = array(
         'atlas_item' => array(
@@ -254,7 +261,8 @@ function cu_profile_module_manager_request_page() {
   drupal_add_css(drupal_get_path('module', 'cu_profile_module_manager') . '/css/cu-profile-module-manager.css', array('group' => CSS_DEFAULT));
 
   // Get code packages from atlas.
-  $packages = _get_code_options($type = 'module', $name = NULL);
+  $query = 'where={"meta.code_type":"module"}';
+  $packages = atlas_api_request('code', $query);
   $output = array(
     'description' => array(
       '#type' => 'markup',
@@ -264,33 +272,40 @@ function cu_profile_module_manager_request_page() {
     ),
   );
 
-  foreach ($packages as $key => $package) {
-    $tag = _prepared_atlas_package($key, 'tag');
-    $name = _prepared_atlas_package($key, 'name');
-    $label = _prepared_atlas_package($key, 'label');
+  foreach ($packages['_items'] as $package) {
+    $name = (isset($package['meta']['name']) ? $package['meta']['name'] : '');
+    $label = (isset($package['meta']['label']) ? $package['meta']['label'] : '');
+    $id = (isset($package['_id']) ? $package['_id'] : '');
+
+    $tags = array();
+    if (!empty($package['meta']['tag'])) {
+      foreach ($package['meta']['tag'] as $tag) {
+        $tags[] = $tag;
+      }
+    }
 
     $enabled = module_exists($name) ? 1 : 0;
 
-    if (isset($tag) && ($tag[0] == 'approval_required_bundles') && !in_array($key, $packages_array)) {
+    if (isset($tag) && isset($label) && isset($name) && in_array('request_bundles', $tags) && !in_array($id, $packages_array)) {
       $output[] = array(
         'atlas_item' => array(
           '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><span id="' . $key . '" class="pmm-actions btn btn-primary" disabled ><i class="fa fa-plus-circle"></i> Requires prior approval</span></div>',
+          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><span id="' . $id . '" class="pmm-actions btn btn-primary" disabled ><i class="fa fa-plus-circle"></i> Requires prior approval</span></div>',
         ),
       );
     }
 
-    if (isset($tag) && ($tag[0] == 'approval_required_bundles') && in_array($key, $packages_array) && $enabled == FALSE) {
+    if (isset($tag) && isset($label) && isset($name) && in_array('request_bundles', $tags) && in_array($id, $packages_array) && $enabled == FALSE) {
       // Is NOT enabled.
       $output[] = array(
         'atlas_item' => array(
           '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="' . $base_path . 'admin/settings/bundles/list/confirm/' . $name . '" id="' . $key . '" class="pmm-actions btn btn-info"><i class="fa fa-plus-circle"></i> Enable</a></div>',
+          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="' . $base_path . 'admin/settings/bundles/list/confirm/' . $name . '" id="' . $id . '" class="pmm-actions btn btn-info"><i class="fa fa-plus-circle"></i> Enable</a></div>',
         ),
       );
     }
 
-    if (isset($tag) && ($tag[0] == 'approval_required_bundles') && in_array($key, $packages_array) && $enabled == TRUE) {
+    if (isset($tag) && isset($label) && isset($name) && in_array('request_bundles', $tags) && in_array($id, $packages_array) && $enabled == TRUE) {
       // Is enabled.
       $output[] = array(
         'atlas_item' => array(
@@ -323,41 +338,49 @@ function cu_profile_module_manager_beta_page() {
   drupal_add_css(drupal_get_path('module', 'cu_profile_module_manager') . '/css/cu-profile-module-manager.css', array('group' => CSS_DEFAULT));
 
   // Get code packages from atlas.
-  $packages = _get_code_options($type = 'module', $name = NULL);
+  $query = 'where={"meta.code_type":"module"}';
+  $packages = atlas_api_request('code', $query);
   $output = array(
     'description' => array(
       '#type' => 'markup',
-      '#markup' => '<p>Beta bundles must be tagged apprpriately in Atlas to be shown here.</p>',
+      '#markup' => '<p>Beta bundles must be tagged appropriately in Atlas to be shown here.</p>',
     ),
   );
 
-  foreach ($packages as $key => $package) {
-    $tag = _prepared_atlas_package($key, 'tag');
-    $name = _prepared_atlas_package($key, 'name');
-    $label = _prepared_atlas_package($key, 'label');
+  foreach ($packages['_items'] as $package) {
+    $name = (isset($package['meta']['name']) ? $package['meta']['name'] : '');
+    $label = (isset($package['meta']['label']) ? $package['meta']['label'] : '');
+    $id = (isset($package['_id']) ? $package['_id'] : '');
+
+    $tags = array();
+    if (!empty($package['meta']['tag'])) {
+      foreach ($package['meta']['tag'] as $tag) {
+        $tags[] = $tag;
+      }
+    }
 
     $enabled = module_exists($name) ? 1 : 0;
 
-    if (isset($tag) && ($tag[0] == 'beta_bundles') && !in_array($key, $packages_array)) {
+    if (!empty($tag) && isset($label) && isset($name) && in_array('beta_bundles', $tags) && !in_array($id, $packages_array)) {
       $output[] = array(
         'atlas_item' => array(
           '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="' . $base_path . 'admin/settings/bundles/list/atlas/' . $name . '/confirm" id="' . $key . '" class="pmm-actions btn btn-primary"><i class="fa fa-plus-circle"></i> Add bundle</a></div>',
+          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="' . $base_path . 'admin/settings/bundles/list/atlas/' . $name . '/confirm" id="' . $id . '" class="pmm-actions btn btn-primary"><i class="fa fa-plus-circle"></i> Add bundle</a></div>',
         ),
       );
     }
 
-    if (isset($tag) && ($tag[0] == 'beta_bundles') && in_array($key, $packages_array) && $enabled == FALSE) {
+    if (isset($tag) && isset($label) && isset($name) && in_array('beta_bundles', $tags) && in_array($id, $packages_array) && $enabled == FALSE) {
       // Is NOT enabled.
       $output[] = array(
         'atlas_item' => array(
           '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="' . $base_path . 'admin/settings/bundles/list/confirm/' . $name . '" id="' . $key . '" class="pmm-actions btn btn-info"><i class="fa fa-plus-circle"></i> Enable</a></div>',
+          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="' . $base_path . 'admin/settings/bundles/list/confirm/' . $name . '" id="' . $id . '" class="pmm-actions btn btn-info"><i class="fa fa-plus-circle"></i> Enable</a></div>',
         ),
       );
     }
 
-    if (isset($tag) && ($tag[0] == 'beta_bundles') && in_array($key, $packages_array) && $enabled == TRUE) {
+    if (isset($tag) && isset($label) && isset($name) && in_array('beta_bundles', $tags) && in_array($id, $packages_array) && $enabled == TRUE) {
       // Is enabled.
       $output[] = array(
         'atlas_item' => array(
