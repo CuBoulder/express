@@ -143,6 +143,32 @@ function cu_hero_unit_field_default_field_bases() {
     'type' => 'list_text',
   );
 
+  // Exported field_base: 'field_hero_unit_overlay'.
+  $field_bases['field_hero_unit_overlay'] = array(
+    'active' => 1,
+    'cardinality' => 1,
+    'deleted' => 0,
+    'entity_types' => array(),
+    'field_name' => 'field_hero_unit_overlay',
+    'indexes' => array(
+      'value' => array(
+        0 => 'value',
+      ),
+    ),
+    'locked' => 0,
+    'module' => 'list',
+    'settings' => array(
+      'allowed_values' => array(
+        0 => '',
+        1 => '',
+      ),
+      'allowed_values_function' => '',
+      'allowed_values_php' => '',
+    ),
+    'translatable' => 0,
+    'type' => 'list_boolean',
+  );
+
   // Exported field_base: 'field_hero_unit_size'.
   $field_bases['field_hero_unit_size'] = array(
     'active' => 1,

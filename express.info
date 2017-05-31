@@ -92,6 +92,7 @@ dependencies[] = jquery_update
 dependencies[] = cu_accessibility
 
 dependencies[] = profile_module_manager
+dependencies[] = cu_profile_module_manager
 
 ; ============ CU AUTHENTICATION AND PERMISSIONS ============
 dependencies[] = administerusersbyrole
