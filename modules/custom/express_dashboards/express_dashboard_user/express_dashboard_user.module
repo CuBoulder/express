@@ -1,20 +1,24 @@
 <?php
 
 /**
+ * @file
+ * Contains Drupal hooks for express_dashboards_user module.
+ */
+
+/**
  * Implements hook_user_login().
  *
  * Send user to dashboard after logging in.
  */
-function express_dashboard_user_user_login(&$edit, $account)
-{
+function express_dashboard_user_user_login(&$edit, $account) {
   // Your logic will set $redirection to the desired location
   $redirection = 'admin/dashboard/user';
 
   // Unless there is already a redirection going, or the user is trying to reset his password, we redirect to $redirection.
   if (empty($_GET['destination'])
     && !is_null($redirection)
-    && (!isset($_POST['form_id']) || $_POST['form_id'] != 'user_pass_reset'))
-  {
+    && (!isset($_POST['form_id']) || $_POST['form_id'] != 'user_pass_reset')
+  ) {
     $edit['redirect'] = $redirection;
   }
 }
@@ -25,12 +29,12 @@ function express_dashboard_user_user_login(&$edit, $account)
  * Adding user Dashboard.
  */
 function express_dashboard_user_express_dashboard($variables) {
-  $variables['user'] = array(
+  $variables['user'] = [
     'title' => 'User',
     'callback' => 'express_dashboard_user_content',
     'weight' => -99,
-    'access arguments' => array('use user dashboard'),
-  );
+    'access arguments' => ['use user dashboard'],
+  ];
   return $variables;
 }
 
@@ -38,12 +42,12 @@ function express_dashboard_user_express_dashboard($variables) {
  * Implements hook_permission().
  */
 function express_dashboard_user_permission() {
-  return array(
-    'use user dashboard' => array(
+  return [
+    'use user dashboard' => [
       'title' => 'Use the User Dashboard',
       'description' => 'Access the user dashboard',
-    ),
-  );
+    ],
+  ];
 }
 
 /**
@@ -52,18 +56,17 @@ function express_dashboard_user_permission() {
 function express_dashboard_user_content() {
   global $user;
   $vars['user'] = (array) $user;
-  $excluded_roles = array(
+  $excluded_roles = [
     'authenticated user',
-  );
+  ];
   foreach ($vars['user']['roles'] as $rid => $role) {
     if (in_array($role, $excluded_roles)) {
       unset($vars['user']['roles'][$rid]);
     }
   }
 
-  // Add status
+  // Add status.
   $express_status = module_invoke('express_status', 'block_view', 'express_status');
-  //$output['right']['weight'] = -10;
   $output['right']['widgets']['status']['title'] = 'System Status';
   $output['right']['widgets']['status']['content']['#markup'] = $express_status['content'];
 
@@ -84,13 +87,13 @@ function express_dashboard_user_content() {
  * Adds theme functions and tempalte files for dashboards
  */
 function express_dashboard_user_theme(&$existing, $type, $theme, $path) {
-  $registry = array();
+  $registry = [];
   $template_dir = drupal_get_path('module', 'express_dashboard_user') . '/templates';
-  $registry['express_dashboard_user_profile'] = array(
+  $registry['express_dashboard_user_profile'] = [
     'template' => 'express-dashboard-user-profile',
     'path' => $template_dir,
     'render element' => 'elements',
-  );
+  ];
   return $registry;
 }
 
@@ -109,26 +112,26 @@ function express_dashboard_user_theme(&$existing, $type, $theme, $path) {
 
 function express_dashboard_user_secure_permissions($role) {
 
-  $permissions = array(
-    'authenticated user' => array(
+  $permissions = [
+    'authenticated user' => [
       'use user dashboard',
-    ),
-    'administrator' => array(
+    ],
+    'administrator' => [
       'use user dashboard',
-    ),
-    'content_editor' => array(
+    ],
+    'content_editor' => [
       'use user dashboard',
-    ),
-    'developer' => array(
+    ],
+    'developer' => [
       'use user dashboard',
-    ),
-    'edit_my_content' => array(
+    ],
+    'edit_my_content' => [
       'use user dashboard',
-    ),
-    'site_owner' => array(
+    ],
+    'site_owner' => [
       'use user dashboard',
-    ),
-  );
+    ],
+  ];
 
   if (isset($permissions[$role])) {
     return $permissions[$role];
@@ -136,7 +139,8 @@ function express_dashboard_user_secure_permissions($role) {
 }
 
 
- /* Implements hook_theme_registry_alter().
+/**
+ * Implements hook_theme_registry_alter().
  *
  * Make site aware that we have templates.
  */
@@ -145,10 +149,9 @@ function express_dashboard_user_theme_registry_alter(&$theme_registry) {
   $theme_registry_copy = $theme_registry;
   _theme_process_registry($theme_registry_copy, 'phptemplate', 'theme_engine', 'dashboard', $module_path);
   $theme_registry += array_diff_key($theme_registry_copy, $theme_registry);
-  $hooks = array('node');
+  $hooks = ['node'];
   foreach ($hooks as $h) {
     if (isset($theme_registry[$h]['theme paths'])) {
-      $first_element = array_shift($theme_registry[$h]['theme paths']);
       array_unshift($theme_registry[$h]['theme paths'], array_shift($theme_registry[$h]['theme paths']), $module_path);
     }
   }
