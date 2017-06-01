@@ -32,7 +32,7 @@ function express_status_block_view($delta = '') {
         'statusio_id' => $statusio_id,
         'statusio_apikey' => $statusio_apikey,
       );
-      drupal_add_js(['express_status' => $status_settings], 'setting');
+      drupal_add_js(array('express_status' => $status_settings), 'setting');
 
       $block['subject'] = 'Status';
 

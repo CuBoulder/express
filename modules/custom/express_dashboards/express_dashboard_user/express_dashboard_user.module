@@ -46,7 +46,7 @@ function express_dashboard_user_permission() {
     'use user dashboard' => array(
       'title' => 'Use the User Dashboard',
       'description' => 'Access the user dashboard',
-  ),
+    ),
   );
 }
 
