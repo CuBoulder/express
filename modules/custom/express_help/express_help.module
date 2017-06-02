@@ -185,6 +185,18 @@ function express_help_preprocess_page(&$vars) {
   $router_item = menu_get_item(current_path());
   $current_path = $router_item['path'];
 
+  // Need to deal with node/%/edit paths.
+  if ((arg(0) == 'node') && (arg(2) == 'edit')) {
+    $node_type = str_replace('_', '-', $vars['node']->type);
+    $current_path = 'node/add/' . $node_type;
+  }
+
+  // Need to deal with block%/edit paths.
+  if (arg(0) == 'block' && arg(2) == 'edit') {
+    $bean_type = str_replace('_', '-', $vars['page']['content']['system_main']['bean']['#value']->type);
+    $current_path = 'block/edit/' . $bean_type;
+  }
+
   // If there is a $key for the current path, add the help link variable.
   if (array_key_exists($current_path, $express_help)) {
     $vars['express_help'] = '';
