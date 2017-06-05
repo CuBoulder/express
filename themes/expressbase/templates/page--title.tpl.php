@@ -124,14 +124,16 @@
             </div>
           <?php endif; ?>
 
-          <div id="main-content-wrapper" class="container-max">
-            <?php if (!empty($page['post_title'])): ?>
-              <div id="post-title-wrapper" class="section-wrapper container-max">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <?php print render($page['post_title']); ?>
-                </div>
+          <?php if (!empty($page['post_title'])): ?>
+            <div id="post-title-wrapper" class="section-wrapper container-max">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <?php print render($page['post_title']); ?>
               </div>
-            <?php endif; ?>
+            </div>
+          <?php endif; ?>
+
+          <div id="main-content-wrapper" class="container-max">
+
             <div id="content" class="<?php print $main_content_classes; ?>" role="main">
               <?php print render($page['content']); ?>
               <?php print $feed_icons; ?>
