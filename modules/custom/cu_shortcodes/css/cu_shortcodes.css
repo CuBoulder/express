@@ -620,3 +620,38 @@ div.image-caption  p:first-child {
   margin-top: -20px;
   display: block;
 }
+
+/* Map */
+iframe.map-small {
+  height:250px;
+  width:100%;
+}
+iframe.map-medium {
+  height:350px;
+  width:100%;
+}
+
+iframe.map-large {
+  height:450px;
+  width:100%;
+}
+@media screen and (min-width: 768px) {
+  iframe.map-small {
+    height:450px;
+    width:100%;
+  }
+  iframe.map-medium {
+    height:550px;
+    width:100%;
+  }
+
+  iframe.map-large {
+    height:650px;
+    width:100%;
+  }
+}
+.map-link {
+  display: inline-block;
+  font-size: 85%;
+  text-align: right;
+}
