@@ -160,8 +160,11 @@ html {
 .responsive-notice {
   display: none;
 }
-.responsive-preview-frame .tabs {
-  display: none;
+.responsive-preview-frame {
+  .tabs,
+  .express-messages {
+    display: none;
+  }
 }
 .responsive-preview-frame .responsive-notice {
   padding:20px;

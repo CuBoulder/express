@@ -565,7 +565,7 @@ html { box-sizing: border-box; }
 
 .responsive-notice { display: none; }
 
-.responsive-preview-frame .tabs { display: none; }
+.responsive-preview-frame .tabs, .responsive-preview-frame .express-messages { display: none; }
 
 .responsive-preview-frame .responsive-notice { padding: 20px; display: block; background: #f2f2f2; color: #333 !important; border-bottom: 1px solid #222; font-size: 85%; }
 .responsive-preview-frame .responsive-notice p { margin-bottom: 10px; }
