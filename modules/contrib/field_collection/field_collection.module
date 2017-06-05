@@ -915,7 +915,7 @@ function field_collection_field_formatter_view($entity_type, $entity, $field, $i
       $view_mode = !empty($display['settings']['view_mode']) ? $display['settings']['view_mode'] : 'full';
       foreach ($items as $delta => $item) {
         if ($field_collection = field_collection_field_get_entity($item)) {
-          $element[$delta]['entity'] = $field_collection->view($view_mode);
+          $element[$delta]['entity'] = $field_collection->view($view_mode, $langcode);
           $element[$delta]['#theme_wrappers'] = array('field_collection_view');
           $element[$delta]['#attributes']['class'][] = 'field-collection-view';
           $element[$delta]['#attributes']['class'][] = 'clearfix';
@@ -948,7 +948,7 @@ function field_collection_field_formatter_view($entity_type, $entity, $field, $i
       $view_mode = !empty($display['settings']['view_mode']) ? $display['settings']['view_mode'] : 'full';
       foreach ($items as $delta => $item) {
         if ($field_collection = field_collection_field_get_entity($item)) {
-          $element[$delta]['entity'] = $field_collection->view($view_mode);
+          $element[$delta]['entity'] = $field_collection->view($view_mode, $langcode);
         }
       }
       break;
@@ -1430,7 +1430,7 @@ function field_collection_remove_submit($form, &$form_state) {
  *   The entity object or FALSE.
  */
 function field_collection_field_get_entity(&$item, $field_name = NULL) {
-  if (isset($item['entity'])) {
+  if (isset($item['entity']) && ($item['entity']->entityType() == 'field_collection_item')) {
     return $item['entity'];
   }
   elseif (isset($item['value'])) {
