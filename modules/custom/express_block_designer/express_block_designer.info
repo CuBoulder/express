@@ -1,0 +1,6 @@
+name = Express Block Designer
+core = 7.x
+package = CU-Advanced Design
+version = 7.x-1.0
+
+stylesheets[all][] = css/express-block-designer.css

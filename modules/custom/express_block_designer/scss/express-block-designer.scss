@@ -1,0 +1,211 @@
+@import "modules/_colors.scss";
+
+/* Styles for Block Designer Blocks */
+.exbd-block {
+  .exbd-block-icon {
+    display: inline-block;
+    margin-right: 5px;
+  }
+  // Block Styles
+  &.exbd-style-light-gray {
+    & > .block-inner {
+      background-color: #f2f2f2;
+      padding:20px;
+    }
+  }
+  &.exbd-style-outline {
+    & > .block-inner {
+      border:1px solid $border_color;
+      padding:20px;
+    }
+  }
+  &.exbd-style-underline {
+    & > .block-inner {
+      border-bottom:1px solid $border_color;
+      padding-bottom:20px;
+    }
+  }
+  &.exbd-style-dark-gray {
+
+    & > .block-inner {
+      background-color: #333;
+      color:#fff;
+      padding:20px;
+      a:link, a:visited {
+        color:$cugold;
+      }
+      a:hover,
+      a:active {
+        color:#ddd;
+      }
+    }
+  }
+  // Heading alignment
+  &.exbd-heading-align-centered > .block-inner > .exbd-block-title {
+    text-align: center;
+    & .exbd-block-icon {
+
+    }
+
+  }
+  // Icons Styles
+  &.exbd-icon-style-top > .block-inner > .exbd-block-title {
+    & .exbd-block-title-text {
+      display: block;
+    }
+    & .exbd-block-icon {
+      display: inline-block;
+      margin: 0;
+      margin-bottom: 5px;
+    }
+  }
+  &.exbd-icon-style-offset {
+    & > .block-inner > .content {
+      overflow:hidden;
+    }
+    & > .block-inner > .exbd-block-title .exbd-block-title-text {
+      position: relative;
+    }
+    & > .block-inner > .exbd-block-title i.exbd-block-icon {
+      float:left;
+      margin-bottom: 75px;
+      margin-right:10px;
+      font-size: 110%;
+      &.exbd-icon-size-increase {
+        font-size: 160%;
+      }
+    }
+  }
+  .exbd-block-title strong {
+    display: block;
+  }
+  &.exbd-font-scale-title-increase {
+    & > .block-inner > h2.block-title,
+    & > .block-inner > h3.block-title,
+    & > .block-inner > h4.block-title,
+    & > .block-inner > h5.block-title,
+    & > .block-inner > h6.block-title {
+      //font-size: 250%;
+    }
+    & > .block-inner > .exbd-block-title {
+      font-size: 150%;
+    }
+  }
+  &.exbd-font-scale-content-increase {
+    & > .block-inner > .content {
+      font-size: 150%;
+    }
+  }
+  &.exbd-font-scale-title-decrease {
+    & > .block-inner > h2.block-title,
+    & > .block-inner > h3.block-title,
+    & > .block-inner > h4.block-title,
+    & > .block-inner > h5.block-title,
+    & > .block-inner > h6.block-title {
+      //font-size: 85%;
+    }
+    & > .block-inner > .exbd-block-title {
+      font-size: 80%;
+    }
+  }
+  &.exbd-font-scale-content-decrease {
+    & > .block-inner > .content {
+      font-size: 80%;
+    }
+  }
+}
+/* Previews */
+
+.exbd-theme-previews {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/* Display icon options in columns. */
+#edit-exbd-icon {
+  @media screen and (min-width:768px) {
+    -webkit-column-count: 4;
+    -webkit-column-gap: 20px;
+    -webkit-column-rule: 1px solid #ddd;
+
+    -moz-column-count: 4;
+    -moz-column-gap: 20px;
+    -moz-column-rule: 1px solid #ddd;
+
+    column-count: 4;
+    column-gap: 20px;
+    column-rule: 1px solid #ddd;
+  }
+  @media screen and (min-width: 960px) {
+    -webkit-column-count: 6;
+    -webkit-column-gap: 20px;
+    -webkit-column-rule: 1px solid #ddd;
+
+    -moz-column-count: 6;
+    -moz-column-gap: 20px;
+    -moz-column-rule: 1px solid #ddd;
+
+    column-count: 6;
+    column-gap: 20px;
+    column-rule: 1px solid #ddd;
+  }
+  
+
+  .form-type-radio {
+    padding:5px;
+    color:#757575;
+    font-size: 85%;
+  }
+  .form-type-radio:hover {
+    color:#111;
+  }
+  i {
+    font-size: 175%;
+    color:#111;
+    padding:0 5px;
+  }
+}
+
+.exbd-block-icon {
+  &.exbd-icon-size-increase {
+    font-size:200%;
+  }
+  &.exbd-icon-color-blue {
+    color: desaturate(#03A9F4, 15%);
+  }
+  &.exbd-icon-color-gray {
+    color: #757575;
+  }
+  &.exbd-icon-color-gold {
+    color: $cugold;
+  }
+  &.exbd-icon-color-green {
+    color: desaturate(#4CAF50, 15%);
+  }
+  &.exbd-icon-color-orange {
+    color: desaturate(#FF9800, 15%);
+  }
+  &.exbd-icon-color-purple {
+    color: desaturate(#AB47BC, 15%);
+  }
+  &.exbd-icon-color-red {
+    color: desaturate(#F44336, 15%);
+  }
+  &.exbd-icon-color-yellow {
+    color: desaturate(#FFEA00, 15%);
+  }
+}
+
+.express-block-designer-description {
+  margin:0 0 20px 0;
+  border: 1px solid #e7e7e7;
+  padding:20px;
+}
+@media screen and (min-width: 768px) {
+  .express-block-designer-description {
+    margin:0 0 20px 40px;
+    float:right;
+    width:25%;
+  }
+}
