@@ -168,8 +168,6 @@ dependencies[] = bigmenu
 dependencies[] = menu_firstchild
 
 ; ============ BLOCK ============
-dependencies[] = blocktheme
-dependencies[] = cu_block_theme
 dependencies[] = cu_block
 
 ; ============ FLEXSLIDER ============
