@@ -351,7 +351,6 @@ function cu_feature_callout_style() {
     'offset' => 'Offset',
     'cards' => 'Cards',
     'teaser' => 'Teaser',
-    'tiles_large' => 'Tiles Large',
   );
   return $options;
 }
