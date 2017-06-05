@@ -224,7 +224,10 @@ function atlas_admin_settings_submit($form, &$form_state) {
       $packages_diff = array_diff($form_state['values']['atlas_packages'], $site_array['code']['package']);
     }
     // Check for First added package, Remove all packages, or Change packages.
-    if (!array_key_exists('package', $site_array['code']) || (array_key_exists('package', $site_array['code']) &&  empty($form_state['values']['atlas_packages'])) || !empty($packages_diff)) {
+    if (!empty($packages_diff)
+      || (array_key_exists('package', $site_array['code']) &&  empty($form_state['values']['atlas_packages']))) {
+      $request_data['code']['package'] = $form_state['values']['atlas_packages'];
+    } else if (!array_key_exists('package', $site_array['code']) &&  !empty($form_state['values']['atlas_packages'])) {
       $request_data['code']['package'] = $form_state['values']['atlas_packages'];
     }
   }
@@ -255,7 +258,7 @@ function atlas_admin_settings_submit($form, &$form_state) {
  *   $site_data: A partial PATCH to the site item in Atlas.
  */
 function atlas_process_core_schema_version($version) {
- $data = array();
+  $data = array();
 
   // We need to know the 'atlas_id' to get the 'statistics_id'.
   $atlas_id = variable_get('atlas_id', FALSE);
