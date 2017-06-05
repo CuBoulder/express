@@ -7,17 +7,31 @@
       </div>
     </div>
     <?php endif; ?>
-
+    <div id="search" tabindex="-1">
+      <div class="element-max-width search-wrapper">
+        <?php print render($page['search_box']); ?>
+      </div>
+    </div>
     <div id="header-wrapper" class="section-wrapper header-wrapper">
       <header class="header container-max clearfix" id="header" role="banner">
-        <div id="branding" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+        <div id="branding" class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
           <?php print render($page['branding']); ?>
           <div class="mobile-menu-toggle">
-            <a id="toggle" href="#mobile-menu" title="Menu"><span class="mobile-menu-text">Menu </span> <i class="fa fa-reorder fa-fw"></i></a>
+            <a id="toggle" href="#mobile-menu" title="Menu"><span class="mobile-menu-text">Menu </span><i class="fa fa-reorder fa-fw"></i></a>
           </div>
         </div>
-        <div id="search"class="col-lg-4 col-md-4">
-          <?php print render($page['search_box']); ?>
+        <div id="header-content" class="col-lg-6 col-md-6 col-sm-12 col-xs-12 clearfix">
+          <?php
+          $options = variable_get('cu_search_options', array('this' => 'this'));
+          foreach ($options as $key => $option) {
+            if (!$option) {
+              unset($options[$key]);
+            }
+          }
+            if (!empty($options)):
+          ?>
+            <a href="#search" class="search-toggle"><i class="fa fa-search"></i><span class="element-invisible">Search</span></a>
+          <?php endif; ?>
         </div>
       </header>
     </div>

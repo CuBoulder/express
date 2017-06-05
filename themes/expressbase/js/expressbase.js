@@ -13,10 +13,10 @@
 (function ($, Drupal, window, document, undefined) {
   $(document).ready(function(){
     $("#toggle").click(function() {
+      event.preventDefault();
       $("#mobile-navigation-wrapper").slideToggle('fast');
       $("#toggle i.fa").toggleClass('fa-reorder');
       $("#toggle i.fa").toggleClass('fa-times');
-      return false;
     });
     // Add close messages area
     var closeMsgs = '<a href="#" class="close-msgs" tabindex="-1"><i class="fa fa-times-circle"></a>';
@@ -24,6 +24,11 @@
     $('a.close-msgs').click(function(event){
       event.preventDefault();
       $('.express-messages').hide();
+    });
+    $('a.search-toggle').click(function(event){
+      event.preventDefault();
+      $('#search').slideToggle('fast').focus();
+      $('.search-container').addClass('fadeIn');
     });
   });
   $(window).on('resize', function(){
