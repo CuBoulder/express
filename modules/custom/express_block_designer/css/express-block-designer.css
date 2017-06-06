@@ -63,8 +63,8 @@
 #edit-exbd-style { display: flex; flex-direction: row; flex-wrap: wrap; margin-left: -10px; margin-right: -10px; }
 #edit-exbd-style .form-item-exbd-style { padding: 0 10px; text-align: center; display: flex; flex-direction: column; flex-grow: 1; flex-shrink: 0; min-width: 80px; position: relative; margin-bottom: 20px; }
 #edit-exbd-style .form-item-exbd-style > * { margin: 0 auto; }
-#edit-exbd-style label[for='edit-exbd-style-default'], #edit-exbd-style label[for='edit-exbd-style-inherit'] { height: 130px; display: inline-block; }
-#edit-exbd-style label[for='edit-exbd-style-default']:after, #edit-exbd-style label[for='edit-exbd-style-inherit']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #000; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: rgba(255, 255, 255, 0); }
+#edit-exbd-style label[for='edit-exbd-style-none'], #edit-exbd-style label[for='edit-exbd-style-default'], #edit-exbd-style label[for='edit-exbd-style-inherit'] { height: 130px; display: inline-block; }
+#edit-exbd-style label[for='edit-exbd-style-none']:after, #edit-exbd-style label[for='edit-exbd-style-default']:after, #edit-exbd-style label[for='edit-exbd-style-inherit']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #000; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: rgba(255, 255, 255, 0); }
 #edit-exbd-style label[for='edit-exbd-style-light-gray'] { height: 130px; display: inline-block; }
 #edit-exbd-style label[for='edit-exbd-style-light-gray']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #000; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: #f4f4f4; }
 #edit-exbd-style label[for='edit-exbd-style-dark-gray'] { height: 130px; display: inline-block; }

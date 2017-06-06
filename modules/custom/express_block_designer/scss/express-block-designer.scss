@@ -251,6 +251,7 @@
 
     }
    }
+   label[for='edit-exbd-style-none'],
    label[for='edit-exbd-style-default'],
    label[for='edit-exbd-style-inherit'] {
      @include styleRadio(null, rgba(255,255,255,0), null, null);
