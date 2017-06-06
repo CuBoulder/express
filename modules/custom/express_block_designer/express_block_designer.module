@@ -454,7 +454,7 @@ function express_block_designer_preprocess_block(&$vars) {
     $vars['theme_hook_suggestions'][] = 'block__exbd__' . $vars['block']->module . '__' . $vars['block']->delta ;
     $icon_classes = array();
     $exbd_settings = unserialize($settings->block_settings);
-    
+
 
     // Apply Block Designer Theme settings
     if ($settings->block_theme && $settings->block_theme != 'none') {

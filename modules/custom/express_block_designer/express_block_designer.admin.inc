@@ -256,7 +256,7 @@ function express_block_designer_form($form, &$form_state, $module, $delta) {
   );
   $form['style']['exbd_style'] = array(
     '#title' => 'Style',
-    '#type' => 'select',
+    '#type' => 'radios',
     '#options' => array(
       'default' => 'Default',
       'inherit' => 'Inherit',
@@ -507,13 +507,13 @@ function express_block_designer_themes_form($form, &$form_state, $id = NULL) {
   );
   $form['style']['exbd_style'] = array(
     '#title' => 'Style',
-    '#type' => 'select',
+    '#type' => 'radios',
     '#options' => array(
       'none' => 'none',
       'light_gray' => 'Light Gray',
       'dark_gray' => 'Dark Gray',
       'tan' => 'Tan',
-      'light_blue' => 'Light Blue',
+      'lightblue' => 'Light Blue',
       'outline' => 'Outline',
       'underline' => 'Underline',
     ),

@@ -1,4 +1,5 @@
 @import "modules/_colors.scss";
+@import "modules/_global.scss";
 
 /* Styles for Block Designer Blocks */
 .exbd-block {
@@ -9,34 +10,50 @@
   // Block Styles
   &.exbd-style-light-gray {
     & > .block-inner {
-      background-color: #f2f2f2;
-      padding:20px;
+      @include block($light_gray);
+      a:link, a:visited {
+        color:$dark_link_blue;
+      }
     }
   }
   &.exbd-style-outline {
     & > .block-inner {
+      @include block($color: transparent);
       border:1px solid $border_color;
-      padding:20px;
     }
   }
   &.exbd-style-underline {
     & > .block-inner {
       border-bottom:1px solid $border_color;
-      padding-bottom:20px;
+      padding:0 0 20px 0;
     }
   }
   &.exbd-style-dark-gray {
-
     & > .block-inner {
-      background-color: #333;
+      @include block($dark_gray);
       color:#fff;
-      padding:20px;
       a:link, a:visited {
         color:$cugold;
       }
       a:hover,
       a:active {
         color:#ddd;
+      }
+    }
+  }
+  &.exbd-style-lightblue {
+    & > .block-inner {
+      @include block($light_blue);
+      a:link, a:visited {
+        color:$dark_link_blue;
+      }
+    }
+  }
+  &.exbd-style-tan {
+    & > .block-inner {
+      @include block($tan);
+      a:link, a:visited {
+        color:$dark_link_blue;
       }
     }
   }
@@ -150,7 +167,7 @@
     column-gap: 20px;
     column-rule: 1px solid #ddd;
   }
-  
+
 
   .form-type-radio {
     padding:5px;
@@ -208,4 +225,53 @@
     float:right;
     width:25%;
   }
+}
+
+
+/* Form */
+
+#edit-exbd-style {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-left:-10px;
+  margin-right:-10px;
+  .form-item-exbd-style {
+    padding:0 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-shrink: 0;
+    min-width: 80px;
+    position: relative;
+    margin-bottom: 20px;
+    & > * {
+      margin: 0 auto;
+
+    }
+   }
+   label[for='edit-exbd-style-default'],
+   label[for='edit-exbd-style-inherit'] {
+     @include styleRadio(null, rgba(255,255,255,0), null, null);
+   }
+   label[for='edit-exbd-style-light-gray'] {
+     @include styleRadio('Light Gray', $light_gray, null, null);
+   }
+
+   label[for='edit-exbd-style-dark-gray'] {
+     @include styleRadio('Dark Gray', $dark_gray, null, null);
+   }
+   label[for='edit-exbd-style-tan'] {
+     @include styleRadio('Tan', $tan, null, null);
+   }
+   label[for='edit-exbd-style-lightblue'] {
+     @include styleRadio('Light Blue', $light_blue, null, null);
+   }
+   label[for='edit-exbd-style-outline'] {
+     @include styleRadio(null, null, $border_color, null);
+   }
+   label[for='edit-exbd-style-underline'] {
+     @include styleRadio(null, null, null, $border_color);
+   }
 }
