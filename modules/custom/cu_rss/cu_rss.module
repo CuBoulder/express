@@ -277,11 +277,10 @@ function cu_rss_express_help($variables) {
     $variables);
 }
 
-
 /**
  * Implements hook_secure_permissions().
  *
- * Adding permissions for rss entity
+ * Adding permissions for RSS entity.
  */
 function cu_rss_secure_permissions($role) {
   $permissions = array(
