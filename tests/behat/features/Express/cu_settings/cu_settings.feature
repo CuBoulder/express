@@ -105,7 +105,7 @@ Feature: CU Settings
     Then I should see "Put site contact information here"
 
   @api @settings @cache
-  Scenario: A site_owner/administrator/developer should be able to see and use cache clearing.
+  Scenario Outline: A site_owner/administrator/developer should be able to see and use cache clearing.
     Given Given  CU - I am logged in as a user with the <role> role
       When I go to "admin/settings"
     Then I should see <message>
@@ -127,7 +127,7 @@ Feature: CU Settings
   | developer      | "Clear Caches" |
 
   @api @settings @cache
-  Scenario: A content_editor/edit_my_content should not be able to see and use cache clearing.
+  Scenario Outline: A content_editor/edit_my_content should not be able to see and use cache clearing.
     Given Given  CU - I am logged in as a user with the <role> role
     When I go to "admin/settings/admin/clear-cache"
       Then I should see <message>

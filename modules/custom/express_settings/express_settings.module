@@ -25,8 +25,9 @@ function express_settings_permission() {
 
 /**
  * Implements hook_menu().
+ *
  * Icons are configured in expressadmin_preprocess_admin_block in
- * expressadmin/template.php
+ * expressadmin/template.php.
  */
 function express_settings_menu() {
   // IN ADMIN, BUT NOT ADMIN/CONFIG
@@ -184,6 +185,7 @@ function express_settings_menu() {
 
 /**
  * Implements hook_admin_paths().
+ *
  * Set edit layout paths to be admin paths.
  */
 function express_settings_admin_paths() {
@@ -386,24 +388,6 @@ function express_settings_contact_info_form($form, &$form_state) {
   );
 
   return system_settings_form($form);
-}
-
-/**
- * Page callback for admin/settings/admin/clear-cache.
- */
-function express_settings_clear_cache() {
-  $content['markup'] = array(
-    '#type' => 'markup',
-    '#markup' => '<p>Repeatedly clearing caches will cause performance problems for you and your website\'s users, therefore full cache clears are limited to once per hour.</p>',
-  );
-  $content[] = drupal_get_form('express_settings_drupal_cache_form');
-  $content['varnish_markup'] = array(
-    '#type' => 'markup',
-    '#markup' => '<p><strong>Varnish Cache</strong></p></p><ul><li><strong>When to clear:</strong> You see different things when you load the same webpage logged-in vs logged-out <em>(you can use an alternate browser, incognito mode, or private browsing mode to see both versions on the same computer at the same time)</em>.</li><li><strong>What it caches</strong>: Complete web pages and files for all anonymous users.</li></ul>',
-  );
-  $content[] = drupal_get_form('express_settings_varnish_cache_form');
-  $content[] = drupal_get_form('express_settings_varnish_site_cache_form');
-  return $content;
 }
 
 /**
@@ -698,8 +682,9 @@ function express_settings_management_page() {
 
 /**
  * Implements hook_menu_link_insert().
+ *
  * Allows bundles to define a top level menu under and settings after child
- * menus are created
+ * menus are created.
  */
 function express_settings_menu_link_insert($item) {
 
