@@ -547,7 +547,7 @@ html { box-sizing: border-box; }
 
 #main, #main-content-wrapper { padding: 20px 0; }
 
-.front #main, .front #main-content-wrapper { padding: 0 0 20px; }
+.front1 #main, .front1 #main-content-wrapper { padding: 0 0 20px; }
 
 #post-title-wide-wrapper + #post-title-wrapper { padding-top: 20px; }
 
