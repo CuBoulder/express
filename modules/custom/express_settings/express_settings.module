@@ -574,6 +574,8 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
  * Form alter to add Varnish clear buttons to all node/edit forms.
  */
 function express_settings_clear_varnish_node() {
+  drupal_set_title('Clear Varnish Cache');
+
   $form = array();
 
   $form['varnish'] = array(
