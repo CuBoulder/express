@@ -19,6 +19,8 @@ addons:
     - php5-mysql
     - php5-curl
     - php5-gd
+    # See https://github.com/travis-ci/travis-ci/issues/4757#issuecomment-299024359
+    - libssl1.0.0
 
 mysql:
   database: drupal
