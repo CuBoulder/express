@@ -236,6 +236,9 @@ function cu_block_section_form_bean_form_alter(&$form, &$form_state, $form_id) {
       $form['field_block_section_tablet_pad']['#access'] = FALSE;
       $form['field_block_section_mobile_pad']['#access'] = FALSE;
     }
+    if (empty($form['field_block_section_bg_effect'][LANGUAGE_NONE]['#default_value'])) {
+      $form['field_block_section_bg_effect'][LANGUAGE_NONE]['#default_value'] = 'scroll';
+    }
   }
 }
 
