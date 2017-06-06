@@ -165,9 +165,9 @@ function express_block_designer_form($form, &$form_state, $module, $delta) {
   $color_options = variable_get('express_block_designer_icon_color_options', array(
     'default' => 'Default',
     'inherit' => 'Inherit',
-    'blue' => 'Blue',
     'gray' => 'Gray',
     'gold' => 'Gold',
+    'blue' => 'Blue',
     'green' => 'Green',
     'orange' => 'Orange',
     'purple' => 'Purple',
@@ -384,9 +384,9 @@ function express_block_designer_themes_form($form, &$form_state, $id = NULL) {
   // Icon color.
   $color_options = variable_get('express_block_designer_icon_color_options', array(
     'default' => 'Default',
-    'blue' => 'Blue',
     'gray' => 'Gray',
     'gold' => 'Gold',
+    'blue' => 'Blue',
     'green' => 'Green',
     'orange' => 'Orange',
     'purple' => 'Purple',
