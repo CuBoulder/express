@@ -300,57 +300,6 @@ function express_block_designer_form($form, &$form_state, $module, $delta) {
     ),
     '#default_value' => isset($settings['exbd_font_scale_content']) ? $settings['exbd_font_scale_content'] : 'none',
   );
-  // Block menus.
-  $form['menu'] = array(
-    '#type' => 'fieldset',
-    '#title' => 'Block Menu',
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-    '#access' => FALSE,
-  );
-  $form['menu']['exbd_menu_style'] = array(
-    '#title' => 'Menu Style',
-    '#type' => 'select',
-    '#options' => array(
-      'default' => 'Default',
-      'inherit' => 'Inherit',
-      'style_1' => 'Style 1',
-      'style_2' => 'Style 2',
-    ),
-    '#default_value' => isset($settings['exbd_menu_style']) ? $settings['exbd_menu_style'] : 'default',
-  );
-  // Examples of menus using #states.
-  $form['menu']['examples']['menu_style_default'] = array(
-    '#type' => 'item',
-    '#markup' => 'Menu Default Example',
-    '#states' => array(
-      'visible' => array(
-        ':input[name="exbd_menu_style"]' => array('value' => 'default'),
-      ),
-    ),
-  );
-  $form['menu']['examples']['menu_style_1'] = array(
-    '#type' => 'item',
-    '#markup' => 'Menu Style 1 Example',
-    '#states' => array(
-      'visible' => array(
-        ':input[name="exbd_menu_style"]' => array('value' => 'style_1'),
-      ),
-    ),
-  );
-  $form['menu']['examples']['menu_style_2'] = array(
-    '#type' => 'item',
-    '#markup' => 'Menu Style 2 Example',
-    '#states' => array(
-      'visible' => array(
-        ':input[name="exbd_menu_style"]' => array('value' => 'style_2'),
-      ),
-    ),
-  );
-  // Only visible if the block is a menu.
-  if ($module == 'menu') {
-    $form['menu']['#access'] = TRUE;
-  }
 
   // Save
   $form['actions']['submit'] = array(
@@ -547,51 +496,6 @@ function express_block_designer_themes_form($form, &$form_state, $id = NULL) {
       'decrease' => 'Decrease',
     ),
     '#default_value' => isset($settings['exbd_font_scale_content']) ? $settings['exbd_font_scale_content'] : 'default',
-  );
-  // Menu block.
-  $form['menu'] = array(
-    '#type' => 'fieldset',
-    '#title' => 'Block Menu',
-    '#collapsible' => TRUE,
-    '#collapsed' => FALSE,
-  );
-  $form['menu']['exbd_menu_style'] = array(
-    '#title' => 'Menu Style',
-    '#type' => 'select',
-    '#options' => array(
-      'default' => 'Default',
-      'style_1' => 'Style 1',
-      'style_2' => 'Style 2',
-    ),
-    '#default_value' => isset($settings['exbd_menu_style']) ? $settings['exbd_menu_style'] : 'default',
-  );
-  // Examples using #states
-  $form['menu']['examples']['menu_style_default'] = array(
-    '#type' => 'item',
-    '#markup' => 'Menu Default Example',
-    '#states' => array(
-      'visible' => array(
-        ':input[name="exbd_menu_style"]' => array('value' => 'default'),
-      ),
-    ),
-  );
-  $form['menu']['examples']['menu_style_1'] = array(
-    '#type' => 'item',
-    '#markup' => 'Menu Style 1 Example',
-    '#states' => array(
-      'visible' => array(
-        ':input[name="exbd_menu_style"]' => array('value' => 'style_1'),
-      ),
-    ),
-  );
-  $form['menu']['examples']['menu_style_2'] = array(
-    '#type' => 'item',
-    '#markup' => 'Menu Style 2 Example',
-    '#states' => array(
-      'visible' => array(
-        ':input[name="exbd_menu_style"]' => array('value' => 'style_2'),
-      ),
-    ),
   );
   // Save.
   $form['actions']['submit'] = array(
