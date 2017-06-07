@@ -312,3 +312,12 @@ $border: #e7e7e7;
     border-top:3px solid #ddd;
   }
 }
+
+/* Title Background */
+
+.feature-layout-title-background {
+  &.title-background-lightgray,
+  &.title-background-white {
+    border-top:1px solid #e7e7e7;
+  }
+}

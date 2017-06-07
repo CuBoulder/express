@@ -390,6 +390,36 @@ $field_bases['field_content_bottom'] = array(
   'type' => 'entityreference',
 );
 
+// Exported field_base: 'field_title_background_color'.
+$field_bases['field_title_background_color'] = array(
+  'active' => 1,
+  'cardinality' => 1,
+  'deleted' => 0,
+  'entity_types' => array(),
+  'field_name' => 'field_title_background_color',
+  'indexes' => array(
+    'value' => array(
+      0 => 'value',
+    ),
+  ),
+  'locked' => 0,
+  'module' => 'list',
+  'settings' => array(
+    'allowed_values' => array(
+      'white' => 'White',
+      'black' => 'Black',
+      'lightgray' => 'Light Gray',
+      'darkgray' => 'Dark Gray',
+      'lightblue' => 'Light Blue',
+      'lightgold' => 'Light Gold',
+    ),
+    'allowed_values_function' => 'express_layout_title_background_colors',
+    'allowed_values_php' => '',
+  ),
+  'translatable' => 0,
+  'type' => 'list_text',
+);
+
 foreach ($field_bases as $field) {
   if (!field_info_field($field['field_name'])) {
     field_create_field($field);

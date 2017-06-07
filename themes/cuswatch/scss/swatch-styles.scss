@@ -117,8 +117,15 @@ ul#action-menu a {
 }
 #content-wrapper,
 #post-wide-wrapper,
-#after-content-wrapper {
+#after-content-wrapper,
+#post-title-wide-wrapper {
   background-color: #fff;
+}
+.region-post-title-wide {
+  margin-bottom: 0;
+}
+.region-post-title {
+  padding-top: 20px;
 }
 #after-content2-wrapper {
   background-color: #fafafa;
@@ -289,6 +296,7 @@ $border: #e7e7e7;
   }
 }
 
+.has-title-background,
 .has-feature-title-image {
   #page-title-wrapper {
     display: none;

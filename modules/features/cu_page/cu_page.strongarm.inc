@@ -66,9 +66,31 @@ function cu_page_strongarm() {
       'revision' => array(
         'custom_settings' => FALSE,
       ),
+      'email_feature' => array(
+        'custom_settings' => FALSE,
+      ),
+      'email_teaser' => array(
+        'custom_settings' => FALSE,
+      ),
+      'feature' => array(
+        'custom_settings' => FALSE,
+      ),
     ),
     'extra_fields' => array(
-      'form' => array(),
+      'form' => array(
+        'metatags' => array(
+          'weight' => '7',
+        ),
+        'title' => array(
+          'weight' => '0',
+        ),
+        'path' => array(
+          'weight' => '6',
+        ),
+        'redirect' => array(
+          'weight' => '5',
+        ),
+      ),
       'display' => array(),
     ),
   );

@@ -71,6 +71,35 @@ function people_content_type_field_group_info() {
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
   $field_group->api_version = 1;
+  $field_group->identifier = 'group_intro|node|person|form';
+  $field_group->group_name = 'group_intro';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'person';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_other';
+  $field_group->data = array(
+    'label' => 'Intro',
+    'weight' => '46',
+    'children' => array(
+      0 => 'field_page_intro',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'label' => 'Intro',
+      'instance_settings' => array(
+        'required_fields' => 1,
+        'id' => '',
+        'classes' => 'group-intro field-group-fieldset',
+        'description' => 'Add a sub-head or introduction text.',
+      ),
+      'formatter' => 'collapsed',
+    ),
+  );
+  $field_groups['group_intro|node|person|form'] = $field_group;
+
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
   $field_group->identifier = 'group_other|node|person|form';
   $field_group->group_name = 'group_other';
   $field_group->entity_type = 'node';
@@ -85,6 +114,7 @@ function people_content_type_field_group_info() {
       1 => 'field_person_filter_1',
       2 => 'field_person_filter_2',
       3 => 'field_person_filter_3',
+      4 => 'group_intro',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -264,6 +294,7 @@ function people_content_type_field_group_info() {
   t('Filter');
   t('Filter/Group/Order');
   t('Information');
+  t('Intro');
   t('Other');
   t('Personal');
   t('Show/Hide Filters');
