@@ -15,7 +15,7 @@ function express_status_block_view($delta = '') {
       drupal_add_css(drupal_get_path('module', 'express_status') . '/css/express-status.css');
       $statusio_page = variable_get('express_status_page', 'https://universityofcoloradoboulder.statuspage.io');
       $statusio_id = variable_get('express_status_id', '9sm03v9xr9m6');
-      $statusio_apikey = variable_get('express_status_apikey', '6177a1c6-944f-424f-9471-7a974bba9c4f');
+      $statusio_apikey = variable_get('express_status_apikey', '');
 
 
       $status_settings = array(
@@ -28,7 +28,7 @@ function express_status_block_view($delta = '') {
 
       $block['subject'] = 'Status';
 
-      if (!$statusio_id || !$statusio_apikey) {
+      if (!$statusio_id) {
         $block['content'] = 'Express Status has not been configured.';
       }
       else {

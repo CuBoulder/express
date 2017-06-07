@@ -40,6 +40,7 @@
       }
       // Components
       if (typeof data.components !== 'undefined') {
+        console.log(data.components);
         $.each(data.components, function(k,c){
           //console.log(c);
           if (c.status != 'operational') {
