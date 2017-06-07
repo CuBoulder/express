@@ -1,20 +1,24 @@
 <?php
 
 /**
+ * @file
+ * Contains Drupal hooks for express_dashboards_user module.
+ */
+
+/**
  * Implements hook_user_login().
  *
  * Send user to dashboard after logging in.
  */
-function express_dashboard_user_user_login(&$edit, $account)
-{
+function express_dashboard_user_user_login(&$edit, $account) {
   // Your logic will set $redirection to the desired location
   $redirection = 'admin/dashboard/user';
 
   // Unless there is already a redirection going, or the user is trying to reset his password, we redirect to $redirection.
   if (empty($_GET['destination'])
     && !is_null($redirection)
-    && (!isset($_POST['form_id']) || $_POST['form_id'] != 'user_pass_reset'))
-  {
+    && (!isset($_POST['form_id']) || $_POST['form_id'] != 'user_pass_reset')
+  ) {
     $edit['redirect'] = $redirection;
   }
 }
@@ -61,9 +65,8 @@ function express_dashboard_user_content() {
     }
   }
 
-  // Add status
+  // Add status.
   $express_status = module_invoke('express_status', 'block_view', 'express_status');
-  //$output['right']['weight'] = -10;
   $output['right']['widgets']['status']['title'] = 'System Status';
   $output['right']['widgets']['status']['content']['#markup'] = $express_status['content'];
 
@@ -135,8 +138,8 @@ function express_dashboard_user_secure_permissions($role) {
   }
 }
 
-
- /* Implements hook_theme_registry_alter().
+/**
+ * Implements hook_theme_registry_alter().
  *
  * Make site aware that we have templates.
  */
@@ -148,7 +151,6 @@ function express_dashboard_user_theme_registry_alter(&$theme_registry) {
   $hooks = array('node');
   foreach ($hooks as $h) {
     if (isset($theme_registry[$h]['theme paths'])) {
-      $first_element = array_shift($theme_registry[$h]['theme paths']);
       array_unshift($theme_registry[$h]['theme paths'], array_shift($theme_registry[$h]['theme paths']), $module_path);
     }
   }

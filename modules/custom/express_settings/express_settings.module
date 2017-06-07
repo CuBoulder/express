@@ -117,11 +117,11 @@ function express_settings_menu() {
     'weight' => 99,
   );
   $items['admin/settings/admin/clear-cache'] = array(
-    'title' => 'Clear Cache',
-    'description' => 'Delete and rebuild all site caches.',
+    'title' => 'Clear Caches',
+    'description' => 'Invalidate various caches.',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('express_settings_cache_form'),
+    'page arguments' => array('express_settings_clear_cache'),
     'access arguments' => array('administer cache settings'),
     'weight' => 0,
   );
@@ -333,33 +333,174 @@ function express_settings_contact_info_form($form, &$form_state) {
 }
 
 /**
- * Page callback for admin/settings/performance/cache.
+ * Page callback for admin/settings/admin/clear-cache.
  */
-function express_settings_cache_form($form, &$form_state) {
-  $cache_last = variable_get('cache_last', NULL);
+function express_settings_clear_cache() {
+  $content['markup'] = array(
+    '#type' => 'markup',
+    '#markup' => '<p>Repeatedly clearing caches will cause performance problems for you and your website\'s users, therefore full cache clears are limited to once per hour.</p>',
+  );
+  $content[] = drupal_get_form('express_settings_drupal_cache_form');
+  $content['varnish_markup'] = array(
+    '#type' => 'markup',
+    '#markup' => '<p><strong>Varnish Cache</strong></p></p><ul><li><strong>When to clear:</strong> You see different things when you load the same webpage logged-in vs logged-out <em>(you can use an alternate browser, incognito mode, or private browsing mode to see both versions on the same computer at the same time)</em>.</li><li><strong>What it caches</strong>: Complete web pages and files for all anonymous users.</li></ul>',
+  );
+  $content[] = drupal_get_form('express_settings_varnish_cache_form');
+  $content[] = drupal_get_form('express_settings_varnish_site_cache_form');
+  return $content;
+}
 
-  if (date('H', $cache_last) != date('H', time())) {
-    $form['clear_cache'] = array(
+/**
+ * Form for clearing Drupal's cache
+ */
+function express_settings_drupal_cache_form($form, &$form_state) {
+  $cache_drupal_last = variable_get('cache_drupal_last', NULL);
+  $form['drupal'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Drupal Cache'),
+  );
+  $form['drupal']['markup'] = array(
+    '#markup' => ('<ul><li><strong>When to clear:</strong> When you are logged in and the site seems \'strange\'.</li><li><strong>What it caches</strong>: HTML content, CSS, javascript, images, and layouts for all users.</li></ul>'),
+  );
+  if (date('H', $cache_drupal_last) != date('H', time())) {
+    $form['drupal']['clear_drupal_cache'] = array(
       '#type' => 'submit',
-      '#value' => t('Clear all caches'),
-      '#submit' => array('express_clear_cache_submit'),
+      '#value' => t('Clear full Drupal cache'),
+      '#submit' => array('express_settings_clear_drupal_cache_submit'),
+      '#attributes' => array('class' => array('btn-warning')),
     );
   } else {
-    drupal_set_message(t('Cache was recently cleared.  Because repeatly clearing the cache can cause performance problems, it cannot be cleared again until @time', array('@time' => date('h:i A', $cache_last + 60*60))), 'warning');
+    drupal_set_message(t('The Drupal cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until @time', array('@time' => date('h:i A', $cache_drupal_last + 3600))), 'warning');
   }
-
+  // Bypassing the CSRF protection because this action is idempotent and the only impact is increased server load.
+  // This should ONLY be done in very specific cases.
+  $form['#token'] = FALSE;
   return $form;
 }
 
 /**
- * Submit callback; clear system caches.
+ * Form for clearing a single path from Varnish's cache.
+ */
+function express_settings_varnish_cache_form($form, &$form_state) {
+  $form['varnish_page'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Varnish Cache: Path Specific',
+  );
+  $form['varnish_page']['clear_varnish_path_cache_path'] = array(
+    '#type' => 'textfield',
+    '#description' => ('Enter the specific path or URL to clear from the Varnish cache.'),
+    '#title' => 'Path to Clear',
+  );
+  $form['varnish_page']['clear_varnish_path_cache'] = array(
+    '#type' => 'submit',
+    '#value' => t('Clear path from Varnish cache'),
+    '#submit' => array('express_settings_clear_varnish_path_cache_submit'),
+    '#attributes' => array('class' => array('btn-warning')),
+  );
+  // Bypassing the CSRF protection because this action is idempotent and the only impact is increased server load.
+  // This should ONLY be done in very specific cases.
+  $form['#token'] = FALSE;
+  return $form;
+}
+
+/**
+ * Form for clearing a site from Varnish's cache.
+ */
+function express_settings_varnish_site_cache_form($form, &$form_state) {
+  $cache_varnish_last = variable_get('cache_varnish_last', NULL);
+  $form['varnish_full'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Varnish Cache: Full Site',
+  );
+  $form['varnish_full']['markup'] = array(
+    '#markup' => ('<p><em>Useful when you made a change to the footer or some site-wide element.</em></p>'),
+  );
+  if (date('H', $cache_varnish_last) != date('H', time())) {
+    $form['varnish_full']['clear_varnish_cache'] = array(
+      '#type' => 'submit',
+      '#value' => t('Clear full Varnish cache'),
+      '#submit' => array('express_settings_clear_varnish_cache_submit'),
+      '#attributes' => array('class' => array('btn-warning')),
+    );
+  } else {
+    drupal_set_message(t('The whole Varnish cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until @time.', array('@time' => date('h:i A', $cache_varnish_last + 3600))), 'warning');
+  }
+  // Bypassing the CSRF protection because this action is idempotent and the only impact is increased server load.
+  // This should ONLY be done in very specific cases.
+  $form['#token'] = FALSE;
+  return $form;
+}
+
+/**
+ * Submit callback; clear Drupal caches.
  *
  * @ingroup forms
  */
-function express_clear_cache_submit($form, &$form_state) {
-  variable_set('cache_last', REQUEST_TIME);
+function express_settings_clear_drupal_cache_submit($form, &$form_state) {
+  variable_set('cache_drupal_last', REQUEST_TIME);
   drupal_flush_all_caches();
-  drupal_set_message(t('Caches cleared.'));
+  drupal_set_message(t('Drupal cache cleared.'));
+}
+
+/**
+ * Submit callback; clear Varnish caches.
+ *
+ * @ingroup forms
+ */
+function express_settings_clear_varnish_cache_submit($form, &$form_state) {
+  variable_set('cache_varnish_last', REQUEST_TIME);
+  varnish_purge_all_pages();
+  drupal_set_message(t('Varnish cache cleared.'));
+}
+
+/**
+ * Submit callback; clear a single URL from Varnish caches.
+ *
+ * @ingroup forms
+ */
+function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
+  // Check to see if they included parts of base path and clean up the URL.
+  // If a path was not passed, the submit came from a node/edit form and we can look up the appropriate path.
+  if (array_key_exists('clear_varnish_path_cache_path', $form_state['values'])) {
+    $path = $form_state['values']['clear_varnish_path_cache_path'];
+    // In case scheme relative URI is passed in.
+    $path = trim($path, '/');
+    // Remove trailing slash.
+    $path = rtrim($path, '/');
+    // Check if $path contains the base path.
+    if (strpos($path, base_path()) !== FALSE) {
+      // If scheme not included, prepend it.
+      if (!preg_match('#^http(s)?://#', $path)) {
+        $path = 'http://' . $path;
+      }
+      $urlParts = parse_url($path);
+      $path = $urlParts['path'];
+      // Remove base path.
+      // TODO: test with complex base path.
+      if (substr($path, 0, strlen(base_path())) == base_path()) {
+        $path = substr($path, strlen(base_path()));
+      }
+    }
+  }
+  else {
+    $path = drupal_get_path_alias('node/' . $form['nid']['#value']);
+  }
+  // Cast form value as an array.
+  varnish_expire_cache((array) $path);
+  drupal_set_message(t('URL cleared from Varnish cache.'));
+}
+
+/**
+ * Form alter to add Varnish clear buttons to all node/edit forms.
+ */
+function express_settings_form_node_form_alter(&$form, &$form_state, $form_id) {
+  $form['actions']['clear_varnish_path_cache'] = array(
+    '#type' => 'submit',
+    '#value' => t('Clear from Varnish cache'),
+    '#weight' => 9999,
+    '#submit' => array('express_settings_clear_varnish_path_cache_submit'),
+    '#attributes' => array('class' => array('btn-warning')),
+  );
 }
 
 /**
