@@ -161,7 +161,7 @@
         if ( $($hash, $tabs).length ) {
           // reset tabs
           $('.expandable-tabcontent', $tabs).hide().attr({'aria-hidden':'true'});
-          $('.expandable-tablist li, .expandable-tablist li a').removeClass('is-active');
+          $('.expandable-tablist li, .expandable-tablist li a', $tabs).removeClass('is-active');
           $('.expandable-tablist li a', $tabs).attr({
             'aria-selected': 'false',
           });
