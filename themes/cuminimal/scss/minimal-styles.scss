@@ -83,31 +83,31 @@ ul#action-menu a {
   margin:22px 0 18px 10px;
   color:#858585;
 }
-#slider-wrapper,
-#intro-wide-wrapper {
+.slider-wrapper,
+.intro-wide-wrapper {
   background-color: #fff;
 }
-#slider-wrapper {
+.slider-wrapper {
   padding: 20px;
 }
-#content-wrapper,
-#post-wide-wrapper,
-#after-content-wrapper,
-#after-content2-wrapper,
-#footer-wrapper {
+.content-wrapper,
+.post-wide-wrapper,
+.after-content-wrapper,
+.after-content2-wrapper,
+.footer-wrapper {
   background-color: #fff;
 }
-#after-content-wrapper {
+.after-content-wrapper {
   padding: 20px 0;
 }
-#after-content-2 .region-lower,
-#footer .region-footer {
+.after-content-2 .region-lower,
+.footer .region-footer {
   padding:40px 0 20px;
   position: relative;
 }
 
-#after-content-2 .region-lower:before,
-#footer .region-footer:before {
+.after-content-2 .region-lower:before,
+.footer .region-footer:before {
   content: '';
   border-top:1px solid $border_color;
   position: absolute;

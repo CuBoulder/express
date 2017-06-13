@@ -25,17 +25,17 @@ ul#main-menu a#home-link { background-color: transparent; background-image: none
 
 ul#action-menu a { line-height: 24px; margin: 22px 0 18px 10px; color: #858585; }
 
-#slider-wrapper, #intro-wide-wrapper { background-color: #fff; }
+.slider-wrapper, .intro-wide-wrapper { background-color: #fff; }
 
-#slider-wrapper { padding: 20px; }
+.slider-wrapper { padding: 20px; }
 
-#content-wrapper, #post-wide-wrapper, #after-content-wrapper, #after-content2-wrapper, #footer-wrapper { background-color: #fff; }
+.content-wrapper, .post-wide-wrapper, .after-content-wrapper, .after-content2-wrapper, .footer-wrapper { background-color: #fff; }
 
-#after-content-wrapper { padding: 20px 0; }
+.after-content-wrapper { padding: 20px 0; }
 
-#after-content-2 .region-lower, #footer .region-footer { padding: 40px 0 20px; position: relative; }
+.after-content-2 .region-lower, .footer .region-footer { padding: 40px 0 20px; position: relative; }
 
-#after-content-2 .region-lower:before, #footer .region-footer:before { content: ''; border-top: 1px solid #e0e0e0; position: absolute; top: 0; margin: 0 auto; left: 20px; right: 20px; width: -moz-calc(100% - 40px); width: -webkit-calc(100% - 40px); width: calc(100% - 40px); }
+.after-content-2 .region-lower:before, .footer .region-footer:before { content: ''; border-top: 1px solid #e0e0e0; position: absolute; top: 0; margin: 0 auto; left: 20px; right: 20px; width: -moz-calc(100% - 40px); width: -webkit-calc(100% - 40px); width: calc(100% - 40px); }
 
 #site-info-wrapper { background-color: #222; background-repeat: repeat-x; background-position: top; color: #fff; }
 #site-info-wrapper a { color: #cfb87c; }
