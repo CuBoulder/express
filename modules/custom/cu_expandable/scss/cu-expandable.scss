@@ -61,7 +61,8 @@ $border: #e7e7e7;
       padding:10px;
       border:1px solid $background;
       border-right: none;
-      color: #666;
+      color: #6a6a6a;
+      font-weight: 600;
     }
     li.is-active a {
       background-color: #fff;
@@ -163,10 +164,10 @@ $border: #e7e7e7;
     justify-content: space-between;
     border-bottom:1px solid #333;
     li {
-      display: inline;
+      display: flex;
       flex-grow: 1;
       text-align: center;
-
+      align-self: flex-end;
     }
     a {
       color: $blue;
@@ -176,6 +177,7 @@ $border: #e7e7e7;
       position: relative;
       z-index: 1;
       margin:0 auto;
+      line-height: 1.2;
     }
     li.is-active a {
       background:#fff;
@@ -205,6 +207,7 @@ $border: #e7e7e7;
     color: #fff;
     position: relative;
     font-weight: bold;
+    max-width:320px;
     &:after {
       content: '\f105';
       font-family: FontAwesome;
@@ -215,6 +218,7 @@ $border: #e7e7e7;
     }
   }
   .expandable-tab-group {
+    max-width:320px;
     display: none;
     position: relative;
     ul.expandable-tablist {

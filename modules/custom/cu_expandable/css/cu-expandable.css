@@ -9,7 +9,7 @@
 .expandable-tabs-vertical ul.expandable-tablist, .expandable-tabs-vertical ul.expandable-tablist > li { list-style: none; list-style-image: none; margin: 0; padding: 0; }
 .expandable-tabs-vertical ul.expandable-tablist { width: 25%; min-width: 200px; border: 1px solid #e7e7e7; border-right: none; }
 .expandable-tabs-vertical ul.expandable-tablist li { display: block; }
-.expandable-tabs-vertical ul.expandable-tablist a { display: block; padding: 10px; border: 1px solid #f2f2f2; border-right: none; color: #666; }
+.expandable-tabs-vertical ul.expandable-tablist a { display: block; padding: 10px; border: 1px solid #f2f2f2; border-right: none; color: #6a6a6a; font-weight: 600; }
 .expandable-tabs-vertical ul.expandable-tablist li.is-active a { background-color: #fff; color: #202020; border: 1px solid #f2f2f2; border-right: none; }
 @media screen and (min-width: 768px) { .expandable-tabs-vertical .expandable-panel-group { padding: 0px 20px 20px; border: 1px solid #e7e7e7; border-left: none; } }
 
@@ -30,14 +30,14 @@
 .expandable-tabs ul.expandable-tablist, .expandable-tabs ul.expandable-tablist > li { list-style: none; list-style-image: none; margin: 0; padding: 0; }
 .expandable-tabs ul.expandable-tablist { position: relative; display: flex; flex-direction: row; justify-content: space-between; border-bottom: 1px solid #333; }
 .expandable-tabs ul.expandable-tablist:after { z-index: 0; content: ' '; width: 100%; position: absolute; bottom: 0; left: 0; }
-.expandable-tabs ul.expandable-tablist li { display: inline; flex-grow: 1; text-align: center; }
-.expandable-tabs ul.expandable-tablist a { color: #007bc8; display: block; padding: 5px 10px; font-weight: bold; position: relative; z-index: 1; margin: 0 auto; }
+.expandable-tabs ul.expandable-tablist li { display: flex; flex-grow: 1; text-align: center; align-self: flex-end; }
+.expandable-tabs ul.expandable-tablist a { color: #007bc8; display: block; padding: 5px 10px; font-weight: bold; position: relative; z-index: 1; margin: 0 auto; line-height: 1.2; }
 .expandable-tabs ul.expandable-tablist li.is-active a { background: #fff; color: #202020; position: relative; }
 .expandable-tabs ul.expandable-tablist li.is-active a:after { content: ""; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid #333; bottom: -11px; left: 0; right: 0; margin: 0 auto; position: absolute; }
 
-.expandable.expandable-select a.expandable-prompt { padding: 10px 30px 10px 10px; display: block; background-color: #007bc8; color: #fff; position: relative; font-weight: bold; }
+.expandable.expandable-select a.expandable-prompt { padding: 10px 30px 10px 10px; display: block; background-color: #007bc8; color: #fff; position: relative; font-weight: bold; max-width: 320px; }
 .expandable.expandable-select a.expandable-prompt:after { content: '\f105'; font-family: FontAwesome; padding: 10px; position: absolute; top: 0; right: 0; }
-.expandable.expandable-select .expandable-tab-group { display: none; position: relative; }
+.expandable.expandable-select .expandable-tab-group { max-width: 320px; display: none; position: relative; }
 .expandable.expandable-select .expandable-tab-group ul.expandable-tablist { position: absolute; top: 0; left: 0; right: 0; z-index: 1; background: #fff; }
 .expandable.expandable-select ul.expandable-tablist, .expandable.expandable-select ul.expandable-tablist li { list-style: none; list-style-image: none; margin: 0; padding: 0; }
 .expandable.expandable-select ul.expandable-tablist a { display: block; padding: 10px; border: 1px solid #e7e7e7; margin-bottom: -1px; }
