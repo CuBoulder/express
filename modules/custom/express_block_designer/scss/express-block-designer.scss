@@ -11,6 +11,7 @@
   &.exbd-style-light-gray {
     & > .block-inner {
       @include block($light_gray);
+      color: $text;
       a:link, a:visited {
         color:$dark_link_blue;
       }

@@ -3,7 +3,7 @@
 /* Other colors */
 /* Styles for Block Designer Blocks */
 .exbd-block .exbd-block-icon { display: inline-block; margin-right: 5px; }
-.exbd-block.exbd-style-light-gray > .block-inner { padding: 10px; background-color: #f4f4f4; }
+.exbd-block.exbd-style-light-gray > .block-inner { padding: 10px; background-color: #f4f4f4; color: #202020; }
 @media screen and (min-width: 960px) { .exbd-block.exbd-style-light-gray > .block-inner { padding: 20px; } }
 .exbd-block.exbd-style-light-gray > .block-inner > *:last-child { margin-bottom: 0; }
 .exbd-block.exbd-style-light-gray > .block-inner a:link, .exbd-block.exbd-style-light-gray > .block-inner a:visited { color: #006db1; }
