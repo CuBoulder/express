@@ -127,7 +127,7 @@ function express_block_designer_contextual_links_view_alter(&$element, &$items) 
     $path = current_path();
     $element['#links']['express_block_designer'] = array(
       'title' => t('Block Designer'),
-      'href' => 'block/' . $module . '/' . $delta . '/design',
+      'href' => 'block/' . $delta . '/design',
       'query' => array('destination' => $path),
     );
   }
@@ -140,12 +140,13 @@ function express_block_designer_menu() {
   $items = array();
 
   // Block Designer form.
-  $items['block/%/%/design'] = array(
+  $items['block/%/design'] = array(
     'title' => 'Block Designer',
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('express_block_designer_form', 1, 2),
+    'page arguments' => array('express_block_designer_form', 1),
     'access callback' => TRUE,
     'file' => 'express_block_designer.admin.inc',
+    'type' => MENU_LOCAL_TASK,
   );
 
   // Block Designer Themes.
@@ -247,7 +248,7 @@ function express_block_designer_theme_options() {
   }
   asort($options);
   $options = array(
-    'none' => 'None',
+    '0' => 'None',
   ) + $options;
   return $options;
 }
@@ -286,7 +287,7 @@ function express_block_designer_load($delta = NULL) {
   if ($delta) {
     $query = db_select('express_block_designer', 'ebd');
     $query->fields('ebd', array('id', 'module', 'block_delta', 'module_block_delta', 'block_settings', 'block_theme'));
-    $query->condition('ebd.module_block_delta', $delta, '=');
+    $query->condition('ebd.block_delta', $delta, '=');
     $result = $query->execute()->fetch();
     return $result;
   }
@@ -448,87 +449,59 @@ function express_block_designer_preprocess_block(&$vars) {
   );
 
   // Get delta and load Block Designer settings.
-  $delta = $vars['block']->module . '_' . $vars['block']->delta;
+  $delta = $vars['block']->delta;
   if ($settings = express_block_designer_load($delta)) {
     $vars['theme_hook_suggestions'][] = 'block__exbd';
     $vars['theme_hook_suggestions'][] = 'block__exbd__' . $vars['block']->module . '__' . $vars['block']->delta ;
     $icon_classes = array();
     $exbd_settings = unserialize($settings->block_settings);
 
+    // Save icon for later use.
+    $icon = $exbd_settings['exbd_icon'];
 
-    // Apply Block Designer Theme settings
-    if ($settings->block_theme && $settings->block_theme != 'none') {
+    // If there is a theme applied, replace settings.
+    if ($settings->block_theme && $settings->block_theme != '0') {
       $theme = express_block_designer_theme_load($settings->block_theme);
       if ($theme) {
-        $exbd_theme_settings = unserialize($theme->block_settings);
+        $exbd_settings = unserialize($theme->block_settings);
       }
     }
-    else {
-      $exbd_theme_settings = express_block_designer_default_values();
-    }
-    foreach ($exbd_theme_settings as $key => $setting) {
+
+    // Apply block designer settings.
+
+    // Block title heading.
+    $vars['exbd_heading'] = $exbd_settings['exbd_heading'];
+
+    // Loop through settings
+    foreach ($exbd_settings as $key => $setting) {
+      // All settings except excluded, because these are applied as css classes.
       if (!in_array($key, $excluded_settings)) {
         $prefix = str_replace("_", "-", $key);
         $vars['classes_array'][$prefix] = $prefix . '-' . str_replace("_", "-", $setting);
       }
     }
-    $icon_classes['exbd_icon_color'] = 'exbd-icon-color-' . $exbd_theme_settings['exbd_icon_color'];
-    $icon_classes['exbd_icon_size'] = 'exbd-icon-size-' .  $exbd_theme_settings['exbd_icon_size'];
-    // Set variable for block title heading
-    //$vars['exbd_heading'] = $exbd_theme_settings['exbd_heading'];
-    if ($exbd_theme_settings['exbd_heading'] == 'default') {
-      $vars['exbd_heading'] = 'h2';
-      $exbd_theme_settings['exbd_heading'] = 'h2';
-    }
-    else {
-      $vars['exbd_heading'] = $exbd_theme_settings['exbd_heading'];
-    }
-
-    // Apply Block Designer settings.
-    foreach ($exbd_settings as $key => $setting) {
-      if (!in_array($key, $excluded_settings)) {
-        // If not set to inherit, these settings will override theme settings.
-        if ($setting != 'inherit') {
-          $prefix = str_replace("_", "-", $key);
-          $vars['classes_array'][$prefix] = $prefix . '-' . str_replace("_", "-", $setting);
-        }
-      }
-    }
+    // Icon Classes
+    // Icon color.
     if ($exbd_settings['exbd_icon_color'] == 'default') {
       unset($icon_classes['exbd_icon_color']);
     }
-    elseif ($exbd_settings['exbd_icon_color'] != 'inherit') {
+    else {
       $icon_classes['exbd_icon_color'] = 'exbd-icon-color-' . $exbd_settings['exbd_icon_color'];
     }
-
+    // Icon size.
     if ($exbd_settings['exbd_icon_size'] == 'default') {
       unset($icon_classes['exbd_icon_size']);
     }
-    elseif ($exbd_settings['exbd_icon_size'] != 'inherit') {
+    else {
       $icon_classes['exbd_icon_size'] = 'exbd-icon-size-' . $exbd_settings['exbd_icon_size'];
     }
 
-    // Set a fallback for block title heading.
-    //$vars['exbd_heading'] = (($exbd_settings['exbd_heading'] != 'default') || ($exbd_settings['exbd_heading'] != 'inherit')) ? $exbd_settings['exbd_heading'] : 'h2';
-
-    if ($exbd_settings['exbd_heading'] == 'default') {
-      $vars['exbd_heading'] = 'h2';
-    }
-    elseif ($exbd_settings['exbd_heading'] == 'inherit') {
-      $vars['exbd_heading'] = $exbd_theme_settings['exbd_heading'];
-    }
-    else {
-      $vars['exbd_heading'] = $exbd_settings['exbd_heading'];
-    }
-
-
     // Add icon to title
     $elements = $vars['elements']['#block'];
-    $icon_classes[] = $exbd_settings['exbd_icon'];
-    if (!empty($elements->subject) && $exbd_settings['exbd_icon'] != 'none') {
+    $icon_classes[] = $icon;
+    if (!empty($elements->subject) && $icon != 'none') {
       $elements->subject = '<i class="exbd-block-icon fa ' . join(' ', $icon_classes) . '" aria-hidden="true" role="presentation"></i><span class="exbd-block-title-text">' . $elements->subject . '</span>';
     }
-    // Add class to use as default selector.
     $vars['classes_array'][] = 'exbd-block';
   }
 }
@@ -568,24 +541,7 @@ function express_block_designer_default_values() {
   return $values;
 }
 
-/**
- * Set default values.
- */
-function express_block_designer_inherit_values() {
-  $values = array(
-    'exbd_icon_style' => 'inherit',
-    'exbd_icon_color' => 'inherit',
-    'exbd_icon_size' => 'inherit',
-    'exbd_icon' => 'none',
-    'exbd_heading' => 'inherit',
-    'exbd_heading_align' => 'inherit',
-    'exbd_style' => 'inherit',
-    'exbd_font_scale_title' => 'inherit',
-    'exbd_font_scale_content' => 'inherit',
-    'exbd_menu_style' => 'inherit',
-  );
-  return $values;
-}
+
 
 function express_block_designer_form_default(&$form, &$form_state) {
   $settings = express_block_designer_default_values();
@@ -601,23 +557,6 @@ function express_block_designer_form_default(&$form, &$form_state) {
   );
   $saved = express_block_designer_save($configs);
   drupal_set_message('Block Designer settings have been set to default.');
-}
-
-function express_block_designer_form_inherit(&$form, &$form_state) {
-  $settings = express_block_designer_inherit_values();
-  $settings['block_theme'] = $form_state['values']['block_theme'];
-  $settings['exbd_icon'] = $form_state['values']['exbd_icon'];
-  $id = isset($form_state['values']['id']) ? $form_state['values']['id'] : NULL;
-  $configs = array(
-    'id' => $id,
-    'delta' => $form_state['values']['block_delta'],
-    'module' => $form_state['values']['module'],
-    'module_block_delta' => $form_state['values']['module_block_delta'],
-    'settings' => $settings,
-    'theme' => $form_state['values']['block_theme'],
-  );
-  $saved = express_block_designer_save($configs);
-  drupal_set_message('Block Designer settings have been set to inherit.');
 }
 
 function express_block_designer_form_delete(&$form, &$form_state) {
@@ -657,7 +596,7 @@ function express_block_designer_migrate() {
     $exbd_record['module'] = $block['module'];
     $exbd_record['block_delta'] = $block['delta'];
     $exbd_record['module_block_delta'] = $block['module'] . '_' . $block['delta'];
-    $settings = express_block_designer_inherit_values();
+    $settings = express_block_designer_default_values();
     if (!empty($block['theme'])) {
       $settings['exbd_style'] = express_block_designer_migrate_style($block['theme']);
     }

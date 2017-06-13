@@ -44,6 +44,7 @@
   &.exbd-style-lightblue {
     & > .block-inner {
       @include block($light_blue);
+      color: $text;
       a:link, a:visited {
         color:$dark_link_blue;
       }
@@ -52,6 +53,7 @@
   &.exbd-style-tan {
     & > .block-inner {
       @include block($tan);
+      color:$text;
       a:link, a:visited {
         color:$dark_link_blue;
       }
@@ -65,8 +67,8 @@
     }
 
   }
-  // Icons Styles
-  &.exbd-icon-style-top > .block-inner > .exbd-block-title {
+  // Icons Positions
+  &.exbd-icon-position-top > .block-inner > .exbd-block-title {
     & .exbd-block-title-text {
       display: block;
     }
@@ -76,7 +78,7 @@
       margin-bottom: 5px;
     }
   }
-  &.exbd-icon-style-offset {
+  &.exbd-icon-position-offset {
     & > .block-inner > .content {
       overflow:hidden;
     }

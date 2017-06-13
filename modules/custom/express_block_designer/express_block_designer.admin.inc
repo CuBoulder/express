@@ -46,19 +46,22 @@ function express_block_designer_themes_list() {
  *
  * Form for editing Block Designer settings for a given block.
  */
-function express_block_designer_form($form, &$form_state, $module, $delta) {
+function express_block_designer_form($form, &$form_state, $delta) {
   $form = array();
-  // Load block so we get all info we need.
-  $block = block_load($module, $delta);
-  $info = module_invoke($block->module, 'block_info');
+
+  // TODO: get module names of non-bean blocks.
+  $module_delta = NULL;
+  $module = NULL;
+
   // Set page title as block delta.
-  if (isset($info[$block->delta])) {
-    drupal_set_title(t("Block Designer: '%name'", array('%name' => $info[$block->delta]['info'])), PASS_THROUGH);
-    $delta = $block->delta;
-    $module_delta = $module . '_' . $block->delta;
+
+  if ($bean = bean_load_delta($delta)) {
+    drupal_set_title(t("Block Designer: '%name'", array('%name' => $bean->label)), PASS_THROUGH);
+    $module = 'bean';
+    $module_delta = 'bean_' . $delta;
   }
   // Load Block Designer settings for this block.
-  $saved = express_block_designer_load($module_delta);
+  $saved = express_block_designer_load($delta);
   // Get settings
   $settings = $saved ? unserialize($saved->block_settings) : array();
 
@@ -98,6 +101,9 @@ function express_block_designer_form($form, &$form_state, $module, $delta) {
     '#collapsed' => FALSE,
   );
 
+  // Block Designer link
+  $block_designer_link = l('Block Designer Themes', 'admin/theme/block-designer');
+
   // Link to create a Block Designer Theme.
   $create_link = l('Create a Block Designer Theme', 'admin/theme/block-designer/add');
 
@@ -105,13 +111,12 @@ function express_block_designer_form($form, &$form_state, $module, $delta) {
   $preview_link = l('Preview Block Designer Themes', 'admin/theme/block-designer/preview');
 
   $block_theme_options = express_block_designer_theme_options();
-
   // If there are no block designer themes, just show create link.
-  if (empty($block_theme_options)) {
+  if (count($block_theme_options) == 1) {
 
     $form['theme']['no_block_themes'] = array(
       '#type' => 'markup',
-      '#markup' => '<p>There are no Block Designer Themes available. $create_link.</p>'
+      '#markup' => "<p>There are no Block Designer Themes available. $create_link.</p>",
     );
   }
   // Otherwise, show the select field of available themes, save button, etc.
@@ -120,51 +125,61 @@ function express_block_designer_form($form, &$form_state, $module, $delta) {
       '#type' => 'select',
       '#title' => 'Theme',
       '#options' => $block_theme_options,
-      '#description' => "<p>Choose a pre-configured theme for the block.
-      <em>You can override the theme settings by configuring the options below.</em>.</p><p>$preview_link &bull; $create_link</p>",
+      '#description' => "<p>Choose a pre-configured theme for the block or apply custom settings to each block.</p><p>$block_designer_link</p>",
       '#default_value' => isset($saved->block_theme) ? $saved->block_theme : 'none',
     );
-    $inherit_values = variable_get('express_block_designer_inherit_values', array());
-    if (is_array($inherit_values) && !empty($inherit_values)) {
-      $form['theme']['theme_inherit']['description'] = array(
-        '#type' => 'markup',
-        '#markup' => '<p class="description">Set all configuration options to inherit the block theme settings.</p>',
-        '#prefix' => '<div class="form-item">',
-
-        '#suffix' => '</div>',
-      );
-      $form['theme']['theme_inherit']['inherit'] = array(
-        '#type' => 'submit',
-        '#value' => 'Save & Inherit Block Theme Settings',
-        '#submit' => array('express_block_designer_form_inherit'),
-      );
-    }
   }
 
-  // Icon.
+  // Icon list.
   $form['icon'] = array(
     '#type' => 'fieldset',
-    '#title' => 'Block Icon',
+    '#title' => 'Icon',
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+  $icon_options = array('none' => 'none');
+  $icon_options = array_merge($icon_options, express_block_designer_icon_list($add_icon = TRUE));
+  $form['icon']['exbd_icon'] = array(
+    '#title' => 'Icon',
+    '#type' => 'radios',
+    '#options' => $icon_options,
+    '#default_value' => isset($settings['exbd_icon']) ? $settings['exbd_icon'] : 'none',
+  );
+
+  $form['block_designer_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Block Designer Settings',
+    '#collapsible' => FALSE,
+    '#collapsed' => FALSE,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="block_theme"]' => array('value' => '0'),
+      ),
+    ),
+  );
+
+  // Icon Settings.
+  $form['block_designer_settings']['icon_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Icon Settings',
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
   // Icon style.
-  $style_options = variable_get('express_block_designer_icon_style_options', array(
+  $position_options = variable_get('express_block_designer_icon_position_options', array(
     'default' => 'Default',
-    'inherit' => 'Inherit',
     'offset' => 'Offset',
     'top' => 'Top',
   ));
-  $form['icon']['exbd_icon_style'] = array(
-    '#title' => 'Style',
+  $form['block_designer_settings']['icon_settings']['exbd_icon_position'] = array(
+    '#title' => 'Position',
     '#type' => 'select',
-    '#options' => $style_options,
-    '#default_value' => isset($settings['exbd_icon_style']) ? $settings['exbd_icon_style'] : 'default',
+    '#options' => $position_options,
+    '#default_value' => isset($settings['exbd_icon_position']) ? $settings['exbd_icon_position'] : 'default',
   );
   // Icon color.
   $color_options = variable_get('express_block_designer_icon_color_options', array(
     'default' => 'Default',
-    'inherit' => 'Inherit',
     'gray' => 'Gray',
     'gold' => 'Gold',
     'blue' => 'Blue',
@@ -174,8 +189,8 @@ function express_block_designer_form($form, &$form_state, $module, $delta) {
     'red' => 'Red',
     'yellow' => 'Yellow',
   ));
-  $form['icon']['exbd_icon_color'] = array(
-    '#title' => 'Icon Color',
+  $form['block_designer_settings']['icon_settings']['exbd_icon_color'] = array(
+    '#title' => 'Color',
     '#description' => t('Choose the icon color'),
     '#type' => 'select',
     '#options' => $color_options,
@@ -183,50 +198,34 @@ function express_block_designer_form($form, &$form_state, $module, $delta) {
   );
   // If there are no color options, remove access to this field.
   if (empty($color_options)) {
-    $form['icon']['exbd_icon_color']['#access'] = FALSE;
+    $form['icon_settings']['exbd_icon_color']['#access'] = FALSE;
   }
   // Icon size.
-  $form['icon']['exbd_icon_size'] = array(
-    '#title' => 'Icon Size',
+  $form['block_designer_settings']['icon_settings']['exbd_icon_size'] = array(
+    '#title' => 'Size',
     '#description' => t('Choose the icon size'),
     '#type' => 'select',
     '#options' => array(
       'default' => 'Default',
-      'inherit' => 'Inherit',
       'increase' => 'Increase',
     ),
     '#default_value' => isset($settings['exbd_icon_size']) ? $settings['exbd_icon_size'] : 'default',
   );
 
-  // Icon list.
-  $form['icon']['icon_list'] = array(
-    '#type' => 'fieldset',
-    '#title' => 'Icons',
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-  );
-  $icon_options = array('none' => 'none');
-  $icon_options = array_merge($icon_options, express_block_designer_icon_list($add_icon = TRUE));
-  $form['icon']['icon_list']['exbd_icon'] = array(
-    '#title' => 'Icon',
-    '#type' => 'radios',
-    '#options' => $icon_options,
-    '#default_value' => isset($settings['exbd_icon']) ? $settings['exbd_icon'] : 'none',
-  );
+
 
   // Heading
-  $form['heading'] = array(
+  $form['block_designer_settings']['heading'] = array(
     '#type' => 'fieldset',
     '#title' => 'Block Heading',
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
-  $form['heading']['exbd_heading'] = array(
+  $form['block_designer_settings']['heading']['exbd_heading'] = array(
     '#title' => 'Heading',
     '#type' => 'select',
     '#options' => array(
       'default' => 'Default (H2)',
-      'inherit' => 'Inherit',
       'h3' => 'H3',
       'h4' => 'H4',
       'h5' => 'H5',
@@ -237,29 +236,27 @@ function express_block_designer_form($form, &$form_state, $module, $delta) {
     '#description' => 'This setting should be used to put your content in the proper hierarchy, not to change the font size of the title.',
   );
   // Heading alignment.
-  $form['heading']['exbd_heading_align'] = array(
+  $form['block_designer_settings']['heading']['exbd_heading_align'] = array(
     '#title' => 'Heading Alignment',
     '#type' => 'select',
     '#options' => array(
       'default' => 'Default',
-      'inherit' => 'Inherit',
       'centered' => 'Centered',
     ),
     '#default_value' => isset($settings['exbd_heading_align']) ? $settings['exbd_heading_align'] : 'default',
   );
   // Heading style.
-  $form['style'] = array(
+  $form['block_designer_settings']['style'] = array(
     '#type' => 'fieldset',
     '#title' => 'Block Style',
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
-  $form['style']['exbd_style'] = array(
+  $form['block_designer_settings']['style']['exbd_style'] = array(
     '#title' => 'Style',
     '#type' => 'radios',
     '#options' => array(
-      'default' => 'Default',
-      'inherit' => 'Inherit',
+      'default' => 'None',
       'light_gray' => 'Light Gray',
       'dark_gray' => 'Dark Gray',
       'tan' => 'Tan',
@@ -270,31 +267,29 @@ function express_block_designer_form($form, &$form_state, $module, $delta) {
     '#default_value' => isset($settings['exbd_style']) ? $settings['exbd_style'] : 'default',
   );
   // Typography.
-  $form['typography'] = array(
+  $form['block_designer_settings']['typography'] = array(
     '#type' => 'fieldset',
     '#title' => 'Block Typography',
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
   // Font scale block title.
-  $form['typography']['exbd_font_scale_title'] = array(
+  $form['block_designer_settings']['typography']['exbd_font_scale_title'] = array(
     '#title' => 'Block Title Font Scale',
     '#type' => 'select',
     '#options' => array(
       'default' => 'Default',
-      'inherit' => 'Inherit',
       'increase' => 'Increase',
       'decrease' => 'Decrease',
     ),
     '#default_value' => isset($settings['exbd_font_scale_title']) ? $settings['exbd_font_scale_title'] : 'none',
   );
   // Font scale block content.
-  $form['typography']['exbd_font_scale_content'] = array(
+  $form['block_designer_settings']['typography']['exbd_font_scale_content'] = array(
     '#title' => 'Block Content Font Scale',
     '#type' => 'select',
     '#options' => array(
       'default' => 'Default',
-      'inherit' => 'Inherit',
       'increase' => 'Increase',
       'decrease' => 'Decrease',
     ),
@@ -360,26 +355,27 @@ function express_block_designer_themes_form($form, &$form_state, $id = NULL) {
     '#title' => 'Name',
     '#default_value' => isset($saved->block_theme_name) ? $saved->block_theme_name : '',
     '#description' => 'A name describing your block theme',
+    '#required' => TRUE,
   );
 
   // Icon.
   $form['icon'] = array(
     '#type' => 'fieldset',
-    '#title' => 'Block Icon',
+    '#title' => 'Icon Settings',
     '#collapsible' => TRUE,
     '#collapsed' => FALSE,
   );
-  $style_options = variable_get('express_block_designer_icon_style_options', array(
+  $position_options = variable_get('express_block_designer_icon_position_options', array(
     'inline' => 'Inline',
     'offset' => 'Offset',
     'top' => 'Top',
   ));
   // Icon style.
-  $form['icon']['exbd_icon_style'] = array(
-    '#title' => 'Style',
+  $form['icon']['exbd_icon_position'] = array(
+    '#title' => 'Position',
     '#type' => 'select',
-    '#options' => $style_options,
-    '#default_value' => isset($settings['exbd_icon_style']) ? $settings['exbd_icon_style'] : 'default',
+    '#options' => $position_options,
+    '#default_value' => isset($settings['exbd_icon_position']) ? $settings['exbd_icon_position'] : 'default',
   );
   // Icon color.
   $color_options = variable_get('express_block_designer_icon_color_options', array(

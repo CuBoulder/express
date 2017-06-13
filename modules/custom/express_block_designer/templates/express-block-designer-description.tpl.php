@@ -6,10 +6,4 @@
   <p>
     A Block Designer Theme is a saved set of Block Designer configurations that you can apply to any block.  Modifying the theme will affect all blocks that have the theme applied.
   </p>
-  <p>
-    You can override the settings of a Block Designer Theme by configuring the available options.
-  </p>
-  <p>
-    Setting the configuration options to 'Inherit' will use all of the configurations set in the Block Designer Theme.
-  </p>
 </div>
