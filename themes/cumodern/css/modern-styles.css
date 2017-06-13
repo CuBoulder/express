@@ -46,23 +46,23 @@ ul.action-menu a:hover, ul.action-menu a.active, ul.action-menu a.active-trail {
 
 .top-content { background: #fff; }
 
-#intro-wide-wrapper, #slider-wrapper { background-color: #f4f4f4; }
+.intro-wide-wrapper, .slider-wrapper { background-color: #f4f4f4; }
 
-#slider-wrapper { padding: 20px; }
+.slider-wrapper { padding: 20px; }
 
-#content-wrapper, #after-content-wrapper { background-color: #fff; }
+.content-wrapper, .after-content-wrapper { background-color: #fff; }
 
-#after-content-wrapper { padding-top: 40px; padding-bottom: 20px; }
+.after-content-wrapper { padding-top: 40px; padding-bottom: 20px; }
 
-#after-content2-wrapper { background-color: #f4f4f4; padding-top: 40px; padding-bottom: 20px; }
+.after-content2-wrapper { background-color: #f4f4f4; padding-top: 40px; padding-bottom: 20px; }
 
-#footer-section { background-color: #1e1e1e; border-top: 5px solid #cfb87c; color: #fff; }
+.footer-section { background-color: #1e1e1e; border-top: 5px solid #cfb87c; color: #fff; }
 
-#footer-section a, #footer-section a.active, #footer-section a.active-trail { color: #cfb87c; }
+.footer-section a, .footer-section a.active, .footer-section a.active-trail { color: #cfb87c; }
 
-#footer-section a:hover { color: #fff; }
+.footer-section a:hover { color: #fff; }
 
-#footer-wrapper { background-color: #272727; padding-top: 20px; }
+.footer-wrapper { background-color: #272727; padding-top: 20px; }
 
 #mobile-navigation-wrapper { background-color: #222; color: #fff; }
 #mobile-navigation-wrapper ul#main-menu-mobile, #mobile-navigation-wrapper ul#footer-menu-mobile { background-color: #333; }
