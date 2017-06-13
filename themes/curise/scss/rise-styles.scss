@@ -79,16 +79,16 @@ body {
 .top-content-wrapper {
   background-color: #f5f5f5;
 }
-#content-wrapper {
+.content-wrapper {
   padding-bottom: 20px;
 }
-#intro-wide-wrapper,
-#slider,
-#post-wide-wrapper {
+.intro-wide-wrapper,
+.slider,
+.post-wide-wrapper {
   background-color: #fff;
   @include rgbashadow(0, 3px, 1px, #000, .08);
 }
-#slider-wrapper {
+.slider-wrapper {
   //padding: 20px;
 }
 #page-title-image-wrapper {
@@ -101,21 +101,21 @@ body {
 .page-title-image-boxed {
   padding-top: 50px;
 }
-#slider-wrapper + #page-title-image-wrapper {
+.slider-wrapper + #page-title-image-wrapper {
   margin-top:20px;
 }
 .layout-responsive {
-  #slider {
+  .slider {
     max-width: 1200px;
   }
 }
 .layout-fixed {
-  #slider {
+  .slider {
     max-width: 1200px;
   }
 }
 @media screen and (min-width: 960px) {
-  #content-wrapper {
+  .content-wrapper {
     padding-top: 60px;
   }
   .top-content #content-wrapper {
@@ -142,17 +142,17 @@ body {
   @include rgbashadow(0, 3px, 1px, #000, .08);
   margin-bottom: 20px;
 }
-#after-content-wrapper {
+.after-content-wrapper {
   padding-top: 40px 0 20px;
 }
-#after-content2-wrapper {
+.after-content2-wrapper {
   background-color: #fff;
   padding: 40px 0 20px;
 }
-#footer-menu-wrapper {
+.footer-menu-wrapper {
   background-color: transparent;
   position: relative;
-  #footer-navigation {
+  .footer-navigation {
     margin-bottom: -30px;
     border-bottom: 2px solid #333;
   }
@@ -161,16 +161,16 @@ body {
   }
 }
 .footer-menu-gray {
-  #footer-navigation {
+  .footer-navigation {
     background-color: #444;
   }
 }
 .footer-menu-gold {
-  #footer-navigation {
+  .footer-navigation {
     background-color: $cugold;
   }
 }
-#footer-section {
+.footer-section {
   background-color: $bg_dark1;
   color: #fff;
 
@@ -181,18 +181,18 @@ body {
     color:#fff;
   }
 }
-#footer-wrapper {
+.footer-wrapper {
   padding-top: 40px;
   padding-bottom: 20px;
 }
-#site-info-wrapper {
+.site-info-wrapper {
   background-color: $bg_dark2;
 }
-#footer-menu-wrapper + #site-info-wrapper {
+.footer-menu-wrapper + #site-info-wrapper {
   padding-top: 60px;
 }
 
-#feature-layout-wrapper {
+.feature-layout-wrapper {
   padding-top: 20px;
 }
 
