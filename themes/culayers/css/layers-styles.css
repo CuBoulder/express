@@ -25,9 +25,9 @@ body { background-color: #333; }
 
 .top-content-wrapper { background-color: #f1f1f1; }
 
-#after-content2-wrapper { background-color: #f1f1f1; }
+.after-content2-wrapper { background-color: #f1f1f1; }
 
-#after-content-2 { background-color: #fff; padding-top: 20px; }
+.after-content-2 { background-color: #fff; padding-top: 20px; }
 
 .top-content { background-color: #fff; }
 
@@ -35,13 +35,13 @@ body { background-color: #333; }
 
 .layout-responsive .top-content { max-width: 1200px; margin: 0 auto; }
 
-#footer-section { background-color: #333; color: #fff; }
-#footer-section a { color: #cfb87c; }
-#footer-section a:hover, #footer-section a:focus { color: #fff; }
+.footer-section { background-color: #333; color: #fff; }
+.footer-section a { color: #cfb87c; }
+.footer-section a:hover, .footer-section a:focus { color: #fff; }
 
-#footer-wrapper { background-color: #222; }
+.footer-wrapper { background-color: #222; }
 
-#footer { background-color: #111; padding-top: 20px; }
+.footer { background-color: #111; padding-top: 20px; }
 
 #footer-menu-wrapper, .footer-menu-gray, .footer-menu-gold { background-color: transparent; padding: 0; }
 
