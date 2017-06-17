@@ -33,6 +33,7 @@ function cu_feature_callout_theme_registry_alter(&$theme_registry) {
 function cu_feature_callout_page_alter(&$page) {
   // Add css.
   drupal_add_css(drupal_get_path('module', 'cu_feature_callout') . '/css/cu_feature_callout.css');
+  drupal_add_css(drupal_get_path('module', 'cu_feature_callout') . '/css/feature-callout-block-designer.css');
 }
 
 /**
@@ -77,8 +78,8 @@ function cu_feature_callout_theme(&$existing, $type, $theme, $path) {
     'path' => $template_dir,
     'render element' => 'elements',
   );
-  $registry['cu_feature_callout_item__tile'] = array(
-    'template' => 'cu-feature-callout-item--tile',
+  $registry['cu_feature_callout_item__tiles'] = array(
+    'template' => 'cu-feature-callout-item--tiles',
     'path' => $template_dir,
     'render element' => 'elements',
   );
@@ -104,7 +105,8 @@ function cu_feature_callout_style_themes($style) {
   $themes['offset'] = 'cu_feature_callout_item__columns';
   $themes['cards'] = 'cu_feature_callout_item__columns';
   $themes['overlay'] = 'cu_feature_callout_item__overlay';
-  $themes['tiles'] = 'cu_feature_callout_item__tile';
+  $themes['tiles'] = 'cu_feature_callout_item__tiles';
+  $themes['tiles_alt'] = 'cu_feature_callout_item__tiles';
   $themes['teaser'] = 'cu_feature_callout_item__teaser';
   $themes['tiles_large'] = 'cu_feature_callout_item__tiles_large';
 
@@ -149,11 +151,9 @@ function cu_feature_callout_preprocess_entity(&$vars) {
   // Only preprocess feature callout field collections.
 
   if ($entity_type == 'bean' && $bundle == 'feature_callout') {
-
     $cells = array();
     // Get bean values ready for theming
     $item_vars = array();
-
     // Use h3 for title tag if block has a title, otherwise h2
     $grid_header = !empty($vars['elements']['#entity']->title) ? 'h3' : 'h2';
     // Get the number of columns for formatting.
@@ -351,6 +351,8 @@ function cu_feature_callout_style() {
     'offset' => 'Offset',
     'cards' => 'Cards',
     'teaser' => 'Teaser',
+    'tiles' => 'Tiles',
+    'tiles_alt' => 'Tiles Alternate',
   );
   return $options;
 }
@@ -405,4 +407,25 @@ function cu_feature_callout_backgrounds() {
     'e3e3e3',
   );
   return $colors;
+}
+
+function cu_feature_callout_preprocess_block(&$vars) {
+  if (!empty($vars['elements']['bean'])) {
+
+    $element = $vars['elements']['bean'];
+    $key = current(element_children($element));
+    if ($element[$key]['#bundle'] == 'feature_callout') {
+      $style = $element[$key]['field_callout_style'][0]['#markup'];
+      $vars['classes_array'][] = 'content-grid-style--' . $style;
+    }
+  }
+  elseif (!empty($vars['elements']['content']['bean'])) {
+
+    $element = $vars['elements']['content']['bean'];
+    $key = current(element_children($element));
+    if ($element[$key]['#bundle'] == 'feature_callout') {
+      $style = $element[$key]['field_callout_style'][0]['#markup'];
+      $vars['classes_array'][] = 'content-grid-style--' . $style;
+    }
+  }
 }
