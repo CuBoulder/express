@@ -8,6 +8,17 @@
     margin-right: 5px;
   }
   // Block Styles
+
+  &.exbd-style-white {
+    & > .block-inner {
+      @include block(#fff);
+      color: $text;
+      a:link, a:visited {
+        color:$blue;
+      }
+    }
+  }
+
   &.exbd-style-light-gray {
     & > .block-inner {
       @include block($light_gray);
@@ -258,6 +269,13 @@
    label[for='edit-exbd-style-default'],
    label[for='edit-exbd-style-inherit'] {
      @include styleRadio(null, rgba(255,255,255,0), null, null);
+     &:after {
+       background-image:url(../images/transparent-grid.png);
+       background-position:center center;
+     }
+   }
+   label[for='edit-exbd-style-white'] {
+     @include styleRadio('White', #ffffff, null, null);
    }
    label[for='edit-exbd-style-light-gray'] {
      @include styleRadio('Light Gray', $light_gray, null, null);

@@ -3,6 +3,10 @@
 /* Other colors */
 /* Styles for Block Designer Blocks */
 .exbd-block .exbd-block-icon { display: inline-block; margin-right: 5px; }
+.exbd-block.exbd-style-white > .block-inner { padding: 10px; background-color: white; color: #202020; }
+@media screen and (min-width: 960px) { .exbd-block.exbd-style-white > .block-inner { padding: 20px; } }
+.exbd-block.exbd-style-white > .block-inner > *:last-child { margin-bottom: 0; }
+.exbd-block.exbd-style-white > .block-inner a:link, .exbd-block.exbd-style-white > .block-inner a:visited { color: #007bc8; }
 .exbd-block.exbd-style-light-gray > .block-inner { padding: 10px; background-color: #f4f4f4; color: #202020; }
 @media screen and (min-width: 960px) { .exbd-block.exbd-style-light-gray > .block-inner { padding: 20px; } }
 .exbd-block.exbd-style-light-gray > .block-inner > *:last-child { margin-bottom: 0; }
@@ -66,6 +70,9 @@
 #edit-exbd-style .form-item-exbd-style > * { margin: 0 auto; }
 #edit-exbd-style label[for='edit-exbd-style-none'], #edit-exbd-style label[for='edit-exbd-style-default'], #edit-exbd-style label[for='edit-exbd-style-inherit'] { height: 130px; display: inline-block; }
 #edit-exbd-style label[for='edit-exbd-style-none']:after, #edit-exbd-style label[for='edit-exbd-style-default']:after, #edit-exbd-style label[for='edit-exbd-style-inherit']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #000; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: rgba(255, 255, 255, 0); }
+#edit-exbd-style label[for='edit-exbd-style-none']:after, #edit-exbd-style label[for='edit-exbd-style-default']:after, #edit-exbd-style label[for='edit-exbd-style-inherit']:after { background-image: url(../images/transparent-grid.png); background-position: center center; }
+#edit-exbd-style label[for='edit-exbd-style-white'] { height: 130px; display: inline-block; }
+#edit-exbd-style label[for='edit-exbd-style-white']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #000; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: white; }
 #edit-exbd-style label[for='edit-exbd-style-light-gray'] { height: 130px; display: inline-block; }
 #edit-exbd-style label[for='edit-exbd-style-light-gray']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #000; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: #f4f4f4; }
 #edit-exbd-style label[for='edit-exbd-style-dark-gray'] { height: 130px; display: inline-block; }

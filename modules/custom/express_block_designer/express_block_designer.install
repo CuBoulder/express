@@ -83,7 +83,6 @@ function express_block_designer_schema() {
 function express_block_designer_install() {
   variable_set('express_block_designer_default_values', express_block_designer_default_values());
 
-  variable_set('express_block_designer_inherit_values', express_block_designer_inherit_values());
 
   express_block_designer_migrate();
   module_disable(array(

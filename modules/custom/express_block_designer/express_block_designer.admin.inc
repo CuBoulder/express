@@ -257,6 +257,7 @@ function express_block_designer_form($form, &$form_state, $delta) {
     '#type' => 'radios',
     '#options' => array(
       'default' => 'None',
+      'white' => 'White',
       'light_gray' => 'Light Gray',
       'dark_gray' => 'Dark Gray',
       'tan' => 'Tan',
@@ -455,6 +456,7 @@ function express_block_designer_themes_form($form, &$form_state, $id = NULL) {
     '#type' => 'radios',
     '#options' => array(
       'none' => 'none',
+      'white' => 'White',
       'light_gray' => 'Light Gray',
       'dark_gray' => 'Dark Gray',
       'tan' => 'Tan',

@@ -134,6 +134,55 @@ function express_block_designer_contextual_links_view_alter(&$element, &$items) 
 }
 
 /**
+ * Implements hook_permission().
+ */
+function express_block_designer_permission() {
+  return array(
+    'administer block designer themes' => array(
+      'title' => 'Administer Block Designer',
+      'description' => 'Create/Edit/Delete Block Designer themes',
+    ),
+    'use block designer' => array(
+      'title' => 'Use Block Designer',
+      'description' => 'Set the visual display of blocks',
+    ),
+  );
+}
+
+/*
+ * Implements hook_secure_permissions
+ *
+ * Adding permissions for Block Designer.
+ */
+function express_block_designer_secure_permissions($role) {
+  $permissions = array(
+    'anonymous user' => array(
+    ),
+    'authenticated user' => array(
+    ),
+    'administrator' => array(
+      'administer block designer themes',
+      'use block designer',
+    ),
+    'content_editor' => array(
+      'use block designer',
+    ),
+    'developer' => array(
+      'administer block designer themes',
+      'use block designer',
+    ),
+    'site_owner' => array(
+      'administer block designer themes',
+      'use block designer',
+    ),
+  );
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
  * Implements hook_menu().
  */
 function express_block_designer_menu() {
@@ -144,7 +193,7 @@ function express_block_designer_menu() {
     'title' => 'Block Designer',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_block_designer_form', 1),
-    'access callback' => TRUE,
+    'access callback' => array('use block designer'),
     'file' => 'express_block_designer.admin.inc',
     'type' => MENU_LOCAL_TASK,
   );
@@ -165,7 +214,7 @@ function express_block_designer_menu() {
     'description' => 'Create a Block Designer theme.',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_block_designer_themes_form'),
-    'access arguments' => array('administer express theme picker'),
+    'access arguments' => array('administer block designer themes'),
     'type' => MENU_LOCAL_ACTION,
     'file' => 'express_block_designer.admin.inc',
   );
@@ -175,7 +224,7 @@ function express_block_designer_menu() {
     'description' => 'Preview Block Designer Themes.',
     'page callback' => 'drupal_goto',
     'page arguments' => array('express/preview/block-designer-themes'),
-    'access arguments' => array('administer express theme picker'),
+    'access arguments' => array('use block designer'),
     'type' => MENU_LOCAL_ACTION,
   );
   // Assignments
@@ -183,7 +232,7 @@ function express_block_designer_menu() {
     'title' => 'Block Designer Usage List',
     'description' => 'View a list of blocks using block designer themes',
     'page callback' => 'express_block_designer_list',
-    'access arguments' => array('administer express theme picker'),
+    'access arguments' => array('use block designer'),
     'type' => MENU_LOCAL_ACTION,
     'file' => 'express_block_designer.admin.inc',
   );
@@ -192,7 +241,7 @@ function express_block_designer_menu() {
     'title' => 'Edit Block Designer Theme',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_block_designer_themes_form', 3),
-    'access arguments' => array('administer express theme picker'),
+    'access arguments' => array('administer block designer themes'),
     'file' => 'express_block_designer.admin.inc',
   );
   // Delete Block Designer Theme.
@@ -200,13 +249,13 @@ function express_block_designer_menu() {
     'title' => 'Delete Block Designer Theme',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_block_designer_themes_delete_form', 3),
-    'access arguments' => array('administer express theme picker'),
+    'access arguments' => array('administer block designer themes'),
   );
   // Block Designer Theme preview (all).
   $items['express/preview/block-designer-themes'] = array(
     'title' => 'Block Designer Themes Preview',
     'page callback' => 'express_block_designer_themes_preview',
-    'access arguments' => array('administer express theme picker'),
+    'access arguments' => array('use block designer'),
     'file' => 'express_block_designer.page.inc',
   );
   // Block Designer Theme preview (single).
@@ -214,7 +263,7 @@ function express_block_designer_menu() {
     'title' => 'Block Designer Themes Preview',
     'page callback' => 'express_block_designer_themes_preview',
     'page arguments' => array(3),
-    'access arguments' => array('administer express theme picker'),
+    'access arguments' => array('use block designer'),
     'file' => 'express_block_designer.page.inc',
   );
 
@@ -470,7 +519,7 @@ function express_block_designer_preprocess_block(&$vars) {
     // Apply block designer settings.
 
     // Block title heading.
-    $vars['exbd_heading'] = $exbd_settings['exbd_heading'];
+    $vars['exbd_heading'] = ($exbd_settings['exbd_heading'] == 'default') ? 'h2' : $exbd_settings['exbd_heading'];
 
     // Loop through settings
     foreach ($exbd_settings as $key => $setting) {
