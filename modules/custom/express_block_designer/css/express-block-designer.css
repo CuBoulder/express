@@ -45,14 +45,18 @@
 .exbd-theme-previews { display: flex; flex-direction: row; flex-wrap: wrap; }
 
 /* Display icon options in columns. */
-#edit-exbd-icon { display: flex; flex-direction: row; flex-wrap: wrap; }
-#edit-exbd-icon .form-type-radio { padding: 8px 8px 8px 0; color: #757575; font-size: 85%; width: 100%; }
-@media screen and (min-width: 480px) { #edit-exbd-icon .form-type-radio { width: 50%; } }
-@media screen and (min-width: 768px) { #edit-exbd-icon .form-type-radio { width: 33.333%; } }
-@media screen and (min-width: 960px) { #edit-exbd-icon .form-type-radio { width: 25%; } }
-@media screen and (min-width: 1500px) { #edit-exbd-icon .form-type-radio { width: 20%; } }
-#edit-exbd-icon .form-type-radio:hover { color: #111; }
-#edit-exbd-icon i { font-size: 175%; color: #111; padding: 0 5px; }
+#express-block-designer-form #edit-exbd-icon { display: flex; flex-direction: row; flex-wrap: wrap; /* ICON SEARCH */ }
+#express-block-designer-form #edit-exbd-icon .form-type-radio { padding: 8px 10px 8px 0; color: #757575; font-size: 85%; width: 100%; display: flex; flex-direction: row; align-items: center; }
+#express-block-designer-form #edit-exbd-icon .form-type-radio label { display: flex; flex-direction: row; align-items: center; padding-left: 5px; }
+#express-block-designer-form #edit-exbd-icon .icon-search { padding: 20px 0; }
+#express-block-designer-form #edit-exbd-icon .icon-search-hidden { display: none; }
+#express-block-designer-form #edit-exbd-icon .icon-search-selected { display: flex; }
+@media screen and (min-width: 480px) { #express-block-designer-form #edit-exbd-icon .form-type-radio { width: 50%; } }
+@media screen and (min-width: 768px) { #express-block-designer-form #edit-exbd-icon .form-type-radio { width: 33.333%; } }
+@media screen and (min-width: 960px) { #express-block-designer-form #edit-exbd-icon .form-type-radio { width: 25%; } }
+@media screen and (min-width: 1500px) { #express-block-designer-form #edit-exbd-icon .form-type-radio { width: 20%; } }
+#express-block-designer-form #edit-exbd-icon .form-type-radio:hover { color: #111; }
+#express-block-designer-form #edit-exbd-icon i { font-size: 175%; color: #111; padding: 0 5px; }
 
 .exbd-block-icon.exbd-icon-size-increase { font-size: 200%; }
 .exbd-block-icon.exbd-icon-color-blue { color: #16a2e1; }
@@ -88,10 +92,3 @@
 #edit-exbd-style label[for='edit-exbd-style-outline']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; border: 1px solid #e0e0e0; }
 #edit-exbd-style label[for='edit-exbd-style-underline'] { height: 130px; display: inline-block; }
 #edit-exbd-style label[for='edit-exbd-style-underline']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; border-bottom: 1px solid #e0e0e0; }
-
-/* ICON SEARCH */
-.icon-search { padding: 20px 0; }
-
-.icon-search-hidden { display: none; }
-
-.icon-search-selected { display: block; }

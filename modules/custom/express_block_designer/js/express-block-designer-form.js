@@ -4,7 +4,7 @@
     $('#edit-icon #edit-exbd-icon').before(search);
 
     $('.icon-search-field').on('input', function(event){
-      var query = $('.icon-search-field').val();
+      var query = $('.icon-search-field').val().toLowerCase();
 
       if (query == '') {
         $('#edit-exbd-icon .form-item-exbd-icon').removeClass('icon-search-selected').removeClass('icon-search-hidden');
