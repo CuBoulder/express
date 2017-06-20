@@ -1,4 +1,5 @@
-Feature: Cu Settings
+Feature: CU Settings
+  An Express user should see the following options on the Express Settings pages.
 
   @api @settings
   Scenario Outline: Content editors should not be able to access settings
@@ -103,3 +104,42 @@ Feature: Cu Settings
       And I go to the homepage
     Then I should see "Put site contact information here"
 
+  @api @settings @cache
+  Scenario Outline: A site_owner/administrator/developer should be able to see and use cache clearing.
+    Given Given  CU - I am logged in as a user with the <role> role
+      When I go to "admin/settings"
+    Then I should see <message>
+    When I go to "admin/settings/admin/clear-cache"
+      And I press "Clear Full Drupal Cache"
+    Then I should see "The Drupal cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until"
+    When I go to "admin/settings/admin/clear-cache/varnish-full"
+      And I press "Clear Full Varnish Cache"
+    Then I should see "The whole Varnish cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until"
+    When I go to "admin/settings/admin/clear-cache/varnish-path"
+      And I fill in "Path To Clear" with "node/1"
+      And I press "Clear Path From Varnish Cache"
+    Then I should see "URL cleared from Varnish cache."
+
+  Examples:
+  | role           | message        |
+  | site_owner     | "Clear Caches" |
+  | administrator  | "Clear Caches" |
+  | developer      | "Clear Caches" |
+
+  @api @settings @cache
+  Scenario Outline: A content_editor/edit_my_content should not be able to see and use cache clearing.
+    Given Given  CU - I am logged in as a user with the <role> role
+    When I go to "admin/settings/admin/clear-cache"
+      Then I should see <message>
+    When I go to "admin/settings/admin/clear-cache/varnish-full"
+      Then I should see <message>
+    When I go to "admin/settings/admin/clear-cache/varnish-path"
+      Then I should see <message>
+    When I got to "node/1/clear-varnish"
+      Then I should see <message>
+
+  Examples:
+  | role             | message         |
+  | content_editor   | "Access Denied" |
+  | edit_my_content  | "Access Denied" |
+  | authenticated    | "Access Denied" |
