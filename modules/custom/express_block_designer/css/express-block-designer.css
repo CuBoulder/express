@@ -45,9 +45,12 @@
 .exbd-theme-previews { display: flex; flex-direction: row; flex-wrap: wrap; }
 
 /* Display icon options in columns. */
-@media screen and (min-width: 768px) { #edit-exbd-icon { -webkit-column-count: 4; -webkit-column-gap: 20px; -webkit-column-rule: 1px solid #ddd; -moz-column-count: 4; -moz-column-gap: 20px; -moz-column-rule: 1px solid #ddd; column-count: 4; column-gap: 20px; column-rule: 1px solid #ddd; } }
-@media screen and (min-width: 960px) { #edit-exbd-icon { -webkit-column-count: 6; -webkit-column-gap: 20px; -webkit-column-rule: 1px solid #ddd; -moz-column-count: 6; -moz-column-gap: 20px; -moz-column-rule: 1px solid #ddd; column-count: 6; column-gap: 20px; column-rule: 1px solid #ddd; } }
-#edit-exbd-icon .form-type-radio { padding: 5px; color: #757575; font-size: 85%; }
+#edit-exbd-icon { display: flex; flex-direction: row; flex-wrap: wrap; }
+#edit-exbd-icon .form-type-radio { padding: 8px 8px 8px 0; color: #757575; font-size: 85%; width: 100%; }
+@media screen and (min-width: 480px) { #edit-exbd-icon .form-type-radio { width: 50%; } }
+@media screen and (min-width: 768px) { #edit-exbd-icon .form-type-radio { width: 33.333%; } }
+@media screen and (min-width: 960px) { #edit-exbd-icon .form-type-radio { width: 25%; } }
+@media screen and (min-width: 1500px) { #edit-exbd-icon .form-type-radio { width: 20%; } }
 #edit-exbd-icon .form-type-radio:hover { color: #111; }
 #edit-exbd-icon i { font-size: 175%; color: #111; padding: 0 5px; }
 
@@ -85,3 +88,10 @@
 #edit-exbd-style label[for='edit-exbd-style-outline']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; border: 1px solid #e0e0e0; }
 #edit-exbd-style label[for='edit-exbd-style-underline'] { height: 130px; display: inline-block; }
 #edit-exbd-style label[for='edit-exbd-style-underline']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; border-bottom: 1px solid #e0e0e0; }
+
+/* ICON SEARCH */
+.icon-search { padding: 20px 0; }
+
+.icon-search-hidden { display: none; }
+
+.icon-search-selected { display: block; }

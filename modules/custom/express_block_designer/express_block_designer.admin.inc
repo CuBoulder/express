@@ -47,6 +47,9 @@ function express_block_designer_themes_list() {
  * Form for editing Block Designer settings for a given block.
  */
 function express_block_designer_form($form, &$form_state, $delta) {
+
+  drupal_add_js(drupal_get_path('module', 'express_block_designer') . '/js/express-block-designer-form.js');
+
   $form = array();
 
   // TODO: get module names of non-bean blocks.

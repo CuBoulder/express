@@ -155,38 +155,36 @@
 
 /* Display icon options in columns. */
 #edit-exbd-icon {
-  @media screen and (min-width:768px) {
-    -webkit-column-count: 4;
-    -webkit-column-gap: 20px;
-    -webkit-column-rule: 1px solid #ddd;
-
-    -moz-column-count: 4;
-    -moz-column-gap: 20px;
-    -moz-column-rule: 1px solid #ddd;
-
-    column-count: 4;
-    column-gap: 20px;
-    column-rule: 1px solid #ddd;
-  }
-  @media screen and (min-width: 960px) {
-    -webkit-column-count: 6;
-    -webkit-column-gap: 20px;
-    -webkit-column-rule: 1px solid #ddd;
-
-    -moz-column-count: 6;
-    -moz-column-gap: 20px;
-    -moz-column-rule: 1px solid #ddd;
-
-    column-count: 6;
-    column-gap: 20px;
-    column-rule: 1px solid #ddd;
-  }
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 
 
   .form-type-radio {
-    padding:5px;
+    padding:8px 8px 8px 0;
     color:#757575;
     font-size: 85%;
+    width:100%;
+  }
+  @media screen and (min-width: 480px) {
+    .form-type-radio {
+      width:50%;
+    }
+  }
+  @media screen and (min-width: 768px) {
+    .form-type-radio {
+      width:33.333%;
+    }
+  }
+  @media screen and (min-width: 960px) {
+    .form-type-radio {
+      width:25%;
+    }
+  }
+  @media screen and (min-width: 1500px) {
+    .form-type-radio {
+      width:20%;
+    }
   }
   .form-type-radio:hover {
     color:#111;
@@ -296,4 +294,15 @@
    label[for='edit-exbd-style-underline'] {
      @include styleRadio(null, null, null, $border_color);
    }
+}
+
+/* ICON SEARCH */
+.icon-search {
+  padding:20px 0;
+}
+.icon-search-hidden {
+  display: none;
+}
+.icon-search-selected {
+  display: block;
 }
