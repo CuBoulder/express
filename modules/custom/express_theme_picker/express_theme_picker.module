@@ -46,7 +46,7 @@ function express_theme_picker_menu() {
     'weight' => 8,
   );
   $items['admin/theme/list'] = array(
-    'title' => 'Themes',
+    'title' => 'Site Themes',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'page callback' => 'express_theme_picker_list',
     //'page arguments' => array('express_theme_picker_settings_form'),
