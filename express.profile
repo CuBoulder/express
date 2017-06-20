@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * @file
+ * Configure Express.
+ */
+
+const MINIMUM_CORE = '7.54';
+
 /**
  * Implements hook_form_FORM_ID_alter().
  *
