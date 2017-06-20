@@ -193,7 +193,7 @@ function express_block_designer_menu() {
     'title' => 'Block Designer',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_block_designer_form', 1),
-    'access callback' => array('use block designer'),
+    'access arguments' => array('use block designer'),
     'file' => 'express_block_designer.admin.inc',
     'type' => MENU_LOCAL_TASK,
   );
