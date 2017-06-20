@@ -547,7 +547,7 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
     }
   }
   else {
-    $path = drupal_get_path_alias('node/' . $form['nid']['#value']);
+    $path = drupal_get_path_alias('node/' . arg(1));
   }
   // Cast form value as an array.
   varnish_expire_cache((array) $path);
