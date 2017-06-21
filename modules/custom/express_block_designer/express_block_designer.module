@@ -196,6 +196,7 @@ function express_block_designer_menu() {
     'access arguments' => array('use block designer'),
     'file' => 'express_block_designer.admin.inc',
     'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
   );
 
   // Block Designer Themes.
@@ -322,7 +323,7 @@ function express_block_designer_form_submit(&$form, &$form_state) {
     'module' => $form_state['values']['module'],
     'module_block_delta' => $form_state['values']['module_block_delta'],
     'settings' => $settings,
-    'theme' => $form_state['values']['block_theme'],
+    'theme' => !empty($form_state['values']['block_theme']) ? $form_state['values']['block_theme'] : NULL,
   );
 
   $saved = express_block_designer_save($configs);

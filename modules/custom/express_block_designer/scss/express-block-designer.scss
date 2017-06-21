@@ -1,6 +1,10 @@
 @import "modules/_colors.scss";
 @import "modules/_global.scss";
 
+ul.tabs--primary li a.block-designer:before {
+    content: "\f1fc";
+}
+
 /* Styles for Block Designer Blocks */
 .exbd-block {
   .exbd-block-icon {
@@ -80,6 +84,12 @@
 
   }
   // Icons Positions
+  &.exbd-icon-position-default > .block-inner > .exbd-block-title > .block-title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
   &.exbd-icon-position-top > .block-inner > .exbd-block-title {
     & .exbd-block-title-text {
       display: block;
@@ -101,7 +111,7 @@
       float:left;
       margin-bottom: 75px;
       margin-right:10px;
-      font-size: 110%;
+      padding-top: 5px;
       &.exbd-icon-size-increase {
         font-size: 160%;
       }
@@ -155,7 +165,9 @@
 
 /* Display icon options in columns. */
 #express-block-designer-form {
-
+  .icon-search {
+    padding:20px 0;
+  }
 }
 #express-block-designer-form #edit-exbd-icon {
   display: flex;
@@ -171,6 +183,9 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    input {
+      width:20px;
+    }
     label {
       display: flex;
       flex-direction: row;
@@ -179,9 +194,7 @@
     }
   }
   /* ICON SEARCH */
-  .icon-search {
-    padding:20px 0;
-  }
+
   .icon-search-hidden {
     display: none;
   }
@@ -276,15 +289,30 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    flex-grow: 0;
     flex-shrink: 0;
-    min-width: 80px;
+    width:100%;
     position: relative;
     margin-bottom: 20px;
     & > * {
       margin: 0 auto;
 
     }
+   }
+   @media screen and (min-width:480px) {
+     .form-item-exbd-style {
+       width:50%;
+     }
+   }
+   @media screen and (min-width:768px) {
+     .form-item-exbd-style {
+       width:33.333%;
+     }
+   }
+   @media screen and (min-width:960px) {
+     .form-item-exbd-style {
+       width:25%;
+     }
    }
    label[for='edit-exbd-style-none'],
    label[for='edit-exbd-style-default'],
