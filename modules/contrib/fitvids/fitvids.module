@@ -131,7 +131,6 @@ function fitvids_form($form, &$form_state) {
  * Include the FitVids.js script on every page
  */
 function fitvids_page_build(&$page) {
-  dsm($page);
 
   // Is the library installed?
   $path = libraries_get_path('fitvids') . '/jquery.fitvids.js';
