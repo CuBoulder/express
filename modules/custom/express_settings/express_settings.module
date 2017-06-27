@@ -16,9 +16,13 @@ function express_settings_permission() {
       'title' => 'Administer Redirect Settings',
       'description' => 'Overrides some permissions of the Redirect contrib project to expose specific settings to users',
     ),
-    'administer cache settings' => array(
-      'title' => 'Administer Cache Settings',
-      'description' => 'Gives users access to reset cache and some cache realted settings',
+    'clear path caches' => array(
+      'title' => 'Clear Path Caches',
+      'description' => 'Gives users access clear varnish by path',
+    ),
+    'clear full caches' => array(
+      'title' => 'Clears Full Caches',
+      'description' => 'Gives users access clear varnish by path',
     ),
   );
 }
@@ -107,66 +111,61 @@ function express_settings_menu() {
     'weight' => 0,
   );
 
-  // DEFINES ADMINSTRATOR SECTION
-  $items['admin/settings/admin'] = array(
-    'title' => 'Administrator',
+  // DEFINES CACHE SECTION
+  $items['admin/settings/cache'] = array(
+    'title' => 'Cache',
     'description' => '',
     'position' => 'left',
     'page callback' => 'system_admin_menu_block_page',
-    'access arguments' => array('administer express settings'),
+    'access arguments' => array('clear full caches'),
     'file' => 'system.admin.inc',
     'file path' => drupal_get_path('module', 'system'),
     'weight' => 99,
   );
 
-  $items['admin/settings/admin/bundle-settings'] = array(
-    'title' => 'Bundle Settings',
-    'description' => 'Control which bundles are visible to users',
-    'type' => MENU_NORMAL_ITEM,
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('profile_module_manager_admin_settings'),
-    'access arguments' => array('configure profile module manager'),
-    'file' => 'profile_module_manager.admin.inc',
-    'file path' => drupal_get_path('module', 'profile_module_manager'),
-    'weight' => -10,
-  );
-
   // Cache clearing via admin/settings.
-  $items['admin/settings/admin/clear-cache'] = array(
+  $items['admin/settings/cache/clear'] = array(
     'title' => 'Clear Caches',
     'description' => 'Invalidate various caches.',
     'type' => MENU_NORMAL_ITEM,
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('express_settings_drupal_cache_form'),
-    'access arguments' => array('administer cache settings'),
+    'page callback' => 'express_settings_cache_clear_landing',
+    'access arguments' => array('clear full caches'),
     'weight' => 0,
   );
-  $items['admin/settings/admin/clear-cache/drupal'] = array(
-    'title' => 'Clear Drupal Cache',
-    'description' => 'Invalidate Drupal Page Cache.',
+ $items['admin/settings/cache/clear/help'] = array(
+    'title' => 'Clear Caches',
+    'description' => 'Invalidate various caches.',
     'type' => MENU_DEFAULT_LOCAL_TASK,
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('express_settings_drupal_cache_form'),
-    'access arguments' => array('administer cache settings'),
+    'page callback' => 'express_settings_cache_clear_landing',
+    'access arguments' => array('clear full caches'),
     'weight' => 0,
   );
-  $items['admin/settings/admin/clear-cache/varnish-path'] = array(
-    'title' => 'Clear Varnish Path Cache',
+ $items['admin/settings/cache/clear/varnish-path'] = array(
+    'title' => 'Clear Varnish Path',
     'description' => 'Clear Varnish Page By Path.',
     'type' => MENU_LOCAL_TASK,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_settings_varnish_path_cache_form'),
-    'access arguments' => array('administer cache settings'),
+    'access arguments' => array('clear path caches'),
     'weight' => 1,
   );
-  $items['admin/settings/admin/clear-cache/varnish-full'] = array(
-    'title' => 'Clear Varnish Full Cache',
+  $items['admin/settings/cache/clear/drupal-full'] = array(
+    'title' => 'Clear Drupal Full',
+    'description' => 'Invalidate Drupal Page Cache.',
+    'type' => MENU_LOCAL_TASK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('express_settings_drupal_cache_form'),
+    'access arguments' => array('clear full caches'),
+    'weight' => 2,
+  );
+  $items['admin/settings/cache/clear/varnish-full'] = array(
+    'title' => 'Clear Varnish Full',
     'description' => 'Clear Entire Varnish Cache.',
     'type' => MENU_LOCAL_TASK,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_settings_varnish_site_cache_form'),
-    'access arguments' => array('administer cache settings'),
-    'weight' => 1,
+    'access arguments' => array('clear full caches'),
+    'weight' => 3,
   );
 
   // Node-level cache clearing.
@@ -176,11 +175,25 @@ function express_settings_menu() {
     'type' => MENU_LOCAL_TASK,
     'page callback' => 'express_settings_varnish_path_redirect',
     'page arguments' => array('test'),
-    'access arguments' => array('administer cache settings'),
+    'access arguments' => array('clear path caches'),
     'weight' => 999,
   );
 
   return $items;
+}
+
+
+/**
+ * Landing page for
+ */
+function express_settings_cache_clear_landing() {
+
+ return "<p>To ensure the Web Express platform delivers fast websites, we cache or store information
+ (such as web pages, images, and files) to reduce bandwidth usage and increase speed.</p>
+ <p>Our caches are designed to keep themselves 'current' and under normal conditions you won't
+ need to interact with them, but occasionally there are problems that require you to
+ clear one or more cache. Each time you clear a cache, you temporarily reduce the performance
+ of the site for yourself, other editors, and your site's visitors.</p>";
 }
 
 /**
@@ -190,7 +203,7 @@ function express_settings_menu() {
 function express_settings_varnish_path_redirect($path) {
 
   $path = explode('/clear-varnish', current_path());
-  drupal_goto('admin/settings/admin/clear-cache/varnish-path', array('query' => array('destination' => $path[0])));
+  drupal_goto('admin/settings/cache/clear/varnish-path', array('query' => array('destination' => $path[0])));
 
 }
 
@@ -552,42 +565,17 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
       }
     }
   }
-  else {
-    $path = drupal_get_path_alias('node/' . $form['nid']['#value']);
+
+  $path = base_path() . drupal_get_path_alias($path);
+
+  if ($path == base_path() . 'home') {
+    $path = base_path();
   }
+
   // Cast form value as an array.
   varnish_expire_cache((array) $path);
-  drupal_set_message(t('URL cleared from Varnish cache.'));
+  drupal_set_message(t('!path cleared from Varnish cache.', array('!path' => $path)));
 
-}
-
-/**
- * Form alter to add Varnish clear buttons to all node/edit forms.
- */
-function express_settings_clear_varnish_node() {
-  drupal_set_title('Clear Varnish Cache');
-
-  $form = array();
-
-  $form['varnish'] = array(
-    '#type' => 'fieldset',
-    '#title' => 'Varnish Cache',
-  );
-
-  $form['varnish']['varnish_markup'] = array(
-    '#type' => 'markup',
-    '#markup' => '<ul><li><strong>When to clear:</strong> You see different things when you load the same webpage logged-in vs logged-out <em>(you can use an alternate browser, incognito mode, or private browsing mode to see both versions on the same computer at the same time)</em>.</li><li><strong>What it caches</strong>: Complete web pages and files for all anonymous users.</li></ul><br>',
-  );
-
-  $form['varnish']['actions']['clear_varnish_path_cache'] = array(
-    '#type' => 'submit',
-    '#value' => t('Clear Varnish Page Cache'),
-    '#weight' => 9999,
-    '#submit' => array('express_settings_clear_varnish_path_cache_submit'),
-    '#attributes' => array('class' => array('btn-warning')),
-  );
-
-  return $form;
 }
 
 /**
@@ -646,7 +634,7 @@ function express_settings_management_page() {
 
   $blocks = array();
   if ($admin = db_query("SELECT menu_name, mlid FROM {menu_links} WHERE link_path = 'admin/settings'")->fetchAssoc()) {
-    //dsm($admin);
+
     $result = db_query("
       SELECT m.*, ml.*
       FROM {menu_links} ml
@@ -655,7 +643,7 @@ function express_settings_management_page() {
 
     // SELECT m.*, ml.* FROM menu_links ml INNER JOIN menu_router m ON ml.router_path = m.path WHERE menu_name = 'management' AND ml.plid = 559 AND hidden = 0
     foreach ($result as $item) {
-      //dsm($item);
+
       _menu_link_translate($item);
       if (!$item['access']) {
         continue;
