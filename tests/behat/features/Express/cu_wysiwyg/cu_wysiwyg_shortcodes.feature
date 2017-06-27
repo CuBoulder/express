@@ -156,3 +156,4 @@ I should be able to use the full functionality of the WYSIWYG editor
       And I press the "Save" button
       And I wait for 4 seconds
     Then I should see "5000"
+      And I should not see "[countup]5000[/countup]"
