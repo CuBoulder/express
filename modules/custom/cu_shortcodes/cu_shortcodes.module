@@ -556,8 +556,7 @@ function cu_shortcodes_column_demo() {
  * Countup shortcode.
  */
 function cu_shortcodes_countup($attrs, $content = NULL) {
-  extract(shortcode_attrs(array(
-      ), $attrs));
+  extract(shortcode_attrs(array(), $attrs));
 
   $output = '<span class="counter">' . $content . '</span>';
   return $output;

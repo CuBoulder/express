@@ -709,7 +709,8 @@ function cu_core_update_7024() {
 }
 
 /**
- * Express 2.5 Update
+ * Express 2.5.0 Update.
+ *
  * Revert Features.
  */
 function cu_core_update_7025() {
