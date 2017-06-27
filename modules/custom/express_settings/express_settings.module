@@ -568,6 +568,7 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
 
   $path = base_path() . drupal_get_path_alias($path);
 
+  // for home we want to clear the base_path
   if ($path == base_path() . 'home') {
     $path = base_path();
   }
