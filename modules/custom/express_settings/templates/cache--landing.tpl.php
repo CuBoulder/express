@@ -1,18 +1,17 @@
 <p>To ensure that sites hosted on the Web Express platform load quickly, web pages, images, and files are cached or stored temporarily at a few different levels.</p>
 
 <p>Our caches are designed to keep themselves current and expire without . Under normal conditions you won't
-need to clear them, but occasionally there are problems that require clearing one or more cache. 
+need to clear them, but occasionally there are problems that require clearing one or more cache.
 Each time a cache is cleared, it temporarily reduces the performance of the site for editors and visitors.</p>
 
 <h2>Which Cache to Clear?</h2>
 
 <div class="express-cards">
-  <div class="express-card" data-width="one-third">
+  <div class="express-card col-lg-4 col-md-4 col-sm-6 col-xs-12">
     <div class="content">
-      <i class="fa fa-laptop" aria-hidden="true"></i> <i class="fa fa-arrow-right" aria-hidden="true"></i>
-      <h3>Browser Cache</h3>
+      <h3 class="title-center"><i class="fa fa-laptop fa-4x" aria-hidden="true"></i><br />Browser Cache</h3>
       <p>
-      This is the layer of caching most users are familar with and must be cleared by each user on their computer, tablet or mobile device.       
+      This is the layer of caching most users are familar with and must be cleared by each user on their computer, tablet or mobile device.
       </p>
       <p>
       <b>When to clear:</b> You and your co-worker see different things when you view the same webpage on different computers when you are both logged in or both anonymous.
@@ -22,12 +21,12 @@ Each time a cache is cleared, it temporarily reduces the performance of the site
       </p>
     </div>
   </div>
-  <div class="express-card" data-width="one-third">
+  <div class="express-card  col-lg-4 col-md-4 col-sm-6 col-xs-12">
     <div class="content">
-      <i class="fa fa-arrow-left" aria-hidden="true"></i> <i class="fa fa-cloud" aria-hidden="true"></i> <i class="fa fa-arrow-right" aria-hidden="true"></i>
-      <h3>Intermediate Cache</h3>
+
+      <h3 class="title-center"><i class="fa fa-cloud fa-4x" aria-hidden="true"></i><br />Intermediate Cache</h3>
       <p>
-      This caches content based on visitor requests between the browser and the web servers for up to 10 minutes.          
+      This caches content based on visitor requests between the browser and the web servers for up to 10 minutes.
       </p>
       <p>
       <b>When to clear:</b> A page looks correct to you while logged in, but incorrect when you are not logged in on the same computer.
@@ -37,10 +36,9 @@ Each time a cache is cleared, it temporarily reduces the performance of the site
       </p>
     </div>
   </div>
-  <div class="express-card"  data-width="one-third">
+  <div class="express-card  col-lg-4 col-md-4 col-sm-6 col-xs-12">
     <div class="content">
-      <i class="fa fa-arrow-left" aria-hidden="true"></i> <i class="fa fa-server" aria-hidden="true"></i>
-      <h3>Web Express Cache</h3>
+      <h3 class="title-center"><i class="fa fa-server fa-4x" aria-hidden="true"></i> <br />Web Express Cache</h3>
       <p>
       This caches content of the site on servers hosting the Web Express sites.  Site Owners can clear the entire Web Express Cache for their site once an hour.
       </p>
