@@ -709,6 +709,59 @@ function cu_core_update_7024() {
 }
 
 /**
+ * Deprecate cu_collections.
+ */
+function cu_core_update_7025() {
+  // See if collections module is enabled.
+  if (db_query("SELECT status FROM {system} WHERE name = 'cu_collections'")->fetchColumn()) {
+
+    // List modules that need to be disabled and uninstalled.
+    $old_modules = array(
+      'cu_collections',
+    );
+
+    // If enabled see if there is a collection item or grid.
+    if (db_query("SELECT * FROM {node} WHERE type = 'collection_item'")->rowCount() || db_query("SELECT * FROM {bean} WHERE type = 'collection_grid'")->rowCount()) {
+      // Add external repo.
+      $atlas_id = variable_get('atlas_id');
+      $bundle_name = 'express_collections_bundle';
+
+      // Get code asset.
+      $result = atlas_api_request('code', 'where={"meta.name":"' . $bundle_name . '"}');
+      // Newest code asset will always be last.
+      // Could compare updated dates to be more accurate.
+      $asset = array_pop($result['_items']);
+      $id = $asset['_id'];
+
+      // Get site record.
+      $site_array = atlas_api_request('sites', $atlas_id);
+
+      // Add data together for patch.
+      $request_data = array();
+      $request_data['code']['package'] = array_merge($site_array['code']['package'], array($id));
+      $request_data['_etag'] = $site_array['_etag'];
+
+      // Make request to Atlas to PATCH packages.
+      atlas_api_request('sites', $atlas_id, 'PATCH', $request_data);
+
+      // Enable the module since it might have a different name.
+      module_enable(array($bundle_name));
+
+      // @todo Need to rebuild nodes or beans? The old ones would be tied to the old machine name.
+
+      // Disable old bundle modules.
+      // Don't uninstall modules for fear of losing content.
+      module_disable($old_modules, FALSE);
+      return;
+    }
+
+    // Disable and uninstall unused bundle.
+    module_disable($old_modules, FALSE);
+    drupal_uninstall_modules($old_modules, FALSE);
+  }
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
