@@ -8,9 +8,13 @@
  */
 function express_settings_permission() {
   return array(
+    'access express settings' => array(
+      'title' => 'Access Express Settings',
+      'description' => 'Access admin/settings',
+    ),
     'administer express settings' => array(
       'title' => 'Administer Express Settings',
-      'description' => 'Access admin/settings to configure settings',
+      'description' => 'Configure settings in admin/settings',
     ),
     'administer redirect settings' => array(
       'title' => 'Administer Redirect Settings',
@@ -39,7 +43,7 @@ function express_settings_menu() {
     'title' => 'Settings',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'express_settings_management_page',
-    'access arguments' => array('administer express settings'),
+    'access arguments' => array('access express settings'),
     'weight' => 8,
   );
 
@@ -117,7 +121,7 @@ function express_settings_menu() {
     'description' => '',
     'position' => 'left',
     'page callback' => 'system_admin_menu_block_page',
-    'access arguments' => array('clear full caches'),
+    'access arguments' => array('access express settings'),
     'file' => 'system.admin.inc',
     'file path' => drupal_get_path('module', 'system'),
     'weight' => 99,
@@ -129,7 +133,7 @@ function express_settings_menu() {
     'description' => 'Invalidate various caches.',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'express_settings_cache_clear_landing',
-    'access arguments' => array('clear full caches'),
+    'access arguments' => array('access express settings'),
     'weight' => 0,
   );
  $items['admin/settings/cache/clear/help'] = array(
@@ -137,7 +141,7 @@ function express_settings_menu() {
     'description' => 'Invalidate various caches.',
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'page callback' => 'express_settings_cache_clear_landing',
-    'access arguments' => array('clear full caches'),
+    'access arguments' => array('access express settings'),
     'weight' => 0,
   );
  $items['admin/settings/cache/clear/varnish-path'] = array(
