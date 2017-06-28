@@ -187,13 +187,9 @@ function express_settings_menu() {
  * Landing page for
  */
 function express_settings_cache_clear_landing() {
+  $content = file_get_contents(drupal_get_path('module', 'express_settings') . '/templates/cache--landing.tpl.php');
 
- return "<p>To ensure the Web Express platform delivers fast websites, we cache or store information
- (such as web pages, images, and files) to reduce bandwidth usage and increase speed.</p>
- <p>Our caches are designed to keep themselves 'current' and under normal conditions you won't
- need to interact with them, but occasionally there are problems that require you to
- clear one or more cache. Each time you clear a cache, you temporarily reduce the performance
- of the site for yourself, other editors, and your site's visitors.</p>";
+  return $content;
 }
 
 /**
