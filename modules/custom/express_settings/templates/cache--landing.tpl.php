@@ -1,67 +1,56 @@
-<p>To ensure the Web Express platform delivers fast websites, we cache or store information
-(such as web pages, images, and files) to reduce bandwidth usage and increase speed.</p>
+<p>To ensure that sites hosted on the Web Express platform load quickly, web pages, images, and files are cached or stored temporarily at a few different levels.</p>
 
-<p>Our caches are designed to keep themselves 'current', and under normal conditions you won't
-need to interact with them, but occasionally there are problems that require you to
-clear one or more cache. Each time you clear a cache, you temporarily reduce the performance
-of the site for yourself, other editors, and your site's visitors.</p>
+<p>Our caches are designed to keep themselves current and expire without . Under normal conditions you won't
+need to clear them, but occasionally there are problems that require clearing one or more cache. 
+Each time a cache is cleared, it temporarily reduces the performance of the site for editors and visitors.</p>
 
-<h2>Web Express Cache Types</h2>
+<h2>Which Cache to Clear?</h2>
 
 <div class="express-cards">
   <div class="express-card" data-width="one-third">
     <div class="content">
+      <i class="fa fa-laptop" aria-hidden="true"></i> <i class="fa fa-arrow-right" aria-hidden="true"></i>
       <h3>Browser Cache</h3>
       <p>
-        Vivamus conubia Eleifend ridiculus pretium vivamus aenean. Et dolor rhoncus sapien curabitur a cum. Accumsan sem habitant. Tristique natoque tristique semper euismod porta mattis cum phasellus amet dapibus tincidunt nam, semper cum condimentum. Urna ipsum. Tortor. Consectetuer pharetra dis sociosqu.
+      This is the layer of caching most users are familar with and must be cleared by each user on their computer, tablet or mobile device.       
       </p>
-
+      <p>
+      <b>When to clear:</b> You and your co-worker see different things when you view the same webpage on different computers when you are both logged in or both anonymous.
+      </p>
+      <p>
+      <b>How to clear:</b> OIT maintains <a href="https://oit.colorado.edu/services/network-internet-services/ucb-wireless/tips-tricks/clear-browser-cache">step by step instructions for clearing browser caches for different browsers and operating systems</a>.
+      </p>
     </div>
   </div>
   <div class="express-card" data-width="one-third">
     <div class="content">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i> <i class="fa fa-cloud" aria-hidden="true"></i> <i class="fa fa-arrow-right" aria-hidden="true"></i>
       <h3>Intermediate Cache</h3>
       <p>
-        Vivamus conubia Eleifend ridiculus pretium vivamus aenean. Et dolor rhoncus sapien curabitur a cum. Accumsan sem habitant. Tristique natoque tristique semper euismod porta mattis cum phasellus amet dapibus tincidunt nam, semper cum condimentum. Urna ipsum. Tortor. Consectetuer pharetra dis sociosqu.
+      This caches content based on visitor requests between the browser and the web servers for up to 10 minutes.          
       </p>
-
+      <p>
+      <b>When to clear:</b> A page looks correct to you while logged in, but incorrect when you are not logged in on the same computer.
+      </p>
+      <p>
+      <b>How to clear:</b> Site Owners and Content Editors can clear the cache of any path at any time by <a href="clear/varnish-path">entering the path</a> or using the link to Clear Intermediate Cache found next to Edit Layout on every page.  Site Owners can <a href="clear/varnish-full">clear the entire Intermediate Cache for the site</a> once an hour.
+      </p>
     </div>
   </div>
   <div class="express-card"  data-width="one-third">
     <div class="content">
+      <i class="fa fa-arrow-left" aria-hidden="true"></i> <i class="fa fa-server" aria-hidden="true"></i>
       <h3>Web Express Cache</h3>
       <p>
-        Potenti duis. Ligula pellentesque. Dis erat vivamus habitasse conubia dictum proin cursus sollicitudin vehicula. Nullam velit enim inceptos morbi pharetra. Est urna faucibus ipsum, nisi inceptos curae; fermentum nunc facilisi conubia urna fermentum. Eros. Rutrum dictumst inceptos at non lorem.
+      This caches content of the site on servers hosting the Web Express sites.  Site Owners can clear the entire Web Express Cache for their site once an hour.
       </p>
-    </div>
-  </div>
-
-</div>
-
-<div class="express-cards">
-  <div class="express-card" data-width="full">
-    <div class="content">
-      <h2>Which cache should be cleared?</h2>
       <p>
-        Vivamus conubia Eleifend ridiculus pretium vivamus aenean. Et dolor rhoncus sapien curabitur a cum. Accumsan sem habitant. Tristique natoque tristique semper euismod porta mattis cum phasellus amet dapibus tincidunt nam, semper cum condimentum. Urna ipsum. Tortor. Consectetuer pharetra dis sociosqu.
+      <b>When to clear:</b> A page looks incorrect to you while logged in.
       </p>
-      <div class="express-select-links">
-        <button>Select One</button>
-        <ul id="express-cache-select-options">
-          <li>
-            <a href="#">Choice Number One</a>
-          </li>
-          <li>
-            <a href="#">Choice Number Two</a>
-          </li>
-          <li>
-            <a href="#">Choice Number Three</a>
-          </li>
-          <li>
-            <a href="#">Choice Number Four</a>
-          </li>
-        </ul>
-      </div>
+      <p>
+      <b>How to clear:</b> Site Owners can <a href="clear/drupal-full">clear the entire Web Express Cache for the site</a> once an hour.
+      </p>
     </div>
   </div>
+
 </div>
