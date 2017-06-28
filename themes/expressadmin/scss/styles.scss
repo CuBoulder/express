@@ -986,3 +986,113 @@ ul.bullet-list {
   color: $green;
 
 }
+
+
+.navbar-tab a {
+  transition: background 1mpasss ease, background-color 1s ease;
+}
+
+/* Colors & Backgrounds */
+
+.success-color {
+  color: $green;
+}
+.success-background {
+  background: rgba($green, .1);
+}
+
+.warning-color {
+  color: $red;
+}
+.warning-background {
+  background: rgba($red, .1);
+}
+
+.express-cards,
+.express-columns {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin:0 -20px;
+  margin-bottom: 20px;
+  .express-card,
+  .express-column {
+    padding:0 20px;
+    width:100%;
+    @media screen and (min-width:768px) {
+      &[data-width="full"] {
+        width:100%;
+      }
+      &[data-width="one-half"] {
+        width:50%;
+      }
+      &[data-width="two-thirds"] {
+        width:66.666%;
+      }
+      &[data-width="one-third"] {
+        width:33.333%;
+      }
+      &[data-width="three-quarters"] {
+        width:75%;
+      }
+      &[data-width="one-quarter"] {
+        width:25%;
+      }
+      &[data-width="four-fifths"] {
+        width:80%;
+      }
+      &[data-width="three-fifths"] {
+        width:60%;
+      }
+      &[data-width="two-fifths"] {
+        width:40%;
+      }
+      &[data-width="one-fifth"] {
+        width:20%;
+      }
+    }
+  }
+  .express-card {
+    display: flex;
+    align-items: stretch;
+    .content {
+      padding:20px;
+      border:1px solid #e7e7e7;
+      & > *:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.express-select-links {
+  & > button {
+    border:none;
+    font-size: 100%;
+    display: block;
+    width:100%;
+    text-align: left;
+    max-width: 240px;
+    padding:10px 30px 10px 10px;
+    background: $blue;
+    color:#fff;
+    position: relative;
+    &:after {
+      content: '\f078';
+      font-family: FontAwesome;
+      position: absolute;
+      top:0;
+      right:0;
+      padding: 10px;
+    }
+  }
+  & > ul {
+    max-width: 480px;
+    a {
+      display: block;
+      padding: 10px;
+      border:1px solid #e7e7e7;
+      margin-bottom: -1px;
+    }
+  }
+}
