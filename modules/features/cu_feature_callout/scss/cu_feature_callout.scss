@@ -637,6 +637,7 @@ $text: #202020;
   .content-grid-item {
     display: flex;
     flex-direction: column;
+    width:100%;
     //padding:0 20px;
   }
   .content-grid-image {
@@ -676,5 +677,73 @@ $text: #202020;
     @media screen and (min-width:768px) {
       flex-direction:row-reverse;
     }
+  }
+}
+
+/* Admin */
+
+#edit-field-callout-style-und {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin:0 -20px;
+  & > * {
+    width:50%;
+    padding: 20px;
+    text-align: center;
+  }
+  @media screen and (min-width:768px) {
+    & > * {
+      width:25%;
+    }
+  }
+  @media screen and (min-width:960px) {
+    & > * {
+      width:16.666%;
+    }
+  }
+  .form-radio + label {
+    display: block;
+    //padding-bottom: 50%;
+  }
+  .form-radio + label:after {
+    width:100%;
+    padding-top:100%;
+    background:#eee;
+    outline: solid 2px #e7e7e7;
+    outline-offset: 4px;
+    background-size:cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    content: ' ';
+    display:block;
+    margin-top:10px;
+  }
+  #edit-field-callout-style-und-columns + label:after {
+    background-image:url(../images/style-columns.png);
+  }
+  #edit-field-callout-style-und-overlay + label:after {
+    background-image:url(../images/style-overlay.png);
+  }
+  #edit-field-callout-style-und-large-teaser + label:after {
+    background-image:url(../images/style-large-teaser.png);
+  }
+  #edit-field-callout-style-und-large-teaser-alt + label:after {
+    background-image:url(../images/style-large-teaser-alt.png);
+  }
+  #edit-field-callout-style-und-feature + label:after {
+    background-image:url(../images/style-feature.png);
+  }
+  #edit-field-callout-style-und-offset + label:after {
+    background-image:url(../images/style-offset.png);
+  }
+  #edit-field-callout-style-und-cards + label:after {
+    background-image:url(../images/style-cards.png);
+  }
+  #edit-field-callout-style-und-teaser + label:after {
+    background-image:url(../images/style-teaser.png);
+  }
+  #edit-field-callout-style-und-tiles-alt + label:after {
+    background-image:url(../images/style-tiles.png);
   }
 }
