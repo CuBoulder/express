@@ -178,7 +178,7 @@ function cu_atlas_atlas_statistics() {
 
   // Custom Logo.
   if (module_exists('cu_custom_logo')) {
-    $statistics_data['cu_custom_logo'] = true;
+    $statistics_data['custom_logo_settings'] = TRUE;
   }
 
   // Check if the selected theme is responsive.
