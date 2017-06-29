@@ -53,8 +53,11 @@
       $("." + r).attr('aria-expanded', 'false');
       return false;
     });
-
-
+    // Countup
+    $('.counter').counterUp({
+      delay: 10,
+      time: 2000,
+    });
   });
 })( jQuery );
 
