@@ -551,7 +551,7 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
     $path = base_path();
   }
 
-  // Cast form value as an array.
+  // Clear the page path
   varnish_expire_cache((array) $path);
 
   // Attempt to clear additional paths if this was a file.
@@ -561,9 +561,48 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
     varnish_expire_cache($file_paths);
   }
 
-  drupal_set_message(t('!path cleared from Page Cache.', array('!path' => $path)));
+  // Attempt to get all http paths from source path and clear those
+  $html = file_get_contents($base_root . $path);
+  $dom = new DOMDocument;
+  @$dom->loadHTML($html);
 
+  // Clear Local CSS
+  $css_links = $dom->getElementsByTagName('link');
+
+  foreach ($css_links as $css_link){
+
+    if (strpos($css_link->getAttribute('href'), $_SERVER['SERVER_NAME'])) {
+      $path_parts = explode($_SERVER['SERVER_NAME'], $css_link->getAttribute('href'));
+      varnish_expire_cache((array) $path_parts[1]);
+    }
+  }
+
+  // Clear Local JS
+  $js_links = $dom->getElementsByTagName('script');
+
+  foreach ($js_links as $js_link){
+
+    if (strpos($js_link->getAttribute('src'), $_SERVER['SERVER_NAME'])) {
+      $path_parts = explode($_SERVER['SERVER_NAME'], $js_link->getAttribute('src'));
+      varnish_expire_cache((array) $path_parts[1]);
+    }
+  }
+
+  // Clear Local Images
+  $img_links = $dom->getElementsByTagName('img');
+
+  foreach ($img_links as $img_link){
+
+    if (strpos($img_link->getAttribute('src'), $_SERVER['SERVER_NAME'])) {
+      $path_parts = explode($_SERVER['SERVER_NAME'], $img_link->getAttribute('src'));
+      varnish_expire_cache((array) $path_parts[1]);
+    }
+  }
+
+  drupal_set_message(t('!path cleared from Page Cache.', array('!path' => $path)));
 }
+
+
 
 /**
  * Preprocess theme variables for a specific theme hook.
