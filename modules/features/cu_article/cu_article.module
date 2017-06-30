@@ -1335,7 +1335,7 @@ function cu_article_node_view($node, $view_mode) {
         if (user_access("edit any article content")) {
           drupal_set_message(t('A user without editing permissions would have been redirected to !redirect',
             array('!redirect' => l($redirect, $redirect))),
-            'notice');
+            'status');
         }
         else {
           drupal_goto($redirect);
