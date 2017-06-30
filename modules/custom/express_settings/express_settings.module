@@ -145,8 +145,8 @@ function express_settings_menu() {
     'weight' => 0,
   );
   $items['admin/settings/cache/clear/varnish-path'] = array(
-    'title' => 'Clear Intermediate Path',
-    'description' => 'Clear Intermediate by Path.',
+    'title' => 'Clear Page by Path',
+    'description' => 'Clear Page by Path.',
     'type' => MENU_LOCAL_TASK,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_settings_varnish_path_cache_form'),
@@ -154,8 +154,8 @@ function express_settings_menu() {
     'weight' => 1,
   );
   $items['admin/settings/cache/clear/varnish-full'] = array(
-    'title' => 'Clear Intermediate Full',
-    'description' => 'Clear Entire Intermediate Cache.',
+    'title' => 'Clear Page Full',
+    'description' => 'Clear Entire Page Cache.',
     'type' => MENU_LOCAL_TASK,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_settings_varnish_site_cache_form'),
@@ -163,8 +163,8 @@ function express_settings_menu() {
     'weight' => 2,
   );
   $items['admin/settings/cache/clear/drupal-full'] = array(
-    'title' => 'Clear Web Express Full',
-    'description' => 'Invalidate Web Express Cache.',
+    'title' => 'Clear Database Full',
+    'description' => 'Invalidate Database Cache.',
     'type' => MENU_LOCAL_TASK,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_settings_drupal_cache_form'),
@@ -175,7 +175,7 @@ function express_settings_menu() {
 
   // Node-level cache clearing.
   $items['node/%/clear-varnish'] = array(
-    'title' => 'Clear Intermediate Cache',
+    'title' => 'Clear Page Cache',
     'description' => 'Invalidate various caches.',
     'type' => MENU_LOCAL_TASK,
     'page callback' => 'express_settings_varnish_path_redirect',
@@ -446,14 +446,14 @@ function express_settings_varnish_path_cache_form($form, &$form_state) {
 
   $form['clear_varnish_path_cache_path'] = array(
     '#type' => 'textfield',
-    '#description' => ('Enter the specific path or URL to clear from the Intermediate cache.'),
+    '#description' => ('Enter the specific path or URL to clear from the Page cache.'),
     '#title' => 'Path To Clear',
     '#default_value' => $path,
     '#required' => TRUE,
   );
   $form['clear_varnish_path_cache'] = array(
     '#type' => 'submit',
-    '#value' => t('Clear Path From Intermediate Cache'),
+    '#value' => t('Clear Path From Page Cache'),
     '#submit' => array('express_settings_clear_varnish_path_cache_submit'),
     '#attributes' => array('class' => array('btn-warning')),
   );
@@ -512,10 +512,18 @@ function express_settings_clear_varnish_cache_submit($form, &$form_state) {
  * @ingroup forms
  */
 function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
+  global $base_root;
+
   // Check to see if they included parts of base path and clean up the URL.
   // If a path was not passed, the submit came from a node/edit form and we can look up the appropriate path.
   if (array_key_exists('clear_varnish_path_cache_path', $form_state['values'])) {
     $path = $form_state['values']['clear_varnish_path_cache_path'];
+
+    if (!preg_match('#^node/#', $path)) {
+      $node_path = $path;
+    }
+
+
     // In case scheme relative URI is passed in.
     $path = trim($path, '/');
     // Remove trailing slash.
@@ -545,7 +553,15 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
 
   // Cast form value as an array.
   varnish_expire_cache((array) $path);
-  drupal_set_message(t('!path cleared from Intermediate Cache.', array('!path' => $path)));
+
+  // Attempt to clear additional paths if this was a file.
+  // Cheaper that loading nodes to check type
+  if (isset($node_path)) {
+    $file_paths = array($node_path . '/attachment', $node_path . '/backstretch', $node_path . '/large', $node_path . '/medium', $node_path . '/small');
+    varnish_expire_cache($file_paths);
+  }
+
+  drupal_set_message(t('!path cleared from Page Cache.', array('!path' => $path)));
 
 }
 

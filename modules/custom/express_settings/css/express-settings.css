@@ -30,8 +30,8 @@
   background-color: #185e8a;
 }
 
-ul.tabs--primary li a.clear-varnish-cache:before,
-h1.page-title.icon-clear-varnish-cache:before,
-ul.primary li a.clear-varnish-cache:before {
+ul.tabs--primary li a.clear-page-cache:before,
+h1.page-title.icon-clear-page-cache:before,
+ul.primary li a.clear-page-cache:before {
   content: "\f021";
 }
