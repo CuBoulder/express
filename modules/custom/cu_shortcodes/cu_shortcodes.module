@@ -39,7 +39,7 @@ function cu_shortcodes_menu() {
 /**
  * Implements hook_libraries_info().
  */
-function cu_simple_cta_bundle_libraries_info() {
+function cu_shortcodes_libraries_info() {
   $libraries = array();
   $libraries['waypoints'] = array(
     'name' => t('Waypoints'),
