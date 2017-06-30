@@ -675,3 +675,19 @@ function express_block_designer_migrate_style($style) {
     return $styles[$style];
   }
 }
+
+/**
+ * Get block info from block delta.
+ */
+function express_block_designer_get_block_info($delta = NULL) {
+  if ($delta) {
+    $query = db_select('block', 'b');
+    $query->condition('delta', $delta);
+    $query->fields('b');
+    $query->distinct();
+    $query->groupBy('b.delta');
+
+    $block = $query->execute()->fetchAssoc();
+    return $block;
+  }
+}

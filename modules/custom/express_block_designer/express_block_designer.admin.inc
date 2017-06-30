@@ -49,12 +49,13 @@ function express_block_designer_themes_list() {
 function express_block_designer_form($form, &$form_state, $delta) {
 
   drupal_add_js(drupal_get_path('module', 'express_block_designer') . '/js/express-block-designer-form.js');
-
+  $block_info = express_block_designer_get_block_info($delta);
   $form = array();
 
   // TODO: get module names of non-bean blocks.
-  $module_delta = NULL;
-  $module = NULL;
+  $module = $block_info['module'];
+  $module_delta = $module . '_' . $delta;
+
 
   // Set page title as block delta.
 
