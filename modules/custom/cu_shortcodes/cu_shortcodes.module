@@ -37,6 +37,26 @@ function cu_shortcodes_menu() {
 }
 
 /**
+ * Implements hook_libraries_info().
+ */
+function cu_shortcodes_libraries_info() {
+  $libraries = array();
+  $libraries['waypoints'] = array(
+    'name' => t('Waypoints'),
+    'vendor url' => 'http://imakewebthings.com/waypoints/',
+    'download url' => 'https://github.com/imakewebthings/waypoints',
+    'version' => '0.7.0',
+    'files' => array(
+      'js' => array(
+        'waypoint.js' => array(),
+      ),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
  * Shortcode demo.
  *
  * @return string
@@ -70,7 +90,17 @@ function cu_shortcodes_page_alter(&$page) {
   // Add shortcode js.
   drupal_add_js(drupal_get_path('module', 'cu_shortcodes') . '/js/cu_shortcodes.js');
   drupal_add_js(drupal_get_path('module', 'cu_shortcodes') . '/js/counter.js');
-  drupal_add_js(drupal_get_path('module', 'cu_shortcodes') . '/js/waypoints.js');
+
+  $path = libraries_get_path('waypoints') . '/waypoint.js';
+  $installed = file_exists($path);
+  if (!$installed) {
+    return;
+  }
+  // Add the library reference.
+  drupal_add_js($path, array(
+    'group' => JS_LIBRARY,
+    'every_page' => TRUE,
+  ));
 }
 
 
