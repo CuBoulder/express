@@ -425,14 +425,14 @@ function express_settings_drupal_cache_form($form, &$form_state) {
 
   $form['clear_drupal_cache'] = array(
     '#type' => 'submit',
-    '#value' => t('Clear Full Drupal Cache'),
+    '#value' => t('Clear Full Database Cache'),
     '#submit' => array('express_settings_clear_drupal_cache_submit'),
     '#attributes' => array('class' => array('btn-warning')),
   );
 
   if (date('H', $cache_drupal_last) == date('H', time())) {
     $form['clear_drupal_cache']['#disabled'] = TRUE;
-    drupal_set_message(t('The Drupal cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until @time', array('@time' => date('h:i A', $cache_drupal_last + 3600))), 'warning');
+    drupal_set_message(t('The Full Database Cache cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until @time', array('@time' => date('h:i A', $cache_drupal_last + 3600))), 'warning');
   }
 
   return $form;
@@ -471,14 +471,14 @@ function express_settings_varnish_site_cache_form($form, &$form_state) {
 
   $form['clear_varnish_cache'] = array(
     '#type' => 'submit',
-    '#value' => t('Clear Full Varnish Cache'),
+    '#value' => t('Clear Full Page Cache'),
     '#submit' => array('express_settings_clear_varnish_cache_submit'),
     '#attributes' => array('class' => array('btn-warning')),
   );
 
   if (date('H', $cache_varnish_last) == date('H', time())) {
     $form['clear_varnish_cache']['#disabled'] = TRUE;
-    drupal_set_message(t('The whole Varnish cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until @time.', array('@time' => date('h:i A', $cache_varnish_last + 3600))), 'warning');
+    drupal_set_message(t('The whole Page Cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until @time.', array('@time' => date('h:i A', $cache_varnish_last + 3600))), 'warning');
   }
 
   return $form;
@@ -492,7 +492,7 @@ function express_settings_varnish_site_cache_form($form, &$form_state) {
 function express_settings_clear_drupal_cache_submit($form, &$form_state) {
   variable_set('cache_drupal_last', REQUEST_TIME);
   drupal_flush_all_caches();
-  drupal_set_message(t('Drupal cache cleared.'));
+  drupal_set_message(t('Full Database Cache Cleared.'));
 }
 
 /**
@@ -503,7 +503,7 @@ function express_settings_clear_drupal_cache_submit($form, &$form_state) {
 function express_settings_clear_varnish_cache_submit($form, &$form_state) {
   variable_set('cache_varnish_last', REQUEST_TIME);
   varnish_purge_all_pages();
-  drupal_set_message(t('Varnish cache cleared.'));
+  drupal_set_message(t('Full Page Cache Cleared.'));
 }
 
 /**
@@ -512,103 +512,103 @@ function express_settings_clear_varnish_cache_submit($form, &$form_state) {
  * @ingroup forms
  */
 function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
+  // https://github.com/CuBoulder/express/blob/dev/modules/contrib/varnish/varnish.module#L108
+  // varnish_expire_cache accepts an array of paths and an array of wildcards .*
 
-  // Check to see if they included parts of base path and clean up the URL.
-  // If a path was not passed, the submit came from a node/edit form and we can look up the appropriate path.
+
   if (array_key_exists('clear_varnish_path_cache_path', $form_state['values'])) {
     $path = $form_state['values']['clear_varnish_path_cache_path'];
 
-    if (!preg_match('#^node/#', $path)) {
-      $node_path = $path;
-    }
+    if (preg_match('#^node/#', $path)) {
 
+      // these are redirects to a path like sites/default/files/styles/backstretch/public/attached-files/FILENME.jpeg?itok=XXX
+      $file_paths = array(
+        'http://' . $_SERVER['SERVER_NAME'] . $path . '/attachment',
+        'http://' . $_SERVER['SERVER_NAME'] . $path . '/backstretch',
+        'http://' . $_SERVER['SERVER_NAME'] . $path . '/large',
+        'http://' . $_SERVER['SERVER_NAME'] . $path . '/medium',
+        'http://' . $_SERVER['SERVER_NAME'] . $path . '/small'
+      );
 
-    // In case scheme relative URI is passed in.
-    $path = trim($path, '/');
-    // Remove trailing slash.
-    $path = rtrim($path, '/');
-    // Check if $path contains the base path.
-    if (strpos($path, base_path()) !== FALSE) {
-      // If scheme not included, prepend it.
-      if (!preg_match('#^http(s)?://#', $path)) {
-        $path = 'http://' . $path;
+      varnish_expire_cache($file_paths);
+
+      $path = base_path() . drupal_get_path_alias($path);
+
+      // for home we want to clear the base_path
+      if ($path == base_path() . 'home') {
+        $path = base_path();
       }
-      $urlParts = parse_url($path);
-      $path = $urlParts['path'];
-      // Remove base path.
-      // TODO: test with complex base path.
-      if (substr($path, 0, strlen(base_path())) == base_path()) {
-        $path = substr($path, strlen(base_path()));
+
+      $path = 'http://' . $_SERVER['SERVER_NAME'] . $path;
+    }
+    else {
+      // Check to see if they included parts of base path and clean up the URL.
+      // If a path was not passed, the submit came from a node/edit form and we can look up the appropriate path.
+      // In case scheme relative URI is passed in.
+      $path = trim($path, '/');
+      // Remove trailing slash.
+      $path = rtrim($path, '/');
+      // Check if $path contains the base path.
+      if (strpos($path, base_path()) !== FALSE) {
+        // If scheme not included, prepend it.
+        if (!preg_match('#^http(s)?://#', $path)) {
+          $path = 'http://' . $path;
+        }
+        $urlParts = parse_url($path);
+        $path = $urlParts['path'];
+        // Remove base path.
+        // TODO: test with complex base path.
+        if (substr($path, 0, strlen(base_path())) == base_path()) {
+          $path = substr($path, strlen(base_path()));
+        }
       }
     }
-  }
 
-  $path = base_path() . drupal_get_path_alias($path);
+    // Clear the page path... varnish_expire_cache expects the host
+    // Use $_SERVER['SERVER_NAME'] to request http://
+    varnish_expire_cache((array) $path);
 
-  // for home we want to clear the base_path
-  if ($path == base_path() . 'home') {
-    $path = base_path();
-  }
+    // Attempt to get all http paths from source path and clear those
+    $html = file_get_contents($path);
+    $dom = new DOMDocument;
+    @$dom->loadHTML($html);
 
-  $path = 'http://' . $_SERVER['SERVER_NAME'] . $path;
+    // Clear Local CSS
+    $css_links = $dom->getElementsByTagName('link');
 
-  // Clear the page path... varnish_expire_cache expects the host
-  // Use $_SERVER['SERVER_NAME'] to request http://
-  varnish_expire_cache((array) $path);
+    foreach ($css_links as $css_link){
 
-  // Attempt to clear additional paths if this was a file.
-  // Cheaper that loading nodes to check type
-  if (isset($node_path)) {
-    $file_paths = array(
-      'http://' . $_SERVER['SERVER_NAME'] . $node_path . '/attachment',
-      'http://' . $_SERVER['SERVER_NAME'] . $node_path . '/backstretch',
-      'http://' . $_SERVER['SERVER_NAME'] . $node_path . '/large',
-      'http://' . $_SERVER['SERVER_NAME'] . $node_path . '/medium',
-      'http://' . $_SERVER['SERVER_NAME'] . $node_path . '/small'
-    );
-
-    //varnish_expire_cache($file_paths);
-  }
-
-  // Attempt to get all http paths from source path and clear those
-  $html = file_get_contents($path);
-  $dom = new DOMDocument;
-  @$dom->loadHTML($html);
-
-  // Clear Local CSS
-  $css_links = $dom->getElementsByTagName('link');
-
-  foreach ($css_links as $css_link){
-
-    if (strpos($css_link->getAttribute('href'), $_SERVER['SERVER_NAME'])) {
-      //$path_parts = explode($_SERVER['SERVER_NAME'], $css_link->getAttribute('href'));
-      varnish_expire_cache((array) $css_link->getAttribute('href'));
+      if (strpos($css_link->getAttribute('href'), $_SERVER['SERVER_NAME'])) {
+        //$path_parts = explode($_SERVER['SERVER_NAME'], $css_link->getAttribute('href'));
+        varnish_expire_cache((array) $css_link->getAttribute('href'));
+      }
     }
-  }
 
-  // Clear Local JS
-  $js_links = $dom->getElementsByTagName('script');
+    // Clear Local JS
+    $js_links = $dom->getElementsByTagName('script');
 
-  foreach ($js_links as $js_link){
+    foreach ($js_links as $js_link){
 
-    if (strpos($js_link->getAttribute('src'), $_SERVER['SERVER_NAME'])) {
-      //$path_parts = explode($_SERVER['SERVER_NAME'], $js_link->getAttribute('src'));
-      varnish_expire_cache((array) $js_link->getAttribute('src'));
+      if (strpos($js_link->getAttribute('src'), $_SERVER['SERVER_NAME'])) {
+        //$path_parts = explode($_SERVER['SERVER_NAME'], $js_link->getAttribute('src'));
+        varnish_expire_cache((array) $js_link->getAttribute('src'));
+      }
     }
-  }
 
-  // Clear Local Images
-  $img_links = $dom->getElementsByTagName('img');
+    // Clear Local Images
+    $img_links = $dom->getElementsByTagName('img');
 
-  foreach ($img_links as $img_link){
+    foreach ($img_links as $img_link){
 
-    if (strpos($img_link->getAttribute('src'), $_SERVER['SERVER_NAME'])) {
-      //$path_parts = explode($_SERVER['SERVER_NAME'], $img_link->getAttribute('src'));
-      varnish_expire_cache((array) $img_link->getAttribute('src'));
+      if (strpos($img_link->getAttribute('src'), $_SERVER['SERVER_NAME'])) {
+        //$path_parts = explode($_SERVER['SERVER_NAME'], $img_link->getAttribute('src'));
+        //varnish_expire_cache((array) $img_link->getAttribute('src'));
+      }
     }
-  }
 
-  drupal_set_message(t('!path cleared from Page Cache.', array('!path' => $path)));
+    drupal_set_message(t('!path cleared from Page Cache.', array('!path' => $path)));
+
+  }
 }
 
 
