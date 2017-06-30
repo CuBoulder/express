@@ -410,12 +410,14 @@ function cu_feature_callout_backgrounds() {
 
 function cu_feature_callout_preprocess_block(&$vars) {
   if (!empty($vars['elements']['bean'])) {
-
     $element = $vars['elements']['bean'];
-    $key = current(element_children($element));
-    if ($element[$key]['#bundle'] == 'feature_callout') {
-      $style = $element[$key]['field_callout_style'][0]['#markup'];
-      $vars['classes_array'][] = 'content-grid-style--' . $style;
+    $children = element_children($element);
+    if (!empty($children)) {
+      $key = current(element_children($element));
+      if ($element[$key]['#bundle'] == 'feature_callout') {
+        $style = $element[$key]['field_callout_style'][0]['#markup'];
+        $vars['classes_array'][] = 'content-grid-style--' . $style;
+      }
     }
   }
   elseif (!empty($vars['elements']['content']['bean'])) {
