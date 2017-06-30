@@ -512,7 +512,6 @@ function express_settings_clear_varnish_cache_submit($form, &$form_state) {
  * @ingroup forms
  */
 function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
-  global $base_root;
 
   // Check to see if they included parts of base path and clean up the URL.
   // If a path was not passed, the submit came from a node/edit form and we can look up the appropriate path.
@@ -551,18 +550,28 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
     $path = base_path();
   }
 
-  // Clear the page path
+  $path = 'http://' . $_SERVER['SERVER_NAME'] . $path;
+
+  // Clear the page path... varnish_expire_cache expects the host
+  // Use $_SERVER['SERVER_NAME'] to request http://
   varnish_expire_cache((array) $path);
 
   // Attempt to clear additional paths if this was a file.
   // Cheaper that loading nodes to check type
   if (isset($node_path)) {
-    $file_paths = array($node_path . '/attachment', $node_path . '/backstretch', $node_path . '/large', $node_path . '/medium', $node_path . '/small');
-    varnish_expire_cache($file_paths);
+    $file_paths = array(
+      'http://' . $_SERVER['SERVER_NAME'] . $node_path . '/attachment',
+      'http://' . $_SERVER['SERVER_NAME'] . $node_path . '/backstretch',
+      'http://' . $_SERVER['SERVER_NAME'] . $node_path . '/large',
+      'http://' . $_SERVER['SERVER_NAME'] . $node_path . '/medium',
+      'http://' . $_SERVER['SERVER_NAME'] . $node_path . '/small'
+    );
+
+    //varnish_expire_cache($file_paths);
   }
 
   // Attempt to get all http paths from source path and clear those
-  $html = file_get_contents($base_root . $path);
+  $html = file_get_contents($path);
   $dom = new DOMDocument;
   @$dom->loadHTML($html);
 
@@ -572,8 +581,8 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
   foreach ($css_links as $css_link){
 
     if (strpos($css_link->getAttribute('href'), $_SERVER['SERVER_NAME'])) {
-      $path_parts = explode($_SERVER['SERVER_NAME'], $css_link->getAttribute('href'));
-      varnish_expire_cache((array) $path_parts[1]);
+      //$path_parts = explode($_SERVER['SERVER_NAME'], $css_link->getAttribute('href'));
+      varnish_expire_cache((array) $css_link->getAttribute('href'));
     }
   }
 
@@ -583,8 +592,8 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
   foreach ($js_links as $js_link){
 
     if (strpos($js_link->getAttribute('src'), $_SERVER['SERVER_NAME'])) {
-      $path_parts = explode($_SERVER['SERVER_NAME'], $js_link->getAttribute('src'));
-      varnish_expire_cache((array) $path_parts[1]);
+      //$path_parts = explode($_SERVER['SERVER_NAME'], $js_link->getAttribute('src'));
+      varnish_expire_cache((array) $js_link->getAttribute('src'));
     }
   }
 
@@ -594,8 +603,8 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
   foreach ($img_links as $img_link){
 
     if (strpos($img_link->getAttribute('src'), $_SERVER['SERVER_NAME'])) {
-      $path_parts = explode($_SERVER['SERVER_NAME'], $img_link->getAttribute('src'));
-      varnish_expire_cache((array) $path_parts[1]);
+      //$path_parts = explode($_SERVER['SERVER_NAME'], $img_link->getAttribute('src'));
+      varnish_expire_cache((array) $img_link->getAttribute('src'));
     }
   }
 
