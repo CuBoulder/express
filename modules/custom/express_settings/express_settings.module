@@ -515,8 +515,17 @@ function express_settings_varnish_path_cache_validate($form, &$form_state) {
   $path = $form_state['values']['clear_varnish_path_cache_path'];
   $host = _varnish_get_host();
 
-  if (stripos($path, '://') && !stripos($path, '://' . $host . base_path())) {
-    form_set_error('[clear_varnish_path_cache_path]', t('Path must be part of this site.'));
+
+  if (stripos($path, '://')) {
+    dsm('a url');
+    dsm($path);
+    dsm($host . base_path());
+    if (!stripos($path, '://' . $host . base_path())) {
+      form_set_error('[clear_varnish_path_cache_path]', t('Path must be part of this site.'));
+    }
+    if ($path == 'https://' . $host . base_path() ||  $path == 'http://' . $host . base_path()) {
+      form_set_error('[clear_varnish_path_cache_path]', t('The front page of a site can only be cleared by users with permission to clear the Full Page Cache.'));
+    }
   }
 
   if (preg_match('#^node/#', $path)) {
@@ -565,12 +574,20 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
 
   }
   else {
-    // If a node path was not passed, clean up the URL.
-    $url_parts = parse_url($path);
 
-    $path = $url_parts['path'];
-    if (isset($url_parts['query'])) {
-      $path .= $url_parts['query'];
+    // If a node path was not passed, deal with urls and edge cases.
+
+    if (filter_var($path, FILTER_VALIDATE_URL)) {
+      $url_parts = parse_url($path);
+
+      $path = $url_parts['path'];
+      if (isset($url_parts['query'])) {
+        $path .= $url_parts['query'];
+      }
+    }
+
+    if ($path == '/') {
+      $path = base_path();
     }
   }
 
