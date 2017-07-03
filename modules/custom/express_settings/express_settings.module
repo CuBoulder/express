@@ -187,9 +187,8 @@ function express_settings_menu() {
   return $items;
 }
 
-
 /**
- * Landing page for
+ * Landing page with documentation about different cache layers.
  */
 function express_settings_cache_clear_landing() {
   $content = file_get_contents(drupal_get_path('module', 'express_settings') . '/templates/cache--landing.tpl.php');
@@ -199,7 +198,7 @@ function express_settings_cache_clear_landing() {
 
 /**
  * Redirect request to admin/settings/admin/clear-cache/varnish-path
- * with destination of
+ * with destination of current node path.
  */
 function express_settings_varnish_path_redirect($path) {
 
@@ -507,7 +506,7 @@ function express_settings_clear_varnish_cache_submit($form, &$form_state) {
 }
 
 /**
- * Form validation; prevents users without perm to clear full site using front page path
+ * Form validation; prevents users without perm to clear full site using front page path.
  *
  * @ingroup forms
  */
@@ -561,7 +560,7 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
     $path = base_path() . drupal_get_path_alias($path);
 
     // the node set to <front> resolves to base_path() . 'home'
-    // since this clears the entire site, it we limit this to
+    // since this clears the entire site, we limit access.
     if ($path == base_path() . 'home') {
       $path = base_path();
       varnish_purge($host, $path);
@@ -569,8 +568,7 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
 
   }
   else {
-    // If a node path was not passed, clean up the URL
-
+    // If a node path was not passed, clean up the URL.
     $url_parts = parse_url($path);
 
     $path = $url_parts['path'];
@@ -579,57 +577,63 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
     }
   }
 
-  // Clear the page path
+  // Clear the page path.
   varnish_purge($host, $path);
 
-  // Attempt to get all http paths from source path and clear those
-  $html = file_get_contents('http://' . $_SERVER['SERVER_NAME'] . $path);
-  $dom = new DOMDocument;
-  @$dom->loadHTML($html);
-  $asset_paths = array();
+  // Attempt to get all http paths from source path and clear those.
+  $url = 'http://' . $host;
 
-  // Find Local CSS
-  $css_links = $dom->getElementsByTagName('link');
+  $headers = get_headers($url);
 
-  foreach ($css_links as $css_link){
+  // @TODO: Do we want to do something if the url doesn't exist?
+  if (substr($headers[0], 9, 3) == "200"){
+    $html = file_get_contents($url . $path);
+    $dom = new DOMDocument;
+    @$dom->loadHTML($html);
+    $asset_paths = array();
 
-    if (strpos($css_link->getAttribute('href'), $_SERVER['SERVER_NAME'])) {
-      $path_parts = explode($_SERVER['SERVER_NAME'], $css_link->getAttribute('href'));
-      $asset_paths[] = $path_parts[1];
+    // Find Local CSS.
+    $css_links = $dom->getElementsByTagName('link');
+
+    foreach ($css_links as $css_link){
+
+      if (strpos($css_link->getAttribute('href'), $host)) {
+        $path_parts = explode($url, $css_link->getAttribute('href'));
+        $asset_paths[] = $path_parts[1];
+      }
     }
-  }
 
-  // Find Local JS
-  $js_links = $dom->getElementsByTagName('script');
+    // Find Local JS.
+    $js_links = $dom->getElementsByTagName('script');
 
-  foreach ($js_links as $js_link){
+    foreach ($js_links as $js_link){
 
-    if (strpos($js_link->getAttribute('src'), $_SERVER['SERVER_NAME'])) {
-      $path_parts = explode($_SERVER['SERVER_NAME'], $js_link->getAttribute('src'));
-      $asset_paths[] = $path_parts[1];
+      if (strpos($js_link->getAttribute('src'), $url)) {
+        $path_parts = explode($url, $js_link->getAttribute('src'));
+        $asset_paths[] = $path_parts[1];
+      }
     }
-  }
 
-  // Find Local Images
-  $img_links = $dom->getElementsByTagName('img');
+    // Find Local Images.
+    $img_links = $dom->getElementsByTagName('img');
 
-  foreach ($img_links as $img_link){
+    foreach ($img_links as $img_link){
 
-    if (strpos($img_link->getAttribute('src'), $_SERVER['SERVER_NAME'])) {
-      $path_parts = explode($_SERVER['SERVER_NAME'], $img_link->getAttribute('src'));
-      $asset_paths[] = $path_parts[1];
+      if (strpos($img_link->getAttribute('src'), $url)) {
+        $path_parts = explode($url, $img_link->getAttribute('src'));
+        $asset_paths[] = $path_parts[1];
+      }
     }
-  }
 
-  if (count($asset_paths)) {
-    varnish_expire_cache($asset_paths);
+    if (count($asset_paths)) {
+      dsm($asset_paths);
+      varnish_expire_cache($asset_paths);
+    }
   }
 
   drupal_set_message(t('!path cleared from Page Cache.', array('!path' => $path)));
 
 }
-
-
 
 /**
  * Preprocess theme variables for a specific theme hook.

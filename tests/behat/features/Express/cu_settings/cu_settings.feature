@@ -35,7 +35,6 @@ Feature: CU Settings
 
     Examples:
       | role           | message               |
-      | content_editor | "Clear Caches"				 |
       | site_owner     | "Site Configurations" |
       | administrator  | "Site Configurations" |
       | developer      | "Site Configurations" |
@@ -121,7 +120,7 @@ Feature: CU Settings
     Given Given  CU - I am logged in as a user with the <role> role
       When I go to "admin/settings"
     Then I should see <message>
-    When I go to "admin/settings/admin/clear-cache"
+    When I go to "admin/settings/cache/clear"
       And I press "Clear Full Drupal Cache"
     Then I should see "The Drupal cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until"
     When I go to "admin/settings/admin/clear-cache/varnish-full"
@@ -137,21 +136,37 @@ Feature: CU Settings
   | site_owner     | "Clear Caches" |
   | administrator  | "Clear Caches" |
   | developer      | "Clear Caches" |
+  
+  @api @settings @cache
+  Scenario Outline: As a CE, I should be able to see and use page cache clearing by path.
+    Given Given  CU - I am logged in as a user with the <role> role
+    When I go to "admin/settings/cache/clear"
+      And I press "Clear Page by Path"
+      And I fill in "Path To Clear" with "node/1"
+      And I press "Clear Path From Page Cache"
+    Then I should see "The front page of a site can only be cleared by users with permission to clear the Full Page Cache."
+    When I go to "admin/settings/cache/clear/varnish-path"
+      And I fill in "Path To Clear" with "node/2"
+      And I press "Clear Path From Page Cache"
+    Then I should see <message>
+    
+  Examples:
+  | role           | message        |
+  | content_editor | "cleared from Page Cache." |
+  
+  The front page of a site can only be cleared by users with permission to clear the Full Page Cache.
 
   @api @settings @cache
   Scenario Outline: A content_editor/edit_my_content should not be able to see and use cache clearing.
     Given Given  CU - I am logged in as a user with the <role> role
-    When I go to "admin/settings/admin/clear-cache"
+    When I go to "admin/settings/cache/clear/varnish-full"
       Then I should see <message>
-    When I go to "admin/settings/admin/clear-cache/varnish-full"
-      Then I should see <message>
-    When I go to "admin/settings/admin/clear-cache/varnish-path"
+    When I go to "admin/settings/cache/clear/varnish-path"
       Then I should see <message>
     When I got to "node/1/clear-varnish"
       Then I should see <message>
 
   Examples:
   | role             | message         |
-  | content_editor   | "Access Denied" |
   | edit_my_content  | "Access Denied" |
   | authenticated    | "Access Denied" |
