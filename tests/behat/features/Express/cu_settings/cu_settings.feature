@@ -9,13 +9,18 @@ Feature: CU Settings
 
     Examples:
     | path |
-    | "admin/settings" |
-    | "admin/settings/contact" |
-    | "admin/settings/feedback" |
-    | "admin/settings/people" |
-    | "admin/settings/redirects" |
     | "admin/config/search/redirect/add" |
 
+  @api @settings
+  Scenario Outline: An site owner/administrator/developer user should be able to access the settings page
+    Given  CU - I am logged in as a user with the <role> role
+    When I go to "admin/settings"
+    Then I should not see <message>
+
+    Examples:
+      | role           | message               |
+      | content_editor | "Site Configurations" |
+      
   @api @settings
   Scenario Outline: An site owner/administrator/developer user should be able to access the settings page
     Given  CU - I am logged in as a user with the <role> role
@@ -24,6 +29,7 @@ Feature: CU Settings
 
     Examples:
       | role           | message               |
+      | content_editor | "Clear Caches"				 |
       | site_owner     | "Site Configurations" |
       | administrator  | "Site Configurations" |
       | developer      | "Site Configurations" |
