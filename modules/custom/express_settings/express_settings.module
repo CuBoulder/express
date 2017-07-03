@@ -515,7 +515,6 @@ function express_settings_varnish_path_cache_validate($form, &$form_state) {
   $path = $form_state['values']['clear_varnish_path_cache_path'];
   $host = _varnish_get_host();
 
-
   if (stripos($path, '://')) {
     if (!stripos($path, '://' . $host . base_path())) {
       form_set_error('[clear_varnish_path_cache_path]', t('Path must be part of this site.'));
