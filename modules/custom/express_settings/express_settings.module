@@ -47,7 +47,7 @@ function express_settings_menu() {
     'weight' => 8,
   );
 
-  // DEFINES SITE CONFIGURATION SECTION
+  // DEFINES SITE CONFIGURATION SECTION.
   $items['admin/settings/site-configuration'] = array(
     'title' => 'Site Configurations',
     'description' => '',
@@ -95,7 +95,7 @@ function express_settings_menu() {
     'weight' => 25,
   );
 
-  // DEFINES URL MANAGEMENT SECTION
+  // DEFINES URL MANAGEMENT SECTION.
   $items['admin/settings/url-management'] = array(
     'title' => 'URL Management',
     'position' => 'left',
@@ -115,7 +115,7 @@ function express_settings_menu() {
     'weight' => 0,
   );
 
-  // DEFINES CACHE SECTION
+  // DEFINES CACHE SECTION.
   $items['admin/settings/cache'] = array(
     'title' => 'Cache',
     'description' => '',
@@ -544,9 +544,6 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
 
   if (preg_match('#^node/#', $path)) {
 
-    // these are redirects to a path like sites/default/files/styles/backstretch/public/attached-files/FILENME.jpeg?itok=XXX
-    // should we be using itok in these redirects? Doesn't that invalidate the cache creating
-    // a unique path per visitor?
     $file_paths = array(
       $path . '/attachment',
       $path . '/backstretch',
@@ -559,8 +556,8 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
 
     $path = base_path() . drupal_get_path_alias($path);
 
-    // the node set to <front> resolves to base_path() . 'home'
-    // since this clears the entire site, we limit access.
+    // The node set to <front> resolves to base_path() . 'home'.
+    // This clears the entire site, so we limit access.
     if ($path == base_path() . 'home') {
       $path = base_path();
       varnish_purge($host, $path);
@@ -586,7 +583,7 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
   $headers = get_headers($url);
 
   // @TODO: Do we want to do something if the url doesn't exist?
-  if (substr($headers[0], 9, 3) == "200"){
+  if (substr($headers[0], 9, 3) == "200") {
     $html = file_get_contents($url . $path);
     $dom = new DOMDocument;
     @$dom->loadHTML($html);
@@ -595,7 +592,7 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
     // Find Local CSS.
     $css_links = $dom->getElementsByTagName('link');
 
-    foreach ($css_links as $css_link){
+    foreach ($css_links as $css_link) {
 
       if (strpos($css_link->getAttribute('href'), $host)) {
         $path_parts = explode($url, $css_link->getAttribute('href'));
@@ -606,7 +603,7 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
     // Find Local JS.
     $js_links = $dom->getElementsByTagName('script');
 
-    foreach ($js_links as $js_link){
+    foreach ($js_links as $js_link) {
 
       if (strpos($js_link->getAttribute('src'), $url)) {
         $path_parts = explode($url, $js_link->getAttribute('src'));
@@ -617,7 +614,7 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
     // Find Local Images.
     $img_links = $dom->getElementsByTagName('img');
 
-    foreach ($img_links as $img_link){
+    foreach ($img_links as $img_link) {
 
       if (strpos($img_link->getAttribute('src'), $url)) {
         $path_parts = explode($url, $img_link->getAttribute('src'));

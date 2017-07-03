@@ -154,8 +154,6 @@ Feature: CU Settings
   | role           | message        |
   | content_editor | "cleared from Page Cache." |
   
-  The front page of a site can only be cleared by users with permission to clear the Full Page Cache.
-
   @api @settings @cache
   Scenario Outline: A content_editor/edit_my_content should not be able to see and use cache clearing.
     Given Given  CU - I am logged in as a user with the <role> role
