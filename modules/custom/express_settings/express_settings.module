@@ -457,7 +457,7 @@ function express_settings_varnish_path_cache_form($form, &$form_state) {
     '#submit' => array('express_settings_clear_varnish_path_cache_submit'),
     '#attributes' => array('class' => array('btn-warning')),
   );
-
+  $form["#validate"][] = 'express_settings_varnish_path_cache_validate';
   return $form;
 }
 
@@ -507,108 +507,136 @@ function express_settings_clear_varnish_cache_submit($form, &$form_state) {
 }
 
 /**
+ * Form validation; prevents users without perm to clear full site using front page path
+ *
+ * @ingroup forms
+ */
+function express_settings_varnish_path_cache_validate($form, &$form_state) {
+      $path = $form_state['values']['clear_varnish_path_cache_path'];
+      $path = base_path() . drupal_get_path_alias($path);
+      // the node set to <front> resolves to base_path() . 'home'
+      // since this clears the entire site, it we limit this to
+      if ($path == base_path() . 'home') {
+        if (!user_access('clear full caches')) {
+           form_set_error('[clear_varnish_path_cache_path]', t('The front page of a site can only be cleared by users with permission to clear the Full Page Cache.'));
+        }
+      }
+}
+
+/**
  * Submit callback; clear a single URL from Varnish caches.
  *
  * @ingroup forms
  */
 function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
-  // https://github.com/CuBoulder/express/blob/dev/modules/contrib/varnish/varnish.module#L108
-  // varnish_expire_cache accepts an array of paths and an array of wildcards .*
 
+  $path = $form_state['values']['clear_varnish_path_cache_path'];
 
-  if (array_key_exists('clear_varnish_path_cache_path', $form_state['values'])) {
-    $path = $form_state['values']['clear_varnish_path_cache_path'];
+  $host = _varnish_get_host();
 
-    if (preg_match('#^node/#', $path)) {
+  if (preg_match('#^node/#', $path)) {
 
-      // these are redirects to a path like sites/default/files/styles/backstretch/public/attached-files/FILENME.jpeg?itok=XXX
-      $file_paths = array(
-        'http://' . $_SERVER['SERVER_NAME'] . $path . '/attachment',
-        'http://' . $_SERVER['SERVER_NAME'] . $path . '/backstretch',
-        'http://' . $_SERVER['SERVER_NAME'] . $path . '/large',
-        'http://' . $_SERVER['SERVER_NAME'] . $path . '/medium',
-        'http://' . $_SERVER['SERVER_NAME'] . $path . '/small'
-      );
+    // these are redirects to a path like sites/default/files/styles/backstretch/public/attached-files/FILENME.jpeg?itok=XXX
+    // should we be using itok in these redirects? Doesn't that invalidate the cache creating
+    // a unique path per visitor?
+    $file_paths = array(
+      $path . '/attachment',
+      $path . '/backstretch',
+      $path . '/large',
+      $path . '/medium',
+      $path . '/small'
+    );
 
-      varnish_expire_cache($file_paths);
+    varnish_purge_paths($host, $file_paths);
 
-      $path = base_path() . drupal_get_path_alias($path);
+    $path = base_path() . drupal_get_path_alias($path);
 
-      // for home we want to clear the base_path
-      if ($path == base_path() . 'home') {
-        $path = base_path();
-      }
-
-      $path = 'http://' . $_SERVER['SERVER_NAME'] . $path;
+    // the node set to <front> resolves to base_path() . 'home'
+    // since this clears the entire site, it we limit this to
+    if ($path == base_path() . 'home') {
+      $path = base_path();
+      varnish_purge($host, $path);
     }
-    else {
-      // Check to see if they included parts of base path and clean up the URL.
-      // If a path was not passed, the submit came from a node/edit form and we can look up the appropriate path.
-      // In case scheme relative URI is passed in.
-      $path = trim($path, '/');
-      // Remove trailing slash.
-      $path = rtrim($path, '/');
-      // Check if $path contains the base path.
-      if (strpos($path, base_path()) !== FALSE) {
-        // If scheme not included, prepend it.
-        if (!preg_match('#^http(s)?://#', $path)) {
-          $path = 'http://' . $path;
-        }
-        $urlParts = parse_url($path);
-        $path = $urlParts['path'];
-        // Remove base path.
-        // TODO: test with complex base path.
-        if (substr($path, 0, strlen(base_path())) == base_path()) {
-          $path = substr($path, strlen(base_path()));
-        }
-      }
-    }
-
-    // Clear the page path... varnish_expire_cache expects the host
-    // Use $_SERVER['SERVER_NAME'] to request http://
-    varnish_expire_cache((array) $path);
-
-    // Attempt to get all http paths from source path and clear those
-    $html = file_get_contents($path);
-    $dom = new DOMDocument;
-    @$dom->loadHTML($html);
-
-    // Clear Local CSS
-    $css_links = $dom->getElementsByTagName('link');
-
-    foreach ($css_links as $css_link){
-
-      if (strpos($css_link->getAttribute('href'), $_SERVER['SERVER_NAME'])) {
-        //$path_parts = explode($_SERVER['SERVER_NAME'], $css_link->getAttribute('href'));
-        varnish_expire_cache((array) $css_link->getAttribute('href'));
-      }
-    }
-
-    // Clear Local JS
-    $js_links = $dom->getElementsByTagName('script');
-
-    foreach ($js_links as $js_link){
-
-      if (strpos($js_link->getAttribute('src'), $_SERVER['SERVER_NAME'])) {
-        //$path_parts = explode($_SERVER['SERVER_NAME'], $js_link->getAttribute('src'));
-        varnish_expire_cache((array) $js_link->getAttribute('src'));
-      }
-    }
-
-    // Clear Local Images
-    $img_links = $dom->getElementsByTagName('img');
-
-    foreach ($img_links as $img_link){
-
-      if (strpos($img_link->getAttribute('src'), $_SERVER['SERVER_NAME'])) {
-        //$path_parts = explode($_SERVER['SERVER_NAME'], $img_link->getAttribute('src'));
-        //varnish_expire_cache((array) $img_link->getAttribute('src'));
-      }
-    }
-
-    drupal_set_message(t('!path cleared from Page Cache.', array('!path' => $path)));
 
   }
+  else {
+    // If a node path was not passed, confirm the url is from the site the calling the clear
+    // and check to see if they included parts of base path and clean up the URL.
+
+    // @TODO: Check the site
+
+
+
+    // Clean it up
+    $path = trim($path, '/');
+    // Remove trailing slash.
+    $path = rtrim($path, '/');
+    // Check if $path contains the base path.
+    if (strpos($path, base_path()) !== FALSE) {
+      // If scheme not included, prepend it.
+      if (!preg_match('#^http(s)?://#', $path)) {
+        $path = 'http://' . $path;
+      }
+      $urlParts = parse_url($path);
+      $path = $urlParts['path'];
+      // Remove base path.
+      // TODO: test with complex base path.
+      if (substr($path, 0, strlen(base_path())) == base_path()) {
+        $path = substr($path, strlen(base_path()));
+      }
+    }
+
+
+  }
+
+  // Clear the page path
+  varnish_purge($host, $path);
+
+  // Attempt to get all http paths from source path and clear those
+  $html = file_get_contents('http://' . $_SERVER['SERVER_NAME'] . $path);
+  $dom = new DOMDocument;
+  @$dom->loadHTML($html);
+  $asset_paths = array();
+
+  // Clear Local CSS
+  $css_links = $dom->getElementsByTagName('link');
+
+  foreach ($css_links as $css_link){
+
+    if (strpos($css_link->getAttribute('href'), $_SERVER['SERVER_NAME'])) {
+      $path_parts = explode($_SERVER['SERVER_NAME'], $css_link->getAttribute('href'));
+      $asset_paths[] = $path_parts[1];
+    }
+  }
+
+  // Clear Local JS
+  $js_links = $dom->getElementsByTagName('script');
+
+  foreach ($js_links as $js_link){
+
+    if (strpos($js_link->getAttribute('src'), $_SERVER['SERVER_NAME'])) {
+      $path_parts = explode($_SERVER['SERVER_NAME'], $js_link->getAttribute('src'));
+      $asset_paths[] = $path_parts[1];
+    }
+  }
+
+  // Clear Local Images
+  $img_links = $dom->getElementsByTagName('img');
+
+  foreach ($img_links as $img_link){
+
+    if (strpos($img_link->getAttribute('src'), $_SERVER['SERVER_NAME'])) {
+      $path_parts = explode($_SERVER['SERVER_NAME'], $img_link->getAttribute('src'));
+      $asset_paths[] = $path_parts[1];
+    }
+  }
+
+  if (count($asset_paths)) {
+    varnish_expire_cache($asset_paths);
+  }
+
+  drupal_set_message(t('!path cleared from Page Cache.', array('!path' => $path)));
+
 }
 
 
