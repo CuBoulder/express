@@ -512,15 +512,25 @@ function express_settings_clear_varnish_cache_submit($form, &$form_state) {
  * @ingroup forms
  */
 function express_settings_varnish_path_cache_validate($form, &$form_state) {
-      $path = $form_state['values']['clear_varnish_path_cache_path'];
-      $path = base_path() . drupal_get_path_alias($path);
-      // the node set to <front> resolves to base_path() . 'home'
-      // since this clears the entire site, it we limit this to
-      if ($path == base_path() . 'home') {
-        if (!user_access('clear full caches')) {
-           form_set_error('[clear_varnish_path_cache_path]', t('The front page of a site can only be cleared by users with permission to clear the Full Page Cache.'));
-        }
-      }
+
+  $path = $form_state['values']['clear_varnish_path_cache_path'];
+  $host = _varnish_get_host();
+
+  if (stripos($path, '://') && !stripos($path, '://' . $host . base_path())) {
+    form_set_error('[clear_varnish_path_cache_path]', t('Path must be part of this site.'));
+  }
+
+  if (preg_match('#^node/#', $path)) {
+    $path = base_path() . drupal_get_path_alias($path);
+  }
+
+  // the node set to <front> resolves to base_path() . 'home'
+  // since this clears the entire site, it we limit this to
+  if ($path == base_path() . 'home' || $path == base_path()) {
+    if (!user_access('clear full caches')) {
+      form_set_error('[clear_varnish_path_cache_path]', t('The front page of a site can only be cleared by users with permission to clear the Full Page Cache.'));
+    }
+  }
 }
 
 /**
@@ -531,7 +541,6 @@ function express_settings_varnish_path_cache_validate($form, &$form_state) {
 function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
 
   $path = $form_state['values']['clear_varnish_path_cache_path'];
-
   $host = _varnish_get_host();
 
   if (preg_match('#^node/#', $path)) {
@@ -560,33 +569,14 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
 
   }
   else {
-    // If a node path was not passed, confirm the url is from the site the calling the clear
-    // and check to see if they included parts of base path and clean up the URL.
+    // If a node path was not passed, clean up the URL
 
-    // @TODO: Check the site
+    $url_parts = parse_url($path);
 
-
-
-    // Clean it up
-    $path = trim($path, '/');
-    // Remove trailing slash.
-    $path = rtrim($path, '/');
-    // Check if $path contains the base path.
-    if (strpos($path, base_path()) !== FALSE) {
-      // If scheme not included, prepend it.
-      if (!preg_match('#^http(s)?://#', $path)) {
-        $path = 'http://' . $path;
-      }
-      $urlParts = parse_url($path);
-      $path = $urlParts['path'];
-      // Remove base path.
-      // TODO: test with complex base path.
-      if (substr($path, 0, strlen(base_path())) == base_path()) {
-        $path = substr($path, strlen(base_path()));
-      }
+    $path = $url_parts['path'];
+    if (isset($url_parts['query'])) {
+      $path .= $url_parts['query'];
     }
-
-
   }
 
   // Clear the page path
@@ -598,7 +588,7 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
   @$dom->loadHTML($html);
   $asset_paths = array();
 
-  // Clear Local CSS
+  // Find Local CSS
   $css_links = $dom->getElementsByTagName('link');
 
   foreach ($css_links as $css_link){
@@ -609,7 +599,7 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
     }
   }
 
-  // Clear Local JS
+  // Find Local JS
   $js_links = $dom->getElementsByTagName('script');
 
   foreach ($js_links as $js_link){
@@ -620,7 +610,7 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
     }
   }
 
-  // Clear Local Images
+  // Find Local Images
   $img_links = $dom->getElementsByTagName('img');
 
   foreach ($img_links as $img_link){
