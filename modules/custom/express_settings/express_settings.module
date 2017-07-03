@@ -517,9 +517,6 @@ function express_settings_varnish_path_cache_validate($form, &$form_state) {
 
 
   if (stripos($path, '://')) {
-    dsm('a url');
-    dsm($path);
-    dsm($host . base_path());
     if (!stripos($path, '://' . $host . base_path())) {
       form_set_error('[clear_varnish_path_cache_path]', t('Path must be part of this site.'));
     }
@@ -640,7 +637,6 @@ function express_settings_clear_varnish_path_cache_submit($form, &$form_state) {
     }
 
     if (count($asset_paths)) {
-      dsm($asset_paths);
       varnish_expire_cache($asset_paths);
     }
   }
