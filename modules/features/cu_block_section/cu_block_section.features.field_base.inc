@@ -30,7 +30,7 @@ function cu_block_section_field_default_field_bases() {
         'fixed' => 'Fixed',
       ),
       'allowed_values_function' => 'cu_block_section_bg_effect_options',
-      'allowed_values_php' => '',
+      'allowed_values_php' => FALSE,
     ),
     'translatable' => 0,
     'type' => 'list_text',
