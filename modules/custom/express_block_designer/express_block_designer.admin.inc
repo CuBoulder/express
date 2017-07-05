@@ -68,6 +68,7 @@ function express_block_designer_form($form, &$form_state, $delta) {
   $saved = express_block_designer_load($delta);
   // Get settings
   $settings = $saved ? unserialize($saved->block_settings) : array();
+  $form['#exbd_settings'] = $settings;
 
   // If this is an existing config, add id.
   if ($saved) {
@@ -302,11 +303,13 @@ function express_block_designer_form($form, &$form_state, $delta) {
   );
 
   // Save
+
   $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => 'Save',
-  );
 
+  );
+  $form['actions']['#weight'] = 1000;
 
 
   $default_values = variable_get('express_block_designer_default_values', array());
@@ -345,7 +348,7 @@ function express_block_designer_themes_form($form, &$form_state, $id = NULL) {
 
   // If loaded, this will be an update/delete, otherwise insert a new record.
   $settings = $saved ? unserialize($saved->block_settings) : array();
-
+  $form['#exbd_settings'] = $settings;
   // If not new, add Block Theme id.
   // If this is an existing config, add id.
   if ($saved) {
@@ -519,6 +522,7 @@ function express_block_designer_themes_form($form, &$form_state, $id = NULL) {
       '#value' => t('Delete'),
     );
   }
+  $form['actions']['#weight'] = 1000;
   return $form;
 }
 
