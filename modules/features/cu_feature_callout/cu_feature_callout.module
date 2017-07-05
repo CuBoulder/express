@@ -376,6 +376,8 @@ function cu_feature_callout_form_bean_form_alter(&$form, &$form_state, $form_id)
        array(':input[name="field_callout_style[und]"]' => array('value' => 'columns')),
        'or',
        array(':input[name="field_callout_style[und]"]' => array('value' => 'cards')),
+       'or',
+       array(':input[name="field_callout_style[und]"]' => array('value' => 'overlay')),
      ),
     );
     $form['field_callout_image_size']['#states'] = array(
@@ -383,6 +385,8 @@ function cu_feature_callout_form_bean_form_alter(&$form, &$form_state, $form_id)
        array(':input[name="field_callout_style[und]"]' => array('value' => 'columns')),
        'or',
        array(':input[name="field_callout_style[und]"]' => array('value' => 'cards')),
+       'or',
+       array(':input[name="field_callout_style[und]"]' => array('value' => 'overlay')),
      ),
     );
   }
