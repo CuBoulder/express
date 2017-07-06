@@ -621,23 +621,6 @@ div.image-caption  p:first-child {
   display: block;
 }
 
-<<<<<<< HEAD
-/* Donut */
-.donut.svg-container {
-  display: inline-block;
-}
-.donut-donut-25 {
-  width:25%;
-}
-.donut-donut-33 {
-  width:33.3333%;
-}
-.donut-donut-50 {
-  width:50%;
-}
-.donut text {
-  font-weight: 900;
-=======
 /* Map */
 iframe.map-small {
   height:250px;
@@ -671,5 +654,4 @@ iframe.map-large {
   display: inline-block;
   font-size: 85%;
   text-align: right;
->>>>>>> dev
 }
