@@ -5,4 +5,3 @@ package = CU-Core
 version = 7.x-1.0
 
 dependencies[] = express_dashboards
-dependencies[] = express_status
