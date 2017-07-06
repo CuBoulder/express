@@ -4,6 +4,7 @@ package = CU-Advanced Layout
 version = 7.x-2.0
 dependencies[] = bean_admin_ui
 dependencies[] = ctools
+dependencies[] = cu_hero_unit
 dependencies[] = entityreference
 dependencies[] = features
 dependencies[] = fences

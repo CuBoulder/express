@@ -16,11 +16,11 @@ function cu_block_section_field_default_field_instances() {
     'bundle' => 'block_section',
     'default_value' => array(
       0 => array(
-        'value' => 'scroll',
+        'value' => 'fixed',
       ),
     ),
     'default_value_function' => '',
-    'default_value_php' => '',
+    'default_value_php' => FALSE,
     'deleted' => 0,
     'description' => 'Choose an effect for the background image.',
     'display' => array(
