@@ -2,11 +2,7 @@
 
 
 function parallax_browser_check() {
-  if (navigator.userAgent.match(/(iPod|iPhone|iPad)/)) {
-    return false;
-  }
-
-  if (navigator.userAgent.match(/(Android)/)) {
+  if (navigator.userAgent.match(/(iPod|iPhone|iPad|Android)/)) {
     return false;
   }
   return true;
