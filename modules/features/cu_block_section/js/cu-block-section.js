@@ -7,7 +7,7 @@ function parallax_browser_check() {
   }
 
   if (navigator.userAgent.match(/(Android)/)) {
-    return rale;
+    return false;
   }
   return true;
 }
