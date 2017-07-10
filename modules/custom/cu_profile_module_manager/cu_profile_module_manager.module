@@ -137,33 +137,6 @@ function cu_profile_module_manager_atlas_request_submit($form, &$form_state) {
 }
 
 /**
- * Check to see if the package has a label and return it.
- *
- * @param $key
- * @param $item
- * @return mixed
- */
-function _prepared_atlas_package($key, $item) {
-  // Atlas code api call.
-  $code_array = atlas_api_request('code', $key);
-
-  if (isset($code_array) && !empty($code_array['meta']['label']) && $item == 'label') {
-    $code_label = $code_array['meta']['label'];
-    return $code_label;
-  }
-
-  if (isset($code_array) && !empty($code_array['meta']['tag']) && $item == 'tag') {
-    $code_tag = $code_array['meta']['tag'];
-    return $code_tag;
-  }
-
-  if (isset($code_array) && !empty($code_array['meta']['name']) && $item == 'name') {
-    $code_name = $code_array['meta']['name'];
-    return $code_name;
-  }
-}
-
-/**
  * Addon bundle page.
  *
  * @return array
