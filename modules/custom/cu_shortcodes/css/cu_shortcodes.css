@@ -465,12 +465,12 @@ div.image-caption  p:first-child {
     clear:right;
   }
   .feature-layout-callout-large {
-    width:360px;
+    width:320px;
     float: right;
     margin: 0 0 40px 40px;
   }
   .feature-layout-callout-xlarge {
-    width:480px;
+    width:400px;
     float: right;
     margin: 0 0 40px 40px;
   }
@@ -483,12 +483,12 @@ div.image-caption  p:first-child {
   }
   .feature-layout-callout-large {
     margin: 0 0 40px 40px;
-    width:480px;
+    width:380px;
     float: right;
   }
   .feature-layout-callout-xlarge {
     margin: 0 0 40px 40px;
-    width:720px;
+    width:520px;
     float: right;
   }
   .feature-story-wrapper .feature-layout-callout,
