@@ -7,8 +7,6 @@
 
 ?>
 
-<div class="pmm-actions">
-<br>&#43;
 <?php
   $links = array();
   if (isset($enable_url)) {
@@ -19,4 +17,3 @@
   }
   print join(' | ', $links);
 ?>
-</div>

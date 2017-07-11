@@ -1,7 +1,9 @@
 <?php
 
 /**
- * Page callback for admin/config/development/module-manager/settings
+ * Page callback for admin/config/development/module-manager/settings.
+ *
+ * @return mixed
  */
 function profile_module_manager_admin_settings() {
   $form = array();
@@ -17,12 +19,6 @@ function profile_module_manager_admin_settings() {
     '#default_value' => variable_get('profile_module_manager_disable_enabling', 0),
     '#title' => t('Disable the ability for users to enable bundles'),
     '#description' => t('Turns off the ability for users to enable bundles on the bundles list page.'),
-  );
-  $form['profile_module_manager_ignore_sites_all_bundle'] = array(
-    '#title' => t('Hide all bundles from sites/all'),
-    '#type' => 'checkbox',
-    '#default_value' => variable_get('profile_module_manager_ignore_sites_all_bundle', FALSE),
-    '#description' => t('Removes all bundles from bundle list page so that the output can be performed per module.'),
   );
   $form['profile_module_manager_disable_enabling_text'] = array(
     '#type' => 'textarea',
@@ -59,7 +55,57 @@ function profile_module_manager_admin_settings() {
 }
 
 /**
- * Callback function for admin/settings/bundles/list/confirm/%
+ * Callback for admin/settings/bundles/list.
+ *
+ * @return string
+ */
+function profile_module_manager_bundle_list() {
+  $page = '';
+
+  // Get the bundles' info array.
+  $bundles = profile_module_manager_get_bundles($status = 'all');
+  foreach ($bundles as $key => $bundle) {
+    $info_file = str_replace(".module", ".info", $bundle->filename);
+    $info = drupal_parse_info_file($info_file);
+    $bundle_info[$key] = $info;
+
+    $bundle_machine_name = $bundle->name;
+    $bundle_name = $info['name'];
+    $bundle_group = (isset($info['bundle_group']) ? $info['bundle_group'] : '');
+    $bundle_group_set = array('addon_bundles', 'request_bundles', 'beta_bundles', 'admin_bundles');
+    $bundle_description = (isset($info['description']) ? $info['description'] : '');
+
+    if (isset($bundle_group) && (!in_array($bundle_group, $bundle_group_set))) {
+      $page .= '<div class="bundle-enable" id="edit-' . $bundle_machine_name . '">';
+      $page .= '<h2>' . $bundle_name . '</h2>';
+      $page .= '<p>' . $bundle_description . '</p>';
+      foreach ($bundle_info as $key => $value) {
+        $enabled = module_exists($key) ? 1 : 0;
+      }
+      foreach ($info as $key => $value) {
+        //$page .= '<p>' . $key . ': ' . $value . '</p>';
+      }
+      $action_vars = array();
+      if ($enabled) {
+        $page .= theme('profile_module_manager_bundle_actions_enabled', array('actions' => $action_vars));
+      } else {
+        $action_vars['enable_url'] = current_path() . '/confirm/' . $bundle_machine_name;
+        if (isset($info['project_demo_url'])) {
+          $action_vars['demo_url'] = $info['project_demo_url'];
+        }
+        $page .= theme('profile_module_manager_bundle_actions_disabled', $action_vars);
+      }
+      $page .= '</div>';
+    }
+  }
+  return $page;
+}
+
+/**
+ * Callback function for admin/settings/bundles/list/confirm/%.
+ *
+ * @param $bundle_name
+ * @return string
  */
 function profile_module_manager_bundle_confirm($bundle_name) {
   $output = '';
@@ -93,4 +139,78 @@ function profile_module_manager_bundle_confirm($bundle_name) {
   $output .= '<a href="' . $GLOBALS['base_url'] . '/admin/settings/bundles/list/enable/' . $bundle_name . '" title="Confirm"><div class="btn btn-primary">Confirm</div></a>';
   $output .= '<a href="' . $GLOBALS['base_url'] . '/admin/settings/bundles/list/" title="Cancel"><div class="btn btn-default">Cancel</div></a>';
   return $output;
+}
+
+/**
+ * Callback function for admin/settings/bundles/list/enable/%.
+ *
+ * @param $bundle
+ * @return string
+ */
+function profile_module_manager_bundle_enable($bundle) {
+
+  if (variable_get('profile_module_manager_disable_enabling', 0) == 1) {
+    $output = '<p>' . variable_get('profile_module_manager_disable_enabling_text', 'The ability to enable bundles has been turned off.') . '</p>';
+    return $output;
+  }
+  // Start bundle enable timer.
+  variable_set('profile_module_manager_enable_timer', microtime(TRUE));
+
+  // Make sure this is a bundle
+  if (strpos($bundle, '_bundle')) {
+    // look up depenencies & enable those first
+    $path = drupal_get_path('module', $bundle) . '/' . $bundle . '.info';
+    $info = drupal_parse_info_file($path);
+    $modules_to_enable = array();
+    if (isset($info['dependencies'])) {
+      foreach ($info['dependencies'] as $module) {
+        if(!module_exists($module)) {
+          //module_enable(array($module), FALSE);
+          $modules_to_enable[] = $module;
+        }
+      }
+    }
+    // enable the bundle last
+    if(!module_exists($bundle)) {
+      //module_enable(array($bundle), FALSE);
+      $modules_to_enable[] = $bundle;
+    }
+
+    // Size of modules to enable in each batch.
+    $limit = 3;
+    $module_chunks = array_chunk($modules_to_enable, $limit, TRUE);
+
+    // Chunk modules into groups.
+    $operations = array();
+    foreach ($module_chunks as $chunk) {
+      $operations[] = array('profile_module_manager_process_batch', array($chunk));
+    }
+
+    // Set batch operation and redirect to bundles list when done.
+    $batch = array(
+      'title' => t('Enabling Bundle'),
+      'operations' => $operations,
+      'finished' => 'profile_module_manager_batch_finished',
+      'init_message' => t('Initializing...'),
+      'progress_message' => t('Operation @current out of @total.'),
+      'error_message' => t('Bundle failed to be enabled.'),
+    );
+    batch_set($batch);
+
+    // Logout all users except currently using site if lgout flag is set.
+    if (isset($info['bundle_logout']) && $info['bundle_logout'] == 1) {
+      // Get all logged in users based on timestamp of being logged in since 900 seconds ago.
+      $interval = REQUEST_TIME - 900;
+      $items = db_query('SELECT u.uid, u.name, MAX(s.timestamp) AS max_timestamp FROM {users} u INNER JOIN {sessions} s ON u.uid = s.uid WHERE s.timestamp >= :interval AND s.uid > 0 GROUP BY u.uid, u.name ORDER BY max_timestamp DESC', array(':interval' => $interval))->fetchAll();
+      $uids = array();
+      foreach ($items as $item) {
+        $uids[] = $item->uid;
+      }
+      // Log out all other users.
+      $deleted_users = db_delete('sessions')
+        ->condition('uid', $uids, 'NOT IN')
+        ->execute();
+    }
+    batch_process('admin/settings/bundles/list');
+  }
 }

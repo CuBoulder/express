@@ -6,7 +6,7 @@
  */
 
  // Set Bundle label
- $label = ($group == 'group_admin_bundle') ? 'Admin Bundles' : $group;
+ $label  = ($group == 'group_admin_bundle') ? 'Admin Bundles' : 'Bundles';
 ?>
 
 <div class="admin-panel">
