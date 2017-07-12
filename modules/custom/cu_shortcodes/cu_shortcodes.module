@@ -744,14 +744,10 @@ function cu_shortcodes_map($attrs, $content = NULL) {
     $mapurl = $content . "&amp;ie=UTF8&amp;output=embed";
     $map = '<iframe width="100%" class="' . $size . '" src="' . $mapurl . '"></iframe>';
   }
-  elseif (strpos($content, 'colorado.edu/map') !== FALSE) {
-    $mapurl = str_replace('map/?', 'map/?embed=true&', $content);
-    $map = '<iframe width="100%" class="' . $size . '" src="' . $mapurl . '"></iframe><br /><a href="' . $mapurl . '" class="map-link">View Larger Map</a>';
-  }
   elseif (strpos($content, 'google.com/fusiontables') !== FALSE) {
     $map = '<iframe width="100%" class="' . $size . '" src="' . $content . '"></iframe>';
   }
-  elseif ((strpos($content, 'myatlascms.com') !== FALSE) || (strpos($content, 'map.colorado.edu') !== FALSE)){
+  elseif ((strpos($content, 'myatlascms.com') !== FALSE) || (strpos($content, 'colorado.edu/map') !== FALSE)){
     // Parse url
     $url = parse_url($content);
     // Hide print link for embeded map
