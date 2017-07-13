@@ -102,8 +102,7 @@ function cu_article_page_alter(&$page) {
   drupal_add_css(drupal_get_path('module', 'cu_article') . '/css/cu-article.css');
   drupal_add_css(drupal_get_path('module', 'cu_article') . '/css/cu-article-grid.css');
   drupal_add_css(drupal_get_path('module', 'cu_article') . '/css/owl.carousel.css');
-  drupal_add_js(drupal_get_path('module', 'cu_article') . '/js/owl.carousel.js');
-  drupal_add_js(drupal_get_path('module', 'cu_article') . '/js/article-slider.js');
+
 }
 
 /**
@@ -617,7 +616,7 @@ function cu_article_preprocess_entity(&$vars) {
 
     // Set number of items.
 
-    $query = $query->extend('PagerDefault')->limit(15);
+    $query->range(0, 7);
     $query->condition('n.type', 'article', '=');
     $query->condition('n.status', 1, '=');
     $query->fields('n', array('nid', 'title', 'sticky'));
@@ -719,25 +718,31 @@ function cu_article_preprocess_entity(&$vars) {
     $nids = $query->execute()->fetchCol();
     $nodes = node_load_multiple($nids);
 
+    $nodes = node_view_multiple($nodes, 'feature');
+
     // Build output.
     if (!empty($nodes)) {
-      $output = array();
-      $rows = array();
-      $rows[1] = 'alpha';
-      $rows[2] = '';
-      $rows[3] = 'omega';
-      $i = 1;
-      $output['articles'] = node_view_multiple($nodes, 'grid');
-      unset($output['articles']['nodes']['#sorted']);
-      foreach ($output['articles']['nodes'] as $nid => $node) {
-        $output['articles']['nodes'][$nid]['#prefix'] = '<div class="article-view-mode-grid article-slider-slide">';
-        $output['articles']['nodes'][$nid]['#suffix'] = '</div>';
-        $i++;
+      $output = array(
+        'articles' => array(),
+      );
+      unset($nodes['nodes']['#sorted']);
+      foreach ($nodes['nodes'] as $key => $node) {
+        $node['field_article_thumbnail'][0]['#image_style'] = 'widescreen';
+        $uri = $node['field_article_thumbnail'][0]['#item']['uri'];
+        $image_path = image_style_url('widescreen', $uri);
+        $node['field_article_thumbnail'][0]['#item']['attributes']['data-flickity-lazyload'] = $image_path;
+        $node_vars = array(
+          'title' => $node['#node']->title,
+          'nid' => $node['#node']->nid,
+          'image' => $node['field_article_thumbnail'],
+        );
+        $content =
+        $output['articles'][]['#markup'] = theme('article_slider_node', $node_vars);
       }
+
       $output['articles']['#prefix'] = '<div class="article-slider">';
       $output['articles']['#suffix'] = '</div>';
-      unset($vars['content']['article_slider_entity_view_1']);
-      $vars['content']['article_slider'] = $output;
+      $vars['content'] = $output;
     }
     else {
       $vars['content'] = array_merge($vars['content'], $output);
@@ -1885,4 +1890,65 @@ function cu_article_sort($a, $b) {
     return 0;
   }
   return ($a < $b) ? -1 : 1;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function cu_article_theme(&$existing, $type, $theme, $path) {
+  $registry = array();
+  $template_dir = drupal_get_path('module', 'cu_article') . '/templates';
+  $registry['article_slider_node'] = array(
+    'template' => 'article-slider-node',
+    'path' => $template_dir,
+    'render element' => 'elements',
+  );
+  return $registry;
+}
+
+/**
+ * Implements hook_libraries_info().
+ */
+function cu_article_libraries_info() {
+  $libraries = array();
+  $libraries['flickity'] = array(
+    'name' => t('Flickity'),
+    'vendor url' => 'https://flickity.metafizzy.co',
+    'download url' => 'https://github.com/metafizzy/flickity',
+    'version' => '2.0.9',
+    'files' => array(
+      'js' => array(
+        'js/flickity.pkgd.min.js',
+      ),
+      'css' => array(
+        'css/flickity.css',
+      ),
+    ),
+  );
+
+  return $libraries;
+}
+
+
+/**
+ * Implements hook_page_alter().
+ */
+function cu_article_init() {
+
+  $library = libraries_get_path('flickity');
+
+  // Add the library reference.
+  $path = $library . '/js/flickity.pkgd.min.js';
+  $installed = file_exists($path);
+  if ($installed) {
+    drupal_add_js($path);
+
+    drupal_add_js(drupal_get_path('module', 'cu_article') . '/js/article-slider.js');
+  }
+
+  $path = $library . '/css/flickity.css';
+  $installed = file_exists($path);
+  if ($installed) {
+    drupal_add_css($path);
+  }
 }
