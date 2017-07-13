@@ -83,9 +83,9 @@ function atlas_statistics_atlas_statistics() {
     $statistics_data['overridden_features'] = $overridden;
   }
 
-  // Returns system status boolean and resolve to TRUE or FALSE.
+  // Returns system status boolean and resolves to TRUE or FALSE.
   module_load_include('inc', 'system', 'system.admin');
-  $statistics_data['drupal_system_status'] = (system_status(TRUE)) ? TRUE : FALSE;;
+  $statistics_data['drupal_system_status'] = (system_status(TRUE)) ? TRUE : FALSE;
 
   // If webform is enabled then gather its statistics.
   $webform_stats = _atlas_statistics_get_webform_statistics();
