@@ -172,6 +172,13 @@ function curl_github_info($hash, $name) {
   return $output;
 }
 
+/**
+ * This builds out the bundle cards from atlas and inserts the github description if available.
+ *
+ * @param $package
+ * @param $bundle_group
+ * @return array|null
+ */
 function _prepare_atlas_output($package, $bundle_group) {
   global $base_path;
   $output = array();
