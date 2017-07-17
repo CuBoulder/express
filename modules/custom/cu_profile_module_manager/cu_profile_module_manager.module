@@ -139,7 +139,7 @@ function cu_profile_module_manager_atlas_request_submit($form, &$form_state) {
 /**
  * @param $hash
  * @param $name
- * @return mixed|string
+ * @return string
  */
 function curl_github_info($hash, $name) {
   if (variable_get('github_info')) {
@@ -262,7 +262,7 @@ function cu_profile_module_manager_addon_page() {
       }
     }
 
-    if (isset($tag) && ($tag == 'addon_bundles' || $tag == 'request_bundles' || $tag == 'beta_bundles')) {
+    if (isset($tag) && $tag == $bundle_group) {
       $output[] = _prepare_atlas_output($package, $bundle_group);
     }
   }
@@ -300,7 +300,7 @@ function cu_profile_module_manager_request_page() {
       }
     }
 
-    if (isset($tag) && ($tag == 'addon_bundles' || $tag == 'request_bundles' || $tag == 'beta_bundles')) {
+    if (isset($tag) && $tag == $bundle_group) {
       $output[] = _prepare_atlas_output($package, $bundle_group);
     }
   }
@@ -337,7 +337,7 @@ function cu_profile_module_manager_beta_page() {
       }
     }
 
-    if (isset($tag) && ($tag == 'addon_bundles' || $tag == 'request_bundles' || $tag == 'beta_bundles')) {
+    if (isset($tag) && $tag == $bundle_group) {
       $output[] = _prepare_atlas_output($package, $bundle_group);
     }
   }
