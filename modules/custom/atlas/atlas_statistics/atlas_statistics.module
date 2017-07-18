@@ -109,12 +109,6 @@ function atlas_statistics() {
     '#default_value' => $statistics_id,
   );
 
-  $form['atlas_statistics_id'] = array(
-    '#type' => 'hidden',
-    '#title' => t('statistics_id'),
-    '#default_value' => $statistics_id,
-  );
-
   $form['submit'] = array(
     '#type' => 'submit',
     '#value' => 'Save Statistics',
