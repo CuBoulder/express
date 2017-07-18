@@ -75,14 +75,23 @@ function atlas_statistics() {
     return;
   }
 
+  $atlas_url = variable_get('atlas_url');
+  $statistics_url = $atlas_url . 'statistics/' . $statistics_id;
+  $statistics_url_markup = '<a href="' . $statistics_url . '">' . $statistics_url . '</a>';
+
+  $form['atlas_statistics_link'] = array(
+    '#type' => 'markup',
+    '#markup' => '<div><strong>Statistics Item URL</strong>: ' . $statistics_url_markup . '</div>',
+  );
+
   module_load_include('inc', 'atlas_statistics');
   $atlas_statistics = atlas_statistics_get_statistics();
 
   $form['atlas_statistics'] = array(
     '#type' => 'markup',
-    '#prefix' => '<pre>',
+    '#prefix' => '<div><strong>Statistics Payload</strong><br /><pre>',
     '#markup' => atlas_statistics_pretty_print(drupal_json_encode($atlas_statistics)),
-    '#suffix' => '</pre>',
+    '#suffix' => '</pre></div>',
   );
 
 
