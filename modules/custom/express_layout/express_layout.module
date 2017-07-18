@@ -141,8 +141,8 @@ function express_layout_admin_paths() {
  * Check to see if there are layout fields and user has node access.
  */
 function express_layout_access($op, $node) {
- $type = variable_get('express_layout_type_' . $node->type, NULL);
- $ignore = variable_get('express_layout_node_type_ignore');
+  $type = variable_get('express_layout_type_' . $node->type, NULL);
+  $ignore = variable_get('express_layout_node_type_ignore');
 
   if (user_access('edit express layouts') && $type && ($ignore[$node->type] == FALSE)) {
     return node_access($op, $node);
