@@ -5,6 +5,15 @@
  * Provides statistics reporting for Atlas.
  */
 
+
+/**
+ * Implements hook_boot().
+ */
+function atlas_statistics_boot() {
+  // forces bootstrap setting = 1 in system table to avoid
+  // https://www.drupal.org/node/1822278
+}
+
 /**
  * Implements hook_cron().
  */
