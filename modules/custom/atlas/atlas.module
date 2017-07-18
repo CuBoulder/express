@@ -419,6 +419,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
   }
   // If error property exists in the response object.
   elseif (property_exists($response, 'error')) {
+
     if (property_exists($response, 'data') && $response->code != 500) {
       $response_json = drupal_json_decode($response->data);
       if (array_key_exists('_error', $response_json)) {
@@ -431,6 +432,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
     else {
       $error_message = 'Atlas response: ' . $response->error;
     }
+    drupal_set_message($error_message, 'warning');
     watchdog(
       'atlas',
       'API Request Error - %error',
