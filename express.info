@@ -19,6 +19,7 @@ dependencies[] = cu_colorbox
 
 ;dependencies[] = cu_settings
 ;dependencies[] = cu_permissions
+;dependencies[] = cu_elysia_cron
 
 ; Core
 dependencies[] = block
