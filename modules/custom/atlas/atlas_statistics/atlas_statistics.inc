@@ -25,6 +25,7 @@ function atlas_statistics_atlas_statistics() {
 
   $statistics_data['name'] = variable_get('site_name', NULL);
   $statistics_data['status'] = variable_get('atlas_status', NULL);
+  $statistics_data['site'] = variable_get('atlas_id', NULL);
 
   // Count Nodes.
   $node_query = db_select('node', 'n');
