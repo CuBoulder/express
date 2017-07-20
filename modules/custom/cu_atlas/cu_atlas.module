@@ -176,6 +176,16 @@ function cu_atlas_atlas_statistics() {
     }
   }
 
+  // Custom Logo.
+  if (module_exists('cu_custom_logo')) {
+    $white = variable_get('custom_white_logo');
+    $black = variable_get('custom_black_logo');
+    $retina = variable_get('custom_logo_retina');
+    if (isset($white) || isset($black) || isset($retina)) {
+      $statistics_data['custom_logo_settings'] = TRUE;
+    }
+  }
+
   // Check if the selected theme is responsive.
   $is_responsive = theme_get_setting('alpha_responsive');
   if ($is_responsive == NULL || $is_responsive == 0) {

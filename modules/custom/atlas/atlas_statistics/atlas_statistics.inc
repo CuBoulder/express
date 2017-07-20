@@ -24,6 +24,8 @@ function atlas_statistics_atlas_statistics() {
   $statistics_data = array();
 
   $statistics_data['name'] = variable_get('site_name', NULL);
+  $statistics_data['status'] = variable_get('atlas_status', NULL);
+  $statistics_data['site'] = variable_get('atlas_id', NULL);
 
   // Count Nodes.
   $node_query = db_select('node', 'n');
@@ -82,9 +84,9 @@ function atlas_statistics_atlas_statistics() {
     $statistics_data['overridden_features'] = $overridden;
   }
 
-  // Returns system status boolean.
+  // Returns system status boolean and resolves to TRUE or FALSE.
   module_load_include('inc', 'system', 'system.admin');
-  $statistics_data['drupal_system_status'] = system_status(TRUE);
+  $statistics_data['drupal_system_status'] = (system_status(TRUE)) ? TRUE : FALSE;
 
   // If webform is enabled then gather its statistics.
   $webform_stats = _atlas_statistics_get_webform_statistics();
