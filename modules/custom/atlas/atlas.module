@@ -335,6 +335,7 @@ function atlas_version() {
  *   Array of data to use when creating or updating an item.
  */
 function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NULL) {
+
   // We want to figure out what kind of query we are running (Resource endpoint
   // vs. single item) and adjust the separator.
   if (preg_match('/^where/', $query)) {
@@ -414,6 +415,30 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
 
     if ($response->headers['content-type'] == 'application/json') {
       $json_array = drupal_json_decode($response->data);
+      //dsm($json_array);
+      // is there more that 1 page/500 items?
+
+      if (isset($json_array['_links']['next']['href'])) {
+        dsm('array has 2nd page');
+        dsm($json_array);
+        // Figure out how many times we are going to have to call back to the server.
+        // If it is more than X, show warning before doing it.
+
+        // dsm($json_array['_links']['next']['href']);
+        // sites?where={"type":"express","status":{"$in":["installed","launching","launched","restore"]}}&page=2
+        // dsm($json_array);
+        $query2 = explode('?', $json_array['_links']['next']['href']);
+        $request_url = $atlas_url . $resource . '?' . $query2[1];
+        // Make the request again.
+        dsm('making 2nd request');
+        dsm($request_url);
+        $response = drupal_http_request($request_url, $request_options);
+        $json_array2 = drupal_json_decode($response->data);
+        dsm($json_array2);
+        $result = array_merge($json_array, $json_array2);
+        dsm('compined array');
+        dsm($result);
+      }
       return $json_array;
     }
   }
