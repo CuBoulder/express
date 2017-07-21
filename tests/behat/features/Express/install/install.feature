@@ -21,7 +21,7 @@ Feature: Content Management
       Then I should not see the text "Home" in the "Sidebar Second" region
         And I should see the text "Basic Page" in the "Sidebar Second" region
         
-  @api
+  @drushTest @drush
   Scenario: Test that all dependencies are defined by profile, core or bundle
     Given I run drush "core-requirements --severity=2"
     Then drush output should contain "Error"
