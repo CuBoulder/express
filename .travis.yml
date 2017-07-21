@@ -53,10 +53,9 @@ install:
   - cd ../../../
 
   # Build Codebase
-  - git clone git@github.com:CuBoulder/drupal-7.x.git drupal
-  - cd drupal
-  - git checkout 7.56-hardened
-  - cd ../
+  - drush dl drupal-7.56
+  - mkdir drupal
+  - mv drupal-7.56/* drupal/
   - mkdir profiles
   - mv express drupal/profiles/
 
