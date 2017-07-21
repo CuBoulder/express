@@ -165,6 +165,8 @@ function cu_forms_bundle_express_help_fields($variables) {
 }
 
 /**
+ * Limit extensions in uploaded files via webform file field.
+ *
  * @param $form
  * @param $form_state
  * @param $form_id
