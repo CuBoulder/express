@@ -17,7 +17,6 @@ function cu_ldap_strongarm() {
   $strongarm->value = array(
     'sids' => array(
       'oud' => 'oud',
-      'directory' => 'directory',
     ),
     'authenticationMode' => 2,
     'loginUIUsernameTxt' => NULL,

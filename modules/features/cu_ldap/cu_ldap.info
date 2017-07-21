@@ -11,7 +11,6 @@ dependencies[] = strongarm
 features[ctools][] = ldap_servers:ldap_servers:1
 features[ctools][] = strongarm:strongarm:1
 features[features_api][] = api:2
-features[ldap_servers][] = directory
 features[ldap_servers][] = oud
 features[variable][] = ldap_authentication_conf
 features[variable][] = ldap_servers_cron
