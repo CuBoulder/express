@@ -734,7 +734,6 @@ function cu_core_update_7026() {
 function cu_core_update_7027() {
   module_disable(array('express_status'), TRUE);
   module_enable(array('cu_status'));
-  drupal_uninstall_modules(array('express_status'));
 }
 
 
