@@ -726,6 +726,17 @@ function cu_core_update_7026() {
   cu_core_revert_features(array('cu_ldap' => 'cu_ldap'));
 }
 
+/**
+ * Express 2.6.0 Update.
+ *
+ * Change express_status to cu_status.
+ */
+function cu_core_update_7027() {
+  module_disable(array('express_status'), TRUE);
+  module_enable(array('cu_status'));
+  drupal_uninstall_modules(array('express_status'));
+}
+
 
 /**
  * Revert features by passing features in an array.

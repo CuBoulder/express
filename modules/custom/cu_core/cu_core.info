@@ -18,7 +18,7 @@ dependencies[] = cu_alerts
 dependencies[] = cu_atlas
 dependencies[] = atlas
 dependencies[] = atlas_statistics
-dependencies[] = express_status
+dependencies[] = cu_status
 
 optional-dependencies[] = cu_users
 optional-dependencies[] = memcache
