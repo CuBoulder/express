@@ -78,10 +78,10 @@ function atlas_statistics_atlas_statistics() {
       }
     }
   }
-  $statistics_data['users']['username']['all'] = $usernames;
+
   $statistics_data['users']['username']['site_contact'] = $usernames_site_contact;
   $statistics_data['users']['username']['content_editor'] = $usernames_content_editor;
-  $statistics_data['users']['email_address']['all'] = $useremails;
+
   $statistics_data['users']['email_address']['site_contact'] = $useremails_site_contact;
   $statistics_data['users']['email_address']['content_editor'] = $useremails_content_editor;
 
