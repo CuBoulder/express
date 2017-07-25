@@ -16,6 +16,15 @@ use Behat\Behat\Context\Step\Given;
 class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
+   * Current authenticated user.
+   *
+   * A value of FALSE denotes an anonymous user.
+   *
+   * @var stdClass|bool
+   */
+  public $user = FALSE;
+
+  /**
    * Initializes context.
    *
    * Every scenario gets its own context instance.
@@ -26,7 +35,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
 
   }
 
-
   /**
    * @BeforeSuite
    * Enable bundle and add authentication data.
@@ -34,7 +42,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   public static function prepare($scope) {
 
     // List needed users.
-    $users = array('developer', 'administrator', 'content_editor', 'site_owner');
+    $users = array('developer', 'administrator', 'content_editor', 'site_owner', 'edit_my_content');
 
     // Create users.
     foreach ($users as $user_name) {
@@ -86,13 +94,25 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * @BeforeScenario
    */
-  public function before($event) {
-    //set_time_limit(60);
+  public function beforeScenario($event) {
+    // If this is a @javascript test, then resize the window.
+    if ($event->getScenario()->hasTag('javascript')) {
+      $this->getSession()->resizeWindow(1280, 1024, 'current');
+    }
   }
 
 
   /**
-   * Creates and authenticates a user with the given role(s).
+   * @AfterScenario
+   */
+  public function afterScenario($event) {
+    // @todo Handle user logouts better.
+    // assertAuthenticatedByRole() should log users out at the beginning, but
+    // no user seems to be logged in when that check is run.
+  }
+
+  /**
+   * Authenticates a user with the given role.
    *
    * @Given CU - I am logged in as a user with the :role role(s)
    * @Given CU - I am logged in as a/an :role
@@ -113,15 +133,18 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     );
 
     // Check if logged in.
-    if ($this->loggedIn()) {
-      $this->logout();
+    if ($this->cuLoggedIn()) {
+      // If logged in, logout and go to user page.
+      $this->getSession()->visit($this->locatePath('/user/logout'));
+      $this->getSession()->visit($this->locatePath('/user'));
     }
 
     if (!$this->user) {
       throw new \Exception('Tried to login without a user.');
     }
 
-    $this->getSession()->visit($this->locatePath('/user'));
+    // Don't need to visit user page since that should have been done in cuLoggedIn().
+    //$this->getSession()->visit($this->locatePath('/user'));
     $element = $this->getSession()->getPage();
     $element->fillField($this->getDrupalText('username_field'), $this->user->name);
     $element->fillField($this->getDrupalText('password_field'), $this->user->pass);
@@ -134,12 +157,61 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     // Log in.
     $submit->click();
 
-    // Need to figure out better way to check if logged in.
-    /*
-    if (!$this->loggedIn()) {
+    if (!$this->cuLoggedIn()) {
       throw new \Exception(sprintf("Failed to log in as user '%s' with role '%s'", $this->user->name, $this->user->role));
     }
-    */
+
+  }
+
+  /**
+   * Determine if the a user is already logged in.
+   *
+   * @return boolean
+   *   Returns TRUE if a user is logged in for this session.
+   */
+  public function cuLoggedIn() {
+    $session = $this->getSession();
+    $page = $session->getPage();
+
+    // The user page always kicks to an HTTPS response with the admin theme.
+    // Better to check admin theme since sites can have various themes that conflict with the log out link.
+    $session = $this->getSession();
+    $session->visit($this->locatePath('/user'));
+
+    // If a logout link is found, we are logged in. While not perfect, this is
+    // how Drupal SimpleTests currently work as well.
+    return $page->findLink($this->getDrupalText('log_out'));
+  }
+
+  /**
+   * Change the size of the window on Javascript tests.
+   *
+   * @param string $type
+   *   Predefined type to resize window.
+   *
+   * @throws Exception
+   *
+   * @Given I resize the window to a :type resolution.
+   */
+  function iChangeTheScreenSize($type) {
+    // Only change the window size on Javascript tests.
+    $driver = $this->getSession()->getDriver();
+    if (!($driver instanceof Selenium2Driver)) {
+      throw new \Exception('Only tests with the @javascript tag can resize the browser window.');
+    }
+
+    // Resize the window based on pre-defined types of resolutions.
+    switch ($type) {
+      case 'mobile':
+        $this->getSession()->resizeWindow(320, 480, 'current');
+        break;
+      case 'desktop':
+        $this->getSession()->resizeWindow(1280, 1024, 'current');
+        break;
+      default:
+        $this->getSession()->resizeWindow(1280, 1024, 'current');
+    }
+
   }
 
   /**
@@ -228,7 +300,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
       throw new \Exception(sprintf('No image had no src="..." attribute in the "%s" region on the page %s', $region, $this->getSession()->getCurrentUrl()));
     }
   }
-
 
   /**
    * @Then /^I should see the image alt "(?P<text>(?:[^"]|\\")*)" in the "(?P<region>[^"]*)" region$/
@@ -407,15 +478,21 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    * @AfterStep
    */
   public function takeScreenShotAfterFailedStep($scope) {
+    // 99 is the code for a failed test.
     if (99 === $scope->getTestResult()->getResultCode()) {
+      // Return if the test is not a @javascript one.
       $driver = $this->getSession()->getDriver();
       if (!($driver instanceof Selenium2Driver)) {
         return;
       }
-      file_put_contents('/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
+
+      // Check for directory on VM and take screenshot.
+      // Place in this directory so it is easier to see outside of VM.
+      if (file_exists('/data/code')) {
+        file_put_contents('/data/code/test.png', $this->getSession()->getDriver()->getScreenshot());
+      }
     }
   }
-
 
 
   /**
