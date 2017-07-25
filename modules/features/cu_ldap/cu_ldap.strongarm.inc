@@ -16,7 +16,7 @@ function cu_ldap_strongarm() {
   $strongarm->name = 'ldap_authentication_conf';
   $strongarm->value = array(
     'sids' => array(
-      'directory' => 'directory',
+      'oud' => 'oud',
     ),
     'authenticationMode' => 2,
     'loginUIUsernameTxt' => NULL,
@@ -74,6 +74,33 @@ function cu_ldap_strongarm() {
   $strongarm->name = 'ldap_servers_require_ssl_for_credentials';
   $strongarm->value = 1;
   $export['ldap_servers_require_ssl_for_credentials'] = $strongarm;
+
+  $strongarm = new stdClass();
+  $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
+  $strongarm->api_version = 1;
+  $strongarm->name = 'ldap_user_conf';
+  $strongarm->value = array(
+    'drupalAcctProvisionServer' => 'directory',
+    'ldapEntryProvisionServer' => 0,
+    'drupalAcctProvisionTriggers' => array(
+      2 => '2',
+      1 => '1',
+    ),
+    'ldapEntryProvisionTriggers' => array(
+      6 => 0,
+      7 => 0,
+      8 => 0,
+      3 => 0,
+    ),
+    'orphanedDrupalAcctBehavior' => 'ldap_user_orphan_email',
+    'orphanedCheckQty' => '100',
+    'userConflictResolve' => 2,
+    'manualAccountConflict' => '1',
+    'acctCreation' => 4,
+    'ldapUserSynchMappings' => array(),
+    'disableAdminPasswordField' => 0,
+  );
+  $export['ldap_user_conf'] = $strongarm;
 
   $strongarm = new stdClass();
   $strongarm->disabled = FALSE; /* Edit this to true to make a default strongarm disabled initially */
