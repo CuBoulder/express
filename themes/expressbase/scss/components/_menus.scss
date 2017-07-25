@@ -272,6 +272,12 @@
 /* Mobile Menu Toggle/ Hamburger Menu */
 .mobile-menu-toggle {
   display: none;
+  button {
+    display: inline-block;
+    white-space: nowrap;
+    background: none;
+    border:none;
+  }
 }
 .layout-responsive {
   .mobile-menu-toggle {
@@ -287,10 +293,6 @@
       clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
       clip: rect(1px, 1px, 1px, 1px);
     }
-    a {
-      display: inline-block;
-      white-space: nowrap;
-    }
   }
   @media screen and (min-width: 480px) {
     .mobile-menu-toggle {
@@ -299,7 +301,7 @@
         position: static !important;
         clip: auto;
       }
-      a {
+      button {
         padding:2px 5px;
         display: inline-block;
         border-width: 1px;
