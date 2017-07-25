@@ -80,7 +80,7 @@ function cu_ldap_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'ldap_user_conf';
   $strongarm->value = array(
-    'drupalAcctProvisionServer' => 'directory',
+    'drupalAcctProvisionServer' => 'oud',
     'ldapEntryProvisionServer' => 0,
     'drupalAcctProvisionTriggers' => array(
       2 => '2',
