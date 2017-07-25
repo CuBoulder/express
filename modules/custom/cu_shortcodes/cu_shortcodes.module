@@ -480,7 +480,7 @@ function cu_shortcodes_callout($attrs, $content = NULL) {
  * callout shortcode tips.
  */
 function cu_shortcodes_callout_tips($format, $long) {
-  $output = '[callout]Content[/callout]';
+  $output = '[callout size="small/large/xlarge"]Content[/callout]';
   return $output;
 }
 
