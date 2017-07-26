@@ -738,7 +738,7 @@ function cu_core_update_7027() {
 /**
  * Express 2.5.5 Update.
  *
- * Revert Features.
+ * Enable Realname, revert Features.
  */
 function cu_core_update_7028() {
   module_enable(array('realname'));
