@@ -19,6 +19,7 @@ dependencies[] = cu_atlas
 dependencies[] = atlas
 dependencies[] = atlas_statistics
 dependencies[] = express_status
+dependencies[] = realname
 
 optional-dependencies[] = cu_users
 optional-dependencies[] = memcache
