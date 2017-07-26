@@ -742,7 +742,7 @@ function cu_core_update_7027() {
  */
 function cu_core_update_7028() {
   module_enable(array('realname'));
-  cu_core_revert_features(array('cu_ldap' => 'cu_ldap'));
+  cu_core_revert_features(array('cu_ldap' => 'cu_ldap', 'cu_people_administration_override' => 'cu_people_administration_override'));
 }
 
 /**
