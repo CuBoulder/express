@@ -396,6 +396,12 @@ function expressadmin_page_alter(&$page) {
   drupal_add_js($settings, 'setting');
 }
 
+
+/**
+ * Implements theme_preprocess_username().
+ *
+ * Copy of template_preprocess_username except removing the truncation.
+ */
 function expressadmin_preprocess_username(&$variables) {
   $account = $variables['account'];
 
