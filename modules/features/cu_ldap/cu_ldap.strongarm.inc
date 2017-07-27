@@ -16,7 +16,7 @@ function cu_ldap_strongarm() {
   $strongarm->name = 'ldap_authentication_conf';
   $strongarm->value = array(
     'sids' => array(
-      'oud' => 'oud',
+      'directory' => 'directory',
     ),
     'authenticationMode' => 2,
     'loginUIUsernameTxt' => NULL,
@@ -80,7 +80,7 @@ function cu_ldap_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'ldap_user_conf';
   $strongarm->value = array(
-    'drupalAcctProvisionServer' => 'oud',
+    'drupalAcctProvisionServer' => 'directory',
     'ldapEntryProvisionServer' => 0,
     'drupalAcctProvisionTriggers' => array(
       2 => '2',
