@@ -161,7 +161,7 @@ function cu_users_views_pre_render(&$view) {
     $account = $GLOBALS['user'];
     // If the current user is an administrator or developer, then don't alter
     // the view results.
-    if (cu_users_check_user($account->name) || $account->uid == 1) {
+    if ($account->uid == 1 || cu_users_user_has_role('developer', $account)) {
       return;
     }
     // Load all of the view results at once to avoid making hundreds of calls to
@@ -178,7 +178,7 @@ function cu_users_views_pre_render(&$view) {
       // Hide developer, administrator, and test accounts.
       if (in_array('developer', $user->roles) ||
         in_array('administrator', $user->roles) ||
-        strpos($user->name, 'osr') === 0
+        (strpos($user->name, 'osr') === 0 && strpos($account->name, 'osr') !== 0)
       ) {
         // Don't hide the current user (Site Owner).
         if ($user->uid != $account->uid) {
