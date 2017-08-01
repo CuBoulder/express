@@ -1,9 +1,18 @@
 <?php
-function curise_form_system_theme_settings_alter(&$form, &$form_state) {
-  $theme = $form_state['build_info']['args'][0];
 
+/**
+ * @file
+ * Theme settings.
+ */
+
+ /**
+  * Implements hook_form_FORM_ID_alter().
+  *
+  * Add theme settings.
+  */
+function curise_form_system_theme_settings_alter(&$form, &$form_state) {
   $form['expressbase_theme_settings']['banner'] = array(
-		'#type' => 'fieldset',
+    '#type' => 'fieldset',
 		'#title' => t('Banner Color'),
 		'#collapsible' => TRUE,
 		'#collapsed' => TRUE,
