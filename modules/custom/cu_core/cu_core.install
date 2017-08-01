@@ -709,6 +709,34 @@ function cu_core_update_7024() {
 }
 
 /**
+ * Express 2.5.0 Update.
+ *
+ * Revert Features.
+ */
+function cu_core_update_7025() {
+  cu_core_revert_features();
+}
+
+/**
+ * Express 2.5.3 Update.
+ *
+ * Revert Features.
+ */
+function cu_core_update_7026() {
+  cu_core_revert_features(array('cu_ldap' => 'cu_ldap'));
+}
+
+/**
+ * Express 2.5.4 Update.
+ *
+ * Revert Features.
+ */
+function cu_core_update_7027() {
+  cu_core_revert_features(array('cu_ldap' => 'cu_ldap'));
+}
+
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
