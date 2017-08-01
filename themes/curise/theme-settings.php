@@ -13,10 +13,10 @@
 function curise_form_system_theme_settings_alter(&$form, &$form_state) {
   $form['expressbase_theme_settings']['banner'] = array(
     '#type' => 'fieldset',
-		'#title' => t('Banner Color'),
-		'#collapsible' => TRUE,
-		'#collapsed' => TRUE,
-	);
+    '#title' => t('Banner Color'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
 	$form['expressbase_theme_settings']['banner']['banner_color'] = array(
 	  '#type' => 'select',
 	  '#title' => t('Banner Color'),
