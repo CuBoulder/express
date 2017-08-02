@@ -169,9 +169,9 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   public function afterStep($event) {
     if (isset($this->javascript) && $this->javascript && empty($this->iframe)) {
       $text = $event->getStep()->getText();
-      if (preg_match('/(follow|press|click|submit|viewing|visit|reload|attach)/i', $text)) {
+      //if (preg_match('/(follow|press|click|submit|viewing|visit|reload|attach)/i', $text)) {
         $this->iWaitForAjax();
-      }
+      //}
     }
   }
 
@@ -181,7 +181,20 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    * @Given I wait for AJAX
    */
   public function iWaitForAjax() {
-    $this->getSession()->wait(5000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
+
+    // Polling for the sake of my intern tests
+    $script = '
+    var interval = setInterval(function() {
+      if(document.readyState === "complete") {
+        clearInterval(interval);
+        done();
+      }
+    }, 100);';
+
+    print_r('waiting for AJAX');
+    $this->getSession()->evaluateScript($script);
+    print_r('done waiting for AJAX');
+    //$this->getSession()->wait(5000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
   }
 
   /**
