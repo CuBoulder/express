@@ -752,6 +752,36 @@ function cu_core_update_7028() {
 function cu_core_update_7029() {
   module_enable(array('realname'));
   cu_core_revert_features(array('cu_ldap' => 'cu_ldap', 'cu_people_administration_override' => 'cu_people_administration_override'));
+  cu_core_scramble_admin();
+}
+
+/**
+ * Express 2.5.6 Update.
+ *
+ * Attempt to set Realname for all users in authoring roles.
+ */
+function cu_core_update_7030() {
+
+  $accounts = db_query('
+    SELECT users.name
+    FROM role
+    LEFT JOIN users_roles ON users_roles.rid = role.rid
+    LEFT JOIN users ON users_roles.uid = users.uid
+    WHERE role.name IN (:rolenames)', array(':rolenames' => 'content_editor,site_owner,edit_my_content'));
+  dsm($accounts);
+  foreach ($accounts as $account) {
+    //skip osr test users?
+    $ldap = cu_ldap_lookup($account->name);
+
+    //Check to see that LDAP is returned a value.  There are no display names for acconts like OSR-TEST-OWNER
+    if (isset($ldap[0]) && ($account->field_ldap_display_name != $ldap[0]['displayname'][0] || $account->field_ldap_primary_affiliation != $ldap[0]['edupersonprimaryaffiliation'][0])) {
+      // update account fields
+      $edit = array();
+      $edit['field_ldap_display_name'][LANGUAGE_NONE][0]['value'] = $ldap[0]['displayname'][0];
+      $edit['field_ldap_primary_affiliation'][LANGUAGE_NONE][0]['value'] = $ldap[0]['edupersonprimaryaffiliation'][0];
+      user_save($account, $edit);
+    }
+  }
 }
 
 /**
