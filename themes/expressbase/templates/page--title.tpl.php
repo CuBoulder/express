@@ -120,7 +120,7 @@
           print theme('page_title_image', $vars);
         ?>
       <?php else: ?>
-        <div id="page-title-wrapper" class="section-wrapper <?php if (isset($title_hidden)) { print 'element-invisible'; } ?>">
+        <div id="page-title-wrapper" class="page-title-wrapper section-wrapper <?php if (isset($title_hidden)) { print 'element-invisible'; } ?>">
           <div class="page-title-inner element-max-width-padding">
             <a id="main-content"></a>
             <h1 id="page-title"><?php print drupal_get_title(); ?></h1>
@@ -138,14 +138,16 @@
             </div>
           <?php endif; ?>
 
-          <div id="main-content-wrapper" class="container-max">
-            <?php if (!empty($page['post_title'])): ?>
-              <div id="post-title-wrapper" class="section-wrapper container-max">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <?php print render($page['post_title']); ?>
-                </div>
+          <?php if (!empty($page['post_title'])): ?>
+            <div id="post-title-wrapper" class="section-wrapper container-max">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <?php print render($page['post_title']); ?>
               </div>
-            <?php endif; ?>
+            </div>
+          <?php endif; ?>
+
+          <div id="main-content-wrapper" class="container-max">
+
             <div id="content" class="<?php print $main_content_classes; ?>" role="main">
               <?php print render($page['content']); ?>
               <?php print $feed_icons; ?>
