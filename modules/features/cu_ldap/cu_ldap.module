@@ -18,6 +18,10 @@ function cu_ldap_form_alter(&$form, &$form_state, $form_id) {
       $form['name']['#description'] = '';
       $form['pass']['#title'] = t('IdentiKey Password');
       $form['pass']['#description'] = '';
+    case 'user_profile_form':
+      $form['account']['name']['#disabled'] = TRUE;
+      $form['field_ldap_display_name']['#disabled'] = TRUE;
+      $form['field_ldap_primary_affiliation']['#disabled'] = TRUE;
       break;
   }
 }
