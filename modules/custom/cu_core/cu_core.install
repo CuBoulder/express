@@ -711,7 +711,7 @@ function cu_core_update_7024() {
 /**
  * Express 2.5.0 Update.
  *
- * Revert Features.
+ * Revert All Features.
  */
 function cu_core_update_7025() {
   cu_core_revert_features();
@@ -720,7 +720,7 @@ function cu_core_update_7025() {
 /**
  * Express 2.5.3 Update.
  *
- * Revert Features.
+ * Revert LDAP Feature.
  */
 function cu_core_update_7026() {
   cu_core_revert_features(array('cu_ldap' => 'cu_ldap'));
@@ -729,7 +729,7 @@ function cu_core_update_7026() {
 /**
  * Express 2.5.4 Update.
  *
- * Revert Features.
+ * Revert LDAP Feature.
  */
 function cu_core_update_7027() {
   cu_core_revert_features(array('cu_ldap' => 'cu_ldap'));
@@ -738,9 +738,18 @@ function cu_core_update_7027() {
 /**
  * Express 2.5.5 Update.
  *
- * Enable Realname, revert Features.
+ * Revert LDAP Feature.
  */
 function cu_core_update_7028() {
+  cu_core_revert_features(array('cu_ldap' => 'cu_ldap'));
+}
+
+/**
+ * Express 2.5.6 Update.
+ *
+ * Enable Realname. Revert LDAP and People Administration Override Features.
+ */
+function cu_core_update_7029() {
   module_enable(array('realname'));
   cu_core_revert_features(array('cu_ldap' => 'cu_ldap', 'cu_people_administration_override' => 'cu_people_administration_override'));
 }

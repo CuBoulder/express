@@ -13,11 +13,11 @@ function cu_ldap_default_ldap_servers() {
   $ldap_servers_conf = new stdClass();
   $ldap_servers_conf->disabled = FALSE; /* Edit this to true to make a default ldap_servers_conf disabled initially */
   $ldap_servers_conf->api_version = 1;
-  $ldap_servers_conf->sid = 'oud';
-  $ldap_servers_conf->name = 'oud.colorado.edu';
+  $ldap_servers_conf->sid = 'directory';
+  $ldap_servers_conf->name = 'directory.colorado.edu';
   $ldap_servers_conf->status = TRUE;
   $ldap_servers_conf->ldap_type = 'default';
-  $ldap_servers_conf->address = 'oud.colorado.edu';
+  $ldap_servers_conf->address = 'directory.colorado.edu';
   $ldap_servers_conf->port = 389;
   $ldap_servers_conf->tls = TRUE;
   $ldap_servers_conf->followrefs = FALSE;
@@ -52,7 +52,7 @@ function cu_ldap_default_ldap_servers() {
   $ldap_servers_conf->search_pagination = FALSE;
   $ldap_servers_conf->search_page_size = 1000;
   $ldap_servers_conf->weight = 0;
-  $export['oud'] = $ldap_servers_conf;
+  $export['directory'] = $ldap_servers_conf;
 
   return $export;
 }
