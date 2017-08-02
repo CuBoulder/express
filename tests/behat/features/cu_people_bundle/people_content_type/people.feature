@@ -145,7 +145,7 @@ Scenario: Content editors can create person nodes
         And I select "<Secondary Menu>" from "Parent item"
         And I press the "Save" button
       When I click the ".mobile-menu-toggle a" element
-        And I wait for AJAX
+        #And I wait for AJAX
       Then I should see "John Doe" in the "Secondary Mobile Menu" region
 
   @api @people @people-filters
