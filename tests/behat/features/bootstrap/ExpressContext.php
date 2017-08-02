@@ -172,7 +172,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
       if (!($driver instanceof Selenium2Driver)) {
         return;
       }
-
       $this->iWaitForAjax();
     }
   }
@@ -206,10 +205,8 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
       }
     }, 100);';
 
-    print_r('waiting for AJAX');
-    $this->getSession()->evaluateScript($script);
-    print_r('done waiting for AJAX');
-    //$this->getSession()->wait(5000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
+    //$this->getSession()->evaluateScript($script);
+    $this->getSession()->wait(2000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
   }
 
   /**
