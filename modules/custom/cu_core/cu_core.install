@@ -768,7 +768,7 @@ function cu_core_update_7030() {
     LEFT JOIN users_roles ON users_roles.rid = role.rid
     LEFT JOIN users ON users_roles.uid = users.uid
     WHERE role.name IN (:rolenames)', array(':rolenames' => 'content_editor,site_owner,edit_my_content'));
-  dsm($accounts);
+
   foreach ($accounts as $account) {
     //skip osr test users?
     $ldap = cu_ldap_lookup($account->name);
