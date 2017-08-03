@@ -762,16 +762,19 @@ function cu_core_update_7029() {
  */
 function cu_core_update_7030() {
 
-  $accounts = db_query('
-    SELECT users.name
-    FROM role
-    LEFT JOIN users_roles ON users_roles.rid = role.rid
-    LEFT JOIN users ON users_roles.uid = users.uid
-    WHERE role.name IN (:rolenames)', array(':rolenames' => 'content_editor,site_owner,edit_my_content'));
+  $roles = array('content_editor', 'site_owner', 'edit_my_content');
+  $query = db_select('users_roles', 'ur');
+  $query->join('users', 'u', 'u.uid = ur.uid');
+  $query->join('role', 'r', 'r.rid = ur.rid');
+  $query->fields('u',array('name'));
+  $query->condition('r.name', $roles, 'IN');
+  $users = $query->execute();
 
-  foreach ($accounts as $account) {
+  foreach ($users as $user) {
+
     //skip osr test users?
-    $ldap = cu_ldap_lookup($account->name);
+    $ldap = cu_ldap_lookup($user->name);
+    $account = user_load_by_name($user->name);
 
     //Check to see that LDAP is returned a value.  There are no display names for acconts like OSR-TEST-OWNER
     if (isset($ldap[0]) && ($account->field_ldap_display_name != $ldap[0]['displayname'][0] || $account->field_ldap_primary_affiliation != $ldap[0]['edupersonprimaryaffiliation'][0])) {
