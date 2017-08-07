@@ -60,6 +60,31 @@
         </nav>
       </div>
     </div>
+    <div class="express-messages">
+      <?php if ($messages): ?>
+        <div class="express-message">
+          <div class="messages1">
+            <?php print $messages; ?>
+          </div>
+        </div>
+      <?php endif; ?>
+
+      <?php if (!empty($tabs['#primary']) || !empty($tabs['#secondary'])): ?>
+        <div class="express-message">
+          <div class="tabs"><?php print render($tabs); ?></div>
+        </div>
+      <?php endif; ?>
+
+      <?php if (!empty($page['help'])): ?>
+        <div class=" express-message"><?php print render($page['help']); ?></div>
+      <?php endif; ?>
+
+      <?php if ($action_links): ?>
+        <div class="express-message">
+          <ul class="action-links"><?php print render($action_links); ?></ul>
+        </div>
+      <?php endif; ?>
+    </div>
     <div class="top-content-wrapper"><div class="top-content">
       <?php if (!empty($page['intro'])): ?>
       <div id="intro-wide-wrapper" class="section-wrapper">
@@ -86,55 +111,73 @@
       <?php endif; ?>
 
       <div id="content-wrapper" class="section-wrapper content-wrapper">
-        <div id="main" class="clearfix container-max">
-          <div class="breadcrumb-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <?php print $breadcrumb; ?>
-          </div>
-          <div id="content" class="<?php print $main_content_classes; ?>" role="main">
+        <div class="section-wrapper title-wrapper">
 
-            <a id="main-content"></a>
-            <?php print render($title_prefix); ?>
-            <?php if ($title): ?>
-              <h1 class="page__title title <?php if (isset($title_hidden)) { print 'element-invisible'; } ?>" id="page-title"><?php print $title; ?></h1>
-            <?php endif; ?>
-            <?php print render($title_suffix); ?>
-            <?php print $messages; ?>
-            <div class="tabs"><?php print render($tabs); ?></div>
-            <?php print render($page['help']); ?>
-            <?php if ($action_links): ?>
-              <ul class="action-links"><?php print render($action_links); ?></ul>
-            <?php endif; ?>
-            <?php print render($page['content']); ?>
-            <?php print $feed_icons; ?>
-          </div>
-
-          <?php
-            // Render the sidebars to see if there's anything in them.
-            $sidebar_first  = render($page['sidebar_first']);
-            $sidebar_second = render($page['sidebar_second']);
-          ?>
-
-          <?php
-            // Order the sidebars depending on which is the primary sidebar
-            if ($sidebar_first || $sidebar_second): ?>
-            <aside class="sidebars">
-              <?php if (theme_get_setting('primary_sidebar') == 'primary-sidebar-first'): ?>
-                <div class="sidebar-first sidebar <?php print $sidebar_first_classes; ?>">
-                  <?php print $sidebar_first; ?>
-                </div>
-                <div class="sidebar-second sidebar <?php print $sidebar_second_classes; ?>">
-                  <?php print $sidebar_second; ?>
-                </div>
-              <?php else: ?>
-                <div class="sidebar-second sidebar <?php print $sidebar_second_classes; ?>">
-                  <?php print $sidebar_second; ?>
-                </div>
-                <div class="sidebar-first sidebar <?php print $sidebar_first_classes; ?>">
-                  <?php print $sidebar_first; ?>
-                </div>
+        </div>
+        <div id="main" class="clearfix">
+          <div class="clearfix container-max content-inner-wrapper">
+            <div class="breadcrumb-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <?php print $breadcrumb; ?>
+            </div>
+            <div class="main-title-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <a id="main-content"></a>
+              <?php print render($title_prefix); ?>
+              <?php if ($title): ?>
+                <h1 class="page__title title <?php if (isset($title_hidden)) { print 'element-invisible'; } ?>" id="page-title"><?php print $title; ?></h1>
               <?php endif; ?>
-            </aside>
+              <?php print render($title_suffix); ?>
+            </div>
+
+
+
+          </div>
+          <?php if (!empty($page['post_title_wide'])): ?>
+            <div id="post-title-wide-wrapper" class="section-wrapper">
+              <?php print render($page['post_title_wide']); ?>
+            </div>
           <?php endif; ?>
+          <?php if (!empty($page['post_title'])): ?>
+            <div id="post-title-wrapper" class="section-wrapper container-max">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <?php print render($page['post_title']); ?>
+              </div>
+            </div>
+          <?php endif; ?>
+          <div id="main-content-wrapper" class="container-max">
+            <div id="content" class="<?php print $main_content_classes; ?>" role="main">
+              <?php print render($page['content']); ?>
+              <?php print $feed_icons; ?>
+            </div>
+
+
+            <?php
+              // Render the sidebars to see if there's anything in them.
+              $sidebar_first  = render($page['sidebar_first']);
+              $sidebar_second = render($page['sidebar_second']);
+            ?>
+
+            <?php
+              // Order the sidebars depending on which is the primary sidebar
+              if ($sidebar_first || $sidebar_second): ?>
+              <aside class="sidebars">
+                <?php if (theme_get_setting('primary_sidebar') == 'primary-sidebar-first'): ?>
+                  <div class="sidebar-first sidebar <?php print $sidebar_first_classes; ?>">
+                    <?php print $sidebar_first; ?>
+                  </div>
+                  <div class="sidebar-second sidebar <?php print $sidebar_second_classes; ?>">
+                    <?php print $sidebar_second; ?>
+                  </div>
+                <?php else: ?>
+                  <div class="sidebar-second sidebar <?php print $sidebar_second_classes; ?>">
+                    <?php print $sidebar_second; ?>
+                  </div>
+                  <div class="sidebar-first sidebar <?php print $sidebar_first_classes; ?>">
+                    <?php print $sidebar_first; ?>
+                  </div>
+                <?php endif; ?>
+              </aside>
+            <?php endif; ?>
+          </div>
         </div>
       </div>
 

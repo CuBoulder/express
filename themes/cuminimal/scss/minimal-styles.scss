@@ -90,6 +90,10 @@ ul#action-menu a {
 #slider-wrapper {
   padding: 20px;
 }
+#post-title-wide-wrapper {
+  background: #fff;
+  padding-bottom: 20px;
+}
 #content-wrapper,
 #post-wide-wrapper,
 #after-content-wrapper,
@@ -153,7 +157,8 @@ $border: #e0e0e0;
   }
   ul.menu a {
     padding:10px;
-    border:1px solid $border;
+    border-top:1px solid $border;
+    border-bottom:1px solid $border;
     margin-bottom: -1px;
     color:$defaultFG;
     line-height: 120%;
@@ -172,7 +177,7 @@ $border: #e0e0e0;
     }
   }
   li.active-trail {
-    border-left:3px solid $activeBG;
+    //border-left:3px solid $activeBG;
 
     a {
       border-left-color: $activeBG;
@@ -204,6 +209,9 @@ $border: #e0e0e0;
   }
   ul.menu ul.menu ul.menu ul.menu ul.menu ul.menu a {
     padding-left: $indent * 6;
+  }
+  li.expanded  {
+    border-left:1px solid $border;
   }
 }
 
