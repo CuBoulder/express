@@ -403,7 +403,6 @@ function expressbase_preprocess_region(&$vars) {
  * Implements hook_preprocess_block).
  */
 function expressbase_preprocess_block(&$vars) {
-
   // Add class for block titles
   $vars['title_attributes_array']['class'][] = 'block-title';
   $vars['classes_array'][] = !empty($vars['block']->subject) ? 'has-block-title'
