@@ -144,7 +144,7 @@ function cu_block_section_preprocess_entity(&$vars) {
       $vars['image_small'] = trim(preg_replace('/\s+/', ' ', $image_small));
     }
     // Background effect
-    $block_section_bg_effect = !empty($vars['content']['field_block_section_bg_effect']) ? 'block-section-bg-effect-' . $vars['content']['field_block_section_bg_effect'][0]['#markup'] : 'block-section-bg-effect-scroll';
+    $block_section_bg_effect = !empty($vars['content']['field_block_section_bg_effect']) ? 'block-section-bg-effect-' . $vars['content']['field_block_section_bg_effect'][0]['#markup'] : 'block-section-bg-effect-fixed';
 
     // CSS Classes
     $classes = array();
@@ -152,7 +152,7 @@ function cu_block_section_preprocess_entity(&$vars) {
     $classes[] = 'block-section';
     $classes[] = 'block-section-text-' . $vars['field_hero_unit_text_color'][0]['value'];
     $classes[] = 'block-section-background-' . $vars['field_hero_unit_bg_color'][0]['value'];
-    $classes[] = !empty($vars['field_block_section_bg_effect']) ? 'block-section-bg-effect-' . $vars['field_block_section_bg_effect'][0]['value'] : 'block-section-bg-effect-scroll';
+    $classes[] = !empty($vars['field_block_section_bg_effect']) ? 'block-section-bg-effect-' . $vars['field_block_section_bg_effect'][0]['value'] : 'block-section-bg-effect-fixed';
 
     // Overlay
     if (!empty($vars['field_hero_unit_overlay']) && $vars['field_hero_unit_overlay'][0]['value']) {
@@ -163,7 +163,7 @@ function cu_block_section_preprocess_entity(&$vars) {
       $classes[] = 'parallax-window';
       $vars['parallax_data'] = 'data-parallax="scroll" data-image-src="' . $image_large . '" data-z-index="0" data-naturalWidth="' . $dimensions['width'] . '" data-naturalHeight="' . $dimensions['height'] . '"';
     }
-    else if (!empty($vars['field_block_section_bg_effect']) && $vars['field_block_section_bg_effect'][0]['value'] == 'fixed') {
+    else if (!empty($vars['field_block_section_bg_effect']) && $vars['field_block_section_bg_effect'][0]['value'] == 'scroll') {
       $classes[] = 'parallax-window';
       $vars['parallax_data'] = "data-parallaxie='{\"speed\": 1}'";
     }
@@ -237,7 +237,7 @@ function cu_block_section_form_bean_form_alter(&$form, &$form_state, $form_id) {
       $form['field_block_section_mobile_pad']['#access'] = FALSE;
     }
     if (empty($form['field_block_section_bg_effect'][LANGUAGE_NONE]['#default_value'])) {
-      $form['field_block_section_bg_effect'][LANGUAGE_NONE]['#default_value'] = 'scroll';
+      $form['field_block_section_bg_effect'][LANGUAGE_NONE]['#default_value'] = 'fixed';
     }
   }
 }
@@ -252,8 +252,8 @@ function _block_section_backgrounds() {
 
 function cu_block_section_bg_effect_options() {
   return array(
-    'scroll' => 'Scroll',
     'fixed' => 'Fixed',
+    'scroll' => 'Scroll',
     'parallax' => 'Parallax',
   );
 }
