@@ -45,7 +45,7 @@ Feature: CU Layout Creation
       #And I wait 5 seconds
       #And I select autosuggestion option "above content block (8)"
 
-  @api @layout @javascript
+  @api @layout @javascript @run_last
   Scenario: Adding a block in the left sidebar region should appear in the region
     When I click "Edit Layout"
       And I select "block" from "field_sidebar_first[und][actions][bundle]"

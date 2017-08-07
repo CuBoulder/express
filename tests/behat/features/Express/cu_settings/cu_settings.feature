@@ -117,7 +117,7 @@ Feature: CU Settings
 
   @api @settings @cache
   Scenario Outline: A site_owner/administrator/developer should be able to see and use cache clearing.
-    Given Given  CU - I am logged in as a user with the <role> role
+    Given CU - I am logged in as a user with the <role> role
       When I go to "admin/settings"
     Then I should see <message>
     When I go to "admin/settings/cache/clear"
@@ -139,7 +139,7 @@ Feature: CU Settings
   
   @api @settings @cache
   Scenario Outline: As a CE, I should be able to see and use page cache clearing by path.
-    Given Given  CU - I am logged in as a user with the <role> role
+    Given CU - I am logged in as a user with the <role> role
     When I go to "admin/settings/cache/clear"
       And I press "Clear Page by Path"
       And I fill in "Path To Clear" with "node/1"
@@ -156,7 +156,7 @@ Feature: CU Settings
   
   @api @settings @cache
   Scenario Outline: A content_editor/edit_my_content should not be able to see and use cache clearing.
-    Given Given  CU - I am logged in as a user with the <role> role
+    Given CU - I am logged in as a user with the <role> role
     When I go to "admin/settings/cache/clear/varnish-full"
       Then I should see <message>
     When I go to "admin/settings/cache/clear/varnish-path"
