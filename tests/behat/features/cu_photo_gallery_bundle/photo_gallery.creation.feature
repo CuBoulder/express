@@ -25,6 +25,7 @@ Feature: Photo Gallery Creation
       #And I wait for AJAX
       #And I wait for AJAX
       #And I wait for AJAX
+      And I wait 5 seconds
     Then I should see "alt two"
     When I click the "#cboxClose" element
     Then I should see "Test Photo Gallery"
