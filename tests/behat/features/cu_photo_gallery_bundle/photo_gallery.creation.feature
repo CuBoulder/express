@@ -19,13 +19,12 @@ Feature: Photo Gallery Creation
       And I press the "Save" button
     Then I should see "Photo Gallery Test Photo Gallery has been created."
     When I click the "img" element with "alt one" for "alt"
-      # @todo find better way of waiting for elements to appear
+      And I wait 5 seconds
     Then I should see "alt one"
     When I click the "#cboxNext" element
       #And I wait for AJAX
       #And I wait for AJAX
       #And I wait for AJAX
-      And I wait 5 seconds
     Then I should see "alt two"
     When I click the "#cboxClose" element
     Then I should see "Test Photo Gallery"
