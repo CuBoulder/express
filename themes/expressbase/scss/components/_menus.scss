@@ -17,6 +17,12 @@
   }
 }
 
+/* Primary Navigation */
+#navigation-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
 /* Secondary Navigation */
 #secondary-navigation {
   font-size: 80%;
