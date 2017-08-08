@@ -152,6 +152,7 @@ function cu_advanced_content_bundle_secure_permissions($role) {
       'edit any feature_callout bean',
       'delete any feature_callout bean',
       'view any feature_callout bean',
+      'administer quicktabs',
     ),
     'anonymous user' => array(
       'view any video_reveal bean',
@@ -170,6 +171,7 @@ function cu_advanced_content_bundle_secure_permissions($role) {
       'delete any feature_callout bean',
       'edit any feature_callout bean',
       'view any feature_callout bean',
+      'administer quicktabs',
     ),
     'developer' => array(
       'create any video_reveal bean',
@@ -179,6 +181,7 @@ function cu_advanced_content_bundle_secure_permissions($role) {
       'delete any feature_callout bean',
       'edit any feature_callout bean',
       'view any feature_callout bean',
+      'administer quicktabs',
     ),
     'edit_my_content' => array(
       'view any video_reveal bean',
@@ -193,6 +196,7 @@ function cu_advanced_content_bundle_secure_permissions($role) {
       'delete any feature_callout bean',
       'edit any feature_callout bean',
       'view any feature_callout bean',
+      'administer quicktabs',
     ),
   );
 
