@@ -762,7 +762,7 @@ function express_settings_menu_link_insert($item) {
  * Implements hook_requirements().
  *
  * Check if master administrator is enabled and display this information under
- * admin/status reports.
+ * site/admin/status reports.
  */
 
 function express_settings_requirements($phase) {
