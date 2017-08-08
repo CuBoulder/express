@@ -211,7 +211,7 @@ $border: #e0e0e0;
     padding-left: $indent * 6;
   }
   li.expanded  {
-    border-left:1px solid $border;
+    border-left:1px solid $activeBG;
   }
 }
 
