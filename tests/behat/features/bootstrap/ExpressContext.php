@@ -197,7 +197,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     }, 1000);';
 
     //$this->getSession()->evaluateScript($script);
-    $this->getSession()->wait(2000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
+    $this->getSession()->wait(3000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
   }
 
   /**

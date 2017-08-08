@@ -120,11 +120,13 @@ Feature: CU Settings
   Scenario Outline: A site_owner/administrator/developer should be able to see and use cache clearing.
     Given CU - I am logged in as a user with the <role> role
       When I go to "admin/settings"
-    Then I should see <message>
+    Then I should see "Clear Caches"
     When I go to "admin/settings/cache/clear/drupal-full"
       And I press "Clear Full Database Cache"
       And I wait 15 seconds
-    Then I should see "The Full Database Cache cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until"
+    # The message is different for 2nd/3rd user because cache takes too long to load.
+    # When the 2nd user comes back to the page, the disabled message should show.
+    Then I should see <message>
     When I go to "admin/settings/cache/clear/varnish-full"
       #And I press "Clear Full Page Cache"
     #Then I should see "The whole Page Cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until"
@@ -136,9 +138,9 @@ Feature: CU Settings
 
   Examples:
   | role           | message        |
-  | site_owner     | "Clear Caches" |
-  | administrator  | "Clear Caches" |
-  | developer      | "Clear Caches" |
+  | site_owner     | "Repeatedly clearing caches will cause performance problems for you and your website's users, therefore full cache clears are limited to once per hour." |
+  | administrator  | "The Full Database Cache cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until" |
+  | developer      | "The Full Database Cache cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until" |
   
   @api @settings @cache
   # No Varnish on Travis.

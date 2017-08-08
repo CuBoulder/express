@@ -10,6 +10,7 @@ Feature: Photo Gallery Creation
       And I fill in "edit-field-photo-und-0-title" with "title one"
       And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
       And I press the "Upload" button
+      And I wait 5 seconds
       #And I wait for AJAX
       And I fill in "edit-field-photo-und-1-alt" with "alt two"
       And I fill in "edit-field-photo-und-1-title" with "title two"
