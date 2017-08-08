@@ -123,7 +123,7 @@ Feature: CU Settings
     Then I should see <message>
     When I go to "admin/settings/cache/clear/drupal-full"
       And I press "Clear Full Database Cache"
-      And I wait 7 seconds
+      And I wait 15 seconds
     Then I should see "The Full Database Cache cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until"
     When I go to "admin/settings/cache/clear/varnish-full"
       #And I press "Clear Full Page Cache"
