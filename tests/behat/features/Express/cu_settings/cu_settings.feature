@@ -120,16 +120,16 @@ Feature: CU Settings
     Given CU - I am logged in as a user with the <role> role
       When I go to "admin/settings"
     Then I should see <message>
-    When I go to "admin/settings/cache/clear"
-      And I press "Clear Full Drupal Cache"
-    Then I should see "The Drupal cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until"
-    When I go to "admin/settings/admin/clear-cache/varnish-full"
-      And I press "Clear Full Varnish Cache"
-    Then I should see "The whole Varnish cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until"
-    When I go to "admin/settings/admin/clear-cache/varnish-path"
+    When I go to "admin/settings/cache/clear/drupal-full"
+      And I press "Clear Full Database Cache"
+    Then I should see "The Full Database Cache cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until"
+    When I go to "admin/settings/cache/clear/varnish-full"
+      And I press "Clear Full Page Cache"
+    Then I should see "The whole Page Cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until"
+    When I go to "admin/settings/cache/clear/varnish-path"
       And I fill in "Path To Clear" with "node/1"
-      And I press "Clear Path From Varnish Cache"
-    Then I should see "URL cleared from Varnish cache."
+      And I press "Clear Path From Page Cache"
+    Then I should see "cleared from Page Cache."
 
   Examples:
   | role           | message        |
@@ -141,7 +141,7 @@ Feature: CU Settings
   Scenario Outline: As a CE, I should be able to see and use page cache clearing by path.
     Given CU - I am logged in as a user with the <role> role
     When I go to "admin/settings/cache/clear"
-      And I press "Clear Page by Path"
+      And I click "Clear Page by Path"
       And I fill in "Path To Clear" with "node/1"
       And I press "Clear Path From Page Cache"
     Then I should see "The front page of a site can only be cleared by users with permission to clear the Full Page Cache."
@@ -161,10 +161,10 @@ Feature: CU Settings
       Then I should see <message>
     When I go to "admin/settings/cache/clear/varnish-path"
       Then I should see <message>
-    When I got to "node/1/clear-varnish"
+    When I go to "node/1/clear-varnish"
       Then I should see <message>
 
   Examples:
   | role             | message         |
   | edit_my_content  | "Access Denied" |
-  | authenticated    | "Access Denied" |
+  | "authenticated user"    | "Access Denied" |
