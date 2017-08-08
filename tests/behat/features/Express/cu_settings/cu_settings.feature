@@ -120,7 +120,7 @@ Feature: CU Settings
   Scenario Outline: A site_owner/administrator/developer should be able to see and use cache clearing.
     Given CU - I am logged in as a user with the <role> role
       When I go to "admin/settings"
-    Then I should see "Clear Caches"
+    Then I should see <message>
     When I go to "admin/settings/cache/clear/drupal-full"
       #And I press "Clear Full Database Cache"
       #And I wait 15 seconds
@@ -135,10 +135,10 @@ Feature: CU Settings
     Then I should see "Enter the specific path or URL to clear from the Page cache."
 
   Examples:
-  | role
-  | site_owner
-  | administrator
-  | developer
+  | role           | message        |
+  | site_owner     | "Clear Caches" |
+  | administrator  | "Clear Caches" |
+  | developer      | "Clear Caches" |
   
   @api @settings @cache
   # No Varnish on Travis.
