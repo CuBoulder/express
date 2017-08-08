@@ -464,6 +464,14 @@ function express_layout_block_info() {
       'info' => t('Node Inner Content Bottom'),
       'cache' => DRUPAL_NO_CACHE,
     ),
+    'el_block_post_title' => array(
+      'info' => t('Post Title'),
+      'cache' => DRUPAL_NO_CACHE,
+    ),
+    'el_block_post_title_wide' => array(
+      'info' => t('Post Title Wide'),
+      'cache' => DRUPAL_NO_CACHE,
+    ),
   );
 }
 /**
@@ -484,6 +492,8 @@ function express_layout_contextual_links_view_alter(&$element, &$items) {
       case 'el_block_slider':
       case 'el_block_wide_2':
       case 'el_block_inner_content_bottom':
+      case 'el_block_post_title':
+      case 'el_block_post_title_wide':
         unset($element['#links']);
         break;
     }
@@ -568,6 +578,16 @@ function express_layout_block_view($delta = '') {
       case 'el_block_inner_content_bottom':
         $field = 'field_content_bottom';
         $region = 'content_bottom';
+        break;
+
+      case 'el_block_post_title':
+        $field = 'field_post_title';
+        $region = 'post_title';
+        break;
+
+      case 'el_block_post_title_wide':
+        $field = 'field_post_title_wide';
+        $region = 'post_title_wide';
         break;
     }
   }

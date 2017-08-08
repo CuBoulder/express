@@ -115,6 +115,19 @@ ul#action-menu a {
 .page-title-breadcrumbs {
   background-color: #fff;
 }
+#main {
+  padding: 0;
+}
+#main-content-wrapper {
+    padding: 20px 0;
+}
+#post-title-wrapper {
+  padding-top: 20px;
+}
+#main-content-wrapper {
+  padding: 20px 0;
+}
+
 #content-wrapper,
 #post-wide-wrapper,
 #after-content-wrapper {
@@ -166,7 +179,8 @@ $border: #e7e7e7;
   }
   ul.menu a {
     padding:10px;
-    border:1px solid $border;
+    border-top:1px solid $border;
+    border-bottom:1px solid $border;
     margin-bottom: -1px;
     color:$defaultFG;
     line-height: 120%;
@@ -185,7 +199,7 @@ $border: #e7e7e7;
     }
   }
   li.active-trail {
-    border-left:3px solid $activeBG;
+    // border-left:3px solid $activeBG;
 
     a {
       border-left-color: $activeBG;
@@ -217,6 +231,9 @@ $border: #e7e7e7;
   }
   ul.menu ul.menu ul.menu ul.menu ul.menu ul.menu a {
     padding-left: $indent * 6;
+  }
+  li.expanded  {
+    border-left:1px solid $border;
   }
 }
 
