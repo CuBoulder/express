@@ -419,6 +419,11 @@ function express_block_designer_themes_form($form, &$form_state, $id = NULL) {
   if (empty($color_options)) {
     $form['icon']['exbd_icon_color']['#access'] = FALSE;
   }
+  $form['icon']['exbd_icon_theme'] = array(
+    '#title' => 'Icon',
+    '#type' => 'markup',
+    '#markup' => '<p><em>This is for icon display settings only. The specific icon is set on the block itself where it will inherent these settings.</em></p>'
+  );
 
   // Heading.
   $form['heading'] = array(
