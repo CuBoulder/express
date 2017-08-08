@@ -110,6 +110,12 @@ body { background-color: #1e1e1e; }
 @media screen and (min-width: 1200px) { .layout-responsive .title-image-content-width { padding-top: 50px; } }
 .layout-fixed .title-image-content-width { padding-top: 50px; }
 
+.exbd-style-dark-gray.exbd-icon-position-default, .exbd-style-light-gray.exbd-icon-position-default, .exbd-style-lightblue.exbd-icon-position-default, .exbd-style-tan.exbd-icon-position-default, .exbd-style-outline.exbd-icon-position-default { position: relative; }
+.exbd-style-dark-gray.exbd-icon-position-default.has-block-title, .exbd-style-light-gray.exbd-icon-position-default.has-block-title, .exbd-style-lightblue.exbd-icon-position-default.has-block-title, .exbd-style-tan.exbd-icon-position-default.has-block-title, .exbd-style-outline.exbd-icon-position-default.has-block-title { padding-top: 45px; }
+.exbd-style-dark-gray.exbd-icon-position-default h2.block-title, .exbd-style-light-gray.exbd-icon-position-default h2.block-title, .exbd-style-lightblue.exbd-icon-position-default h2.block-title, .exbd-style-tan.exbd-icon-position-default h2.block-title, .exbd-style-outline.exbd-icon-position-default h2.block-title { margin-top: -45px; padding: 10px; -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15); -moz-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15); box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15); background: #fff; color: #333; }
+
+.exbd-style-tan.exbd-icon-position-default h2.block-title, .exbd-style-outline.exbd-icon-position-default h2.block-title { background: #333; color: #fff; }
+
 /*
 .blockgray,
 .blockdarkgray,
