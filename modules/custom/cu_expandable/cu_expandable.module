@@ -232,3 +232,11 @@ function cu_expandable_form_bean_form_alter(&$form, &$form_state, $form_id) {
     );
   }
 }
+
+/**
+ * Remove access to create quicktabs.
+ */
+function cu_expandable_menu_alter(&$items){
+  dpm($items['admin/structure/quicktabs/add']);
+  $items['admin/structure/quicktabs/add']['access callback'] = FALSE;
+}
