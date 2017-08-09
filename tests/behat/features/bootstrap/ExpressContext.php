@@ -197,7 +197,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     }, 1000);';
 
     //$this->getSession()->evaluateScript($script);
-    $this->getSession()->wait(3000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
+    $this->getSession()->wait(1000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
   }
 
   /**
@@ -478,6 +478,13 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   public function iManuallyPress($key) {
     $script = "jQuery.event.trigger({ type : 'keypress', key : '" . $key . "' });";
     $this->getSession()->evaluateScript($script);
+  }
+
+  /**
+   * @Given /^I switch to the iframe "([^"]*)"$/
+   */
+  public function iSwitchToIframe($arg1 = null) {
+    $this->getSession()->switchToIFrame($arg1);
   }
 
   /*
