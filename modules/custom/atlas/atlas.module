@@ -24,60 +24,7 @@ function atlas_menu() {
     'weight' => -10,
   );
 
-  $items['admin/config/development/atlas/delete-site'] = array(
-    'title' => 'Delete',
-    'type' => MENU_LOCAL_TASK,
-    'description' => 'Take down site.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('atlas_take_down_site_form'),
-    'access arguments' => array('administer modules'),
-    'weight' => 10,
-  );
-
   return $items;
-}
-
-/**
- * Page callback for admin/config/development/atlas/take-down-site.
- */
-function atlas_take_down_site_form($form, &$form_state) {
-  $form = array();
-
-  $form['disclaimer'] = array(
-    '#type' => 'markup',
-    '#prefix' => '<h2>',
-    '#markup' => t('Are you sure you want to delete this site? This action cannot be undone.'),
-    '#suffix' => '</h2><br>',
-  );
-
-  $form['confirm'] = array(
-    '#type' => 'checkbox',
-    '#prefix' => '<h3>',
-    '#title' => t('Yes, delete site.'),
-    '#suffix' => '</h3><br>',
-    '#default_value' => FALSE,
-    '#required' => TRUE,
-  );
-
-  $form['delete-site'] = array(
-    '#title' => t('Delete this site?'),
-    '#description' => t('This will take down your site.'),
-    '#type' => 'submit',
-    '#value' => 'Set status to "take_down" in Atlas',
-  );
-
-  return $form;
-}
-
-function atlas_take_down_site_form_submit($form, &$form_state) {
-  // We need to know the 'atlas_id'.
-  $atlas_id = variable_get('atlas_id', FALSE);
-  $site_array = atlas_api_request('sites', $atlas_id);
-
-  $site_data = $site_array;
-  $site_data['status'] = 'take_down';
-  atlas_api_request('sites', $atlas_id, 'PATCH', $site_data);
-  drupal_set_message(t('The form has been submitted.'));
 }
 
 /**
@@ -103,10 +50,20 @@ function atlas_admin_settings() {
 
   $site_array = atlas_api_request('sites', $atlas_id);
 
+  $form['current_state'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Current Status'),
+  );
+
+  $form['current_state']['state'] = array(
+    '#type' => 'markup',
+    '#markup' => $site_array['status'],
+  );
+
   // Options are limited based on permissions.
   $status_options = array(
     'launching' => t('Launching'),
-    //'take_down' => t('Take Down Site'),
+    'take_down' => t('Take Down Site'),
   );
 
   // If site is Available, Installed, or Launched, add options. You shouldn't
