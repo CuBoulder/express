@@ -13,6 +13,8 @@
 .search-results .google-appliance-info { word-break: break-all; }
 
 /* CSE */
+#google-cse-results-searchbox-form, .gsc-resultsHeader { display: none; }
+
 .cu-search-box.cu-search-box-small { background: #000; color: #fff; }
 .cu-search-box .block { margin-bottom: 0; }
 .cu-search-box .search-options { padding: 10px 0; }
