@@ -2,7 +2,7 @@
    ul.menu a {
      margin:0;
      border:none;
-     padding:8px 0;
+     padding:3px 0;
    }
    ul.menu li {
      &:before {
@@ -11,7 +11,7 @@
        margin-right:10px;
        color:inherit;
        float:left;
-       padding:8px 0;
+       padding:3px 0;
        opacity: .5;
      }
      &:hover {
@@ -26,6 +26,6 @@
    ul.menu a {
      margin:0;
      border:none;
-     padding:8px 0;
+     padding:3px 0;
    }
 }
