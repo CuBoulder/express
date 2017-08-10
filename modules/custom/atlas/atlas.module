@@ -75,12 +75,14 @@ function atlas_admin_settings() {
       'installing' => t('Installing'),
       'available' => t('Available'),
     );
-  } elseif ($site_array['status'] == 'installed') {
+  }
+  elseif ($site_array['status'] == 'installed') {
     $status_options = array(
       'launching' => t('Launching'),
       'take_down' => t('Take Down Site'),
     );
-  } elseif ($site_array['status'] == 'launched') {
+  }
+  elseif ($site_array['status'] == 'launched') {
     $status_options = array(
       'take_down' => t('Take Down Site'),
     );
