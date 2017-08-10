@@ -263,8 +263,7 @@ function _get_bundle_stats() {
     }
 
     else {
-      // For non-express bundles concatenate bundle name and schema version
-      // 'bundle_name - schema_version'
+      // For non-express bundles concatenate bundle name and schema version as 'bundle_name - schema_version'
       array_push($other_bundles, $bundle->name . ' - ' . $bundle->schema_version);
     }
   }
