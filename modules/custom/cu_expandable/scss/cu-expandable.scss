@@ -3,6 +3,7 @@ $blue: #007BC8;
 $open: #999;
 $background:#f2f2f2;
 $border: #e7e7e7;
+$cugold: #CFB87C;
 
 @mixin listReset {
   list-style: none;
@@ -65,7 +66,7 @@ $border: #e7e7e7;
       font-weight: 600;
     }
     li.is-active a {
-      background-color: #fff;
+      // background-color: #fff;
       color:#202020;
       border: 1px solid $background;
       border-right: none;
@@ -180,7 +181,7 @@ $border: #e7e7e7;
       line-height: 1.2;
     }
     li.is-active a {
-      background:#fff;
+      // background:#fff;
       color:#202020;
       position: relative;
       &:after {
@@ -257,6 +258,78 @@ $border: #e7e7e7;
     margin:0;
   }
 }
-.outline {
-  border: 1px solid red !important;
+
+/* Block Designer Styles */
+.bean-type-expandable.exbd-block {
+  &.exbd-style-lightblue {
+    .expandable.expandable-accordion .expandable-tabcontent {
+      border-color: rgba(0,0,0,.15);
+    }
+    .expandable-accordion-heading {
+      border-color: rgba(0,0,0,.15);
+    }
+  }
+  &.exbd-style-dark-gray {
+    /* Tabs */
+    .expandable-tabs ul.expandable-tablist {
+      border-color: #666;
+    }
+    .expandable-tablist-item.is-active {
+      a.expandable-tablist-link {
+        color:#fff;
+        &:after {
+          border-top-color: #666;
+        }
+      }
+    }
+    /* Vertical Tabs */
+    .expandable-tabs-vertical {
+      .expandable-tab-group {
+        background:#444;
+      }
+      ul.expandable-tablist {
+        border-color:#444;
+      }
+      ul.expandable-tablist a {
+        border-color:#444;
+        color:#aaa;
+      }
+      .expandable-panel-group {
+        border-color:#444;
+      }
+      .expandable-tablist-item.is-active {
+        background:#272727;
+      }
+    }
+    /* Accordion */
+    .expandable.expandable-accordion .expandable-tabcontent {
+      border-color: #444;
+    }
+    .expandable-accordion-heading {
+      border-color: #444;
+      a:link,
+      a:visited {
+        color:#fff;
+        &:before {
+          color: $cugold;
+        }
+      }
+    }
+    /* Select */
+    .expandable-select {
+      .expandable-select-prompt {
+        a:link,
+        a:visited {
+          color:#fff;
+        }
+      }
+      .expandable-tablist-item a.expandable-tablist-link {
+        color:#656565;
+      }
+      .expandable-tablist-item.is-active a.expandable-tablist-link {
+        color:#202020;
+      }
+    }
+
+  }
 }
