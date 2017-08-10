@@ -128,7 +128,7 @@ function cu_expandable_system_label($string) {
 
 function cu_expandable_field_widget_form_alter(&$element, &$form_state, $context)	{
   // Get entity layout fields
-  if ($element['#bundle'] == 'field_expandable_section' && $element['#field_name'] == 'field_expandable_block') {
+  if (!empty($element['#bundle']) && $element['#bundle'] == 'field_expandable_section' && $element['#field_name'] == 'field_expandable_block') {
 
     // Add 'or' separator between submit actions
     if (isset($element['actions']['ief_add']) && isset($element['actions']['ief_add_existing'])) {
@@ -260,6 +260,5 @@ function cu_expandable_inline_entity_form_entity_form_alter(&$entity_form, &$for
  * Remove access to create quicktabs.
  */
 function cu_expandable_menu_alter(&$items){
-  dpm($items['admin/structure/quicktabs/add']);
   $items['admin/structure/quicktabs/add']['access callback'] = FALSE;
 }
