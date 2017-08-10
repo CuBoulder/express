@@ -51,8 +51,7 @@ body { background-color: #1e1e1e; }
 @media screen and (min-width: 960px) { #content-wrapper { padding-top: 40px; }
   .top-content #slider-wrapper { padding-top: 60px; }
   .top-content #intro-wide-wrapper + #slider-wrapper { padding: 0; }
-  .top-content #slider-wrapper + #content-wrapper, .top-content #intro-wide-wrapper + #content-wrapper { padding-top: 20px; }
-  .top-content #slider-wrapper + #content-wrapper #post-title-wide-wrapper, .top-content #intro-wide-wrapper + #content-wrapper #post-title-wide-wrapper { margin-top: -20px; } }
+  .top-content #slider-wrapper + #content-wrapper, .top-content #intro-wide-wrapper + #content-wrapper { padding-top: 20px; } }
 #page-title-image-section + #content-wrapper { padding-top: 0px; }
 
 #after-content-wrapper { padding-top: 40px 0 20px; }
