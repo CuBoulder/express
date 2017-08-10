@@ -220,6 +220,11 @@ function cu_expandable_display_options() {
   return $options;
 }
 
+/**
+ * Implements hook_form_FORMID_alter.
+ *
+ * Add States to expandable form.
+ */
 function cu_expandable_form_bean_form_alter(&$form, &$form_state, $form_id) {
   if ($form['bean']['#value']->type == 'expandable') {
     $form['field_expandable_select_prompt']['#states'] = array(
@@ -228,6 +233,24 @@ function cu_expandable_form_bean_form_alter(&$form, &$form_state, $form_id) {
       ),
       'required' => array(
         ':input[name="field_expandable_display[und]"]' => array('value' => 'select'),
+      ),
+    );
+  }
+}
+/**
+ * Implements hook_inline_entity_form_entity_form_alter.
+ *
+ * Add States to expandable form when used in inline entity form.
+ */
+function cu_expandable_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
+
+  if ($entity_form['#entity']->type == 'expandable') {
+    $entity_form['field_expandable_select_prompt']['#states'] = array(
+      'visible' => array(
+        '.field-name-field-expandable-display :input' => array('value' => 'select'),
+      ),
+      'required' => array(
+        '.field-name-field-expandable-display :input' => array('value' => 'select'),
       ),
     );
   }
