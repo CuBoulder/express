@@ -78,6 +78,7 @@ function atlas_admin_settings() {
   }
   elseif (($site_array['status'] == 'installed') || ($site_array['status'] == 'installing')) {
     $status_options = array(
+      '' => t('Installed placeholder'),
       'launching' => t('Launching'),
       'take_down' => t('Take Down Site'),
     );
