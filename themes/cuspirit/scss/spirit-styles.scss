@@ -117,14 +117,14 @@ ul#action-menu {
 #main-content-wrapper {
   padding: 0;
 }
-#after-content-wrapper {
+.after-content-wrapper {
   padding: 40px 0 20px;
 }
-#after-content2-wrapper {
+.after-content2-wrapper {
   background-color: #f9f9f9;
   padding: 40px 0 20px;
 }
-#footer-section {
+.footer-section {
   background-color: #1a1a1a;
   color:#fff;
   a:link,
@@ -135,11 +135,11 @@ ul#action-menu {
     color:#fff;
   }
 }
-#footer-wrapper {
+.footer-wrapper {
   background-color: #272727;
   padding: 40px 0 20px;
 }
-#site-info-wrapper {
+.site-info-wrapper {
   padding: 40px 0 20px;
 }
 h1#page-title {
@@ -242,7 +242,7 @@ $border: #e7e7e7;
   }
   li.expanded  {
     //background-color: #f7f7f7;
-    border-left:1px solid $border;
+    border-left:1px solid $activeBG;
   }
 }
 
