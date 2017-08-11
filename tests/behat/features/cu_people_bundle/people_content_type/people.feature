@@ -135,7 +135,7 @@ Scenario: Content editors can create person nodes
       And I should not see "Filter 3 Term 1, Filter 3 Term 2"
 
 
-    @api @people @javascript
+    @api @people @javascript @run_last
     Scenario: Footer, Main Menu, and Secondary Menus should be available when creating a Person
       Given  CU - I am logged in as a user with the "content_editor" role
         And I am on "node/add/person"
@@ -145,7 +145,7 @@ Scenario: Content editors can create person nodes
         And I select "<Secondary Menu>" from "Parent item"
         And I press the "Save" button
       When I click the ".mobile-menu-toggle a" element
-        And I wait for AJAX
+        #And I wait for AJAX
       Then I should see "John Doe" in the "Secondary Mobile Menu" region
 
   @api @people @people-filters

@@ -757,3 +757,41 @@ function express_settings_menu_link_insert($item) {
 
   }
 }
+
+/**
+ * Implements hook_requirements().
+ *
+ * Check if master administrator is enabled and display this information under
+ * site/admin/status reports.
+ */
+
+function express_settings_requirements($phase) {
+  $requirements = array();
+
+  if ($phase == 'runtime') {
+
+    $master_administrator_id = 1;
+
+    //Load user object and get status
+    //Status can be either 0 (disabled) or 1 (enabled)
+    $master_administrator_user = user_load($master_administrator_id);
+    $master_administrator_status = $master_administrator_user->status;
+    $requirements['administrator_status'] = array ('title' => 'Master Administrator');
+
+    // Check if master admin account is enabled
+    if ($master_administrator_status == True) {
+      $requirements['administrator_status']['value'] = 'Enabled';
+      $requirements['administrator_status']['description'] = 'The master administrator user should be disabled for non-developers at all times.';
+      $requirements['administrator_status']['severity'] = REQUIREMENT_ERROR;
+
+    }
+
+    // Master admin account is disabled
+    else {
+      $requirements['administrator_status']['value'] = 'Disabled';
+      $requirements['administrator_status']['severity'] = REQUIREMENT_OK;
+    }
+  }
+
+  return $requirements;
+}

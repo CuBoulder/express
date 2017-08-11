@@ -133,7 +133,10 @@ before_script:
 
 script:
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
+  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles&&~@run_last'
+
+  # Second Test run for know troubled tests.
+  - ./bin/behat --config behat.yml --verbose --tags @run_last
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
