@@ -13,7 +13,7 @@
         <div id="branding" class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
           <?php print render($page['branding']); ?>
           <div class="mobile-menu-toggle">
-            <a id="toggle" href="#mobile-menu" title="Menu"><span class="mobile-menu-text">Menu </span> <i class="fa fa-reorder fa-fw"></i></a>
+            <button id="toggle" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-menu" aria-label="Navigation"><span class="mobile-menu-text">Menu </span><i class="fa fa-reorder fa-fw"></i></button>
           </div>
         </div>
         <div id="search"class="col-lg-4 col-md-4">
@@ -200,7 +200,7 @@
     <?php endif; ?>
 
 
-    <div id="footer-section">
+    <div id="footer-section" class="footer-section">
       <?php if (!empty($page['footer'])): ?>
         <div id="footer-wrapper" class="section-wrapper footer-wrapper">
           <div id="footer" class="container-max">
