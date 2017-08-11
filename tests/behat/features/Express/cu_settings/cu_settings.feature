@@ -161,7 +161,7 @@ Feature: CU Settings
       Then I should see <message>
     When I go to "admin/settings/cache/clear/varnish-path"
       Then I should see <message>
-    When I got to "node/1/clear-varnish"
+    When I go to "node/1/clear-varnish"
       Then I should see <message>
 
   Examples:

@@ -166,12 +166,26 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    *
    * @AfterStep
    */
-  public function afterStep($event) {
-    if (isset($this->javascript) && $this->javascript && empty($this->iframe)) {
-      $text = $event->getStep()->getText();
-      if (preg_match('/(follow|press|click|submit|viewing|visit|reload|attach)/i', $text)) {
-        $this->iWaitForAjax();
+  public function afterStep($scope) {
+    if (0 === $scope->getTestResult()->getResultCode()) {
+      $driver = $this->getSession()->getDriver();
+      if (!($driver instanceof Selenium2Driver)) {
+        return;
       }
+      $this->iWaitForAjax();
+    }
+  }
+
+  /**
+   * @AfterStep
+   */
+  public function takeScreenShotAfterFailedStep($scope) {
+    if (99 === $scope->getTestResult()->getResultCode()) {
+      $driver = $this->getSession()->getDriver();
+      if (!($driver instanceof Selenium2Driver)) {
+        return;
+      }
+      file_put_contents('/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
     }
   }
 
@@ -181,7 +195,18 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    * @Given I wait for AJAX
    */
   public function iWaitForAjax() {
-    $this->getSession()->wait(5000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
+
+    // Polling for the sake of my intern tests
+    $script = '
+    var interval = setInterval(function() {
+      if(document.readyState === "complete") {
+        clearInterval(interval);
+        done();
+      }
+    }, 100);';
+
+    //$this->getSession()->evaluateScript($script);
+    $this->getSession()->wait(2000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
   }
 
   /**
@@ -402,21 +427,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
       throw new \Exception(sprintf('The "%s" attribute did not contain "%s"', $page_attribute, $text));
     }
   }
-
-  /**
-   * @AfterStep
-   */
-  public function takeScreenShotAfterFailedStep($scope) {
-    if (99 === $scope->getTestResult()->getResultCode()) {
-      $driver = $this->getSession()->getDriver();
-      if (!($driver instanceof Selenium2Driver)) {
-        return;
-      }
-      file_put_contents('/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
-    }
-  }
-
-
 
   /**
    * @When /^I create a "(?P<content_type>(?:[^"]|\\")*)" node with the title "(?P<title>(?:[^"]|\\")*)"$/
