@@ -31,6 +31,11 @@
       event.preventDefault();
       $('.express-messages').hide();
     });
+    $('a.search-toggle').click(function(event){
+      event.preventDefault();
+      $('#search').slideToggle('fast').focus();
+      $('.search-container').addClass('fadeIn');
+    });
   });
   $(window).on('resize', function(){
       var win = $(this);
