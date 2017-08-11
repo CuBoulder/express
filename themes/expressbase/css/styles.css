@@ -159,8 +159,9 @@ h1#site-name, div#site-name { font-size: 18px; margin: 0; padding: 0; line-heigh
 .block-menu ul.menu ul.menu ul.menu ul.menu ul.menu a { padding-left: 40px; }
 .block-menu ul.menu ul.menu ul.menu ul.menu ul.menu ul.menu a { padding-left: 50px; }
 
-.block-menu ul.menu a { display: block; padding: 10px 0; border-bottom: 1px solid #e0e0e0; margin-bottom: -1px; }
-.block-menu ul.menu a i.fa { color: #363636; }
+.block-menu ul.menu a { display: block; padding: 10px 0; border-bottom: 1px solid rgba(128, 128, 128, 0.35); margin-bottom: -1px; }
+.block-menu ul.menu a i.fa { color: gray; float: left; }
+.block-menu ul.menu a span { overflow: hidden; }
 
 .block-menu.blockdarkgray ul.menu a { border-bottom: 1px solid #555; }
 .block-menu.blockdarkgray ul.menu a i.fa { color: #fff; }
