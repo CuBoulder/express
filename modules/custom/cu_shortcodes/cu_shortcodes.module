@@ -65,17 +65,20 @@ function cu_shortcodes_libraries_info() {
 function cu_shortcodes_demo() {
   $codes = shortcode_list_all_enabled('wysiwyg');
   ksort($codes);
+  $output = '';
   foreach ($codes as $code) {
-    $output .= '<div class="block shortcode-help"><h2>' . $code['title'] . '</h2>';
-    $output .= '<p class="shortcode-desc">' . $code['description'] . '</p>';
-    $output .= '<div class="shortcode-tip"><p class="shortcode-intro">Use this shortcode:</p>' . call_user_func($code['tips callback']) . '</div>';
-    if (isset($code['demo callback'])) {
-      $output .= '<p class="shortcode-intro">Get this result:</p>' . call_user_func($code['demo callback']);
+    if (!empty($code['tips callback'])) {
+      $output .= '<div class="block shortcode-help"><h2>' . $code['title'] . '</h2>';
+      $output .= '<p class="shortcode-desc">' . $code['description'] . '</p>';
+      $output .= '<div class="shortcode-tip"><p class="shortcode-intro">Use this shortcode:</p>' . call_user_func($code['tips callback'], array('wysiwyg'), array('long')) . '</div>';
+      if (!empty($code['demo callback'])) {
+        $output .= '<p class="shortcode-intro">Get this result:</p>' . call_user_func($code['demo callback']);
+      }
+      if (!empty($code['page callback'])) {
+        $output .= '<p class="shortcode-page"><a href="' . $code['page callback'][1] . '" class="button button-blue">' . $code['page callback'][0] . '</a></p>';
+      }
+      $output .= '</div>';
     }
-    if (!empty($code['page callback'])) {
-      $output .= '<p class="shortcode-page"><a href="' . $code['page callback'][1] . '" class="button button-blue">' . $code['page callback'][0] . '</a></p>';
-    }
-    $output .= '</div>';
   }
   return $output;
 }
@@ -247,7 +250,14 @@ function cu_shortcodes_shortcode_info() {
     'title' => t('Print'),
     'description' => t('Print page button'),
     'process callback' => 'cu_shortcodes_print',
-    'tips callback' => 'cu_shortcodes_sidebar_print',
+    'tips callback' => 'cu_shortcodes_print_tips',
+    'default settings' => array(),
+  );
+  $shortcodes['responsive-table'] = array(
+    'title' => t('Responsive Table'),
+    'description' => t('Offset, or callout content'),
+    'process callback' => 'cu_shortcodes_responsive_table',
+    'tips callback' => 'cu_shortcodes_responsive_table_tips',
     'default settings' => array(),
   );
   $shortcodes['sidebar'] = array(
@@ -473,7 +483,7 @@ function cu_shortcodes_callout($attrs, $content = NULL) {
  * callout shortcode tips.
  */
 function cu_shortcodes_callout_tips($format, $long) {
-  $output = '[callout]Content[/callout]';
+  $output = '[callout size="small/large/xlarge"]Content[/callout]';
   return $output;
 }
 
@@ -796,6 +806,14 @@ function cu_shortcodes_masonry_images($attrs, $content = NULL) {
 }
 
 /**
+ * Masonry tips.
+ */
+function cu_shortcodes_masonry_images_tips($format, $long) {
+  $output = '[masonry-images]Insert Images Here[/masonry-images]';
+  return $output;
+}
+
+/**
  * Print shortcode.
  */
 function cu_shortcodes_print($attrs, $content = NULL) {
@@ -809,6 +827,38 @@ function cu_shortcodes_print($attrs, $content = NULL) {
  */
 function cu_shortcodes_print_tips($format, $long) {
   $output = '[print]Print this page[/print]';
+  return $output;
+}
+
+/**
+ * Responsive Table shortcode.
+ */
+function cu_shortcodes_responsive_table($attrs, $content = NULL) {
+  extract(shortcode_attrs(array(
+    'breakpoint'  => NULL,
+  ), $attrs));
+  $style = '';
+  $class = '';
+  if ($breakpoint) {
+    $breakpoint = $breakpoint . 'px';
+    $class = 'responsive-table-' . $breakpoint;
+    $style = "@media screen and (max-width:$breakpoint) {
+      .$class:before,
+      .$class:after {
+        display: block;
+      }
+    }";
+  }
+
+  $output = '<div class="responsive-table-wrapper ' . $class . '"><div class="responsive-table-wrapper-inner">' . $content . '</div></div><style>' . $style . '</style>';
+  return $output;
+}
+
+/**
+ * Responsive Table tips.
+ */
+function cu_shortcodes_responsive_table_tips($format, $long) {
+  $output = '[responsive-table breakpoint="800"]HTML Table Here[/responsive-table] (Breakpoint attribute is optional)';
   return $output;
 }
 
