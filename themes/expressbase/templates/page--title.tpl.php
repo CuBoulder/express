@@ -9,7 +9,11 @@
     <?php endif; ?>
     <div id="search" tabindex="-1">
       <div class="element-max-width search-wrapper">
-        <?php print render($page['search_box']); ?>
+        <?php
+          if (!empty($page['search_box'])) {
+            print render($page['search_box']);
+          }
+        ?>
       </div>
     </div>
     <div id="header-wrapper" class="section-wrapper header-wrapper">
@@ -28,7 +32,7 @@
               unset($options[$key]);
             }
           }
-            if (!empty($options)):
+            if (!empty($options) && !empty($page['search_box'])):
           ?>
             <a href="#search" class="search-toggle"><i class="fa fa-search"></i><span class="element-invisible">Search</span></a>
           <?php endif; ?>
@@ -58,7 +62,11 @@
 
       <div id="mobile-navigation">
         <div id="mobile-search">
-          <?php print render($page['search_box']); ?>
+          <?php
+            if (!empty($page['search_box'])) {
+              print render($page['search_box']);
+            }
+          ?>
         </div>
         <nav id="mobile-menu" role="navigation">
         <?php if (isset($mobile_menu) && !empty($mobile_menu)): ?>
