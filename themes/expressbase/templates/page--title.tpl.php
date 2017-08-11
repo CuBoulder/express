@@ -200,7 +200,7 @@
     <?php endif; ?>
 
 
-    <div id="footer-section">
+    <div id="footer-section" class="footer-section">
       <?php if (!empty($page['footer'])): ?>
         <div id="footer-wrapper" class="section-wrapper footer-wrapper">
           <div id="footer" class="container-max">
