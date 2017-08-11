@@ -271,6 +271,14 @@ function _express_layout_region_diagram() {
     <td class="fill">&nbsp;</td>
   </tr>
   <tr>
+    <td colspan="5">Post Title Wide</td>
+  </tr>
+  <tr>
+    <td class="fill">&nbsp;</td>
+    <td colspan="3">Post Title</td>
+    <td class="fill">&nbsp;</td>
+  </tr>
+  <tr>
     <td class="fill">&nbsp;</td>
     <td width="25%">Left Sidebar</td>
     <td>
