@@ -41,6 +41,8 @@ function _cu_atlas_recursive(&$element) {
 
 /**
  * Implements hook_atlas_statistics().
+ * IMPORTANT! If you are using a Boolean type for a field in Atlas, you need to
+ * return FALSE rather than a null value.
  */
 function cu_atlas_atlas_statistics() {
   $statistics_data = array();
@@ -153,8 +155,6 @@ function cu_atlas_atlas_statistics() {
     // Make sure variable has a value.
     if (variable_get($variable)) {
       $variable_name = 'variable_' . $variable;
-      // If you are using a Boolean type for a field in Atlas, you need to
-      // return FALSE rather than a null value.
       $statistics_data[$variable_name] = variable_get($variable, '');
     }
   }
@@ -177,9 +177,16 @@ function cu_atlas_atlas_statistics() {
   }
 
   // Custom Logo.
-  if (module_exists('cu_custom_logo')) {
+  $white = variable_get('custom_white_logo');
+  $black = variable_get('custom_black_logo');
+  $retina = variable_get('custom_logo_retina');
+  if ((isset($white) && $white != 0) || (isset($black) && $black != 0) || (isset($retina) && $retina != 0)) {
     $statistics_data['custom_logo_settings'] = TRUE;
   }
+  if (empty($statistics_data['custom_logo_settings'])) {
+    $statistics_data['custom_logo_settings'] = FALSE;
+  }
+
 
   // Check if the selected theme is responsive.
   $is_responsive = theme_get_setting('alpha_responsive');
@@ -245,13 +252,23 @@ function _get_bundle_stats() {
     'cu_test_content_admin_bundle',
     'cu_debug_admin_bundle',
   );
+
+  $other_bundles = array();
+
   foreach ($enabled_bundles as $key => $bundle) {
     if (in_array($bundle->name, $express_bundles)) {
       $bundle_stats[$bundle->name] = array(
         'schema_version' => $bundle->schema_version,
       );
     }
+
+    else {
+      // For non-express bundles concatenate bundle name and schema version as 'bundle_name - schema_version' .
+      array_push($other_bundles, $bundle->name . ' - ' . $bundle->schema_version);
+    }
   }
+  // Concatenate strings in $other_bundles array to create one long string.
+  $bundle_stats['other'] = implode("; ", $other_bundles);
   return $bundle_stats;
 }
 
