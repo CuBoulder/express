@@ -37,6 +37,26 @@ function cu_shortcodes_menu() {
 }
 
 /**
+ * Implements hook_libraries_info().
+ */
+function cu_shortcodes_libraries_info() {
+  $libraries = array();
+  $libraries['waypoints'] = array(
+    'name' => t('Waypoints'),
+    'vendor url' => 'http://imakewebthings.com/waypoints/',
+    'download url' => 'https://github.com/imakewebthings/waypoints',
+    'version' => '0.7.0',
+    'files' => array(
+      'js' => array(
+        'waypoint.js' => array(),
+      ),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
  * Shortcode demo.
  *
  * @return string
@@ -45,17 +65,20 @@ function cu_shortcodes_menu() {
 function cu_shortcodes_demo() {
   $codes = shortcode_list_all_enabled('wysiwyg');
   ksort($codes);
+  $output = '';
   foreach ($codes as $code) {
-    $output .= '<div class="block shortcode-help"><h2>' . $code['title'] . '</h2>';
-    $output .= '<p class="shortcode-desc">' . $code['description'] . '</p>';
-    $output .= '<div class="shortcode-tip"><p class="shortcode-intro">Use this shortcode:</p>' . call_user_func($code['tips callback']) . '</div>';
-    if (isset($code['demo callback'])) {
-      $output .= '<p class="shortcode-intro">Get this result:</p>' . call_user_func($code['demo callback']);
+    if (!empty($code['tips callback'])) {
+      $output .= '<div class="block shortcode-help"><h2>' . $code['title'] . '</h2>';
+      $output .= '<p class="shortcode-desc">' . $code['description'] . '</p>';
+      $output .= '<div class="shortcode-tip"><p class="shortcode-intro">Use this shortcode:</p>' . call_user_func($code['tips callback'], array('wysiwyg'), array('long')) . '</div>';
+      if (!empty($code['demo callback'])) {
+        $output .= '<p class="shortcode-intro">Get this result:</p>' . call_user_func($code['demo callback']);
+      }
+      if (!empty($code['page callback'])) {
+        $output .= '<p class="shortcode-page"><a href="' . $code['page callback'][1] . '" class="button button-blue">' . $code['page callback'][0] . '</a></p>';
+      }
+      $output .= '</div>';
     }
-    if (!empty($code['page callback'])) {
-      $output .= '<p class="shortcode-page"><a href="' . $code['page callback'][1] . '" class="button button-blue">' . $code['page callback'][0] . '</a></p>';
-    }
-    $output .= '</div>';
   }
   return $output;
 }
@@ -69,6 +92,18 @@ function cu_shortcodes_page_alter(&$page) {
   drupal_add_css(drupal_get_path('module', 'cu_shortcodes') . '/css/cu-shortcodes-columns.css');
   // Add shortcode js.
   drupal_add_js(drupal_get_path('module', 'cu_shortcodes') . '/js/cu_shortcodes.js');
+  drupal_add_js(drupal_get_path('module', 'cu_shortcodes') . '/js/counter.js');
+
+  $path = libraries_get_path('waypoints') . '/waypoint.js';
+  $installed = file_exists($path);
+  if (!$installed) {
+    return;
+  }
+  // Add the library reference.
+  drupal_add_js($path, array(
+    'group' => JS_LIBRARY,
+    'every_page' => TRUE,
+  ));
 }
 
 
@@ -215,7 +250,14 @@ function cu_shortcodes_shortcode_info() {
     'title' => t('Print'),
     'description' => t('Print page button'),
     'process callback' => 'cu_shortcodes_print',
-    'tips callback' => 'cu_shortcodes_sidebar_print',
+    'tips callback' => 'cu_shortcodes_print_tips',
+    'default settings' => array(),
+  );
+  $shortcodes['responsive-table'] = array(
+    'title' => t('Responsive Table'),
+    'description' => t('Offset, or callout content'),
+    'process callback' => 'cu_shortcodes_responsive_table',
+    'tips callback' => 'cu_shortcodes_responsive_table_tips',
     'default settings' => array(),
   );
   $shortcodes['sidebar'] = array(
@@ -441,7 +483,7 @@ function cu_shortcodes_callout($attrs, $content = NULL) {
  * callout shortcode tips.
  */
 function cu_shortcodes_callout_tips($format, $long) {
-  $output = '[callout]Content[/callout]';
+  $output = '[callout size="small/large/xlarge"]Content[/callout]';
   return $output;
 }
 
@@ -547,6 +589,24 @@ function cu_shortcodes_columnlist_tips($format, $long) {
  */
 function cu_shortcodes_column_demo() {
   $output = '<div class="content-column column-one-half">your content here</div><div class"content-column column-one-half last">your content here</div><div class="clear"></div>';
+  return $output;
+}
+
+/**
+ * Countup shortcode.
+ */
+function cu_shortcodes_countup($attrs, $content = NULL) {
+  extract(shortcode_attrs(array(), $attrs));
+
+  $output = '<span class="counter">' . $content . '</span>';
+  return $output;
+}
+
+/**
+ * Columnlist tips.
+ */
+function cu_shortcodes_countup_tips($format, $long) {
+  $output = '[countup]5000[/countup]';
   return $output;
 }
 
@@ -694,14 +754,10 @@ function cu_shortcodes_map($attrs, $content = NULL) {
     $mapurl = $content . "&amp;ie=UTF8&amp;output=embed";
     $map = '<iframe width="100%" class="' . $size . '" src="' . $mapurl . '"></iframe>';
   }
-  elseif (strpos($content, 'colorado.edu/map') !== FALSE) {
-    $mapurl = str_replace('map/?', 'map/?embed=true&', $content);
-    $map = '<iframe width="100%" class="' . $size . '" src="' . $mapurl . '"></iframe><br /><a href="' . $mapurl . '" class="map-link">View Larger Map</a>';
-  }
   elseif (strpos($content, 'google.com/fusiontables') !== FALSE) {
     $map = '<iframe width="100%" class="' . $size . '" src="' . $content . '"></iframe>';
   }
-  elseif ((strpos($content, 'myatlascms.com') !== FALSE) || (strpos($content, 'map.colorado.edu') !== FALSE)){
+  elseif ((strpos($content, 'myatlascms.com') !== FALSE) || (strpos($content, 'colorado.edu/map') !== FALSE)){
     // Parse url
     $url = parse_url($content);
     // Hide print link for embeded map
@@ -750,6 +806,14 @@ function cu_shortcodes_masonry_images($attrs, $content = NULL) {
 }
 
 /**
+ * Masonry tips.
+ */
+function cu_shortcodes_masonry_images_tips($format, $long) {
+  $output = '[masonry-images]Insert Images Here[/masonry-images]';
+  return $output;
+}
+
+/**
  * Print shortcode.
  */
 function cu_shortcodes_print($attrs, $content = NULL) {
@@ -763,6 +827,38 @@ function cu_shortcodes_print($attrs, $content = NULL) {
  */
 function cu_shortcodes_print_tips($format, $long) {
   $output = '[print]Print this page[/print]';
+  return $output;
+}
+
+/**
+ * Responsive Table shortcode.
+ */
+function cu_shortcodes_responsive_table($attrs, $content = NULL) {
+  extract(shortcode_attrs(array(
+    'breakpoint'  => NULL,
+  ), $attrs));
+  $style = '';
+  $class = '';
+  if ($breakpoint) {
+    $breakpoint = $breakpoint . 'px';
+    $class = 'responsive-table-' . $breakpoint;
+    $style = "@media screen and (max-width:$breakpoint) {
+      .$class:before,
+      .$class:after {
+        display: block;
+      }
+    }";
+  }
+
+  $output = '<div class="responsive-table-wrapper ' . $class . '"><div class="responsive-table-wrapper-inner">' . $content . '</div></div><style>' . $style . '</style>';
+  return $output;
+}
+
+/**
+ * Responsive Table tips.
+ */
+function cu_shortcodes_responsive_table_tips($format, $long) {
+  $output = '[responsive-table breakpoint="800"]HTML Table Here[/responsive-table] (Breakpoint attribute is optional)';
   return $output;
 }
 

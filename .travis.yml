@@ -53,17 +53,19 @@ install:
   - cd ../../../
 
   # Build Codebase
-  - drush dl drupal-7.54
+  - drush dl drupal-7.56
   - mkdir drupal
-  - mv drupal-7.54/* drupal/
+  - mv drupal-7.56/* drupal/
   - mkdir profiles
   - mv express drupal/profiles/
 
-  # Build the current branch
+  # Harden Codebase
   - cd drupal
+  - cd modules
+  - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
   #- drush make --yes profiles/express/drupal-org-core.make
   #- drush make --yes profiles/express/drupal-org.make --no-core --contrib-destination=profiles/express
-  - cd ../
+  - cd ../..
 
   # Verify that all the .make files will work on Drupal.org.
   #- drush verify-makefile drupal/profiles/express/drupal-org.make
@@ -131,7 +133,10 @@ before_script:
 
 script:
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
+  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles&&~@run_last'
+
+  # Second Test run for know troubled tests.
+  - ./bin/behat --config behat.yml --verbose --tags @run_last
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
