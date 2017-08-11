@@ -2,8 +2,8 @@
   Drupal.behaviors.expressStatus = {
     attach: function (context, settings) {
 
-      var statusID = Drupal.settings.express_status.statusio_id;
-      var statusAPI = Drupal.settings.express_status.statusio_apikey;
+      var statusID = Drupal.settings.cu_status.statusio_id;
+      var statusAPI = Drupal.settings.cu_status.statusio_apikey;
 
       var sp = new StatusPage.page({page: statusID, apiKey: statusAPI});
       sp.summary({
@@ -24,7 +24,7 @@
       }
 
       function statusioDisplay(data) {
-        $('.express-status .status-message').text(data.status.description).addClass(data.status.indicator);
+        $('.cu-status .status-message').text(data.status.description).addClass(data.status.indicator);
         var incidentDisplay = false;
         var statusDisplay = false;
         // Incidents.
@@ -33,10 +33,10 @@
             incidentDisplay = true;
             var d = new Date(i.created_at);
             var incidentDate = formattedDate(d);
-            $('.express-status .incidents .incidents-list').append('<div class="incident ' + i.impact + '">' + i.body + '<div class="incident-date">' + incidentDate + '</div></div>');
+            $('.cu-status .incidents .incidents-list').append('<div class="incident ' + i.impact + '">' + i.body + '<div class="incident-date">' + incidentDate + '</div></div>');
 
             if (incidentDisplay) {
-              $('.express-status .incidents').show();
+              $('.cu-status .incidents').show();
             }
           });
         }
@@ -45,10 +45,10 @@
           $.each(data.components, function (k, c) {
             if (c.status != 'operational') {
               statusDisplay = true;
-              $('.express-status .components .components-list').append('<div class="component ' + c.status + '">' + c.name + '</div>');
+              $('.cu-status .components .components-list').append('<div class="component ' + c.status + '">' + c.name + '</div>');
             }
             if (statusDisplay) {
-              $('.express-status .components, .express-status .status-info').show();
+              $('.cu-status .components, .cu-status .status-info').show();
             }
           });
         }

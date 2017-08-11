@@ -2,14 +2,14 @@
 
 /**
  * @file
- * Contains Drupal hooks for express_status module.
+ * Contains Drupal hooks for cu_status module.
  */
 
 /**
  * Implements hook_block_info().
  */
-function express_status_block_info() {
-  $blocks['express_status'] = array(
+function cu_status_block_info() {
+  $blocks['cu_status'] = array(
     'info' => t('Status'),
   );
   return $blocks;
@@ -18,21 +18,21 @@ function express_status_block_info() {
 /**
  * Implements hook_block_view().
  */
-function express_status_block_view($delta = '') {
+function cu_status_block_view($delta = '') {
   switch ($delta) {
-    case 'express_status':
+    case 'cu_status':
       drupal_add_js('https://cdn.statuspage.io/se-v2.js', 'external');
-      drupal_add_js(drupal_get_path('module', 'express_status') . '/js/express-status.js');
-      drupal_add_css(drupal_get_path('module', 'express_status') . '/css/express-status.css');
-      $statusio_page = variable_get('express_status_page', 'https://universityofcoloradoboulder.statuspage.io');
-      $statusio_id = variable_get('express_status_id', '9sm03v9xr9m6');
-      $statusio_apikey = variable_get('express_status_apikey', '');
+      drupal_add_js(drupal_get_path('module', 'cu_status') . '/js/express-status.js');
+      drupal_add_css(drupal_get_path('module', 'cu_status') . '/css/express-status.css');
+      $statusio_page = variable_get('cu_status_page', 'https://universityofcoloradoboulder.statuspage.io');
+      $statusio_id = variable_get('cu_status_id', '9sm03v9xr9m6');
+      $statusio_apikey = variable_get('cu_status_apikey', '');
 
       $status_settings = array(
         'statusio_id' => $statusio_id,
         'statusio_apikey' => $statusio_apikey,
       );
-      drupal_add_js(array('express_status' => $status_settings), 'setting');
+      drupal_add_js(array('cu_status' => $status_settings), 'setting');
 
       $block['subject'] = 'Status';
 
