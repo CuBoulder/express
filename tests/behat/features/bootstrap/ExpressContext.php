@@ -151,6 +151,16 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
+   * @BeforeScenario
+   */
+  public function beforeScenario($event) {
+    // If this is a @javascript test, then resize the window.
+    if ($event->getScenario()->hasTag('javascript')) {
+      $this->getSession()->resizeWindow(1280, 1024, 'current');
+    }
+  }
+
+  /**
    * After every step in a @javascript scenario, we want to wait for AJAX
    * loading to finish.
    *
@@ -163,6 +173,36 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
         return;
       }
       $this->iWaitForAjax();
+    }
+  }
+
+  /**
+   * Change the size of the window on Javascript tests.
+   *
+   * @param string $type
+   *   Predefined type to resize window.
+   *
+   * @throws Exception
+   *
+   * @Given I resize the window to a :type resolution.
+   */
+  function iChangeTheScreenSize($type) {
+    // Only change the window size on Javascript tests.
+    $driver = $this->getSession()->getDriver();
+    if (!($driver instanceof Selenium2Driver)) {
+      throw new \Exception('Only tests with the @javascript tag can resize the browser window.');
+    }
+
+    // Resize the window based on pre-defined types of resolutions.
+    switch ($type) {
+      case 'mobile':
+        $this->getSession()->resizeWindow(320, 480, 'current');
+        break;
+      case 'desktop':
+        $this->getSession()->resizeWindow(1280, 1024, 'current');
+        break;
+      default:
+        $this->getSession()->resizeWindow(1280, 1024, 'current');
     }
   }
 

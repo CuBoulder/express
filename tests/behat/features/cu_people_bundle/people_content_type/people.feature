@@ -144,7 +144,7 @@ Scenario: Content editors can create person nodes
         And I select "<Footer Menu>" from "Parent item"
         And I select "<Secondary Menu>" from "Parent item"
         And I press the "Save" button
-        And I wait 5 seconds
+      Given I resize the window to a "mobile" resolution.
       When I click the ".mobile-menu-toggle a" element
         #And I wait for AJAX
       Then I should see "John Doe" in the "Secondary Mobile Menu" region
