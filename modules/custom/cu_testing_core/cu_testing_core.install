@@ -62,9 +62,11 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
 
 
   // Setting performance logging variables.
+  /*
   variable_set('performance_detail', 1);
   variable_set('performance_nodrush', 1);
   variable_set('performance_threshold_accesses', '2');
+  */
 
   // Don't check for summary detail since not using in report.
   // variable_set('performance_summary', 1);
