@@ -1,6 +1,6 @@
 language: php
 # We want to avoid sudo. This allow us to use Travis docker infrastructure, which means builds start faster and have more CPU available.
-sudo: false
+sudo: true
 
 php:
   - '5.3'
@@ -112,6 +112,7 @@ before_script:
 
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
+  - sudo service apache2 restart
 
   - mysql -e 'create database drupal;'
 
