@@ -250,6 +250,13 @@ function cu_shortcodes_shortcode_info() {
     'tips callback' => 'cu_shortcodes_sidebar_print',
     'default settings' => array(),
   );
+  $shortcodes['responsive-table'] = array(
+    'title' => t('Responsive Table'),
+    'description' => t('Offset, or callout content'),
+    'process callback' => 'cu_shortcodes_responsive_table',
+    'tips callback' => 'cu_shortcodes_resposnive_table_tips',
+    'default settings' => array(),
+  );
   $shortcodes['sidebar'] = array(
     'title' => t('Sidebar'),
     'description' => t('Offset, or callout content'),
@@ -809,6 +816,38 @@ function cu_shortcodes_print($attrs, $content = NULL) {
  */
 function cu_shortcodes_print_tips($format, $long) {
   $output = '[print]Print this page[/print]';
+  return $output;
+}
+
+/**
+ * Responsive Table shortcode.
+ */
+function cu_shortcodes_responsive_table($attrs, $content = NULL) {
+  extract(shortcode_attrs(array(
+    'breakpoint'  => NULL,
+  ), $attrs));
+  $style = '';
+  $class = '';
+  if ($breakpoint) {
+    $breakpoint = $breakpoint . 'px';
+    $class = 'responsive-table-' . $breakpoint;
+    $style = "@media screen and (max-width:$breakpoint) {
+      .$class:before,
+      .$class:after {
+        display: block;
+      }
+    }";
+  }
+
+  $output = '<div class="responsive-table-wrapper ' . $class . '"><div class="responsive-table-wrapper-inner">' . $content . '</div></div><style>' . $style . '</style>';
+  return $output;
+}
+
+/**
+ * Responsive Table tips.
+ */
+function cu_shortcodes_responsive_table_tips($format, $long) {
+  $output = '[responsive-table breakpoint="800"]HTML Table Here[/responsive-table] (Breakpoint attribute is optional)';
   return $output;
 }
 
