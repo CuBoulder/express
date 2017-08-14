@@ -20,6 +20,8 @@ dependencies[] = atlas
 dependencies[] = atlas_statistics
 dependencies[] = express_status
 dependencies[] = realname
+dependencies[] = elysia_cron
+dependencies[] = cu_elysia_cron
 
 optional-dependencies[] = cu_users
 optional-dependencies[] = memcache
