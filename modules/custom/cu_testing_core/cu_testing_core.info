@@ -8,6 +8,9 @@ dependencies[] = cu_help
 ;dependencies[] = rave_alerts
 ;dependencies[] = cu_alerts
 dependencies[] = express_status
+dependencies[] = realname
+dependencies[] = elysia_cron
+dependencies[] = cu_elysia_cron
 
 ; Enable bundles for testing.
 dependencies[] = cu_advanced_content_bundle
