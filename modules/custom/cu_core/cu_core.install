@@ -29,7 +29,9 @@ function cu_core_install() {
   // these modules need to be enabled late in the install process and/or to be ignored by profile_module_manager's report.
   $module_array = array(
     'cu_users',
-
+    'cu_content_lock',
+    'content_lock',
+    'cu_alerts',
     'memcache',
     'varnish'  // Adding caching modules here for changes involving Travis CI testing.
   );
