@@ -5,9 +5,12 @@ version = 7.x-6.0
 package = CU-Core
 dependencies[] = cu_redirect
 dependencies[] = cu_help
-dependencies[] = rave_alerts
-dependencies[] = cu_alerts
+;dependencies[] = rave_alerts
+;dependencies[] = cu_alerts
 dependencies[] = express_status
+dependencies[] = realname
+dependencies[] = elysia_cron
+dependencies[] = cu_elysia_cron
 
 ; Enable bundles for testing.
 dependencies[] = cu_advanced_content_bundle
@@ -22,4 +25,4 @@ dependencies[] = cu_seo_bundle
 dependencies[] = cu_social_media_bundle
 
 ; Enable performance module for reporting at end of test run.
-dependencies[] = performance
+;dependencies[] = performance

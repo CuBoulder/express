@@ -117,7 +117,6 @@ dependencies[] = ckeditor_link
 ; ============ CU CONTENT TYPES ============
 dependencies[] = cu_home_page
 dependencies[] = cu_page
-dependencies[] = cu_alerts
 dependencies[] = cu_search
 dependencies[] = cu_sitewide
 dependencies[] = cu_slider
@@ -198,8 +197,6 @@ dependencies[] = cu_font_awesome
 dependencies[] = eva
 dependencies[] = smart_trim
 dependencies[] = stringoverrides
-dependencies[] = cu_content_lock
-dependencies[] = content_lock
 dependencies[] = context_sitewide_public
 dependencies[] = field_reference_delete
 dependencies[] = express_block_designer
@@ -208,10 +205,12 @@ dependencies[] = express_block_designer_menu
 ; ============ FEATURE EXPORTS ============
 dependencies[] = express_linkit_profiles
 
-; REMOVE IN FUTURE
-
-
 ; STILL NEEDS WORK?
 dependencies[] = cu_bean_override_view
 dependencies[] = cu_people_administration_override
 dependencies[] = cu_content_administration_override
+
+; Don't enable in testing
+;dependencies[] = cu_content_lock
+;dependencies[] = content_lock
+;dependencies[] = cu_alerts

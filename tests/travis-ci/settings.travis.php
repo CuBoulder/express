@@ -1,8 +1,5 @@
 <?php
 
-// Ensure secure pages is enabled.
-//$conf['securepages_enable'] = TRUE;
-
 // Never allow updating modules through UI.
 $conf['allow_authorize_operations'] = FALSE;
 
