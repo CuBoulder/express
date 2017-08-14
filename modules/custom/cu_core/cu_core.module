@@ -149,7 +149,7 @@ function cu_core_express_bean_list_groups($bundles) {
 
   $bundles['advanced_content']['title'] = 'Advanced Content';
   $bundles['advanced_content']['types'][] = 'Content Grid';
-  $bundles['advanced_content']['types'][] = 'Quicktab';
+  $bundles['advanced_content']['types'][] = 'Expandable';
   $bundles['advanced_content']['types'][] = 'Video Reveal';
 
   return $bundles;
