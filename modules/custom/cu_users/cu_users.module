@@ -27,7 +27,6 @@ function cu_users_get_users($type = 'all') {
     'linebarg' => 'joanna.bertrand@Colorado.EDU',
     'wetu1300' => 'wendy.turnbull@Colorado.EDU',
     'mortone' => 'Emily.Kellagher@Colorado.EDU'
-    'jeor0980' => 'Jesus.OrtizTovar@Colorado.EDU'
   );
 
   $user_array['site_owner'] = array(
