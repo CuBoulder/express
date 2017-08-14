@@ -117,7 +117,7 @@ function express_block_designer_theme_registry_alter(&$theme_registry) {
 /**
  * Implements hook_contextual_links_view_alter().
  *
- * Link users to edit block design.
+ * Link users to edit block design, removes block config from bean blocks.
  */
 function express_block_designer_contextual_links_view_alter(&$element, &$items) {
   if (isset($element['#element']['#block'])) {
@@ -130,7 +130,25 @@ function express_block_designer_contextual_links_view_alter(&$element, &$items) 
       'href' => 'block/' . $delta . '/design',
       'query' => array('destination' => $path),
     );
+
+    // Remove block configure contextual link from beans.
+    if ($element['#element']['#block']->module == 'bean') {
+      unset($element['#links']['block-configure']);
+    }
+
   }
+}
+
+/**
+ * Implements hook_form_id_form_alter().
+ *
+ * Hide block regions/visibility on block config form.
+ */
+function express_block_designer_form_block_admin_configure_alter(&$form, &$form_state, $form_id) {
+
+  $form['regions']['#access'] = FALSE;
+  $form['visibility_title']['#access'] = FALSE;
+  $form['visibility']['#access'] = FALSE;
 }
 
 /**
