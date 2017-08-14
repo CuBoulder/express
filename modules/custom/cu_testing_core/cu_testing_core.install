@@ -13,12 +13,12 @@ function cu_testing_core_install() {
 
   $module_array = array(
     //'cu_users',
-    'memcache',
+    //'memcache',
     //'varnish'  // Adding caching modules here for changes involving Travis CI testing.
   );
 
-  module_enable($module_array);
-  profile_module_manager_add_to_ignore($module_array);
+  //module_enable($module_array);
+  //profile_module_manager_add_to_ignore($module_array);
 
   // change for #FIT-583 for https://www.drupal.org/node/2172293
   // Must be set before cu_forms_bundle is enabled
