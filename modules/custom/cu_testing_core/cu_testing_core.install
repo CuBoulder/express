@@ -11,6 +11,15 @@ function cu_testing_core_install() {
     'cuivory',
   ));
 
+  $module_array = array(
+    //'cu_users',
+    'memcache',
+    //'varnish'  // Adding caching modules here for changes involving Travis CI testing.
+  );
+
+  module_enable($module_array);
+  profile_module_manager_add_to_ignore($module_array);
+
   // change for #FIT-583 for https://www.drupal.org/node/2172293
   // Must be set before cu_forms_bundle is enabled
   variable_set('webform_install_add_body_field', TRUE);
