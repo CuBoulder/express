@@ -122,13 +122,13 @@
           else {
             $(this).attr('aria-expanded', 'false');
           }
-          $('.expandable-tab-group', $tabs).fadeToggle();
+          $('.expandable-tab-group', $tabs).toggle('fast');
         });
         $('a.expandable-tablist-link', $tabs).click(function(event) {
 
           event.preventDefault();
           $tabset = '#' + $(this).data('tabset');
-          $($tabset + ' .expandable-tab-group').fadeOut();
+          $($tabset + ' .expandable-tab-group').fadeOut('fast');
         });
         $('body').click(function() {
           $('.expandable-select .expandable-tab-group').fadeOut('fast');
