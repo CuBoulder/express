@@ -148,6 +148,7 @@ Scenario: Content editors can create person nodes
       When I click the ".mobile-menu-toggle a" element
         #And I wait for AJAX
       Then I should see "John Doe" in the "Secondary Mobile Menu" region
+      And I resize the window to a "desktop" resolution.
 
   @api @people @people-filters
   Scenario: Adding a label to the filter terms should result in the label showing up on the people list page.

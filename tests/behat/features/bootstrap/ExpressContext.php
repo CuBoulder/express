@@ -155,9 +155,11 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    */
   public function beforeScenario($event) {
     // If this is a @javascript test, then resize the window.
+    /*
     if ($event->getScenario()->hasTag('javascript')) {
       $this->getSession()->resizeWindow(1280, 1024, 'current');
     }
+    */
   }
 
   /**
@@ -237,7 +239,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     }, 1000);';
 
     //$this->getSession()->evaluateScript($script);
-    $this->getSession()->wait(1000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
+    $this->getSession()->wait(2000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
   }
 
   /**
