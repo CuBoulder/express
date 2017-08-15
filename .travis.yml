@@ -129,7 +129,7 @@ script:
   - ./bin/behat --config behat.yml --verbose --tags @run_last
 
   # Output performance logging data.
-  - drush scr profiles/express/tests/travis-ci/log-express-performance.php
+  #- drush scr profiles/express/tests/travis-ci/log-express-performance.php
 
 
 notifications:
