@@ -80,10 +80,11 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     $uids = db_query("SELECT uid FROM {users} WHERE mail = 'noreply@nowhere.com'")->fetchCol();
     user_delete_multiple($uids);
 
-    // Reimport database if it exists.
-    if (file_exists($_SERVER['TRAVIS_BUILD_DIR'] . '/express.sql')) {
+    // Re-import database if it exists.
+    // We do this since added nodes and other cruft can impact other test suites.
+    if (file_exists($_SERVER['HOME'] . '/express.sql')) {
       exec('drush sql-drop -y');
-      exec('drush sql-cli < ' . $_SERVER['TRAVIS_BUILD_DIR'] . '/express.sql');
+      exec('drush sql-cli < ' . $_SERVER['HOME'] . '/express.sql');
     }
   }
 
