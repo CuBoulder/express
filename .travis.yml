@@ -34,9 +34,6 @@ cache:
 
 install:
 
-  - ls -al
-  - fkdjfk
-
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:6.*"
