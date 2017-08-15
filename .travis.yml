@@ -34,14 +34,14 @@ cache:
 
 install:
 
-  # Test env variable in PHP.
-  - drush scr express/test.php
-  - kjdfgkdjgh
-
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:6.*"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
+
+  # Test env variable in PHP.
+  - drush scr express/test.php
+  - kjdfgkdjgh
 
   # Build Behat dependencies
   - cd ./tests/behat
