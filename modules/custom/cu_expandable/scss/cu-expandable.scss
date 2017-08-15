@@ -79,6 +79,7 @@ $cugold: #CFB87C;
       border: 1px solid $border;
       border-left:none;
       flex-grow:1;
+      background:#fff;
     }
   }
 }
@@ -296,20 +297,22 @@ $cugold: #CFB87C;
     /* Vertical Tabs */
     .expandable-tabs-vertical {
       .expandable-tab-group {
-        background:#444;
+        background:#272727;
       }
       ul.expandable-tablist {
-        border-color:#444;
+        border-color:#272727;
       }
       ul.expandable-tablist a {
-        border-color:#444;
+        border-color:#272727;
         color:#aaa;
       }
       .expandable-panel-group {
         border-color:#444;
+        background:#444;
       }
-      .expandable-tablist-item.is-active {
-        background:#272727;
+      ul.expandable-tablist .expandable-tablist-item.is-active a {
+        background:#444;
+        border-color:#444;
       }
     }
     /* Accordion */
