@@ -40,7 +40,7 @@ install:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
   # Test env variable in PHP.
-  - drush scr express/test.php
+  - drush scr test.php
   - kjdfgkdjgh
 
   # Build Behat dependencies
