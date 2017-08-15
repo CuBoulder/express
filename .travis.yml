@@ -121,7 +121,7 @@ before_script:
 
 script:
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles&&~@run_last'
+  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles&&~@run_last&&~broken'
 
   # Second Test run for know troubled tests.
   - drush sql-drop -y

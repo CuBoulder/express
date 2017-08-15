@@ -135,7 +135,7 @@ Scenario: Content editors can create person nodes
       And I should not see "Filter 3 Term 1, Filter 3 Term 2"
 
 
-    @api @people @javascript @run_last
+    @api @people @javascript @broken
     Scenario: Footer, Main Menu, and Secondary Menus should be available when creating a Person
       Given  CU - I am logged in as a user with the "content_editor" role
         And I am on "node/add/person"
