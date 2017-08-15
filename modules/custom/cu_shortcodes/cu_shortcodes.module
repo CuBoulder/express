@@ -558,7 +558,7 @@ function cu_shortcodes_column($attrs, $content = NULL) {
  * Column tips.
  */
 function cu_shortcodes_column_tips($format, $long) {
-  $output = '<p>[column size=one-half]</p><p>your content here</p><p>[/column]</p><p>[column size=one-half order=last]</p><p>your content here</p><p>[/column]</p>';
+  $output = '<p>[column size=one-half]</p><p>Your Content Here</p><p>[/column]</p><p>[column size=one-half order=last]</p><p>Your Content Here</p><p>[/column]</p>';
   return $output;
 }
 
@@ -747,7 +747,7 @@ function cu_shortcodes_imagecaption($attrs, $content = NULL) {
  */
 
 function cu_shortcodes_imagecaption_tips($format, $long) {
-  $output = '[imagecaption align="none"]Your image caption here[/imagecaption]';
+  $output = '<p>[imagecaption align="none"]</p> <p>Image</p> <p>Your image caption here</p> <p>[/imagecaption]</p>';
   return $output;
 }
 
@@ -793,7 +793,7 @@ function cu_shortcodes_map($attrs, $content = NULL) {
  * Map tips.
  */
 function cu_shortcodes_map_tips($format, $long) {
-  $output = '[map]https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3054.215386660962!2d-105.26572850973943!3d40.04829405429418!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876beef682730725%3A0xc7604d66a96a0f1e!2sNorth+Boulder!5e0!3m2!1sen!2sus!4v1400010841644[/map]';
+  $output = '<p>[map]https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3054.215386660962!2d-105.26572850973943!3d40.04829405429418!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876beef682730725%3A0xc7604d66a96a0f1e!2sNorth+Boulder!5e0!3m2!1sen!2sus!4v1400010841644[/map]</p>';
   return $output;
 }
 
