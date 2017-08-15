@@ -39,9 +39,6 @@ install:
   - travis_retry composer global require "drush/drush:6.*"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
-  - drush scr test.php
-  - lsksks
-
   # Build Behat dependencies
   - cd ./tests/behat
   - travis_retry composer install --prefer-dist --no-interaction
@@ -100,9 +97,8 @@ before_script:
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
 
-  - mysql -e 'create database drupal;'
-
   # Do the site install.
+  - mysql -e 'create database drupal;'
   - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
   - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
@@ -128,6 +124,8 @@ script:
   - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles&&~@run_last'
 
   # Second Test run for know troubled tests.
+  - drush sql-drop -y
+  - drush sql-cli < $TRAVIS_BUILD_DIR/express.sql
   - ./bin/behat --config behat.yml --verbose --tags @run_last
 
   # Output performance logging data.
