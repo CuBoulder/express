@@ -39,9 +39,8 @@ install:
   - travis_retry composer global require "drush/drush:6.*"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
-  # Test env variable in PHP.
   - drush scr test.php
-  - kjdfgkdjgh
+  - lsksks
 
   # Build Behat dependencies
   - cd ./tests/behat
@@ -54,8 +53,6 @@ install:
   - mv drupal-7.56/* drupal/
   - mkdir profiles
   - mv express drupal/profiles/
-
-
 
   # Harden Codebase
   - cd drupal
@@ -112,7 +109,8 @@ before_script:
 
   # Export db so it can be imported after every suite run.
   # Test runs that fill up the db with nodes can impact other tests.
-  - drush sql-dump --result-file=
+  - drush sql-dump --result-file=$TRAVIS_BUILD_DIR/express.sql
+  - ls -al $TRAVIS_BUILD_DIR
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
