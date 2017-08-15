@@ -33,7 +33,7 @@
 .expandable-tabs ul.expandable-tablist li { display: flex; flex-grow: 1; text-align: center; align-self: flex-end; }
 .expandable-tabs ul.expandable-tablist a { color: #007bc8; display: block; padding: 5px 10px; font-weight: bold; position: relative; z-index: 1; margin: 0 auto; line-height: 1.2; }
 .expandable-tabs ul.expandable-tablist li.is-active a { color: #202020; position: relative; }
-.expandable-tabs ul.expandable-tablist li.is-active a:after { content: ""; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 10px solid #333; bottom: -11px; left: 0; right: 0; margin: 0 auto; position: absolute; }
+.expandable-tabs ul.expandable-tablist li.is-active a:after { content: ""; width: 0; height: 0; border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 6px solid #333; bottom: -6px; left: 0; right: 0; margin: 0 auto; position: absolute; }
 
 .expandable.expandable-select a.expandable-prompt { padding: 10px 30px 10px 10px; display: block; background-color: #007bc8; color: #fff; position: relative; font-weight: bold; max-width: 320px; }
 .expandable.expandable-select a.expandable-prompt:after { content: '\f105'; font-family: FontAwesome; padding: 10px; position: absolute; top: 0; right: 0; }
