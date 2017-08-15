@@ -229,6 +229,7 @@ function cu_shortcodes_shortcode_info() {
     'title' => t('Image Caption'),
     'description' => t('Add a caption to an image'),
     'process callback' => 'cu_shortcodes_imagecaption',
+    'tips callback' => 'cu_shortcodes_imagecaption_tips',
     'default settings' => array(),
   );
   $shortcodes['map'] = array(
@@ -681,7 +682,7 @@ function cu_shortcodes_googlecalendar($attrs, $content = NULL ) {
 }
 
 function cu_shortcodes_googlecalendar_tips($format, $long) {
-  $output = '[calendar]https://www.google.com/calendar/embed?title=Faculty%20Planning%20Calendar&height=600&wkst=1&bgcolor=%23FFFFFF&src=fqd9tj22sodte3oosui2h5e13o%40group.calendar.google.com&color=%23875509&src=270ehpc2jeu16j00p4st3nvb2c%40group.calendar.google.com&color=%2342104A&src=jm056q7sfv17ngqj3e4ph60iuk%40group.calendar.google.com&color=%232952A3&src=jazzmountainclimber%40gmail.com&color=%23711616&src=hgk9ielvps4qkv7uehs6q8rc18%40group.calendar.google.com&color=%232F6309&src=625jneetmcajuamdvv3as9tft8%40group.calendar.google.com&color=%236B3304&src=en.usa%23holiday%40group.v.calendar.google.com&color=%23125A12&ctz=America%2FDenver[/calendar]';
+  $output = '[googlecalendar]https://www.google.com/calendar/embed?title=Faculty%20Planning%20Calendar&height=600&wkst=1&bgcolor=%23FFFFFF&src=fqd9tj22sodte3oosui2h5e13o%40group.calendar.google.com&color=%23875509&src=270ehpc2jeu16j00p4st3nvb2c%40group.calendar.google.com&color=%2342104A&src=jm056q7sfv17ngqj3e4ph60iuk%40group.calendar.google.com&color=%232952A3&src=jazzmountainclimber%40gmail.com&color=%23711616&src=hgk9ielvps4qkv7uehs6q8rc18%40group.calendar.google.com&color=%232F6309&src=625jneetmcajuamdvv3as9tft8%40group.calendar.google.com&color=%236B3304&src=en.usa%23holiday%40group.v.calendar.google.com&color=%23125A12&ctz=America%2FDenver[/googlecalendar]';
   return $output;
 }
 
@@ -738,6 +739,15 @@ function cu_shortcodes_imagecaption($attrs, $content = NULL) {
 
       ), $attrs));
   $output = '<div class="image-caption image-caption-' . $align . '">' . $content . '</div>';
+  return $output;
+}
+
+/**
+ * Image Caption tips.
+ */
+
+function cu_shortcodes_imagecaption_tips($format, $long) {
+  $output = '[imagecaption align="none"]Your image caption here[/imagecaption]';
   return $output;
 }
 
