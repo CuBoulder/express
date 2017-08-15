@@ -120,16 +120,17 @@ before_script:
   - export BEHAT_PARAMS
 
 script:
-  # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles&&~@run_last&&~broken'
 
   # Second Test run for know troubled tests.
   #- drush sql-drop -y
   #- drush sql-cli < $HOME/express.sql
   - ./bin/behat --config behat.yml --verbose --tags @run_last
 
+  # Run Behat tests.
+  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles&&~@run_last&&~broken'
+
   # Output performance logging data.
-  #- drush scr profiles/express/tests/travis-ci/log-express-performance.php
+  - drush scr profiles/express/tests/travis-ci/log-express-performance.php
 
 
 notifications:
