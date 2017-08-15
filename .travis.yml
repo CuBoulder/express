@@ -124,8 +124,8 @@ script:
   - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles&&~@run_last&&~broken'
 
   # Second Test run for know troubled tests.
-  - drush sql-drop -y
-  - drush sql-cli < $HOME/express.sql
+  #- drush sql-drop -y
+  #- drush sql-cli < $HOME/express.sql
   - ./bin/behat --config behat.yml --verbose --tags @run_last
 
   # Output performance logging data.
