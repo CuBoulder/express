@@ -560,7 +560,7 @@ html { box-sizing: border-box; }
 
 #main { padding: 20px 0; }
 
-#main-content-wrapper { padding-top: 0; padding-bottom: 20px; }
+#main-content-wrapper { padding-top: 0; padding-bottom: 0; }
 
 #post-title-wide-wrapper, #post-title-wrapper { background: #fff; padding-bottom: 20px; }
 
@@ -589,7 +589,7 @@ html { box-sizing: border-box; }
 
 /* Help, messages, etc */
 .express-messages { background: #f2f2f2; position: relative; overflow: hidden; }
-.express-messages a.close-msgs { position: absolute; top: 20px; right: 10px; color: #aaa; }
+.express-messages a.close-msgs { position: absolute; top: 5px; right: 5px; color: #aaa; opacity: .5; }
 
 .express-message { padding: 20px; background: #f2f2f2; clear: both; }
 .express-message > div { max-width: 1160px; margin: 0 auto; }

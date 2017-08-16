@@ -45,7 +45,7 @@ body { background-color: #333; }
 
 .footer-wrapper { background-color: #222; }
 
-.footer { background-color: #111; padding-top: 20px; }
+#footer { background-color: #111; padding-top: 20px; }
 
 #footer-menu-wrapper, .footer-menu-gray, .footer-menu-gold { background-color: transparent; padding: 0; }
 

@@ -136,6 +136,7 @@ h1#page-title-image-title {
 }
 #main {
   padding-top: 0;
+  padding-bottom: 0;
 }
 #post-title-wide-wrapper,
 #post-title-wrapper {
@@ -146,7 +147,7 @@ h1#page-title-image-title {
 }
 #content-wrapper {
   background: #fff;
-  padding-bottom:20px;
+  //padding-bottom:20px;
 }
 
 .front #content-wrapper {

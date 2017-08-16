@@ -128,9 +128,7 @@ body {
 .top-content-wrapper {
   background-color: #fff;
 }
-.content-wrapper {
-  padding-bottom: 20px;
-}
+
 #intro-wide-wrapper,
 #post-wide-wrapper {
   background-color: #fff;
@@ -191,7 +189,9 @@ body {
 #page-title-image-section + #content-wrapper {
   padding-top: 0px;
 }
-
+#main-content-wrapper {
+  padding:0;
+}
 #main {
   //background-color: #fff;
   //@include rgbashadow(0, 3px, 1px, #000, .08);

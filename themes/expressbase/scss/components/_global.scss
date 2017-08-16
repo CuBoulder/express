@@ -128,7 +128,7 @@ html {
 }
 #main-content-wrapper {
   padding-top: 0;
-  padding-bottom: 20px;
+  padding-bottom: 0;
 }
 #post-title-wide-wrapper + #post-title-wrapper {
   //padding-top: 20px;
@@ -199,9 +199,10 @@ html {
   overflow: hidden;
   a.close-msgs {
     position: absolute;
-    top:20px;
-    right:10px;
+    top:5px;
+    right:5px;
     color:#aaa;
+    opacity:.5;
   }
 }
 .logged-in .express-messages {
