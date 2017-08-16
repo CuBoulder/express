@@ -788,6 +788,25 @@ function cu_core_update_7030() {
 }
 
 /**
+ * Express 2.6.0 Update.
+ *
+ * Enable Express Block Designer and cu_expandable.
+ * Disable cu_block_theme, blocktheme.
+ * Revert All Features.
+ */
+function cu_core_update_7031() {
+  module_enable(array(
+    'express_block_designer',
+    'cu_expandable'
+  ));
+  module_disable(array(
+    'cu_block_theme',
+    'blocktheme',
+  ));
+  cu_core_revert_features();
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {

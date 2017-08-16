@@ -252,13 +252,23 @@ function _get_bundle_stats() {
     'cu_test_content_admin_bundle',
     'cu_debug_admin_bundle',
   );
+
+  $other_bundles = array();
+
   foreach ($enabled_bundles as $key => $bundle) {
     if (in_array($bundle->name, $express_bundles)) {
       $bundle_stats[$bundle->name] = array(
         'schema_version' => $bundle->schema_version,
       );
     }
+
+    else {
+      // For non-express bundles concatenate bundle name and schema version as 'bundle_name - schema_version' .
+      array_push($other_bundles, $bundle->name . ' - ' . $bundle->schema_version);
+    }
   }
+  // Concatenate strings in $other_bundles array to create one long string.
+  $bundle_stats['other'] = implode("; ", $other_bundles);
   return $bundle_stats;
 }
 
