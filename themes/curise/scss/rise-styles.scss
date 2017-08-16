@@ -128,19 +128,21 @@ body {
 .top-content-wrapper {
   background-color: #fff;
 }
-.content-wrapper {
-  padding-bottom: 20px;
-}
+
 #intro-wide-wrapper,
 #post-wide-wrapper {
   background-color: #fff;
   //@include rgbashadow(0, 3px, 1px, #000, .08);
 }
-.banner-dark #slider-wrapper {
+.banner-dark .slider-wrapper {
   //padding: 20px;
   background-color: #333;
+  color:#fff;
+  a:link, a:visited {
+    color:$cugold;
+  }
 }
-.banner-light #slider-wrapper {
+.banner-light .slider-wrapper {
   background-color: #f2f2f2;
 }
 #page-title-image-wrapper {
@@ -191,7 +193,9 @@ body {
 #page-title-image-section + #content-wrapper {
   padding-top: 0px;
 }
-
+#main-content-wrapper {
+  padding:0;
+}
 #main {
   //background-color: #fff;
   //@include rgbashadow(0, 3px, 1px, #000, .08);

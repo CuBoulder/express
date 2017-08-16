@@ -123,6 +123,11 @@ ul#main-menu a#home-link.active {
   background: #fff;
   padding-bottom: 20px;
 }
+#main-content-wrapper {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 #content-wrapper {
   background-color: #fff;
   background-image: url(../images/content-shadow.png);
@@ -130,8 +135,8 @@ ul#main-menu a#home-link.active {
 }
 .post-wide-wrapper {
   background-color: #fff;
-}c
-#footer-section {
+}
+.footer-section {
   background-color:$bg_dark1;
   border-top:5px solid #c7c7c7;
   background-image: url(../images/content-shadow.png);
@@ -165,7 +170,7 @@ ul#main-menu a#home-link.active {
   width: -webkit-calc(100% - 40px);
   width: calc(100% - 40px);
 }
-.footer {
+#footer {
   padding-top: 20px;
 }
 .site-info-wrapper {
