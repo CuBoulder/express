@@ -47,11 +47,13 @@ h1#page-title-image-title { font-size: 140%; }
   .page-title-inner h1#page-title { width: 66.666%; padding-right: 40px; font-size: 180%; }
   .page-title-inner .breadcrumb { text-align: right; }
   .page-title-inner .breadcrumb a, .page-title-inner .breadcrumb span { white-space: nowrap; } }
-#main { padding-top: 0; }
+#main { padding-top: 0; padding-bottom: 0; }
 
-#content-wrapper { background: #fff; padding-bottom: 20px; }
+#post-title-wide-wrapper, #post-title-wrapper { padding-bottom: 0; }
 
 #main-content-wrapper { padding-top: 20px; }
+
+#content-wrapper { background: #fff; }
 
 #post-title-wrapper { padding-top: 20px; }
 

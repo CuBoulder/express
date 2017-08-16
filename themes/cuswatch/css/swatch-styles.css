@@ -41,11 +41,11 @@ ul#action-menu a { line-height: 20px; margin: 20px 0 20px 10px; }
 
 #main { padding: 0; }
 
-#main-content-wrapper { padding: 20px 0; }
-
 #post-title-wrapper { padding-top: 20px; }
 
-#main-content-wrapper { padding: 20px 0; }
+#post-title-wide-wrapper, #post-title-wrapper { padding-bottom: 0; }
+
+#main-content-wrapper { padding-top: 20px; padding-bottom: 20px; }
 
 #content-wrapper, #post-wide-wrapper, #after-content-wrapper { background-color: #fff; }
 

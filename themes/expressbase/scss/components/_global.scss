@@ -123,12 +123,19 @@ html {
   float: right;
 }
 
-#main,
-#main-content-wrapper {
+#main {
   padding: 20px 0;
 }
+#main-content-wrapper {
+  padding-top: 0;
+  padding-bottom: 0;
+}
 #post-title-wide-wrapper + #post-title-wrapper {
-  padding-top: 20px;
+  //padding-top: 20px;
+}
+#post-title-wide-wrapper, #post-title-wrapper {
+  background:#fff;
+  padding-bottom:20px;
 }
 #feature-layout-wrapper {
   background-color: #fff;
@@ -192,9 +199,10 @@ html {
   overflow: hidden;
   a.close-msgs {
     position: absolute;
-    top:20px;
-    right:10px;
+    top:5px;
+    right:5px;
     color:#aaa;
+    opacity:.5;
   }
 }
 .logged-in .express-messages {

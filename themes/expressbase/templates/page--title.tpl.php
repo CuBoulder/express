@@ -225,7 +225,7 @@
     <div id="footer-section" class="footer-section">
       <?php if (!empty($page['footer'])): ?>
         <div id="footer-wrapper" class="section-wrapper footer-wrapper">
-          <div id="footer" class="container-max">
+          <div id="footer" class="footer container-max">
             <div class="col-lg-12 col-md-12">
               <div class="row">
                 <?php print render($page['footer']); ?>

@@ -50,6 +50,8 @@ ul.action-menu a:hover, ul.action-menu a.active, ul.action-menu a.active-trail {
 
 .slider-wrapper { padding: 20px; }
 
+#main-content-wrapper { padding: 0; }
+
 .content-wrapper, .after-content-wrapper { background-color: #fff; }
 
 .after-content-wrapper { padding-top: 40px; padding-bottom: 20px; }

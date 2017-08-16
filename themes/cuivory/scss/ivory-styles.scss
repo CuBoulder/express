@@ -123,6 +123,11 @@ ul#main-menu a#home-link.active {
   background: #fff;
   padding-bottom: 20px;
 }
+#main-content-wrapper {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 #content-wrapper {
   background-color: #fff;
   background-image: url(../images/content-shadow.png);
@@ -137,7 +142,6 @@ ul#main-menu a#home-link.active {
   background-image: url(../images/content-shadow.png);
   background-repeat: repeat-x;
   color: #fff;
-  padding-top:20px;
   a:link, a:visited {
     color:$cugold;
     &:hover,
@@ -166,7 +170,7 @@ ul#main-menu a#home-link.active {
   width: -webkit-calc(100% - 40px);
   width: calc(100% - 40px);
 }
-.footer {
+#footer {
   padding-top: 20px;
 }
 .site-info-wrapper {
