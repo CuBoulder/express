@@ -128,9 +128,9 @@ script:
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
 
   # Second Test run for broken tests.
-  - drush sql-drop -y
-  - drush sql-cli < $HOME/express.sql
-  - ./bin/behat --config behat.yml --verbose --tags @broken
+  #- drush sql-drop -y
+  #- drush sql-cli < $HOME/express.sql
+  #- ./bin/behat --config behat.yml --verbose --tags @broken
 
   # Run Simpletests
   #- drush en simpletest -y
