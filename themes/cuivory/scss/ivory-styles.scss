@@ -130,13 +130,14 @@ ul#main-menu a#home-link.active {
 }
 .post-wide-wrapper {
   background-color: #fff;
-}c
-#footer-section {
+}
+.footer-section {
   background-color:$bg_dark1;
   border-top:5px solid #c7c7c7;
   background-image: url(../images/content-shadow.png);
   background-repeat: repeat-x;
   color: #fff;
+  padding-top:20px;
   a:link, a:visited {
     color:$cugold;
     &:hover,
