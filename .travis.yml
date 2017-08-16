@@ -105,8 +105,8 @@ before_script:
 
   # Export db so it can be imported after every suite run.
   # Test runs that fill up the db with nodes can impact other tests.
-  - drush sql-dump --result-file=$HOME/express.sql
-  - ls -al $HOME
+  #- drush sql-dump --result-file=$HOME/express.sql
+  #- ls -al $HOME
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
@@ -121,17 +121,22 @@ before_script:
 
 script:
 
-  # Second Test run for know troubled tests.
+  # Run Behat tests.
+  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles&&~broken'
+
+  # Second Test run for broken tests.
   #- drush sql-drop -y
   #- drush sql-cli < $HOME/express.sql
-  - ./bin/behat --config behat.yml --verbose --tags @run_last
+  #- ./bin/behat --config behat.yml --verbose --tags @run_last
 
-  # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles&&~@run_last&&~broken'
+  # Run Simpletests
+  #- drush en simpletest -y
+  #- cd ../travis-ci
+  #- chmod +x run-simpletests.sh
+  #- ./run-simpletests.sh
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
-
 
 notifications:
   slack:
