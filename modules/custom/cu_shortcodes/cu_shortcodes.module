@@ -745,7 +745,6 @@ function cu_shortcodes_imagecaption($attrs, $content = NULL) {
 /**
  * Image Caption tips.
  */
-
 function cu_shortcodes_imagecaption_tips($format, $long) {
   $output = '<p>[imagecaption align="none"]</p> <p>Image</p> <p>Your image caption here</p> <p>[/imagecaption]</p>';
   return $output;
