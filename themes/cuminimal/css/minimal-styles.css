@@ -31,6 +31,8 @@ ul#action-menu a { line-height: 24px; margin: 22px 0 18px 10px; color: #858585; 
 
 #post-title-wide-wrapper { background: #fff; padding-bottom: 20px; }
 
+#main-content-wrapper { padding-top: 0; }
+
 #content-wrapper, #post-wide-wrapper, #after-content-wrapper, #after-content2-wrapper, #footer-wrapper { background-color: #fff; }
 
 .after-content-wrapper { padding: 20px 0; }

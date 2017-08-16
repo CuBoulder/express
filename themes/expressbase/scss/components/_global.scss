@@ -123,12 +123,19 @@ html {
   float: right;
 }
 
-#main,
-#main-content-wrapper {
+#main {
   padding: 20px 0;
 }
+#main-content-wrapper {
+  padding-top: 0;
+  padding-bottom: 20px;
+}
 #post-title-wide-wrapper + #post-title-wrapper {
-  padding-top: 20px;
+  //padding-top: 20px;
+}
+#post-title-wide-wrapper, #post-title-wrapper {
+  background:#fff;
+  padding-bottom:20px;
 }
 #feature-layout-wrapper {
   background-color: #fff;
