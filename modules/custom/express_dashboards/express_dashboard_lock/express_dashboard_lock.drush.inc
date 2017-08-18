@@ -23,7 +23,6 @@ function drush_express_dashboard_lock_lock_user_dev() {
   if ($lud === FALSE) {
     _logout_everyone();
     variable_set('lock_user_dev', TRUE);
-    take_down_site_update_cron_schedule();
     drush_print(dt('Users have been logged out and site is locked.'));
   } else {
     variable_set('lock_user_dev', FALSE);

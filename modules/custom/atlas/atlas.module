@@ -237,6 +237,12 @@ function atlas_admin_settings_submit($form, &$form_state) {
   // the row if it is.
   if ($form_state['values']['check']) {
     $request_data['status'] = $form_state['values']['status'];
+
+    if ($form_state['values']['status'] == 'locked') {
+      variable_set('lock_user_dev', TRUE);
+    } elseif ($form_state['values']['status'] != 'locked' && variable_get('lock_user_dev') == TRUE) {
+      variable_set('lock_user_dev', FALSE);
+    }
   }
 
   if ($form_state['values']['atlas_path'] != $site_array['path']) {
