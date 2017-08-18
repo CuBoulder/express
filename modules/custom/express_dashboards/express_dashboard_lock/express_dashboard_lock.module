@@ -119,6 +119,10 @@ function express_dashboard_lock_permission() {
       'title' => 'Lock users via the dashboard',
       'description' => 'Allows you to lock out users.',
     ),
+    'dev user lock' => array(
+      'title' => 'Lock users from logging in',
+      'description' => 'Allows you to prevent users from logging in.',
+    ),
   );
 }
 
@@ -132,6 +136,7 @@ function express_dashboard_lock_secure_permissions($role) {
     ),
     'developer' => array(
       'dashboard user lock',
+      'dev user lock',
     ),
     'site_owner' => array(
       'dashboard user lock',
@@ -244,4 +249,37 @@ function _express_dashboard_lock_recursive(&$element) {
     _cu_atlas_recursive($element[$name]);
   }
   return $element;
+}
+
+/**
+ * Implements hook_user_login().
+ *
+ * Lock users as dev with lock_user_dev.
+ */
+function express_dashboard_lock_user_login(&$edit, $account) {
+  if (module_exists('cu_users')) {
+    $devs = cu_users_get_users('developer');
+    $dev_lock = variable_get('lock_user_dev');
+
+    if (!array_key_exists($account->name, $devs) && ($dev_lock === TRUE)) {
+      watchdog($type = 'express_dashboard_lock', $message = t('Site is locked: lock_user_dev'), $variables = array($account), $severity = WATCHDOG_NOTICE, $link = NULL);
+      user_logout();
+    }
+  }
+}
+
+/**
+ * Implements hook_user_login_alter().
+ *
+ * Prevents non-developers from logging in.
+ */
+function express_dashboard_lock_form_user_login_alter($form, &$form_state) {
+  $dev_lock = variable_get('lock_user_dev');
+  if ($dev_lock === TRUE) {
+    drupal_set_message(t('You will not be able to login to this site. It has been locked. Please contact the Web Support team. <a href="http://www.colorado.edu/webcentral/">@link_text</a>',
+      array(
+        '@link_text' => 'Go to Webcentral',
+      )
+    ), 'warning');
+  }
 }

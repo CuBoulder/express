@@ -237,15 +237,6 @@ function atlas_admin_settings_submit($form, &$form_state) {
   // the row if it is.
   if ($form_state['values']['check']) {
     $request_data['status'] = $form_state['values']['status'];
-
-    $prevent_user_logins = module_exists('cu_logout_users');
-    if ($form_state['values']['status'] == 'locked' && $prevent_user_logins == FALSE) {
-      module_enable(array('cu_logout_users'), TRUE);
-    }
-
-    if ($form_state['values']['status'] != 'locked' && $prevent_user_logins == TRUE) {
-      module_disable(array('cu_logout_users'), TRUE);
-    }
   }
 
   if ($form_state['values']['atlas_path'] != $site_array['path']) {

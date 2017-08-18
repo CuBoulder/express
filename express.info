@@ -127,6 +127,7 @@ dependencies[] = cu_hero_unit
 ; ============ DASHBOARD ============
 dependencies[] = express_dashboards
 dependencies[] = express_dashboard_user
+dependencies[] = express_dashboard_lock
 
 ; ============ FILES ============
 dependencies[] = files
