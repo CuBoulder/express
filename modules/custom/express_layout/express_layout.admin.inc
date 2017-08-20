@@ -103,6 +103,7 @@ function express_layout_form_submit($form, &$form_state) {
 
   entity_form_submit_build_entity('express_layout', $express_layout, $form, $form_state);
   entity_save('express_layout', $express_layout);
+  cache_clear_all(arg(1), 'cache_express_layouts');
 
   drupal_set_message(t('"@layout_title" has been updated.', array(
     '@layout_title' => $express_layout->title,

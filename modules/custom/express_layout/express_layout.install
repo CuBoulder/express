@@ -33,6 +33,8 @@ function express_layout_schema() {
     'primary key' => array('layout_id'),
   );
 
+  $schema['cache_express_layouts'] = drupal_get_schema_unprocessed('system', 'cache');
+
   return $schema;
 }
 
