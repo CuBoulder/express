@@ -13,19 +13,21 @@ include_once 'cu_sitewide.features.inc';
  */
 function cu_sitewide_context_block_info_alter(&$block_info) {
   // Loading bean types this way isntead of bean_get_types() so we can get labels, not just machine names.
-  $bean_info = bean_entity_info();
-  $bean_types = $bean_info['bean']['bundles'];
-  foreach ($block_info as $key => $block) {
-    if ($block->module == 'bean') {
-      // Get bean type.
-      $type = db_select('bean', 'b')
-        ->condition('b.delta', $block->delta, '=')
-        ->fields('b', array('type'))
-        ->execute()
-        ->fetchField();
-      // Set context group to group beans - set to lowercase so list sorts correctly.
-      if (isset($bean_types[$type])) {
-        $block->context_group = strtolower($bean_types[$type]['label']);
+  if ((arg(0) == 'admin') && (arg(2) == 'context') && (arg(3) == 'list')) {
+    $bean_info = bean_entity_info();
+    $bean_types = $bean_info['bean']['bundles'];
+    foreach ($block_info as $key => $block) {
+      if ($block->module == 'bean') {
+        // Get bean type.
+        $type = db_select('bean', 'b')
+          ->condition('b.delta', $block->delta, '=')
+          ->fields('b', array('type'))
+          ->execute()
+          ->fetchField();
+        // Set context group to group beans - set to lowercase so list sorts correctly.
+        if (isset($bean_types[$type])) {
+          $block->context_group = strtolower($bean_types[$type]['label']);
+        }
       }
     }
   }
