@@ -298,12 +298,15 @@ function express_layout_preprocess_html(&$vars) {
 }
 
 function express_layout_load_layout($id) {
-  if ($cache = cache_get($id, 'cache_express_layouts')) {
-    $layout = $cache->data;
-  }
-  else {
-    $layout = entity_load_single('express_layout', $id);
-    cache_set($id, $layout, 'cache_express_layouts', time() + 60 * 60);
+  $layout = &drupal_static(__FUNCTION__);
+  if (!isset($layout)) {
+    if ($cache = cache_get($id, 'cache_express_layouts')) {
+      $layout = $cache->data;
+    }
+    else {
+      $layout = entity_load_single('express_layout', $id);
+      cache_set($id, $layout, 'cache_express_layouts', time() + 60 * 60);
+    }
   }
   return $layout;
 }
