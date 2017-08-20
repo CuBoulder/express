@@ -704,7 +704,7 @@ function express_layout_preprocess_node(&$vars) {
 
   //$settings = variable_get('express_layout_settings_' . $node->type, array());
   //$type = variable_get('express_layout_type_' . $node->type, NULL);
-  if ($layout = express_layout_load_layout($node->nid)) {
+  if ($layout = express_layout_load_layout($vars['nid'])) {
     if (!empty($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value']) && ($layout->field_feature_layout_toggle[LANGUAGE_NONE][0]['value'] == 'feature_layout') && (!path_is_admin(current_path()))) {
       $vars['theme_hook_suggestions'][] = 'node__' . $vars['type'] . '__featurelayout';
     }
