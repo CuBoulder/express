@@ -18,7 +18,7 @@ function cu_users_get_users($type = 'all') {
     'jafu6031' => 'James.W.Fuller@Colorado.EDU',
     'alfi2595' => 'alexander.finnarn@colorado.edu',
     'owmo7772' => 'owen.morrill@colorado.edu',
-    'thco6272' => 'thomas.h.cox@colorado.edu',
+    'jeor0980' => 'Jesus.OrtizTovar@colorado.edu'
   );
 
   $user_array['administrator'] = array(

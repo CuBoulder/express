@@ -163,3 +163,24 @@ function cu_forms_bundle_express_help_fields($variables) {
     },
     $variables);
 }
+
+/**
+ * Limit extensions in uploaded files via webform file field.
+ *
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
+function cu_forms_bundle_form_webform_component_edit_form_alter(&$form, &$form_state, $form_id) {
+  // Hide certain pieces we don't want available.
+  $form['validation']['extensions']['addextensions']['#access'] = FALSE;
+  unset($form['validation']['extensions']['types']['media']);
+
+  // Limit options of webform file extensions.
+  $form['validation']['extensions']['types']['archives']['#options'] = array('bz2', 'gz', 'rar', 'sit', 'tar', 'zip');
+  $form['validation']['extensions']['types']['documents']['#options'] = array('txt', 'rtf', 'html', 'pdf', 'doc', 'docx', 'odt', 'ppt', 'pptx', 'odp', 'xls', 'xlsx', 'ods', 'xml');
+  $form['validation']['extensions']['types']['desktopimages']['#options'] = array('bmp', 'eps', 'tif', 'pict', 'psd');
+  $form['validation']['extensions']['types']['webimages']['#options'] = array('gif', 'jpg', 'png');
+
+  $form['validation']['extensions']['addextensions']['#default_value'] = '';
+}

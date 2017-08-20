@@ -40,10 +40,10 @@ projects[bean][patch][] = https://www.drupal.org/files/issues/bean-watchdog_logg
 projects[video_filter][patch][] = https://www.drupal.org/files/issues/video_filter-aspect-ratio-2749297-2-D7.patch
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-1910
-projects[insert][patch][] = file://modules/contrib/insert/insert-pathologic.patch
+projects[insert][patch][] = modules/contrib/insert/insert-pathologic.patch
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-2066
-projects[module_missing_message_fixer][patch][] = file://modules/contrib/module_missing_message_fixer/drush_integration-2770115-2.patch
+projects[module_missing_message_fixer][patch][] = modules/contrib/module_missing_message_fixer/drush_integration-2770115-2.patch
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-1474
 projects[field_reference_delete][patch][] = https://www.drupal.org/files/issues/bulk-delete-using-drush-2772589-2.patch
@@ -53,3 +53,11 @@ projects[ldap_servers][patch][] = "https://www.drupal.org/files/issues/2838389-s
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-2466
 projects[views_slideshow][patch][] = "https://www.drupal.org/files/issues/drush-cli-check-remove-2854640-2.patch"
+
+; @see https://cuboulder.atlassian.net/browse/FIT-2495
+projects[wysiwyg][patch][] = "https://www.drupal.org/files/issues/wysiwyg-enable_summary-2843308-7-6.patch"
+projects[wysiwyg][patch][] = "https://www.drupal.org/files/issues/wysiwyg-summary.2851313.5.patch"
+
+; @see https://github.com/CuBoulder/express/issues/1120
+projects[quicktabs][patch][] = "https://www.drupal.org/files/issues/alpha-blocks-2883516-7-2.patch"
+
