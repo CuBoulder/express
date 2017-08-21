@@ -27,9 +27,11 @@ function cu_sitewide_context_block_info_alter(&$block_info) {
     if ($block->module == 'bean') {
       $delta = $block->delta;
       // Get the bean type label and add to context_group
-      if (!empty($beans[$delta])) {
+      if (!empty($beans[$delta]) && isset($beans[$delta]->type)) {
         $type = $beans[$delta]->type;
-        $block->context_group = strtolower($bean_types[$type]['label']);
+        if (!empty($bean_types[$type])) {
+          $block->context_group = strtolower($bean_types[$type]['label']);
+        }
       }
     }
   }
