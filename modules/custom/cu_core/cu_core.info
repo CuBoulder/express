@@ -22,6 +22,7 @@ dependencies[] = express_status
 dependencies[] = realname
 dependencies[] = elysia_cron
 dependencies[] = cu_elysia_cron
+dependencies[] = express_user_lock
 
 optional-dependencies[] = cu_users
 optional-dependencies[] = memcache
