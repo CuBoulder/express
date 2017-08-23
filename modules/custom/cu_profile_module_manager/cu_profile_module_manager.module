@@ -80,6 +80,9 @@ function cu_profile_module_manager_atlas_request_form($form, &$form_state) {
   $form['#validate'][] = 'cu_profile_module_manager_validate_atlas_request';
   $form['#submit'][] = 'cu_profile_module_manager_atlas_request_submit';
 
+  $site_array = atlas_api_request('sites', $atlas_id);
+  dpm($form);
+
   return system_settings_form($form);
 }
 
@@ -184,7 +187,7 @@ function cu_profile_module_manager_addon_page() {
       '#type' => 'markup',
       '#markup' => '<p>These are bundles that can be added at any time by site owners. Once you add the bundle,
                     you will receive an email when it has finished downloading. Once downloaded, the bundle will
-                    be available to enable.</p><p>Don\'t see your bundle available in Core yet? It takes a few 
+                    be available to enable.</p><p>Don\'t see your bundle available in Core yet? It takes a few
                     minutes to download. If it takes longer than 15 minutes, contact your site owner for help.</p>',
     ),
   );
@@ -196,7 +199,21 @@ function cu_profile_module_manager_addon_page() {
     $packages_array = array();
   }
 
+  $package_items = array();
+  // Build no duplicates version of package items.
   foreach ($packages['_items'] as $package) {
+    $name = $package['meta']['name'];
+    $package_items[$name] = $package;
+  }
+  // Make current versions trump other versions
+  foreach ($packages['_items'] as $package) {
+    if ($package['meta']['is_current']) {
+      $name = $package['meta']['name'];
+      $package_items[$name] = $package;
+    }
+  }
+  foreach ($package_items as $package) {
+
     $name = (isset($package['meta']['name']) ? $package['meta']['name'] : '');
     $label = (isset($package['meta']['label']) ? $package['meta']['label'] : '');
     $id = (isset($package['_id']) ? $package['_id'] : '');
@@ -214,7 +231,7 @@ function cu_profile_module_manager_addon_page() {
       $output[] = array(
         'atlas_item' => array(
           '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><br><a href="' . $base_path . 'admin/settings/bundles/list/atlas/' . $name . '/confirm" id="' . $id . '" class="pmm-actions btn btn-primary"><i class="fa fa-plus-circle"></i> Add bundle</a></div>',
+          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a></p><p>Version: ' . $package['meta']['version'] . '</p><br><a href="' . $base_path . 'admin/settings/bundles/list/atlas/' . $package['_id'] . '/confirm" id="' . $id . '" class="pmm-actions btn btn-primary"><i class="fa fa-plus-circle"></i> Add bundle</a></div>',
         ),
       );
     }
