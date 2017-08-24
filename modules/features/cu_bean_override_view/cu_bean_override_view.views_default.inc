@@ -33,14 +33,23 @@ function cu_bean_override_view_views_default_views() {
   $handler->display->display_options['pager']['options']['items_per_page'] = '20';
   $handler->display->display_options['style_plugin'] = 'table';
   $handler->display->display_options['style_options']['columns'] = array(
+    'delta' => 'delta',
     'label' => 'label',
     'title' => 'title',
     'type' => 'type',
+    'changed' => 'changed',
     'operations' => 'operations',
     'delete_link' => 'operations',
   );
-  $handler->display->display_options['style_options']['default'] = 'label';
+  $handler->display->display_options['style_options']['default'] = 'changed';
   $handler->display->display_options['style_options']['info'] = array(
+    'delta' => array(
+      'sortable' => 0,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
     'label' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
@@ -56,6 +65,13 @@ function cu_bean_override_view_views_default_views() {
       'empty_column' => 0,
     ),
     'type' => array(
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
+    'changed' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'desc',
       'align' => '',
       'separator' => '',
       'empty_column' => 0,
@@ -79,10 +95,17 @@ function cu_bean_override_view_views_default_views() {
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'No blocks available.';
   $handler->display->display_options['empty']['area']['format'] = 'wysiwyg';
+  /* Field: Block: Block Delta */
+  $handler->display->display_options['fields']['delta']['id'] = 'delta';
+  $handler->display->display_options['fields']['delta']['table'] = 'bean';
+  $handler->display->display_options['fields']['delta']['field'] = 'delta';
+  $handler->display->display_options['fields']['delta']['exclude'] = TRUE;
   /* Field: Block: Label */
   $handler->display->display_options['fields']['label']['id'] = 'label';
   $handler->display->display_options['fields']['label']['table'] = 'bean';
   $handler->display->display_options['fields']['label']['field'] = 'label';
+  $handler->display->display_options['fields']['label']['alter']['make_link'] = TRUE;
+  $handler->display->display_options['fields']['label']['alter']['path'] = 'block/[delta]';
   /* Field: Block: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'bean';
@@ -91,6 +114,13 @@ function cu_bean_override_view_views_default_views() {
   $handler->display->display_options['fields']['type']['id'] = 'type';
   $handler->display->display_options['fields']['type']['table'] = 'bean';
   $handler->display->display_options['fields']['type']['field'] = 'type';
+  /* Field: Block Revisions: Date changed */
+  $handler->display->display_options['fields']['changed']['id'] = 'changed';
+  $handler->display->display_options['fields']['changed']['table'] = 'bean_revision';
+  $handler->display->display_options['fields']['changed']['field'] = 'changed';
+  $handler->display->display_options['fields']['changed']['label'] = 'Updated Date';
+  $handler->display->display_options['fields']['changed']['date_format'] = 'short';
+  $handler->display->display_options['fields']['changed']['second_date_format'] = 'cu_long_date';
   /* Field: Block: Contextual / Operation links */
   $handler->display->display_options['fields']['operations']['id'] = 'operations';
   $handler->display->display_options['fields']['operations']['table'] = 'bean';
