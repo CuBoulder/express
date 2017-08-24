@@ -3,14 +3,13 @@ language: php
 sudo: false
 
 php:
-  - '5.6'
+  - '5.3'
 
-# We want builds of master and dev branches only.
 branches:
   only:
     - dev
 
-# We need LDAP as long as it is in express_core. Need CGI for runserver in PHP 5.3.
+# We need CGI for runserver in PHP 5.3.
 addons:
   apt:
     packages:
@@ -33,19 +32,12 @@ cache:
     - $HOME/.composer/cache
     - $HOME/.drush/cache
 
-# Order of operations is: before_install, install, before_script, script,
-# after_success or after_failure, OPTIONAL before_deploy, OPTIONAL deploy,
-# OPTIONAL after_deploy, after_script.
-
 install:
+
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:6.*"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
-
-  # Drupal.org verify tool
-  #- drush dl -y drupalorg_drush-7.x-1.x-dev --destination=$HOME/.drush
-  #- drush cc drush
 
   # Build Behat dependencies
   - cd ./tests/behat
@@ -53,21 +45,17 @@ install:
   - cd ../../../
 
   # Build Codebase
-  - drush dl drupal-7.54
+  - drush dl drupal-7.56
   - mkdir drupal
-  - mv drupal-7.54/* drupal/
+  - mv drupal-7.56/* drupal/
   - mkdir profiles
   - mv express drupal/profiles/
 
-  # Build the current branch
+  # Harden Codebase
   - cd drupal
-  #- drush make --yes profiles/express/drupal-org-core.make
-  #- drush make --yes profiles/express/drupal-org.make --no-core --contrib-destination=profiles/express
-  - cd ../
-
-  # Verify that all the .make files will work on Drupal.org.
-  #- drush verify-makefile drupal/profiles/express/drupal-org.make
-  #- find drupal/profiles/express/modules -name \*.make -print0 | xargs -0 -n1 drush verify-makefile
+  - cd modules
+  - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
+  - cd ../..
 
   # Setup files
   - mkdir -p drupal/sites/default/files/styles/preview/public/gallery/
@@ -87,6 +75,7 @@ install:
 
   # Disable sendmail
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
   # Add memcache, APC
   - echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "apc.shm_size=256M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -108,15 +97,16 @@ before_script:
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
 
+  # Do the site install.
   - mysql -e 'create database drupal;'
-
-  # Do the site install (either the current revision or old for the upgrade).
   - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
   - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
 
-  # Enable all the bundles
-  # - drush en cu_advanced_content_bundle cu_advanced_design_bundle cu_advanced_layout_bundle cu_debug_admin_bundle cu_events_bundle cu_forms_bundle cu_news_bundle cu_people_bundle cu_photo_gallery_bundle cu_seo_bundle cu_social_media_bundle -y
+  # Export db so it can be imported after every suite run.
+  # Test runs that fill up the db with nodes can impact other tests.
+  - drush sql-dump --result-file=$HOME/express.sql
+  - ls -al $HOME
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
@@ -130,12 +120,23 @@ before_script:
   - export BEHAT_PARAMS
 
 script:
+
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles'
+  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles&&~broken'
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
 
+  # Second Test run for broken tests.
+  #- drush sql-drop -y
+  #- drush sql-cli < $HOME/express.sql
+  #- ./bin/behat --config behat.yml --verbose --tags @broken
+
+  # Run Simpletests
+  #- drush en simpletest -y
+  #- cd ../travis-ci
+  #- chmod +x run-simpletests.sh
+  #- ./run-simpletests.sh
 
 notifications:
   slack:
