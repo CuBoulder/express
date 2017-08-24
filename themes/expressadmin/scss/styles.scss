@@ -902,6 +902,13 @@ td.ctools-export-ui-operations {
 
 
 .express-field-columns {
+
+  // Allow wrapping on long items
+  tr.odd .form-item,
+  tr.even .form-item {
+    white-space: inherit;
+  }
+
   .form-item {
     margin-bottom: 5px;
   }
