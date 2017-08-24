@@ -361,6 +361,9 @@ function express_block_designer_load($delta = NULL) {
   return FALSE;
 }
 
+/**
+ * Minimize db queries by saving results as a static variable.
+ */
 function express_block_designer_load_all() {
   static $block_designer_settings;
   if (empty($block_designer_settings)) {
@@ -472,6 +475,9 @@ function express_block_designer_theme_load($id = NULL) {
   return $result;
 }
 
+/**
+ * Minimize db queries by saving results as a static variable.
+ */
 function express_block_designer_theme_load_all() {
   static $block_designer_themes = FALSE;
   if (empty($block_designer_themes)) {
