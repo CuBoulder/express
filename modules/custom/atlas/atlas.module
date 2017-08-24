@@ -497,6 +497,9 @@ function _get_code_options($type = NULL, $name = NULL, $id = NULL) {
       $query = 'where={"meta.name":"' . $name . '","meta.code_type":"' . $type . '"}';
     }
   }
+  elseif ($id) {
+    $query = 'where={"_id":"' . $id . '"}';
+  }
   elseif ($type) {
     if ($type == 'packages') {
       $query = 'where={"meta.code_type":{"$in":["module","theme","library"]}}';
@@ -507,9 +510,6 @@ function _get_code_options($type = NULL, $name = NULL, $id = NULL) {
   }
   elseif ($name) {
     $query = 'where={"meta.name":"' . $name . '"}';
-  }
-  elseif ($id) {
-    $query = 'where={"_id":"' . $id . '"}';
   }
   else {
     $query = NULL;
