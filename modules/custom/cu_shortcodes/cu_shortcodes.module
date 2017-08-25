@@ -771,7 +771,7 @@ function cu_shortcodes_map($attrs, $content = NULL) {
     }
     // Build the map url
     $mapurl = cu_shortcodes_join_url($url, FALSE);
-    $map = '<iframe width="100%" class="' . $size . '" src="' . $mapurl . '"></iframe><br /><a href="' . $mapurl . '" class="map-link">View Larger Map</a>';
+    $map = '<div class="map-embed-wrapper"><iframe width="100%" class="campus-map-embed ' . $size . '" src="' . $mapurl . '"></iframe></div><a href="' . $mapurl . '" class="map-link">View Larger Map</a>';
   }
   else {
     $map = '';
