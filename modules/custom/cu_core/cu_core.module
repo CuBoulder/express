@@ -156,6 +156,5 @@ function cu_core_express_bean_list_groups($bundles) {
 }
 
 function cu_core_page_alter(&$page) {
-  dpm($page);
   $page['help']['system_help']['#markup'] = t('');
 }
