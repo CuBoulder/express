@@ -616,7 +616,7 @@ function cu_article_preprocess_entity(&$vars) {
 
     // Set number of items.
 
-    $query->range(0, 7);
+    $query->range(0, 6);
     $query->condition('n.type', 'article', '=');
     $query->condition('n.status', 1, '=');
     $query->fields('n', array('nid', 'title', 'sticky'));
