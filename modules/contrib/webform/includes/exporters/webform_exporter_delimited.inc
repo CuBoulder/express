@@ -4,7 +4,6 @@
  * @file
  * Webform exporter for creating CSV/TSV delimited files.
  */
-
 class webform_exporter_delimited extends webform_exporter {
   public $line_ending;
   public $delimiter;

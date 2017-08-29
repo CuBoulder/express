@@ -4,12 +4,9 @@
  * @file
  * Webform module permission tests.
  */
-
-include_once(dirname(__FILE__) . '/webform.test');
-
 class WebformPermissionsTestCase extends WebformTestCase {
   /**
-   * Implements getInfo().
+   * {@inheritdoc}
    */
   public static function getInfo() {
     return array(
@@ -20,25 +17,11 @@ class WebformPermissionsTestCase extends WebformTestCase {
   }
 
   /**
-   * Implements setUp().
-   */
-  function setUp($added_modules = array()) {
-    parent::setUp($added_modules);
-  }
-
-  /**
-   * Implements tearDown().
-   */
-  function tearDown() {
-    parent::tearDown();
-  }
-
-  /**
    * Create a webform node in which authenticated users have access to submit.
-  */
+   */
   function testWebformSubmitAccess() {
     $this->webformReset();
-    $node = $this->testWebformForm();
+    $node = $this->webformForm();
     $node->webform['roles'] = array(2);
     node_save($node);
 
@@ -59,9 +42,4 @@ class WebformPermissionsTestCase extends WebformTestCase {
     // Something in SimpleTest isn't handling the string correctly.
     $this->assertText('to view this form.', t('Anonymous user is not allowed to submit form.'), t('Webform'));
   }
-
-  /**
-   * Create webform
-   */
-
 }

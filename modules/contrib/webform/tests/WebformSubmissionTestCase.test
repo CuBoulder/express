@@ -4,12 +4,9 @@
  * @file
  * Webform module submission tests.
  */
-
-include_once(dirname(__FILE__) . '/webform.test');
-
 class WebformSubmissionTestCase extends WebformTestCase {
   /**
-   * Implements getInfo().
+   * {@inheritdoc}
    */
   public static function getInfo() {
     return array(
@@ -17,20 +14,6 @@ class WebformSubmissionTestCase extends WebformTestCase {
       'description' => t('Submits a sample webform and checks the database integrity.'),
       'group' => t('Webform'),
     );
-  }
-
-  /**
-   * Implements setUp().
-   */
-  function setUp($added_modules = array()) {
-    parent::setUp($added_modules);
-  }
-
-  /**
-   * Implements tearDown().
-   */
-  function tearDown() {
-    parent::tearDown();
   }
 
   /**
@@ -72,7 +55,7 @@ class WebformSubmissionTestCase extends WebformTestCase {
 
     // Create the Webform test node, and set all components to be required
     // with no default value.
-    $node = $this->testWebformForm();
+    $node = $this->webformForm();
     $node = node_load($node->nid);
     foreach ($node->webform['components'] as &$component) {
       $component['value'] = '';
@@ -96,6 +79,44 @@ class WebformSubmissionTestCase extends WebformTestCase {
   }
 
   /**
+   * Test length validation.
+   */
+  function testWebformSubmissionComponentLength() {
+    $this->drupalLogin($this->webform_users['admin']);
+    $this->webformReset();
+
+    // Create the Webform test node.
+    $node = $this->webformForm();
+    $node = node_load($node->nid);
+
+    // Get the cid of the textfield component.
+    foreach ($node->webform['components'] as &$component) {
+      if ($component['form_key'] === 'textfield') {
+        $textfield_cid = $component['cid'];
+        break;
+      }
+    }
+
+    // Set length validation rules.
+    $node->webform['components'][$textfield_cid]['extra']['maxlength'] = 5;
+    $node->webform['components'][$textfield_cid]['extra']['minlength'] = 4;
+
+    node_save($node);
+
+    // Text value that is too long.
+    $this->drupalPost('node/' . $node->nid, array('submitted[textfield]' => '123456'), 'Submit', array(), array(), 'webform-client-form-' . $node->nid);
+    $this->assertRaw(t('!name cannot be longer than %max characters but is currently %length characters long.', array('!name' => $node->webform['components'][$textfield_cid]['name'], '%max' => 5, '%length' => 6)));
+
+    // Text value that is too short.
+    $this->drupalPost('node/' . $node->nid, array('submitted[textfield]' => '123'), 'Submit', array(), array(), 'webform-client-form-' . $node->nid);
+    $this->assertRaw(t('!name cannot be shorter than %min characters but is currently %length characters long.', array('!name' => $node->webform['components'][$textfield_cid]['name'], '%min' => 4, '%length' => 3)));
+
+    // Test value that meets validation rules has no error message.
+    $this->drupalPost('node/' . $node->nid, array('submitted[textfield]' => '12345'), 'Submit', array(), array(), 'webform-client-form-' . $node->nid);
+    $this->assertNoPattern('/ cannot be (longer|shorter) than /');
+  }
+
+  /**
    * Execute the submission test.
    *
    * @param $value_type
@@ -106,8 +127,8 @@ class WebformSubmissionTestCase extends WebformTestCase {
     module_load_include('inc', 'webform', 'includes/webform.submissions');
 
     // Create a new Webform test node.
-    $node = $this->testWebformForm();
-    $submission_values = $value_type == 'sample' ? $this->testWebformPost() : array();
+    $node = $this->webformForm();
+    $submission_values = $value_type == 'sample' ? $this->webformPost() : array();
 
     // Visit the node page with the "foo=bar" query, to test
     // [current-page:query:?] default values.
@@ -129,7 +150,7 @@ class WebformSubmissionTestCase extends WebformTestCase {
     drupal_static_reset('webform_get_submission');
     $actual_submission = webform_get_submission($node->nid, $sid);
 
-    $component_info = $this->testWebformComponents();
+    $component_info = $this->webformComponents();
     foreach ($node->webform['components'] as $cid => $component) {
       $stable_value = $value_type == 'sample' ? $component_info[$component['form_key']]['database values'] : $component_info[$component['form_key']]['database default values'];
       $actual_value = $actual_submission->data[$cid];
@@ -151,12 +172,12 @@ class WebformSubmissionTestCase extends WebformTestCase {
     module_load_include('inc', 'webform', 'includes/webform.submissions');
 
     // Create a new Webform test node.
-    $node = $this->testWebformForm();
+    $node = $this->webformForm();
 
     // Visit the node page.
     $this->drupalGet('node/' . $node->nid);
 
-    foreach ($this->testWebformComponents() as $key => $component_info) {
+    foreach ($this->webformComponents() as $key => $component_info) {
       if (isset($component_info['error values'])) {
         foreach ($component_info['error values'] as $value => $error_message) {
           $submission_values = array();

@@ -70,7 +70,7 @@ function _webform_edit_date($component) {
     '#type' => 'radios',
     '#title' => t('Default value timezone'),
     '#default_value' => empty($component['extra']['timezone']) ? 'user' : $component['extra']['timezone'],
-    '#description' => t('If using relative dates for a default value (e.g. "today") base the current day on this timezone.'),
+    '#description' => t('If using relative dates for a default value (for example, "today") base the current day on this timezone.'),
     '#options' => array('user' => t('User timezone'), 'site' => t('Website timezone')),
     '#weight' => 2,
     '#access' => variable_get('configurable_timezones', 1),
@@ -131,7 +131,7 @@ function _webform_edit_date($component) {
 }
 
 /**
- * Implements hook_form_id_validate.
+ * Implements hook_form_id_validate().
  *
  * Warns user about hiding all the date fields and not using the date picker.
  */
@@ -140,7 +140,7 @@ function _webform_edit_date_validate($form, &$form_state) {
   form_set_value($form['extra']['exclude'], array_filter(array_values($form_state['values']['extra']['exclude'])), $form_state);
 
   // Note that Drupal 7 doesn't support setting errors no checkboxes due to
-  // browser issues. @see https://www.drupal.org/node/222380
+  // browser issues. See: https://www.drupal.org/node/222380
   if (count($form_state['values']['extra']['exclude']) == 3) {
     form_set_error('extra][exclude', 'The day, month and year can\'t all be hidden.');
   }
@@ -155,7 +155,7 @@ function _webform_edit_date_validate($form, &$form_state) {
   foreach (array('start_date', 'end_date') as $field) {
     if (trim($form_state['values']['extra'][$field]) && !($date[$field] = webform_strtodate('c', $form_state['values']['extra'][$field]))) {
       form_set_error("extra][$field", t('The @field could not be interpreted in <a href="http://www.gnu.org/software/tar/manual/html_chapter/Date-input-formats.html">GNU Date Input Format</a>.',
-                                                 array('@field' => $form['validation'][$field]['#title'])));
+      array('@field' => $form['validation'][$field]['#title'])));
     }
   }
   if (!empty($date['start_date']) && !empty($date['end_date']) && $date['end_date'] < $date['start_date']) {
@@ -213,7 +213,7 @@ function _webform_render_date($component, $value = NULL, $filter = TRUE, $submis
  */
 function webform_expand_date($element) {
   $timezone = $element['#timezone'] != 'user' ? NULL : 'user';
-  
+
   // Accept a string or array value for #default_value.
   if (!empty($element['#default_value']) && is_string($element['#default_value'])) {
     $timestring = webform_strtodate('c', $element['#default_value'], $timezone);
@@ -281,7 +281,7 @@ function webform_expand_date($element) {
       }
       else {
         $month_options = array_intersect_key($month_options, array_flip(range($range['start']['month'], 12))) +
-                         array_intersect_key($month_options, array_flip(range(1, $range['end']['month'])));
+          array_intersect_key($month_options, array_flip(range(1, $range['end']['month'])));
       }
       unset($month_options); // Drop PHP reference.
       if ($delta_months <= 1) {
@@ -297,7 +297,7 @@ function webform_expand_date($element) {
           // Range spans two months and at least one day would be omitted.
           $days_in_month = date('t', mktime(0, 0, 0, $range['start']['month'], 1, $range['start']['year']));
           $day_options = array_intersect_key($day_options, array_flip(range($range['start']['day'], $days_in_month))) +
-                         array_intersect_key($day_options, array_flip(range(1, $range['end']['day'])));
+            array_intersect_key($day_options, array_flip(range(1, $range['end']['day'])));
         }
         unset($day_options); // Drop PHP reference.
       }
@@ -421,6 +421,11 @@ function webform_validate_date($element, $form_state) {
     }
     if (isset($missing_fields)) {
       return;
+    }
+
+    // Ensure date is made up of integers.
+    foreach (array('year', 'month', 'day') as $date_part) {
+      $element[$date_part]['#value'] = (int) $element[$date_part]['#value'];
     }
 
     // Check for a valid date.
