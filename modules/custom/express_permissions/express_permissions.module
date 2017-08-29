@@ -300,6 +300,7 @@ function express_permissions_secure_permissions($role) {
       'administer meta tags',
       'administer modernizr',
       'administer module filter',
+      'administer module missing message fixer',
       'administer modules',
       'administer nodes',
       'administer people settings',
@@ -412,6 +413,9 @@ function express_permissions_secure_permissions($role) {
       'exclude from message filtering',
       'configure profile module manager',
       'administer cache settings',
+      'administer elysia_cron',
+      'execute elysia_cron',
+      'view elysia_cron',
     ),
     'edit_my_content' => array(
       'access ckeditor link',

@@ -486,6 +486,7 @@ function expressbase_menu_link(array $vars) {
     $hide_class = $hide ? 'hide-text' : '';
     $space = $hide ? '' : ' ';
     $element['#title'] = '<i class="fa fa-fw ' . $element['#localized_options']['icon'] . '"></i>' . $space . '<span class="menu-icon-text ' . $hide_class . '">' . $element['#title']  . '</span>';
+    $element['#localized_options']['attributes']['class'][] = 'menu__link__icon';
   }
   $sub_menu = '';
   if ($element['#below']) {
