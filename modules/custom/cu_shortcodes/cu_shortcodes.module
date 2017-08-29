@@ -944,7 +944,7 @@ function cu_shortcodes_tweet($attrs, $content = NULL) {
 }
 
 /**
- * Get tweet tips.
+ * Get Tweet tips.
  *
  * @return string
  *   Returns output.
