@@ -6,6 +6,7 @@ dist: precise
 
 php:
   - '5.3'
+  - '7.1'
 
 branches:
   only:
