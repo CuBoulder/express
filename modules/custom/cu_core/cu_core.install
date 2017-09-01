@@ -806,6 +806,17 @@ function cu_core_update_7031() {
 }
 
 /**
+ * Express 2.6.2 Update.
+ *
+ * Enable Update Ping.
+ */
+function cu_core_update_7032() {
+  module_enable(array(
+    'cu_update_ping'
+  ));
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
