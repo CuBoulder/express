@@ -796,8 +796,7 @@ function cu_core_update_7030() {
  */
 function cu_core_update_7031() {
   module_enable(array(
-    'express_block_designer',
-    'cu_expandable'
+    'express_block_designer'
   ));
   module_disable(array(
     'cu_block_theme',

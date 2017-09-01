@@ -118,14 +118,17 @@ ul#action-menu a {
 #main {
   padding: 0;
 }
-#main-content-wrapper {
-    padding: 20px 0;
-}
+
 #post-title-wrapper {
   padding-top: 20px;
 }
+#post-title-wide-wrapper,
+#post-title-wrapper {
+  padding-bottom: 0;
+}
 #main-content-wrapper {
-  padding: 20px 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 #content-wrapper,

@@ -177,10 +177,41 @@ function cu_forms_bundle_form_webform_component_edit_form_alter(&$form, &$form_s
   unset($form['validation']['extensions']['types']['media']);
 
   // Limit options of webform file extensions.
-  $form['validation']['extensions']['types']['archives']['#options'] = array('bz2', 'gz', 'rar', 'sit', 'tar', 'zip');
-  $form['validation']['extensions']['types']['documents']['#options'] = array('txt', 'rtf', 'html', 'pdf', 'doc', 'docx', 'odt', 'ppt', 'pptx', 'odp', 'xls', 'xlsx', 'ods', 'xml');
-  $form['validation']['extensions']['types']['desktopimages']['#options'] = array('bmp', 'eps', 'tif', 'pict', 'psd');
-  $form['validation']['extensions']['types']['webimages']['#options'] = array('gif', 'jpg', 'png');
-
+  $form['validation']['extensions']['types']['archives']['#options'] = array(
+    'bz2' => 'bz2',
+    'gz' => 'gz',
+    'rar' => 'rar',
+    'sit' => 'sit',
+    'tar' => 'tar',
+    'zip' => 'zip'
+  );
+  $form['validation']['extensions']['types']['documents']['#options'] = array(
+    'txt' => 'txt',
+    'rtf' => 'rtf',
+    'html' => 'html',
+    'pdf' => 'pdf',
+    'doc' => 'doc',
+    'docx' => 'docx',
+    'odt' => 'odt',
+    'ppt' => 'ppt',
+    'pptx' => 'pptx',
+    'odp' => 'odp',
+    'xls' => 'xls',
+    'xlsx' => 'xlsx',
+    'ods' => 'ods',
+    'xml' => 'xml'
+  );
+  $form['validation']['extensions']['types']['desktopimages']['#options'] = array(
+    'bmp' => 'bmp',
+    'eps' => 'eps',
+    'tif' => 'tif',
+    'pict' => 'pict',
+    'psd' => 'psd'
+  );
+  $form['validation']['extensions']['types']['webimages']['#options'] = array(
+    'gif' => 'gif',
+    'jpg' => 'jpg',
+    'png' => 'png'
+  );
   $form['validation']['extensions']['addextensions']['#default_value'] = '';
 }
