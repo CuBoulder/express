@@ -806,6 +806,17 @@ function cu_core_update_7031() {
 }
 
 /**
+ * Express 2.6.2 update.
+ *
+ * Allow SOs to lock users, dev to lock sites.
+ */
+function cu_core_update_7032() {
+  module_enable(array(
+    'express_user_lock'
+  ));
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
