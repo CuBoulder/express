@@ -2,6 +2,8 @@ language: php
 # We want to avoid sudo. This allow us to use Travis docker infrastructure, which means builds start faster and have more CPU available.
 sudo: false
 
+dist: precise
+
 php:
   - '5.3'
 
@@ -33,8 +35,6 @@ cache:
     - $HOME/.drush/cache
 
 install:
-
-  # Make sure this is failing.
 
   # Install latest Drush 6.
   - travis_retry composer self-update && composer --version
