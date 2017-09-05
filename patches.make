@@ -40,6 +40,7 @@ projects[field_reference_delete][patch][] = https://www.drupal.org/files/issues/
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-2495
 projects[wysiwyg][patch][] = "https://www.drupal.org/files/issues/wysiwyg-enable_summary-2843308-7-6.patch"
+projects[wysiwyg][patch][] = "https://www.drupal.org/files/issues/wysiwyg-summary.2851313.5.patch"
 
 ; @see https://github.com/CuBoulder/express/issues/1120
 projects[quicktabs][patch][] = "https://www.drupal.org/files/issues/alpha-blocks-2883516-7-2.patch"
