@@ -122,9 +122,6 @@ function express_user_lock_secure_permissions($role) {
       'dashboard user lock',
       'dev user lock',
     ),
-    'site_owner' => array(
-      'dashboard user lock',
-    ),
   );
 
   if (isset($permissions[$role])) {
