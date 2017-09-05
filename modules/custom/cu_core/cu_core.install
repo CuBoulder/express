@@ -813,7 +813,8 @@ function cu_core_update_7031() {
 function cu_core_update_7032() {
   module_enable(array(
     'cu_update_ping',
-    'express_user_lock'
+    'express_user_lock',
+    'cu_unused_beans'
   ));
 }
 
