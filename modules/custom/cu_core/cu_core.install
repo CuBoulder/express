@@ -808,11 +808,12 @@ function cu_core_update_7031() {
 /**
  * Express 2.6.2 Update.
  *
- * Enable Update Ping.
+ * Enable Update Ping and User Lock.
  */
 function cu_core_update_7032() {
   module_enable(array(
-    'cu_update_ping'
+    'cu_update_ping',
+    'express_user_lock'
   ));
 }
 
