@@ -79,6 +79,15 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     // Since they all have the same email, we can load them by that parameter.
     $uids = db_query("SELECT uid FROM {users} WHERE mail = 'noreply@nowhere.com'")->fetchCol();
     user_delete_multiple($uids);
+
+    // Re-import database if it exists.
+    // We do this since added nodes and other cruft can impact other test suites.
+    // @todo Need to save performance data if reimporting original database.
+    /*
+    if (file_exists($_SERVER['HOME'] . '/express.sql')) {
+      exec('drush sql-drop -y');
+      exec('drush sql-cli < ' . $_SERVER['HOME'] . '/express.sql');
+    }*/
   }
 
   /**
@@ -151,6 +160,18 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
+   * @BeforeScenario
+   */
+  public function beforeScenario($event) {
+    // If this is a @javascript test, then resize the window.
+    /*
+    if ($event->getScenario()->hasTag('javascript')) {
+      $this->getSession()->resizeWindow(1280, 1024, 'current');
+    }
+    */
+  }
+
+  /**
    * After every step in a @javascript scenario, we want to wait for AJAX
    * loading to finish.
    *
@@ -163,6 +184,36 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
         return;
       }
       $this->iWaitForAjax();
+    }
+  }
+
+  /**
+   * Change the size of the window on Javascript tests.
+   *
+   * @param string $type
+   *   Predefined type to resize window.
+   *
+   * @throws Exception
+   *
+   * @Given I resize the window to a :type resolution.
+   */
+  function iChangeTheScreenSize($type) {
+    // Only change the window size on Javascript tests.
+    $driver = $this->getSession()->getDriver();
+    if (!($driver instanceof Selenium2Driver)) {
+      throw new \Exception('Only tests with the @javascript tag can resize the browser window.');
+    }
+
+    // Resize the window based on pre-defined types of resolutions.
+    switch ($type) {
+      case 'mobile':
+        $this->getSession()->resizeWindow(320, 480, 'current');
+        break;
+      case 'desktop':
+        $this->getSession()->resizeWindow(1280, 1024, 'current');
+        break;
+      default:
+        $this->getSession()->resizeWindow(1280, 1024, 'current');
     }
   }
 
@@ -197,7 +248,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     }, 1000);';
 
     //$this->getSession()->evaluateScript($script);
-    $this->getSession()->wait(1000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
+    $this->getSession()->wait(2000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
   }
 
   /**
