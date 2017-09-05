@@ -71,8 +71,14 @@ install:
   - sleep 5
 
   # Get Selenium
-  - wget http://selenium-release.storage.googleapis.com/2.42/selenium-server-standalone-2.42.1.jar
-  - java -jar selenium-server-standalone-2.42.1.jar > /dev/null 2>&1 &
+  - wget http://selenium-release.storage.googleapis.com/3.5/selenium-server-standalone-3.5.3.jar
+
+  # Get and unzip Chrome Driver.
+  - wget https://chromedriver.storage.googleapis.com/2.32/chromedriver_linux64.zip
+  - unzip chromedriver_linux64.zip
+
+  # Start Selenium server.
+  - java -Dwebdriver.chrome.driver=chromedriver -jar elenium-server-standalone-3.5.3.jar > /dev/null 2>&1 &
   - nc -zvv localhost 4444; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 4444..."; nc -zvv localhost 4444; out=$?; sleep 5; done
 
   # Disable sendmail

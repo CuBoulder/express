@@ -109,7 +109,7 @@ default:
               ssl.certificate_authority: false
       selenium2: ~
       javascript_session: selenium2
-      browser_name: firefox
+      browser_name: chrome
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: 'drupal'
