@@ -1,8 +1,5 @@
 name = Express User Lock
-<<<<<<< HEAD
-=======
 description = Allows SOs to lock content, devs to lock sites.
->>>>>>> b1defcca828943656c82e2b676199481b5aa0c2c
 core = 7.x
 package = CU-Core
 version = 7.x-1.0
