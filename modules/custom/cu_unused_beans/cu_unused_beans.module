@@ -74,19 +74,25 @@ function cu_unused_beans_list() {
 
   // Output beans as a list.
 
-
-  $output['description']['#markup'] = '<p>The following ' . count($results) . ' blocks may be unused on your site.</p>';
-  $output['list']['#markup'] = '';
-
-  if (cu_unused_beans_get_all_beans()) {
-    foreach ($labels as $label) {
-      $type = $bean_types[$label->type]['label'];
-      $output['list']['#markup'] .= '<li>' . l($label->label . ' (' . $type, 'block/' . $label->delta) . ')</li>';
-    }
-    $output['list']['#markup'] = '<ul class="bullet-list">' . $output['list']['#markup'] . '</ul>';
-
-    $output['description2']['#markup'] = '<p></p><p><em>Blocks listed above are not inlcuded in entity references or enabled contexts. Delete at your own risk.</em></p>';
+  if (count($results) == 0) {
+    $output['description']['#markup'] = '<p>There are no unused blocks on your site.</p>';
   }
+  else {
+    $output['description']['#markup'] = '<p>The following ' . count($results) . ' blocks may be unused on your site.</p>';
+    $output['list']['#markup'] = '';
+
+    if (cu_unused_beans_get_all_beans()) {
+      foreach ($labels as $label) {
+        $type = $bean_types[$label->type]['label'];
+        $output['list']['#markup'] .= '<li>' . l($label->label . ' (' . $type, 'block/' . $label->delta) . ')</li>';
+      }
+      $output['list']['#markup'] = '<ul class="bullet-list">' . $output['list']['#markup'] . '</ul>';
+
+      $output['description2']['#markup'] = '<p></p><p><em>Blocks listed above are not inlcuded in entity references or enabled contexts. Delete at your own risk.</em></p>';
+    }
+  }
+
+
 
   if (!empty($hooks)) {
     ksort($hooks);
@@ -233,6 +239,9 @@ function cu_unused_beans_get_all_beans() {
 }
 
 function cu_unused_beans_get_beans_labels($bean_ids) {
+  if (empty($bean_ids)) {
+    return array();
+  }
   if (cu_unused_beans_get_all_beans()) {
     $query = db_select('bean', 'b')
       ->fields('b', array('bid', 'label', 'delta', 'type'))
@@ -240,24 +249,5 @@ function cu_unused_beans_get_beans_labels($bean_ids) {
       ->execute()
       ->fetchAll();
     return $query;
-  }
-}
-
-/**
- * Implements hook_secure_permissions().
- *
- */
-function cu_unused_beans_secure_permissions($role) {
-  $permissions = array(
-    'administrator' => array(
-      'view unused beans',
-    ),
-    'developer' => array(
-      'view unused beans',
-    ),
-  );
-
-  if (isset($permissions[$role])) {
-    return $permissions[$role];
   }
 }

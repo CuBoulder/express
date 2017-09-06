@@ -808,7 +808,7 @@ function cu_core_update_7031() {
 /**
  * Express 2.6.2 Update.
  *
- * Enable Update Ping and User Lock.
+ * Enable Update Ping, User Lock, Unused Beans.
  */
 function cu_core_update_7032() {
   module_enable(array(
