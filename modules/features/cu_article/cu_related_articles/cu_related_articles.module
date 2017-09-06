@@ -116,7 +116,7 @@ function cu_related_articles_block_output($view_mode) {
     }
 
     // Query #2 - Categories
-    if (!empty($categories)) {
+    if (!empty($categories) && count($related_articles) < 3) {
       $query = db_select('node', 'n');
       $query->condition('n.type', 'article', '=');
       $query->condition('n.status', 1, '=');
@@ -163,7 +163,7 @@ function cu_related_articles_block_output($view_mode) {
     }
 
     // Query #3 - Tags
-    if (!empty($tags)) {
+    if (!empty($tags) && count($related_articles) < 3) {
       $query = db_select('node', 'n');
       $query->condition('n.type', 'article', '=');
       $query->condition('n.status', 1, '=');
