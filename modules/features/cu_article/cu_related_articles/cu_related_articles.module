@@ -121,8 +121,6 @@ function cu_related_articles_block_output($view_mode) {
         }
       }
     }
-
-
     // Start queries
     // Categories + Tags = most related
     // Just categories = second most related
