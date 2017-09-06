@@ -254,6 +254,7 @@ function cu_unused_beans_secure_permissions($role) {
     ),
     'developer' => array(
       'view unused beans',
+    ),
   );
 
   if (isset($permissions[$role])) {
