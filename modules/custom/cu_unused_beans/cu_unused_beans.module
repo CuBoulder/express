@@ -251,22 +251,3 @@ function cu_unused_beans_get_beans_labels($bean_ids) {
     return $query;
   }
 }
-
-/**
- * Implements hook_secure_permissions().
- *
- */
-function cu_unused_beans_secure_permissions($role) {
-  $permissions = array(
-    'administrator' => array(
-      'view unused beans',
-    ),
-    'developer' => array(
-      'view unused beans',
-    ),
-  );
-
-  if (isset($permissions[$role])) {
-    return $permissions[$role];
-  }
-}
