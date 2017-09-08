@@ -4,9 +4,9 @@ core = 7.x
 files[] = tests/security_review.test
 configure = admin/reports/security-review/settings
 
-; Information added by Drupal.org packaging script on 2014-09-06
-version = "7.x-1.2"
+; Information added by Drupal.org packaging script on 2017-07-26
+version = "7.x-1.3"
 core = "7.x"
 project = "security_review"
-datestamp = "1410036834"
+datestamp = "1501101849"
 

@@ -80,9 +80,32 @@ colon (:) character. For example:
 Note, custom checks require that its module be enabled. Also, should you be
 skipping any check the 'store' option will not allow that check to be run.
 
+-- SITE AUDIT USAGE --
+
+Security Review also integrates with https://www.drupal.org/project/site_audit ,
+a static site analysis platform that generates reports with actionable best
+practice recommendations. Security Review can be installed on an entire
+platform, eliminating the need for module installation.
+
+To use, put Security Review either in your codebase or in your Drush command
+locations, then:
+
+    # Clear Drush cache.
+    drush cc drush
+    # Audit security.
+    drush audit_security
+
+### Marking field content as known to be safe
+
+The "Dangerous tags in content" check may indicate problems with fields that
+you known are safe. You can create a list of field contents and entities
+that you want to be skipped in future runs by creating a SHA-256 hash of the
+entity_id, entity_type, and field contents. See security_review_check_field
+function in security_review.inc for details.
+
 -- SUPPORT --
 
-Please use the issue queue at http://drupal.org/project/security_review for all
+Please use the issue queue at https://drupal.org/project/security_review for all
 module support. You can read more about securely configuring your site at
 http://drupal.org/security/secure-configuration and http://drupalscout.com
 

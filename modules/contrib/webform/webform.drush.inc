@@ -2,9 +2,12 @@
 
 /**
  * @file
- * Implementation of hook_drush_command().
+ * Functions relating to Drush integration.
  */
 
+/**
+ * Implements hook_drush_command().
+ */
 function webform_drush_command() {
   return array(
     'webform-export' => array(
@@ -46,8 +49,11 @@ function webform_drush_command() {
  * Exports a webform via drush, useful for large data dumps that would otherwise
  * time out due to memory consumption.
  *
- * @param int $nid
+ * @param bool|int $nid
  *   Node ID of the webform that we want to export.
+ *
+ * @return
+ *   The value returned from drush_set_error().
  */
 function drush_webform_export($nid = FALSE) {
   if (!$nid) {
@@ -102,16 +108,16 @@ function drush_webform_export($nid = FALSE) {
                                 array('!opt' => "range-$option_name", '!val' => $option_value)));
     }
   }
-  
+
   // Determine the range type based on provided input, if not explicitly set.
   if (empty($options['range']['range_type'])) {
     $options['range']['range_type'] = isset($options['range']['start'])
-                                        ? 'range'
-                                        : (isset($options['range']['latest'])
-                                           ? 'latest'
-                                           : 'all');
+      ? 'range'
+      : (isset($options['range']['latest'])
+      ? 'latest'
+      : 'all');
   }
-  
+
   // Set defaults for any missing range arguments.
   switch ($options['range']['range_type']) {
     case 'latest':
@@ -134,7 +140,7 @@ function drush_webform_export($nid = FALSE) {
   }
 
   // Get the preferred completion type
-  $options['range']['completion_type'] = drush_get_option('completion-type', NULL); 
+  $options['range']['completion_type'] = drush_get_option('completion-type', NULL);
   if (isset($options['range']['completion_type']) && !in_array($options['range']['completion_type'], array('finished', 'draft', 'all'))) {
     return drush_set_error('Unsupported completion-type. The available options are "finished", "draft", or "all".');
   }
@@ -189,10 +195,21 @@ function drush_webform_clear($nid = FALSE) {
 }
 
 /**
- * Implements hook_drush_sql_sync_sanitize.
+ * Implements hook_drush_sql_sync_sanitize().
  */
 function webform_drush_sql_sync_sanitize($source) {
+  // Fetch list of all table.
+  $all_tables = drush_sql_get_class()->listTables();
+  $tables_to_truncate = array('webform_submitted_data', 'webform_submissions');
+
+  $truncate_webform_tables_query = array();
+  foreach ($tables_to_truncate as $table) {
+    if (in_array($table, $all_tables, TRUE)) {
+      $truncate_webform_tables_query[] = 'TRUNCATE ' . $table . ';';
+    }
+  }
+
   drush_sql_register_post_sync_op('webform_submitted_data',
     dt('Delete all data submitted to webforms (depending on the site config, may contain sensitive data).'),
-    "TRUNCATE webform_submitted_data; TRUNCATE webform_submissions;");
+    implode(' ', $truncate_webform_tables_query));
 }
