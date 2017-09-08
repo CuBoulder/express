@@ -9,7 +9,6 @@ dependencies[] = cu_site_info
 dependencies[] = google_appliance
 dependencies[] = menu_block
 dependencies[] = site_navigation_menus
-features[context][] = pc2tr40fz12bx
 features[context][] = sitewide
 features[context][] = sitewide-except-homepage
 features[ctools][] = context:context:3
