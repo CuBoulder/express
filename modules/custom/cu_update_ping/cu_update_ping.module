@@ -58,8 +58,31 @@ function cu_update_ping_cron() {
         continue;
       }
 
-      // Set time variable on success.
-      variable_set('cu_update_ping_time', REQUEST_TIME);
+
     }
+
+    // Check for Express profile... we not going to bother querying this since we know what it is.
+
+    // This url was gathered from update.fetch.inc#152.
+    $url = 'http://updates.drupal.org/release-history/express/7.x?site_key=' . $site_key . '&version=7.x-2.x-dev&list=express';
+    $xml = drupal_http_request($url);
+
+    // Reset counter.
+    $failed_attempts = 0;
+
+    // If request fails, retry.
+    while ($failed_attempts < 2 && $xml->status_message != 'OK') {
+      $xml = drupal_http_request($url);
+      $failed_attempts++;
+    }
+
+    // Write a watchdog message if all request attempts fail.
+    if ($xml->status_message != 'OK') {
+      watchdog('cu_update_ping', 'express didn\'t successfully ping Drupal\'s update servers.');
+      continue;
+    }
+
+    // Set time variable on success.
+    variable_set('cu_update_ping_time', REQUEST_TIME);
   }
 }
