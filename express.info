@@ -120,6 +120,7 @@ dependencies[] = cu_page
 dependencies[] = cu_alerts
 dependencies[] = cu_search
 dependencies[] = cu_sitewide
+dependencies[] = cu_sitewide_required
 dependencies[] = cu_slider
 dependencies[] = cu_faq
 dependencies[] = cu_hero_unit
