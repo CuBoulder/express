@@ -60,4 +60,3 @@ projects[wysiwyg][patch][] = "https://www.drupal.org/files/issues/wysiwyg-summar
 
 ; @see https://github.com/CuBoulder/express/issues/1120
 projects[quicktabs][patch][] = "https://www.drupal.org/files/issues/alpha-blocks-2883516-7-2.patch"
-
