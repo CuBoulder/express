@@ -103,45 +103,8 @@ function cu_slider_form_bean_form_alter(&$form, &$form_state, &$form_id) {
           $form['field_slider_slide'][LANGUAGE_NONE][$delta]['field_slider_url']['#access'] = FALSE;
         }
       }
-
-      //$form['field_slider_style']['examples']['#markup'] = _cu_slider_examples();
     }
   }
-}
-
-/**
- * Constructs the examples so it's easier to maintain
- */
-function _cu_slider_examples() {
-  $path = base_path() . drupal_get_path('module', 'cu_slider') . '/examples/';
-  $output = '<table cellspacing="0" cellpadding="10" border="0">
-    <thead>
-      <td colspan="2"><strong>' . t('Slider Style Examples') . '</strong></td>
-    </thead>
-    <tr>
-      <th>Wide</th>
-      <th>Wide with Teaser</th>
-    </tr>
-    <tr>
-      <td><img src="' . $path . 'wide.jpg" alt="' . t('Wide') . '" /></td>
-      <td><img src="' . $path . 'wideteaser.jpg" alt="' . t('Wide with Teaser') . '"  /></td>
-    </tr>
-    <tr>
-      <th>Medium</th>
-      <th>Small</th>
-    </tr>
-    <tr>
-      <td><img src="' . $path . 'medium.jpg" alt="' . t('Medium') . '"  /></td>
-      <td><img src="' . $path . 'small.jpg" alt="' . t('Small') . '"  /></td>
-    </tr>
-    </table><br />';
-  return $output;
-}
-
-function cu_slider_update_7000() {
-  module_enable('flexslider');
-  module_enable('flexslider_views');
-  module_enable('flexslider_views_slideshow');
 }
 
 function cu_slider_preprocess_entity(&$vars) {
@@ -178,7 +141,7 @@ function cu_slider_preprocess_entity(&$vars) {
         $vars['slide_image'] = l(render($vars['content']['field_slider_image']), $link, array('html' => TRUE));
       }
       if (!empty($vars['content']['field_slider_caption'])) {
-        $text = $vars['content']['field_slider_caption'][0]['#markup'] . '&nbsp;<i class="fa fa-external-link-square"></i>';
+        $text = $vars['content']['field_slider_caption'][0]['#markup'] . '&nbsp;<i class="fa fa-external-link-square slider-link-icon"></i>';
         $vars['slide_caption'] = l($text, $link, array('html' => TRUE));
       }
     } else {
@@ -268,6 +231,7 @@ function cu_slider_style_options() {
     '5' => 'Bottom Content',
     '6' => 'Thumbnails',
     '7' => 'Thumbnails Overlay',
+    '8' => 'Hero',
   );
   return $options;
 }
@@ -281,6 +245,18 @@ function cu_slider_style_map($key) {
     '5' => 'Bottom Content',
     '6' => 'Thumbnails',
     '7' => 'Thumbnails Overlay',
+    '8' => 'Hero',
   );
   return $options[$key];
+}
+
+function cu_slider_size_options() {
+  $options = array(
+    'slider' => 'Slider Ultra Wide (cropped)',
+    'widescreen' => 'Widescreen (16x9 cropped)',
+    'slider-large' => 'Large (3x2 cropped)',
+    'large' => 'Original (uncropped)',
+  );
+
+  return $options;
 }
