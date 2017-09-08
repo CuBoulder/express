@@ -29,6 +29,7 @@ function cu_core_install() {
   // these modules need to be enabled late in the install process and/or to be ignored by profile_module_manager's report.
   $module_array = array(
     'cu_users',
+    'express_user_lock',
     'memcache',
     'varnish'  // Adding caching modules here for changes involving Travis CI testing.
   );
@@ -808,14 +809,36 @@ function cu_core_update_7031() {
 /**
  * Express 2.6.2 Update.
  *
- * Enable Update Ping and User Lock.
+ * Enable Update Ping, User Lock, Unused Beans.
  */
 function cu_core_update_7032() {
   module_enable(array(
     'cu_update_ping',
-    'express_user_lock'
+    'express_user_lock',
+    'cu_unused_beans'
   ));
 }
+
+/**
+ * Add addtional Express specific UA code.
+ */
+function cu_core_update_7033() {
+  if ($ga_codes = variable_get('ga_account', '')) {
+    // Explode string and trim whitespace.
+    $ga_codes = array_map('trim', explode(',', $ga_codes));
+    $ga_codes[] = 'UA-105731679-1';
+    $js_code = '';
+    foreach ($ga_codes as $key => $code) {
+      $js_code .= format_string("ga('create', '@ga_account', 'auto', {'name':'customTracker@key'});  ga('customTracker@key.send', 'pageview');", array('@ga_account' => $code, '@key' => $key));
+    }
+    variable_set('googleanalytics_codesnippet_after', $js_code);
+  }
+  else {
+    $js_code = format_string("ga('create', '@ga_account', 'auto', {'name':'customTracker0'});  ga('customTracker0.send', 'pageview');", array('@ga_account' => 'UA-105731679-1'));
+    variable_set('googleanalytics_codesnippet_after', $js_code);
+  }
+}
+
 
 /**
  * Revert features by passing features in an array.
