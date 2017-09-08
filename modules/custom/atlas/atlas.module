@@ -66,6 +66,7 @@ function atlas_admin_settings() {
     'available' => t('Available'),
     'launching' => t('Launching'),
     'take_down' => t('Take Down Site'),
+    'locked' => t('Locked'),
   );
 
   // If site is Available, Installed, or Launched, add options. You shouldn't
@@ -74,6 +75,7 @@ function atlas_admin_settings() {
     $status_options = array(
       'installing' => t('Installing'),
       'available' => t('Available'),
+      'locked' => t('Locked'),
     );
   }
   elseif (($site_array['status'] == 'installed') || ($site_array['status'] == 'installing')) {
@@ -81,11 +83,13 @@ function atlas_admin_settings() {
       '' => t('Installed placeholder'),
       'launching' => t('Launching'),
       'take_down' => t('Take Down Site'),
+      'locked' => t('Locked'),
     );
   }
   elseif (($site_array['status'] == 'launched') || ($site_array['status'] == 'launching')) {
     $status_options = array(
       'take_down' => t('Take Down Site'),
+      'locked' => t('Locked'),
     );
   }
 
@@ -233,6 +237,12 @@ function atlas_admin_settings_submit($form, &$form_state) {
   // the row if it is.
   if ($form_state['values']['check']) {
     $request_data['status'] = $form_state['values']['status'];
+
+    if ($form_state['values']['status'] == 'locked') {
+      variable_set('lock_user_dev', TRUE);
+    } elseif ($form_state['values']['status'] != 'locked' && variable_get('lock_user_dev') == TRUE) {
+      variable_set('lock_user_dev', FALSE);
+    }
   }
 
   if ($form_state['values']['atlas_path'] != $site_array['path']) {
