@@ -1,0 +1,10 @@
+name = CU Sitewide Required
+core = 7.x
+package = CU-Core
+version = 7.x-1.0
+dependencies[] = context
+dependencies[] = cu_search
+dependencies[] = google_appliance
+dependencies[] = rave_alerts
+features[ctools][] = context:context:3
+features[features_api][] = api:2
