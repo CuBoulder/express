@@ -70,12 +70,12 @@
 /* SLIDER THUMBNAILS */
 .cu-slider-thumbnails { display: none; }
 @media screen and (min-width: 768px) { .cu-slider-thumbnails { display: block; } }
-.cu-slider-thumbnails img { display: block; }
+.cu-slider-thumbnails img { display: block; width: 100%; height: auto; }
 .cu-slider-thumbnails .cu-slider-slide-content-wrapper { display: none; }
 
 /* SLIDER NAVIGATION */
 .cu-slider, .cu-slider-has-thumbnails { padding-bottom: 35px; /* fill-in selected dot */ }
-.cu-slider img, .cu-slider-has-thumbnails img { display: block; }
+.cu-slider img, .cu-slider-has-thumbnails img { display: block; width: 100%; height: auto; }
 .cu-slider .field-name-field-slider-slide, .cu-slider-has-thumbnails .field-name-field-slider-slide { width: 100%; }
 .cu-slider .flickity-viewport, .cu-slider-has-thumbnails .flickity-viewport { transition: height 0.5s; }
 .cu-slider .flickity-page-dots, .cu-slider-has-thumbnails .flickity-page-dots { bottom: 10px; }
