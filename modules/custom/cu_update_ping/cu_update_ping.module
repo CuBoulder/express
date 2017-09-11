@@ -82,9 +82,10 @@ function cu_update_ping_cron() {
     if ($xml->status_message != 'OK') {
       watchdog('cu_update_ping', 'express didn\'t successfully ping Drupal\'s update servers.');
     }
+    */
 
     // Set time variable on success.
     variable_set('cu_update_ping_time', REQUEST_TIME);
-    */
+
   }
 }
