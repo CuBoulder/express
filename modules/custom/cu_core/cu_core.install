@@ -45,12 +45,6 @@ function cu_core_install() {
     module_enable($modules);
   }
 
-  // These modules need to be enabled late in the install process and/or to be ignored by profile_module_manager's report.
-  $module_array = array(
-    'cu_users',
-  );
-  module_enable($module_array);
-
   theme_enable(array(
     'cuhighlight',
     'cuivory',
@@ -111,11 +105,7 @@ function cu_core_install() {
   // Set message for when enabling of bundles is turned off.
   variable_set('profile_module_manager_disable_enabling_text', 'Due to unexpectedly high load on the servers, the option to enable bundles has temporarily been disabled.  Please check back tomorrow.');
 
-  // Set default variables for user_external_invite.
-  $site_owner_role = user_role_load_by_name('site_owner');
-  $content_editor_role = user_role_load_by_name('content_editor');
-  $edit_my_content_role = user_role_load_by_name('edit_my_content');
-  $authenticated_user_role = user_role_load_by_name('authenticated user');
+
 
   variable_set('securepages_enable', '1');
   variable_set('securepages_pages', 'node/add*
@@ -127,6 +117,7 @@ admin
 admin/*
 sites/default/files/webform/*');
 
+  $authenticated_user_role = user_role_load_by_name('authenticated user');
   variable_set('securepages_roles', array($authenticated_user_role->rid => $authenticated_user_role->rid));
   variable_set('securepages_secure', '1');
   variable_set('securepages_switch', TRUE);
@@ -135,65 +126,6 @@ sites/default/files/webform/*');
   variable_set('rave_alerts_check_enable', 1);
   variable_set('rave_alerts_network_fail_message', 'Network Failure: Please go directly to http://alerts.colorado.edu for more information.');
   variable_set('rave_alerts_deafult_read_more_url', 'http://alerts.colorado.edu');
-
-  variable_set('user_external_invite_roles', array(
-    $site_owner_role->rid,
-    $content_editor_role->rid,
-    $edit_my_content_role->rid,
-  ));
-  variable_set('user_external_invite_days_valid_for', 5);
-
-  variable_set('user_external_invite_invite_template', '[user_external_invite:invite_custom]
-
-You have been invited to join the [site:name] Web Express website as an editor with [user_external_invite:invite_role] access privileges.
-
-To accept this invitation:
-1) Go to [user_external_invite:invite_link]
-2) Login with your IdentiKey name and password.
-
-Upon completion, you will receive an email confirming your access.
-
---
-The Web Express Team
-http://www.colorado.edu/webcentral
-websupport@colorado.edu');
-
-  variable_set('user_external_invite_confirmation_template', 'We have received your request to grant [user_external_invite:invite_role] access to the following users:
-
-[user_external_invite:invited_emails]
-
-An email invitation has been sent requesting the user to login to [site:url] and accept the invitation. Upon completion, a confirmation email will be sent.
-
-If you did not submit this request or need to modify it, please contact us at websupport@colorado.edu.
-
---
-The Web Express Team
-http://www.colorado.edu/webcentral
-websupport@colorado.edu');
-
-  variable_set('user_external_invite_accepted_template', 'We are confirming [user_external_invite:invited_email] now has [user_external_invite:invite_role] access to the [site:name], [site:url], website.
-
-Web Central:
-You can use the Web Central website as your main resource for step-by-step tutorials, information on training sessions, and requesting help. http://www.colorado.edu/webcentral
-
---
-The Web Express Team
-http://www.colorado.edu/webcentral
-websupport@colorado.edu');
-
-  variable_set('user_external_invite_accepted_confirmation_template', 'You have successfully joined the [site:name] Web Express website as an editor with [user_external_invite:invite_role] access privileges.
-
-To access and edit this site:
-1) Go to [site:login-url]
-2) Login with your IdentiKey name and password.
-
-Web Central:
-You can use the Web Central website as your main resource for step-by-step tutorials, information on training sessions, and requesting help. http://www.colorado.edu/webcentral
-
---
-The Web Express Team
-http://www.colorado.edu/webcentral
-websupport@colorado.edu');
 
   // Set the syslog_identity variable to the SID.
   $cu_sid = variable_get('cu_sid', '');
@@ -256,6 +188,75 @@ The block System help was assigned to the invalid region help and has been disab
   watchdog('express', 'attempted to disable uid 1');
 
   variable_set('profile_module_manager_bundle_ignore', array('cu_newsletter_bundle' => 'cu_newsletter_bundle'));
+}
+
+/**
+ * Set default variables for user_external_invite.
+ */
+function cu_core_external_invite_variables() {
+
+  $site_owner_role = user_role_load_by_name('site_owner');
+  $content_editor_role = user_role_load_by_name('content_editor');
+  $edit_my_content_role = user_role_load_by_name('edit_my_content');
+
+  variable_set('user_external_invite_roles', array(
+    $site_owner_role->rid,
+    $content_editor_role->rid,
+    $edit_my_content_role->rid,
+  ));
+  variable_set('user_external_invite_days_valid_for', 5);
+
+  variable_set('user_external_invite_invite_template', '[user_external_invite:invite_custom]
+
+You have been invited to join the [site:name] Web Express website as an editor with [user_external_invite:invite_role] access privileges.
+
+To accept this invitation:
+1) Go to [user_external_invite:invite_link]
+2) Login with your IdentiKey name and password.
+
+Upon completion, you will receive an email confirming your access.
+
+--
+The Web Express Team
+http://www.colorado.edu/webcentral
+websupport@colorado.edu');
+
+  variable_set('user_external_invite_confirmation_template', 'We have received your request to grant [user_external_invite:invite_role] access to the following users:
+
+[user_external_invite:invited_emails]
+
+An email invitation has been sent requesting the user to login to [site:url] and accept the invitation. Upon completion, a confirmation email will be sent.
+
+If you did not submit this request or need to modify it, please contact us at websupport@colorado.edu.
+
+--
+The Web Express Team
+http://www.colorado.edu/webcentral
+websupport@colorado.edu');
+
+  variable_set('user_external_invite_accepted_template', 'We are confirming [user_external_invite:invited_email] now has [user_external_invite:invite_role] access to the [site:name], [site:url], website.
+
+Web Central:
+You can use the Web Central website as your main resource for step-by-step tutorials, information on training sessions, and requesting help. http://www.colorado.edu/webcentral
+
+--
+The Web Express Team
+http://www.colorado.edu/webcentral
+websupport@colorado.edu');
+
+  variable_set('user_external_invite_accepted_confirmation_template', 'You have successfully joined the [site:name] Web Express website as an editor with [user_external_invite:invite_role] access privileges.
+
+To access and edit this site:
+1) Go to [site:login-url]
+2) Login with your IdentiKey name and password.
+
+Web Central:
+You can use the Web Central website as your main resource for step-by-step tutorials, information on training sessions, and requesting help. http://www.colorado.edu/webcentral
+
+--
+The Web Express Team
+http://www.colorado.edu/webcentral
+websupport@colorado.edu');
 }
 
 /**
@@ -971,8 +972,7 @@ function cu_core_scramble_admin() {
 }
 
 /**
- * A function that checks for external environments and performs tasks if
- * needed.
+ * A function that checks for external environments and performs tasks if needed.
  *
  * @return array
  *   Results of checks for server environment.
