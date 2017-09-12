@@ -9,8 +9,9 @@
  * Implements hook_update_projects_alter().
  */
 function cu_update_ping_update_projects_alter(&$projects) {
+
   // We want to run this mainly to report usage of our hosted modules on drupal.org.
-  $projects = array(
+  $modules_to_check = array(
     'et_slate_form',
     'embed_templates',
     'siteimprove_api',
@@ -35,4 +36,14 @@ function cu_update_ping_update_projects_alter(&$projects) {
     'noreqnewpass',
     'google_cse'
   );
+
+  $modules_list = array();
+  foreach ($projects as $key => $project) {
+    if (in_array($key, $modules_to_check)) {
+      $modules_list[$key] = $project;
+    }
+  }
+
+  // Set $projects to only include our modules.
+  $projects = $modules_list;
 }
