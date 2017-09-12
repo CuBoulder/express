@@ -155,8 +155,7 @@ function cu_core_express_bean_list_groups($bundles) {
   return $bundles;
 }
 /**
- * Alters admin structure menu page.
- * Link to 'Block administration' page is hidden.
+ * Alters admin structure menu page to hide 'Block administration'.
  */
 function cu_core_page_alter(&$page) {
   $page['help']['system_help']['#markup'] = t('');
