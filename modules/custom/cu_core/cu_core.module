@@ -154,7 +154,10 @@ function cu_core_express_bean_list_groups($bundles) {
 
   return $bundles;
 }
-
+/**
+ * Alters page so link to Block administration page is
+ * hidden from non-administrator users.
+ */
 function cu_core_page_alter(&$page) {
   $page['help']['system_help']['#markup'] = t('');
 }
