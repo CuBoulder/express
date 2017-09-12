@@ -1,7 +1,10 @@
 <?php
 
 /**
- * @file Drush PM Wget extension
+ * Drush PM Wget extension.
+ *
+ * @file
+ *
  * This is pretty much a copy and paste of the wget package handler that comes
  * from Drush. It has a few minor modifications so that it can support files
  * that do not have a valid MD5 hash and/or have an archive that expands with
@@ -35,8 +38,13 @@ function package_handler_validate() {
 /**
  * Download a project.
  *
- * @param $request Array with information on the request to download.
- * @param $release The release details array from drupal.org.
+ * @param array $request
+ *   Array with information on the request to download.
+ * @param array $release
+ *   The release details array from drupal.org.
+ *
+ * @return bool
+ *   Return whether or not the project information was downloaded.
  */
 function package_handler_download_project(&$request, $release) {
   // Install profiles come in several variants. User may specify which one she wants.
@@ -44,11 +52,11 @@ function package_handler_download_project(&$request, $release) {
     if (!empty($release['files'])) {
       // @todo Use xpath to get the right file url.
       $files = $release['files'];
-      foreach ($files as $key => $file) {
-        if ((string)$file->variant == drush_get_option('variant', 'full') && (string)$file->archive_type == 'tar.gz') {
-          $release['download_link'] = (string)$file->url;
-          $release['mdhash'] = (string)$file->md5;
-          $release['date'] = (string)$file->filedate;
+      foreach ($files as $file) {
+        if ((string) $file->variant == drush_get_option('variant', 'full') && (string) $file->archive_type == 'tar.gz') {
+          $release['download_link'] = (string) $file->url;
+          $release['mdhash'] = (string) $file->md5;
+          $release['date'] = (string) $file->filedate;
           break;
         }
       }
@@ -62,13 +70,13 @@ function package_handler_download_project(&$request, $release) {
   // On Windows file name cannot contain '?'
   // See http://drupal.org/node/1782444
   $filename = str_replace('?', '_', basename($release['download_link']));
-  $cache_duration = 86400*365;
+  $cache_duration = 86400 * 365;
   $path = drush_download_file($release['download_link'], $request['base_project_path'] . DIRECTORY_SEPARATOR . $filename, $cache_duration);
   if ($path || drush_get_context('DRUSH_SIMULATE')) {
     drush_log("Downloading " . $filename . " was successful.");
   }
   else {
-    return drush_set_error('DRUSH_PM_DOWNLOAD_FAILED', 'Unable to download ' . $filename . ' to ' . $request['base_project_path'] . ' from '. $release['download_link']);
+    return drush_set_error('DRUSH_PM_DOWNLOAD_FAILED', 'Unable to download ' . $filename . ' to ' . $request['base_project_path'] . ' from ' . $release['download_link']);
   }
 
   // Skip Check Md5 hash.
@@ -94,7 +102,7 @@ function package_handler_download_project(&$request, $release) {
   $dest = $request['full_project_path'];
 
   if ($src !== $dest) {
-    $moved = drush_move_dir($src, $dest, TRUE);
+    drush_move_dir($src, $dest, TRUE);
   }
 
   // Move untarred directory to project_dir, if distinct.
@@ -103,7 +111,7 @@ function package_handler_download_project(&$request, $release) {
     $project_dir = drush_trim_path($file_list[0]);
     if ($request['project_dir'] != $project_dir) {
       $path = $request['base_project_path'];
-      drush_move_dir($path . '/'. $project_dir, $path . '/' . $request['project_dir']);
+      drush_move_dir($path . '/' . $project_dir, $path . '/' . $request['project_dir']);
     }
   }
 

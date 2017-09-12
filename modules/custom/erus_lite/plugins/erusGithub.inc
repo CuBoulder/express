@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * ERUS GitHub plugin.
@@ -6,7 +7,6 @@
  * Uses V3 of the github API.
  *
  */
-
 class erusGithub {
 
   protected $update_data = array();
@@ -92,7 +92,10 @@ class erusGithub {
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
 
     // Need to add User-Agent or else you get a 403.
-    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'User-Agent: Web Express'));
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+      'Content-Type: application/json',
+      'User-Agent: Web Express',
+    ));
 
     // Make request.
     $result = curl_exec($curl);
@@ -140,7 +143,7 @@ class erusGithub {
     // $data['dev_version'] = $this->parse_latest_major($latest_prod_tag);
 
 
-    foreach ($releases as $index => $release) {
+    foreach ($releases as $release) {
       $tag_name = $release['tag_name'];
       $tag_parts = explode('-', $tag_name);
 
@@ -262,7 +265,7 @@ class erusGithub {
   protected function get_latest_release($releases) {
     $potentials = array();
 
-    foreach ($releases as $i => $release) {
+    foreach ($releases as $release) {
       if ($release['draft'] === TRUE || $release['prerelease'] === TRUE) {
         continue;
       }
@@ -295,7 +298,7 @@ class erusGithub {
    * @return [type]           [description]
    */
   protected function get_latest_dev_release($releases) {
-    foreach ($releases as $i => $release) {
+    foreach ($releases as $release) {
       if ($release['prerelease'] == TRUE) {
         return $release;
       }

@@ -11,10 +11,6 @@
 module_load_include('inc', 'erus_lite', 'includes/ArchiverErusTar');
 module_load_include('inc', 'erus_lite', 'plugins/erusGithub');
 
-// -----------------------------------------------------------------------------
-// UPDATE MODULE API HOOKS
-// -----------------------------------------------------------------------------
-
 /**
  * Implements hook_update_status_alter().
  */
@@ -24,15 +20,15 @@ function erus_lite_update_status_alter(&$projects) {
   // update status and see if it has erus settings. If it does, check external.
   foreach ($projects as $module_name => $data) {
     if (isset($data['status']) &&
-      ($data['status'] == UPDATE_UNKNOWN || $data['status'] == UPDATE_NOT_FETCHED)) {
+      ($data['status'] == UPDATE_UNKNOWN || $data['status'] == UPDATE_NOT_FETCHED)
+    ) {
       if (erus_lite_check_for_settings($module_name, $data['project_type'])) {
         try {
           $erus_data = erus_lite_check_update_status($module_name, $data['project_type'], $data);
           if (is_array($erus_data)) {
             $projects[$module_name] = $erus_data;
           }
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
           // Double log of messages? Shame on you figure it out.
           watchdog('erus_lite', $e->getMessage(), array(), WATCHDOG_WARNING);
           watchdog('erus_lite', 'Could not get project updates status information for: ' . $module_name, array(), WATCHDOG_WARNING);
@@ -55,10 +51,6 @@ function erus_lite_verify_update_archive($project, $archive_file, $directory) {
   // Add other checks on the archive integrity here.
   return $errors;
 }
-
-// -----------------------------------------------------------------------------
-// END UPDATE MODULE API HOOKS
-// -----------------------------------------------------------------------------
 
 /**
  * Implements hook_archiver_info().
@@ -84,6 +76,7 @@ function erus_lite_archiver_info_alter(&$info) {
 
 /**
  * Checks info file settings for erus config
+ *
  * @return [mixed]  false if no data,
  */
 function erus_lite_check_for_settings($machine_name, $type = 'module') {
@@ -98,7 +91,7 @@ function erus_lite_check_for_settings($machine_name, $type = 'module') {
 
   // If the project status url exists then it has ERUS info.
   if (isset($info['project status url'])) {
-      return TRUE;
+    return TRUE;
   }
 
   // No matches.
@@ -107,7 +100,9 @@ function erus_lite_check_for_settings($machine_name, $type = 'module') {
 
 /**
  * Parses the project status url for meaningful parts.
+ *
  * @param  [string] $url [description]
+ *
  * @return [array]      [an array of information]
  */
 function erus_lite_parse_project_status_url($url) {
@@ -127,10 +122,12 @@ function erus_lite_parse_project_status_url($url) {
 
 /**
  * Uses the erus plugin defined in the .info file to check for an update status.
+ *
  * @param  [string] $machine_name The modules machine name
  * @param  [string] $type         Either 'module' or 'theme'
  * @param  [array] $data          *optional* The current update status
  *                                information
+ *
  * @return [type]                 An array of update status information.
  *                                See hook_update_status_alter
  */
