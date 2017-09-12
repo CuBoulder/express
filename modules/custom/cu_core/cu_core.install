@@ -39,7 +39,8 @@ function cu_core_install() {
       'cu_users',
       'express_user_lock',
       'memcache',
-      'varnish'  // Adding caching modules here for changes involving Travis CI testing.
+      'varnish'
+      // Adding caching modules here for changes involving Travis CI testing.
     );
     module_enable($modules);
   }
@@ -67,11 +68,11 @@ function cu_core_install() {
   // Add blocks shortcut to shortcuts set.
   $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
   $shortcut_set->links[] =
-  array(
-    'link_path' => 'admin/content/blocks',
-    'link_title' => st('Blocks'),
-    'weight' => -18,
-  );
+    array(
+      'link_path' => 'admin/content/blocks',
+      'link_title' => st('Blocks'),
+      'weight' => -18,
+    );
   shortcut_set_save($shortcut_set);
 
   //set default variables for user_external_invite
@@ -116,7 +117,7 @@ function cu_core_install() {
   $edit_my_content_role = user_role_load_by_name('edit_my_content');
   $authenticated_user_role = user_role_load_by_name('authenticated user');
 
-    variable_set('securepages_enable', '1');
+  variable_set('securepages_enable', '1');
   variable_set('securepages_pages', 'node/add*
 node/*/edit
 node/*/delete
@@ -138,7 +139,7 @@ sites/default/files/webform/*');
   variable_set('user_external_invite_roles', array(
     $site_owner_role->rid,
     $content_editor_role->rid,
-    $edit_my_content_role->rid
+    $edit_my_content_role->rid,
   ));
   variable_set('user_external_invite_days_valid_for', 5);
 
@@ -206,7 +207,7 @@ websupport@colorado.edu');
   variable_set('syslog_identity', $syslog_identity);
   // Key for 'LOG_LOCAL0' in the form.
   variable_set('syslog_facility', '128');
-  variable_set('syslog_format','!base_url|!timestamp|!type|!ip|!request_uri|!referer|!uid|!link|!message');
+  variable_set('syslog_format', '!base_url|!timestamp|!type|!ip|!request_uri|!referer|!uid|!link|!message');
 
   // Set variable for disabling certain messages from users.
   variable_set('disable_messages_ignore_regex', array(
@@ -224,7 +225,7 @@ The block System help was assigned to the invalid region help and has been disab
 
   db_update('responsive_preview')
     ->fields(array('status' => 0,))
-  ->execute();
+    ->execute();
 
   db_update('responsive_preview')
     ->fields(array('status' => 1,))
@@ -232,7 +233,7 @@ The block System help was assigned to the invalid region help and has been disab
       ->condition('name', 'medium')
       ->condition('name', 'small')
     )
-  ->execute();
+    ->execute();
 
   // Disable user 1 & set random name
   $random_name = 'admin-' . user_password(10);
@@ -303,7 +304,14 @@ function cu_core_update_7002() {
 
   variable_set('express_layout_node_type_ignore', array('file'));
 
-  module_disable(array('diff', 'quicktabs_tabstyles', 'views_ui', 'environment', 'client_ui_control', 'color'));
+  module_disable(array(
+    'diff',
+    'quicktabs_tabstyles',
+    'views_ui',
+    'environment',
+    'client_ui_control',
+    'color',
+  ));
 
   module_enable(array('cu_googleanalytics'));
 
@@ -414,7 +422,7 @@ function cu_core_update_7005() {
 
   db_update('responsive_preview')
     ->fields(array('status' => 0,))
-  ->execute();
+    ->execute();
 
   db_update('responsive_preview')
     ->fields(array('status' => 1,))
@@ -422,7 +430,7 @@ function cu_core_update_7005() {
       ->condition('name', 'medium')
       ->condition('name', 'small')
     )
-  ->execute();
+    ->execute();
 
   cu_core_revert_features();
 
@@ -438,7 +446,11 @@ function cu_core_update_7006() {
 
   variable_set('express_core_version', 'cu_core');
 
-  module_enable(array('express_dashboards', 'express_dashboard_user', 'context_sitewide_public'));
+  module_enable(array(
+    'express_dashboards',
+    'express_dashboard_user',
+    'context_sitewide_public',
+  ));
 
   cu_core_revert_features();
 
@@ -498,7 +510,10 @@ function cu_core_update_7009() {
     $ga_codes = array_map('trim', explode(',', $ga_codes));
     $js_code = '';
     foreach ($ga_codes as $key => $code) {
-      $js_code .= format_string("ga('create', '@ga_account', 'auto', {'name':'customTracker@key'});  ga('customTracker@key.send', 'pageview');", array('@ga_account' => $code, '@key' => $key));
+      $js_code .= format_string("ga('create', '@ga_account', 'auto', {'name':'customTracker@key'});  ga('customTracker@key.send', 'pageview');", array(
+        '@ga_account' => $code,
+        '@key' => $key,
+      ));
     }
     variable_set('googleanalytics_codesnippet_after', $js_code);
   }
@@ -607,7 +622,6 @@ function cu_core_update_7014() {
 }
 
 
-
 /**
  * Core Update 7015 for Express 2.2.8
  * Add webform files to securepages paths.
@@ -662,7 +676,8 @@ function cu_core_update_7017() {
 /**
  * Core Update 7017 for Express 2.3.0.
  *
- * Add to disabled messages array to hide message displayed to user after enabling newsletter bundle.
+ * Add to disabled messages array to hide message displayed to user after
+ * enabling newsletter bundle.
  */
 function cu_core_update_7018() {
 
@@ -672,7 +687,7 @@ function cu_core_update_7018() {
     '/^Metatag support has been enabled for the .*?$/i',
     '/^You can now .+configure the CAPTCHA module.+ for your site.$/i',
     '/^Note that the CAPTCHA module disables .+page caching.+ of pages that include a CAPTCHA challenge.$/i',
-    '/^The block System help was assigned to the invalid region help and has been disabled.$/i'
+    '/^The block System help was assigned to the invalid region help and has been disabled.$/i',
   ));
 
   variable_set('disable_messages_ignore_patterns', 'Metatag support has been enabled for the .+
@@ -778,7 +793,10 @@ function cu_core_update_7028() {
  */
 function cu_core_update_7029() {
   module_enable(array('realname'));
-  cu_core_revert_features(array('cu_ldap' => 'cu_ldap', 'cu_people_administration_override' => 'cu_people_administration_override'));
+  cu_core_revert_features(array(
+    'cu_ldap' => 'cu_ldap',
+    'cu_people_administration_override' => 'cu_people_administration_override',
+  ));
   cu_core_scramble_admin();
 }
 
@@ -793,7 +811,7 @@ function cu_core_update_7030() {
   $query = db_select('users_roles', 'ur');
   $query->join('users', 'u', 'u.uid = ur.uid');
   $query->join('role', 'r', 'r.rid = ur.rid');
-  $query->fields('u',array('name'));
+  $query->fields('u', array('name'));
   $query->condition('r.name', $roles, 'IN');
   $users = $query->execute();
 
@@ -823,7 +841,7 @@ function cu_core_update_7030() {
  */
 function cu_core_update_7031() {
   module_enable(array(
-    'express_block_designer'
+    'express_block_designer',
   ));
   module_disable(array(
     'cu_block_theme',
@@ -841,7 +859,7 @@ function cu_core_update_7032() {
   module_enable(array(
     'cu_update_ping',
     'express_user_lock',
-    'cu_unused_beans'
+    'cu_unused_beans',
   ));
 }
 
@@ -855,7 +873,10 @@ function cu_core_update_7033() {
     $ga_codes[] = 'UA-105731679-1';
     $js_code = '';
     foreach ($ga_codes as $key => $code) {
-      $js_code .= format_string("ga('create', '@ga_account', 'auto', {'name':'customTracker@key'});  ga('customTracker@key.send', 'pageview');", array('@ga_account' => $code, '@key' => $key));
+      $js_code .= format_string("ga('create', '@ga_account', 'auto', {'name':'customTracker@key'});  ga('customTracker@key.send', 'pageview');", array(
+        '@ga_account' => $code,
+        '@key' => $key,
+      ));
     }
     variable_set('googleanalytics_codesnippet_after', $js_code);
   }
@@ -950,7 +971,8 @@ function cu_core_scramble_admin() {
 }
 
 /**
- * A function that checks for external environments and performs tasks if needed.
+ * A function that checks for external environments and performs tasks if
+ * needed.
  *
  * @return array
  *   Results of checks for server environment.
@@ -966,15 +988,11 @@ function cu_core_environment_check() {
     $check['no_environment?'] = FALSE;
     module_enable(array('cu_testing_core'));
   }
+
   // Check for Pantheon.
   elseif (defined('PANTHEON_ENVIRONMENT')) {
     $check['no_environment?'] = FALSE;
     module_enable(array('cu_pantheon_core'));
-  }
-  // Check for Platform.sh.
-  elseif (isset($_ENV['PLATFORM_VARIABLES'])) {
-    $check['no_environment?'] = FALSE;
-    module_enable(array('cu_platform_core'));
   }
 
   // If on non-CU hosting, then set schema version of cu_core so high the update hooks will never be ran.

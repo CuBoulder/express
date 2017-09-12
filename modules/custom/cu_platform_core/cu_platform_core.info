@@ -1,5 +1,0 @@
-name = Platform Core
-description = Provides CU-specific functionality, like adding variables, to Express Core and getting Express to work within Platform hosting.
-core = 7.x
-version = 7.x-1.0
-package = CU-Core
