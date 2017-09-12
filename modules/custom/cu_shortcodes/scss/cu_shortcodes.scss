@@ -656,6 +656,56 @@ iframe.map-large {
   text-align: right;
 }
 
+.map-embed-wrapper {
+  position:relative;
+  &:before,
+  &:after {
+    opacity:0;
+    -webkit-transition: opacity .5s;
+    transition: opacity .5s;
+  }
+  &:hover:before,
+  &:hover:after {
+    opacity:1;
+  }
+  &:before {
+    content: 'Press to interact with map';
+    z-index:2;
+    position:absolute;
+    display:inline-block;
+    margin:0 auto;
+    padding:10px;
+    background:#007BC8;
+    color:#fff;
+    top:50%;
+    left:calc(50% - 100px);
+    max-width:250px;
+    text-align:center;
+    font-size:75%;
+    font-weight: bold;
+  }
+  &:after {
+    content:'';
+    background:rgba(0,0,0,.5);
+    position:absolute;
+    z-index:1;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    text-align:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-weight:bold;
+  }
+  &.active:before,
+  &.active:after {
+    display:none;
+  }
+}
+
 /* Responsive Table */
 .responsive-table-wrapper {
   position:relative;
