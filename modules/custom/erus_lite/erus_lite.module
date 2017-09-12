@@ -11,36 +11,9 @@
 module_load_include('inc', 'erus_lite', 'includes/ArchiverErusTar');
 module_load_include('inc', 'erus_lite', 'plugins/erusGithub');
 
-/**
- * Implements hook_help().
- */
-function erus_lite_help($path, $arg) {
-  switch ($path) {
-    // Main module help for the block module
-    /*
-     *case 'admin/help#block':
-     *  return '<p>' . t('Blocks are boxes of content rendered into an area, or region, of a web page. The default theme Bartik, for example, implements the regions "Sidebar first", "Sidebar second", "Featured", "Content", "Header", "Footer", etc., and a block may appear in any one of these areas. The <a href="@blocks">blocks administration page</a> provides a drag-and-drop interface for assigning a block to a region, and for controlling the order of blocks within regions.', array('@blocks' => url('admin/structure/block'))) . '</p>';
-     */
-    case 'erus_lite':
-      return '<p>' . t('Help Text Goes Here.') . '</p>';
-  }
-}
-
-
 // -----------------------------------------------------------------------------
 // UPDATE MODULE API HOOKS
 // -----------------------------------------------------------------------------
-
-/**
- * Implements hook_update_projects_alter().
- */
-function erus_lite_update_projects_alter(&$projects) {
-  // Lets lighten the load of the update status module by unsetting any module
-  // that has an external repository set as it's source for update information.
-
-  // @TODO: this in a way it doesnt kill the status alter.
-
-}
 
 /**
  * Implements hook_update_status_alter().
@@ -67,7 +40,6 @@ function erus_lite_update_status_alter(&$projects) {
       }
     }
   }
-
 }
 
 /**
@@ -82,16 +54,10 @@ function erus_lite_verify_update_archive($project, $archive_file, $directory) {
 
   // Add other checks on the archive integrity here.
   return $errors;
-
 }
 
 // -----------------------------------------------------------------------------
 // END UPDATE MODULE API HOOKS
-// -----------------------------------------------------------------------------
-
-
-// -----------------------------------------------------------------------------
-// HOOKY HOOK
 // -----------------------------------------------------------------------------
 
 /**
@@ -100,17 +66,11 @@ function erus_lite_verify_update_archive($project, $archive_file, $directory) {
 function erus_lite_archiver_info() {
 
   return array(
-    /*
-     *'tar' => array(
-     *  'class' => 'ArchiverTar',
-     *  'extensions' => array('tar', 'tar.gz', 'tar.bz2'),
-     */
     'erus_lite' => array(
       'class' => 'ArchiverErusTar',
       'extensions' => array('tar', 'tar.gz', 'tar.bz2'),
     ),
   );
-
 }
 
 /**
@@ -120,13 +80,7 @@ function erus_lite_archiver_info_alter(&$info) {
 
   // Not going to use this any more.
   unset($info['tar']);
-
 }
-
-// -----------------------------------------------------------------------------
-// END HOOKY HOOK
-// -----------------------------------------------------------------------------
-
 
 /**
  * Checks info file settings for erus config
@@ -136,25 +90,15 @@ function erus_lite_check_for_settings($machine_name, $type = 'module') {
 
   $info_path = drupal_get_path($type, $machine_name) . '/' . $machine_name . ".info";
   $info = drupal_parse_info_file($info_path);
-  $plugin_info = erus_get_erus_plugin_info();
-/
+
   // No info file. Whats with that? Die.
   if (!$info) {
     return FALSE;
   }
 
-  // Erus config exists. Good!
-  if (isset($info['erus']) && is_array($info['erus'])) {
-    return TRUE;
-  }
-
-  // If the project status url exists then parse it for a plugin.
+  // If the project status url exists then it has ERUS info.
   if (isset($info['project status url'])) {
-    $parsed = erus_parse_project_status_url($info['project status url']);
-    if (isset($plugin_info[$parsed['plugin']])) {
-      // A plugin exists for the project status url.
       return TRUE;
-    }
   }
 
   // No matches.
@@ -166,7 +110,7 @@ function erus_lite_check_for_settings($machine_name, $type = 'module') {
  * @param  [string] $url [description]
  * @return [array]      [an array of information]
  */
-function erus_parse_project_status_url($url) {
+function erus_lite_parse_project_status_url($url) {
 
   $bits = parse_url($url);
   $parsed = array();
@@ -190,7 +134,7 @@ function erus_parse_project_status_url($url) {
  * @return [type]                 An array of update status information.
  *                                See hook_update_status_alter
  */
-function erus_check_update_status($machine_name, $type = 'module', $data = NULL) {
+function erus_lite_check_update_status($machine_name, $type = 'module', $data = NULL) {
 
   // Get more info.
   $info_path = drupal_get_path($type, $machine_name) . '/' . $machine_name . ".info";
@@ -201,20 +145,8 @@ function erus_check_update_status($machine_name, $type = 'module', $data = NULL)
     throw new Exception("Could not process project info file.");
   }
 
-  // Get the settings.
-  $plugin_settings = erus_get_plugin_settings_from_info_file($machine_name, $type, $data['info']);
-
-  // Try to load the plugin.
-  /*
-  $plugin = erus_load_erus_plugin($plugin_settings);
-  if (!$plugin) {
-    throw new Exception("Could not load Erus plugin: " . $data['info']['erus']['plugin']);
-  }
-  */
-
-  $plugin = new erusGithub($plugin_settings);
-
   // Pass in the erus information and let the plugin do its magic.
+  $plugin = new erusGithub();
   $processes_data = $plugin->process($data);
 
   // If all is good return the altered data. Otherwise just pass back what we were originally passed.
@@ -224,48 +156,3 @@ function erus_check_update_status($machine_name, $type = 'module', $data = NULL)
 
   return $data;
 }
-
-// -----------------------------------------------------------------------------
-// PLUGINS
-// -----------------------------------------------------------------------------
-
-
-/**
- * Retuns the plugin information settings from a .info file or from an optional
- * passed in $data param.
- * @param  [type] $machine_name [description]
- * @param  [type] $type         [description]
- * @param  [type] $data         [description]
- * @return [type]               [description]
- */
-function erus_lite_get_plugin_settings_from_info_file($machine_name, $type, $data = null) {
-  $settings = array();
-
-  if (is_null($data)) {
-    $info_path = drupal_get_path($type, $machine_name) . '/' . $machine_name . ".info";
-    $data = drupal_parse_info_file($info_path);
-  }
-
-  if (!$data) {
-    throw new Exception("Could not parse .info file in: erus_get_plugin_settings_from_info_file");
-  }
-
-  // Start by trying to get the project status url and obtain the settings by
-  // parsing the url. After check to see if there are erus overrides.
-  if (isset($data['project status url'])) {
-    $settings = erus_parse_project_status_url($data['project status url']);
-  }
-
-  // erus overrides
-  if (isset($data['erus']) && is_array($data['erus'])) {
-    $settings = array_merge($settings, $data['erus']);
-  }
-
-  return $settings;
-}
-
-// -----------------------------------------------------------------------------
-// END PLUGINS
-// -----------------------------------------------------------------------------
-
-

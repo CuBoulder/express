@@ -7,100 +7,71 @@
  *
  */
 
-use \Github\Client as GithubClient;
-
 class erusGithub {
 
+  protected $update_data = array();
+
   /**
-   * Configuration form for the plugin.
+   * [set_update_data description]
+   *
+   * @param [type] $data [description]
+   */
+  protected function set_update_data($data) {
+    $this->update_data = $data;
+  }
+
+  /**
+   * [get_update_data description]
+   *
    * @return [type] [description]
    */
-  public function get_configuration_form() {
-    $form = array();
-
-    $form['privateonly']['#markup'] = "<p>" . t('Entering a username and password is only required if you have private repositories') . ".</p>";
-
-    $description = 'Enter a GitHub password.';
-    if (!module_exists('encrypt')) {
-      drupal_set_message(t('It is recommended that you install the') . ' ' . l('encrypt', 'http://dgo.to/encrypt') . t(' module so that your password is not stored in plain text'), 'warning', FALSE);
-      $description .= " WARNING: Password is stored in plain text.";
-    }
-
-    $form['username'] = array(
-      '#type' => 'textfield',
-      '#title' => t('Username'),
-      '#description' => t('Enter a GitHub username'),
-    );
-
-    $form['password'] = array(
-      '#type' => 'password',
-      '#title' => t('Password'),
-      '#description' => t($description),
-    );
-
-    return $form;
+  protected function get_update_data() {
+    return $this->update_data;
   }
 
   /**
    * The Magic Happens.
-   * @param  $data  [description]
+   *
+   * @param  $data [description]
+   *
    * @return [type] [description]
    */
   public function process($data) {
 
-    dpm($data);
+    // Project machine name.
+    $machine_name = $data['info']['project'];
+
     // Go old or go home.
     if (!isset($data['info']['datestamp'])) {
       $data['info']['datestamp'] = 0;
     }
 
     // Store data for later
-    /*
     $this->set_update_data($data);
-    $this->authenticate_with_github();
-
-    $client = $this->get_client();
-    $github_data = $client->api('repo')->releases()->all($this->get_account(), $this->get_project_name());
-
-    $code = $client->getHttpClient()->getLastResponse()->getStatusCode();
-    */
 
     // Make request to GitHub.
-    $curl = curl_init();
+    $github_response = $this->github_request($machine_name);
 
-    $request_path = '';
-    curl_setopt($curl, CURLOPT_URL, $request_path);
+    $code = $github_response['response_code'];
+    $github_data = $github_response['result'];
 
-    // Return the transfer as a string of the values if the curl succeeds.
-    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-    // Might not need authentication on public repo.
-    /*
-    curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-    curl_setopt($curl, CURLOPT_USERPWD, $request_auth_string);
-    */
-
-    $code = 200;
     if ($code !== 200) {
-      watchdog('erus', 'GitHub API returned with response code: ' . $code . ' for: ' . $this->get_project_name(), array(), WATCHDOG_ERROR);
-      return false;
+      watchdog('erus', 'GitHub API returned with response code: ' . $code . ' for: ' . $machine_name, array(), WATCHDOG_ERROR);
+      return FALSE;
     }
 
-    // If the github data is an array and not empty get the first element.
-    /*
+    // If the GitHub data is empty then return.
     if (!is_array($github_data) || empty($github_data)) {
-      return false;
+      return FALSE;
     }
-    */
 
-    //$releases = $github_data;
     // Convert GH data into update modules data.
-    //$available = $this->map_data($releases);
+    $available = $this->map_data($github_data, $machine_name);
     // Sanitize the status of the data from the original call
-    //$this->sanitize_info_data($data);
+    $this->sanitize_info_data($data);
 
     // Allow update module to do its magic.
-    //update_calculate_project_update_status($this->get_project_name(), $data, $available);
+    update_calculate_project_update_status($machine_name, $data, $available);
 
     // Small hack to show update is available instead of unsupported...
     if ($data['status'] == 3) {
@@ -110,24 +81,44 @@ class erusGithub {
     return $data;
   }
 
-  /**
-   * [get_client description]
-   * @return [type] [description]
-   */
-  protected function get_client() {
-    if (is_null($this->client)) {
-      $client = new GithubClient();
-      $this->set_client($client);
-    }
-    return $this->client;
+  protected function github_request($project_name = NULL) {
+
+    // Setup cURL request.
+    $curl = curl_init();
+    $request_path = 'https://api.github.com/repos/CuBoulder/' . $project_name . '/releases';
+    curl_setopt($curl, CURLOPT_URL, $request_path);
+
+    // Return the transfer as a string of the values if the curl succeeds.
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+
+    // Need to add User-Agent or else you get a 403.
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'User-Agent: Web Express'));
+
+    // Make request.
+    $result = curl_exec($curl);
+
+    // Get some cURL session information back
+    $info = curl_getinfo($curl);
+    $code = $info['http_code'];
+    curl_close($curl);
+
+    // Add response code to returned data.
+    $data = array();
+    $data['result'] = json_decode($result, TRUE);
+    $data['response_code'] = $code;
+
+    return $data;
   }
 
   /**
    * Maps the GH response data into Update status usable format.
+   *
    * @param  [type] $releases [description]
+   *
    * @return [type]                 [description]
    */
-  protected function map_data($releases) {
+  protected function map_data($releases, $project_name) {
+
     $update_data = $this->get_update_data();
     $data = $this->get_default_update_status_available_data_array();
 
@@ -136,17 +127,17 @@ class erusGithub {
 
     $latest_prod_tag = !empty($latest_release['tag_name']) ? $latest_release['tag_name'] : $dev_release["tag_name"];
 
-    $data['title'] =                $update_data['info']['name'];
-    $data['short_name'] =           $update_data['name'];
-    //$data['type'] =                 $update_data['project_type'];
-    $data['link'] =                 $this->get_project_url($latest_release);
-    $data['last_fetch'] =           time();
+    $data['title'] = $update_data['info']['name'];
+    $data['short_name'] = $update_data['name'];
+    // $data['type'] = $update_data['project_type'];
+    $data['link'] = $this->get_project_url($latest_release);
+    $data['last_fetch'] = time();
 
-    $data['recommended_major'] =    $this->parse_latest_major($latest_prod_tag);
-    $data['supported_majors'] =     implode(",", range(1,99));
-    $data['default_major'] =        $this->parse_latest_major($latest_prod_tag);
-//    $data['latest_version'] =       $dev_release['tag_name'];
-//    $data['dev_version'] =          $this->parse_latest_major($latest_prod_tag);
+    $data['recommended_major'] = $this->parse_latest_major($latest_prod_tag);
+    $data['supported_majors'] = implode(",", range(1, 99));
+    $data['default_major'] = $this->parse_latest_major($latest_prod_tag);
+    // $data['latest_version'] = $dev_release['tag_name'];
+    // $data['dev_version'] = $this->parse_latest_major($latest_prod_tag);
 
 
     foreach ($releases as $index => $release) {
@@ -154,18 +145,18 @@ class erusGithub {
       $tag_parts = explode('-', $tag_name);
 
       // Create a url to the tarball
-      $download_link = "https://github.com/" . $this->get_account() . "/" . $this->get_project_name() . "/archive/" . $release['tag_name'] . ".tar.gz";
+      $download_link = "https://github.com/CuBoulder/" . $project_name . "/archive/" . $release['tag_name'] . ".tar.gz";
 
       // If there is an asset use that one.
       if (isset($release['assets'][0])) {
-        $download_link = "https://github.com/" . $this->get_account() . "/" . $this->get_project_name() . "/releases/download/" . $release['tag_name'] . "/" . $release['assets'][0]['name'];
+        $download_link = "https://github.com/CuBoulder/" . $project_name . "/releases/download/" . $release['tag_name'] . "/" . $release['assets'][0]['name'];
       }
 
       // GH doesn't provide a checksum on files. We will have to provide it in
       // the body.
       $md5 = $this->parse_md5_checksum($release['body']);
 
-      $data['releases'][$tag_name] =  array(
+      $data['releases'][$tag_name] = array(
         'name' => $update_data['name'] . ' ' . $tag_name,
         'version' => $tag_name,
         'tag' => $tag_name,
@@ -175,9 +166,11 @@ class erusGithub {
         'status' => 'published',
         'release_link' => $release['html_url'],
         'download_link' => $download_link,
-        'date' => strtotime($release['published_at']), // when the release was published.
+        'date' => strtotime($release['published_at']),
+        // when the release was published.
         // 'date' => strtotime($release['created_at']), // when the tag was created
-        'mdhash' => !empty($md5) ? $md5 : md5($release['url']), // just making this stuff up.
+        'mdhash' => !empty($md5) ? $md5 : md5($release['url']),
+        // just making this stuff up.
         'filesize' => isset($release['assets'][0]) ? $release['assets'][0]['size'] : 0,
         'files' => "\n  \n  \n  ",
         'terms' => $this->parse_release_terms($release['body']),
@@ -194,7 +187,7 @@ class erusGithub {
 
     $keys = array_keys($data['releases']);
 
-    uasort($keys, function($a, $b) {
+    uasort($keys, function ($a, $b) {
       if ($a == $b) {
         return 0;
       }
@@ -202,7 +195,7 @@ class erusGithub {
       $b = str_replace('7.x-', '', $b);
 
       return version_compare($a, $b, '>') ? -1 : 1;
-      }
+    }
     );
     $keys = array_flip($keys);
     $data['releases'] = array_merge($keys, $data['releases']);
@@ -213,7 +206,9 @@ class erusGithub {
    * Look for "Release type:" in the body of a release for tag information.
    * Tags should be a comma separated list
    * eg: Release type: Bug fixes, New features, Security update
+   *
    * @param  string $string [description]
+   *
    * @return [type]         [description]
    */
   protected function parse_release_terms($string = '') {
@@ -240,7 +235,9 @@ class erusGithub {
   /**
    * Parses out the md5 checksum value from the body of a release.
    * This is needed for 'drush up' to work
+   *
    * @param  string $string [description]
+   *
    * @return [type]         [description]
    */
   protected function parse_md5_checksum($string = '') {
@@ -257,14 +254,16 @@ class erusGithub {
   /**
    * Goes through the releases looking for a release that isnt marked as
    * a "pre-lease" in the github ui.
+   *
    * @param  [array] $releases [all of the releases from GH]
+   *
    * @return [array]           [the latest marked as non prerelease]
    */
   protected function get_latest_release($releases) {
     $potentials = array();
 
     foreach ($releases as $i => $release) {
-      if ($release['draft'] == TRUE || $release['prerelease'] == TRUE) {
+      if ($release['draft'] === TRUE || $release['prerelease'] === TRUE) {
         continue;
       }
       $potentials[$release['tag_name']] = $release;
@@ -290,7 +289,9 @@ class erusGithub {
 
   /**
    * Looks for the latest tag marked with pre-release
+   *
    * @param  [type] $releases [description]
+   *
    * @return [type]           [description]
    */
   protected function get_latest_dev_release($releases) {
@@ -303,7 +304,9 @@ class erusGithub {
 
   /**
    * Return a link to the github page.
+   *
    * @param  [type] $releases [description]
+   *
    * @return [type]           [description]
    */
   protected function get_project_url($release) {
@@ -313,31 +316,10 @@ class erusGithub {
   }
 
   /**
-   * Sends a username and password to authenticate (OAuth) with GH.
-   */
-  protected function authenticate_with_github() {
-    $client = $this->get_client();
-    $settings = variable_get('erus_github.com', array());
-
-    if (empty($settings['username'])) {
-      return;
-    }
-
-    $password = $settings['password'];
-
-    // Only if the module exists.
-    if (module_exists('encrypt')) {
-      $password = decrypt($settings['password']);
-    }
-
-    $client->authenticate($settings['username'], $password, GithubClient::AUTH_HTTP_PASSWORD);
-    $this->set_client($client);
-  }
-
-
-  /**
    * [parse_latest_major description]
+   *
    * @param  [type] $tag_name [description]
+   *
    * @return [type]           [description]
    */
   protected function parse_latest_major($tag_name) {
@@ -354,12 +336,14 @@ class erusGithub {
 
   /**
    * [parse_latest_minor description]
+   *
    * @param  [type] $tag_name [description]
+   *
    * @return [type]           [description]
    */
   protected function parse_latest_minor($tag_name) {
 
-    $big_bits = explode("-",$tag_name);
+    $big_bits = explode("-", $tag_name);
     $little_bits = explode(".", $big_bits[1]);
     return $little_bits[1];
 
@@ -367,6 +351,7 @@ class erusGithub {
 
   /**
    * Returns an array of default update status fields
+   *
    * @return [type]                [description]
    */
   protected function get_default_update_status_available_data_array() {
@@ -376,10 +361,12 @@ class erusGithub {
       'type' => 'project_module',
       'api_version' => '7.x',
       'recommended_major' => '1',
-      'supported_majors' => '1', // eg: 1,2,3 || 1,2 || 3
+      'supported_majors' => '1',
+      // eg: 1,2,3 || 1,2 || 3
       'default_major' => '1',
-      'dev_version' => null,
-      'project_status' => 'published', // published, insecure, revoked, unpublished, not-fetched
+      'dev_version' => NULL,
+      'project_status' => 'published',
+      // published, insecure, revoked, unpublished, not-fetched
       'link' => '',
       'terms' => '',
       'releases' => array(
@@ -408,4 +395,12 @@ class erusGithub {
     );
   }
 
+  /**
+   * Remove status information from data array
+   */
+  protected function sanitize_info_data(&$data) {
+    unset($data['project_status']);
+    unset($data['status']);
+    unset($data['reason']);
+  }
 }
