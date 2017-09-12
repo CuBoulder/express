@@ -1,8 +1,5 @@
 <?php
 
-// Ensure secure pages is enabled.
-//$conf['securepages_enable'] = TRUE;
-
 // Never allow updating modules through UI.
 $conf['allow_authorize_operations'] = FALSE;
 
@@ -67,8 +64,6 @@ $conf['blocked_ips'] = array();
 
 //$base_url = 'http://express.local/' . $path;
 
-# Need to do this to until we can properly support SSL.
-$conf['securepages_enable'] = FALSE;
 $conf['ldap_servers_require_ssl_for_credentails'] = '0';
 
 $databases = array(
