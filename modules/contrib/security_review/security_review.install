@@ -10,7 +10,7 @@
  * Implements hook_enable().
  */
 function security_review_enable() {
-  drupal_set_message(t('Security Review module enabled. You should first set the module access permissions at !link. Be sure to grant permissions to trusted users only as this module can show senstive site information.', array('!link' => l('admin/people/permissions', 'admin/people/permissions'))));
+  drupal_set_message(t('Security Review module enabled. You should first set the module access permissions at !link. Be sure to grant permissions to trusted users only as this module can show sensitive site information.', array('!link' => l('admin/people/permissions', 'admin/people/permissions'))));
 }
 
 /**

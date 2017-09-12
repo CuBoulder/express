@@ -158,12 +158,12 @@ function _security_review_security_checks() {
     'success' => t('Untrusted roles do not have administrative or trusted Drupal permissions.'),
     'failure' => t('Untrusted roles have been granted administrative or trusted Drupal permissions.'),
   );
-  /*$checks['name_passwords'] = array(
+  $checks['name_passwords'] = array(
     'title' => t('Username as password'),
     'callback' => 'security_review_check_name_passwords',
     'success' => t('Trusted accounts do not have their password set to their username.'),
     'failure' => t('Some trusted accounts have set their password the same as their username.'),
-  );*/
+  );
   // Check dependent on PHP filter being enabled.
   if (module_exists('php')) {
     $checks['untrusted_php'] = array(
@@ -471,7 +471,7 @@ function security_review_check_admin_permissions() {
   foreach ($untrusted_permissions as $rid => $permissions) {
     $intersect = array_intersect($all_keys, array_keys($permissions));
     foreach ($intersect as $permission) {
-      if (isset($all_permissions[$permission]['restrict access'])) {
+      if (!empty($all_permissions[$permission]['restrict access'])) {
         $check_result_value[$rid][] = $permission;
       }
     }
@@ -518,23 +518,29 @@ function security_review_check_field($last_check = NULL) {
     return array('result' => $check_result, 'value' => $check_result_value);
   }
   // Search for PHP or Javascript tags in text columns.
+  $known_risky_fields = explode(',', variable_get('security_review_known_risky_fields', ''));
   foreach ($tables as $table => $info) {
-    $sql = "SELECT DISTINCT entity_id, entity_type FROM {" . $table . "} WHERE " . $info['column'] . " LIKE :text";
+    // Column & table come from field definitions & are safe to use in a query.
+    $sql = "SELECT DISTINCT entity_id, entity_type, " . $info['column'] . " AS field_text FROM {" . $table . "} WHERE " . $info['column'] . " LIKE :text";
     // Handle changed? @todo
     foreach (array('Javascript' => '%<script%', 'PHP' => '%<?php%') as $vuln_type => $comparison) {
       $results = db_query($sql, array(':text' => $comparison)); // @pager query?
       foreach ($results as $result) {
-        $check_result = FALSE;
         if (!isset($check_result_value[$result->entity_type]) || !array_key_exists($result->entity_id, $check_result_value[$result->entity_type])) {
-          $check_result_value[$result->entity_type][$result->entity_id] = array(
-            'type' => $vuln_type,
-            'field' => $info['name'],
-          );
+          // Only alert on values that are not known to be safe.
+          $hash = hash('sha256', implode((array) $result));
+          if (!in_array($hash, $known_risky_fields)) {
+            $check_result = FALSE;
+            $check_result_value[$result->entity_type][$result->entity_id] = array(
+              'type' => $vuln_type,
+              'field' => $info['name'],
+              'hash' => $hash,
+            );
+          }
         }
       }
     }
   }
-
   return array('result' => $check_result, 'value' => $check_result_value);
 }
 
@@ -584,27 +590,36 @@ function security_review_check_name_passwords($last_check = NULL) {
 }
 
 function _security_review_weak_passwords($trusted_roles) {
+  require_once DRUPAL_ROOT . '/' . variable_get('password_inc', 'includes/password.inc');
+
   $weak_users = array();
 
-  // Select users with a trusted role whose password is their username.
-  // @todo need to generate passwords in PHP to get salt.
-  $sql = "SELECT u.uid, u.name, COUNT(rid) AS count FROM {users} u LEFT JOIN
-    {users_roles} ur ON u.uid = ur.uid AND ur.rid in (:rids)
-    WHERE pass = md5(name) GROUP BY uid";
-  $results = db_query($sql, array(':rids' => $trusted_roles)); // @todo pager_query?
+  // Select users with a trusted role.
+  $query = db_select('users', 'u');
+  $query->leftJoin('users_roles', 'ur', 'u.uid = ur.uid AND ur.rid IN (:rids)', array(':rids' => $trusted_roles));
+  $query->fields('u', array('uid', 'name', 'pass'));
+  $query->addExpression('COUNT(rid)', 'count');
+  $query->groupBy('u.uid');
+  $query->groupBy('u.name');
+  $query->groupBy('u.pass');
+
+  $results = $query->execute()->fetchAllAssoc('uid');
+
+  // Find users with the same password as their username.
   foreach ($results as $row) {
-    $record[] = $row;
-    if ($row->count > 0) {
-      $weak_users[$row->uid] = $row->name;
+    if ($row->count > 0 || $row->uid == 1) {
+      // Make a psuedo account object to avoid loading the user.
+      $account = (object)array(
+        'uid' => $row->uid,
+        'name' => $row->name,
+        'pass' => $row->pass,
+      );
+      if (user_check_password($row->name, $account)) {
+        $weak_users[$row->uid] = $row->name;
+      }
     }
   }
-
-  // Explicitly check uid 1 in case they have no roles.
-  $weak_uid1 = db_fetch_object(db_query("SELECT u.uid, u.name, 1 AS count FROM {users} u WHERE pass = md5(name) AND uid = 1"));
-  if (!empty($weak_uid1->count)) {
-    $weak_users[$weak_uid1->uid] = $weak_uid1->name;
-  }
-
+    
   return $weak_users;
 }
 

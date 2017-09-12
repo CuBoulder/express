@@ -24,13 +24,13 @@
    'value' => 'This site',
    'placeholder' => 'Search this site',
    'label' => 'This site',
-   'action' => base_path(),
+   'action' => base_path() . '/gsearch',
  );
  $configs['all'] = array(
    'value' => 'Colorado.edu',
    'placeholder' => 'Search Colorado.edu',
    'label' => 'Colorado.edu',
-   'action' => '/',
+   'action' => 'http://www.colorado.edu/gsearch',
  );
 ?>
 <?php if (!empty($options)): ?>
