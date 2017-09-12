@@ -90,9 +90,9 @@ function webform_conditionals_form($form, &$form_state, $node) {
       $cid = $action['target'];
       if ($action['action'] == 'require' && !$components[$cid]['required']) {
         drupal_set_message(t('Component %title must be configured as Required for Webform to conditionally change its required status. <a href="!url">Configure %title.</a>',
-                             array('%title' => $components[$cid]['name'],
-                                   '!url' => url("node/{$node->nid}/webform/components/$cid", array('query' => array('destination' => "node/{$node->nid}/webform/conditionals"))))
-                             ), 'error');
+          array('%title' => $components[$cid]['name'],
+            '!url' => url("node/{$node->nid}/webform/components/$cid", array('query' => array('destination' => "node/{$node->nid}/webform/conditionals"))))
+          ), 'error');
       }
     }
     $form['conditionals'][$rgid]['weight'] = array(
@@ -209,18 +209,18 @@ function webform_conditionals_form_validate($form, &$form_state) {
           $target_id = $action['target']['#value'];
           if (isset($targets[$target_id][$operation])) {
             form_set_error('conditionals][' . $conditional_key . '][actions][' . $action_key . '][target',
-                           t('A operation %op cannot be made for a component more than once. (%target).',
-                             array('%op' => $action['action']['#options'][$operation],
-                                   '%target' => $components[$action['target']['#value']]['name'])));
+              t('A operation %op cannot be made for a component more than once. (%target).',
+              array('%op' => $action['action']['#options'][$operation],
+              '%target' => $components[$action['target']['#value']]['name'])));
           }
           $component_type = $node->webform['components'][$action['target']['#value']]['type'];
           if (!webform_conditional_action_able($component_type, $action['action']['#value'])) {
             form_set_error('conditionals][' . $conditional_key . '][actions][' . $action_key . '][action',
-                           t('A component of type %type can\'t be %action. (%target)',
-                             array(
-                                '%action' => $action['action']['#options'][$action['action']['#value']],
-                                '%type' => $component_options[$component_type],
-                                '%target' => $components[$action['target']['#value']]['name'])));
+              t('A component of type %type can\'t be %action. (%target)',
+              array(
+                '%action' => $action['action']['#options'][$action['action']['#value']],
+                '%type' => $component_options[$component_type],
+                '%target' => $components[$action['target']['#value']]['name'])));
           }
           $targets[$target_id][$operation] = $target_id;
         }
@@ -229,8 +229,8 @@ function webform_conditionals_form_validate($form, &$form_state) {
         // Validate component rules, but not conditional_start/end rules.
         if (is_numeric($rule_key) && $rule['source_type']['#value'] == 'component' && isset($targets[$rule['source']['#value']])) {
           form_set_error('conditionals][' . $conditional_key . '][rules][' . $rule_key . '][source',
-                         t('The subject of the conditional cannot be the same as the component that is changed (%target).',
-                         array('%target' => $components[$rule['source']['#value']]['name'])));
+            t('The subject of the conditional cannot be the same as the component that is changed (%target).',
+            array('%target' => $components[$rule['source']['#value']]['name'])));
         }
       }
     }
@@ -458,7 +458,7 @@ function _webform_conditional_add_expand($element, $rid, $subconditional) {
     '#submit' => array('webform_conditional_element_add'),
     '#subconditional' => $subconditional,
     '#name' => implode('_', $element['#parents']) . '_rules_' . $rid .
-               ($subconditional ? '_add_subconditional' : '_add'),
+      ($subconditional ? '_add_subconditional' : '_add'),
     '#attributes' => array('class' => array('webform-conditional-rule-add')),
     '#ajax' => array(
       'progress' => 'none',
@@ -653,6 +653,7 @@ function _webform_conditional_expand_value_forms($node) {
  *   The starting rule id for the search
  * @param integer $target_delta_level
  *   The level that is sought. 0 for current left. -1 for parent.
+ *
  * @return integer
  *   The rid of the found rule, or -1 if none. Note that NULL is not used as a
  *   semaphore for "not found" because it casts to 0, which is a valid rule id.
@@ -681,7 +682,7 @@ function _webform_conditional_find_end($rules, $origin_rid, $target_delta_level 
 /**
  * Helper. Find the matching start or end of a given subconditional.
  *
- * @see _webform_conditional_find_end().
+ * @see _webform_conditional_find_end()
  */
 function _webform_conditional_find_start($rules, $origin_rid, $target_delta_level = 0) {
   $rids = array_keys($rules);
@@ -999,7 +1000,7 @@ function webform_conditional_operators_list() {
 }
 
 /**
- * Internal implementation of hook_webform_conditional_operator_info().
+ * Implements hook_webform_conditional_operator_info().
  *
  * Called from webform.module's webform_webform_conditional_operator_info().
  */
@@ -1682,7 +1683,7 @@ function webform_conditional_operator_datetime_after($input_values, $rule_value)
  */
 function webform_conditional_operator_datetime_after_equal($input_values, $rule_value) {
   return webform_conditional_operator_datetime_after($input_values, $rule_value) ||
-         webform_conditional_operator_datetime_equal($input_values, $rule_value);
+    webform_conditional_operator_datetime_equal($input_values, $rule_value);
 }
 
 /**
@@ -1698,7 +1699,7 @@ function webform_conditional_operator_datetime_before($input_values, $rule_value
  */
 function webform_conditional_operator_datetime_before_equal($input_values, $rule_value) {
   return webform_conditional_operator_datetime_before($input_values, $rule_value) ||
-         webform_conditional_operator_datetime_equal($input_values, $rule_value);
+    webform_conditional_operator_datetime_equal($input_values, $rule_value);
 }
 
 /**

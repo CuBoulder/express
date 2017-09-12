@@ -7,6 +7,59 @@
 include_once 'cu_search.features.inc';
 
 /**
+ * Implements hook_menu().
+ */
+function cu_search_menu() {
+  $items = array();
+  $items['admin/settings/search'] = array(
+    'title' => 'Search',
+    'description' => 'Configuration for Site Search',
+    'position' => 'right',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer express settings'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+  $items['admin/settings/search/search-settings'] = array(
+    'title' => 'Site Search Settings',
+    'description' => 'Site search settings',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('cu_search_settings_form'),
+    'access arguments' => array('administer express settings'),
+    'weight' => 1,
+  );
+  return $items;
+}
+
+function cu_search_settings_form($form, &$form_state) {
+  $form['description'] = array(
+    '#type' => 'markup',
+    '#markup' => 'Select the options for the site search box.',
+  );
+
+  $form['cu_search_options'] = array(
+    '#type' => 'checkboxes',
+    '#options' => array(
+      'this' => 'This site',
+      'all' => 'Colorado.edu',
+    ),
+    '#default_value' => variable_get('cu_search_options', array('this')),
+  );
+  // $form['#validation'][] = 'cu_search_settings_form_validate';
+  $form = system_settings_form($form);
+  return $form;
+}
+
+function cu_search_settings_form_validate($form, &$form_state) {
+// only do validation stuff here (and only here)
+	$options = count($form_state['values']['cu_search_options']);
+	if ($options < 1) {
+		form_set_error('cu_search_options', 'You must select at least one search option');
+	}
+}
+
+/**
  * Implements hook_page_alter().
  */
 function cu_search_page_alter(&$page) {
@@ -19,7 +72,24 @@ function cu_search_page_alter(&$page) {
  * Implements hook_FORM_ID_form_alter().
  */
 function cu_search_form_google_appliance_block_form_alter(&$form, &$form_state, $form_id) {
+
+  $action['this'] = $form['#action'];
+  $action['all'] = '/';
+
+  $option = variable_get('cu_search_options', array('this' => 'this'));
+  $option = key($option);
+  $form['#action'] = $action[$option];
+
+  $configs = array();
+  $configs['this'] = array(
+    'placeholder' => 'Search this site',
+  );
+  $configs['all'] = array(
+    'placeholder' => 'Search Colorado.edu',
+  );
+
   $form['search_keys']['#weight'] = 0;
+  $form['search_keys']['#attributes']['placeholder'] = $configs[$option];
   $form['actions']['#weight'] = 1;
 
   $form['search_keys']['#prefix'] = '<div class="cu-search clearfix">';
