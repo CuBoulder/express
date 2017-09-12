@@ -21,7 +21,7 @@ class webform_handler_field_numeric_data extends views_handler_field_numeric {
     parent::construct();
     $this->formula = TRUE;
   }
-  
+
   /**
    * Get the formula for this argument.
    *
@@ -53,7 +53,7 @@ class webform_handler_field_numeric_data extends views_handler_field_numeric {
   function get_field($field = NULL) {
     return parent::get_field($this->get_formula());
   }
-  
+
 }
 
 /**
@@ -91,8 +91,8 @@ class webform_handler_filter_numeric_data extends views_handler_filter_numeric {
     static $sequence = 1;
     $param =  ":value" . $sequence++;
     $this->query->add_where_expression($this->options['group'],
-                                       $field . $this->operator . $param,
-                                       array($param =>  $this->value['value']));
+      $field . $this->operator . $param,
+      array($param =>  $this->value['value']));
   }
 
   /**
@@ -104,13 +104,13 @@ class webform_handler_filter_numeric_data extends views_handler_filter_numeric {
     $max =  ":max" . $sequence++;
     if ($this->operator == 'between') {
       $this->query->add_where_expression($this->options['group'],
-                                         "($min <= $field AND $field <= $max)",
-                                         array($min => $this->value['min'], $max => $this->value['max']));
+        "($min <= $field AND $field <= $max)",
+        array($min => $this->value['min'], $max => $this->value['max']));
     }
     else {
       $this->query->add_where_expression($this->options['group'],
-                                         "($min > $field OR $field > $max)",
-                                         array($min => $this->value['min'], $max => $this->value['max']));
+        "($min > $field OR $field > $max)",
+        array($min => $this->value['min'], $max => $this->value['max']));
     }
   }
 
@@ -137,8 +137,8 @@ class webform_handler_filter_numeric_data extends views_handler_filter_numeric {
     $param =  ":expression" . $sequence++;
 
     $this->query->add_where_expression($this->options['group'],
-                                       "$field RLIKE $param",
-                                       array($param => $this->value['value']));
+      "$field RLIKE $param",
+      array($param => $this->value['value']));
   }
 
 }

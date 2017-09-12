@@ -480,12 +480,13 @@ function expressbase_process_block(&$vars) {
  */
 function expressbase_menu_link(array $vars) {
   $element = $vars['element'];
-  if (isset($element['#localized_options']['icon'])&& strlen($element['#localized_options']['icon']) > 3 ) {
+  if (isset($element['#localized_options']['icon']) && ($element['#localized_options']['icon'] != 'none') && strlen($element['#localized_options']['icon']) > 3 ) {
     $element['#localized_options']['html'] = TRUE;
     $hide = isset($element['#localized_options']['hide_text']) ? $element['#localized_options']['hide_text'] : 0;
     $hide_class = $hide ? 'hide-text' : '';
     $space = $hide ? '' : ' ';
     $element['#title'] = '<i class="fa fa-fw ' . $element['#localized_options']['icon'] . '"></i>' . $space . '<span class="menu-icon-text ' . $hide_class . '">' . $element['#title']  . '</span>';
+    $element['#localized_options']['attributes']['class'][] = 'menu__link__icon';
   }
   $sub_menu = '';
   if ($element['#below']) {
@@ -517,7 +518,7 @@ function expressbase_links__system_main_menu($vars) {
     if (!empty($link['attributes']['class'])) {
       $classes = join(' ', $link['attributes']['class']);
     }
-    if (isset($link['icon']) && strlen($link['icon']) > 3) {
+    if (isset($link['icon']) && ($link['icon'] != 'none') && strlen($link['icon']) > 3) {
       $link['html'] = TRUE;
       $hide = isset($link['hide_text']) ? $link['hide_text'] : 0;
       $hide_class = $hide ? 'hide-text' : '';
@@ -561,7 +562,7 @@ function expressbase_links__system_secondary_menu($vars) {
     if (!empty($link['attributes']['class'])) {
       $classes = join(' ', $link['attributes']['class']);
     }
-    if (isset($link['icon']) && strlen($link['icon']) > 3) {
+    if (isset($link['icon']) && ($link['icon'] != 'none') && strlen($link['icon']) > 3) {
       $link['html'] = TRUE;
       $hide = isset($link['hide_text']) ? $link['hide_text'] : 0;
       $hide_class = $hide ? 'hide-text' : '';
@@ -598,7 +599,7 @@ function expressbase_links__footer_menu($vars) {
     if (!empty($link['attributes']['class'])) {
       $classes = join(' ', $link['attributes']['class']);
     }
-    if (isset($link['icon']) && strlen($link['icon']) > 3) {
+    if (isset($link['icon']) && ($link['icon'] != 'none') && strlen($link['icon']) > 3) {
       $link['html'] = TRUE;
       $hide = isset($link['hide_text']) ? $link['hide_text'] : 0;
       $hide_class = $hide ? 'hide-text' : '';
