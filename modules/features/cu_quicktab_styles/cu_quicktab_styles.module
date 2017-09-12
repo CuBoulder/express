@@ -39,10 +39,10 @@ function cu_quicktab_styles_quicktabs_tabstyles() {
  *   Quicktabs form array.
  * @param array $form_state
  *   Current values in quicktabs form.
- * @param array $form_id
+ * @param string $form_id
  *   Form ID of the quicktabs form.
  */
-function cu_quicktab_styles_form_quicktabs_form_alter(&$form, &$form_state, $form_id) {
+function cu_quicktab_styles_form_quicktabs_form_alter(array &$form, array &$form_state, $form_id) {
 
   // When adding a quicktab, it will not initially have a machine name.
   $machine_name = isset($form['machine_name']['#value']) ? $form['machine_name']['#value'] : '';
@@ -89,10 +89,10 @@ function cu_quicktab_styles_form_quicktabs_form_alter(&$form, &$form_state, $for
  *   Quicktabs form array.
  * @param array $form_state
  *   Current values in quicktabs form.
- * @param array $form_id
+ * @param string $form_id
  *   Form ID of the quicktabs form.
  */
-function cu_quicktab_styles_form_quicktabs_tabstyles_styles_alter(&$form, &$form_state, $form_id) {
+function cu_quicktab_styles_form_quicktabs_tabstyles_styles_alter(array &$form, array &$form_state, $form_id) {
   unset($form['quicktabs_tabstyle']['#options']['Arrows']);
   unset($form['quicktabs_tabstyle']['#options']['Basic']);
   unset($form['quicktabs_tabstyle']['#options']['Bullets']);
@@ -111,7 +111,7 @@ function cu_quicktab_styles_form_quicktabs_tabstyles_styles_alter(&$form, &$form
  * @param array $page
  *   The page array that will be rendered to the screen.
  */
-function cu_quicktab_styles_page_alter(&$page) {
+function cu_quicktab_styles_page_alter(array &$page) {
   drupal_add_css(drupal_get_path('module', 'cu_quicktab_styles') . '/css/cu_quicktab_styles.css');
   drupal_add_js(drupal_get_path('module', 'cu_quicktab_styles') . '/js/cu_quicktab_styles.js', array(
     'type' => 'file',
