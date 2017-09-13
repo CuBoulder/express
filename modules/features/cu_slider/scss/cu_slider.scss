@@ -394,9 +394,10 @@ $cugold: #cfb87c;
   }
   .flickity-prev-next-button {
     background: none;
-    transition: background 0.5s;
+    opacity: 0;
+    transition: background 0.5s, opacity 0.5s;
     &:hover {
-      background: rgba(#000, .5);
+      background: rgba(#000, .3);
     }
     .arrow {
       fill:#fff;
@@ -404,6 +405,11 @@ $cugold: #cfb87c;
     svg {
       -webkit-filter: drop-shadow( 1px 0px 2px rgba(0,0,0,.75) );
             filter: drop-shadow( 1px 0px 2px rgba(0,0,0,.75) );
+    }
+  }
+  &:hover {
+    .flickity-prev-next-button {
+      opacity: 1;
     }
   }
 }
