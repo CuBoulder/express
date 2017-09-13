@@ -109,7 +109,7 @@ function webform_tokens($type, $tokens, array $data = array(), array $options = 
   // from the rendered submission if recursion has been detected.
   if ($recursion_level) {
     $markup_components = array_keys(array_filter($node->webform['components'],
-                                                 function ($component) { return $component['type'] == 'markup'; }));
+      function ($component) { return $component['type'] == 'markup'; }));
   }
 
   $recursion_level++;

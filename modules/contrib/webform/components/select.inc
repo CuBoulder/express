@@ -395,7 +395,7 @@ function _webform_render_select($component, $value = NULL, $filter = TRUE, $subm
     $option_value = reset($value);
     $element['#default_value'] = $option_value === '' ? NULL : $option_value;
   }
-  
+
   if ($component['extra']['other_option'] && module_exists('select_or_other')) {
     // Set display as a select_or_other element:
     $element['#type'] = 'select_or_other';
@@ -762,8 +762,8 @@ function _webform_action_set_select($component, &$element, &$form_state, $value)
   // Set the value as an array for multiple select or single value otherwise.
   if ($element['#type'] == 'checkboxes') {
     $checkbox_values = $element['#options'];
-    array_walk($checkbox_values, function(&$value, $key) use($value) {
-      $value = (int)(strval($key) === $value);
+    array_walk($checkbox_values, function(&$option_value, $key) use($value) {
+      $option_value = (int)(strval($key) === $value);
     });
   }
   else {
@@ -1023,7 +1023,7 @@ function _webform_select_options_from_text($text, $flat = FALSE) {
     $group = NULL;
     foreach ($rows as $option) {
       $option = trim($option);
-      /**
+      /*
        * If the Key of the option is within < >, treat as an optgroup
        *
        * <Group 1>
