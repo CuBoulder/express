@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @file
  * Archiver implementations provided by the system module.
+ * @file
  */
 
 /**
@@ -10,7 +10,17 @@
  */
 class ArchiverErusTar extends ArchiverTar {
 
-  public function extract($path, Array $files = array()) {
+  /**
+   * @param string $path
+   *   Path to the file to extract.
+   *
+   * @param array $files
+   *   Files located at the path.
+   *
+   * @return $this
+   *   Manipulated data extracted from .tar file.
+   */
+  public function extract($path, array $files = array()) {
     parent::extract($path, $files);
 
     // Check to see if there is nasty verion information on the extracted
@@ -23,7 +33,6 @@ class ArchiverErusTar extends ArchiverTar {
       if ($parts[1] == "7.x" && is_numeric($parts[2])) {
         $extract_path = _update_manager_extract_directory();
         $dest_path = $extract_path . "/" . $parts[0];
-        // file_unmanaged_move($source, $dest, FILE_EXISTS_REPLACE);
 
         file_prepare_directory($dest_path, FILE_CREATE_DIRECTORY);
         foreach ($files as $file_path) {

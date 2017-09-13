@@ -1,40 +1,47 @@
 <?php
 
 /**
- * @file
  * ERUS GitHub plugin.
+ * @file
  *
  * Uses V3 of the github API.
- *
+ */
+
+/**
+ * Class erusGithub
  */
 class erusGithub {
 
-  protected $update_data = array();
+  protected $updateData = array();
 
   /**
-   * [set_update_data description]
+   * Sets updateData variable.
    *
-   * @param [type] $data [description]
+   * @param array $data
+   *   Data needed by the update module.
    */
-  protected function set_update_data($data) {
-    $this->update_data = $data;
+  protected function set_update_data(array $data) {
+    $this->updateData = $data;
   }
 
   /**
-   * [get_update_data description]
+   * Gets updateData variable.
    *
-   * @return [type] [description]
+   * @return array
+   *   An array of update data.
    */
   protected function get_update_data() {
-    return $this->update_data;
+    return $this->updateData;
   }
 
   /**
    * The Magic Happens.
    *
-   * @param  $data [description]
+   * @param array $data
+   *   Update data for Drupal project.
    *
-   * @return [type] [description]
+   * @return array
+   *   Update array manipulated to take in account GitHub data.
    */
   public function process($data) {
 
@@ -81,6 +88,13 @@ class erusGithub {
     return $data;
   }
 
+  /**
+   * @param null|string $project_name
+   *   Name of the project that matches GitHub URL.
+   *
+   * @return array
+   *   Data returned from GitHub API request for releases of project.
+   */
   protected function github_request($project_name = NULL) {
 
     // Setup cURL request.
@@ -116,9 +130,13 @@ class erusGithub {
   /**
    * Maps the GH response data into Update status usable format.
    *
-   * @param  [type] $releases [description]
+   * @param array $releases
+   *   An array of information about project releases.
    *
-   * @return [type]                 [description]
+   * @param string $project_name
+   *   Name of project
+   *
+   * @return array
    */
   protected function map_data($releases, $project_name) {
 
@@ -132,22 +150,18 @@ class erusGithub {
 
     $data['title'] = $update_data['info']['name'];
     $data['short_name'] = $update_data['name'];
-    // $data['type'] = $update_data['project_type'];
     $data['link'] = $this->get_project_url($latest_release);
     $data['last_fetch'] = time();
 
     $data['recommended_major'] = $this->parse_latest_major($latest_prod_tag);
     $data['supported_majors'] = implode(",", range(1, 99));
     $data['default_major'] = $this->parse_latest_major($latest_prod_tag);
-    // $data['latest_version'] = $dev_release['tag_name'];
-    // $data['dev_version'] = $this->parse_latest_major($latest_prod_tag);
-
 
     foreach ($releases as $release) {
       $tag_name = $release['tag_name'];
       $tag_parts = explode('-', $tag_name);
 
-      // Create a url to the tarball
+      // Create a url to the tarball.
       $download_link = "https://github.com/CuBoulder/" . $project_name . "/archive/" . $release['tag_name'] . ".tar.gz";
 
       // If there is an asset use that one.
@@ -155,8 +169,7 @@ class erusGithub {
         $download_link = "https://github.com/CuBoulder/" . $project_name . "/releases/download/" . $release['tag_name'] . "/" . $release['assets'][0]['name'];
       }
 
-      // GH doesn't provide a checksum on files. We will have to provide it in
-      // the body.
+      // GH doesn't provide a checksum on files. We will have to provide it in the body.
       $md5 = $this->parse_md5_checksum($release['body']);
 
       $data['releases'][$tag_name] = array(
@@ -170,8 +183,6 @@ class erusGithub {
         'release_link' => $release['html_url'],
         'download_link' => $download_link,
         'date' => strtotime($release['published_at']),
-        // when the release was published.
-        // 'date' => strtotime($release['created_at']), // when the tag was created
         'mdhash' => !empty($md5) ? $md5 : md5($release['url']),
         // just making this stuff up.
         'filesize' => isset($release['assets'][0]) ? $release['assets'][0]['size'] : 0,

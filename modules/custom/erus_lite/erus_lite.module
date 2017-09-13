@@ -1,8 +1,10 @@
 <?php
+
 /**
+ * Allows communication with external respository hosts for update checks.
+ *
  * @file
- * Allows communication with external respository hosts in order to provide
- * update information to modules and features.
+ *
  * @author [author] <[email]>
  * @author [author] <[email]>
  */
@@ -101,9 +103,11 @@ function erus_lite_check_for_settings($machine_name, $type = 'module') {
 /**
  * Parses the project status url for meaningful parts.
  *
- * @param  [string] $url [description]
+ * @param string $url
+ *   The URL of the project on GitHub.
  *
- * @return [array]      [an array of information]
+ * @return array
+ *   Different parts of project URL exploded.
  */
 function erus_lite_parse_project_status_url($url) {
 
@@ -123,15 +127,19 @@ function erus_lite_parse_project_status_url($url) {
 /**
  * Uses the erus plugin defined in the .info file to check for an update status.
  *
- * @param  [string] $machine_name The modules machine name
- * @param  [string] $type         Either 'module' or 'theme'
- * @param  [array] $data          *optional* The current update status
- *                                information
+ * @param string $machine_name
+ *   The modules machine name
+ * @param string $type
+ *   Either 'module' or 'theme'
+ * @param array $data
+ *   Optional - The current update status information.
  *
- * @return [type]                 An array of update status information.
- *                                See hook_update_status_alter
+ * @return array
+ * An array of update status information. See hook_update_status_alter.
+ *
+ * @throws \Exception
  */
-function erus_lite_check_update_status($machine_name, $type = 'module', $data = NULL) {
+function erus_lite_check_update_status($machine_name, $type = 'module', array $data = NULL) {
 
   // Get more info.
   $info_path = drupal_get_path($type, $machine_name) . '/' . $machine_name . ".info";

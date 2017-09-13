@@ -39,7 +39,7 @@ function erus_drush_help($section) {
 /**
  * A custom 'drush up' like command.
  *
- * @return boolean
+ * @return bool
  *   Return early to not invoke process.
  */
 function erus_drush_update() {
@@ -74,8 +74,7 @@ function erus_drush_engine_type_info() {
 }
 
 /**
- * Used by dl and updatecode commands to determine how to download/checkout new
- * projects and acquire updates to projects.
+ * Used by dl and updatecode commands to determine how to download/update projects.
  */
 function erus_drush_engine_package_handler() {
   return array(

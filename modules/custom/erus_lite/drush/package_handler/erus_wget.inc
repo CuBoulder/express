@@ -2,7 +2,6 @@
 
 /**
  * Drush PM Wget extension.
- *
  * @file
  *
  * This is pretty much a copy and paste of the wget package handler that comes
@@ -46,7 +45,7 @@ function package_handler_validate() {
  * @return bool
  *   Return whether or not the project information was downloaded.
  */
-function package_handler_download_project(&$request, $release) {
+function package_handler_download_project(array &$request, array $release) {
   // Install profiles come in several variants. User may specify which one she wants.
   if ($request['project_type'] == 'profile') {
     if (!empty($release['files'])) {
@@ -79,17 +78,6 @@ function package_handler_download_project(&$request, $release) {
     return drush_set_error('DRUSH_PM_DOWNLOAD_FAILED', 'Unable to download ' . $filename . ' to ' . $request['base_project_path'] . ' from ' . $release['download_link']);
   }
 
-  // Skip Check Md5 hash.
-  // if (drush_op('md5_file', $path) != $release['mdhash'] && !drush_get_context('DRUSH_SIMULATE')) {
-  //   drush_set_error('DRUSH_PM_FILE_CORRUPT', "File $filename is corrupt (wrong md5 checksum).");
-  //   drush_delete_dir($path, TRUE);
-  //   drush_delete_dir(drush_download_file_name($release['download_link']), TRUE);
-  //   return FALSE;
-  // }
-  // else {
-  //   drush_log("Md5 checksum of $filename verified.");
-  // }
-
   // Extract the tarball.
   $file_list = drush_tarball_extract($path, $request['base_project_path'], TRUE);
 
@@ -119,7 +107,7 @@ function package_handler_download_project(&$request, $release) {
 }
 
 /**
- * This is an alias of the download function, since they are identical
+ * This is an alias of the download function, since they are identical.
  */
 function package_handler_update_project(&$request, $release) {
   return package_handler_download_project($request, $release);
