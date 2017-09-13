@@ -902,15 +902,17 @@ td.ctools-export-ui-operations {
 
 
 .express-field-columns {
-
-  // Allow wrapping on long items
-  tr.odd .form-item,
-  tr.even .form-item {
-    white-space: inherit;
-  }
-
   .form-item {
+    white-space: inherit;
     margin-bottom: 5px;
+  }
+  
+  tr.odd &,
+  tr.even & {
+    .form-item {
+      white-space: inherit;
+      margin-bottom: 5px;
+    }
   }
   /* Checkboxes */
   @media screen and (min-width: 480px) {
