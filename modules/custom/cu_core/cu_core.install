@@ -849,7 +849,7 @@ function cu_core_update_7034() {
 
   $result = $atlas_statistics['bundles']['cu_events_bundle']['schema_version'];
 
-  if (isset($result)) {
+  if ($result == 1) {
     $atlas_id = variable_get('atlas_id');
     $site_array = atlas_api_request('sites', $atlas_id);
 
