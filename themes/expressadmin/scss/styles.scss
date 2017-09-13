@@ -903,14 +903,14 @@ td.ctools-export-ui-operations {
 
 .express-field-columns {
   .form-item {
-    white-space: inherit;
+    white-space: normal;
     margin-bottom: 5px;
   }
-  
+
   tr.odd &,
   tr.even & {
     .form-item {
-      white-space: inherit;
+      white-space: normal;
       margin-bottom: 5px;
     }
   }
