@@ -88,7 +88,7 @@ function _shortcode_filter_tips($filter, $format, $long = FALSE) {
   }
   return theme('item_list',
     array(
-      'title' => t('Shortcodes usage'),
+      'title' => t('Shortcodes Usage'),
       'items' => $tips,
       'type' => 'ol',
     )
