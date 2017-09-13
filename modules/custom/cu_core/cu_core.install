@@ -844,16 +844,17 @@ function cu_core_update_7033() {
  */
 function cu_core_update_7034() {
   // We need to know the 'statistics_id'.
+  $the_bundle = 'cu_events_bundle';
   module_load_include('inc', 'atlas_statistics');
   $atlas_statistics = atlas_statistics_get_statistics();
 
-  $result = $atlas_statistics['bundles']['cu_events_bundle']['schema_version'];
+  $result = $atlas_statistics['bundles'][$the_bundle]['schema_version'];
 
-  if ($result == 1) {
+  if (isset($result)) {
     $atlas_id = variable_get('atlas_id');
     $site_array = atlas_api_request('sites', $atlas_id);
 
-    $bundle = key(_get_code_options('module', 'cu_events_bundle'));
+    $bundle = key(_get_code_options('module', $the_bundle));
     $add_bundle = array(
       $bundle => $bundle,
     );
