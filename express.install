@@ -179,18 +179,7 @@ function express_update_7003() {
  *
  * Enable erus_lite module.
  */
-function express_update_7004() {
+function express_update_7005() {
   // Enable module.
   module_enable(array('erus_lite'));
-}
-
-/**
- * Express 2.6.0 update.
- *
- * Enable cu_elysia_cron module.
- */
-function express_update_7004() {
-  // Enable module.
-  module_enable(array('cu_elysia_cron'));
-  secure_permissions_rebuild();
 }
