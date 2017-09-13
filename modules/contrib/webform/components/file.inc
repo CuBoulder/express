@@ -222,12 +222,12 @@ function _webform_edit_file_size_validate($element) {
   if (!empty($element['#value'])) {
     $set_filesize = parse_size($element['#value']);
     if ($set_filesize == FALSE) {
-      form_error($element, t('File size @value is not a valid filesize. Use a value such as 2 MB or 800 KB.', array('@value' => $element['#value'])));
+      form_error($element, t('File size @value is not a valid file size. Use a value such as 2 MB or 800 KB.', array('@value' => $element['#value'])));
     }
     else {
       $max_filesize = parse_size(file_upload_max_size());
       if ($max_filesize < $set_filesize) {
-        form_error($element, t('An upload size of @value is too large, you are allow to upload files @max or less.', array('@value' => $element['#value'], '@max' => format_size($max_filesize))));
+        form_error($element, t('An upload size of @value is too large. You are allowed to upload files that are @max or less.', array('@value' => $element['#value'], '@max' => format_size($max_filesize))));
       }
     }
   }
@@ -389,6 +389,7 @@ function _webform_render_file($component, $value = NULL, $filter = TRUE, $submis
  *   An associative array containing:
  *   - element: A render element representing the file.
  *
+ * @return string
  */
 function theme_webform_managed_file($variables) {
   $element = $variables['element'];
