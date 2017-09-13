@@ -6,6 +6,12 @@
       'adaptiveHeight': true,
       'draggable': false,
       'autoPlay': 7000,
+      arrowShape: {
+        x0: 10,
+        x1: 60, y1: 50,
+        x2: 75, y2: 35,
+        x3: 40
+      }
     });
     // Sliders with thumbnails
     $('.cu-slider-has-thumbnails').each(function(){
