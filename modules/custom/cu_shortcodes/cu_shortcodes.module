@@ -234,7 +234,7 @@ function cu_shortcodes_shortcode_info() {
   );
   $shortcodes['map'] = array(
     'title' => t('Map'),
-    'description' => t('Insert a Google Map'),
+    'description' => t('Insert a Campus or Google Map'),
     'process callback' => 'cu_shortcodes_map',
     'tips callback' => 'cu_shortcodes_map_tips',
     'default settings' => array(),
@@ -792,7 +792,7 @@ function cu_shortcodes_map($attrs, $content = NULL) {
  * Map tips.
  */
 function cu_shortcodes_map_tips($format, $long) {
-  $output = '[map]YOUR GOOGLE MAPS EMBED URL[/map]';
+  $output = '<p>[map size="small/medium/large"]YOUR GOOGLE MAPS EMBED URL[/map]</p><p>[map size="small/medium/large"]YOUR CAMPUS MAP URL[/map]</p>';
   return $output;
 }
 
@@ -800,7 +800,8 @@ function cu_shortcodes_map_tips($format, $long) {
  * Map demo.
  */
 function cu_shortcodes_map_demo() {
-  $output = '<iframe width="100%" height="325" src="https://maps.google.com/?ll=40.079122,-105.088348&spn=0.166286,0.245132&t=m&z=12&amp;ie=UTF8&amp;output=embed"></iframe><br /><a href="https://maps.google.com/?ll=40.079122,-105.088348&spn=0.166286,0.245132&t=m&z=12&amp;ie=UTF8&amp;output=embed">View Larger Map</a>';
+  $output = '<iframe width="100%" height="325" src="https://maps.google.com/?ll=40.079122,-105.088348&spn=0.166286,0.245132&t=m&z=12&amp;ie=UTF8&amp;output=embed"></iframe><br /><a href="https://maps.google.com/?ll=40.079122,-105.088348&spn=0.166286,0.245132&t=m&z=12&amp;ie=UTF8&amp;output=embed">View Larger Map</a> <iframe width="100%" height="325" src="https://www.colorado.edu/map/?id=336&em=1&open=0#?mc/40.004375,-105.264969?z/18"></iframe><a href="https://www.colorado.edu/map/?id=336&em=1&open=0#?mc/40.004375,-105.264969?z/18?sbc">View Larger Map</a>';
+
   return $output;
 }
 /**
@@ -944,7 +945,7 @@ function cu_shortcodes_tweet($attrs, $content = NULL) {
 }
 
 /**
- * Get Tweet tips.
+ * Get tweet tips.
  *
  * @return string
  *   Returns output.
