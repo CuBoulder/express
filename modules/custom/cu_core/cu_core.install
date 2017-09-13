@@ -839,6 +839,42 @@ function cu_core_update_7033() {
   }
 }
 
+/**
+ * Add github events bundle or remove bundle if not in use.
+ */
+function cu_core_update_7034() {
+  // We need to know the 'statistics_id'.
+  module_load_include('inc', 'atlas_statistics');
+  $atlas_statistics = atlas_statistics_get_statistics();
+
+  $result = $atlas_statistics['bundles']['cu_events_bundle']['schema_version'];
+
+  if (isset($result)) {
+    $atlas_id = variable_get('atlas_id');
+    $site_array = atlas_api_request('sites', $atlas_id);
+
+    $bundle = key(_get_code_options('module', 'cu_events_bundle'));
+    $add_bundle = array(
+      $bundle => $bundle,
+    );
+
+    $request_data = array();
+
+    // If the atlas form has been saved and set, then merge our arrays. Otherwise, override the non-existent array.
+    if (isset($site_array['code']['package'])) {
+      $package_array = $site_array['code']['package'];
+      $all_together_now = array_merge($package_array, $add_bundle);
+      $request_data['code']['package'] = $all_together_now;
+    }
+
+    if (!isset($site_array['code']['package'])) {
+      $request_data['code']['package'] = $add_bundle;
+    }
+
+    $request_data['_etag'] = $site_array['_etag'];
+    atlas_api_request('sites', $atlas_id, 'PATCH', $request_data);
+  }
+}
 
 /**
  * Revert features by passing features in an array.
