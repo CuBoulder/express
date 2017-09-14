@@ -53,7 +53,7 @@ class erusGithub {
       $data['info']['datestamp'] = 0;
     }
 
-    // Store data for later
+    // Store data for later.
     $this->setUpdateData($data);
 
     // Make request to GitHub.
@@ -74,13 +74,13 @@ class erusGithub {
 
     // Convert GH data into update modules data.
     $available = $this->map_data($github_data, $machine_name);
-    // Sanitize the status of the data from the original call
-    $this->sanitize_info_data($data);
+    // Sanitize the status of the data from the original call.
+    $this->sanitizeInfoData($data);
 
     // Allow update module to do its magic.
     update_calculate_project_update_status($machine_name, $data, $available);
 
-    // Small hack to show update is available instead of unsupported...
+    // Small hack to show update is available instead of unsupported.
     if ($data['status'] == 3) {
       $data['status'] = 4;
     }
@@ -89,6 +89,8 @@ class erusGithub {
   }
 
   /**
+   * Makes a GET request to GitHub for project data.
+   *
    * @param null|string $project_name
    *   Name of the project that matches GitHub URL.
    *
@@ -114,7 +116,7 @@ class erusGithub {
     // Make request.
     $result = curl_exec($curl);
 
-    // Get some cURL session information back
+    // Get some cURL session information back.
     $info = curl_getinfo($curl);
     $code = $info['http_code'];
     curl_close($curl);
@@ -134,14 +136,15 @@ class erusGithub {
    *   An array of information about project releases.
    *
    * @param string $project_name
-   *   Name of project
+   *   Name of project.
    *
    * @return array
+   *   An array of data formatted for the Update module.
    */
   protected function map_data($releases, $project_name) {
 
     $update_data = $this->getUpdateData();
-    $data = $this->get_default_update_status_available_data_array();
+    $data = $this->getDefaultUpdateStatusAvailableDataArray();
 
     $latest_release = $this->get_latest_release($releases);
     $dev_release = $this->get_latest_dev_release($releases);
@@ -153,9 +156,9 @@ class erusGithub {
     $data['link'] = $this->get_project_url($latest_release);
     $data['last_fetch'] = time();
 
-    $data['recommended_major'] = $this->parse_latest_major($latest_prod_tag);
+    $data['recommended_major'] = $this->parseLatestMajor($latest_prod_tag);
     $data['supported_majors'] = implode(",", range(1, 99));
-    $data['default_major'] = $this->parse_latest_major($latest_prod_tag);
+    $data['default_major'] = $this->parseLatestMajor($latest_prod_tag);
 
     foreach ($releases as $release) {
       $tag_name = $release['tag_name'];
@@ -176,15 +179,15 @@ class erusGithub {
         'name' => $update_data['name'] . ' ' . $tag_name,
         'version' => $tag_name,
         'tag' => $tag_name,
-        'version_major' => $this->parse_latest_major($tag_name),
-        'version_patch' => $this->parse_latest_minor($tag_name),
+        'version_major' => $this->parseLatestMajor($tag_name),
+        'version_patch' => $this->parseLatestMinor($tag_name),
         'version_extra' => @$tag_parts[2],
         'status' => 'published',
         'release_link' => $release['html_url'],
         'download_link' => $download_link,
         'date' => strtotime($release['published_at']),
         'mdhash' => !empty($md5) ? $md5 : md5($release['url']),
-        // just making this stuff up.
+        // Just making this stuff up.
         'filesize' => isset($release['assets'][0]) ? $release['assets'][0]['size'] : 0,
         'files' => "\n  \n  \n  ",
         'terms' => $this->parse_release_terms($release['body']),
@@ -192,13 +195,7 @@ class erusGithub {
 
     }
 
-    // sort by name so that the list shows up as:
-    // 7.x-1.1-alpha1
-    // 7.x-1.0
-    // 7.x-1.0-beta11
-    // 7.x-1.0-beta10
-    // 7.x-1.0-beta9
-
+    // Sort by name so that the list shows up in the right order.
     $keys = array_keys($data['releases']);
 
     uasort($keys, function ($a, $b) {
@@ -219,11 +216,13 @@ class erusGithub {
   /**
    * Look for "Release type:" in the body of a release for tag information.
    * Tags should be a comma separated list
-   * eg: Release type: Bug fixes, New features, Security update
+   * eg: Release type: Bug fixes, New features, Security update.
    *
-   * @param string $string [description]
+   * @param string $string
+   *   Release description.
    *
-   * @return [type]         [description]
+   * @return array
+   *   An array of data containing release types. Defaults to "Bug Fixes".
    */
   protected function parse_release_terms($string = '') {
     $terms = array('Release type' => array());
@@ -249,9 +248,11 @@ class erusGithub {
    * Parses out the md5 checksum value from the body of a release.
    * This is needed for 'drush up' to work
    *
-   * @param  string $string [description]
+   * @param string $string
+   *   String that might contain an MD5 checksum.
    *
-   * @return [type]         [description]
+   * @return bool|string
+   *   An MD5 checksum or FALSE if no matches.
    */
   protected function parse_md5_checksum($string = '') {
     preg_match_all('/md5:.*\n/', $string, $matches);
@@ -265,12 +266,14 @@ class erusGithub {
 
 
   /**
-   * Goes through the releases looking for a release that isnt marked as
+   * Goes through the releases looking for a release that is not marked as
    * a "pre-lease" in the github ui.
    *
-   * @param  [array] $releases [all of the releases from GH]
+   * @param array $releases
+   *   An array of all of the release data from GitHub.
    *
-   * @return [array]           [the latest marked as non prerelease]
+   * @return array|bool
+   *   An array of data for the latest release or FALSE if none.
    */
   protected function get_latest_release($releases) {
     $potentials = array();
@@ -286,7 +289,7 @@ class erusGithub {
       return FALSE;
     }
 
-    // Silly ksort will put 7.x-1.0-alpha1 in front of 7.x-1.0
+    // Silly ksort will put 7.x-1.0-alpha1 in front of 7.x-1.0.
     krsort($potentials);
     $key = array_shift($potentials);
 
@@ -297,15 +300,16 @@ class erusGithub {
     else {
       return $key;
     }
-
   }
 
   /**
-   * Looks for the latest tag marked with pre-release
+   * Looks for the latest tag marked with pre-release.
    *
-   * @param  [type] $releases [description]
+   * @param array $releases
+   *   An array of all of the release data from GitHub.
    *
-   * @return [type]           [description]
+   * @return array
+   *   An array of data for the latest dev release.
    */
   protected function get_latest_dev_release($releases) {
     foreach ($releases as $release) {
@@ -318,9 +322,11 @@ class erusGithub {
   /**
    * Return a link to the github page.
    *
-   * @param  [type] $releases [description]
+   * @param array $release
+   *   An array of data about a specific release on GitHub.
    *
-   * @return [type]           [description]
+   * @return string
+   *   URL of the project on GitHub.
    */
   protected function get_project_url($release) {
     $bits = parse_url($release['html_url']);
@@ -329,13 +335,15 @@ class erusGithub {
   }
 
   /**
-   * [parse_latest_major description]
+   * Used to parse latest minor version from GitHub data.
    *
-   * @param  [type] $tag_name [description]
+   * @param string $tag_name
+   *   Tag name returned from GitHub.
    *
-   * @return [type]           [description]
+   * @return string
+   *   String of version needed for Update module.
    */
-  protected function parse_latest_major($tag_name) {
+  protected function parseLatestMajor($tag_name) {
 
     // Figure out what the currently installed major version is. We need
     // to handle both contribution (e.g. "5.x-1.3", major = 1) and core
@@ -344,17 +352,18 @@ class erusGithub {
     if (preg_match('/^(\d+\.x-)?(\d+)\..*$/', $tag_name, $matches)) {
       return $matches[2];
     }
-
   }
 
   /**
-   * [parse_latest_minor description]
+   * Used to parse latest minor version from GitHub data.
    *
-   * @param  [type] $tag_name [description]
+   * @param string $tag_name
+   *   Tag name of the latest minor release.
    *
-   * @return [type]           [description]
+   * @return string
+   *   String of version needed for Update module.
    */
-  protected function parse_latest_minor($tag_name) {
+  protected function parseLatestMinor($tag_name) {
 
     $big_bits = explode("-", $tag_name);
     $little_bits = explode(".", $big_bits[1]);
@@ -363,11 +372,12 @@ class erusGithub {
   }
 
   /**
-   * Returns an array of default update status fields
+   * Returns an array of default update status fields.
    *
-   * @return [type]                [description]
+   * @return array
+   *   An array of default status update options.
    */
-  protected function get_default_update_status_available_data_array() {
+  protected function getDefaultUpdateStatusAvailableDataArray() {
     return array(
       'title' => '',
       'short_name' => '',
@@ -379,41 +389,22 @@ class erusGithub {
       'default_major' => '1',
       'dev_version' => NULL,
       'project_status' => 'published',
-      // published, insecure, revoked, unpublished, not-fetched
       'link' => '',
       'terms' => '',
       'releases' => array(
-        // 'tag_name' => array(
-        //   'name' => '',
-        //   'version' => '',
-        //   'tag' => '',
-        //   'version_major' => '',
-        //   'version_patch' => '',
-        //   'version_extra' => '',
-        //   'status' => '',
-        //   'release_link' => '',
-        //   'download_link' => '',
-        //   'date' => '',
-        //   'mdhash' => '',
-        //   'filesize' => '',
-        //   'files' => '',
-        //   'terms' => array(
-        //     'Release type' => array(
-        //       'New features', 'Bug fixes',
-        //     )
-        //   ),
-        // )
+
       ),
       'last_fetch' => 0,
     );
   }
 
   /**
-   * Remove status information from data array
+   * Remove status information from data array.
    */
-  protected function sanitize_info_data(&$data) {
+  protected function sanitizeInfoData(&$data) {
     unset($data['project_status']);
     unset($data['status']);
     unset($data['reason']);
   }
+
 }
