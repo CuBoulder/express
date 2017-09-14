@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Archiver implementations provided by the system module.
  * @file
+ * Archiver implementations provided by the system module.
  */
 
 /**

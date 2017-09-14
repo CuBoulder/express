@@ -43,7 +43,7 @@ class ErusGithub {
    * @return bool|array
    *   Update array manipulated to take in account GitHub data.
    */
-  public function process($data) {
+  public function process(array $data) {
 
     // Project machine name.
     $machine_name = $data['info']['project'];
@@ -245,8 +245,7 @@ class ErusGithub {
   }
 
   /**
-   * Parses out the md5 checksum value from the body of a release.
-   * This is needed for 'drush up' to work
+   * Parses out the md5 checksum value from body of a release. Needed for 'drush up' to work.
    *
    * @param string $string
    *   String that might contain an MD5 checksum.
