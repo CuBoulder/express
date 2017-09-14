@@ -57,7 +57,7 @@ class erusGithub {
     $this->setUpdateData($data);
 
     // Make request to GitHub.
-    $github_response = $this->github_request($machine_name);
+    $github_response = $this->githubRequest($machine_name);
 
     $code = $github_response['response_code'];
     $github_data = $github_response['result'];
@@ -73,7 +73,7 @@ class erusGithub {
     }
 
     // Convert GH data into update modules data.
-    $available = $this->map_data($github_data, $machine_name);
+    $available = $this->mapData($github_data, $machine_name);
     // Sanitize the status of the data from the original call.
     $this->sanitizeInfoData($data);
 
@@ -97,7 +97,7 @@ class erusGithub {
    * @return array
    *   Data returned from GitHub API request for releases of project.
    */
-  protected function github_request($project_name = NULL) {
+  protected function githubRequest($project_name = NULL) {
 
     // Setup cURL request.
     $curl = curl_init();
@@ -141,19 +141,19 @@ class erusGithub {
    * @return array
    *   An array of data formatted for the Update module.
    */
-  protected function map_data($releases, $project_name) {
+  protected function mapData($releases, $project_name) {
 
     $update_data = $this->getUpdateData();
     $data = $this->getDefaultUpdateStatusAvailableDataArray();
 
-    $latest_release = $this->get_latest_release($releases);
-    $dev_release = $this->get_latest_dev_release($releases);
+    $latest_release = $this->getLatestRelease($releases);
+    $dev_release = $this->getLatestDevRelease($releases);
 
     $latest_prod_tag = !empty($latest_release['tag_name']) ? $latest_release['tag_name'] : $dev_release["tag_name"];
 
     $data['title'] = $update_data['info']['name'];
     $data['short_name'] = $update_data['name'];
-    $data['link'] = $this->get_project_url($latest_release);
+    $data['link'] = $this->getProjectUrl($latest_release);
     $data['last_fetch'] = time();
 
     $data['recommended_major'] = $this->parseLatestMajor($latest_prod_tag);
@@ -173,7 +173,7 @@ class erusGithub {
       }
 
       // GH doesn't provide a checksum on files. We will have to provide it in the body.
-      $md5 = $this->parse_md5_checksum($release['body']);
+      $md5 = $this->parseMd5Checksum($release['body']);
 
       $data['releases'][$tag_name] = array(
         'name' => $update_data['name'] . ' ' . $tag_name,
@@ -190,7 +190,7 @@ class erusGithub {
         // Just making this stuff up.
         'filesize' => isset($release['assets'][0]) ? $release['assets'][0]['size'] : 0,
         'files' => "\n  \n  \n  ",
-        'terms' => $this->parse_release_terms($release['body']),
+        'terms' => $this->parseReleaseTerms($release['body']),
       );
 
     }
@@ -224,7 +224,7 @@ class erusGithub {
    * @return array
    *   An array of data containing release types. Defaults to "Bug Fixes".
    */
-  protected function parse_release_terms($string = '') {
+  protected function parseReleaseTerms($string = '') {
     $terms = array('Release type' => array());
 
     preg_match_all('/Release type:.*\n/', $string, $matches);
@@ -254,7 +254,7 @@ class erusGithub {
    * @return bool|string
    *   An MD5 checksum or FALSE if no matches.
    */
-  protected function parse_md5_checksum($string = '') {
+  protected function parseMd5Checksum($string = '') {
     preg_match_all('/md5:.*\n/', $string, $matches);
     $found = array_pop($matches);
     if (!empty($found)) {
@@ -275,7 +275,7 @@ class erusGithub {
    * @return array|bool
    *   An array of data for the latest release or FALSE if none.
    */
-  protected function get_latest_release($releases) {
+  protected function getLatestRelease($releases) {
     $potentials = array();
 
     foreach ($releases as $release) {
@@ -311,7 +311,7 @@ class erusGithub {
    * @return array
    *   An array of data for the latest dev release.
    */
-  protected function get_latest_dev_release($releases) {
+  protected function getLatestDevRelease($releases) {
     foreach ($releases as $release) {
       if ($release['prerelease'] == TRUE) {
         return $release;
@@ -328,7 +328,7 @@ class erusGithub {
    * @return string
    *   URL of the project on GitHub.
    */
-  protected function get_project_url($release) {
+  protected function getProjectUrl($release) {
     $bits = parse_url($release['html_url']);
     $its_n_bits = explode("/", ltrim($bits['path'], "/"));
     return $bits['scheme'] . "://" . $bits['host'] . "/" . $its_n_bits[0] . "/" . $its_n_bits[1];
