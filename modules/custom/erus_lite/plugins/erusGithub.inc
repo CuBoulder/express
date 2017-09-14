@@ -8,7 +8,7 @@
  */
 
 /**
- * Class erusGithub
+ * Class erusGithub.
  */
 class erusGithub {
 
@@ -20,7 +20,7 @@ class erusGithub {
    * @param array $data
    *   Data needed by the update module.
    */
-  protected function set_update_data(array $data) {
+  protected function setUpdateData(array $data) {
     $this->updateData = $data;
   }
 
@@ -30,7 +30,7 @@ class erusGithub {
    * @return array
    *   An array of update data.
    */
-  protected function get_update_data() {
+  protected function getUpdateData() {
     return $this->updateData;
   }
 
@@ -40,7 +40,7 @@ class erusGithub {
    * @param array $data
    *   Update data for Drupal project.
    *
-   * @return array
+   * @return bool|array
    *   Update array manipulated to take in account GitHub data.
    */
   public function process($data) {
@@ -54,7 +54,7 @@ class erusGithub {
     }
 
     // Store data for later
-    $this->set_update_data($data);
+    $this->setUpdateData($data);
 
     // Make request to GitHub.
     $github_response = $this->github_request($machine_name);
@@ -140,7 +140,7 @@ class erusGithub {
    */
   protected function map_data($releases, $project_name) {
 
-    $update_data = $this->get_update_data();
+    $update_data = $this->getUpdateData();
     $data = $this->get_default_update_status_available_data_array();
 
     $latest_release = $this->get_latest_release($releases);
@@ -221,7 +221,7 @@ class erusGithub {
    * Tags should be a comma separated list
    * eg: Release type: Bug fixes, New features, Security update
    *
-   * @param  string $string [description]
+   * @param string $string [description]
    *
    * @return [type]         [description]
    */
@@ -241,7 +241,6 @@ class erusGithub {
     else {
       $terms['Release type'] = array('Bug fixes');
     }
-
 
     return $terms;
   }

@@ -11,6 +11,8 @@
 class ArchiverErusTar extends ArchiverTar {
 
   /**
+   * Extracts a file and does stuff to it.
+   *
    * @param string $path
    *   Path to the file to extract.
    *

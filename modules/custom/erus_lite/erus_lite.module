@@ -2,7 +2,6 @@
 
 /**
  * Allows communication with external respository hosts for update checks.
- *
  * @file
  *
  * @author [author] <[email]>
@@ -30,10 +29,11 @@ function erus_lite_update_status_alter(&$projects) {
           if (is_array($erus_data)) {
             $projects[$module_name] = $erus_data;
           }
-        } catch (Exception $e) {
+        }
+        catch (Exception $e) {
           // Double log of messages? Shame on you figure it out.
           watchdog('erus_lite', $e->getMessage(), array(), WATCHDOG_WARNING);
-          watchdog('erus_lite', 'Could not get project updates status information for: ' . $module_name, array(), WATCHDOG_WARNING);
+          watchdog('erus_lite', 'Could not get project updates status information for: !module.', array('!module' => $module_name), WATCHDOG_WARNING);
         }
       }
     }
@@ -77,9 +77,10 @@ function erus_lite_archiver_info_alter(&$info) {
 }
 
 /**
- * Checks info file settings for erus config
+ * Checks info file settings for erus config.
  *
- * @return [mixed]  false if no data,
+ * @return mixed
+ *   False if no data.
  */
 function erus_lite_check_for_settings($machine_name, $type = 'module') {
 
@@ -128,14 +129,14 @@ function erus_lite_parse_project_status_url($url) {
  * Uses the erus plugin defined in the .info file to check for an update status.
  *
  * @param string $machine_name
- *   The modules machine name
+ *   The modules machine name.
  * @param string $type
- *   Either 'module' or 'theme'
+ *   Either 'module' or 'theme'.
  * @param array $data
  *   Optional - The current update status information.
  *
  * @return array
- * An array of update status information. See hook_update_status_alter.
+ *   An array of update status information. See hook_update_status_alter.
  *
  * @throws \Exception
  */
