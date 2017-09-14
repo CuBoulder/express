@@ -1,16 +1,16 @@
 <?php
 
 /**
- * ERUS GitHub plugin.
  * @file
+ * ERUS GitHub plugin.
  *
  * Uses V3 of the github API.
  */
 
 /**
- * Class erusGithub.
+ * Class ErusGithub.
  */
-class erusGithub {
+class ErusGithub {
 
   protected $updateData = array();
 
@@ -63,7 +63,7 @@ class erusGithub {
     $github_data = $github_response['result'];
 
     if ($code !== 200) {
-      watchdog('erus', 'GitHub API returned with response code: ' . $code . ' for: ' . $machine_name, array(), WATCHDOG_ERROR);
+      watchdog('erus', 'GitHub API returned with response code: !code  for: !project.', array('!code' => $code, '!project' => $machine_name), WATCHDOG_ERROR);
       return FALSE;
     }
 
@@ -134,14 +134,13 @@ class erusGithub {
    *
    * @param array $releases
    *   An array of information about project releases.
-   *
    * @param string $project_name
    *   Name of project.
    *
    * @return array
    *   An array of data formatted for the Update module.
    */
-  protected function mapData($releases, $project_name) {
+  protected function mapData(array $releases, $project_name) {
 
     $update_data = $this->getUpdateData();
     $data = $this->getDefaultUpdateStatusAvailableDataArray();
@@ -215,8 +214,9 @@ class erusGithub {
 
   /**
    * Look for "Release type:" in the body of a release for tag information.
-   * Tags should be a comma separated list
-   * eg: Release type: Bug fixes, New features, Security update.
+   *
+   * Tags should be a comma separated list.
+   * E.g. Release type: Bug fixes, New features, Security update.
    *
    * @param string $string
    *   Release description.
@@ -264,10 +264,8 @@ class erusGithub {
     return FALSE;
   }
 
-
   /**
-   * Goes through the releases looking for a release that is not marked as
-   * a "pre-lease" in the github ui.
+   * Goes through the releases looking for a "pre-lease" tag in the github UI.
    *
    * @param array $releases
    *   An array of all of the release data from GitHub.
@@ -275,7 +273,7 @@ class erusGithub {
    * @return array|bool
    *   An array of data for the latest release or FALSE if none.
    */
-  protected function getLatestRelease($releases) {
+  protected function getLatestRelease(array $releases) {
     $potentials = array();
 
     foreach ($releases as $release) {
@@ -311,7 +309,7 @@ class erusGithub {
    * @return array
    *   An array of data for the latest dev release.
    */
-  protected function getLatestDevRelease($releases) {
+  protected function getLatestDevRelease(array $releases) {
     foreach ($releases as $release) {
       if ($release['prerelease'] == TRUE) {
         return $release;
@@ -328,7 +326,7 @@ class erusGithub {
    * @return string
    *   URL of the project on GitHub.
    */
-  protected function getProjectUrl($release) {
+  protected function getProjectUrl(array $release) {
     $bits = parse_url($release['html_url']);
     $its_n_bits = explode("/", ltrim($bits['path'], "/"));
     return $bits['scheme'] . "://" . $bits['host'] . "/" . $its_n_bits[0] . "/" . $its_n_bits[1];
@@ -385,15 +383,13 @@ class erusGithub {
       'api_version' => '7.x',
       'recommended_major' => '1',
       'supported_majors' => '1',
-      // eg: 1,2,3 || 1,2 || 3
+      // E.g: (1,2,3 || 1,2 || 3)
       'default_major' => '1',
       'dev_version' => NULL,
       'project_status' => 'published',
       'link' => '',
       'terms' => '',
-      'releases' => array(
-
-      ),
+      'releases' => array(),
       'last_fetch' => 0,
     );
   }

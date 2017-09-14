@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Allows communication with external respository hosts for update checks.
  * @file
+ * Allows communication with external repository hosts for update checks.
  *
  * @author [author] <[email]>
  * @author [author] <[email]>
@@ -152,7 +152,7 @@ function erus_lite_check_update_status($machine_name, $type = 'module', array $d
   }
 
   // Pass in the erus information and let the plugin do its magic.
-  $plugin = new erusGithub();
+  $plugin = new ErusGithub();
   $processes_data = $plugin->process($data);
 
   // If all is good return the altered data. Otherwise just pass back what we were originally passed.

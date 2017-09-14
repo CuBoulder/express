@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Drush PM Wget extension.
  * @file
+ * Drush PM Wget extension.
  *
  * This is pretty much a copy and paste of the wget package handler that comes
  * from Drush. It has a few minor modifications so that it can support files
