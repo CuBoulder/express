@@ -125,7 +125,7 @@ before_script:
 script:
 
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '@reports' --profile=reports
+  - ./bin/behat --config behat.yml --verbose --tags '@reports' --profile=drush
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
