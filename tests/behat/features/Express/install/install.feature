@@ -20,5 +20,10 @@ Feature: Content Management
         And I press the "Save" button
       Then I should not see the text "Home" in the "Sidebar Second" region
         And I should see the text "Basic Page" in the "Sidebar Second" region
-
+        
+  @drushTest @drush
+  Scenario: Test that all dependencies are defined by profile, core or bundle
+    Given I run drush "core-requirements --severity=2"
+    Then drush output should contain "Error"
+  
   # TODO write test to see no messages in the error regions
