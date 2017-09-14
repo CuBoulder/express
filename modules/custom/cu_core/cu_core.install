@@ -820,6 +820,15 @@ function cu_core_update_7032() {
 }
 
 /**
+ * Express 2.7.0 Update.
+ *
+ * Revert All Features.
+ */
+function cu_core_update_7033() {
+  cu_core_revert_features();
+}
+
+/**
  * Add addtional Express specific UA code.
  */
 function cu_core_update_7033() {
