@@ -118,7 +118,7 @@ before_script:
 
   # Setting Behat environment
   - BUILD_TOP=`dirname $TRAVIS_BUILD_DIR`
-  - BEHAT_PARAMS='{"extensions":{"Drupal\\DrupalExtension":{"drupal":{"drupal_root":"BUILD_TOP/drupal"},"drush":{"root":"BUILD_TOP/drupal"}},"Behat\\MinkExtension":{"base_url":"http://127.0.0.1:8080/","files_path":"/home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/assets/"}}}'
+  - BEHAT_PARAMS=`{"default": {"extensions": {"Drupal\\DrupalExtension": {"drupal": {"drupal_root": "BUILD_TOP/drupal"}},"Behat\\MinkExtension": {"base_url": "http://127.0.0.1:8080/","files_path": "/home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/assets/"}}},"drush": {"extensions": {"Drupal\\DrupalExtension": {"drush": {"root": "BUILD_TOP/drupal"}}}}}`
   - BEHAT_PARAMS=`echo $BEHAT_PARAMS | sed -e s#BUILD_TOP#$BUILD_TOP#`
   - export BEHAT_PARAMS
 
