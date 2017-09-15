@@ -69,7 +69,19 @@ function cu_rss_block_preprocess_entity(&$vars) {
         $xml = preg_replace_callback('/<!\[CDATA\[(.*)\]\]>/', '_cu_rss_block_cdata_filter', $response->data);
 
         // Create new XMLElement
-        $data = new SimpleXMLElement($xml);
+        // $data = new SimpleXMLElement($xml);
+        try {
+          $data = new SimpleXmlElement($xml);
+          if(isset($data->channel->item)){
+            return true;
+          } else {
+            throw new Exception("RSS feed is fookin invalid.");
+            return false;
+          }
+        } catch(Exception $e){
+          /* the data provided is not valid XML */
+          return watchdog('cu_rss_block', 'RSS feed is invalid. Check RSS feed.');
+        }
 
         // Convert into a nice array for us to work with.
         $data = json_encode($data);
