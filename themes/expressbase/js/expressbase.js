@@ -12,11 +12,39 @@
 // - http://www.adequatelygood.com/2010/3/JavaScript-Module-Pattern-In-Depth
 (function ($, Drupal, window, document, undefined) {
   $(document).ready(function(){
-    $("#toggle").click(function() {
+    $("#toggle").click(function(event) {
+      event.preventDefault();
       $("#mobile-navigation-wrapper").slideToggle('fast');
       $("#toggle i.fa").toggleClass('fa-reorder');
       $("#toggle i.fa").toggleClass('fa-times');
-      return false;
+      if ($(this).attr('aria-expanded') == 'true') {
+        $(this).attr('aria-expanded', 'false');
+      }
+      else {
+        $(this).attr('aria-expanded', 'true');
+      }
+    });
+    // Add close messages area
+    var closeMsgs = '<a href="#" class="close-msgs" tabindex="-1"><i class="fa fa-times-circle"></a>';
+    $('.logged-in .express-messages').append(closeMsgs);
+    $('a.close-msgs').click(function(event){
+      event.preventDefault();
+      $('.express-messages').hide();
+    });
+    $('a.search-toggle').click(function(event){
+      event.preventDefault();
+      // If there is no search options, focus on search field
+      // Otherwise focus on search area.
+      var options = $('.search-options .search-option').length;
+      if (options == 0) {
+        $('#search').slideToggle('fast');
+        $('#search #edit-search-keys').focus();
+      }
+      else {
+        $('#search').slideToggle('fast').focus();
+      }
+
+      $('.search-container').addClass('fadeIn');
     });
   });
   $(window).on('resize', function(){

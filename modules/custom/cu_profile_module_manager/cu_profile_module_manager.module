@@ -248,8 +248,7 @@ function cu_profile_module_manager_addon_page() {
       '#type' => 'markup',
       '#markup' => '<p>These are bundles that can be added at any time by site owners. Once you add the bundle,
                     you will receive an email when it has finished downloading. Once downloaded, the bundle will
-                    be available to enable.</p><p>Don\'t see your bundle available in Core yet? It takes a few 
-                    minutes to download. If it takes longer than 15 minutes, contact your site owner for help.</p>',
+                    be available to enable.</p><p>If you have any questions or concerns, contact Web Support for help.</p>',
     ),
   );
 
