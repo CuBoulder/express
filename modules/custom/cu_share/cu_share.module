@@ -428,6 +428,7 @@ function cu_share_block_view($delta = '') {
       if (!path_is_admin(current_path())) {
         // Load settings
         $settings = variable_get('cu_share_settings', '');
+        $node = menu_get_object('node');
         $share_services = _cu_share_services($node);
 
         // Get current url
@@ -448,7 +449,7 @@ function cu_share_block_view($delta = '') {
         // Loop through services
         foreach ($share_services as $key => $share_service) {
           // If service is enabled build the link and list item
-          if ($settings[$key]['enabled']) {
+          if (isset($settings[$key]) && $settings[$key]['enabled']) {
             // Build sharing url
             $url = $share_service['url'] . urlencode($current_url);
             $output .= '<li class="social-share-item">';
