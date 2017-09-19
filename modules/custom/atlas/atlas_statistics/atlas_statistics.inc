@@ -24,6 +24,8 @@ function atlas_statistics_atlas_statistics() {
   $statistics_data = array();
 
   $statistics_data['name'] = variable_get('site_name', NULL);
+  $statistics_data['status'] = variable_get('atlas_status', NULL);
+  $statistics_data['site'] = variable_get('atlas_id', NULL);
 
   // Count Nodes.
   $node_query = db_select('node', 'n');
@@ -62,18 +64,38 @@ function atlas_statistics_atlas_statistics() {
       if (in_array('site_owner', $user->roles)) {
         $usernames_site_contact[] = $user->name;
       }
+      if (in_array('content_editor', $user->roles)) {
+        $usernames_content_editor[] = $user->name;
+      }
+      if (in_array('edit_my_content', $user->roles)) {
+        $usernames_edit_my_content[] = $user->name;
+      }
     }
     if ($user->mail) {
       $useremails[] = $user->mail;
       if (in_array('site_owner', $user->roles)) {
         $useremails_site_contact[] = $user->mail;
       }
+      if (in_array('content_editor', $user->roles)) {
+        $useremails_content_editor[] = $user->mail;
+      }
+      if (in_array('edit_my_content', $user->roles)) {
+        $useremails_edit_my_content[] = $user->mail;
+      }
     }
   }
-  $statistics_data['users']['username']['all'] = $usernames;
+
   $statistics_data['users']['username']['site_contact'] = $usernames_site_contact;
-  $statistics_data['users']['email_address']['all'] = $useremails;
+  $statistics_data['users']['username']['content_editor'] = $usernames_content_editor;
+  $statistics_data['users']['username']['edit_my_content'] = $usernames_edit_my_content;
+
   $statistics_data['users']['email_address']['site_contact'] = $useremails_site_contact;
+  $statistics_data['users']['email_address']['content_editor'] = $useremails_content_editor;
+  $statistics_data['users']['email_address']['edit_my_content'] = $useremails_edit_my_content;
+  
+  $statistics_data['users']['counts']['site_contact'] = count($usernames_site_contact);
+  $statistics_data['users']['counts']['content_editor'] = count($usernames_content_editor);
+  $statistics_data['users']['counts']['edit_my_content'] = count($usernames_edit_my_content);
 
   // Add report of overridden features if the module is enabled and there are
   // overridden features.
@@ -82,9 +104,9 @@ function atlas_statistics_atlas_statistics() {
     $statistics_data['overridden_features'] = $overridden;
   }
 
-  // Returns system status boolean.
+  // Returns system status boolean and resolves to TRUE or FALSE.
   module_load_include('inc', 'system', 'system.admin');
-  $statistics_data['drupal_system_status'] = system_status(TRUE);
+  $statistics_data['drupal_system_status'] = (system_status(TRUE)) ? TRUE : FALSE;
 
   // If webform is enabled then gather its statistics.
   $webform_stats = _atlas_statistics_get_webform_statistics();
