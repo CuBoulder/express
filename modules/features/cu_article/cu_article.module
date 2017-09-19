@@ -749,7 +749,12 @@ function cu_article_preprocess_entity(&$vars) {
  */
 function _cu_article_bean_null_results($vars, $type = NULL) {
   if ($type) {
-    return t('There are no results at this time.');
+    if ($type == 'article_grid') {
+      return array('articles' => t('There are no results at this time.'));
+    }
+    if ($type == 'articles') {
+      return t('There are no results at this time.');
+    }
   }
 }
 
