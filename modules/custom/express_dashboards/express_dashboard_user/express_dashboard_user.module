@@ -66,7 +66,7 @@ function express_dashboard_user_content() {
   }
 
   // Add status.
-  $express_status = module_invoke('express_status', 'block_view', 'express_status');
+  $express_status = module_invoke('cu_status', 'block_view', 'cu_status');
   $output['right']['widgets']['status']['title'] = 'System Status';
   $output['right']['widgets']['status']['content']['#markup'] = $express_status['content'];
 
