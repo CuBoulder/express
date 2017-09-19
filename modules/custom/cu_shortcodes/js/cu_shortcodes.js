@@ -58,6 +58,11 @@
       delay: 10,
       time: 2000,
     });
+
+    $('.map-embed-wrapper').click(function(event){
+      event.preventDefault();
+      $(this).addClass('active');
+    });
   });
 })( jQuery );
 

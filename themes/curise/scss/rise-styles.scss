@@ -128,19 +128,21 @@ body {
 .top-content-wrapper {
   background-color: #fff;
 }
-#content-wrapper {
-  padding-bottom: 20px;
-}
+
 #intro-wide-wrapper,
 #post-wide-wrapper {
   background-color: #fff;
   //@include rgbashadow(0, 3px, 1px, #000, .08);
 }
-.banner-dark #slider-wrapper {
+.banner-dark .slider-wrapper {
   //padding: 20px;
   background-color: #333;
+  color:#fff;
+  a:link, a:visited {
+    color:$cugold;
+  }
 }
-.banner-light #slider-wrapper {
+.banner-light .slider-wrapper {
   background-color: #f2f2f2;
 }
 #page-title-image-wrapper {
@@ -153,7 +155,7 @@ body {
 .page-title-image-boxed {
   padding-top: 50px;
 }
-#slider-wrapper + #page-title-image-wrapper {
+.slider-wrapper + #page-title-image-wrapper {
   margin-top:20px;
 }
 .layout-responsive {
@@ -184,30 +186,32 @@ body {
   .top-content #intro-wide-wrapper + #content-wrapper {
     padding-top: 20px;
     #post-title-wide-wrapper {
-      margin-top: -20px;
+      // margin-top: -20px;
     }
   }
 }
 #page-title-image-section + #content-wrapper {
   padding-top: 0px;
 }
-
+#main-content-wrapper {
+  padding:0;
+}
 #main {
   //background-color: #fff;
   //@include rgbashadow(0, 3px, 1px, #000, .08);
   //margin-bottom: 20px;
 }
-#after-content-wrapper {
+.after-content-wrapper {
   padding-top: 40px 0 20px;
 }
 #after-content2-wrapper {
   background-color: #f2f2f2;
   padding: 40px 0 20px;
 }
-#footer-menu-wrapper {
+.footer-menu-wrapper {
   background-color: transparent;
   position: relative;
-  #footer-navigation {
+  .footer-navigation {
     margin-bottom: -30px;
     border-bottom: 2px solid #333;
   }
@@ -216,16 +220,16 @@ body {
   }
 }
 .footer-menu-gray {
-  #footer-navigation {
+  .footer-navigation {
     background-color: #444;
   }
 }
 .footer-menu-gold {
-  #footer-navigation {
+  .footer-navigation {
     background-color: $cugold;
   }
 }
-#footer-section {
+.footer-section {
   background-color: $bg_dark1;
   color: #fff;
 
@@ -236,18 +240,18 @@ body {
     color:#fff;
   }
 }
-#footer-wrapper {
+.footer-wrapper {
   padding-top: 40px;
   padding-bottom: 20px;
 }
-#site-info-wrapper {
+.site-info-wrapper {
   background-color: $bg_dark2;
 }
-#footer-menu-wrapper + #site-info-wrapper {
+.footer-menu-wrapper + #site-info-wrapper {
   padding-top: 60px;
 }
 
-#feature-layout-wrapper {
+.feature-layout-wrapper {
   padding-top: 20px;
 }
 
@@ -362,7 +366,7 @@ $border: #e7e7e7;
     padding-left: $indent * 6;
   }
   li.expanded  {
-    border-left:1px solid $border;
+    border-left:1px solid $activeBG;
   }
 }
 
@@ -398,6 +402,34 @@ $border: #e7e7e7;
 }
 .page-title-image-background-white #page-title-image-wrapper h1 {
   //background-color: #f5f5f5;
+}
+.exbd-style-dark-gray.exbd-icon-position-default,
+.exbd-style-light-gray.exbd-icon-position-default,
+.exbd-style-lightblue.exbd-icon-position-default,
+.exbd-style-tan.exbd-icon-position-default,
+.exbd-style-outline.exbd-icon-position-default
+ {
+  &.has-block-title {
+    padding-top:45px;
+  }
+  position: relative;
+  h2.block-title {
+    margin-top:-45px;
+    padding:10px;
+    @include rgbashadow(0, 1px, 5px, #000, .15);
+    background: #fff;
+    color:#333;
+  }
+  .block-inner {
+    //@include rgbashadow(0, 3px, 1px, #000, .08);
+  }
+}
+.exbd-style-tan.exbd-icon-position-default,
+.exbd-style-outline.exbd-icon-position-default {
+  h2.block-title {
+    background: #333;
+    color:#fff;
+  }
 }
 /*
 .blockgray,
