@@ -22,8 +22,8 @@ function cu_status_block_view($delta = '') {
   switch ($delta) {
     case 'cu_status':
       drupal_add_js('https://cdn.statuspage.io/se-v2.js', 'external');
-      drupal_add_js(drupal_get_path('module', 'cu_status') . '/js/express-status.js');
-      drupal_add_css(drupal_get_path('module', 'cu_status') . '/css/express-status.css');
+      drupal_add_js(drupal_get_path('module', 'cu_status') . '/js/cu-status.js');
+      drupal_add_css(drupal_get_path('module', 'cu_status') . '/css/cu-status.css');
       $statusio_page = variable_get('cu_status_page', 'https://universityofcoloradoboulder.statuspage.io');
       $statusio_id = variable_get('cu_status_id', '9sm03v9xr9m6');
       $statusio_apikey = variable_get('cu_status_apikey', '');
@@ -37,10 +37,10 @@ function cu_status_block_view($delta = '') {
       $block['subject'] = 'Status';
 
       if (!$statusio_id) {
-        $block['content'] = 'Express Status has not been configured.';
+        $block['content'] = 'CU Status has not been configured.';
       }
       else {
-        $block['content'] = '<div class="express-status">
+        $block['content'] = '<div class="cu-status">
           <div class="status-message"></div>
           <div class="incidents">
             <strong>Incidents</strong>
