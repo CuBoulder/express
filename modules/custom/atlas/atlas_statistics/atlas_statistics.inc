@@ -109,9 +109,21 @@ function atlas_statistics_atlas_statistics() {
   $statistics_data['drupal_system_status'] = (system_status(TRUE)) ? TRUE : FALSE;
 
   // If webform is enabled then gather its statistics.
-  $webform_stats = _atlas_statistics_get_webform_statistics();
   if (module_exists('webform')) {
+    $webform_stats = _atlas_statistics_get_webform_statistics();
     $statistics_data['webforms'] = $webform_stats;
+  }
+
+  // Determine if the SO still is employed by the University.
+  $statistics_data['no_valid_owner'] = !atlas_statistics_valid_owner($usernames_site_contact);
+
+  // If custom_white_logo, custom_black_logo, or custom_logo_retina is set...
+  $a = variable_get('custom_white_logo');
+  $b = variable_get('custom_black_logo');
+  $c = variable_get('custom_logo_retina');
+  if (!empty($a) || !empty($b) || !empty($c)) {
+    // Flag this as an offending site.
+    $statistics_data['custom_logo_settings'] = TRUE;
   }
 
   return $statistics_data;
@@ -200,4 +212,44 @@ function atlas_statistics_webform_is_active($nid, $date = '13 months ago') {
     $last_submission = end($submissions);
     return $last_submission->submitted > strtotime($date);
   }
+}
+
+/**
+ * Determines if this site has any site owners with a valid LDAP entry.
+ *
+ * A valid LDAP entry being one of a current employee or graduate student.
+ *
+ * @param array $usernames_site_contact
+ *   An array of site owner user names.
+ *
+ * @return bool
+ *   TRUE if there's at least one site owner with a valid LDAP entry. FALSE
+ *   otherwise.
+ */
+function atlas_statistics_valid_owner($usernames_site_contact) {
+  // Loop through the site owners.
+  foreach ($usernames_site_contact as $site_owner) {
+    // Load the user's entry in LDAP.
+    $link_identifier = ldap_connect('directory.colorado.edu');
+    $base_dn = "dc=colorado,dc=edu";
+    $filter = "uid=" . $site_owner;
+    $result_identifier = ldap_search($link_identifier, $base_dn, $filter);
+    $ldap_entries = ldap_get_entries($link_identifier, $result_identifier);
+
+    // Loop through LDAP entries in case this user has more than one.
+    foreach ($ldap_entries as $key => $ldap_entry) {
+      // Make sure this is an LDAP entry and not a `count`.
+      if (is_int($key)) {
+        // Determine if the user is a current employee or graduate student.
+        foreach ($ldap_entry['edupersonaffiliation'] as $affiliation) {
+          $is_grad_student = ($ldap_entry['cuedupersonclass'][0] == 'Graduate' && $affiliation == 'Student') ? TRUE : FALSE;
+          if ($affiliation == 'Employee' || $is_grad_student) {
+            return TRUE;
+          }
+        }
+      }
+    }
+  }
+
+  return FALSE;
 }
