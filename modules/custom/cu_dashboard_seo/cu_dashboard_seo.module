@@ -55,8 +55,6 @@ function cu_dashboard_seo_express_help($variables) {
  * Callback function for user dashboard.
  */
 function cu_dashboard_seo_content() {
-  global $user;
-
   $output = array();
 
   if (user_access('view seo dashboard')) {
