@@ -55,15 +55,21 @@ function cu_dashboard_seo_express_help($variables) {
  * Callback function for user dashboard.
  */
 function cu_dashboard_seo_content() {
+  global $user;
+
   $output = array();
 
+  if (user_access('view seo dashboard')) {
+    $output['left']['widgets']['checklist']['title'] = t('Search Engine Optimization Checklist');
+    $output['left']['widgets']['checklist']['content']['#markup'] = cu_dashboard_seo_checklist_output();
 
-  $output['left']['widgets']['checklist']['title'] = t('Search Engine Optimization Checklist');
-  $output['left']['widgets']['checklist']['content']['#markup'] = cu_dashboard_seo_checklist_output();
-
-  $output['right']['widgets']['content_updated']['title'] = 'Content Updated';
-  $output['right']['widgets']['content_updated']['content']['#markup'] = cu_dashboard_seo_last_updated();
-  $output['right']['widgets']['content_updated']['weight'] = 0;
+    $output['right']['widgets']['content_updated']['title'] = 'Content Updated';
+    $output['right']['widgets']['content_updated']['content']['#markup'] = cu_dashboard_seo_last_updated();
+    $output['right']['widgets']['content_updated']['weight'] = 0;
+  } else {
+    drupal_access_denied();
+    exit;
+  }
 
   return $output;
 }
