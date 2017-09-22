@@ -167,7 +167,6 @@ function insert_element_process($element) {
   }
 
   $item = $element['#value'];
-  $field = field_info_field($element['#field_name']);
   $instance = field_info_instance($element['#entity_type'], $element['#field_name'], $element['#bundle']);
 
   $widget_settings = $instance['widget']['settings'];
@@ -307,21 +306,13 @@ function insert_field_widget_settings_form($field, $instance) {
     '#weight' => -10,
   );
 
-
   $form['insert']['insert_absolute'] = array(
-    '#type' => 'radios',
-    '#options' => array(
-      '0' => t('Root: Includes the root path prefix "@base_url" in all links and image tags.', array('@base_url' => $GLOBALS['base_path'])),
-      '1' => t('Absolute: Includes the full URL prefix "@base_url" in all links and image tags.', array('@base_url' => $GLOBALS['base_url'])),
-    ),
+    '#type' => 'checkbox',
     '#title' => t('Use absolute paths'),
-    '#default_value' => isset($settings['insert_absolute']) ? $settings['insert_absolute'] : variable_get('insert_absolute_paths', 'root'),
-    '#description' => t('Options for inserted URLs.'),
+    '#default_value' => isset($settings['insert_absolute']) ? $settings['insert_absolute'] : variable_get('insert_absolute_paths', FALSE),
+    '#description' => t('Includes the full URL prefix "@base_url" in all links and image tags.', array('@base_url' => $GLOBALS['base_url'])),
     '#weight' => -9,
   );
-  if (module_exists('pathologic')) {
-    $form['insert']['insert_absolute']['#options']['2'] = t('Pathologic: Includes the "sites/" prefix in all links and image tags. Requires Pathologic rules to work properly');
-  }
 
   $form['insert']['insert_styles'] = array(
     '#title' => t('Enabled insert styles'),
@@ -396,12 +387,12 @@ function theme_insert_field_widget_settings_styles($variables) {
 /**
  * Utility function to create a URL for Insert.
  *
- * This is modeled after file_create_url(), but with the modification that it
+ * This is modelled after file_create_url(), but with the modification that it
  * will consistently use absolute or relative URLs, depending on the Insert
  * setting.
  */
 function insert_create_url($uri, $absolute = NULL, $clean_urls = TRUE) {
-  $absolute = isset($absolute) ? $absolute : variable_get('insert_absolute_paths', 'root');
+  $absolute = isset($absolute) ? $absolute : variable_get('insert_absolute_paths', FALSE);
 
   // If not using clean URLs, the image derivative callback is only available
   // with the query string. Always use the non-clean URL in the event that the
@@ -414,11 +405,8 @@ function insert_create_url($uri, $absolute = NULL, $clean_urls = TRUE) {
     $url = file_create_url($uri);
   }
 
-  if ($absolute == '1' && strpos($url, $GLOBALS['base_url']) === 0) {
+  if (!$absolute && strpos($url, $GLOBALS['base_url']) === 0) {
     $url = base_path() . ltrim(str_replace($GLOBALS['base_url'], '', $url), '/');
-  }
-  elseif ($absolute == '2' && strpos($url, $GLOBALS['base_url']) === 0) {
-    $url = ltrim(str_replace($GLOBALS['base_url'], '', $url), '/');
   }
   return $url;
 }
