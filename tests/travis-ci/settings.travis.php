@@ -24,48 +24,14 @@ $conf['preprocess_js'] = TRUE;
 // Drupal doesn't cache if we invoke hooks during bootstrap.
 $conf['page_cache_invoke_hooks'] = FALSE;
 
-// Memcache and Varnish Backends.
-/*
-$conf['cache_backends'] = array(
-  'profiles/express/modules/contrib/varnish/varnish.cache.inc',
-  'profiles/express/modules/contrib/memcache/memcache.inc',
-);
-*/
-
 // Setup cache_form bin.
 $conf['cache_class_cache_form'] = 'DrupalDatabaseCache';
-
-// Set varnish as the page cache.
-//$conf['cache_class_cache_page'] = 'VarnishCache';
-
-// Set memcache as default.
-//$conf['cache_default_class'] = 'MemCacheDrupal';
-
-// Memcache bins and stampede protection.
-//$conf['memcache_bins'] = array('cache' => 'default');
-
-// Set to FALSE on Jan 5, 2012 - drastically improved performance.
-/*
-$conf['memcache_stampede_protection'] = FALSE;
-$conf['memcache_stampede_semaphore'] = 15;
-$conf['memcache_stampede_wait_time'] = 5;
-$conf['memcache_stampede_wait_limit'] = 3;
-*/
 
 // Disable poorman cron.
 $conf['cron_safe_threshold'] = 0;
 
 // No IP blocking from the UI, we'll take care of that at a higher level.
 $conf['blocked_ips'] = array();
-
-// Tell Drupal about reverse proxy
-//$conf['reverse_proxy'] = TRUE;
-// Drupal will look for IP in $_SERVER['X-Forwarded-For']
-//$conf['reverse_proxy_header'] = 'X-Forwarded-For';
-// Varnish version
-//$conf['varnish_version'] = 3;
-
-//$base_url = 'http://express.local/' . $path;
 
 # Need to do this to until we can properly support SSL.
 $conf['securepages_enable'] = FALSE;
@@ -85,16 +51,6 @@ $databases = array(
   ),
 );
 
-// Define Varnish Server Pool
-/*
-$conf['reverse_proxy_addresses'] = array('localhost',);
-$conf['varnish_control_terminal'] = 'localhost:6082';
-$conf['varnish_control_key'] = substr(file_get_contents('/etc/varnish/secret'), 0, -1);
-*/
-
-// Memcache
-//$conf['memcache_key_prefix'] = 'drupal';
-
 // Define tmp directory
 $conf['file_temporary_path'] = '/tmp';
 
@@ -103,10 +59,12 @@ $conf['file_temporary_path'] = '/tmp';
 // interfere with the tests.
 error_reporting(E_ERROR | E_PARSE);
 
-
 // Disable metatag for now.
 $conf['metatag_enable_node'] = 0;
 $conf['metatag_enable_file'] = 0;
 $conf['metatag_enable_bean'] = 0;
 $conf['metatag_enable_user'] = 0;
 $conf['metatag_enable_taxonomy_term'] = 0;
+
+// Can't make external requests on Travis CI.
+$conf['drupal_http_request_fails'] = FALSE;

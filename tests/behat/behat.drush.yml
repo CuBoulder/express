@@ -1,0 +1,59 @@
+default:
+  formatters:
+    pretty: true
+  suites:
+    reports:
+      paths: [ %paths.base%/features/Reports ]
+      contexts:
+        - ExpressContext
+        - CuDrushContext
+        - Drupal\DrupalExtension\Context\DrupalContext
+        - Drupal\DrupalExtension\Context\DrushContext
+        - Drupal\DrupalExtension\Context\MinkContext
+        - Drupal\DrupalExtension\Context\MessageContext
+  extensions:
+    Behat\MinkExtension:
+      goutte: ~
+      sessions:
+        my_session:
+          goutte:
+            guzzle_parameters:
+              ssl.certificate_authority: false
+      selenium2: ~
+      javascript_session: selenium2
+      browser_name: firefox
+    Drupal\DrupalExtension:
+      blackbox: ~
+      api_driver: 'drush'
+      drush:
+        root: '/home/travis/build/CuBoulder/drupal'
+      subcontexts:
+        paths:
+          - "./profiles/express/tests/behat"
+      text:
+        username_field: "CU Login Name"
+        password_field: "IdentiKey Password"
+        log_out: "Log out"
+        log_in: "Log in"
+      selectors:
+        message_selector: '.messages'
+        error_message_selector: '.messages.error'
+        success_message_selector: '.messages.status'
+      region_map:
+        Content: ".region.region-content"
+        Branding: "#branding"
+        Search: ".region-search-box"
+        Secondary Menu: "#secondary-menu"
+        Secondary Mobile Menu: "#secondary-menu-mobile"
+        Menu: "#navigation"
+        Sidebar First: ".region-sidebar-first"
+        Sidebar Second: ".region-sidebar-second"
+        Wide Intro: "#intro-wide-wrapper"
+        Slider: ""
+        Help: ""
+        Wide Post: "#post-wide-wrapper"
+        After Content: ""
+        After Content 2: ""
+        Footer: "#section-footer"
+        Site Information: "#site-info-wrapper"
+        Alerts: "#messages-wrapper"

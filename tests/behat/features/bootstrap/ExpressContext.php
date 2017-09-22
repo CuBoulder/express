@@ -147,8 +147,10 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    * @param string $region
    *   The name of the region from the behat.yml file.
    *
-   * @return Behat\Mink\Element\Element
+   * @return \Behat\Mink\Element\Element
    *   An element representing the region.
+   *
+   * @throws \Exception
    */
   public function getRegion($region) {
     $session = $this->getSession();
@@ -237,7 +239,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    */
   public function iWaitForAjax() {
 
-    // Polling for the sake of my intern tests
+    // Polling for the sake of my internal tests.
     $script = '
     var interval = setInterval(function() {
     console.log("checking");
