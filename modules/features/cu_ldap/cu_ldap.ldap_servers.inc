@@ -27,14 +27,14 @@ function cu_ldap_default_ldap_servers() {
   $ldap_servers_conf->basedn = array(
     0 => 'ou=users,dc=colorado,dc=edu',
   );
-  $ldap_servers_conf->user_attr = 'uid';
+  $ldap_servers_conf->user_attr = 'samaccountname';
   $ldap_servers_conf->account_name_attr = '';
   $ldap_servers_conf->mail_attr = 'mail';
   $ldap_servers_conf->mail_template = '';
   $ldap_servers_conf->picture_attr = '';
   $ldap_servers_conf->unique_persistent_attr = '';
   $ldap_servers_conf->unique_persistent_attr_binary = FALSE;
-  $ldap_servers_conf->user_dn_expression = 'uid=%username,%basedn';
+  $ldap_servers_conf->user_dn_expression = 'cn=%username,%basedn';
   $ldap_servers_conf->ldap_to_drupal_user = '';
   $ldap_servers_conf->testing_drupal_username = '';
   $ldap_servers_conf->testing_drupal_user_dn = '';
