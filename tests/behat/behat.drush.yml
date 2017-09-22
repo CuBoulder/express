@@ -25,6 +25,8 @@ default:
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: 'drush'
+      drush:
+        root: '/home/travis/build/CuBoulder/drupal'
       subcontexts:
         paths:
           - "./profiles/express/tests/behat"
