@@ -94,10 +94,13 @@ function webform_emails_form($form, $form_state, $node) {
 /**
  * Theme the node components form. Use a table to organize the components.
  *
- * @param $form
- *   The form array.
- * @return
+ * @param array $variables
+ *   Array with key "form" containing the form array.
+ *
+ * @return string
  *   Formatted HTML form, ready for display.
+ *
+ * @throws Exception
  */
 function theme_webform_emails_form($variables) {
   $form = $variables['form'];
@@ -692,6 +695,9 @@ function webform_email_load($eid, $nid) {
  *
  * @param $email
  *   An array of settings for sending an e-mail.
+ *
+ * @return int|false
+ *   The e-mail identifier for this row's settings on success else false.
  */
 function webform_email_insert($email) {
   // TODO: This is not race-condition safe. Switch to using transactions?
@@ -716,6 +722,9 @@ function webform_email_insert($email) {
  *
  * @param $email
  *   An array of settings for sending an e-mail.
+ *
+ * @return false|int
+ *   The e-mail identifier for this row's settings on success else false.
  */
 function webform_email_clone($email) {
   $email['eid'] = NULL;
@@ -728,6 +737,10 @@ function webform_email_clone($email) {
  * @param $email
  *   An array of settings for sending an e-mail containing a nid, eid, and all
  *   other fields from the e-mail form.
+ *
+ * @return false|int
+ *   On success SAVED_NEW or SAVED_UPDATED, depending on the operation performed,
+ *   false on failure.
  */
 function webform_email_update($email) {
   $email['excluded_components'] = implode(',', $email['excluded_components']);

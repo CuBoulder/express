@@ -703,6 +703,10 @@ function ldap_servers_update_7201() {
   //5. ldap_authentication and ldap_user changes are in variables, not tables
 
   $ldap_authentication_conf_data = variable_get('ldap_authentication_conf', array());
+  if (!is_array($ldap_authentication_conf_data['sids'])) {
+    $ldap_authentication_conf_data['sids'] = array();
+  }
+
   $ldap_user_conf_data = variable_get('ldap_user_conf', array());
 
   $ldap_authentication_sids = array_keys($ldap_authentication_conf_data['sids']);
@@ -757,7 +761,7 @@ function ldap_servers_update_7201() {
       'title' => 'Changes in 7.x-1.x to 7.x-2.x update')
     );
 
-  watchdog('ldap_servers', $summary, WATCHDOG_INFO);
+  watchdog('ldap_servers', $summary, array(), WATCHDOG_INFO);
   return $summary;
 
 
@@ -872,6 +876,15 @@ function ldap_servers_update_7207() {
       variable_set('ldap_servers_require_ssl_for_credentials', $old_var);
       variable_del('ldap_servers_require_ssl_for_credentails');
     }
+}
+
+/**
+ * Removes HTTPS checking.
+ */
+function ldap_servers_update_7208() {
+  variable_del('ldap_servers_require_ssl_for_credentials');
+  return t('HTTPS validation was removed, if you need mixed mode consider another module such as securelogin for this. Mixed mode is strongly discouraged.');
+
 }
 
 function ldap_servers_install_update_schema($schema, &$change_log) {

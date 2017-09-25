@@ -37,6 +37,26 @@ function cu_shortcodes_menu() {
 }
 
 /**
+ * Implements hook_libraries_info().
+ */
+function cu_shortcodes_libraries_info() {
+  $libraries = array();
+  $libraries['waypoints'] = array(
+    'name' => t('Waypoints'),
+    'vendor url' => 'http://imakewebthings.com/waypoints/',
+    'download url' => 'https://github.com/imakewebthings/waypoints',
+    'version' => '0.7.0',
+    'files' => array(
+      'js' => array(
+        'waypoint.js' => array(),
+      ),
+    ),
+  );
+
+  return $libraries;
+}
+
+/**
  * Shortcode demo.
  *
  * @return string
@@ -45,17 +65,20 @@ function cu_shortcodes_menu() {
 function cu_shortcodes_demo() {
   $codes = shortcode_list_all_enabled('wysiwyg');
   ksort($codes);
+  $output = '';
   foreach ($codes as $code) {
-    $output .= '<div class="block shortcode-help"><h2>' . $code['title'] . '</h2>';
-    $output .= '<p class="shortcode-desc">' . $code['description'] . '</p>';
-    $output .= '<div class="shortcode-tip"><p class="shortcode-intro">Use this shortcode:</p>' . call_user_func($code['tips callback']) . '</div>';
-    if (isset($code['demo callback'])) {
-      $output .= '<p class="shortcode-intro">Get this result:</p>' . call_user_func($code['demo callback']);
+    if (!empty($code['tips callback'])) {
+      $output .= '<div class="block shortcode-help"><h2>' . $code['title'] . '</h2>';
+      $output .= '<p class="shortcode-desc">' . $code['description'] . '</p>';
+      $output .= '<div class="shortcode-tip"><p class="shortcode-intro">Use this shortcode:</p>' . call_user_func($code['tips callback'], array('wysiwyg'), array('long')) . '</div>';
+      if (!empty($code['demo callback'])) {
+        $output .= '<p class="shortcode-intro">Get this result:</p>' . call_user_func($code['demo callback']);
+      }
+      if (!empty($code['page callback'])) {
+        $output .= '<p class="shortcode-page"><a href="' . $code['page callback'][1] . '" class="button button-blue">' . $code['page callback'][0] . '</a></p>';
+      }
+      $output .= '</div>';
     }
-    if (!empty($code['page callback'])) {
-      $output .= '<p class="shortcode-page"><a href="' . $code['page callback'][1] . '" class="button button-blue">' . $code['page callback'][0] . '</a></p>';
-    }
-    $output .= '</div>';
   }
   return $output;
 }
@@ -69,6 +92,18 @@ function cu_shortcodes_page_alter(&$page) {
   drupal_add_css(drupal_get_path('module', 'cu_shortcodes') . '/css/cu-shortcodes-columns.css');
   // Add shortcode js.
   drupal_add_js(drupal_get_path('module', 'cu_shortcodes') . '/js/cu_shortcodes.js');
+  drupal_add_js(drupal_get_path('module', 'cu_shortcodes') . '/js/counter.js');
+
+  $path = libraries_get_path('waypoints') . '/waypoint.js';
+  $installed = file_exists($path);
+  if (!$installed) {
+    return;
+  }
+  // Add the library reference.
+  drupal_add_js($path, array(
+    'group' => JS_LIBRARY,
+    'every_page' => TRUE,
+  ));
 }
 
 
@@ -159,6 +194,13 @@ function cu_shortcodes_shortcode_info() {
     'tips callback' => 'cu_shortcodes_columnlist_tips',
     'default settings' => array(),
   );
+  $shortcodes['countup'] = array(
+    'title' => t('Count Up'),
+    'description' => t('Have a number count up to a set value when it comes into view.'),
+    'process callback' => 'cu_shortcodes_countup',
+    'tips callback' => 'cu_shortcodes_countup_tips',
+    'default settings' => array(),
+  );
   $shortcodes['expand'] = array(
     'title' => t('Expand'),
     'description' => t('Hide content in expandable/collapsable areas'),
@@ -187,11 +229,12 @@ function cu_shortcodes_shortcode_info() {
     'title' => t('Image Caption'),
     'description' => t('Add a caption to an image'),
     'process callback' => 'cu_shortcodes_imagecaption',
+    'tips callback' => 'cu_shortcodes_imagecaption_tips',
     'default settings' => array(),
   );
   $shortcodes['map'] = array(
     'title' => t('Map'),
-    'description' => t('Insert a Google Map'),
+    'description' => t('Insert a Campus or Google Map'),
     'process callback' => 'cu_shortcodes_map',
     'tips callback' => 'cu_shortcodes_map_tips',
     'default settings' => array(),
@@ -208,7 +251,14 @@ function cu_shortcodes_shortcode_info() {
     'title' => t('Print'),
     'description' => t('Print page button'),
     'process callback' => 'cu_shortcodes_print',
-    'tips callback' => 'cu_shortcodes_sidebar_print',
+    'tips callback' => 'cu_shortcodes_print_tips',
+    'default settings' => array(),
+  );
+  $shortcodes['responsive-table'] = array(
+    'title' => t('Responsive Table'),
+    'description' => t('Offset, or callout content'),
+    'process callback' => 'cu_shortcodes_responsive_table',
+    'tips callback' => 'cu_shortcodes_responsive_table_tips',
     'default settings' => array(),
   );
   $shortcodes['sidebar'] = array(
@@ -400,7 +450,7 @@ function cu_shortcodes_buttongroup($attrs, $content = NULL) {
     'size' => 'regular',
   ), $attrs));
   $content = str_replace(array('<p>&nbsp;</p>','<p>', '</p>'), array('','',''), $content);
-  $output = '<div class="buttongroup buttongroup-color-' . $color . ' buttongroup-size-' . $size . '">' . $content . '</div>';
+  $output = '<div class="buttongroup buttongroup-color-' . $color . ' buttongroup-size-' . $size . '"><div class="element-max-width-padding"><div class="button-group-content">' . $content . '</div></div></div>';
   return $output;
 }
 
@@ -418,15 +468,23 @@ function cu_shortcodes_buttongroup_tips($format, $long) {
 function cu_shortcodes_callout($attrs, $content = NULL) {
   extract(shortcode_attrs(array(
     'size' => 'small',
+    'float' => 'right',
   ), $attrs));
-  $output = '<div class="feature-layout-callout feature-layout-callout-' . $size . ' clearfix">' . $content . '</div>';
+  $classes = array();
+  $classes[] = 'feature-layout-callout';
+  $classes[] = 'feature-layout-callout-' . $size;
+  $classes[] = 'feature-layout-callout-float-' . $float;
+  $classes[] = 'clearfix';
+
+  $classes = join(' ', $classes);
+  $output = '<div class="' . $classes . '">' . $content . '</div>';
   return $output;
 }
 /**
  * callout shortcode tips.
  */
 function cu_shortcodes_callout_tips($format, $long) {
-  $output = '[callout]Content[/callout]';
+  $output = '[callout size="small/large/xlarge"]Content[/callout]';
   return $output;
 }
 
@@ -500,7 +558,7 @@ function cu_shortcodes_column($attrs, $content = NULL) {
  * Column tips.
  */
 function cu_shortcodes_column_tips($format, $long) {
-  $output = '<p>[column size=one-half]</p><p>your content here</p><p>[/column]</p><p>[column size=one-half order=last]</p><p>your content here</p><p>[/column]</p>';
+  $output = '<p>[column size=one-half]</p><p>Your Content Here</p><p>[/column]</p><p>[column size=one-half order=last]</p><p>Your Content Here</p><p>[/column]</p>';
   return $output;
 }
 
@@ -532,6 +590,24 @@ function cu_shortcodes_columnlist_tips($format, $long) {
  */
 function cu_shortcodes_column_demo() {
   $output = '<div class="content-column column-one-half">your content here</div><div class"content-column column-one-half last">your content here</div><div class="clear"></div>';
+  return $output;
+}
+
+/**
+ * Countup shortcode.
+ */
+function cu_shortcodes_countup($attrs, $content = NULL) {
+  extract(shortcode_attrs(array(), $attrs));
+
+  $output = '<span class="counter">' . $content . '</span>';
+  return $output;
+}
+
+/**
+ * Columnlist tips.
+ */
+function cu_shortcodes_countup_tips($format, $long) {
+  $output = '[countup]5000[/countup]';
   return $output;
 }
 
@@ -606,7 +682,7 @@ function cu_shortcodes_googlecalendar($attrs, $content = NULL ) {
 }
 
 function cu_shortcodes_googlecalendar_tips($format, $long) {
-  $output = '[calendar]https://www.google.com/calendar/embed?title=Faculty%20Planning%20Calendar&height=600&wkst=1&bgcolor=%23FFFFFF&src=fqd9tj22sodte3oosui2h5e13o%40group.calendar.google.com&color=%23875509&src=270ehpc2jeu16j00p4st3nvb2c%40group.calendar.google.com&color=%2342104A&src=jm056q7sfv17ngqj3e4ph60iuk%40group.calendar.google.com&color=%232952A3&src=jazzmountainclimber%40gmail.com&color=%23711616&src=hgk9ielvps4qkv7uehs6q8rc18%40group.calendar.google.com&color=%232F6309&src=625jneetmcajuamdvv3as9tft8%40group.calendar.google.com&color=%236B3304&src=en.usa%23holiday%40group.v.calendar.google.com&color=%23125A12&ctz=America%2FDenver[/calendar]';
+  $output = '[googlecalendar]YOUR GOOGLE CALENDAR EMBED URL[/googlecalendar]';
   return $output;
 }
 
@@ -667,22 +743,44 @@ function cu_shortcodes_imagecaption($attrs, $content = NULL) {
 }
 
 /**
+ * Image Caption tips.
+ */
+function cu_shortcodes_imagecaption_tips($format, $long) {
+  $output = '<p>[imagecaption align="none"]</p> <p>Image</p> <p>Your image caption here</p> <p>[/imagecaption]</p>';
+  return $output;
+}
+
+/**
  * Map shortcode.
  */
 function cu_shortcodes_map($attrs, $content = NULL) {
   extract(shortcode_attrs(array(
-        'type'       => 1,
-      ), $attrs));
+    'type' => 1,
+    'size' => 'small',
+  ), $attrs));
+  $size = 'map-' . check_plain($size);
   if ((strpos($content, 'maps.google.com') !== FALSE) || (strpos($content, 'google.com/map') !== FALSE) || (strpos($content, 'mapsengine.google.com') !== FALSE)){
     $mapurl = $content . "&amp;ie=UTF8&amp;output=embed";
-    $map = '<iframe width="100%" height="325" src="' . $mapurl . '"></iframe>';
-  }
-  elseif (strpos($content, 'colorado.edu/map') !== FALSE) {
-    $mapurl = str_replace('map/?', 'map/?embed=true&', $content);
-    $map = '<iframe width="100%" height="325" src="' . $mapurl . '"></iframe><br /><a href="' . $mapurl . '">View Larger Map</a>';
+    $map = '<iframe width="100%" class="' . $size . '" src="' . $mapurl . '"></iframe>';
   }
   elseif (strpos($content, 'google.com/fusiontables') !== FALSE) {
-    $map = '<iframe width="100%" height="480" src="' . $content . '"></iframe>';
+    $map = '<iframe width="100%" class="' . $size . '" src="' . $content . '"></iframe>';
+  }
+  elseif ((strpos($content, 'myatlascms.com') !== FALSE) || (strpos($content, 'colorado.edu/map') !== FALSE) || (strpos($content, 'map.colorado.edu') !== FALSE)){
+    // Parse url
+    $url = parse_url($content);
+    // Hide print link for embeded map
+    //$url['query'] .= '&ph=1';
+    // Close the sidebar on embeded maps
+    if (!empty($url['fragment'])) {
+      $url['fragment'] .= '?sbc';
+    }
+    else {
+      $url['fragment'] = '?sbc';
+    }
+    // Build the map url
+    $mapurl = cu_shortcodes_join_url($url, FALSE);
+    $map = '<div class="map-embed-wrapper"><iframe width="100%" class="campus-map-embed ' . $size . '" src="' . $mapurl . '"></iframe></div><a href="' . $mapurl . '" class="map-link">View Larger Map</a>';
   }
   else {
     $map = '';
@@ -694,7 +792,7 @@ function cu_shortcodes_map($attrs, $content = NULL) {
  * Map tips.
  */
 function cu_shortcodes_map_tips($format, $long) {
-  $output = '[map]https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3054.215386660962!2d-105.26572850973943!3d40.04829405429418!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876beef682730725%3A0xc7604d66a96a0f1e!2sNorth+Boulder!5e0!3m2!1sen!2sus!4v1400010841644[/map]';
+  $output = '<p>[map size="small/medium/large"]YOUR GOOGLE MAPS EMBED URL[/map]</p><p>[map size="small/medium/large"]YOUR CAMPUS MAP URL[/map]</p>';
   return $output;
 }
 
@@ -702,7 +800,8 @@ function cu_shortcodes_map_tips($format, $long) {
  * Map demo.
  */
 function cu_shortcodes_map_demo() {
-  $output = '<iframe width="100%" height="325" src="https://maps.google.com/?ll=40.079122,-105.088348&spn=0.166286,0.245132&t=m&z=12&amp;ie=UTF8&amp;output=embed"></iframe><br /><a href="https://maps.google.com/?ll=40.079122,-105.088348&spn=0.166286,0.245132&t=m&z=12&amp;ie=UTF8&amp;output=embed">View Larger Map</a>';
+  $output = '<iframe width="100%" height="325" src="https://maps.google.com/?ll=40.079122,-105.088348&spn=0.166286,0.245132&t=m&z=12&amp;ie=UTF8&amp;output=embed"></iframe><br /><a href="https://maps.google.com/?ll=40.079122,-105.088348&spn=0.166286,0.245132&t=m&z=12&amp;ie=UTF8&amp;output=embed">View Larger Map</a> <iframe width="100%" height="325" src="https://www.colorado.edu/map/?id=336&em=1&open=0#?mc/40.004375,-105.264969?z/18"></iframe><a href="https://www.colorado.edu/map/?id=336&em=1&open=0#?mc/40.004375,-105.264969?z/18?sbc">View Larger Map</a>';
+
   return $output;
 }
 /**
@@ -713,6 +812,14 @@ function cu_shortcodes_masonry_images($attrs, $content = NULL) {
         'columns'       => 2,
       ), $attrs));
   $output = '<div class="masonry-images masonry-columns-' . $columns . '">' . $content . '</div>';
+  return $output;
+}
+
+/**
+ * Masonry tips.
+ */
+function cu_shortcodes_masonry_images_tips($format, $long) {
+  $output = '[masonry-images]Insert Images Here[/masonry-images]';
   return $output;
 }
 
@@ -730,6 +837,38 @@ function cu_shortcodes_print($attrs, $content = NULL) {
  */
 function cu_shortcodes_print_tips($format, $long) {
   $output = '[print]Print this page[/print]';
+  return $output;
+}
+
+/**
+ * Responsive Table shortcode.
+ */
+function cu_shortcodes_responsive_table($attrs, $content = NULL) {
+  extract(shortcode_attrs(array(
+    'breakpoint'  => NULL,
+  ), $attrs));
+  $style = '';
+  $class = '';
+  if ($breakpoint) {
+    $breakpoint = $breakpoint . 'px';
+    $class = 'responsive-table-' . $breakpoint;
+    $style = "@media screen and (max-width:$breakpoint) {
+      .$class:before,
+      .$class:after {
+        display: block;
+      }
+    }";
+  }
+
+  $output = '<div class="responsive-table-wrapper ' . $class . '"><div class="responsive-table-wrapper-inner">' . $content . '</div></div><style>' . $style . '</style>';
+  return $output;
+}
+
+/**
+ * Responsive Table tips.
+ */
+function cu_shortcodes_responsive_table_tips($format, $long) {
+  $output = '[responsive-table breakpoint="800"]HTML Table Here[/responsive-table] (Breakpoint attribute is optional)';
   return $output;
 }
 
@@ -814,4 +953,58 @@ function cu_shortcodes_tweet($attrs, $content = NULL) {
 function cu_shortcodes_tweet_tips() {
   $output = '[tweet]https://twitter.com/cubouldernews/status/391253532722360320[/tweet]';
   return $output;
+}
+
+/**
+ * Builds a url from a parse_url generated array.
+ */
+function cu_shortcodes_join_url( $parts, $encode=TRUE )
+{
+    if ( $encode )
+    {
+        if ( isset( $parts['user'] ) )
+            $parts['user']     = rawurlencode( $parts['user'] );
+        if ( isset( $parts['pass'] ) )
+            $parts['pass']     = rawurlencode( $parts['pass'] );
+        if ( isset( $parts['host'] ) &&
+            !preg_match( '!^(\[[\da-f.:]+\]])|([\da-f.:]+)$!ui', $parts['host'] ) )
+            $parts['host']     = rawurlencode( $parts['host'] );
+        if ( !empty( $parts['path'] ) )
+            $parts['path']     = preg_replace( '!%2F!ui', '/',
+                rawurlencode( $parts['path'] ) );
+        if ( isset( $parts['query'] ) )
+            $parts['query']    = rawurlencode( $parts['query'] );
+        if ( isset( $parts['fragment'] ) )
+            $parts['fragment'] = rawurlencode( $parts['fragment'] );
+    }
+
+    $url = '';
+    if ( !empty( $parts['scheme'] ) )
+        $url .= $parts['scheme'] . ':';
+    if ( isset( $parts['host'] ) )
+    {
+        $url .= '//';
+        if ( isset( $parts['user'] ) )
+        {
+            $url .= $parts['user'];
+            if ( isset( $parts['pass'] ) )
+                $url .= ':' . $parts['pass'];
+            $url .= '@';
+        }
+        if ( preg_match( '!^[\da-f]*:[\da-f.:]+$!ui', $parts['host'] ) )
+            $url .= '[' . $parts['host'] . ']'; // IPv6
+        else
+            $url .= $parts['host'];             // IPv4 or name
+        if ( isset( $parts['port'] ) )
+            $url .= ':' . $parts['port'];
+        if ( !empty( $parts['path'] ) && $parts['path'][0] != '/' )
+            $url .= '/';
+    }
+    if ( !empty( $parts['path'] ) )
+        $url .= $parts['path'];
+    if ( isset( $parts['query'] ) )
+        $url .= '?' . $parts['query'];
+    if ( isset( $parts['fragment'] ) )
+        $url .= '#' . $parts['fragment'];
+    return $url;
 }

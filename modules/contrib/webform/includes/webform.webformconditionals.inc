@@ -140,18 +140,18 @@ class WebformConditionals {
               }
               if ($source_component['page_num'] > $page_num) {
                 $errors[$page_num][] = t('A forward reference from page @from, %from to %to was found.',
-                                         array(
-                                            '%from' => $source_component['name'],
-                                            '@from' => $source_component['page_num'],
-                                            '%to' => $component['name'],
-                                         ));
+                  array(
+                    '%from' => $source_component['name'],
+                    '@from' => $source_component['page_num'],
+                    '%to' => $component['name'],
+                  ));
               }
               elseif ($source_component['page_num'] == $page_num && $component['type'] == 'pagebreak') {
                 $errors[$page_num][] = t('The page break %to can\'t be controlled by %from on the same page.',
-                                         array(
-                                            '%from' => $source_component['name'],
-                                            '%to' => $component['name'],
-                                         ));
+                  array(
+                    '%from' => $source_component['name'],
+                    '%to' => $component['name'],
+                  ));
               }
             }
           }
@@ -207,7 +207,7 @@ class WebformConditionals {
         foreach ($nodes as $id => $n) {
           if ($n['in'] || $n['out']) {
             $errors[$page_num][] = t('A circular reference involving %name was found.',
-                                     array('%name' => $components[$id]['name']));
+              array('%name' => $components[$id]['name']));
           }
         }
 
@@ -254,14 +254,14 @@ class WebformConditionals {
       if (webform_node_update_access($this->node)) {
         foreach ($this->errors as $page_num => $page_errors) {
           drupal_set_message(format_plural(count($page_errors),
-                                           'Conditional error on page @num:',
-                                           'Conditional errors on page @num:',
-                                           array('@num' => $page_num)) .
-                             '<br /><ul><li>' . implode('</li><li>', $page_errors) . '</li></ul>', 'warning');
+            'Conditional error on page @num:',
+            'Conditional errors on page @num:',
+            array('@num' => $page_num)) .
+            '<br /><ul><li>' . implode('</li><li>', $page_errors) . '</li></ul>', 'warning');
         }
       }
       else {
-         drupal_set_message(t('This form is improperly configured. Contact the administrator.'), 'warning');
+        drupal_set_message(t('This form is improperly configured. Contact the administrator.'), 'warning');
       }
     }
   }
@@ -366,7 +366,7 @@ class WebformConditionals {
       $this->requiredMap = array_fill(1, count($this->pageMap), array());
       $this->setMap = $this->requiredMap;
       $this->markupMap = $this->requiredMap;
-    } 
+    }
     else {
       array_walk($this->visibilityMap[$page_num], function (&$status) {
         $status = WebformConditionals::componentShown;
@@ -387,7 +387,7 @@ class WebformConditionals {
     $last_page = $page_num ? $page_num : count($this->topologicalOrder);
     for ($page = $first_page; $page <= $last_page; $page++) {
       foreach ($this->topologicalOrder[$page] as $conditional_spec) {
-        
+
         $conditional = $conditionals[$conditional_spec['rgid']];
         $source_page_nums = array();
 
@@ -422,6 +422,21 @@ class WebformConditionals {
               // without building it. It is possible that the component include file
               // hasn't been included yet. See #2529246.
               webform_component_include($source_component['type']);
+
+              // Load missing include files for conditional types.
+              // In the case of the 'string', 'date', and 'time' conditional types, it is
+              // not necessary to load their include files for conditional behavior
+              // because the required functions are already loaded
+              // in webform.conditionals.inc.
+              switch ($conditional_type) {
+                case 'numeric':
+                  module_load_include('inc', 'webform', 'components/number');
+                  break;
+                case 'select':
+                  module_load_include('inc', 'webform', 'components/select');
+                  break;
+              }
+
               $this->executionStackAccumulate($comparison_callback($source_values, $rule['value'], $source_component));
 
               // Record page number to later determine any intra-page dependency on this source.

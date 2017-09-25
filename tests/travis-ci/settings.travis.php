@@ -102,3 +102,11 @@ $conf['file_temporary_path'] = '/tmp';
 // Warnings were causing dumb exceptions in Behat and the messages don't
 // interfere with the tests.
 error_reporting(E_ERROR | E_PARSE);
+
+
+// Disable metatag for now.
+$conf['metatag_enable_node'] = 0;
+$conf['metatag_enable_file'] = 0;
+$conf['metatag_enable_bean'] = 0;
+$conf['metatag_enable_user'] = 0;
+$conf['metatag_enable_taxonomy_term'] = 0;

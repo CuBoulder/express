@@ -68,7 +68,7 @@ function cu_share_output(&$page) {
       $share_services[$key]['#weight'] = $settings[$key]['weight'];
     }
     // Sort services by weight
-    uasort($share_services, function($a, $b) {
+    uasort($share_services, function ($a, $b) {
       return $a['#weight'] - $b['#weight'];
     });
   }
@@ -91,7 +91,7 @@ function cu_share_output(&$page) {
   if (($position == 'side_top') || ($position == 'side_bottom')) {
     $page['page_bottom']['cu_share']['#markup'] = '<ul class="soc social-links-48">' . $output;
     $page['page_bottom']['cu_share']['#prefix'] = '<div class="cu-share-sidebar">';
-    $page['page_bottom']['cu_share']['#suffix'] =  '</div>';
+    $page['page_bottom']['cu_share']['#suffix'] = '</div>';
   }
 
   // Add to content for non-desktop view
@@ -101,10 +101,11 @@ function cu_share_output(&$page) {
   // if side position was set, add mobile inline links class
   if (($position == 'side_top') || ($position == 'side_bottom')) {
     $page['content']['share']['#prefix'] = '<div class="cu-share-inline-mobile block">';
-  } else {
+  }
+  else {
     $page['content']['share']['#prefix'] = '<div class="cu-share-inline block">';
   }
-  $page['content']['share']['#suffix'] =  '</div>';
+  $page['content']['share']['#suffix'] = '</div>';
 
   // Set position of inline links
   if (($position == 'side_bottom') || ($position == 'below_content')) {
@@ -203,7 +204,7 @@ function cu_share_settings_form($form, &$form_state) {
       $share_services[$key]['#weight'] = $settings[$key]['weight'];
     }
     // Sort services by weight
-    uasort($share_services, function($a, $b) {
+    uasort($share_services, function ($a, $b) {
       return $a['#weight'] - $b['#weight'];
     });
   }
@@ -239,7 +240,10 @@ function cu_share_settings_form($form, &$form_state) {
     $weight++;
   }
 
-  $form['submit'] = array('#type' => 'submit', '#value' => t('Save Sharing Settings'));
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Save Sharing Settings'),
+  );
   $form['#submit'][] = 'cu_share_settings_form_submit';
 
   // Add warning message if configurations have not been saved.
@@ -402,8 +406,8 @@ function _cu_share_services() {
     'url' => 'https://www.linkedin.com/shareArticle?mini=true&title=' . $title . '&summary=&source=&url=',
   );
   $options['email'] = array(
-      'name' => 'E-mail',
-      'url' => 'mailto:?body=Check%20this%20out%20-%20',
+    'name' => 'E-mail',
+    'url' => 'mailto:?body=Check%20this%20out%20-%20',
   );
   return $options;
 }
@@ -426,46 +430,47 @@ function cu_share_block_view($delta = '') {
   switch ($delta) {
     case 'cu_share':
       if (!path_is_admin(current_path())) {
-        // Load settings
-        $settings = variable_get('cu_share_settings', '');
-        $share_services = _cu_share_services($node);
+        // Load settings.
+        $settings = variable_get('cu_share_settings', FALSE);
 
-        // Get current url
-        $current_url = url(current_path(), array('absolute' => TRUE));
-
+        // If any services are selected to be shown then add the output to the block.
         if ($settings) {
-          // Assign weights to form services
+          $share_services = _cu_share_services();
+          // Get current url.
+          $current_url = url(current_path(), array('absolute' => TRUE));
+          $output = '';
+
+          // Assign weights to form services.
           foreach ($settings as $key => $setting) {
             $share_services[$key]['#weight'] = $settings[$key]['weight'];
           }
-          // Sort services by weight
-          uasort($share_services, function($a, $b) {
+          // Sort services by weight.
+          uasort($share_services, function ($a, $b) {
             return $a['#weight'] - $b['#weight'];
           });
-        }
 
-        $output = '';
-        // Loop through services
-        foreach ($share_services as $key => $share_service) {
-          // If service is enabled build the link and list item
-          if ($settings[$key]['enabled']) {
-            // Build sharing url
-            $url = $share_service['url'] . urlencode($current_url);
-            $output .= '<li class="social-share-item">';
-            $output .= '<a href="' . $url . '" target="_blank"><span class="socicon soc-' . $key . '"></span><span class="element-invisible">Share via ' . $share_service['name'] . '</span></a>';
-            $output .= '</li>';
+          // Loop through services
+          foreach ($share_services as $key => $share_service) {
+            // If service is enabled build the link and list item
+            if (isset($settings[$key]) && $settings[$key]['enabled']) {
+              // Build sharing url
+              $url = $share_service['url'] . urlencode($current_url);
+              $output .= '<li class="social-share-item">';
+              $output .= '<a href="' . $url . '" target="_blank"><span class="socicon soc-' . $key . '"></span><span class="element-invisible">Share via ' . $share_service['name'] . '</span></a>';
+              $output .= '</li>';
+            }
           }
-        }
-        $output .= '</ul>';
 
-        $block['content']['cu_share']['#markup'] = '<ul class="soc social-links-24"><li>
+          $output .= '</ul>';
+
+          $block['content']['cu_share']['#markup'] = '<ul class="soc social-links-24"><li>
         <span class="social-links-text"><i class="fa fa-share-alt"></i> Share </li></span>' . $output;
-        $block['content']['cu_share']['#prefix'] = '<div class="cu-share-block cu-share-inline block">';
-        $block['content']['cu_share']['#suffix'] =  '</div>';
-
-        return $block;
+          $block['content']['cu_share']['#prefix'] = '<div class="cu-share-block cu-share-inline block">';
+          $block['content']['cu_share']['#suffix'] = '</div>';
+          return $block;
+        }
       }
-    break;
+      break;
   }
 }
 
@@ -529,11 +534,100 @@ function cu_share_context_registry() {
 function cu_share_flush_caches() {
   $mlid = db_query("SELECT mlid FROM {menu_links} WHERE link_path = 'admin/settings/social'")->fetchField();
   // Fix social sharing link.
-  $share_mlid =  db_query("SELECT mlid FROM {menu_links} WHERE link_path = 'admin/settings/social/share'")->fetchField();
+  $share_mlid = db_query("SELECT mlid FROM {menu_links} WHERE link_path = 'admin/settings/social/share'")->fetchField();
   $item = menu_link_load($share_mlid);
-  if($item['mlid']) {
+  if ($item['mlid']) {
     $item['plid'] = $mlid;
     $item['hidden'] = 0;
     menu_link_save($item);
   }
+}
+
+/**
+ * Implements hook_shortcode_info().
+ */
+function cu_share_shortcode_info() {
+  $shortcodes = array();
+  $shortcodes['share_on_twitter'] = array(
+    'title' => t('Share On Twitter'),
+    'description' => t('Create a link and quote for readers to share on Twitter.'),
+    'process callback' => 'cu_share_share_on_twitter',
+    'tips callback' => 'cu_share_share_on_twitter_tips',
+    'default settings' => array(),
+  );
+  return $shortcodes;
+}
+
+/**
+ * Tips function for share_on_twitter shortcode.
+ */
+function cu_share_share_on_twitter_tips($format, $long) {
+  $output = '[share_on_twitter]Text to share on Twitter[/share_on_twitter] or [share_on_twitter text="Text to share on Twitter #hashtag"]Highlighted Text[/share_on_twitter]';
+  return $output;
+}
+
+/**
+ * Process function for share_on_twitter shortcode.
+ */
+function cu_share_share_on_twitter($attrs, $content = NULL) {
+  extract(shortcode_attrs(array(
+    'text' => NULL,
+  ), $attrs));
+  // Character count - 140, url, ellipsis
+
+  // Save original content for inserting later.
+  $original_content = strip_tags($content);
+  // If custom text, save to $content.
+  if ($text) {
+    $content = $text;
+  }
+  $content = strip_tags($content);
+  if (arg(0) == 'node' && is_numeric(arg(1))) {
+    // Get the nid
+    $nid = arg(1);
+    $current_url = url('node/' . $nid, array(
+      'absolute' => TRUE,
+      'alias' => TRUE,
+    ));
+  }
+  else {
+    $current_url = url(current_path(), array('absolute' => TRUE));
+  }
+  // Get the current url.
+  $current_url = url(current_path(), array('absolute' => TRUE));
+
+  // Encode url
+  $encoded_url = urlencode($current_url);
+  // Get the url parts.
+  $url_parts = parse_url($current_url);
+  // Initial domain counts towards 140 characters, so figure out that length.
+  $link_length = strlen($url_parts['scheme'] . '://' . $url_parts['host']);
+  // Total character count is 140, minues domain length, minus 1 spaces
+  $character_count = 140 - $link_length - 1;
+  // If content length is greater than allowed count, truncate.
+  if (strlen($content) > $character_count) {
+    $over = strlen($content) - $link_length - 140 - 4;
+    $content_length = strlen($content);
+    $short_content = substr($content, 0, $over) . '...';
+  }
+  else {
+    $short_content = $content;
+  }
+  // Encode content.
+  $encoded_text = urlencode($short_content);
+  $share_link = '<a href="https://twitter.com/intent/tweet?url=' . $encoded_url . '&text=' . $encoded_text . '" class="share-on-twitter">' . $original_content . '&nbsp;<i class="fa fa-twitter"></i></a>';
+
+  return $share_link;
+}
+
+/**
+ * Implements hook_filter_info_alter().
+ */
+function cu_share_filter_info_alter(&$info) {
+  // Load the wysiwyg text format
+  $format = filter_format_load('wysiwyg');
+  // Get the filters on the wysiwyg text format
+  $filters = filter_list_format($format->format);
+  // Enable countdown shortcode
+  $filters['shortcode']->settings['share_on_twitter'] = 1;
 }
