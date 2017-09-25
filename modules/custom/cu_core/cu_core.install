@@ -29,7 +29,6 @@ function cu_core_install() {
   // these modules need to be enabled late in the install process and/or to be ignored by profile_module_manager's report.
   $module_array = array(
     'cu_users',
-    'express_user_lock',
     'memcache',
     'varnish'  // Adding caching modules here for changes involving Travis CI testing.
   );
@@ -819,13 +818,25 @@ function cu_core_update_7033() {
 }
 
 /**
- * Disable and uninstall securepages.
+ * Express 2.6.2 Update.
+ *
+ * Disable Update Ping, User Lock, Unused Beans.
  */
  function cu_core_update_7034() {
-  module_disable(array('securepages'));
-  drupal_uninstall_modules($module_list = array('securepages'), $uninstall_dependents = FALSE);
+  module_disable(array(
+    'cu_update_ping',
+    'express_user_lock',
+    'cu_unused_beans'
+  ));
 }
 
+/**
+* Disable and uninstall securepages.
+*/
+function cu_core_update_7035() {
+ module_disable(array('securepages'));
+ drupal_uninstall_modules($module_list = array('securepages'), $uninstall_dependents = FALSE);
+}
 
 /**
  * Revert features by passing features in an array.
