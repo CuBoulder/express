@@ -344,7 +344,7 @@ function cu_users_update_7026() {
 /**
  * Remove unused OSR staff and testing accounts.
  */
-function cu_users_update_7026() {
+function cu_users_update_7027() {
   // Remove CU's unused auto-created users.
   $uids = array_keys(user_load_multiple(array(), array('name' => array_keys(cu_users_get_users()), 'login' => 0)));
   user_delete_multiple($uids);
