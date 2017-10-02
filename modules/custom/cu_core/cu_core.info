@@ -26,7 +26,6 @@ dependencies[] = cu_elysia_cron
 
 optional-dependencies[] = cu_users
 optional-dependencies[] = express_user_lock
-optional-dependencies[] = memcache
 optional-dependencies[] = varnish
 optional-dependencies[] = entityreference
 optional-dependencies[] = express_layout
