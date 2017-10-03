@@ -11,7 +11,7 @@ include_once 'cu_search.features.inc';
  */
 function cu_search_menu() {
   $items = array();
-  $items['site-search'] = array(
+  $items['search'] = array(
     'title' => 'Search',
     'page callback' => 'cu_search_page',
     'access callback' => TRUE,
@@ -139,7 +139,7 @@ function cu_search_configs() {
     'value' => 'This site',
     'placeholder' => 'Search ' . $this_site_label,
     'label' => ucfirst($this_site_label),
-    'action' => base_path() . 'site-search',
+    'action' => base_path() . 'search',
   );
   $configs['all'] = array(
     'value' => 'Colorado.edu',
@@ -160,7 +160,7 @@ function cu_search_configs() {
           'value' => $search_values[2],
           'placeholder' => 'Search ' . $label,
           'label' => $label,
-          'action' => $search_values[1] . '/site-search',
+          'action' => $search_values[1] . '/search',
           'search_id' => $search_values[2],
         );
       }
