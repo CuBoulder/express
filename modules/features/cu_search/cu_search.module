@@ -157,11 +157,9 @@ function cu_search_configs() {
         $search_values = explode('|', $search);
         $label = $search_values[0];
         $configs[$label] = array(
-          'value' => $search_values[2],
           'placeholder' => 'Search ' . $label,
           'label' => $label,
           'action' => $search_values[1] . '/search',
-          'search_id' => $search_values[2],
         );
       }
     }
