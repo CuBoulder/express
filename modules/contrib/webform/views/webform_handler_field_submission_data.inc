@@ -188,7 +188,7 @@ class webform_handler_field_submission_data extends views_handler_field {
           $this->view->_webform_components[$nid][$submission->nid][$cid] = $component;
           $submission_node = node_load($submission->nid);
           foreach ($submission_node->webform['components'] as $sub_cid => $sub_component) {
-            if ($sub_component['form_key'] == $component['form_key'] && $sub_component['type'] == $component['type']) {
+            if ((string) $sub_component['form_key'] === (string) $component['form_key'] && $sub_component['type'] == $component['type']) {
               $this->view->_webform_components[$nid][$submission->nid]['webform'] = $submission_node;
               $this->view->_webform_components[$nid][$submission->nid][$cid] = $sub_component;
               break;

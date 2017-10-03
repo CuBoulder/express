@@ -109,9 +109,9 @@ function security_review_get_stored_results() {
     $checks[] = array(
       'namespace'   => $record->namespace,
       'reviewcheck' => $record->reviewcheck,
-      'result'      => $record->result === '1' ? TRUE : FALSE,
+      'result'      => $record->result == '1' ? TRUE : FALSE,
       'lastrun'     => $record->lastrun,
-      'skip'        => $record->skip === '1' ? TRUE : FALSE,
+      'skip'        => $record->skip == '1' ? TRUE : FALSE,
       'skiptime'    => $record->skiptime,
       'skipuid'     => $record->skipuid,
     );

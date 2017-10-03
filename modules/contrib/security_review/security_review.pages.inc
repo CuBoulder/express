@@ -337,7 +337,8 @@ function security_review_toggle_check($type = 'ajax', $check_name) {
  * Helper function creates message for reporting check skip information.
  */
 function _security_review_check_skipped($last_check) {
-  $account = array_pop(user_load_multiple(array($last_check['skipuid'])));
+  $users = user_load_multiple(array($last_check['skipuid']));
+  $account = array_pop($users);
   $time = format_date($last_check['skiptime'], 'medium');
   $message = t('Check marked for skipping on !time by !user', array('!time' => $time, '!user' => theme('username', array('account' => $account))));
   return $message;
@@ -388,7 +389,7 @@ function security_review_check_help($module = NULL, $check_name = NULL) {
   else {
     $output = _security_review_help();
     // List all checks as links to specific help.
-    $output .= '<h3>' . t('Check-specfic help') . '</h3>';
+    $output .= '<h3>' . t('Check-specific help') . '</h3>';
     $output .= '<p>' . t("Details and help on the security review checks. Checks are not always perfectly correct in their procedure and result. Refer to drupal.org handbook documentation if you are unsure how to make the recommended alterations to your configuration or consult the module's README.txt for support.") . '</p>';
     foreach ($checklist as $module => $checks) {
       foreach ($checks as $reviewcheck => $check) {
