@@ -145,7 +145,7 @@ function cu_search_configs() {
     'value' => 'Colorado.edu',
     'placeholder' => 'Search Colorado.edu',
     'label' => 'Colorado.edu',
-    'action' => '/',
+    'action' => '/search',
   );
 
   // Get affiliation searches in a more usable format.
