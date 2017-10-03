@@ -32,11 +32,11 @@ function cu_sitewide_required_context_default_contexts() {
           'region' => 'content',
           'weight' => '0',
         ),
-        'google_appliance-ga_block_search_form' => array(
-          'module' => 'google_appliance',
-          'delta' => 'ga_block_search_form',
+        'cu_search-cu_search' => array(
+          'module' => 'cu_search',
+          'delta' => 'cu_search',
           'region' => 'search_box',
-          'weight' => '-10',
+          'weight' => '-9',
         ),
         'system-help' => array(
           'module' => 'system',
@@ -60,6 +60,38 @@ function cu_sitewide_required_context_default_contexts() {
   t('Sitewide context - name hashed for security by obscurity.');
   t('locked');
   $export['pc2tr40fz12bx'] = $context;
+
+  $context = new stdClass();
+  $context->disabled = FALSE; /* Edit this to true to make a default context disabled initially */
+  $context->api_version = 3;
+  $context->name = 'search_results';
+  $context->description = '';
+  $context->tag = 'locked';
+  $context->conditions = array(
+    'path' => array(
+      'values' => array(
+        'search*' => 'search*',
+      ),
+    ),
+  );
+  $context->reactions = array(
+    'block' => array(
+      'blocks' => array(
+        'cu_search-cu_search_page' => array(
+          'module' => 'cu_search',
+          'delta' => 'cu_search_page',
+          'region' => 'content',
+          'weight' => '0',
+        ),
+      ),
+    ),
+  );
+  $context->condition_mode = 0;
+
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('locked');
+  $export['search_results'] = $context;
 
   return $export;
 }
