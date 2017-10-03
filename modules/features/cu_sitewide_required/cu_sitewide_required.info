@@ -3,7 +3,6 @@ core = 7.x
 package = CU-Core
 version = 7.x-1.0
 dependencies[] = context
-<<<<<<< HEAD
 dependencies[] = ctools
 dependencies[] = cu_search
 dependencies[] = cu_site_info
@@ -11,10 +10,5 @@ dependencies[] = google_appliance
 dependencies[] = rave_alerts
 dependencies[] = context_sitewide_public
 features[context][] = pc2tr40fz12bx
-=======
-dependencies[] = cu_search
-dependencies[] = google_appliance
-dependencies[] = rave_alerts
->>>>>>> 942b465... adding pc2tr40fz12bx context to cu_sitewide_required #1516
 features[ctools][] = context:context:3
 features[features_api][] = api:2

@@ -1,11 +1,7 @@
 <?php
 /**
  * @file
-<<<<<<< HEAD
  * cu_sitewide_required.context.inc
-=======
- * cu_sitewide.context.inc
->>>>>>> 942b465... adding pc2tr40fz12bx context to cu_sitewide_required #1516
  */
 
 /**
@@ -21,44 +17,21 @@ function cu_sitewide_required_context_default_contexts() {
   $context->description = 'Sitewide context - name hashed for security by obscurity.';
   $context->tag = 'locked';
   $context->conditions = array(
-<<<<<<< HEAD
     'sitewide_public' => array(
       'values' => array(
         1 => 1,
-=======
-    'path' => array(
-      'values' => array(
-        '*' => '*',
-        '~admin' => '~admin',
-        '~admin/*' => '~admin/*',
-        '~user' => '~user',
-        '~user/*' => '~user/*',
-        '~node/*/edit' => '~node/*/edit',
-        '~block/*/edit' => '~block/*/edit',
-        '~taxonomy/term/*/edit' => '~taxonomy/term/*/edit',
-        '~node/*/delete' => '~node/*/delete',
-        '~block/*/delete' => '~block/*/delete',
-        '~taxonomy/term/*/delete' => '~taxonomy/term/*/delete',
-        '~node/*/webform*' => '~node/*/webform*',
-        '~node/*/webform-results' => '~node/*/webform-results',
-        '~media/browser/' => '~media/browser',
-        '~node/*/blocks' => '~node/*/blocks',
->>>>>>> 942b465... adding pc2tr40fz12bx context to cu_sitewide_required #1516
       ),
     ),
   );
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-<<<<<<< HEAD
         'system-main' => array(
           'module' => 'system',
           'delta' => 'main',
           'region' => 'content',
           'weight' => '0',
         ),
-=======
->>>>>>> 942b465... adding pc2tr40fz12bx context to cu_sitewide_required #1516
         'google_appliance-ga_block_search_form' => array(
           'module' => 'google_appliance',
           'delta' => 'ga_block_search_form',
@@ -71,15 +44,6 @@ function cu_sitewide_required_context_default_contexts() {
           'region' => 'help',
           'weight' => '-10',
         ),
-<<<<<<< HEAD
-=======
-        'system-main' => array(
-          'module' => 'system',
-          'delta' => 'main',
-          'region' => 'content',
-          'weight' => '0',
-        ),
->>>>>>> 942b465... adding pc2tr40fz12bx context to cu_sitewide_required #1516
         'cu_site_info-site_info' => array(
           'module' => 'cu_site_info',
           'delta' => 'site_info',
