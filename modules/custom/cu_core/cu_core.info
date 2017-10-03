@@ -22,6 +22,9 @@ dependencies[] = express_status
 dependencies[] = realname
 dependencies[] = elysia_cron
 dependencies[] = cu_elysia_cron
+dependencies[] = cu_search
+dependencies[] = google_cse
+
 
 
 optional-dependencies[] = cu_users
