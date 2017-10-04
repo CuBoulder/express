@@ -63,3 +63,5 @@
 #block-google-cse-google-cse .gsc-results .gs-web-image-box img.gs-image, #block-google-cse-google-cse .gsc-results .gs-web-image-box img.gs-promotion-image, #block-google-cse-google-cse .gsc-results .gs-promotion-image-box img.gs-image, #block-google-cse-google-cse .gsc-results .gs-promotion-image-box img.gs-promotion-image { width: 100%; height: auto; display: block; vertical-align: middle; max-width: none; }
 
 .additional-cse-config { border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; }
+
+#block-google-cse-google-cse h2.block-title { display: none; }
