@@ -36,7 +36,7 @@ function cu_search_menu() {
     'file' => 'cu_search.admin.inc'
   );
   $items['admin/config/search/search-settings'] = array(
-    'title' => 'Site Search Settings',
+    'title' => 'Express Site Search Settings',
     'description' => 'Site search settings',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('cu_search_settings_admin_form'),
