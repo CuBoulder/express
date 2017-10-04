@@ -83,6 +83,12 @@ function cu_sitewide_required_context_default_contexts() {
           'region' => 'content',
           'weight' => '0',
         ),
+        'google_cse-google_cse' => array(
+          'module' => 'google_cse',
+          'delta' => 'google_cse',
+          'region' => 'content',
+          'weight' => '1',
+        ),
       ),
     ),
   );
