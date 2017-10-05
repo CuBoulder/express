@@ -38,10 +38,7 @@
       };
       q.onfocus = f;
       q.onblur = b;
-//      if (!/[&?]query=[^&]/.test(l.search)) {
       b();
-//      }
     }
   };
-
 })(jQuery);
