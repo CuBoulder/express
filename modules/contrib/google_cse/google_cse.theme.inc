@@ -56,11 +56,7 @@ function template_preprocess_google_cse_results(&$variables) {
  * Validate GET parameters to avoid displaying inappropriate search results.
  */
 function google_cse_validate_request() {
-  return (
-    (empty($_GET['cx']) || $_GET['cx'] == variable_get('google_cse_cx', '')) &&
-    (empty($_GET['safe']) || $_GET['safe'] == variable_get('google_cse_safe', '')) &&
-    (empty($_GET['sitesearch']) || (($options = google_cse_sitesearch_options()) && isset($options[$_GET['sitesearch']])))
-  );
+  return (empty($_GET['cx']) || $_GET['cx'] == variable_get('google_cse_cx', ''));
 }
 
 /**
@@ -92,15 +88,8 @@ function google_cse_results_searchbox_form($form, &$form_state) {
     '#type' => 'submit',
     '#value' => t('Search'),
   );
-  foreach (google_cse_advanced_settings() as $parameter => $setting) {
-    $form[$parameter] = array(
-      '#type' => 'hidden',
-      '#value' => $setting,
-    );
-  }
   $form['query']['#size'] = intval(variable_get('google_cse_results_searchbox_width', 40));
   $form['query']['#title'] = t('Enter your keywords');
 
-  google_cse_sitesearch_form($form);
   return $form;
 }

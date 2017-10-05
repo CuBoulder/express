@@ -43,6 +43,7 @@
 #block-google-cse-google-cse .cse .gsc-control-cse, #block-google-cse-google-cse .gsc-control-cse { background: none; border: none; padding: 0; }
 
 #block-google-cse-google-cse .gsc-results .gsc-result.gsc-promotion { border: 1px solid #e0e0e0; padding: 10px; font-size: 110%; background: #f7f7f7; margin-bottom: 20px; }
+#block-google-cse-google-cse .gsc-results .gsc-result.gsc-promotion a.gs-title:link *, #block-google-cse-google-cse .gsc-results .gsc-result.gsc-promotion a.gs-title:visited * { color: #005c95; }
 #block-google-cse-google-cse .gsc-results .gsc-result { padding: 10px 0; border-bottom: 1px solid #e0e0e0; }
 #block-google-cse-google-cse .gsc-results .gsc-result .gs-result { display: flex; flex-direction: column; }
 #block-google-cse-google-cse .gsc-results .gsc-result .gs-result .gsc-thumbnail-inside { order: 1; }
