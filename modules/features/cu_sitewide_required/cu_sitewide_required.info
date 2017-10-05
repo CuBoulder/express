@@ -7,7 +7,6 @@ dependencies[] = context_sitewide_public
 dependencies[] = ctools
 dependencies[] = cu_search
 dependencies[] = cu_site_info
-dependencies[] = google_appliance
 dependencies[] = rave_alerts
 features[context][] = pc2tr40fz12bx
 features[context][] = search_results
