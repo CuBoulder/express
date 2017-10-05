@@ -141,11 +141,17 @@ function cu_search_configs() {
     'label' => ucfirst($this_site_label),
     'action' => base_path() . 'search',
   );
+  // @TODO: Improve this
+  $rootsite = 'https://www.colorado.edu/search';
+  if ( $_SERVER['SERVER_NAME'] == 'www-test.colorado.edu') {
+    $rootsite = 'https://www-test.colorado.edu/search';
+  }
+
   $configs['all'] = array(
     'value' => 'Colorado.edu',
     'placeholder' => 'Search Colorado.edu',
     'label' => 'Colorado.edu',
-    'action' => 'https://www.colorado.edu/search',
+    'action' => $rootsite,
   );
 
   // Get affiliation searches in a more usable format.
