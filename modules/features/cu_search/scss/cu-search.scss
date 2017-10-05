@@ -178,6 +178,11 @@ $border_color: #e0e0e0;
     font-size:110%;
     background:#f7f7f7;
     margin-bottom: 20px;
+
+    a.gs-title:link *,
+    a.gs-title:visited * {
+      color: darken($blue, 10%);
+    }
   }
   .gsc-result {
     padding:10px 0;
