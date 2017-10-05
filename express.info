@@ -161,7 +161,6 @@ dependencies[] = video_filter
 ; ============ SEARCH AND ANALYTICS ============
 dependencies[] = cu_googleanalytics
 dependencies[] = googleanalytics
-dependencies[] = google_appliance
 
 ; ============ MENU ============
 dependencies[] = menu_block
