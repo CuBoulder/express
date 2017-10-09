@@ -829,7 +829,19 @@ function cu_core_update_7033() {
     'cu_unused_beans'
   ));
 }
-/*
+
+/**
+ * Express 2.7.0 Update.
+ *
+ * enable google_cse.
+ */
+function cu_core_update_7035() {
+  module_enable(array(
+    'google_cse',
+  ));
+}
+
+/**
  * Express 2.6.5 Update.
  *
  * Disable and uninstall securepages. Need to skip hook numbered 7035 because
@@ -840,6 +852,16 @@ function cu_core_update_7033() {
   drupal_uninstall_modules($module_list = array('securepages'), $uninstall_dependents = FALSE);
 }
 
+/**
+ * Express 2.7.0 Update.
+ *
+ * enable google_cse.
+ */
+ function cu_core_update_7037() {
+  module_enable(array(
+    'google_cse',
+  ));
+}
 
 /**
  * Express 2.7.0 Update.
