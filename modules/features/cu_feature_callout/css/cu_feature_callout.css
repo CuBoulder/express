@@ -23,7 +23,8 @@
 .content-grid-item-single-column .content-grid-text { overflow: hidden; }
 
 .content-grid-style-large_teaser h2.feature-callout-title, .content-grid-style-large_teaser h3.feature-callout-title, .content-grid-style-large_teaser_alt h2.feature-callout-title, .content-grid-style-large_teaser_alt h3.feature-callout-title { font-size: 110%; }
-.content-grid-style-large_teaser .content-grid-item, .content-grid-style-large_teaser_alt .content-grid-item { display: flex; flex-direction: row; flex-wrap: wrap; margin-bottom: 40px; }
+
+.content-grid-style-large_teaser .content-grid-item, .content-grid-style-large_teaser_alt .content-grid-item { display: flex; flex-direction: row; flex-wrap: wrap; margin-bottom: 40px; width: 100%; }
 @media screen and (min-width: 960px) { .content-grid-style-large_teaser .content-grid-text, .content-grid-style-large_teaser_alt .content-grid-text { display: flex; align-items: center; } }
 
 .content-grid-style-large_teaser.row, .content-grid-style-large_teaser_alt.row { margin: 0; }
@@ -77,7 +78,8 @@
 .content-grid-style-overlay .content-grid-image .content-grid-title-wrapper h2, .content-grid-style-overlay .content-grid-image .content-grid-title-wrapper h3 { font-size: 100%; margin: 0; }
 .content-grid-style-overlay .content-grid-image .content-grid-title-wrapper a, .content-grid-style-overlay .content-grid-image .content-grid-title-wrapper span { display: block; padding: 20px; color: #fff; position: relative; }
 .content-grid-style-overlay .content-grid-image .content-grid-title-wrapper a:after { content: " "; height: 1px; position: absolute; bottom: 0; left: 0; right: 0; z-index: 1; border-bottom: 4px solid #007bc8; }
-.content-grid-style-overlay .content-grid-content { padding-top: 10px; }
+
+.content-grid-style-overlay .content-grid-content { padding-top: 10px; display: none; }
 
 .content-grid-style-overlay1 .content-grid-item { position: relative; display: flex; flex-direction: row; overflow: hidden; }
 .content-grid-style-overlay1 .content-grid-image { width: 50%; background-position: center center; background-repeat: no-repeat; background-size: cover; }
