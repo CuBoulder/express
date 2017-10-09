@@ -830,7 +830,7 @@ function cu_core_update_7033() {
   ));
 }
 /*
- * Express 2.6.2 Update.
+ * Express 2.6.5 Update.
  *
  * Disable and uninstall securepages. Need to skip hook numbered 7035 because
  * the homepage will already have run it.
