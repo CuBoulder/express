@@ -56,18 +56,12 @@ function cu_dashboard_seo_express_help($variables) {
  */
 function cu_dashboard_seo_content() {
   $output = array();
+  $output['left']['widgets']['checklist']['title'] = t('Search Engine Optimization Checklist');
+  $output['left']['widgets']['checklist']['content']['#markup'] = cu_dashboard_seo_checklist_output();
 
-  if (user_access('view seo dashboard')) {
-    $output['left']['widgets']['checklist']['title'] = t('Search Engine Optimization Checklist');
-    $output['left']['widgets']['checklist']['content']['#markup'] = cu_dashboard_seo_checklist_output();
-
-    $output['right']['widgets']['content_updated']['title'] = 'Content Updated';
-    $output['right']['widgets']['content_updated']['content']['#markup'] = cu_dashboard_seo_last_updated();
-    $output['right']['widgets']['content_updated']['weight'] = 0;
-  } else {
-    drupal_access_denied();
-    exit;
-  }
+  $output['right']['widgets']['content_updated']['title'] = 'Content Updated';
+  $output['right']['widgets']['content_updated']['content']['#markup'] = cu_dashboard_seo_last_updated();
+  $output['right']['widgets']['content_updated']['weight'] = 0;
 
   return $output;
 }
@@ -92,13 +86,13 @@ function cu_dashboard_seo_secure_permissions($role) {
       'use seo dashboard',
     ),
     'content_editor' => array(
-      'use seo dashboard',
+
     ),
     'developer' => array(
       'use seo dashboard',
     ),
     'edit_my_content' => array(
-      'use seo dashboard',
+
     ),
     'site_owner' => array(
       'use seo dashboard',
