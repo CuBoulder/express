@@ -73,7 +73,6 @@ dependencies[] = globalredirect
 dependencies[] = pathologic
 dependencies[] = pathauto
 dependencies[] = redirect
-dependencies[] = securepages
 dependencies[] = auto_entitylabel
 
 ; Admin UI Improvements
