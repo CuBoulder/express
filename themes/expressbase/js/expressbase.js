@@ -34,7 +34,7 @@
     $('a.search-toggle').click(function(event){
       event.preventDefault();
       $('#search').slideToggle('fast').focus();
-      $('.search-container').addClass('fadeIn');
+      $('.express-search-box-small').addClass('fadeIn');
     });
   });
   $(window).on('resize', function(){

@@ -61,7 +61,7 @@ function _security_review_help_spam() {
 }
 
 function theme_security_review_help_options($element) {
-  $output .= '<div class="sec-rev-help-option">';
+  $output = '<div class="sec-rev-help-option">';
   $output .= l($element['problem'], 'admin/reports/security-review/help', array('fragment' => $element['type'], 'attributes' => array('class' => 'sec-rev-help-dyn')));
   $output .= '<div class="sec-rev-help-content">';
   $output .= '<p>' . $element['description'] . '</p>';
@@ -209,7 +209,7 @@ function security_review_check_failed_logins_help($check = NULL, $skipped_messag
     $element['findings']['descriptions'][] = $skipped_message;
   }
   elseif ($check && $check['result'] == FALSE) {
-    $element['findings']['descriptions'][] = t('The following IPs were observed with an abundanced of failed login attempts.');
+    $element['findings']['descriptions'][] = t('The following IPs were observed with an abundance of failed login attempts.');
     foreach ($check['value'] as $ip) {
       $element['findings']['items'][] = array(
         'safe' => check_plain($ip),
@@ -247,7 +247,7 @@ function security_review_check_admin_permissions_help($check = NULL, $skipped_me
 
 function security_review_check_field_help($check = NULL, $skipped_message = NULL) {
   $element['title'] = t('Dangerous tags in content');
-  $element['descriptions'][] = t('Script and PHP code in content does not align with Drupal best practices and may be a vulnerability if an untrusted user is allowed to edit such content. It is recommended you remove such contents.');
+  $element['descriptions'][] = t('Script and PHP code in content does not align with Drupal best practices and may be a vulnerability if an untrusted user is allowed to edit such content. It is recommended you remove such contents or add the hash of the content to the security_review_known_risky_fields system variable (see the README.txt for more information).');
 
   if (!empty($skipped_message)) {
     $element['findings']['descriptions'][] = $skipped_message;
@@ -271,11 +271,11 @@ function security_review_check_field_help($check = NULL, $skipped_message = NULL
           $uri = $uri_callback($entity);
           $uri = url($uri['path'] . '/edit'); // @todo can this assumption be made?
         }
-        $html = t('@description found in @field field of <a href="!link">@title</a>', array('@field' => $value[$entity->{$id}]['field'], '@description' => $value[$entity->{$id}]['type'], '!link' => $uri, '@title' => $entity->{$label}));
+        $html = t('@description found in @field field of <a href="!link">@title</a> (content hash: %hash).', array('@field' => $value[$entity->{$id}]['field'], '@description' => $value[$entity->{$id}]['type'], '!link' => $uri, '@title' => $entity->{$label}, '%hash' => $value[$entity->{$id}]['hash']));
         $element['findings']['items'][] = array(
           'html' => $html,
-          'safe' => t('@description in @field field of !url', array('@field' => $value[$entity->{$id}]['field'], '@description' => $value[$entity->{$id}], '!url' => $uri)),
-          'raw' => $value[$entity->{$id}] . ':' . $uri,
+          'safe' => t('@description in @field field of !url', array('@field' => $value[$entity->{$id}]['field'], '@description' => $value[$entity->{$id}]['type'], '!url' => $uri)),
+          'raw' => $value[$entity->{$id}]['field'] . ':' . $uri,
         );
       }
     }
@@ -348,7 +348,7 @@ function security_review_check_name_passwords_help($check = NULL, $skipped_messa
         'raw' => $name,
       );
     }
-    $element['findings']['pager'] = theme('pager', NULL, 20);
+    //$element['findings']['pager'] = theme('pager', NULL, 20);
   }
 
   return $element;

@@ -842,6 +842,17 @@ function cu_core_update_7033() {
 
 
 /**
+ * Express 2.7.0 Update.
+ *
+ * enable google_cse.
+ */
+ function cu_core_update_7035() {
+  module_enable(array(
+    'google_cse',
+  ));
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
