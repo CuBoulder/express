@@ -5,8 +5,6 @@ sudo: false
 dist: precise
 
 php:
-  - '5.3'
-  - '5.6'
   - '7.1'
 
 branches:
@@ -18,10 +16,11 @@ addons:
   apt:
     packages:
     - curl
-    - php5-cgi
-    - php5-mysql
-    - php5-curl
-    - php5-gd
+    - php7.1-mysql
+    - php7.1-cgi
+    - php7.1-curl
+    - php7.1-gd
+    - php7.1-opcache
     # See https://github.com/travis-ci/travis-ci/issues/4757#issuecomment-299024359
     - libssl1.0.0
   firefox: '31.0'
@@ -81,9 +80,8 @@ install:
   # Disable sendmail
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
-  # Add memcache, APC
-  - echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo "apc.shm_size=256M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  # Add memcache, OpCache.
+  - echo "extension=opcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "extension=memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Bump up max execution time.
