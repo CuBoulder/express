@@ -3,7 +3,7 @@ language: php
 sudo: false
 
 php:
-  - '7.1'
+  - '7.0'
 
 branches:
   only:
@@ -14,11 +14,6 @@ addons:
   apt:
     packages:
     - curl
-    - php7.1-mysql
-    - php7.1-cgi
-    - php7.1-curl
-    - php7.1-gd
-    - php7.1-opcache
     # See https://github.com/travis-ci/travis-ci/issues/4757#issuecomment-299024359
     - libssl1.0.0
   firefox: '31.0'
