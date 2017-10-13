@@ -50,6 +50,8 @@
 #block-google-cse-google-cse .gsc-results .gsc-result .gs-result .gsc-url-top { order: 3; }
 #block-google-cse-google-cse .gsc-results .gsc-result .gs-result .gsc-table-result { order: 2; }
 #block-google-cse-google-cse .gsc-results .gsc-result .gs-result a.gs-visibleUrl, #block-google-cse-google-cse .gsc-results .gsc-result .gs-result .gs-visibleUrl { color: #757575; }
+#block-google-cse-google-cse .gsc-results .gsc-result .gs-result .gs-spelling a { color: #007bc8; }
+#block-google-cse-google-cse .gsc-results .gsc-result .gs-result .gs-spelling-original { font-size: 75%; }
 #block-google-cse-google-cse .gsc-results .gsc-result .gs-title { height: auto; }
 #block-google-cse-google-cse .gsc-results .gsc-result a.gs-title { color: #007bc8; display: block; text-decoration: none; font-size: 110%; }
 #block-google-cse-google-cse .gsc-results .gsc-result a.gs-title b { font-weight: bold; color: #005c95; }
