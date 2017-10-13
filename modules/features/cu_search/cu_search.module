@@ -74,7 +74,7 @@ function cu_search_page_alter(&$page) {
 function cu_search_form_google_appliance_block_form_alter(&$form, &$form_state, $form_id) {
 
   $action['this'] = $form['#action'];
-  $action['all'] = '/';
+  $action['all'] = '/gsearch/all';
 
   $option = variable_get('cu_search_options', array('this' => 'this'));
   $option = key($option);
