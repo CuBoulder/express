@@ -30,7 +30,7 @@
    'value' => 'Colorado.edu',
    'placeholder' => 'Search Colorado.edu',
    'label' => 'Colorado.edu',
-   'action' => 'http://www.colorado.edu/gsearch/all',
+   'action' => '/gsearch/all',
  );
 ?>
 <?php if (!empty($options)): ?>
