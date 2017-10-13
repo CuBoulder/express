@@ -15,7 +15,7 @@ function cu_search_settings_form($form, &$form_state) {
   );
   $site_search = variable_get('google_cse_cx', NULL);
   if ($site_search) {
-    $form['cu_search_options']['#options']['this'] = 'this site';
+    $form['cu_search_options']['#options']['this'] = t('this site');
     $form['this_site_label'] = array(
       '#title' => 'Custom label for site search.',
       '#type' => 'textfield',
@@ -33,17 +33,37 @@ function cu_search_settings_form($form, &$form_state) {
     }
   }
 
-  // $form['#validation'][] = 'cu_search_settings_form_validate';
+  $form['#validation'][] = 'cu_search_settings_form_validate';
   $form = system_settings_form($form);
   return $form;
 }
 
+/**
+ * Implements hook_form_validate().
+ */
 function cu_search_settings_form_validate($form, &$form_state) {
-// only do validation stuff here (and only here)
-	$options = count($form_state['values']['cu_search_options']);
-	if ($options < 1) {
-		form_set_error('cu_search_options', 'You must select at least one search option');
-	}
+  // only do validation stuff here (and only here)
+
+  $options = count($form_state['values']['cu_search_options']);
+  $all = $form_state['values']['cu_search_options']['all'];
+  if ($options > 1) {
+    $thisone = $form_state['values']['cu_search_options']['this'];
+
+    // Check to see if you are searching 'this' site.
+    if ($form_state['values']['this_site_label'] == '' && $thisone === 'this') {
+      form_set_error('this_site_label', 'You must enter a value for the custom search label.');
+    }
+
+    // Next we want to make sure at least one item is checked.
+    if ($all === 0 && $thisone === 0) {
+      form_set_error('cu_search_options', 'You must select at least one search option');
+    }
+  } else {
+    // If there is no CSE ID, then we're only checking to make sure search colorado.edu goes.
+    if ($all === 0) {
+      form_set_error('cu_search_options', 'You must select at least one search option');
+    }
+  }
 }
 
 function cu_search_settings_admin_form($form, &$form_state) {
