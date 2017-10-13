@@ -49,11 +49,6 @@ function cu_search_settings_form_validate($form, &$form_state) {
   if ($options > 1) {
     $thisone = $form_state['values']['cu_search_options']['this'];
 
-    // First we want to sanitize whatever value goes into the site label piece.
-    $xss_safe = $form_state['values']['this_site_label'];
-    $xss_safe = filter_xss($xss_safe);
-    form_set_value($form['this_site_label'], $xss_safe, $form_state);
-
     // Check to see if you are searching 'this' site.
     if ($form_state['values']['this_site_label'] == '' && $thisone === 'this') {
       form_set_error('this_site_label', 'You must enter a value for the custom search label.');
