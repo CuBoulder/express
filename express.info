@@ -79,6 +79,7 @@ dependencies[] = auto_entitylabel
 dependencies[] = navbar
 dependencies[] = module_filter
 dependencies[] = responsive_preview
+dependencies[] = diff
 
 ; Site Structure
 dependencies[] = cu_site_info
