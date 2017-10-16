@@ -33,18 +33,8 @@
     });
     $('a.search-toggle').click(function(event){
       event.preventDefault();
-      // If there is no search options, focus on search field
-      // Otherwise focus on search area.
-      var options = $('.search-options .search-option').length;
-      if (options == 0) {
-        $('#search').slideToggle('fast');
-        $('#search #edit-search-keys').focus();
-      }
-      else {
-        $('#search').slideToggle('fast').focus();
-      }
-
-      $('.search-container').addClass('fadeIn');
+      $('#search').slideToggle('fast').focus();
+      $('.express-search-box-small').addClass('fadeIn');
     });
   });
   $(window).on('resize', function(){
