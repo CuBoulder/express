@@ -7,3 +7,5 @@
 
 #ignore theming files
 *.sass-cache
+# svn
+*.svn*
