@@ -844,11 +844,12 @@ function cu_core_update_7033() {
 /**
  * Express 2.7.0 Update.
  *
- * enable google_cse.
+ * Enable google_cse and diff modules.
  */
  function cu_core_update_7035() {
   module_enable(array(
     'google_cse',
+    'diff',
   ));
 }
 
