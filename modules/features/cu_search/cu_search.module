@@ -138,7 +138,7 @@ function cu_search_configs() {
   $configs['this'] = array(
     'value' => 'This site',
     'placeholder' => 'Search ' . $this_site_label,
-    'label' => ucfirst($this_site_label),
+    'label' => check_plain(ucfirst($this_site_label)),
     'action' => base_path() . 'search',
   );
   // @TODO: Improve this
