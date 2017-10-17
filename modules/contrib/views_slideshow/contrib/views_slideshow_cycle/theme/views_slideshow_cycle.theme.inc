@@ -8,10 +8,7 @@
 /**
  * Views Slideshow: Theme the main frame wrapper.
  *
- * @param array $vars
- *   Theme variables.
- *
- * @ingroup vss_theme
+ * @ingroup themeable
  */
 function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
   $settings = $vars['settings'];
@@ -70,8 +67,6 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
     $settings['vss_id'] = $vss_id;
   }
 
-  $module_path = drupal_get_path('module', 'views_slideshow_cycle');
-
   // Don't load JavaScript unless libraries module is present.
   if (module_exists('libraries')) {
     // Load jQuery Cycle.
@@ -102,6 +97,7 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
     }
 
     // Load our cycle js.
+    $module_path = drupal_get_path('module', 'views_slideshow_cycle');
     drupal_add_js($module_path . '/js/views_slideshow_cycle.js');
 
     // Load the pause library.
@@ -118,17 +114,17 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
   // Add the slideshow elements.
   $vars['classes_array'][] = 'views_slideshow_cycle_teaser_section';
 
-  $styles = array();
+  $styles = '';
   if (isset($view->display_handler->display->display_options['style_options']['views_slideshow_cycle'])) {
     $styles = $view->display_handler->display->display_options['style_options']['views_slideshow_cycle'];
   }
 
-  $styles_default = array();
+  $styles_default = '';
   if (isset($view->display['default']->display_options['style_options']['views_slideshow_cycle'])) {
     $styles_default = $view->display['default']->display_options['style_options']['views_slideshow_cycle'];
   }
 
-  // Retrieve the number of items per frame.
+  // Retrive the number of items per frame.
   if (isset($styles['items_per_slide']) && $styles['items_per_slide'] > 0) {
     $items_per_slide = $styles['items_per_slide'];
   }
@@ -142,14 +138,11 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
   $vars['items_per_slide'] = $items_per_slide;
 
   $widgets = $vars['options']['widgets'];
-  if (isset($widgets['top']['views_slideshow_pager']['enable']) && $widgets['top']['views_slideshow_pager']['enable']) {
+  if (isset($options['top']['views_slideshow_pager']['enabled']) && $options['top']['views_slideshow_pager']['enabled']) {
     $aria = "aria-labelledby='views_slideshow_pager_field_item_top_${vss_id}_";
   }
-  elseif (isset($widgets['bottom']['views_slideshow_pager']['enable']) && $widgets['bottom']['views_slideshow_pager']['enable']) {
-    $aria = "aria-labelledby='views_slideshow_pager_field_item_bottom_${vss_id}_";
-  }
   else {
-    $aria = "";
+    $aria = "aria-labelledby='views_slideshow_pager_field_item_bottom_${vss_id}_";
   }
 
 
@@ -160,20 +153,14 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
   foreach ($rows as $count => $item) {
     $items[] = $item;
     if (count($items) == $items_per_slide || $count == (count($rows) - 1)) {
-      $slide = array(
+      $rendered_rows .= theme(views_theme_functions('views_slideshow_cycle_main_frame_row', $vars['view'], $vars['view']->display[$vars['view']->current_display]), array(
         'vss_id' => $vss_id,
         'items' => $items,
         'count' => $slideshow_count,
         'view' => $vars['view'],
+        'aria' => $aria . $slideshow_count . "'",
         'last_slide' => $last_slide,
-      );
-      if ($aria) {
-        $slide['aria'] = $aria . $slideshow_count . "'";
-      }
-      else {
-        $slide['aria'] = '';
-      }
-      $rendered_rows .= theme(views_theme_functions('views_slideshow_cycle_main_frame_row', $vars['view'], $vars['view']->display[$vars['view']->current_display]), $slide);
+      ));
       $items = array();
       $slideshow_count++;
     }
@@ -185,10 +172,7 @@ function template_preprocess_views_slideshow_cycle_main_frame(&$vars) {
 /**
  * Views Slideshow slideshow rows.
  *
- * @param array $vars
- *   Theme variables.
- *
- * @ingroup vss_theme
+ * @ingroup themeable
  */
 function template_preprocess_views_slideshow_cycle_main_frame_row(&$vars) {
   $current = $vars['count'] + 1;
@@ -220,11 +204,6 @@ function template_preprocess_views_slideshow_cycle_main_frame_row(&$vars) {
 
 /**
  * Implements hook_preprocess_views_slideshow_cycle_main_frame_row_item().
- *
- * @param array $vars
- *   Theme variables.
- *
- * @ingroup vss_theme
  */
 function template_preprocess_views_slideshow_cycle_main_frame_row_item(&$vars) {
   $vars['classes_array'][] = 'views-row views-row-' . $vars['item_count'];
@@ -244,11 +223,6 @@ function template_preprocess_views_slideshow_cycle_main_frame_row_item(&$vars) {
 
 /**
  * Implements hook_preprocess_views_slideshow_pager_fields().
- *
- * @param array $vars
- *   Theme variables.
- *
- * @ingroup vss_theme
  */
 function views_slideshow_cycle_preprocess_views_slideshow_pager_fields(&$vars) {
   $slide_count = count($vars['view']->result);
@@ -287,11 +261,6 @@ function views_slideshow_cycle_preprocess_views_slideshow_pager_fields(&$vars) {
 
 /**
  * Implements hook_preprocess_views_slideshow_slide_counter().
- *
- * @param array $vars
- *   Theme variables.
- *
- * @ingroup vss_theme
  */
 function views_slideshow_cycle_preprocess_views_slideshow_slide_counter(&$vars) {
   if ($vars['view']->style_options['slideshow_type'] == 'views_slideshow_cycle') {
@@ -301,48 +270,27 @@ function views_slideshow_cycle_preprocess_views_slideshow_slide_counter(&$vars) 
 }
 
 /**
- * Backwards comparability wrapper.
- *
- * @param array $vars
- *   Theme variables.
- *
- * @deprecated Removed in 3.5 when the hook_theme() implementation was fixed.
+ * Backwards compatability wrapper.
  *
  * @see template_preprocess_views_slideshow_cycle_main_frame().
- *
- * @ingroup vss_theme
  */
 function _views_slideshow_cycle_preprocess_views_slideshow_cycle_main_frame(&$vars) {
   template_preprocess_views_slideshow_cycle_main_frame($vars);
 }
 
 /**
- * Backwards compatibility wrapper.
- *
- * @param array $vars
- *   Theme variables.
- *
- * @deprecated Removed in 3.5 when the hook_theme() implementation was fixed.
+ * Backwards compatability wrapper.
  *
  * @see template_preprocess_views_slideshow_cycle_main_frame_row().
- *
- * @ingroup vss_theme
  */
 function _views_slideshow_cycle_preprocess_views_slideshow_cycle_main_frame_row(&$vars) {
   template_preprocess_views_slideshow_cycle_main_frame_row($vars);
 }
 
 /**
- * Backwards compatibility wrapper.
- *
- * @param array $vars
- *   Theme variables.
- *
- * @deprecated Removed in 3.5 when the hook_theme() implementation was fixed.
+ * Backwards compatability wrapper.
  *
  * @see template_preprocess_views_slideshow_cycle_main_frame_row_item().
- *
- * @ingroup vss_theme
  */
 function _views_slideshow_cycle_preprocess_views_slideshow_cycle_main_frame_row_item(&$vars) {
   template_preprocess_views_slideshow_cycle_main_frame_row_item($vars);

@@ -14,22 +14,13 @@ function date_default_formatter_settings_form($field, $instance, $view_mode, $fo
   $formatter = $display['type'];
   $form = array();
 
-  $date_formats = date_format_type_options();
   $form['format_type'] = array(
     '#title' => t('Choose how users view dates and times:'),
     '#type' => 'select',
-    '#options' => $date_formats + array('custom' => t('Custom')),
+    '#options' => date_format_type_options(),
     '#default_value' => $settings['format_type'],
     '#description' => t('To add or edit options, visit <a href="@date-time-page">Date and time settings</a>.', array('@date-time-page' => url('admin/config/regional/date-time'))),
     '#weight' => 0,
-  );
-
-  $form['custom_date_format'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Custom date format'),
-    '#description' => t('If "Custom", see the <a href="@url" target="_blank">PHP manual</a> for date formats. Otherwise, enter the number of different time units to display, which defaults to 2.', array('@url' => 'http://php.net/manual/function.date.php')),
-    '#default_value' => isset($settings['custom_date_format']) ? $settings['custom_date_format'] : '',
-    '#dependency' => array('edit-options-settings-format-type' => array('custom')),
   );
 
   $form['fromto'] = array(
@@ -125,14 +116,6 @@ function date_interval_formatter_settings_form($field, $instance, $view_mode, $f
     '#default_value' => $settings['interval_display'],
     '#weight' => 0,
   );
-  if (!empty($field['settings']['todate'])) {
-    $form['use_end_date'] = array(
-      '#title' => t('Use End date'),
-      '#description' => 'Use the End date, instead of the start date',
-      '#type' => 'checkbox',
-      '#default_value' => $settings['use_end_date'],
-    );
-  }
   return $form;
 }
 
@@ -203,9 +186,7 @@ function date_interval_formatter_settings_summary($field, $instance, $view_mode)
   $display = $instance['display'][$view_mode];
   $settings = $display['settings'];
   $formatter = $display['type'];
-  $field = ($settings['use_end_date'] == 1) ? 'End' : 'Start';
-  $summary[] = t('Display time ago, showing @interval units. Using @field Date',
-      array('@interval' => $settings['interval'], '@field' => $field));
+  $summary[] = t('Display time ago, showing @interval units.', array('@interval' => $settings['interval']));
 
   return $summary;
 }
@@ -292,7 +273,7 @@ function _date_field_instance_settings_form($field, $instance) {
 /**
  * Form validation handler for _date_field_instance_settings_form().
  */
-function _date_field_instance_settings_form_validate(&$form, &$form_state) {
+function date_field_instance_settings_form_validate(&$form, &$form_state) {
   $settings = $form_state['values']['instance']['settings'];
 
   if ($settings['default_value'] == 'strtotime') {
@@ -478,7 +459,7 @@ function _date_field_widget_settings_form($field, $instance) {
 /**
  * Form validation handler for _date_field_widget_settings_form().
  */
-function _date_field_widget_settings_form_validate(&$form, &$form_state) {
+function date_field_widget_settings_form_validate(&$form, &$form_state) {
   // The widget settings are in the wrong place in the form because of #tree on
   // the top level.
   $settings = $form_state['values']['instance']['widget']['settings'];
@@ -580,7 +561,7 @@ function _date_field_settings_form($field, $instance, $has_data) {
   $form['cache_enabled'] = array(
     '#type' => 'checkbox',
     '#title' => t('Cache dates'),
-    '#description' => t('Date objects can be created and cached as date fields are loaded, rather than when they are displayed, to improve performance.'),
+    '#description' => t('Date objects can be created and cached as date fields are loaded rather than when they are displayed to improve performance.'),
     '#default_value' => !empty($settings['cache_enabled']),
     '#weight' => 10,
   );
@@ -613,7 +594,7 @@ function _date_field_settings_form($field, $instance, $has_data) {
 /**
  * Form validation handler for _date_field_settings_form().
  */
-function _date_field_settings_validate(&$form, &$form_state) {
+function date_field_settings_validate(&$form, &$form_state) {
   $field = &$form_state['values']['field'];
 
   if ($field['settings']['tz_handling'] == 'none') {

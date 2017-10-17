@@ -1,8 +1,3 @@
-/**
- * @file
- * Colorbox module style js.
- */
-
 (function ($) {
 
 Drupal.behaviors.initColorboxDefaultStyle = {
