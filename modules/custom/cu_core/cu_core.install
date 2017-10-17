@@ -842,7 +842,7 @@ function cu_core_update_7033() {
 
 
 /**
- * Express 2.6.6 Update.
+ * Express 2.7.0 Update.
  *
  * Enable google_cse and diff modules.
  */
