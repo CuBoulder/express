@@ -100,7 +100,7 @@
         $currentForm.bind('change', {'settings': settings}, Drupal.webform.conditionalCheck);
 
         // Trigger all the elements that cause conditionals on this form.
-        Drupal.webform.doConditions($currentForm, settings);
+        Drupal.webform.doConditions($form, settings);
       });
     });
   };

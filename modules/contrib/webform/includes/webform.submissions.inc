@@ -15,8 +15,7 @@
  *   The node object containing the current webform.
  * @param $submitted
  *   The submitted user values from the webform.
- *
- * @return array
+ * @return
  *   An array suitable for use in the 'data' property of a $submission object.
  */
 function webform_submission_data($node, $submitted) {
@@ -55,7 +54,7 @@ function webform_submission_data($node, $submitted) {
  */
 function webform_submission_create($node, $account, $form_state, $is_preview = FALSE, $prototype = NULL) {
   $data = webform_submission_data($node, $form_state['values']['submitted']);
-  if (is_object($prototype)) {
+  if ($prototype) {
     $submission = clone $prototype;
     $submission->preview = $is_preview;
     $submission->data = $data;
@@ -223,9 +222,6 @@ function webform_submission_delete($node, $submission) {
  * @param $emails
  *   (optional) An array of specific e-mail settings to be used. If omitted, all
  *   e-mails in $node->webform['emails'] will be sent.
- *
- * @return int
- *   Number of mail sent.
  */
 function webform_submission_send_mail($node, $submission, $emails = NULL) {
   global $user;
@@ -325,7 +321,7 @@ function webform_submission_send_mail($node, $submission, $emails = NULL) {
     foreach ($addresses_final as $address) {
       if (_webform_submission_spam_check($address, $email['subject'], $email['from'], $email['headers'])) {
         watchdog('webform', 'Possible spam attempt from @remote !message',
-          array('@remote' => ip_address(), '!message' => "<br />\n" . nl2br(htmlentities($email['message']))));
+                 array('@remote' => ip_address(), '!message'=> "<br />\n" . nl2br(htmlentities($email['message']))));
         drupal_set_message(t('Illegal information. Data not submitted.'), 'error');
         return FALSE;
       }
@@ -433,8 +429,8 @@ function webform_submission_delete_form_submit($form, &$form_state) {
   webform_submission_delete($node, $submission);
   drupal_set_message(t('Submission deleted.'));
 
-  // If no destination query was supplied in the URL (for example, Edit tab),
-  // redirect to the most-privledged destination.
+  // If no destination query was supplied in the URL (e.g. Edit tab), redirect
+  // to the most-privledged destination.
   $form_state['redirect'] = 'node/' . $node->nid .
                             (webform_results_access($node) ? '/webform-results' : '/submissions');
 }
@@ -592,13 +588,10 @@ function webform_submission_resend_submit($form, &$form_state) {
 /**
  * Theme the node components form. Use a table to organize the components.
  *
- * @param array $variables
- *   Array with key "form" containing the form array.
- *
- * @return string
+ * @param $form
+ *   The form array.
+ * @return
  *   Formatted HTML form, ready for display.
- *
- * @throws Exception
  */
 function theme_webform_submission_resend($variables) {
   $form = $variables['form'];
@@ -690,9 +683,6 @@ function webform_submission_render($node, $submission, $email, $format, $exclude
  *   table, pass the array header of the table.
  * @param $pager_count
  *   Optional. The number of submissions to include in the results.
- *
- * @return array
- *   Array of submission data for a particular node.
  */
 function webform_get_submissions($filters = array(), $header = NULL, $pager_count = 0) {
   return webform_get_submissions_load(webform_get_submissions_query($filters, $header, $pager_count));
@@ -713,8 +703,6 @@ function webform_get_submissions($filters = array(), $header = NULL, $pager_coun
  *   table, pass the array header of the table.
  * @param $pager_count
  *   Optional. The number of submissions to include in the results.
- *
- * @return QueryExtendableInterface|SelectQueryInterface
  */
 function webform_get_submissions_query($filters = array(), $header = NULL, $pager_count = 0) {
   if (!is_array($filters)) {
@@ -957,7 +945,7 @@ function _webform_submission_spam_check($to, $subject, $from, $headers = array()
  *   Optional parameter. Specify the account you want to check the limit
  *   against.
  *
- * @return bool
+ * @return
  *   Boolean TRUE if the user has exceeded their limit. FALSE otherwise.
  */
 function webform_submission_user_limit_check($node, $account = NULL) {
@@ -1034,8 +1022,7 @@ function webform_submission_user_limit_check($node, $account = NULL) {
  *
  * @param $node
  *   The webform node to be checked.
- *
- * @return bool
+ * @return
  *   Boolean TRUE if the form has exceeded it's limit. FALSE otherwise.
  */
 function webform_submission_total_limit_check($node) {
