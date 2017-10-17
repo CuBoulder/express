@@ -79,6 +79,7 @@ dependencies[] = auto_entitylabel
 dependencies[] = navbar
 dependencies[] = module_filter
 dependencies[] = responsive_preview
+dependencies[] = diff
 
 ; Site Structure
 dependencies[] = cu_site_info
@@ -119,6 +120,7 @@ dependencies[] = cu_page
 dependencies[] = cu_alerts
 dependencies[] = cu_search
 dependencies[] = cu_sitewide
+dependencies[] = cu_sitewide_required
 dependencies[] = cu_slider
 dependencies[] = cu_faq
 dependencies[] = cu_hero_unit
@@ -159,7 +161,6 @@ dependencies[] = video_filter
 ; ============ SEARCH AND ANALYTICS ============
 dependencies[] = cu_googleanalytics
 dependencies[] = googleanalytics
-dependencies[] = google_appliance
 
 ; ============ MENU ============
 dependencies[] = menu_block
