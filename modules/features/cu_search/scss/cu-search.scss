@@ -202,6 +202,12 @@ $border_color: #e0e0e0;
       a.gs-visibleUrl, .gs-visibleUrl {
         color:#757575;
       }
+      .gs-spelling a {
+        color:$blue;
+      }
+      .gs-spelling-original {
+        font-size:75%;
+      }
     }
 
     // margin-bottom:10px;
