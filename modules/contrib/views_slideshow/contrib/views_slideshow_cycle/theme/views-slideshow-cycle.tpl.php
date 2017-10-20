@@ -3,8 +3,6 @@
 /**
  * @file
  * Views Slideshow: Single Frame template file.
- *
- * @ingroup vss_templates
  */
 ?>
 
