@@ -67,7 +67,7 @@ function cu_dashboard_seo_content() {
   $output['right']['widgets']['content_updated']['weight'] = 0;
 
   if (module_exists('google_analytics_reports')) {
-    $output['right']['widgets']['404 Pages']['title'] = 'Most Viewed 404 Pages';
+    $output['right']['widgets']['404 Pages']['title'] = 'Top 404s';
     $output['right']['widgets']['404 Pages']['content']['#markup'] = cu_dashboard_seo_need_redirect();
     $output['right']['widgets']['404 Pages']['weight'] = 1;
   }
