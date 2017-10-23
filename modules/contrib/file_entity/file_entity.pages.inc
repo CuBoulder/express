@@ -90,7 +90,7 @@ function file_entity_add_upload($form, &$form_state, $options = array()) {
     'enabledPlugins' => array(),
     'schemes' => array(),
     'max_filesize' => '',
-    'uri_scheme' => 'public',
+    'uri_scheme' => file_default_scheme(),
     'plugins' => ''
   );
 
@@ -511,7 +511,7 @@ function file_entity_add_upload_submit($form, &$form_state) {
 function file_entity_upload_destination_uri(array $params, array $data = array()) {
   $params += array(
     'uri_scheme' => file_default_scheme(),
-    'file_directory' => '',
+    'file_directory' => variable_get('file_entity_default_file_directory', ''),
   );
 
   $destination = trim($params['file_directory'], '/');
