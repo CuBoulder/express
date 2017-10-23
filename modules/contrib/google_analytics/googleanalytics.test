@@ -83,7 +83,7 @@ class GoogleAnalyticsBasicTest extends DrupalWebTestCase {
     // Verify that no tracking code is embedded into the webpage; if there is
     // only the module installed, but UA code not configured. See #2246991.
     $this->drupalGet('');
-    $this->assertNoRaw('//www.google-analytics.com/analytics.js', '[testGoogleAnalyticsPageVisibility]: Tracking code is not displayed without UA code configured.');
+    $this->assertNoRaw('https://www.google-analytics.com/analytics.js', '[testGoogleAnalyticsPageVisibility]: Tracking code is not displayed without UA code configured.');
 
     $ua_code = 'UA-123456-1';
     variable_set('googleanalytics_account', $ua_code);
@@ -104,7 +104,7 @@ class GoogleAnalyticsBasicTest extends DrupalWebTestCase {
     $this->assertNoRaw($ua_code, '[testGoogleAnalyticsPageVisibility]: Tracking code is not displayed on admin page.');
     $this->drupalGet('admin/config/system/googleanalytics');
     // Checking for tracking code URI here, as $ua_code is displayed in the form.
-    $this->assertNoRaw('//www.google-analytics.com/analytics.js', '[testGoogleAnalyticsPageVisibility]: Tracking code is not displayed on admin subpage.');
+    $this->assertNoRaw('https://www.google-analytics.com/analytics.js', '[testGoogleAnalyticsPageVisibility]: Tracking code is not displayed on admin subpage.');
 
     // Test whether tracking code display is properly flipped.
     variable_set('googleanalytics_visibility_pages', 1);
@@ -112,7 +112,7 @@ class GoogleAnalyticsBasicTest extends DrupalWebTestCase {
     $this->assertRaw($ua_code, '[testGoogleAnalyticsPageVisibility]: Tracking code is displayed on admin page.');
     $this->drupalGet('admin/config/system/googleanalytics');
     // Checking for tracking code URI here, as $ua_code is displayed in the form.
-    $this->assertRaw('//www.google-analytics.com/analytics.js', '[testGoogleAnalyticsPageVisibility]: Tracking code is displayed on admin subpage.');
+    $this->assertRaw('https://www.google-analytics.com/analytics.js', '[testGoogleAnalyticsPageVisibility]: Tracking code is displayed on admin subpage.');
     $this->drupalGet('');
     $this->assertNoRaw($ua_code, '[testGoogleAnalyticsPageVisibility]: Tracking code is NOT displayed on front page.');
 
@@ -170,7 +170,7 @@ class GoogleAnalyticsBasicTest extends DrupalWebTestCase {
     (function(q,u,i,c,k){window['GoogleAnalyticsObject']=q;
     window[q]=window[q]||function(){(window[q].q=window[q].q||[]).push(arguments)},
     window[q].l=1*new Date();c=i.createElement(u),k=i.getElementsByTagName(u)[0];
-    c.async=true;c.src='//www.google-analytics.com/analytics.js';
+    c.async=true;c.src='https://www.google-analytics.com/analytics.js';
     k.parentNode.insertBefore(c,k)})('ga','script',document);
     ga('create', 'UA-123456-7');
     ga('send', 'pageview');
@@ -181,7 +181,7 @@ class GoogleAnalyticsBasicTest extends DrupalWebTestCase {
     // Test whether tracking code uses latest JS.
     variable_set('googleanalytics_cache', 0);
     $this->drupalGet('');
-    $this->assertRaw('//www.google-analytics.com/analytics.js', '[testGoogleAnalyticsTrackingCode]: Latest tracking code used.');
+    $this->assertRaw('https://www.google-analytics.com/analytics.js', '[testGoogleAnalyticsTrackingCode]: Latest tracking code used.');
 
     // Test whether anonymize visitors IP address feature has been enabled.
     variable_set('googleanalytics_tracker_anonymizeip', 0);
@@ -265,7 +265,7 @@ class GoogleAnalyticsBasicTest extends DrupalWebTestCase {
     // Test whether debugging script has been enabled.
     variable_set('googleanalytics_debug', 1);
     $this->drupalGet('');
-    $this->assertRaw('//www.google-analytics.com/analytics_debug.js', '[testGoogleAnalyticsTrackingCode]: Google debugging script has been enabled.');
+    $this->assertRaw('https://www.google-analytics.com/analytics_debug.js', '[testGoogleAnalyticsTrackingCode]: Google debugging script has been enabled.');
 
     // Check if text and link is shown on 'Status Reports' page.
     // Requires 'administer site configuration' permission.
@@ -275,7 +275,7 @@ class GoogleAnalyticsBasicTest extends DrupalWebTestCase {
     // Test whether debugging script has been disabled.
     variable_set('googleanalytics_debug', 0);
     $this->drupalGet('');
-    $this->assertRaw('//www.google-analytics.com/analytics.js', '[testGoogleAnalyticsTrackingCode]: Google debugging script has been disabled.');
+    $this->assertRaw('https://www.google-analytics.com/analytics.js', '[testGoogleAnalyticsTrackingCode]: Google debugging script has been disabled.');
 
     // Test whether the CREATE and BEFORE and AFTER code is added to the tracker.
     $codesnippet_create = array(
@@ -782,13 +782,13 @@ class GoogleAnalyticsPhpFilterTest extends DrupalWebTestCase {
     // Check tracking code visibility.
     variable_set('googleanalytics_pages', '<?php return TRUE; ?>');
     $this->drupalGet('');
-    $this->assertRaw('//www.google-analytics.com/analytics.js', '[testGoogleAnalyticsPhpFilter]: Tracking is displayed on frontpage page.');
+    $this->assertRaw('https://www.google-analytics.com/analytics.js', '[testGoogleAnalyticsPhpFilter]: Tracking is displayed on frontpage page.');
     $this->drupalGet('admin');
-    $this->assertRaw('//www.google-analytics.com/analytics.js', '[testGoogleAnalyticsPhpFilter]: Tracking is displayed on admin page.');
+    $this->assertRaw('https://www.google-analytics.com/analytics.js', '[testGoogleAnalyticsPhpFilter]: Tracking is displayed on admin page.');
 
     variable_set('googleanalytics_pages', '<?php return FALSE; ?>');
     $this->drupalGet('');
-    $this->assertNoRaw('//www.google-analytics.com/analytics.js', '[testGoogleAnalyticsPhpFilter]: Tracking is not displayed on frontpage page.');
+    $this->assertNoRaw('https://www.google-analytics.com/analytics.js', '[testGoogleAnalyticsPhpFilter]: Tracking is not displayed on frontpage page.');
 
     // Test administration form.
     variable_set('googleanalytics_pages', '<?php return TRUE; ?>');
