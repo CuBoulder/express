@@ -37,6 +37,7 @@ function cu_bean_override_view_views_default_views() {
     'label' => 'label',
     'title' => 'title',
     'type' => 'type',
+    'realname' => 'realname',
     'changed' => 'changed',
     'operations' => 'operations',
     'delete_link' => 'operations',
@@ -69,6 +70,13 @@ function cu_bean_override_view_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
+    'realname' => array(
+      'sortable' => 1,
+      'default_sort_order' => 'asc',
+      'align' => '',
+      'separator' => '',
+      'empty_column' => 0,
+    ),
     'changed' => array(
       'sortable' => 1,
       'default_sort_order' => 'desc',
@@ -95,6 +103,10 @@ function cu_bean_override_view_views_default_views() {
   $handler->display->display_options['empty']['area']['empty'] = TRUE;
   $handler->display->display_options['empty']['area']['content'] = 'No blocks available.';
   $handler->display->display_options['empty']['area']['format'] = 'wysiwyg';
+  /* Relationship: Block: User uid */
+  $handler->display->display_options['relationships']['user']['id'] = 'user';
+  $handler->display->display_options['relationships']['user']['table'] = 'bean';
+  $handler->display->display_options['relationships']['user']['field'] = 'user';
   /* Field: Block: Block Delta */
   $handler->display->display_options['fields']['delta']['id'] = 'delta';
   $handler->display->display_options['fields']['delta']['table'] = 'bean';
@@ -114,6 +126,12 @@ function cu_bean_override_view_views_default_views() {
   $handler->display->display_options['fields']['type']['id'] = 'type';
   $handler->display->display_options['fields']['type']['table'] = 'bean';
   $handler->display->display_options['fields']['type']['field'] = 'type';
+  /* Field: Realname: Real name */
+  $handler->display->display_options['fields']['realname']['id'] = 'realname';
+  $handler->display->display_options['fields']['realname']['table'] = 'realname';
+  $handler->display->display_options['fields']['realname']['field'] = 'realname';
+  $handler->display->display_options['fields']['realname']['relationship'] = 'user';
+  $handler->display->display_options['fields']['realname']['label'] = 'Author';
   /* Field: Block Revisions: Date changed */
   $handler->display->display_options['fields']['changed']['id'] = 'changed';
   $handler->display->display_options['fields']['changed']['table'] = 'bean_revision';
