@@ -551,7 +551,7 @@ function expressbase_links__system_secondary_menu($vars) {
 
   $label = variable_get('secondary_menu_label', NULL) ? '<h2 class="inline secondary-menu-label">' . variable_get('secondary_menu_label') . '</h2>': '<h2 class="element-invisible">Secondary Menu</h2>';
 
-  $html = $nav_heading . '  <ul class="' . $classes . '">';
+  $html = '  <ul class="' . $classes . '">';
 
   if (theme_get_setting('use_action_menu') && !isset($vars['mobile'])) {
     $html = '<h2 class="element-invisible">Secondary Menu</h2> <ul id="action-menu" class="' . $classes . '">';
