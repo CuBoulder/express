@@ -9,14 +9,10 @@ branches:
   only:
     - dev
 
-# We need CGI for runserver in PHP 5.3.
 addons:
   apt:
     packages:
     - curl
-    # See https://github.com/travis-ci/travis-ci/issues/4757#issuecomment-299024359
-    - libssl1.0.0
-    - php-cgi
   firefox: '31.0'
 
 mysql:
@@ -32,9 +28,9 @@ cache:
 
 install:
 
-  # Install latest Drush 6.
+  # Install latest Drush 8.
   - travis_retry composer self-update && composer --version
-  - travis_retry composer global require "drush/drush:6.*"
+  - travis_retry composer global require "drush/drush:8.*"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
   # Build Behat dependencies
