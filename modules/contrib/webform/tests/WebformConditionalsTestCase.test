@@ -5,11 +5,13 @@
  * Webform module conditional tests.
  */
 
-include_once(dirname(__FILE__) . '/webform.test');
-
+/**
+ *
+ */
 class WebformConditionalsTestCase extends WebformTestCase {
+
   /**
-   * Implements getInfo().
+   * {@inheritdoc}
    */
   public static function getInfo() {
     return array(
@@ -20,27 +22,13 @@ class WebformConditionalsTestCase extends WebformTestCase {
   }
 
   /**
-   * Implements setUp().
-   */
-  function setUp($added_modules = array()) {
-    parent::setUp($added_modules);
-  }
-
-  /**
-   * Implements tearDown().
-   */
-  function tearDown() {
-    parent::tearDown();
-  }
-
-  /**
    * Test that required fields with no default value can't be submitted as-is.
    */
-  function testWebformConditionals() {
+  public function testWebformConditionals() {
     $this->drupalLogin($this->webform_users['admin']);
     $this->webformReset();
 
-    $test_components = $this->testWebformComponents();
+    $test_components = $this->webformComponents();
     $test_specs = array(
       'match conditional values' => TRUE,
       'mismatch conditional values' => FALSE,
@@ -78,9 +66,10 @@ class WebformConditionalsTestCase extends WebformTestCase {
    *   operation to trigger or not. If TRUE, the submission should succeed.
    *   If FALSE, validation errors are expected to be triggered. The input
    *   $value will be compared against the "sample values" input provided by
-   *   testWebformComponents().
-   * @return
-   *   None. This function executes its own assert statements to show results.
+   *   webformComponents().
+   *
+   * @return void
+   *   This function executes its own assert statements to show results.
    */
   private function webformTestConditionalComponent($component, $input_values, $operator, $conditional_values, $should_match) {
     // Create the Webform test node and add a same-page conditional followed
@@ -97,7 +86,7 @@ class WebformConditionalsTestCase extends WebformTestCase {
     $components = array();
     $components[] = $component;
 
-    $test_components = $this->testWebformComponents();
+    $test_components = $this->webformComponents();
     $textfield = $test_components['textfield']['component'];
 
     // Add a test textfield on the first page.
@@ -120,7 +109,8 @@ class WebformConditionalsTestCase extends WebformTestCase {
 
     $settings['webform']['components'] = $components;
     $node = $this->drupalCreateNode($settings);
-    $node = node_load($node->nid); // Needed to get a complete object.
+    // Needed to get a complete object.
+    $node = node_load($node->nid);
 
     // We now have a new test node. First try checking same-page conditionals.
     $rules = array();
@@ -128,7 +118,8 @@ class WebformConditionalsTestCase extends WebformTestCase {
     foreach ($conditional_values as $conditional_value) {
       $rules[] = array(
         'source_type' => 'component',
-        'source' => 1, // The first component in the form is always the source.
+        // The first component in the form is always the source.
+        'source' => 1,
         'operator' => $operator,
         'value' => $conditional_value,
       );
@@ -140,7 +131,8 @@ class WebformConditionalsTestCase extends WebformTestCase {
       'actions' => array(
         0 => array(
           'action' => 'show',
-          'target' => NULL, // Target set individually.
+          // Target set individually.
+          'target' => NULL,
           'target_type' => 'component',
           'invert' => '1',
           'argument' => NULL,
@@ -149,12 +141,13 @@ class WebformConditionalsTestCase extends WebformTestCase {
       'weight' => 0,
     );
 
-    $conditional['actions'][0]['target'] = 2; // The same-page textfield test.
+    // The same-page textfield test.
+    $conditional['actions'][0]['target'] = 2;
     $node->webform['conditionals'] = array($conditional);
     node_save($node);
 
     // Submit our test data.
-    $edit = $this->testWebformPost(array($component['form_key'] => $input_values));
+    $edit = $this->webformPost(array($component['form_key'] => $input_values));
     $this->drupalPost('node/' . $node->nid, $edit, 'Next Page >', array(), array(), 'webform-client-form-' . $node->nid);
 
     // Ensure we reached the second page for matched conditionals.
@@ -168,7 +161,8 @@ class WebformConditionalsTestCase extends WebformTestCase {
     }
 
     // Adjust the conditionals to make them separate-page conditionals.
-    $conditional['actions'][0]['target'] = 3; // The separate-page textfield test.
+    // The separate-page textfield test.
+    $conditional['actions'][0]['target'] = 3;
     $node->webform['conditionals'] = array($conditional);
     $node->webform['components'][2]['required'] = '0';
     node_save($node);
@@ -188,4 +182,5 @@ class WebformConditionalsTestCase extends WebformTestCase {
       $this->assertRaw($string_match, $message, t('Webform'));
     }
   }
+
 }
