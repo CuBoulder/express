@@ -12,3 +12,6 @@ ul.quicktabs-tabs li {
   padding: 2px;
   white-space: nowrap;
 }
+ul.quicktabs-tabs li a:focus {
+  outline: none;
+}

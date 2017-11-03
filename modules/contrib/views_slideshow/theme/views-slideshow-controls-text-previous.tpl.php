@@ -8,7 +8,7 @@
  * - $classes: Text control classes.
  * - $vss_id: The Views Slideshow unique ID.
  *
- * @ingroup vss_templates
+ * @ingroup views_templates
  */
 ?>
 <span id="views_slideshow_controls_text_previous_<?php print $vss_id; ?>" class="<?php print $classes; ?>">

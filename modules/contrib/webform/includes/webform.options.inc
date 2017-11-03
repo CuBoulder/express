@@ -6,7 +6,7 @@
  */
 
 /**
- * Implements hook_webform_select_options_info().
+ * Private implementation of hook_webform_select_options_info().
  *
  * @see webform_webform_select_options_info()
  */
@@ -35,8 +35,6 @@ function _webform_options_info() {
 }
 
 /**
- * Implements callback_webform_options().
- *
  * Option list containing the days of the week.
  */
 function webform_options_days($component, $flat, $arguments) {
@@ -60,8 +58,6 @@ function webform_options_days($component, $flat, $arguments) {
 }
 
 /**
- * Implements callback_webform_options().
- *
  * Options list containing country names.
  */
 function webform_options_countries($component, $flat, $arguments) {
@@ -70,8 +66,6 @@ function webform_options_countries($component, $flat, $arguments) {
 }
 
 /**
- * Implements callback_webform_options().
- *
  * Options list containing United States states and territories.
  */
 function webform_options_united_states($component, $flat, $arguments) {

@@ -41,7 +41,7 @@ class _DiffOp {
 class _DiffOp_Copy extends _DiffOp {
   var $type = 'copy';
 
-  function __construct($orig, $closing = FALSE) {
+  function _DiffOp_Copy($orig, $closing = FALSE) {
     if (!is_array($closing)) {
       $closing = $orig;
     }
@@ -62,7 +62,7 @@ class _DiffOp_Copy extends _DiffOp {
 class _DiffOp_Delete extends _DiffOp {
   var $type = 'delete';
 
-  function __construct($lines) {
+  function _DiffOp_Delete($lines) {
     $this->orig = $lines;
     $this->closing = FALSE;
   }
@@ -80,7 +80,7 @@ class _DiffOp_Delete extends _DiffOp {
 class _DiffOp_Add extends _DiffOp {
   var $type = 'add';
 
-  function __construct($lines) {
+  function _DiffOp_Add($lines) {
     $this->closing = $lines;
     $this->orig = FALSE;
   }
@@ -98,7 +98,7 @@ class _DiffOp_Add extends _DiffOp {
 class _DiffOp_Change extends _DiffOp {
   var $type = 'change';
 
-  function __construct($orig, $closing) {
+  function _DiffOp_Change($orig, $closing) {
     $this->orig = $orig;
     $this->closing = $closing;
   }
@@ -215,17 +215,11 @@ class _DiffEngine {
       // Find deletes & adds.
       $delete = array();
       while ($xi < $n_from && $this->xchanged[$xi]) {
-        $_fl = $from_lines[$xi++];
-        if (strlen($_fl)) {
-          $delete[] = $_fl;
-        }
+        $delete[] = $from_lines[$xi++];
       }
       $add = array();
       while ($yi < $n_to && $this->ychanged[$yi]) {
-        $_tl = $to_lines[$yi++];
-        if (strlen($_tl)) {
-          $add[] = $_tl;
-        }
+        $add[] = $to_lines[$yi++];
       }
       if ($delete && $add) {
         $edits[] = new _DiffOp_Change($delete, $add);
@@ -582,7 +576,7 @@ class Diff {
    *      (Typically these are lines from a file.)
    * @param $to_lines array An array of strings.
    */
-  function __construct($from_lines, $to_lines) {
+  function Diff($from_lines, $to_lines) {
     $eng = new _DiffEngine;
     $this->edits = $eng->diff($from_lines, $to_lines);
     //$this->_check($from_lines, $to_lines);
@@ -741,11 +735,12 @@ class MappedDiff extends Diff {
    * @param $mapped_to_lines array This array should
    *  have the same number of elements as $to_lines.
    */
-  function __construct($from_lines, $to_lines, $mapped_from_lines, $mapped_to_lines) {
+  function MappedDiff($from_lines, $to_lines, $mapped_from_lines, $mapped_to_lines) {
+
     assert(sizeof($from_lines) == sizeof($mapped_from_lines));
     assert(sizeof($to_lines) == sizeof($mapped_to_lines));
 
-    parent::__construct($mapped_from_lines, $mapped_to_lines);
+    $this->Diff($mapped_from_lines, $mapped_to_lines);
 
     $xi = $yi = 0;
     for ($i = 0; $i < sizeof($this->edits); $i++) {
@@ -955,7 +950,7 @@ define('NBSP', '&#160;');      // iso-8859-x non-breaking space.
  * @subpackage DifferenceEngine
  */
 class _HWLDF_WordAccumulator {
-  function __construct() {
+  function _HWLDF_WordAccumulator() {
     $this->_lines = array();
     $this->_line = '';
     $this->_group = '';
@@ -1021,11 +1016,11 @@ class WordLevelDiff extends MappedDiff {
     return 10000;
   }
 
-  function __construct($orig_lines, $closing_lines) {
+  function WordLevelDiff($orig_lines, $closing_lines) {
     list($orig_words, $orig_stripped) = $this->_split($orig_lines);
     list($closing_words, $closing_stripped) = $this->_split($closing_lines);
 
-    parent::__construct($orig_words, $closing_words, $orig_stripped, $closing_stripped);
+    $this->MappedDiff($orig_words, $closing_words, $orig_stripped, $closing_stripped);
   }
 
   function _split($lines) {
@@ -1100,7 +1095,7 @@ class DrupalDiffFormatter extends DiffFormatter {
     'offset' => array('x' => 0, 'y' => 0),
   );
 
-  function __construct() {
+  function DrupalDiffFormatter() {
     $this->leading_context_lines = variable_get('diff_context_lines_leading', 2);
     $this->trailing_context_lines = variable_get('diff_context_lines_trailing', 2);
   }
