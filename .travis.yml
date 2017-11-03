@@ -2,10 +2,8 @@ language: php
 # We want to avoid sudo. This allow us to use Travis docker infrastructure, which means builds start faster and have more CPU available.
 sudo: false
 
-dist: precise
-
 php:
-  - '5.3'
+  - '7.1'
 
 branches:
   only:
@@ -16,10 +14,6 @@ addons:
   apt:
     packages:
     - curl
-    - php5-cgi
-    - php5-mysql
-    - php5-curl
-    - php5-gd
     # See https://github.com/travis-ci/travis-ci/issues/4757#issuecomment-299024359
     - libssl1.0.0
   firefox: '31.0'
@@ -79,10 +73,9 @@ install:
   # Disable sendmail
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
-  # Add memcache, APC
-  - echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo "apc.shm_size=256M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo "extension=memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  # Add memcache, OpCache.
+  - echo "extension=opcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "extension=memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Bump up max execution time.
   - echo "max_execution_time=60" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
