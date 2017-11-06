@@ -45,7 +45,6 @@ function _cu_block_section_rerender($item) {
     if (bean_access('view', $bean)) {
       // Most of this taken from bean_block_view().
       $block['content'] = $bean->view($bean->view_mode);
-      $block['subject'] = $bean->title;
       $block['#theme_wrappers'] = array('block');
       $block['#block'] = (object) array(
         'region' => 'block_section',

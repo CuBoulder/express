@@ -21,9 +21,8 @@ interface EntityReference_SelectionHandler {
    * Return a list of referencable entities.
    *
    * @return
-   *   A nested array of entities, the first level is keyed by the
-   *   entity bundle, which contains an array of entity labels (safe HTML),
-   *   keyed by the entity ID.
+   *   An array of referencable entities, which keys are entity ids and
+   *   values (safe HTML) labels to be displayed to the user.
    */
   public function getReferencableEntities($match = NULL, $match_operator = 'CONTAINS', $limit = 0);
 
