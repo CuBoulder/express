@@ -205,7 +205,8 @@ $border_color: #e0e0e0;
       .gs-spelling a {
         color:$blue;
       }
-      .gs-spelling-original {
+      .gs-spelling-original,
+       .gs-visibleUrl {
         font-size:75%;
       }
     }
