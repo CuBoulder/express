@@ -4,7 +4,12 @@
  * @file
  * Webform module permission tests.
  */
+
+/**
+ *
+ */
 class WebformPermissionsTestCase extends WebformTestCase {
+
   /**
    * {@inheritdoc}
    */
@@ -19,7 +24,7 @@ class WebformPermissionsTestCase extends WebformTestCase {
   /**
    * Create a webform node in which authenticated users have access to submit.
    */
-  function testWebformSubmitAccess() {
+  public function testWebformSubmitAccess() {
     $this->webformReset();
     $node = $this->webformForm();
     $node->webform['roles'] = array(2);
@@ -42,4 +47,5 @@ class WebformPermissionsTestCase extends WebformTestCase {
     // Something in SimpleTest isn't handling the string correctly.
     $this->assertText('to view this form.', t('Anonymous user is not allowed to submit form.'), t('Webform'));
   }
+
 }

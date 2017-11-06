@@ -10,7 +10,7 @@
  * - $rendered_control_pause: Rendered control - pause.
  * - $rendered_control_next: Rendered control - next.
  *
- * @ingroup vss_templates
+ * @ingroup views_templates
  */
 ?>
 <div id="views_slideshow_controls_text_<?php print $variables['vss_id']; ?>" class="<?php print $classes; ?>">

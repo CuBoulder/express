@@ -216,22 +216,8 @@ function modernizr_get_path() {
   $path = &drupal_static(__FUNCTION__);
 
   if ($path === NULL) {
-    // Get possible paths for the file.
-    $paths = _modernizr_get_paths();
+    $paths = array();
 
-    // Scan directories for files
-    $path = _modernizr_scan_for_library($paths);
-  }
-
-  return $path;
-}
-
-/**
- * Helper function to scan for acceptably named libraries
- */
-function _modernizr_get_paths() {
-  $paths = &drupal_static(__FUNCTION__);
-  if ($paths === NULL) {
     // Check for directory specified in hook_libraries_info()
     if (module_exists('libraries')) {
       $library_path = libraries_get_path('modernizr');
@@ -241,12 +227,15 @@ function _modernizr_get_paths() {
     }
 
     // The best location for downloaded libraries is sites/all/libraries.
-    $default_library_path = 'sites/all/libraries/modernizr';
-    if (is_dir($default_library_path) && !in_array($default_library_path, $paths)) {
-      $paths[] = $default_library_path;
+    if (is_dir('sites/all/libraries/modernizr')) {
+      $paths[] = 'sites/all/libraries/modernizr';
     }
+
+    // Scan directories for files
+    $path = _modernizr_scan_for_library($paths);
   }
-  return $paths;
+
+  return $path;
 }
 
 /**

@@ -66,15 +66,10 @@ function metatag_views_i18n_object_info() {
 
     // Build a suitable structure for this meta tag.
     $tag_name = $tag_info['name'];
-    $title = $tag_info['label'];
-    if (!empty($tag_info['group'])) {
-      $tag_group = $tag_info['group'];
-      $group_label = !empty($groups[$tag_group]['label']) ? $groups[$tag_group]['label'] : $tag_group;
-      $title = $group_label . ': '. $title;
-    }
-
+    $tag_group = $tag_info['group'];
+    $group_label = isset($groups[$tag_group]['label']) ? $groups[$tag_group]['label'] : $tag_group;
     $info['metatag_views']['string translation']['properties'][$tag_name] = array(
-      'title' => $title,
+      'title' => $group_label . ': ' . $tag_info['label'],
       'field' => "display_options.metatags.und.{$tag_name}.value",
     );
   }

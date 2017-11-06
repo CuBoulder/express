@@ -218,7 +218,7 @@ function hook_webform_submission_delete($node, $submission) {
  *   List of action.
  */
 function hook_webform_submission_actions($node, $submission) {
-  $actions= array();
+  $actions = array();
 
   if (webform_results_access($node)) {
     $actions['myaction'] = array(
@@ -234,17 +234,17 @@ function hook_webform_submission_actions($node, $submission) {
 /**
  * Modify the draft to be presented for editing.
  *
- * When drafts are enabled for the webform, by default, a pre-existig draft is
+ * When drafts are enabled for the webform, by default, a pre-existing draft is
  * presented when the webform is displayed to that user. To allow multiple
  * drafts, implement this alter function to set the $sid to NULL, or use your
  * application's business logic to determine whether a new draft or which of
  * he pre-existing drafts should be presented.
  *
- * @param integer $sid
- *    The id of the most recent submission to be presented for editing. Change
+ * @param int $sid
+ *   The id of the most recent submission to be presented for editing. Change
  *    to a different draft's sid or set to NULL for a new draft.
  * @param array $context
- *    Array of context with indices 'nid' and 'uid'.
+ *   Array of context with indices 'nid' and 'uid'.
  */
 function hook_webform_draft_alter(&$sid, $context) {
   if ($_GET['newdraft']) {
@@ -256,7 +256,7 @@ function hook_webform_draft_alter(&$sid, $context) {
  * Alter the display of a Webform submission.
  *
  * This function applies to both e-mails sent by Webform and normal display of
- * submissions when viewing through the adminsitrative interface.
+ * submissions when viewing through the administrative interface.
  *
  * @param $renderable
  *   The Webform submission in a renderable array, similar to FormAPI's
@@ -373,6 +373,7 @@ function hook_webform_analysis_alter(&$analysis) {
     );
   }
 }
+
 /**
  * Alter data when displaying an analysis on that component.
  *
@@ -475,8 +476,8 @@ function hook_webform_csv_data_alter(&$data, $component, $submission) {
  *     - csv_headers
  *     - csv_data
  *
- * See the sample component implementation for details on each one of these
- * callbacks.
+ *   See the sample component implementation for details on each one of these
+ *   callbacks.
  *
  * @see webform_components()
  */
@@ -624,16 +625,20 @@ function hook_webform_submission_access($node, $submission, $op = 'view', $accou
   switch ($op) {
     case 'view':
       return TRUE;
-      break;
+
+    break;
     case 'edit':
       return FALSE;
-      break;
+
+    break;
     case 'delete':
       return TRUE;
-      break;
+
+    break;
     case 'list':
       return TRUE;
-      break;
+
+    break;
   }
 }
 
@@ -677,7 +682,8 @@ function hook_webform_results_access($node, $account) {
  *   The Webform node to check access on.
  * @param object $account
  *   The user account to check access on.
- * @return boolean
+ *
+ * @return bool
  *   TRUE or FALSE if the user can access the webform results.
  */
 function hook_webform_results_clear_access($node, $account) {
@@ -705,7 +711,8 @@ function hook_webform_results_clear_access($node, $account) {
  *   The Webform node to check access on.
  * @param object $account
  *   The user account to check access on.
- * @return boolean|NULL
+ *
+ * @return bool|null
  *   TRUE or FALSE if the user can access the webform results, or NULL if
  *   access should be deferred to other implementations of this hook or
  *   node_access('update') plus user_access('edit webform components').
@@ -736,13 +743,14 @@ function hook_webform_update_access($node, $account) {
  *     - filename: The name of the file including the extension.
  *     - filemime: The mimetype of the file.
  *   This will result in an array looking something like this:
- *   @code
+ *
+ * @code
  *   array[0] => array(
  *     'filepath' => '/sites/default/files/attachment.txt',
  *     'filename' => 'attachment.txt',
  *     'filemime' => 'text/plain',
  *   );
- *   @endcode
+ * @endcode
  */
 function _webform_attachments_component($component, $value) {
   $files = array();
@@ -801,6 +809,7 @@ function hook_webform_results_download_submission_information_data($token, $subm
   switch ($token) {
     case 'field_key_1':
       return 'Field Value 1';
+
     case 'field_key_2':
       return 'Field Value 2';
   }
@@ -1038,6 +1047,7 @@ function _webform_action_set_component($component, &$element, &$form_state, $val
  *   A Webform component array.
  * @param $value
  *   The POST data associated with the user input.
+ *
  * @return
  *   An array of values to be saved into the database. Note that this should be
  *   a numerically keyed array.
@@ -1311,10 +1321,11 @@ function _webform_csv_data_component($component, $export_options, $value) {
  * such as a grid component having a column for each question.
  *
  * @param array $component
- *   A Webform component array
+ *   A Webform component array.
  * @param array $fields
  *   An array of field-definition arrays. Will be passed one field definition,
  *   which may be modified. Additional fields may be added to the array.
+ *
  * @return array
  *   The modified $fields array.
  */
@@ -1336,17 +1347,17 @@ function _webform_view_field_component($component, $fields) {
  * changes views by implementing this same views hook, the relative order of
  * execution of the two implementations will depend upon the module weights of
  * the two modules. Using hook_webform_view_alter instead guarantees an
- * opportuinty to modify the view AFTER webform.
+ * opportunity to modify the view AFTER webform.
  *
  * @param object $view
  *   The view object.
  * @param string $display_id
  *   The display_id that was expanded by webform.
  * @param array $args
- *   The argumentst that were passed to the view.
+ *   The arguments that were passed to the view.
  */
 function hook_webform_view_alter($view, $display_id, $args) {
-  // Don't show component with cid == 4
+  // Don't show component with cid == 4.
   $fields = $view->get_items('field', $display_id);
   foreach ($fields as $id => $field) {
     if (isset($field['webform_cid']) && $field['webform_cid'] == 4) {
@@ -1393,7 +1404,7 @@ function hook_webform_exporters() {
 /**
  * Modify the list of webform exporters definitions.
  *
- * @param  array &$exporters
+ * @param array &$exporters
  *   A list of all available webform exporters.
  */
 function hook_webform_exporters_alter(&$exporters) {
