@@ -4,7 +4,12 @@
  * @file
  * Test general functionality of Webform.
  */
+
+/**
+ *
+ */
 class WebformGeneralTestCase extends WebformTestCase {
+
   /**
    * {@inheritdoc}
    */
@@ -19,7 +24,7 @@ class WebformGeneralTestCase extends WebformTestCase {
   /**
    * Test creating a new Webform node.
    */
-  function testWebformCreate() {
+  public function testWebformCreate() {
     $settings = array(
       'title' => 'Test webform, no components',
       'type' => 'webform',
@@ -39,7 +44,7 @@ class WebformGeneralTestCase extends WebformTestCase {
   /**
    * Test webform-enabling a different node type and testing behavior.
    */
-  function testWebformCreateNewType() {
+  public function testWebformCreateNewType() {
     // Enable webforms on the page content type.
     variable_set('webform_node_webform', TRUE);
     variable_set('webform_node_page', TRUE);
@@ -82,7 +87,8 @@ class WebformGeneralTestCase extends WebformTestCase {
   /**
    * @return bool
    */
-  function webformRecordExists($nid) {
+  public function webformRecordExists($nid) {
     return (bool) db_query("SELECT nid FROM {webform} WHERE nid = :nid", array(':nid' => $nid))->fetchField();
   }
+
 }
