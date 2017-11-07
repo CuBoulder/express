@@ -72,7 +72,6 @@ function cu_search_settings_admin_form($form, &$form_state) {
     '#type' => 'textfield',
     '#default_value' => variable_get('google_cse_cx', ''),
   );
-
   $form['cu_search_additional_cse'] = array(
     '#type' => 'textarea',
     '#title' => 'Additional Google CSEs',
