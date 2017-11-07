@@ -894,6 +894,10 @@ function file_entity_theme() {
       'variables' => array(
         'files' => array(),
         'controls' => TRUE,
+        'controls_list' => array(
+          'download' => 'download',
+          'remote_playback' => 'remote_playback',
+        ),
         'autoplay' => FALSE,
         'loop' => FALSE,
         'preload' => NULL,
@@ -904,6 +908,11 @@ function file_entity_theme() {
       'variables' => array(
         'files' => array(),
         'controls' => TRUE,
+        'controls_list' => array(
+          'fullscreen' => 'fullscreen',
+          'download' => 'download',
+          'remote_playback' => 'remote_playback',
+        ),
         'autoplay' => FALSE,
         'loop' => FALSE,
         'muted' => FALSE,
@@ -1677,7 +1686,19 @@ function file_entity_access($op, $file = NULL, $account = NULL) {
 
   // $file may be either an object or a file type. Since file types cannot be
   // an integer, use either fid or type as the static cache id.
-  $cache_id = is_object($file) ? $file->fid : $file;
+  $cache_id = NULL;
+  if (is_object($file) && !empty($file->fid)) {
+    $cache_id = $file->fid;
+  }
+  elseif ($op == 'create' && is_string($file)) {
+    $cache_id = $file;
+  }
+  elseif ($op == 'create' && is_object($file) && !empty($file->type)) {
+    $cache_id = $file->type;
+  }
+  else {
+    $cache_id = drupal_hash_base64(serialize($file));
+  }
 
   // If we've already checked access for this file, user and op, return from
   // cache.
@@ -1737,15 +1758,15 @@ function file_entity_access($op, $file = NULL, $account = NULL) {
  * Implements hook_file_entity_access().
  */
 function file_entity_file_entity_access($op, $file, $account) {
-  // If the file URI is invalid, deny access.
-  if (is_object($file) && !file_valid_uri($file->uri)) {
-    return FILE_ENTITY_ACCESS_DENY;
-  }
-
+  // If the op is "create," all that's needed is to check the create permission.
   if ($op == 'create') {
     if (user_access('create files')) {
       return FILE_ENTITY_ACCESS_ALLOW;
     }
+  }
+  // If the file URI is invalid, deny access.
+  if (is_object($file) && !file_valid_uri($file->uri)) {
+    return FILE_ENTITY_ACCESS_DENY;
   }
 
   if (!empty($file)) {
@@ -2102,7 +2123,9 @@ function file_entity_file_default_types() {
     'label' => t('Document'),
     'description' => t('A <em>Document</em> file is written information.'),
     'mimetypes' => array(
+      'text/html',
       'text/plain',
+      'application/acad',
       'application/msword',
       'application/vnd.ms-excel',
       'application/pdf',
