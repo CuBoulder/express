@@ -105,7 +105,6 @@ function file_entity_file_view_page($file) {
   }
 
   // Otherwise, fall back.
-  module_load_include('inc', 'file_entity', 'file_entity.pages');
   return $function($file);
 }
 

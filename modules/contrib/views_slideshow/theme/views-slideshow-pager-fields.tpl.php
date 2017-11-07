@@ -8,7 +8,7 @@
  * - $classes: Classes.
  * - $rendered_field_items: Rendered field items.
  *
- * @ingroup vss_templates
+ * @ingroup views_templates
  */
 ?>
 <div id="<?php print $widget_id; ?>" class="<?php print $classes; ?>">

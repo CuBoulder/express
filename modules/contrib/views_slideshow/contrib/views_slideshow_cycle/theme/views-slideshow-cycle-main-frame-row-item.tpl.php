@@ -7,7 +7,7 @@
  * - $classes: Classes.
  * - $item: Row item.
  *
- * @ingroup vss_templates
+ * @ingroup views_templates
  */
 ?>
 <div class="<?php print $classes; ?>">

@@ -154,3 +154,15 @@ function cu_core_express_bean_list_groups($bundles) {
 
   return $bundles;
 }
+/**
+ * Alters admin structure menu page to hide link to 'Block administration'.
+ */
+function cu_core_page_alter(&$page) {
+  if (!empty($page['help'])) {
+    $message = $page['help']['system_help']['#markup'];
+    $search = '/development/admin/structure/block';
+    if (current_path() == 'admin/structure/menu' && (strpos($message, $search) !== false)) {
+      unset($page['help']['system_help']);
+    }
+  }
+}

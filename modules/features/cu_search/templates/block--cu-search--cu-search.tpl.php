@@ -18,9 +18,10 @@
               <?php if ($option): ?>
                 <?php
                   $checked = $active ? 'checked="checked"' : '';
+                  $value = isset($configs[$option]['value']) ? $configs[$option]['value'] : $configs[$option]['label'];
                 ?>
                 <div class="search-option">
-                  <input type="radio" name="search-option" <?php print $checked; ?> value="<?php print $configs[$option]['value']; ?>" data-placeholder="<?php print $configs[$option]['placeholder']; ?>" data-action="<?php print $configs[$option]['action']; ?>" id="search-<?php print $option; ?>"/> <label for="search-<?php print $option; ?>"><?php print $configs[$option]['label']; ?></label>
+                  <input type="radio" name="search-option" <?php print $checked; ?> value="<?php print $value; ?>" data-placeholder="<?php print $configs[$option]['placeholder']; ?>" data-action="<?php print $configs[$option]['action']; ?>" id="search-<?php print $option; ?>"/> <label for="search-<?php print $option; ?>"><?php print $configs[$option]['label']; ?></label>
                 </div>
                 <?php
                   $active = FALSE;

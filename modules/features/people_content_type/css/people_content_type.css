@@ -114,13 +114,7 @@ ul.field-name-field-person-website { list-style: none; margin: 0; padding: 0; }
 
 ul.field-name-field-person-website li { list-style: none; list-style-image: none; margin: 0; padding: 0; overflow: hidden; }
 
-ul.field-name-field-person-website li a:before { content: '\f14c '; font-family: 'FontAwesome'; float: left; color: #aaa; margin-right: 5px; text-align: center; width: 1.28571429em; }
-ul.field-name-field-person-website li a[href*="facebook.com"]:before { content: '\f230'; }
-ul.field-name-field-person-website li a[href*="linkedin.com"]:before { content: '\f08c'; }
-ul.field-name-field-person-website li a[href*="twitter.com"]:before { content: '\f099'; }
-ul.field-name-field-person-website li a[href*="youtube.com"]:before { content: '\f167'; }
-ul.field-name-field-person-website li a[href*=".jpg"]:before, ul.field-name-field-person-website li a[href*=".png"]:before, ul.field-name-field-person-website li a[href*=".gif"]:before { content: '\f03e'; }
-ul.field-name-field-person-website li a[href*="fileicon=pdf"]:before { content: '\f1c1'; }
+ul.field-name-field-person-website li:before { content: '\f14c '; font-family: 'FontAwesome'; float: left; color: #aaa; margin-right: 5px; text-align: center; }
 
 .person-view-mode-teaser-contact, .person-view-mode-embed-contact { padding-top: 20px; }
 
