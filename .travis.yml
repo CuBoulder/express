@@ -70,8 +70,8 @@ install:
   # Disable sendmail
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
-  # Add memcache, OpCache.
-  - echo "zend_extension=opcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  # Add memcache.
+  # OPcache is already loaded by default.
   - echo "extension=memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Bump up max execution time.
