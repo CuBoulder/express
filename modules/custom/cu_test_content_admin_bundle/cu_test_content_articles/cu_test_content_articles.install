@@ -165,7 +165,10 @@ function _cu_test_content_articles_create_nodes($nodes) {
     do {
       if ($file_path = system_retrieve_file($image)) {
         $fetched = TRUE;
+        break;
       }
+      $random = rand(5, 500);
+      $image = 'https://picsum.photos/1500/1000/?image=' . $random;
       $tries++;
     } while (($fetched == FALSE) && ($tries < 5));
 
