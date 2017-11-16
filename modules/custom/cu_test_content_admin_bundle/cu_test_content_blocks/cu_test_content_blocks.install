@@ -4,7 +4,6 @@
  */
 function cu_test_content_blocks_install() {
   module_load_include('module', 'bean');
-  _cu_test_content_blocks_events();
   _cu_test_content_blocks_twitter();
   _cu_test_content_blocks_text();
   _cu_test_content_blocks_text_map();
@@ -20,40 +19,6 @@ function cu_test_content_blocks_install() {
   _cu_test_content_blocks_blocktheme();
   _cu_test_content_blocks_icons();
   _cu_test_content_articles_create_blocks_node();
-}
-
-/**
- * Install events calendar block.
- */
-function _cu_test_content_blocks_events() {
-
-  $temp_beans = variable_get('cu_test_content_beans', array());
-
-  $values = array(
-    'delta' => 'events_list_block',
-    'label' => 'events_list_block',
-    'title' => 'Upcoming Events',
-    'type' => 'cu_events_calendar_block',
-    'view_mode' => 'default',
-  );
-
-  $values['field_event_categories'][LANGUAGE_NONE][0]['value'] = '30-0';
-  $values['field_event_expire'][LANGUAGE_NONE][0]['value'] = 'yes';
-  $values['field_event_link'][LANGUAGE_NONE][0]['url'] = 'http://events.colorado.edu';
-  $values['field_event_link'][LANGUAGE_NONE][0]['title'] = 'View all events';
-  $values['field_event_number'][LANGUAGE_NONE][0]['value'] = '5';
-  $values['field_event_subcategories'][LANGUAGE_NONE][0]['value'] = 'N';
-  $values['field_event_template'][LANGUAGE_NONE][0]['value'] = '44';
-  $values['field_event_type'][LANGUAGE_NONE][0]['value'] = 'N';
-
-  $bean = bean_create($values);
-  $bean->save();
-
-  $title = $values['title'] . '|' . $values['label'];
-  $temp_beans[$bean->bid] = $title;
-  drupal_set_message("Bean $title - $bean->bid created");
-  variable_set('cu_test_content_beans', $temp_beans);
-  return $bean;
 }
 
 /**
