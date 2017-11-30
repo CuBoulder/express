@@ -10,7 +10,7 @@
  * - $field_item: The field being rendered.
  * - $field_rendered: The pre-rendered field.
  *
- * @ingroup vss_templates
+ * @ingroup views_templates
  */
 ?>
 <div class="views-field-<?php print $css_id; ?>">
