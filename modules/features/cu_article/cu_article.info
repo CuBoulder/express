@@ -175,7 +175,6 @@ features[variable][] = node_submitted_article_list_page
 features[variable][] = pathauto_node_article_list_page_pattern
 features[variable][] = pathauto_node_article_pattern
 features[variable][] = save_continue_article_list_page
-features[views_view][] = article_slider
 features_exclude[field][bean-article_grid-field_article_grid_filter] = bean-article_grid-field_article_grid_filter
 features_exclude[field][bean-articles-field_article_display] = bean-articles-field_article_display
 features_exclude[field][bean-articles-field_article_items_display] = bean-articles-field_article_items_display
