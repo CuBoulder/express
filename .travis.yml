@@ -2,26 +2,17 @@ language: php
 # We want to avoid sudo. This allow us to use Travis docker infrastructure, which means builds start faster and have more CPU available.
 sudo: false
 
-dist: precise
-
 php:
-  - '5.3'
+  - '7.1'
 
 branches:
   only:
     - dev
 
-# We need CGI for runserver in PHP 5.3.
 addons:
   apt:
     packages:
     - curl
-    - php5-cgi
-    - php5-mysql
-    - php5-curl
-    - php5-gd
-    # See https://github.com/travis-ci/travis-ci/issues/4757#issuecomment-299024359
-    - libssl1.0.0
   firefox: '31.0'
 
 mysql:
@@ -37,9 +28,9 @@ cache:
 
 install:
 
-  # Install latest Drush 6.
+  # Install latest Drush 8.
   - travis_retry composer self-update && composer --version
-  - travis_retry composer global require "drush/drush:6.*"
+  - travis_retry composer global require "drush/drush:8.*"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
   # Build Behat dependencies
@@ -79,10 +70,9 @@ install:
   # Disable sendmail
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
-  # Add memcache, APC
-  - echo "extension=apc.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo "apc.shm_size=256M" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo "extension=memcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  # Add memcache, OpCache.
+  - echo "extension=opcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "extension=memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Bump up max execution time.
   - echo "max_execution_time=60" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
