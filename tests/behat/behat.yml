@@ -106,7 +106,8 @@ default:
         default:
           goutte:
             guzzle_parameters:
-              verify: false
+              ssl.certificate_authority: false
+              verfiy: false
       selenium2: ~
       javascript_session: selenium2
       browser_name: firefox
