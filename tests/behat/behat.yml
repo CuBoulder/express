@@ -3,7 +3,7 @@ default:
     pretty: true
   suites:
     express:
-      paths: [ '%paths.base%'/features/Express ]
+      paths: [ '%paths.base%/features/Express' ]
       contexts:
         - ExpressContext
         - Drupal\DrupalExtension\Context\DrupalContext
@@ -11,7 +11,7 @@ default:
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
     cu_advanced_content_bundle:
-      paths: [ '%paths.base%'/features/cu_advanced_content_bundle ]
+      paths: [ '%paths.base%/features/cu_advanced_content_bundle' ]
       contexts:
         - ExpressContext
         - AdvancedContentContext
