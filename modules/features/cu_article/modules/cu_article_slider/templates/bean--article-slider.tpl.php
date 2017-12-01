@@ -1,5 +1,5 @@
 <div class="article-slider-wrapper">
   <?php
-    print render($content);
+    print render($content['articles']);
   ?>
 </div>
