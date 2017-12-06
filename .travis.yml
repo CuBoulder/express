@@ -22,6 +22,10 @@ cache:
 
 install:
 
+  # Install Zombie package via npm.
+  - npm -v
+  - npm install -g zombie
+
   # Install latest Drush 8.
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:8.*"
