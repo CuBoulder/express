@@ -1,7 +1,7 @@
 {
   "require": {
     "drupal/drupal-extension": "dev-master",
-    "behat/mink-browserkit-driver": "~1.3"
+    "behat/mink-zombie-driver": "~1.2"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,

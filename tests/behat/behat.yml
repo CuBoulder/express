@@ -102,18 +102,10 @@ default:
   extensions:
     Behat\MinkExtension:
       goutte: ~
-      sessions:
-        default:
-          goutte:
-            guzzle_parameters:
-              ssl.certificate_authority: false
-              verfiy: false
-      selenium2: ~
-      javascript_session: selenium2
-      browser_name: firefox
+      zombie: ~
+      javascript_session: zombie
     Drupal\DrupalExtension:
       blackbox: ~
-      api_driver: 'drupal'
       subcontexts:
         paths:
           - "./profiles/express/tests/behat"
