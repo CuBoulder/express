@@ -22,7 +22,7 @@ cache:
 
 install:
 
-  # Install Zombie package via npm.
+  # Install Zombie package via npm....
   - npm list -g
   - ls -al /home/travis/.nvm/versions/node/v7.4.0
   - ls -al /home/travis/.nvm/versions/node/v7.4.0/lib
