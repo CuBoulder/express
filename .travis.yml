@@ -23,11 +23,6 @@ cache:
 install:
 
   # Install Zombie package via npm....
-  #- npm list -g
-  #- ls -al /home/travis/.nvm/versions/node/v7.4.0
-  #- ls -al /home/travis/.nvm/versions/node/v7.4.0/lib
-  #- chmod +x foo.sh
-
   - npm -v
   - npm install -g zombie
   - export NODE_PATH="/home/travis/.nvm/versions/node/v7.4.0/lib/node_modules"
@@ -40,10 +35,6 @@ install:
   # Build Behat dependencies
   - cd ./tests/behat
   - travis_retry composer install --prefer-dist --no-interaction
-
-  # Include patched file.
-  # @see https://github.com/jhedstrom/drupalextension/issues/423
-  # - cp -f patches/scalar_quotes_01.yml vendor/drupal/drupal-extension/src/Drupal/DrupalExtension/ServiceContainer/config
 
   # Build Codebase
   - cd ../../../
@@ -65,16 +56,6 @@ install:
   - mkdir tmp
   - chmod -R 777 tmp
 
-  # Setup display for Selenium
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 5
-
-  # Get Selenium
-  - wget http://selenium-release.storage.googleapis.com/2.42/selenium-server-standalone-2.42.1.jar
-  - java -jar selenium-server-standalone-2.42.1.jar > /dev/null 2>&1 &
-  - nc -zvv localhost 4444; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 4444..."; nc -zvv localhost 4444; out=$?; sleep 5; done
-
   # Disable sendmail
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
@@ -89,7 +70,7 @@ install:
   - echo "mysql.connect_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "default_socket_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
-  # Increase the MySQL server timetout and packet size.
+  # Increase the MySQL server timeout and packet size.
   - mysql -e "SET GLOBAL wait_timeout = 36000;"
   - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
 
@@ -120,20 +101,11 @@ before_script:
 
 script:
 
-  # Disable SSL login via LDAP.
-  #- drush pm-info ldap_servers
-  #- drush vset ldap_servers_require_ssl_for_credentials 0
-
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags @javascript
+  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles&&~broken'
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
-
-  # Second Test run for broken tests.
-  #- drush sql-drop -y
-  #- drush sql-cli < $HOME/express.sql
-  #- ./bin/behat --config behat.yml --verbose --tags @broken
 
   # Run Simpletests
   #- drush en simpletest -y
