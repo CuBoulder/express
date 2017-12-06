@@ -125,7 +125,7 @@ script:
   #- drush vset ldap_servers_require_ssl_for_credentials 0
 
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles&&~broken'
+  - ./bin/behat --config behat.yml --verbose --tags @javascript
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
