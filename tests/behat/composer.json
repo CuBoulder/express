@@ -2,6 +2,7 @@
   "require": {
         "drupal/drupal-extension": "dev-master"
   },
+  "minimum-stability": "dev",
   "config": {
     "bin-dir": "bin/"
   }
