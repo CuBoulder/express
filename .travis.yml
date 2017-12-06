@@ -113,6 +113,9 @@ before_script:
 
 script:
 
+  # Disable SSL login via LDAP.
+  - drush vset ldap_servers_require_ssl_for_credentials 0
+
   # Run Behat tests.
   - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles&&~broken'
 
