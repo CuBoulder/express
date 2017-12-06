@@ -107,13 +107,14 @@ before_script:
 
   # Setting Behat environment
   - BUILD_TOP=`dirname $TRAVIS_BUILD_DIR`
-  - BEHAT_PARAMS='{"extensions":{"Drupal\\DrupalExtension":{"drupal":{"drupal_root":"BUILD_TOP/drupal"}},"Behat\\MinkExtension":{"base_url":"https://127.0.0.1:8080/","files_path":"/home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/assets/"}}}'
+  - BEHAT_PARAMS='{"extensions":{"Drupal\\DrupalExtension":{"drupal":{"drupal_root":"BUILD_TOP/drupal"}},"Behat\\MinkExtension":{"base_url":"http://127.0.0.1:8080/","files_path":"/home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/assets/"}}}'
   - BEHAT_PARAMS=`echo $BEHAT_PARAMS | sed -e s#BUILD_TOP#$BUILD_TOP#`
   - export BEHAT_PARAMS
 
 script:
 
   # Disable SSL login via LDAP.
+  - drush pm-info ldap_servers
   - drush vset ldap_servers_require_ssl_for_credentials 0
 
   # Run Behat tests.
