@@ -23,14 +23,14 @@ cache:
 install:
 
   # Install Zombie package via npm....
-  - npm list -g
-  - ls -al /home/travis/.nvm/versions/node/v7.4.0
-  - ls -al /home/travis/.nvm/versions/node/v7.4.0/lib
-  - chmod +x foo.sh
+  #- npm list -g
+  #- ls -al /home/travis/.nvm/versions/node/v7.4.0
+  #- ls -al /home/travis/.nvm/versions/node/v7.4.0/lib
+  #- chmod +x foo.sh
 
   - npm -v
   - npm install -g zombie
-  - export NODE_PATH="/PATH/TO/NPM/node_modules"
+  - export NODE_PATH="/home/travis/.nvm/versions/node/v7.4.0/lib/node_modules"
 
   # Install latest Drush 8.
   - travis_retry composer self-update && composer --version
