@@ -36,7 +36,7 @@ install:
 
   # Include patched file.
   # @see https://github.com/jhedstrom/drupalextension/issues/423
-  - cp -f patches/scalar_quotes_01.yml vendor/drupal/drupal-extension/src/Drupal/DrupalExtension/ServiceContainer/config
+  # - cp -f patches/scalar_quotes_01.yml vendor/drupal/drupal-extension/src/Drupal/DrupalExtension/ServiceContainer/config
 
   # Build Codebase
   - cd ../../../
