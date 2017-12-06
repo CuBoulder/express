@@ -93,7 +93,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Creates and authenticates a user with the given role(s).
    *
-   * @Given CU - I am logged in as a user with the :role role(s)
+   * @Given I am logged in as a user with the :role role(s)
    * @Given CU - I am logged in as a/an :role
    */
   public function assertAuthenticatedByRole($role) {
@@ -102,28 +102,39 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     $user = user_load_by_name($role);
 
     // Translate to what is expected in $this->user.
-    $this->user = (object) array(
+
+    /*$new_user = (object) array(
       'name' => $user->name,
       'pass' => $role,
       'role' => $role,
       'mail' => $user->mail,
       'status' => $user->status,
       'uid' => $user->uid,
-    );
+    );*/
+
+    $user_manager = $this->getUserManager();
+    $user_manager->setCurrentUser($user);
+
+    $new_user = $user_manager->getCurrentUser();
 
     // Check if logged in.
+    /*
     if ($this->loggedIn()) {
       $this->logout();
     }
+    */
 
-    if (!$this->user) {
+    /*
+    if (!$user_manager->getCurrentUser()) {
       throw new \Exception('Tried to login without a user.');
     }
+    */
 
+    /*
     $this->getSession()->visit($this->locatePath('/user'));
     $element = $this->getSession()->getPage();
-    $element->fillField($this->getDrupalText('username_field'), $this->user->name);
-    $element->fillField($this->getDrupalText('password_field'), $this->user->pass);
+    $element->fillField($this->getDrupalText('username_field'), $new_user->name);
+    $element->fillField($this->getDrupalText('password_field'), $new_user->pass);
     $submit = $element->findButton($this->getDrupalText('log_in'));
     if (empty($submit)) {
       throw new \Exception(sprintf("No submit button at %s", $this->getSession()
@@ -132,6 +143,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
 
     // Log in.
     $submit->click();
+    */
 
     // Need to figure out better way to check if logged in.
     /*
