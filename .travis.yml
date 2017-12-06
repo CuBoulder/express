@@ -24,8 +24,8 @@ install:
 
   # Install Zombie package via npm.
   - which npm
-  - ls -al /usr/lib
-  - ls -al ~/
+  - npm list -g
+  - ls -al ~/.npm
   - chmod +x foo.sh
 
   - npm -v
