@@ -33,9 +33,13 @@ install:
   # Build Behat dependencies
   - cd ./tests/behat
   - travis_retry composer install --prefer-dist --no-interaction
-  - cd ../../../
+
+  # Include patched file.
+  # @see https://github.com/jhedstrom/drupalextension/issues/423
+  - cp -f patches/scalar_quotes_01.yml vendor/drupal/drupal-extension/src/Drupal/DrupalExtension/ServiceContainer/config
 
   # Build Codebase
+  - cd ../../../
   - drush dl drupal-7.56
   - mkdir drupal
   - mv drupal-7.56/* drupal/
