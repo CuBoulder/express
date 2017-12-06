@@ -106,6 +106,7 @@ default:
       javascript_session: zombie
     Drupal\DrupalExtension:
       blackbox: ~
+      api_driver: 'drupal'
       subcontexts:
         paths:
           - "./profiles/express/tests/behat"
