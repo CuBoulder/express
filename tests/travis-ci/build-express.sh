@@ -3,7 +3,7 @@
 
 # Check if backup already exists.
 # Travis keeps a cache directory per branch.
-if [ ! -f $HOME/cache/express.sql  ]; then
+if [ -f $HOME/cache/express.sql  ]; then
     echo "Importing backup..."
 
     drush sql-cli < $HOME/cache/express.sql
