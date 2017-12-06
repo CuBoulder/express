@@ -91,12 +91,10 @@ before_script:
   - mysql -e 'create database drupal;'
   - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
-  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
 
-  # Export db so it can be imported after every suite run.
-  # Test runs that fill up the db with nodes can impact other tests.
-  - drush sql-dump --result-file=$HOME/express.sql
-  - ls -al $HOME
+  # Build Express.
+  - chmod +x profiles/express/tests/travis-ci/build-express.sh
+  - ./profiles/express/tests/travis-ci/build-express.sh
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
