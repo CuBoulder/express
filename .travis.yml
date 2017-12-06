@@ -3,16 +3,13 @@ language: php
 sudo: false
 
 php:
-  - '7.0'
+  - '7.1.11'
 
 branches:
   only:
     - dev
 
 addons:
-  apt:
-    packages:
-    - curl
   firefox: '31.0'
 
 mysql:
