@@ -31,7 +31,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
     // 1 is mixed mode, 2 is LDAP only.
     $ldap_conf['authenticationMode'] = 1;
     variable_set('ldap_authentication_conf', $ldap_conf);
-
   }
 
   /**
@@ -49,6 +48,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    *
    * @return Behat\Mink\Element\Element
    *   An element representing the region.
+   * @throws \Exception
    */
   public function getRegion($region) {
     $session = $this->getSession();
@@ -137,16 +137,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    */
   public function iWaitForAjax() {
 
-    // Polling for the sake of my intern tests
-    $script = '
-    var interval = setInterval(function() {
-    console.log("checking");
-      if (document.readyState === "complete") {
-        clearInterval(interval);
-        done();
-      }
-    }, 1000);';
-
     //$this->getSession()->evaluateScript($script);
     $this->getSession()->wait(2000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
   }
@@ -155,6 +145,8 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    * Asserts that an image is present and not broken.
    *
    * @Then I should see an image in the :region region
+   *
+   * @throws \Exception
    */
   public function assertValidImageRegion($region) {
     $regionObj = $this->getRegion($region);
@@ -198,9 +190,12 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
 
 
   /**
-   * @Then /^I should see the image alt "(?P<text>(?:[^"]|\\")*)" in the "(?P<region>[^"]*)" region$/
+   * @Then /^I should see the image alt "(?P<text>(?:[^"]|\\")*)" in the
+   *   "(?P<region>[^"]*)" region$/
    *
    * NOTE: We specify a regex to allow escaped quotes in the alt text.
+   *
+   * @throws \Exception
    */
   public function assertAltRegion($text, $region) {
     $regionObj = $this->getRegion($region);
@@ -241,7 +236,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * @Then /^I select autosuggestion option "([^"]*)"$/
    *
-   * @param $text Option to be selected from autosuggestion
+   * @param $text string Option to be selected from autosuggestion
    * @throws \InvalidArgumentException
    */
   // @todo Fix brokenness or use keystroke step on tests where this step was intended to go.
@@ -303,6 +298,8 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
 
   /**
    * @When /^I click the "(?P<element>(?:[^"]|\\")*)" element with "(?P<value>(?:[^"]|\\")*)" for "(?P<attribute>(?:[^"]|\\")*)"$/
+   *
+   * @throws \Exception
    */
   public function iClickTheElementWithFor($element, $value, $attribute) {
     $page_elements = $this->getSession()
@@ -327,6 +324,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * @Then /^The "(?P<element>(?:[^"]|\\")*)" element should have "(?P<text>(?:[^"]|\\")*)" in the "(?P<attribute>(?:[^"]|\\")*)" attribute$/
    *
+   * @throws \Exception
    */
   public function elementShouldHaveForAttribute($element, $text, $attribute) {
     $session = $this->getSession();
@@ -354,6 +352,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * @Then /^The "(?P<element>(?:[^"]|\\")*)" link should have "(?P<text>(?:[^"]|\\")*)" in the "(?P<attribute>(?:[^"]|\\")*)" attribute$/
    *
+   * @throws \Exception
    */
   public function linkShouldHaveForAttribute($element, $text, $attribute) {
     $session = $this->getSession();
@@ -404,10 +403,9 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
       'type'  => $bean_type,
     );
     $entity = entity_create('bean', $values);
-    $saved_entity = entity_save('bean', $entity);
 
     // Go to bean page.
-    // Using vistPath() instead of visit() method since it adds base URL to relative path.
+    // Using visitPath() instead of visit() method since it adds base URL to relative path.
     $this->visitPath('block/' . $entity->delta);
   }
 
@@ -437,28 +435,4 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   public function iSwitchToIframe($arg1 = null) {
     $this->getSession()->switchToIFrame($arg1);
   }
-
-  /*
-  /**
-   * @AfterScenario
-   *
-   * @todo Get this working to cleanup node creation
-   */
-  /*
-  public function afterNodeCreation($event) {
-    $steps = $event->getScenario()->getSteps();
-    $tags = $event->getScenario()->getTags();
-
-    if (in_array('node_creation', $tags)) {
-      foreach ($steps as $step) {
-        $step = (array) $step;
-        //print_r($step);
-        if (strpos($step[Behat\Gherkin\Node\StepNodetext], 'I create a' && strpos($step[Behat\Gherkin\Node\StepNodetext], 'node'))) {
-          $step_pieces = explode('"', $step[Behat\Gherkin\Node\StepNodetext]);
-          print_r($step_pieces);
-        }
-      }
-    }
-  }
-  */
 }

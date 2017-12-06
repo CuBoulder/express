@@ -110,6 +110,9 @@ default:
       subcontexts:
         paths:
           - "./profiles/express/tests/behat"
+      text:
+        username_field: "CU Login Name"
+        password_field: "IdentiKey Password"
       selectors:
         message_selector: '.messages'
         error_message_selector: '.messages.error'
