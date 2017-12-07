@@ -5,6 +5,9 @@ sudo: false
 php:
   - '7.1.11'
 
+addons:
+  chrome: stable
+
 branches:
   only:
     - dev
@@ -20,12 +23,23 @@ cache:
     - $HOME/.composer/cache
     - $HOME/.drush/cache
 
+before_install:
+
+  - java -version
+
 install:
 
-  # Install Zombie package via npm....
-  - npm -v
-  - npm install -g zombie
-  - export NODE_PATH="/home/travis/.nvm/versions/node/v7.4.0/lib/node_modules"
+  # Get Selenium.
+  - curl -sLO http://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar
+  - chmod +x selenium-server-standalone-3.4.0.jar
+
+  # Get Chromedriver.
+  - curl -sLO https://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip
+  - tar -xvf chromedriver_linux64.zip
+  - chmod +x chromedriver
+
+  # Start up Selenium Server.
+  - java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone-3.4.0.jar
 
   # Install latest Drush 8.
   - travis_retry composer self-update && composer --version

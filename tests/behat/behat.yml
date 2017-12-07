@@ -102,8 +102,9 @@ default:
   extensions:
     Behat\MinkExtension:
       goutte: ~
-      zombie: ~
-      javascript_session: zombie
+      selenium2: ~
+      javascript_session: selenium2
+      browser_name: firefox
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: 'drupal'
