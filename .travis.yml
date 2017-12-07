@@ -23,16 +23,17 @@ cache:
 install:
 
   # Get Selenium.
-  - curl -sLO http://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar
-  - chmod +x selenium-server-standalone-3.4.0.jar
+  - curl -sLO http://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-2.42.1.jar
+  - chmod +x selenium-server-standalone-2.42.1.jar
 
   # Get Chromedriver.
-  - curl -sLO https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
-  - tar -xvf geckodriver-v0.19.1-linux64.tar.gz
-  - chmod +x geckodriver
+  #- curl -sLO https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
+  #- tar -xvf geckodriver-v0.19.1-linux64.tar.gz
+  #- chmod +x geckodriver
 
   # Start up Selenium Server.
-  - java -Dwebdriver.gecko.driver=geckodriver -jar selenium-server-standalone-3.4.0.jar > /dev/null 2>&1 &
+  - java -jar selenium-server-standalone-2.42.1.jar
+  #> /dev/null 2>&1 &
 
   # Install latest Drush 8.
   - travis_retry composer self-update && composer --version
