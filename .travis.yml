@@ -35,7 +35,7 @@ install:
 
   # Get Chromedriver.
   - curl -sLO https://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip
-  - tar -xvf chromedriver_linux64.zip
+  - unzip chromedriver_linux64.zip
   - chmod +x chromedriver
 
   # Start up Selenium Server.
