@@ -36,15 +36,6 @@ default:
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
         - Drupal\DrupalExtension\Context\DrushContext
-    cu_events_bundle:
-      paths: [ %paths.base%/features/cu_events_bundle ]
-      contexts:
-        - ExpressContext
-        - EventsContext
-        - Drupal\DrupalExtension\Context\DrupalContext
-        - Drupal\DrupalExtension\Context\MinkContext
-        - Drupal\DrupalExtension\Context\MessageContext
-        - Drupal\DrupalExtension\Context\DrushContext
     cu_forms_bundle:
       paths: [ %paths.base%/features/cu_forms_bundle ]
       contexts:
