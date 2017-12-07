@@ -23,8 +23,7 @@ cache:
 install:
 
   # Get Selenium.
-  - curl -sLO http://selenium-release.storage.googleapis.com/2.42/selenium-server-2.42.1.zip
-  - unzip selenium-server-2.42.1.zip
+  - curl -sLO http://selenium-release.storage.googleapis.com/2.42/selenium-server-2.42.1.jar
   - chmod +x selenium-server-standalone-2.42.1.jar
 
   # Get Chromedriver.
