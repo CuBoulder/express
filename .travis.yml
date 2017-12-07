@@ -32,7 +32,8 @@ install:
   - chmod +x geckodriver
 
   # Start up Selenium Server.
-  - java -Dwebdriver.gecko.driver=geckodriver -jar selenium-server-standalone-3.4.0.jar > /dev/null 2>&1 &
+  - java -Dwebdriver.gecko.driver=geckodriver -jar selenium-server-standalone-3.4.0.jar
+  # > /dev/null 2>&1 &
 
   # Install latest Drush 8.
   - travis_retry composer self-update && composer --version
