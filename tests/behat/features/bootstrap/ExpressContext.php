@@ -2,13 +2,7 @@
 
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Driver\Selenium2Driver;
-use Behat\MinkExtension\Context\MinkContext;
-use Behat\Mink\Session;
-use Behat\Mink\Driver\DriverInterface;
-use Behat\Behat\Context\Step\Given;
 
 /**
  * Defines application features from the specific context.
@@ -32,113 +26,18 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    */
   public static function prepare($scope) {
 
-    // List needed users.
-    $users = array('developer', 'administrator', 'content_editor', 'site_owner', 'edit_my_content', 'authenticated user');
-
-    // Create users.
-    foreach ($users as $user_name) {
-
-      // For some reason, I ran into the issue where the same user was created multiple times.
-      // If user exists, skip creation.
-      if (user_load_by_name($user_name)) {
-        continue;
-      }
-
-      // Get role ID.
-      $role = user_role_load_by_name($user_name);
-
-      $new_user = array(
-        'name' => $user_name,
-        'pass' => $user_name, // note: do not md5 the password
-        'mail' => 'noreply@nowhere.com',
-        'status' => 1,
-        'init' => 'noreply@nowhere.com',
-        'roles' => array(
-          DRUPAL_AUTHENTICATED_RID => 'authenticated user',
-          $role->rid => $user_name,
-        ),
-      );
-
-      // The first parameter is sent blank so a new user is created.
-      user_save('', $new_user);
-    }
-
     // Set LDAP variable to mixed mode.
     $ldap_conf = variable_get('ldap_authentication_conf');
     // 1 is mixed mode, 2 is LDAP only.
     $ldap_conf['authenticationMode'] = 1;
     variable_set('ldap_authentication_conf', $ldap_conf);
-
   }
 
   /**
    * @AfterSuite
    */
   public static function tearDown($scope) {
-    // Delete created users.
-    // Since they all have the same email, we can load them by that parameter.
-    $uids = db_query("SELECT uid FROM {users} WHERE mail = 'noreply@nowhere.com'")->fetchCol();
-    user_delete_multiple($uids);
 
-    // Re-import database if it exists.
-    // We do this since added nodes and other cruft can impact other test suites.
-    // @todo Need to save performance data if reimporting original database.
-    /*
-    if (file_exists($_SERVER['HOME'] . '/express.sql')) {
-      exec('drush sql-drop -y');
-      exec('drush sql-cli < ' . $_SERVER['HOME'] . '/express.sql');
-    }*/
-  }
-
-  /**
-   * Creates and authenticates a user with the given role(s).
-   *
-   * @Given CU - I am logged in as a user with the :role role(s)
-   * @Given CU - I am logged in as a/an :role
-   */
-  public function assertAuthenticatedByRole($role) {
-    // Load custom created user.
-    // User has the same name as the role.
-    $user = user_load_by_name($role);
-
-    // Translate to what is expected in $this->user.
-    $this->user = (object) array(
-      'name' => $user->name,
-      'pass' => $role,
-      'role' => $role,
-      'mail' => $user->mail,
-      'status' => $user->status,
-      'uid' => $user->uid,
-    );
-
-    // Check if logged in.
-    if ($this->loggedIn()) {
-      $this->logout();
-    }
-
-    if (!$this->user) {
-      throw new \Exception('Tried to login without a user.');
-    }
-
-    $this->getSession()->visit($this->locatePath('/user'));
-    $element = $this->getSession()->getPage();
-    $element->fillField($this->getDrupalText('username_field'), $this->user->name);
-    $element->fillField($this->getDrupalText('password_field'), $this->user->pass);
-    $submit = $element->findButton($this->getDrupalText('log_in'));
-    if (empty($submit)) {
-      throw new \Exception(sprintf("No submit button at %s", $this->getSession()
-        ->getCurrentUrl()));
-    }
-
-    // Log in.
-    $submit->click();
-
-    // Need to figure out better way to check if logged in.
-    /*
-    if (!$this->loggedIn()) {
-      throw new \Exception(sprintf("Failed to log in as user '%s' with role '%s'", $this->user->name, $this->user->role));
-    }
-    */
   }
 
   /**
@@ -149,6 +48,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    *
    * @return Behat\Mink\Element\Element
    *   An element representing the region.
+   * @throws \Exception
    */
   public function getRegion($region) {
     $session = $this->getSession();
@@ -237,16 +137,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    */
   public function iWaitForAjax() {
 
-    // Polling for the sake of my intern tests
-    $script = '
-    var interval = setInterval(function() {
-    console.log("checking");
-      if (document.readyState === "complete") {
-        clearInterval(interval);
-        done();
-      }
-    }, 1000);';
-
     //$this->getSession()->evaluateScript($script);
     $this->getSession()->wait(2000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
   }
@@ -255,6 +145,8 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    * Asserts that an image is present and not broken.
    *
    * @Then I should see an image in the :region region
+   *
+   * @throws \Exception
    */
   public function assertValidImageRegion($region) {
     $regionObj = $this->getRegion($region);
@@ -298,9 +190,12 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
 
 
   /**
-   * @Then /^I should see the image alt "(?P<text>(?:[^"]|\\")*)" in the "(?P<region>[^"]*)" region$/
+   * @Then /^I should see the image alt "(?P<text>(?:[^"]|\\")*)" in the
+   *   "(?P<region>[^"]*)" region$/
    *
    * NOTE: We specify a regex to allow escaped quotes in the alt text.
+   *
+   * @throws \Exception
    */
   public function assertAltRegion($text, $region) {
     $regionObj = $this->getRegion($region);
@@ -341,7 +236,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * @Then /^I select autosuggestion option "([^"]*)"$/
    *
-   * @param $text Option to be selected from autosuggestion
+   * @param $text string Option to be selected from autosuggestion
    * @throws \InvalidArgumentException
    */
   // @todo Fix brokenness or use keystroke step on tests where this step was intended to go.
@@ -403,6 +298,8 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
 
   /**
    * @When /^I click the "(?P<element>(?:[^"]|\\")*)" element with "(?P<value>(?:[^"]|\\")*)" for "(?P<attribute>(?:[^"]|\\")*)"$/
+   *
+   * @throws \Exception
    */
   public function iClickTheElementWithFor($element, $value, $attribute) {
     $page_elements = $this->getSession()
@@ -427,6 +324,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * @Then /^The "(?P<element>(?:[^"]|\\")*)" element should have "(?P<text>(?:[^"]|\\")*)" in the "(?P<attribute>(?:[^"]|\\")*)" attribute$/
    *
+   * @throws \Exception
    */
   public function elementShouldHaveForAttribute($element, $text, $attribute) {
     $session = $this->getSession();
@@ -454,6 +352,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * @Then /^The "(?P<element>(?:[^"]|\\")*)" link should have "(?P<text>(?:[^"]|\\")*)" in the "(?P<attribute>(?:[^"]|\\")*)" attribute$/
    *
+   * @throws \Exception
    */
   public function linkShouldHaveForAttribute($element, $text, $attribute) {
     $session = $this->getSession();
@@ -504,10 +403,9 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
       'type'  => $bean_type,
     );
     $entity = entity_create('bean', $values);
-    $saved_entity = entity_save('bean', $entity);
 
     // Go to bean page.
-    // Using vistPath() instead of visit() method since it adds base URL to relative path.
+    // Using visitPath() instead of visit() method since it adds base URL to relative path.
     $this->visitPath('block/' . $entity->delta);
   }
 
@@ -537,28 +435,4 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   public function iSwitchToIframe($arg1 = null) {
     $this->getSession()->switchToIFrame($arg1);
   }
-
-  /*
-  /**
-   * @AfterScenario
-   *
-   * @todo Get this working to cleanup node creation
-   */
-  /*
-  public function afterNodeCreation($event) {
-    $steps = $event->getScenario()->getSteps();
-    $tags = $event->getScenario()->getTags();
-
-    if (in_array('node_creation', $tags)) {
-      foreach ($steps as $step) {
-        $step = (array) $step;
-        //print_r($step);
-        if (strpos($step[Behat\Gherkin\Node\StepNodetext], 'I create a' && strpos($step[Behat\Gherkin\Node\StepNodetext], 'node'))) {
-          $step_pieces = explode('"', $step[Behat\Gherkin\Node\StepNodetext]);
-          print_r($step_pieces);
-        }
-      }
-    }
-  }
-  */
 }

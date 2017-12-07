@@ -3,17 +3,11 @@ language: php
 sudo: false
 
 php:
-  - '7.1'
+  - '7.1.11'
 
 branches:
   only:
     - dev
-
-addons:
-  apt:
-    packages:
-    - curl
-  firefox: '31.0'
 
 mysql:
   database: drupal
@@ -28,6 +22,19 @@ cache:
 
 install:
 
+  # Get Selenium.
+  - curl -sLO http://selenium-release.storage.googleapis.com/2.42/selenium-server-2.42.1.jar
+  - chmod +x selenium-server-standalone-2.42.1.jar
+
+  # Get Chromedriver.
+  #- curl -sLO https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
+  #- tar -xvf geckodriver-v0.19.1-linux64.tar.gz
+  #- chmod +x geckodriver
+
+  # Start up Selenium Server.
+  - java -jar selenium-server-standalone-2.42.1.jar
+  #> /dev/null 2>&1 &
+
   # Install latest Drush 8.
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:8.*"
@@ -36,9 +43,9 @@ install:
   # Build Behat dependencies
   - cd ./tests/behat
   - travis_retry composer install --prefer-dist --no-interaction
-  - cd ../../../
 
   # Build Codebase
+  - cd ../../../
   - drush dl drupal-7.56
   - mkdir drupal
   - mv drupal-7.56/* drupal/
@@ -57,21 +64,11 @@ install:
   - mkdir tmp
   - chmod -R 777 tmp
 
-  # Setup display for Selenium
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 5
-
-  # Get Selenium
-  - wget http://selenium-release.storage.googleapis.com/2.42/selenium-server-standalone-2.42.1.jar
-  - java -jar selenium-server-standalone-2.42.1.jar > /dev/null 2>&1 &
-  - nc -zvv localhost 4444; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 4444..."; nc -zvv localhost 4444; out=$?; sleep 5; done
-
   # Disable sendmail
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Add memcache, OpCache.
-  - echo "extension=opcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  #- echo "extension=opcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "extension=memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Bump up max execution time.
@@ -81,7 +78,7 @@ install:
   - echo "mysql.connect_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - echo "default_socket_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
-  # Increase the MySQL server timetout and packet size.
+  # Increase the MySQL server timeout and packet size.
   - mysql -e "SET GLOBAL wait_timeout = 36000;"
   - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
 
@@ -94,12 +91,10 @@ before_script:
   - mysql -e 'create database drupal;'
   - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
-  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
 
-  # Export db so it can be imported after every suite run.
-  # Test runs that fill up the db with nodes can impact other tests.
-  - drush sql-dump --result-file=$HOME/express.sql
-  - ls -al $HOME
+  # Build Express.
+  - chmod +x profiles/express/tests/travis-ci/build-express.sh
+  - ./profiles/express/tests/travis-ci/build-express.sh
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
@@ -108,22 +103,17 @@ before_script:
 
   # Setting Behat environment
   - BUILD_TOP=`dirname $TRAVIS_BUILD_DIR`
-  - BEHAT_PARAMS='{"extensions":{"Drupal\\DrupalExtension":{"drupal":{"drupal_root":"BUILD_TOP/drupal"}},"Behat\\MinkExtension":{"base_url":"http://127.0.0.1:8080/","files_path":"/home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/assets/"}}}'
+  - BEHAT_PARAMS='{"extensions":{"Drupal\\DrupalExtension":{"drupal":{"drupal_root":"BUILD_TOP/drupal"}},"Behat\\MinkExtension":{"base_url":"http://127.0.0.1:8080","files_path":"/home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/assets/"}}}'
   - BEHAT_PARAMS=`echo $BEHAT_PARAMS | sed -e s#BUILD_TOP#$BUILD_TOP#`
   - export BEHAT_PARAMS
 
 script:
 
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles&&~broken'
+  - ./bin/behat --config behat.yml --verbose --tags @javascript
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
-
-  # Second Test run for broken tests.
-  #- drush sql-drop -y
-  #- drush sql-cli < $HOME/express.sql
-  #- ./bin/behat --config behat.yml --verbose --tags @broken
 
   # Run Simpletests
   #- drush en simpletest -y

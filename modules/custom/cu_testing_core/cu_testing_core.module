@@ -164,4 +164,3 @@ function cu_testing_core_form_user_login_alter(&$form, &$form_state) {
   $form['pass']['#title'] = t('IdentiKey Password');
   $form['pass']['#description'] = '';
 }
-
