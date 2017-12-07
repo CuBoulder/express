@@ -1,6 +1,7 @@
 {
   "require": {
-    "drupal/drupal-extension": "dev-master"
+    "drupal/drupal-extension": "dev-master",
+    "behat/mink-extension": "2.2"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
