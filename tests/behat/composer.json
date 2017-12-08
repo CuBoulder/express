@@ -1,6 +1,7 @@
 {
   "require": {
-        "drupal/drupal-extension": "dev-master"
+    "drupal/drupal-extension": "dev-master",
+    "dmore/behat-chrome-extension": "dev-master@dev"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
