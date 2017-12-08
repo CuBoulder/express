@@ -22,6 +22,7 @@ cache:
   directories:
     - $HOME/.composer/cache
     - $HOME/.drush/cache
+    - $HOME/cache
 
 before_install:
   - google-chrome-stable --disable-gpu --headless --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 > /dev/null 2>&1 &
@@ -87,8 +88,7 @@ before_script:
 
   # Export db so it can be imported after every suite run.
   # Test runs that fill up the db with nodes can impact other tests.
-  - drush sql-dump --result-file=$HOME/express.sql
-  - ls -al $HOME
+  - drush sql-dump --result-file=$HOME/cache/express.sql
 
   # Start server.
   - drush runserver 127.0.0.1:8080 &
