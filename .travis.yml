@@ -10,7 +10,7 @@ branches:
     - dev
 
 addons:
-  firefox: 57
+  firefox: 57.0.1
 
 mysql:
   database: drupal
