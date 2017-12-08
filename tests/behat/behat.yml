@@ -98,7 +98,7 @@ default:
         sessions:
             default:
                 chrome:
-                    api_url: "http://localhost:9222"
+                    api_url: "http://0.0.0.0:9222"
         files_path: "/home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/assets/"
     Drupal\DrupalExtension:
       blackbox: ~
