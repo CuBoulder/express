@@ -9,9 +9,6 @@ branches:
   only:
     - dev
 
-addons:
-  firefox: 47
-
 mysql:
   database: drupal
   username: root
@@ -59,9 +56,14 @@ install:
   - sh -e /etc/init.d/xvfb start
   - sleep 5
 
+  # Get Gecko driver.
+  - curl -sLO https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
+  - tar -xvf geckodriver-v0.19.1-linux64.tar.gz
+  - chmod +x geckodriver
+
   # Get Selenium
-  - wget http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.1.jar
-  - java -jar selenium-server-standalone-2.53.1.jar > /dev/null 2>&1 &
+  - wget http://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar
+  - java -Dwebdriver.gecko.driver=geckodriver -jar selenium-server-standalone-3.8.1.jar > /dev/null 2>&1 &
   - nc -zvv localhost 4444; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 4444..."; nc -zvv localhost 4444; out=$?; sleep 5; done
 
   # Disable sendmail
