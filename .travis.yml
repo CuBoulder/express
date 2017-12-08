@@ -10,9 +10,7 @@ branches:
     - dev
 
 addons:
-  apt:
-    packages:
-    - chromium-browser=61.0.3163.100-0ubuntu1.1378
+  chrome: stable
 
 mysql:
   database: drupal
