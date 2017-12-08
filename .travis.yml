@@ -9,9 +9,6 @@ branches:
   only:
     - dev
 
-addons:
-  firefox: '31.0'
-
 mysql:
   database: drupal
   username: root
@@ -60,8 +57,8 @@ install:
   - sleep 5
 
   # Get Selenium
-  - wget http://selenium-release.storage.googleapis.com/2.42/selenium-server-standalone-2.42.1.jar
-  - java -jar selenium-server-standalone-2.42.1.jar > /dev/null 2>&1 &
+  - wget http://selenium-release.storage.googleapis.com/2.42/selenium-server-standalone-2.53.1.jar
+  - java -jar selenium-server-standalone-2.53.1.jar > /dev/null 2>&1 &
   - nc -zvv localhost 4444; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 4444..."; nc -zvv localhost 4444; out=$?; sleep 5; done
 
   # Disable sendmail
