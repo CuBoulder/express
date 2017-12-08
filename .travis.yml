@@ -67,7 +67,7 @@ install:
   # Get Gecko driver.
   - curl -sLO https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-linux64.tar.gz
   - tar -xvf geckodriver-v0.19.1-linux64.tar.gz
-  - chmod +x gecokdriver
+  - chmod +x geckodriver
 
   # Get Selenium
   - wget http://selenium-release.storage.googleapis.com/3.8/selenium-server-standalone-3.8.1.jar
