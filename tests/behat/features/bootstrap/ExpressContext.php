@@ -93,7 +93,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Creates and authenticates a user with the given role(s).
    *
-   * @Given CU - I am logged in as a user with the :role role(s)
+   * @Given I am logged in as a user with the :role role(s)
    * @Given CU - I am logged in as a/an :role
    */
   public function assertAuthenticatedByRole($role) {
