@@ -93,12 +93,9 @@ default:
   extensions:
     Behat\MinkExtension:
       goutte: ~
-      sessions:
-        my_session:
-          goutte:
-            guzzle_parameters:
-              ssl.certificate_authority: false
-      selenium2: ~
+      selenium2:
+        wd_host: 127.0.0.1:4444/wd/hub
+        capabilities: { "browser": "firefox", "version": "ANY", "selenium-version": "ANY", "deviceType": "ANY"}
       javascript_session: selenium2
       browser_name: firefox
     Drupal\DrupalExtension:
