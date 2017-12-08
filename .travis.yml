@@ -9,6 +9,9 @@ branches:
   only:
     - dev
 
+addons:
+  firefox: 47
+
 mysql:
   database: drupal
   username: root
