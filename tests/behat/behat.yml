@@ -95,9 +95,8 @@ default:
       goutte: ~
       selenium2:
         wd_host: 127.0.0.1:4444/wd/hub
-        capabilities: { "browser": "chrome" }
       javascript_session: selenium2
-      browser_name: chrome
+      browser_name: firefox
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: 'drupal'
