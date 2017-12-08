@@ -9,6 +9,11 @@ branches:
   only:
     - dev
 
+addons:
+  apt:
+    packages:
+    - chromium-browser=61.0.3163.100-0ubuntu1.1378
+
 mysql:
   database: drupal
   username: root
@@ -23,7 +28,6 @@ cache:
 before_install:
 
   # Install Chrome
-  - apt-get chromium-browser=61.0.3163.100-0ubuntu1.1378
   - ls -al /usr/bin/
 
 install:
