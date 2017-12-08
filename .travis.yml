@@ -10,9 +10,6 @@ branches:
     - dev
 
 addons:
-  apt:
-    packages:
-    - curl
   firefox: '31.0'
 
 mysql:
@@ -70,8 +67,7 @@ install:
   # Disable sendmail
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
-  # Add memcache, OpCache.
-  - echo "extension=opcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  # Add memcache.
   - echo "extension=memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Bump up max execution time.
