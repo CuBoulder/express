@@ -2,90 +2,10 @@ default:
   formatters:
     pretty: true
   suites:
-    express:
-      paths: [ "%paths.base%/features/Express" ]
+    default:
+      paths: [ '%paths.base%/features' ]
       contexts:
         - ExpressContext
-        - Drupal\DrupalExtension\Context\DrupalContext
-        - Drupal\DrupalExtension\Context\MinkContext
-        - Drupal\DrupalExtension\Context\MessageContext
-        - Drupal\DrupalExtension\Context\DrushContext
-    cu_advanced_content_bundle:
-      paths: [ "%paths.base%/features/cu_advanced_content_bundle" ]
-      contexts:
-        - ExpressContext
-        - AdvancedContentContext
-        - Drupal\DrupalExtension\Context\DrupalContext
-        - Drupal\DrupalExtension\Context\MinkContext
-        - Drupal\DrupalExtension\Context\MessageContext
-        - Drupal\DrupalExtension\Context\DrushContext
-    cu_advanced_design_bundle:
-      paths: [ "%paths.base%/features/cu_advanced_design_bundle" ]
-      contexts:
-        - ExpressContext
-        - Drupal\DrupalExtension\Context\DrupalContext
-        - Drupal\DrupalExtension\Context\MinkContext
-        - Drupal\DrupalExtension\Context\MessageContext
-        - Drupal\DrupalExtension\Context\DrushContext
-    cu_advanced_layout_bundle:
-      paths: [ "%paths.base%/features/cu_advanced_layout_bundle" ]
-      contexts:
-        - ExpressContext
-        - AdvancedLayoutContext
-        - Drupal\DrupalExtension\Context\DrupalContext
-        - Drupal\DrupalExtension\Context\MinkContext
-        - Drupal\DrupalExtension\Context\MessageContext
-        - Drupal\DrupalExtension\Context\DrushContext
-    cu_forms_bundle:
-      paths: [ "%paths.base%/features/cu_forms_bundle" ]
-      contexts:
-        - ExpressContext
-        - FormsContext
-        - Drupal\DrupalExtension\Context\DrupalContext
-        - Drupal\DrupalExtension\Context\MinkContext
-        - Drupal\DrupalExtension\Context\MessageContext
-        - Drupal\DrupalExtension\Context\DrushContext
-    cu_news_articles_bundle:
-      paths: [ "%paths.base%/features/cu_news_articles_bundle" ]
-      contexts:
-        - ExpressContext
-        - NewsArticlesContext
-        - Drupal\DrupalExtension\Context\DrupalContext
-        - Drupal\DrupalExtension\Context\MinkContext
-        - Drupal\DrupalExtension\Context\MessageContext
-        - Drupal\DrupalExtension\Context\DrushContext
-    cu_people_bundle:
-      paths: [ "%paths.base%/features/cu_people_bundle" ]
-      contexts:
-        - ExpressContext
-        - PeopleContext
-        - Drupal\DrupalExtension\Context\DrupalContext
-        - Drupal\DrupalExtension\Context\MinkContext
-        - Drupal\DrupalExtension\Context\MessageContext
-        - Drupal\DrupalExtension\Context\DrushContext
-    cu_photo_gallery_bundle:
-      paths: [ "%paths.base%/features/cu_photo_gallery_bundle" ]
-      contexts:
-        - ExpressContext
-        - PhotoGalleryContext
-        - Drupal\DrupalExtension\Context\DrupalContext
-        - Drupal\DrupalExtension\Context\MinkContext
-        - Drupal\DrupalExtension\Context\MessageContext
-        - Drupal\DrupalExtension\Context\DrushContext
-    cu_seo_bundle:
-      paths: [ "%paths.base%/features/SEO" ]
-      contexts:
-        - ExpressContext
-        - SEOContext
-        - Drupal\DrupalExtension\Context\DrupalContext
-        - Drupal\DrupalExtension\Context\MinkContext
-        - Drupal\DrupalExtension\Context\MessageContext
-        - Drupal\DrupalExtension\Context\DrushContext
-    cu_social_media_bundle:
-      paths: [ "%paths.base%/features/cu_social_media_bundle" ]
-      contexts:
-        - ExpressContext
-        - SocialMediaContext
         - Drupal\DrupalExtension\Context\DrupalContext
         - Drupal\DrupalExtension\Context\MinkContext
         - Drupal\DrupalExtension\Context\MessageContext
@@ -94,17 +14,13 @@ default:
     DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
     Behat\MinkExtension:
         browser_name: chrome
-        base_url: http://127.0.0.1:8080
         sessions:
             default:
                 chrome:
                     api_url: "http://0.0.0.0:9222"
-        files_path: "/home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/assets/"
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: 'drupal'
-      drupal:
-        drupal_root: '/home/travis/build/CuBoulder/drupal'
       subcontexts:
         paths:
           - "./profiles/express/tests/behat"
