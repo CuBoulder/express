@@ -5,9 +5,9 @@ core = 7.x
 dependencies[] = filter
 dependencies[] = shortcode
 
-; Information added by Drupal.org packaging script on 2017-10-20
-version = "7.x-2.23"
+; Information added by Drupal.org packaging script on 2017-12-04
+version = "7.x-2.25"
 core = "7.x"
 project = "shortcode"
-datestamp = "1508523547"
+datestamp = "1512417786"
 

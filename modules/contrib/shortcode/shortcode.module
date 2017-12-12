@@ -87,9 +87,10 @@ function _shortcode_filter_tips($filter, $format, $long = FALSE) {
   $out = NULL;
   $shortcodes = shortcode_list_all_enabled($format);
   if (!empty($shortcodes)) {
-    $tips = array();
+    $tips = [];
     foreach ($filter->settings as $name => $enabled) {
-      if ($enabled && !empty($shortcodes[$name]['tips callback'])) {
+      $callable_name = '';
+      if ($enabled && !empty($shortcodes[$name]['tips callback']) && is_callable($shortcodes[$name]['tips callback'], FALSE, $callable_name)) {
         $tip = call_user_func_array($shortcodes[$name]['tips callback'], array(
           $format,
           $long,
@@ -514,15 +515,13 @@ function shortcode_bool($var) {
  *   The proper classes string.
  */
 function shortcode_add_class($class = '', $default = '') {
-  if ($class) {
-    if (!is_array($class)) {
-      $class = explode(' ', $class);
-    }
-    array_unshift($class, $default);
-    $class = array_unique($class);
+  if (!is_array($class)) {
+    $class = explode(' ', check_plain($class));
   }
-  else {
-    $class[] = $default;
-  }
+
+  $class = (array) $class;
+  $class[] = $default;
+  $class = array_unique($class);
+
   return implode(' ', $class);
 }
