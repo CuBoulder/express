@@ -1,6 +1,6 @@
 default:
   formatters:
-    falied: true
+    pretty: false
   suites:
     default:
       paths: [ '%paths.base%/features' ]
