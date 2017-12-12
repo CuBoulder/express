@@ -7,6 +7,81 @@
 include_once 'cu_events_calendar_block.features.inc';
 
 /**
+ * Define site permissions in code.
+ *
+ * Create a secure_permissions_data module directory and place this function
+ * in secure_permissions_data.module.
+ *
+ * @param $role
+ *   The role for which the permissions are being requested.
+ *
+ * @return
+ *   An array defining all the permissions for the site.
+ */
+
+function cu_events_calendar_block_secure_permissions($role) {
+  // INSERT PERMISSIONS FOR THIS BUNDLE
+  $permissions = array(
+    'anonymous user' => array(
+      'view any cu_events_calendar_block bean',
+      'view any events_calendar_grid bean',
+    ),
+    'authenticated user' => array(
+      'view any cu_events_calendar_block bean',
+      'view any events_calendar_grid bean',
+    ),
+    'administrator' => array(
+      'create any cu_events_calendar_block bean',
+      'create any events_calendar_grid bean',
+      'delete any cu_events_calendar_block bean',
+      'delete any events_calendar_grid bean',
+      'edit any cu_events_calendar_block bean',
+      'edit any events_calendar_grid bean',
+      'view any cu_events_calendar_block bean',
+      'view any events_calendar_grid bean',
+    ),
+    'content_editor' => array(
+      'create any cu_events_calendar_block bean',
+      'create any events_calendar_grid bean',
+      'delete any cu_events_calendar_block bean',
+      'delete any events_calendar_grid bean',
+      'edit any cu_events_calendar_block bean',
+      'edit any events_calendar_grid bean',
+      'view any cu_events_calendar_block bean',
+      'view any events_calendar_grid bean',
+    ),
+    'developer' => array(
+      'create any cu_events_calendar_block bean',
+      'create any events_calendar_grid bean',
+      'delete any cu_events_calendar_block bean',
+      'delete any events_calendar_grid bean',
+      'edit any cu_events_calendar_block bean',
+      'edit any events_calendar_grid bean',
+      'view any cu_events_calendar_block bean',
+      'view any events_calendar_grid bean',
+    ),
+    'edit_my_content' => array(
+      'view any cu_events_calendar_block bean',
+      'view any events_calendar_grid bean',
+    ),
+    'site_owner' => array(
+      'create any cu_events_calendar_block bean',
+      'create any events_calendar_grid bean',
+      'delete any cu_events_calendar_block bean',
+      'delete any events_calendar_grid bean',
+      'edit any cu_events_calendar_block bean',
+      'edit any events_calendar_grid bean',
+      'view any cu_events_calendar_block bean',
+      'view any events_calendar_grid bean',
+    ),
+  );
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
  * Implements hook_theme_registry_alter().
  *
  * Let Drupal know that we've got node--person.tpl.php in our module directory.

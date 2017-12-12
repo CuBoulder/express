@@ -828,6 +828,45 @@ function cu_core_update_7033() {
     'cu_unused_beans'
   ));
 }
+/*
+ * Express 2.6.5 Update.
+ *
+ * Disable and uninstall securepages. Need to skip hook numbered 7035 because
+ * the homepage will already have run it.
+ */
+ function cu_core_update_7035() {
+  module_disable(array('securepages'));
+  drupal_uninstall_modules($module_list = array('securepages'), $uninstall_dependents = FALSE);
+}
+
+
+/**
+ * Express 2.7.0 Update.
+ *
+ * Enable google_cse and diff modules.
+ */
+ function cu_core_update_7036() {
+  module_enable(array(
+    'google_cse',
+    'diff',
+  ));
+}
+
+/**
+ * Express 2.8.0 Update.
+ *
+ * Revert All Features.
+ */
+function cu_core_update_7037() {
+  module_enable(array(
+    'cu_update_ping',
+    'express_user_lock',
+    'cu_unused_beans'
+  ));
+  module_disable(array('google_appliance'));
+  drupal_uninstall_modules($module_list = array('google_appliance'), $uninstall_dependents = FALSE);
+  cu_core_revert_features();
+}
 
 /**
 * Updates for new infrastructure.
@@ -922,3 +961,4 @@ function cu_core_scramble_admin() {
     user_save($user);
   }
 }
+

@@ -98,7 +98,6 @@ function cu_expandable_bean_render($bid, $hide_block_titles) {
       $title = NULL;
     }
 
-    $block['subject'] = $title;
     $block['#theme_wrappers'] = array('block');
     $block['#block'] = (object) array(
       'region' => 'block_section',
