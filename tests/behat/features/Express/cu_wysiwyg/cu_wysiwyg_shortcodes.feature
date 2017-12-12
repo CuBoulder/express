@@ -32,7 +32,7 @@ I should be able to use the full functionality of the WYSIWYG editor
       And I click "New Button"
     Then I should see a "#hplogo" element
 
-  @api @javascript @wysiwyg
+  @api @javascript @wysiwyg @files @broken
   Scenario: A content editor should be able to add an image caption shortcode
     Given  I am logged in as a user with the "content_editor" role
     When I am at "node/add/page"
