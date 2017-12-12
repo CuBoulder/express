@@ -1,8 +1,7 @@
 <?php
-
 /**
  * @file
- * Views Implementation for UUID.
+ * Views Implementation for UUID
  */
 
 /**

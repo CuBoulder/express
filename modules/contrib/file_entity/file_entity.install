@@ -960,10 +960,7 @@ function file_entity_update_7211() {
       ),
     ),
   );
-
-  if (!db_table_exists('file_metadata')) {
-    db_create_table('file_metadata', $schema);
-  }
+  db_create_table('file_metadata', $schema);
 }
 
 /**

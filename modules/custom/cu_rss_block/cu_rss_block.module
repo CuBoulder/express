@@ -65,17 +65,25 @@ function cu_rss_block_preprocess_entity(&$vars) {
       $response = drupal_http_request($url);
       if ($response->code == '200') {
 
-        // remove <![CDATA[]]>
-        $xml = preg_replace_callback('/<!\[CDATA\[(.*)\]\]>/', '_cu_rss_block_cdata_filter', $response->data);
+        // Check to see if feed is still valid.
+        $is_xml = simplexml_load_string($response->data);
+        if($is_xml===FALSE) {
+          $watchdog_message = 'Feed is not valid: ' . $url;
+          watchdog('cu_rss_block', $watchdog_message, array(), WATCHDOG_NOTICE, NULL);
+        }
+        else {
+          // remove <![CDATA[]]>
+          $xml = preg_replace_callback('/<!\[CDATA\[(.*)\]\]>/', '_cu_rss_block_cdata_filter', $response->data);
 
-        // Create new XMLElement
-        $data = new SimpleXMLElement($xml);
+          // Create new XMLElement
+          $data = new SimpleXMLElement($xml);
 
-        // Convert into a nice array for us to work with.
-        $data = json_encode($data);
-        $data = json_decode($data, true);
-        // Save to cache for 30 minutes
-        cache_set('rss_feed-' . $url, $data, 'cache', time() + 60 * 30);
+          // Convert into a nice array for us to work with.
+          $data = json_encode($data);
+          $data = json_decode($data, true);
+          // Save to cache for 30 minutes
+          cache_set('rss_feed-' . $url, $data, 'cache', time() + 60 * 30);
+        }
       }
     }
     // If the feed only contains a single item
