@@ -23,7 +23,7 @@ Feature: File Content Type
     Then I should see "Access denied"
 
 
-  @api @javascript
+  @api @javascript @files @broken
   Scenario: A content editor should be able to access the form for adding a file
     Given  I am logged in as a user with the "content_editor" role
     When I am at "node/add/file"
