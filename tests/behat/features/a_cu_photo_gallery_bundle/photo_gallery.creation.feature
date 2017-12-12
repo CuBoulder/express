@@ -1,6 +1,7 @@
 Feature: Photo Gallery Creation
   Create different configurations of Photo Galleries.
 
+  # This test is placed first to try and prevent error.
   @api @javascript
   Scenario: Create a basic photo gallery.
     Given  I am logged in as a user with the "content_editor" role
