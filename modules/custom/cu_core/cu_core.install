@@ -871,7 +871,7 @@ function cu_core_update_7037() {
 /**
 * Updates for new infrastructure.
 */
-function cu_core_update_7035() {
+function cu_core_update_7038() {
  module_disable(array(
    'securepages',
    'memcache'
