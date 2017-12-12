@@ -104,7 +104,7 @@ before_script:
 script:
 
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --tags '~@exclude_all_bundles&&~broken' | egrep -wi --color 'Scenario|Fatal|error|Watchdog'
+  - ./bin/behat --config behat.yml --tags '~@exclude_all_bundles&&~broken'
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
