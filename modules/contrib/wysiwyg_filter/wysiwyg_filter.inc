@@ -262,6 +262,10 @@ function wysiwyg_filter_parse_valid_elements($valid_elements) {
   // Append commonly allowed attributes to each allowed element.
   if (!empty($common_attributes)) {
     foreach ($parsed_elements as $element => &$attributes) {
+      // Skip synonyms.
+      if (!is_array($parsed_elements[$element])) {
+        continue;
+      }
       // Do not append common attributes when all are allowed.
       if (isset($parsed_elements[$element]['*'])) {
         continue;
