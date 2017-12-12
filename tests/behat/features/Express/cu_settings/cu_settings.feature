@@ -82,7 +82,7 @@ Feature: CU Settings
       And fill in "Site name - line 1" with "New Site Title"
       And fill in "Site name - line 2 (optional)" with "Second line"
     When I press the "Save" button
-      And I am at the homepage
+      And I am at "home"
     Then I should see "New Site Title Second Line"
 
   ## Not sure where livechat tests should go.

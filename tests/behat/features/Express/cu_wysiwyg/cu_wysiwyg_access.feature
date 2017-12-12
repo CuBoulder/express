@@ -26,7 +26,7 @@ I should be able to access the functionality of the WYSIWYG editor
     When I am at "node/add/page"
       # @todo Remove this step and look for WYSIWYG element to load.
       # And I wait for the WYSIWYG element to appear.
-      And I wait for AJAX
+      And I wait for AJAX to finish
     Then I should see the button "Button Shortcode Generator"
       And I should see the button "Image Caption Shortcode Generator"
       And I should see the button "Image Caption Shortcode Generator"
