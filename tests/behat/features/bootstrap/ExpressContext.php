@@ -27,121 +27,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   }
 
   /**
-   * @BeforeSuite
-   * Enable bundle and add authentication data.
-   */
-  public static function prepare($scope) {
-
-    // List needed users.
-    $users = array('developer', 'administrator', 'content_editor', 'site_owner', 'edit_my_content', 'authenticated user');
-
-    // Create users.
-    foreach ($users as $user_name) {
-
-      // For some reason, I ran into the issue where the same user was created multiple times.
-      // If user exists, skip creation.
-      if (user_load_by_name($user_name)) {
-        continue;
-      }
-
-      // Get role ID.
-      $role = user_role_load_by_name($user_name);
-
-      $new_user = array(
-        'name' => $user_name,
-        'pass' => $user_name, // note: do not md5 the password
-        'mail' => 'noreply@nowhere.com',
-        'status' => 1,
-        'init' => 'noreply@nowhere.com',
-        'roles' => array(
-          DRUPAL_AUTHENTICATED_RID => 'authenticated user',
-          $role->rid => $user_name,
-        ),
-      );
-
-      // The first parameter is sent blank so a new user is created.
-      user_save('', $new_user);
-    }
-
-    // Set LDAP variable to mixed mode.
-    $ldap_conf = variable_get('ldap_authentication_conf');
-    // 1 is mixed mode, 2 is LDAP only.
-    $ldap_conf['authenticationMode'] = 1;
-    variable_set('ldap_authentication_conf', $ldap_conf);
-
-  }
-
-  /**
-   * @AfterSuite
-   */
-  public static function tearDown($scope) {
-    // Delete created users.
-    // Since they all have the same email, we can load them by that parameter.
-    $uids = db_query("SELECT uid FROM {users} WHERE mail = 'noreply@nowhere.com'")->fetchCol();
-    user_delete_multiple($uids);
-
-    // Re-import database if it exists.
-    // We do this since added nodes and other cruft can impact other test suites.
-    // @todo Need to save performance data if reimporting original database.
-    /*
-    if (file_exists($_SERVER['HOME'] . '/express.sql')) {
-      exec('drush sql-drop -y');
-      exec('drush sql-cli < ' . $_SERVER['HOME'] . '/express.sql');
-    }*/
-  }
-
-  /**
-   * Creates and authenticates a user with the given role(s).
-   *
-   * @Given CU - I am logged in as a user with the :role role(s)
-   * @Given CU - I am logged in as a/an :role
-   */
-  public function assertAuthenticatedByRole($role) {
-    // Load custom created user.
-    // User has the same name as the role.
-    $user = user_load_by_name($role);
-
-    // Translate to what is expected in $this->user.
-    $this->user = (object) array(
-      'name' => $user->name,
-      'pass' => $role,
-      'role' => $role,
-      'mail' => $user->mail,
-      'status' => $user->status,
-      'uid' => $user->uid,
-    );
-
-    // Check if logged in.
-    if ($this->loggedIn()) {
-      $this->logout();
-    }
-
-    if (!$this->user) {
-      throw new \Exception('Tried to login without a user.');
-    }
-
-    $this->getSession()->visit($this->locatePath('/user'));
-    $element = $this->getSession()->getPage();
-    $element->fillField($this->getDrupalText('username_field'), $this->user->name);
-    $element->fillField($this->getDrupalText('password_field'), $this->user->pass);
-    $submit = $element->findButton($this->getDrupalText('log_in'));
-    if (empty($submit)) {
-      throw new \Exception(sprintf("No submit button at %s", $this->getSession()
-        ->getCurrentUrl()));
-    }
-
-    // Log in.
-    $submit->click();
-
-    // Need to figure out better way to check if logged in.
-    /*
-    if (!$this->loggedIn()) {
-      throw new \Exception(sprintf("Failed to log in as user '%s' with role '%s'", $this->user->name, $this->user->role));
-    }
-    */
-  }
-
-  /**
    * Get a region by name.
    *
    * @param string $region
@@ -157,18 +42,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
       throw new \Exception(sprintf('No region "%s" found on the page %s.', $region, $session->getCurrentUrl()));
     }
     return $regionObj;
-  }
-
-  /**
-   * @BeforeScenario
-   */
-  public function beforeScenario($event) {
-    // If this is a @javascript test, then resize the window.
-    /*
-    if ($event->getScenario()->hasTag('javascript')) {
-      $this->getSession()->resizeWindow(1280, 1024, 'current');
-    }
-    */
   }
 
   /**
@@ -537,28 +410,4 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   public function iSwitchToIframe($arg1 = null) {
     $this->getSession()->switchToIFrame($arg1);
   }
-
-  /*
-  /**
-   * @AfterScenario
-   *
-   * @todo Get this working to cleanup node creation
-   */
-  /*
-  public function afterNodeCreation($event) {
-    $steps = $event->getScenario()->getSteps();
-    $tags = $event->getScenario()->getTags();
-
-    if (in_array('node_creation', $tags)) {
-      foreach ($steps as $step) {
-        $step = (array) $step;
-        //print_r($step);
-        if (strpos($step[Behat\Gherkin\Node\StepNodetext], 'I create a' && strpos($step[Behat\Gherkin\Node\StepNodetext], 'node'))) {
-          $step_pieces = explode('"', $step[Behat\Gherkin\Node\StepNodetext]);
-          print_r($step_pieces);
-        }
-      }
-    }
-  }
-  */
 }

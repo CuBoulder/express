@@ -621,7 +621,6 @@ function express_layout_block_view($delta = '') {
   // If we have beans to render, add them to $block['content'].
   if (isset($extra)) {
     $block['content'] = $extra;
-    $block['subject'] = '';
   }
   return $block;
 }
@@ -643,7 +642,6 @@ function _express_layout_bean_to_block($bean, $region) {
   if (bean_access('view', $bean)) {
     // Most of this taken from bean_block_view().
     $block['content'] = $bean->view($bean->view_mode);
-    $block['subject'] = $bean->title;
     $block['#theme_wrappers'] = array('block');
     $block['#block'] = (object) array(
       'region' => $region,

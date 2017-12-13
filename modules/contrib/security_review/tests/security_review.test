@@ -31,7 +31,6 @@ class SecurityReviewTestCase extends DrupalWebTestCase {
       'create article content',
       'administer nodes',
       'administer content types',
-      'administer fields',
     ));
     $this->drupalLogin($this->privileged_user);
   }

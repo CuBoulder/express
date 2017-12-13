@@ -4,7 +4,12 @@
  * @file
  * Webform module submission tests.
  */
+
+/**
+ *
+ */
 class WebformSubmissionTestCase extends WebformTestCase {
+
   /**
    * {@inheritdoc}
    */
@@ -19,7 +24,7 @@ class WebformSubmissionTestCase extends WebformTestCase {
   /**
    * Test sending a submission and check database integrity.
    */
-  function testWebformSubmission() {
+  public function testWebformSubmission() {
     $this->drupalLogin($this->webform_users['admin']);
     $this->webformReset();
     $this->webformSubmissionExecute('sample');
@@ -29,7 +34,7 @@ class WebformSubmissionTestCase extends WebformTestCase {
   /**
    * Test a submission that uses default values, and check database integrity.
    */
-  function testWebformSubmissionDefault() {
+  public function testWebformSubmissionDefault() {
     $this->drupalLogin($this->webform_users['admin']);
     $this->webformReset();
     $this->webformSubmissionExecute('default');
@@ -39,7 +44,7 @@ class WebformSubmissionTestCase extends WebformTestCase {
   /**
    * Test validation errors on each component that has specialized validation.
    */
-  function testWebformSubmissionValidate() {
+  public function testWebformSubmissionValidate() {
     $this->drupalLogin($this->webform_users['admin']);
     $this->webformReset();
     $this->webformSubmissionValidateExecute();
@@ -49,7 +54,7 @@ class WebformSubmissionTestCase extends WebformTestCase {
   /**
    * Test that required fields with no default value can't be submitted as-is.
    */
-  function testWebformSubmissionRequiredComponents() {
+  public function testWebformSubmissionRequiredComponents() {
     $this->drupalLogin($this->webform_users['admin']);
     $this->webformReset();
 
@@ -81,7 +86,7 @@ class WebformSubmissionTestCase extends WebformTestCase {
   /**
    * Test length validation.
    */
-  function testWebformSubmissionComponentLength() {
+  public function testWebformSubmissionComponentLength() {
     $this->drupalLogin($this->webform_users['admin']);
     $this->webformReset();
 
@@ -122,7 +127,7 @@ class WebformSubmissionTestCase extends WebformTestCase {
    * @param $value_type
    *   The values to be submitted to the webform. Either "sample" or "default".
    */
-  function webformSubmissionExecute($value_type = 'sample') {
+  public function webformSubmissionExecute($value_type = 'sample') {
     $path = drupal_get_path('module', 'webform');
     module_load_include('inc', 'webform', 'includes/webform.submissions');
 
@@ -167,7 +172,7 @@ class WebformSubmissionTestCase extends WebformTestCase {
    * @param $value_type
    *   The values to be submitted to the webform. Either "sample" or "default".
    */
-  function webformSubmissionValidateExecute() {
+  public function webformSubmissionValidateExecute() {
     $path = drupal_get_path('module', 'webform');
     module_load_include('inc', 'webform', 'includes/webform.submissions');
 
@@ -194,4 +199,5 @@ class WebformSubmissionTestCase extends WebformTestCase {
       }
     }
   }
+
 }

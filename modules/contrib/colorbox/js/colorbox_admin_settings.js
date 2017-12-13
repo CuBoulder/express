@@ -1,8 +1,3 @@
-/**
- * @file
- * Colorbox module admin settings js.
- */
-
 (function ($) {
 
 Drupal.behaviors.initColorboxAdminSettings = {

@@ -273,18 +273,6 @@ function file_entity_field_formatter_settings_summary($field, $instance, $view_m
 }
 
 /**
- * Implements hook_field_formatter_prepare_view().
- */
-function file_entity_field_formatter_prepare_view($entity_type, $entities, $field, $instances, $langcode, &$items, $displays) {
-  // File and image fields set item values to NULL if a file cannot be loaded.
-  // Remove those empty items so we can simply iterate through $items normally
-  // in file_entity_field_formatter_view().
-  foreach (array_keys($entities) as $id) {
-    $items[$id] = array_filter($items[$id]);
-  }
-}
-
-/**
  * Implements hook_field_formatter_view().
  */
 function file_entity_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
@@ -296,66 +284,45 @@ function file_entity_field_formatter_view($entity_type, $entity, $field, $instan
       foreach ($items as $delta => $item) {
         // Protect ourselves from recursive rendering.
         static $recursive_render_depth = array();
-        if (!empty($item)) {
-          $recursive_render_id = $entity_type . $field['field_name'] . $item['fid'];
-          if (isset($recursive_render_depth[$recursive_render_id])) {
-            $recursive_render_depth[$recursive_render_id]++;
-          }
-          else {
-            $recursive_render_depth[$recursive_render_id] = 1;
-          }
+        $recursive_render_id = $entity_type . $field['field_name'] . $item['fid'];
 
-          if ($recursive_render_depth[$recursive_render_id] > 20) {
-            watchdog(
-              'file_entity',
-              'Recursive rendering detected when rendering entity %entity_type: %entity_id, using the %field_name field. Aborting rendering.',
-              array(
-                '%entity_type' => 'file',
-                '%entity_id' => $item['fid'],
-                '%field_name' => $field['field_name'],
-              ),
-              WATCHDOG_ERROR
-            );
-            return $element;
-          }
+        if (isset($recursive_render_depth[$recursive_render_id])) {
+          $recursive_render_depth[$recursive_render_id]++;
+        }
+        else {
+          $recursive_render_depth[$recursive_render_id] = 1;
+        }
 
-          $file = file_load($item['fid']);
-          if (isset($item['display'])) {
-            $file->display = $item['display'];
-          }
-          if (isset($item['description'])) {
-            $file->description = $item['description'];
-          }
-
-          // Add some references to the referencing entity.
-          // @see https://www.drupal.org/node/2333107
-          $file->referencing_entity = $entity;
-          $file->referencing_entity_type = $entity_type;
-          $file->referencing_field = $field['field_name'];
-
-          // Untranslatable fields are rendered with no language code, fall back
-          // to the content language in that case.
-          $element[$delta] = file_view($file, $settings['file_view_mode'], $langcode !== LANGUAGE_NONE ? $langcode : NULL);
-        } else {
+        if ($recursive_render_depth[$recursive_render_id] > 20) {
           watchdog(
             'file_entity',
-            'In the %referencing_entity_type, the %field_name field refers to a %entity_type which does not exist. Aborting the render for it.',
+            'Recursive rendering detected when rendering entity %entity_type: %entity_id, using the %field_name field. Aborting rendering.',
             array(
-              '%referencing_entity_type' => $entity_type,
-              '%field_name' => $field['field_name'],
               '%entity_type' => 'file',
+              '%entity_id' => $item['fid'],
+              '%field_name' => $field['field_name'],
             ),
             WATCHDOG_ERROR
           );
+          return $element;
         }
+
+        $file = (object) $item;
+
+        // Add some references to the referencing entity.
+        // @see https://www.drupal.org/node/2333107
+        $file->referencing_entity = $entity;
+        $file->referencing_entity_type = $entity_type;
+        $file->referencing_field = $field['field_name'];
+
+        $element[$delta] = file_view($file, $settings['file_view_mode'], $langcode);
       }
       break;
 
     case 'file_download_link':
-      // Prevent 'empty' fields from causing a WSOD.
-      $items = array_filter($items);
       foreach ($items as $delta => $item) {
-        if (!empty($item['fid']) && ($file = file_load($item['fid'])) && file_entity_access('download', $file)) {
+        $file = (object) $item;
+        if (file_entity_access('download', $file)) {
           $element[$delta] = array(
             '#theme' => 'file_entity_download_link',
             '#file' => $file,
@@ -368,18 +335,21 @@ function file_entity_field_formatter_view($entity_type, $entity, $field, $instan
     case 'file_audio':
       $multiple_file_behavior = $settings['multiple_file_behavior'];
 
+      // Prevent 'empty' fields from causing a WSOD.
+      $items = array_filter($items);
+
       // Build an array of sources for each <audio> element.
       $source_lists = array();
       if ($multiple_file_behavior == 'tags') {
         foreach ($items as $delta => $item) {
-          if (file_entity_file_get_mimetype_type($item) == 'audio') {
+          if ($item['type'] == 'audio') {
             $source_lists[$delta] = array($item);
           }
         }
       }
       else {
         foreach ($items as $delta => $item) {
-          if (file_entity_file_get_mimetype_type($item) == 'audio') {
+          if ($item['type'] == 'audio') {
             $source_lists[0][$delta] = $item;
           }
         }
@@ -401,18 +371,21 @@ function file_entity_field_formatter_view($entity_type, $entity, $field, $instan
     case 'file_video':
       $multiple_file_behavior = $settings['multiple_file_behavior'];
 
+      // Prevent 'empty' fields from causing a WSOD.
+      $items = array_filter($items);
+
       // Build an array of sources for each <video> element.
       $source_lists = array();
       if ($multiple_file_behavior == 'tags') {
         foreach ($items as $delta => $item) {
-          if (file_entity_file_get_mimetype_type($item) == 'video') {
+          if ($item['type'] == 'video') {
             $source_lists[$delta] = array($item);
           }
         }
       }
       else {
         foreach ($items as $delta => $item) {
-          if (file_entity_file_get_mimetype_type($item) == 'video') {
+          if ($item['type'] == 'video') {
             $source_lists[0][$delta] = $item;
           }
         }
