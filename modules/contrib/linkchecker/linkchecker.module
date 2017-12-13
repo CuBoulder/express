@@ -448,6 +448,11 @@ function _linkchecker_link_block_ids($link) {
  * Implements hook_cron().
  */
 function linkchecker_cron() {
+  // Return if checking links via cron is disabled.
+  if (variable_get('linkchecker_disable_cron_link_check', 0)) {
+    return;
+  }
+
   // Remove outdated links no longer in use once per day.
   if (REQUEST_TIME - variable_get('linkchecker_cleanup_links_last', 0) >= 86400) {
     _linkchecker_cleanup_links();
@@ -736,6 +741,8 @@ function _linkchecker_status_handling(&$response, $link) {
             linkchecker_watchdog_log('linkchecker', 'Loading comment %comment for update failed. Manual fix required.', array('%comment' => $comment->cid), WATCHDOG_ERROR);
           }
         }
+
+        drupal_alter('linkchecker_auto_repair_301_links', $link, $response);
 
         // CUSTOM BLOCKS: Autorepair all custom blocks having this outdated
         // link.
