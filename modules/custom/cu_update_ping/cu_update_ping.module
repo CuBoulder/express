@@ -43,6 +43,10 @@ function cu_update_ping_cron() {
       // Parse info file for version.
       $info = drupal_parse_info_file(str_replace('.module', '.info', $module->filename));
 
+      if ($module->name == "express") {
+        $info['version'] = "7.x-2.x";
+      }
+
       // This url was gathered from update.fetch.inc#152.
       $url = 'http://updates.drupal.org/release-history/' . $module->name . '/7.x?site_key=' . $site_key . '&version=' . $info['version'] . '&list=' . $module->name;
       $xml = drupal_http_request($url);
