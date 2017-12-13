@@ -50,6 +50,8 @@ projects[field_reference_delete][patch][] = https://www.drupal.org/files/issues/
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-2363
 projects[ldap_servers][patch][] = "https://www.drupal.org/files/issues/2838389-skip-bind-test-when-using-user-cred-method.patch"
+; @see https://github.com/CuBoulder/express/issues/1726
+projects[ldap_servers][patch][] = "https://www.drupal.org/files/issues/2929976-ldap_server_include_files-2.patch"
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-2466
 projects[views_slideshow][patch][] = "https://www.drupal.org/files/issues/drush-cli-check-remove-2854640-2.patch"
