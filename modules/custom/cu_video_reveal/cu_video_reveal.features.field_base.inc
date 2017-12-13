@@ -10,7 +10,7 @@
 function cu_video_reveal_field_default_field_bases() {
   $field_bases = array();
 
-  // Exported field_base: 'field_video_reveal_image'
+  // Exported field_base: 'field_video_reveal_image'.
   $field_bases['field_video_reveal_image'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -32,7 +32,7 @@ function cu_video_reveal_field_default_field_bases() {
     'type' => 'image',
   );
 
-  // Exported field_base: 'field_video_reveal_text'
+  // Exported field_base: 'field_video_reveal_text'.
   $field_bases['field_video_reveal_text'] = array(
     'active' => 1,
     'cardinality' => 1,
@@ -51,7 +51,7 @@ function cu_video_reveal_field_default_field_bases() {
     'type' => 'text_long',
   );
 
-  // Exported field_base: 'field_video_reveal_url'
+  // Exported field_base: 'field_video_reveal_url'.
   $field_bases['field_video_reveal_url'] = array(
     'active' => 1,
     'cardinality' => 1,
