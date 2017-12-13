@@ -12,7 +12,7 @@ Feature: Content Management
   # Test to cover the regression in FIT-902.
   @api
   Scenario: A user should not see a subnavigation menu header
-      Given  CU - I am logged in as a user with the "content_editor" role
+      Given  I am logged in as a user with the "content_editor" role
       When I visit "node/add/page"
         And for "Title" I enter "Basic Page"
         And for "Menu link title" I enter "Basic Page"
@@ -21,4 +21,4 @@ Feature: Content Management
       Then I should not see the text "Home" in the "Sidebar Second" region
         And I should see the text "Basic Page" in the "Sidebar Second" region
 
-  # TODO write test to see no messages in the error regions
+  # @todo write test to see no messages in the error regions.
