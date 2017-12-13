@@ -85,10 +85,9 @@ function ldap_servers_requirements($phase) {
           $connect_result = $server->connect();
           if ($connect_result == LDAP_SUCCESS) {
             if ($server->bind_method == LDAP_SERVERS_BIND_METHOD_USER) {
-              // Check bind anonymously if set to bind via user credentials.
-              // The user has already logged in and so their is no dn or password
-              // to check since LDAP doesn't store passwords.
-              $bind_result = $server->bind(NULL, NULL, TRUE);
+              $requirements[$server_req_key]['value'] = $t('Connection: Success, Bind: Not tested due to method', $server_tokens);
+              $requirements[$server_req_key]['severity'] = REQUIREMENT_OK;
+              return $requirements;
             } else {
               $bind_result = $server->bind();
             }
