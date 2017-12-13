@@ -1,7 +1,7 @@
 name = CU Testing Core
 description = Provides CU-specific functionality, like adding variables, to Express Core.
 core = 7.x
-version = 7.x-8.0
+version = 7.x-8.1
 package = CU-Core
 
 dependencies[] = cu_redirect
@@ -15,7 +15,7 @@ dependencies[] = cu_update_ping
 dependencies[] = cu_advanced_content_bundle
 dependencies[] = cu_advanced_design_bundle
 dependencies[] = cu_advanced_layout_bundle
-dependencies[] = cu_events_bundle
+;dependencies[] = cu_events_bundle
 dependencies[] = cu_forms_bundle
 dependencies[] = cu_news_bundle
 dependencies[] = cu_people_bundle

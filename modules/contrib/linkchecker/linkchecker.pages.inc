@@ -17,31 +17,20 @@ function linkchecker_admin_report_page() {
 
   // Search for broken links in nodes and comments and blocks of all users.
   // @todo Try to make UNION'ed subselect resultset smaller.
+  $subquery4 = db_select('linkchecker_node', 'ln')
+    ->distinct()
+    ->fields('ln', array('lid'));
 
-  // I think we should realize this data thru hooks or get schema by module name, see example below.
-  $default_tables = array(
-    'linkchecker_node',
-    'linkchecker_comment',
-    'linkchecker_block_custom',
-  );
-  // Main hook for related submodules.
-  $tables = module_invoke_all('linkcheker_main_table');
-  $tables  = array_merge($tables, $default_tables);
+  $subquery3 = db_select('linkchecker_comment', 'lc')
+    ->distinct()
+    ->fields('lc', array('lid'));
 
-  foreach ($tables as $table_name) {
-    $subquery = db_select($table_name)
-      ->distinct()
-      ->fields($table_name, array('lid'));
-    if (!isset($union)) {
-      $union = $subquery;
-    }
-    else {
-      $union = $union->union($subquery);
-    }
-  }
+  $subquery2 = db_select('linkchecker_block_custom', 'lb')
+    ->distinct()
+    ->fields('lb', array('lid'));
 
   // UNION all linkchecker type tables.
-  $subquery1 = db_select($union, 'q1')->fields('q1', array('lid'));
+  $subquery1 = db_select($subquery2->union($subquery3)->union($subquery4), 'q1')->fields('q1', array('lid'));
 
   // Build pager query.
   $query = db_select('linkchecker_link', 'll')->extend('PagerDefault')->extend('TableSort');
@@ -83,7 +72,8 @@ function linkchecker_user_report_page($account) {
   $subquery2->distinct();
   $subquery2->fields('ll', array('lid'));
 
-  if (variable_get('linkchecker_scan_comments', 0)) {
+  $comment_types = linkchecker_scan_comment_types();
+  if (!empty($comment_types)) {
     // Build query for broken links in nodes and comments of the current user.
     $subquery3 = db_select('comment', 'c');
     $subquery3->innerJoin('linkchecker_comment', 'lc', 'lc.cid = c.cid');
@@ -160,13 +150,12 @@ function _linkchecker_report_page($query, $account = NULL) {
     $nids = _linkchecker_link_node_ids($link, $account);
     $cids = _linkchecker_link_comment_ids($link, $account);
     $bids = _linkchecker_link_block_ids($link);
-    $other_ids = module_invoke_all('linkchecker_link_ids', $link);
 
     // If the user does not have access to see this link anywhere, do not
     // display it, for reasons explained in _linkchecker_link_access(). We
     // still need to fill the table row, though, so as not to throw off the
     // number of items in the pager.
-    if (empty($nids) && empty($cids) && empty($bids) && empty($other_ids)) {
+    if (empty($nids) && empty($cids) && empty($bids)) {
       $rows[] = array(array('data' => t('Permission restrictions deny you access to this broken link.'), 'colspan' => count($header)));
       continue;
     }
@@ -184,7 +173,8 @@ function _linkchecker_report_page($query, $account = NULL) {
     }
 
     // Show link to comments having this broken link.
-    if (module_exists('comment') && variable_get('linkchecker_scan_comments', 0)) {
+    $comment_types = linkchecker_scan_comment_types();
+    if (module_exists('comment') && !empty($comment_types)) {
       foreach ($cids as $cid) {
         $links[] = l(t('Edit comment @comment', array('@comment' => $cid)), 'comment/' . $cid . '/edit', array('query' => drupal_get_destination()));
       }
@@ -201,9 +191,6 @@ function _linkchecker_report_page($query, $account = NULL) {
     if (module_exists('redirect') && $access_administer_redirects && _linkchecker_is_internal_url($link)) {
       $links[] = l(t('Create redirection'), 'admin/config/search/redirect/add', array('query' => array('source' => $link->internal, drupal_get_destination())));
     }
-
-    // Other modules can append their links or update current.
-    drupal_alter('linkchecker_report_page_links', $links, $link);
 
     // Create table data for output.
     $rows[] = array(

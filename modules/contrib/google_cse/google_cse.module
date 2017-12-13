@@ -27,23 +27,6 @@ function google_cse_help($path, $arg) {
 }
 
 /**
- * Implements hook_menu().
- */
-function google_cse_menu() {
-
-  $items['admin/config/search/cse-settings'] = array(
-    'title' => 'Configure Google CSE',
-    'description' => '',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('google_cse_admin_settings'),
-    'file' => 'google_cse.admin.inc',
-    'access arguments' => array('administer search'),
-  );
-
-  return $items;
-}
-
-/**
  * Implements hook_search_info().
  */
 function google_cse_search_info() {
@@ -157,17 +140,11 @@ function google_cse_results_tab() {
  * Implements hook_perm().
  */
 function google_cse_permission() {
-  $perms = array(
+  return array(
     'search Google CSE' => array(
       'title' => t('Use Google CSE search'),
     ),
   );
-
- if (!module_exists('search')) {
-    $perms['administer search'] = array('title' => t('Administer search'));
-  }
-
-  return $perms;
 }
 
 /**
@@ -209,11 +186,11 @@ function google_cse_form_search_block_form_alter(&$form, &$form_state, $form_id)
  * @see search_help()
  */
 function theme_google_cse_search_noresults() {
-  return t('<h2>Sorry, there were no results matching your enquiry.</h2>
+  return t('<h2>Sorry there were no results matching your enquiry.</h2>
     <ul>
     <li>Check the spelling of your keywords</li>
-    <li>Try a more specific enquiry (e.g. <em>"Penny Black"</em> instead of <em>"Stamps"</em>).</em></li>
-    <li>Be explicit (e.g. <em>"Second class stamp"</em> instead of <em>"Stamp"</em>).</li>
-    <li>Include spaces between keywords.</li>
+    <li>Try a more specific enquiry (e.g. <em>"Penny Black"</em> instead of <em>"Stamps"</em>): "blue drop"</em></li>
+    <li>Be explicit (e.g. <em>"Second class stamp"</em> instead of <em>"Stamp"</em>)</li>
+    <li>Include spaces between keywords</li>
     </ul>');
 }
