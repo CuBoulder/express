@@ -80,7 +80,16 @@ function file_entity_download_page($file) {
 function file_entity_add_upload($form, &$form_state, array $options = array()) {
   $step = (isset($form_state['step']) && in_array($form_state['step'], array(1, 2, 3, 4))) ? $form_state['step'] : 1;
   $form['#step'] = $step;
-  $form['#options'] = $options;
+
+  $form['#options'] = $options + array(
+    'types' => array(),
+    'enabledPlugins' => array(),
+    'schemes' => array(),
+    'max_filesize' => '',
+    'uri_scheme' => file_default_scheme(),
+    'plugins' => ''
+  );
+
   switch ($step) {
     case 1:
       return file_entity_add_upload_step_upload($form, $form_state, $options);
@@ -485,7 +494,7 @@ function file_entity_add_upload_submit($form, &$form_state) {
 function file_entity_upload_destination_uri(array $params, array $data = array()) {
   $params += array(
     'uri_scheme' => file_default_scheme(),
-    'file_directory' => '',
+    'file_directory' => variable_get('file_entity_default_file_directory', ''),
   );
 
   $destination = trim($params['file_directory'], '/');
