@@ -10,10 +10,7 @@ branches:
     - dev
 
 addons:
-  apt:
-    packages:
-    - curl
-  firefox: '31.0'
+  chrome: stable
 
 mysql:
   database: drupal
@@ -25,6 +22,10 @@ cache:
   directories:
     - $HOME/.composer/cache
     - $HOME/.drush/cache
+    - $HOME/cache
+
+before_install:
+  - google-chrome-stable --disable-gpu --headless --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 > /dev/null 2>&1 &
 
 install:
 
@@ -57,21 +58,10 @@ install:
   - mkdir tmp
   - chmod -R 777 tmp
 
-  # Setup display for Selenium
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 5
-
-  # Get Selenium
-  - wget http://selenium-release.storage.googleapis.com/2.42/selenium-server-standalone-2.42.1.jar
-  - java -jar selenium-server-standalone-2.42.1.jar > /dev/null 2>&1 &
-  - nc -zvv localhost 4444; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 4444..."; nc -zvv localhost 4444; out=$?; sleep 5; done
-
   # Disable sendmail
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
-  # Add memcache, OpCache.
-  - echo "extension=opcache.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  # Add memcache.
   - echo "extension=memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Bump up max execution time.
@@ -98,17 +88,16 @@ before_script:
 
   # Export db so it can be imported after every suite run.
   # Test runs that fill up the db with nodes can impact other tests.
-  - drush sql-dump --result-file=$HOME/express.sql
-  - ls -al $HOME
+  - drush sql-dump --result-file=$HOME/cache/express.sql
 
   # Start server.
-  - drush runserver 127.0.0.1:8080 &
-  - nc -zvv 127.0.0.1 8080; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8080..."; nc -zvv localhost 8080; out=$?; sleep 5; done
+  - drush runserver 127.0.0.1:8888 > /dev/null 2>&1 &
+  - nc -zvv 127.0.0.1 8888; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8888..."; nc -zvv localhost 8888; out=$?; sleep 5; done
   - cd profiles/express/tests/behat
 
   # Setting Behat environment
   - BUILD_TOP=`dirname $TRAVIS_BUILD_DIR`
-  - BEHAT_PARAMS='{"extensions":{"Drupal\\DrupalExtension":{"drupal":{"drupal_root":"BUILD_TOP/drupal"}},"Behat\\MinkExtension":{"base_url":"http://127.0.0.1:8080/","files_path":"/home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/assets/"}}}'
+  - BEHAT_PARAMS='{"extensions":{"Drupal\\DrupalExtension":{"drupal":{"drupal_root":"BUILD_TOP/drupal"}},"Behat\\MinkExtension":{"base_url":"http://127.0.0.1:8888/","files_path":"BUILD_TOP/drupal/profiles/express/tests/behat/assets/"}}}'
   - BEHAT_PARAMS=`echo $BEHAT_PARAMS | sed -e s#BUILD_TOP#$BUILD_TOP#`
   - export BEHAT_PARAMS
 
