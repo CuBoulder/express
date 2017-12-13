@@ -121,7 +121,7 @@ function cu_search_configs() {
   $options = variable_get('cu_search_options', array('all' => 'all'));
 
   // Move all option to the end.
-  if ($options['all']) {
+  if (!empty($options['all']) && $options['all']) {
     $all = $options['all'];
     unset($options['all']);
     $options['all'] = $all;

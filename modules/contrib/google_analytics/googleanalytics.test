@@ -126,13 +126,15 @@ class GoogleAnalyticsBasicTest extends DrupalWebTestCase {
     // Enable tracking code for all user roles.
     variable_set('googleanalytics_roles', array());
 
+    $base_path = base_path();
+
     // Test whether 403 forbidden tracking code is shown if user has no access.
     $this->drupalGet('admin');
-    $this->assertRaw('/403.html', '[testGoogleAnalyticsPageVisibility]: 403 Forbidden tracking code shown if user has no access.');
+    $this->assertRaw($base_path . '403.html', '[testGoogleAnalyticsPageVisibility]: 403 Forbidden tracking code shown if user has no access.');
 
     // Test whether 404 not found tracking code is shown on non-existent pages.
     $this->drupalGet($this->randomName(64));
-    $this->assertRaw('/404.html', '[testGoogleAnalyticsPageVisibility]: 404 Not Found tracking code shown on non-existent page.');
+    $this->assertRaw($base_path . '404.html', '[testGoogleAnalyticsPageVisibility]: 404 Not Found tracking code shown on non-existent page.');
 
     // DNT Tests:
     // Enable system internal page cache for anonymous users.
@@ -256,6 +258,7 @@ class GoogleAnalyticsBasicTest extends DrupalWebTestCase {
     $this->assertRaw('ga("create", "' . $ua_code . '", {"cookieDomain":"auto","allowLinker":true', '[testGoogleAnalyticsTrackingCode]: "allowLinker" has been found. Cross domain tracking is active.');
     $this->assertRaw('ga("require", "linker");', '[testGoogleAnalyticsTrackingCode]: Require linker has been found. Cross domain tracking is active.');
     $this->assertRaw('ga("linker:autoLink", ["www.example.com","www.example.net"]);', '[testGoogleAnalyticsTrackingCode]: "linker:autoLink" has been found. Cross domain tracking is active.');
+    $this->assertRaw('"trackDomainMode":2,', '[testGoogleAnalyticsTrackingCode]: Domain mode value is of type integer.');
     $this->assertRaw('"trackCrossDomains":["www.example.com","www.example.net"]', '[testGoogleAnalyticsTrackingCode]: Cross domain tracking with www.example.com and www.example.net is active.');
     variable_set('googleanalytics_domain_mode', 0);
 
@@ -471,6 +474,51 @@ class GoogleAnalyticsCustomDimensionsAndMetricsTest extends DrupalWebTestCase {
     //$this->assertNoRaw(t('The %element-title is using the following forbidden tokens with personal identifying information: @invalid-tokens.', array('%element-title' => t('Custom dimension value #@index', array('@index' => 4)), '@invalid-tokens' => implode(', ', array('[term:name]')))));
     //$this->assertNoRaw(t('The %element-title is using the following forbidden tokens with personal identifying information: @invalid-tokens.', array('%element-title' => t('Custom dimension value #@index', array('@index' => 5)), '@invalid-tokens' => implode(', ', array('[term:tid]')))));
   }
+}
+
+/**
+ * Test custom url functionality of Google Analytics module.
+ */
+class GoogleAnalyticsCustomUrls extends DrupalWebTestCase {
+
+  public static function getInfo() {
+    return array(
+      'name' => 'Google Analytics custom url tests',
+      'description' => 'Test custom url functionality of Google Analytics module.',
+      'group' => 'Google Analytics',
+    );
+  }
+
+  function setUp() {
+    parent::setUp('googleanalytics');
+
+    $permissions = array(
+      'access administration pages',
+      'administer google analytics',
+    );
+
+    // User to set up google_analytics.
+    $this->admin_user = $this->drupalCreateUser($permissions);
+  }
+
+  /**
+   * Tests if user password page urls are overridden.
+   */
+  public function testGoogleAnalyticsUserPasswordPage() {
+    $base_path = base_path();
+    $ua_code = 'UA-123456-4';
+    variable_set('googleanalytics_account', $ua_code);
+
+    $this->drupalGet('user/password', ['query' => ['name' => 'foo']]);
+    $this->assertRaw('ga("set", "page", "' . $base_path . 'user/password"');
+
+    $this->drupalGet('user/password', ['query' => ['name' => 'foo@example.com']]);
+    $this->assertRaw('ga("set", "page", "' . $base_path . 'user/password"');
+
+    $this->drupalGet('user/password');
+    $this->assertNoRaw('ga("set", "page",', '[testGoogleAnalyticsCustomUrls]: Custom url not set.');
+  }
+
 }
 
 class GoogleAnalyticsStatusMessagesTest extends DrupalWebTestCase {
