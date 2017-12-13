@@ -6,60 +6,44 @@
  */
 
 /**
- * Implements hook_cron().
- *
- * Send usage stats to Drupal update server once a week.
+ * Implements hook_update_projects_alter().
  */
-function cu_update_ping_cron() {
-  // Only need to do this once a week.
-  if (REQUEST_TIME >= strtotime('+1 week', (int) variable_get('cu_update_ping_time', strtotime('-1 year')))) {
-    global $base_url;
+function cu_update_ping_update_projects_alter(&$projects) {
 
-    // Generate site key to send to drupal.org.
-    // The site key is what adds a reported install to useage stats.
-    $site_key = drupal_hmac_base64($base_url, drupal_get_private_key());
+  // We want to run this mainly to report usage of our hosted modules on drupal.org.
+  $modules_to_check = array(
+    'et_slate_form',
+    'embed_templates',
+    'siteimprove_api',
+    'atlas',
+    'rave_alerts',
+    'express_theme_picker',
+    'express_help',
+    'express_settings',
+    'profile_version',
+    'express',
+    'context_bean_ui',
+    'profile_module_manager',
+    'community_funded',
+    'webform_captcha',
+    'user_external_invite',
+    'block_title_icons',
+    'backstretch',
+    'dslm',
+    'secure_permissions',
+    'site_verify',
+    'bundles',
+    'noreqnewpass',
+    'google_cse'
+  );
 
-    if ($modules = drush_get_option('modules')) {
-      $modules_list = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 AND name IN (:modules)", array(':modules' => explode(',', $modules)))->fetchAll();
-    }
-    else {
-      // Get enabled modules of site to report usage of.
-      $modules_list = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1")->fetchAll();
-    }
-
-    // Loop through each module and ping d.o servers.
-    foreach ($modules_list as $module) {
-
-      // If a core module, then skip.
-      // I don't think Drupal cares about those, but maybe remove this if that stat helps report usage.
-      if (substr($module->filename, 0, 7) == 'modules') {
-        continue;
-      }
-
-      // Parse info file for version.
-      $info = drupal_parse_info_file(str_replace('.module', '.info', $module->filename));
-
-      // This url was gathered from update.fetch.inc#152.
-      $url = 'http://updates.drupal.org/release-history/' . $module->name . '/7.x?site_key=' . $site_key . '&version=' . $info['version'] . '&list=' . $module->name;
-      $xml = drupal_http_request($url);
-
-      // Reset counter.
-      $failed_attempts = 0;
-
-      // If request fails, retry.
-      while ($failed_attempts < 2 && $xml->status_message != 'OK') {
-        $xml = drupal_http_request($url);
-        $failed_attempts++;
-      }
-
-      // Write a watchdog message if all request attempts fail.
-      if ($xml->status_message != 'OK') {
-        watchdog('cu_update_ping', '%module didn\'t successfully ping Drupal\'s update servers.', array('%module', $module->name));
-        continue;
-      }
-
-      // Set time variable on success.
-      variable_set('cu_update_ping_time', REQUEST_TIME);
+  $modules_list = array();
+  foreach ($projects as $key => $project) {
+    if (in_array($key, $modules_to_check)) {
+      $modules_list[$key] = $project;
     }
   }
+
+  // Set $projects to only include our modules.
+  $projects = $modules_list;
 }
