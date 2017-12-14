@@ -306,7 +306,6 @@ function insert_field_widget_settings_form($field, $instance) {
     '#weight' => -10,
   );
 
-
   $form['insert']['insert_absolute'] = array(
     '#type' => 'radios',
     '#options' => array(
