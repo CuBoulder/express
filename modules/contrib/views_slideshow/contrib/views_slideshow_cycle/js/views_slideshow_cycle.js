@@ -497,7 +497,6 @@
     // Make sure the slideshow isn't already loaded.
     if (!settings.loaded) {
       $(settings.targetId).cycle(settings.opts);
-      $(settings.targetId).parent().parent().addClass('views-slideshow-cycle-processed');
       settings.loaded = true;
 
       // Start Paused

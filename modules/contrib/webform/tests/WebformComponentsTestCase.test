@@ -4,7 +4,12 @@
  * @file
  * Webform module component tests.
  */
+
+/**
+ *
+ */
 class WebformComponentsTestCase extends WebformTestCase {
+
   /**
    * {@inheritdoc}
    */
@@ -19,7 +24,7 @@ class WebformComponentsTestCase extends WebformTestCase {
   /**
    * Webform module component tests.
    */
-  function testWebformComponents() {
+  public function testWebformComponents() {
     // Test webform_component_list().
     // Create a form consisting of three textfields separated by pagebreaks.
     $test_components = $this->webformComponents();
@@ -120,7 +125,6 @@ class WebformComponentsTestCase extends WebformTestCase {
     $test_parents = array($components[1], $components[2], $components[3]);
     $this->assertIdentical($parents, $test_parents, 'webform_component_parent_keys() returns expected component arrays.');
 
-
     // Test webform_get_cid().
     $settings = array(
       'title' => 'Test webform with multiple instances of a Form Key',
@@ -177,7 +181,6 @@ class WebformComponentsTestCase extends WebformTestCase {
     // Test webform_get_cid() without providing a parent cid.
     $this->assertTrue(webform_get_cid($node, 'testing_key') == array(1, 3), t('Returned expected Webform component ids array for a given form_key.'));
 
-
     // Create and visit a new Webform test node.
     $node = $this->webformForm();
     $this->drupalGet('node/' . $node->nid);
@@ -189,4 +192,5 @@ class WebformComponentsTestCase extends WebformTestCase {
       $this->assertTrue($for, 'Label with @for "' . $label['for'] . '" points to an element.');
     }
   }
+
 }

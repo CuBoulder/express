@@ -1,12 +1,9 @@
 <?php
+
 /**
  * @file
  * Support for migration into Date fields.
  */
-
-if (!class_exists('MigrateFieldHandler')) {
-  return;
-}
 
 /**
  * Implements hook_migrate_api().

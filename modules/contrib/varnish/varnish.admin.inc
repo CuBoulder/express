@@ -74,14 +74,6 @@ function varnish_admin_settings_form() {
     '#required' => TRUE,
   );
 
-  $form['varnish_front_domains'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Front domains list'),
-    '#default_value' => variable_get('varnish_front_domains'),
-    '#required' => FALSE,
-    '#description' => t('If you have multiple front-end doamin to flush, each domain will be called when banning. Enter front domain names separated by spaces.'),
-  );
-
   $form['varnish_cache_clear'] = array(
     '#type' => 'radios',
     '#title' => t('Varnish Cache Clearing'),
