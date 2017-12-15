@@ -353,25 +353,13 @@ function express_block_designer_form_submit(&$form, &$form_state) {
  */
 function express_block_designer_load($delta = NULL) {
   if ($delta) {
-    $block_designer_settings = express_block_designer_load_all();
-    if (!empty($block_designer_settings[$delta])) {
-      return $block_designer_settings[$delta];
-    }
-  }
-  return FALSE;
-}
-
-/**
- * Minimize db queries by saving results as a static variable.
- */
-function express_block_designer_load_all() {
-  static $block_designer_settings;
-  if (empty($block_designer_settings)) {
     $query = db_select('express_block_designer', 'ebd');
     $query->fields('ebd', array('id', 'module', 'block_delta', 'module_block_delta', 'block_settings', 'block_theme'));
-    $block_designer_settings = $query->execute()->fetchAllAssoc('block_delta');
+    $query->condition('ebd.block_delta', $delta, '=');
+    $result = $query->execute()->fetch();
+    return $result;
   }
-  return $block_designer_settings;
+  return FALSE;
 }
 
 /**
@@ -467,25 +455,11 @@ function express_block_designer_themes_delete_form_submit(&$form, &$form_state) 
  */
 function express_block_designer_theme_load($id = NULL) {
   $result = FALSE;
-  if ($themes = express_block_designer_theme_load_all()) {
-    if (!empty($themes[$id])) {
-      $result = $themes[$id];
-    }
-  }
+  $query = db_select('express_block_designer_themes', 'ebdt');
+  $query->fields('ebdt', array('id', 'block_theme_name', 'block_settings'));
+  $query->condition('ebdt.id', $id, '=');
+  $result = $query->execute()->fetch();
   return $result;
-}
-
-/**
- * Minimize db queries by saving results as a static variable.
- */
-function express_block_designer_theme_load_all() {
-  static $block_designer_themes = FALSE;
-  if (empty($block_designer_themes)) {
-    $query = db_select('express_block_designer_themes', 'ebdt');
-    $query->fields('ebdt', array('id', 'block_theme_name', 'block_settings'));
-    $block_designer_themes = $query->execute()->fetchAllAssoc('id');
-  }
-  return $block_designer_themes;
 }
 
 /**

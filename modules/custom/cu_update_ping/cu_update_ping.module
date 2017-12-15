@@ -20,12 +20,16 @@ function cu_update_ping_cron() {
     $site_key = drupal_hmac_base64($base_url, drupal_get_private_key());
 
     if ($modules = drush_get_option('modules')) {
-      $modules_list = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 AND name IN (:modules)", array(':modules' => explode(',', $modules)))->fetchAll();
+      $modules_info = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 AND name IN (:modules)", array(':modules' => explode(',', $modules)))->fetchAll();
     }
     else {
       // Get enabled modules of site to report usage of.
-      $modules_list = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1")->fetchAll();
+      $modules_info = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1")->fetchAll();
     }
+
+    // Add Express to list.
+    $express_info = db_query("SELECT name, filename FROM {system} WHERE name = 'express' AND status = 1")->fetchAll();
+    $modules_list = array_merge($express_info, $modules_info);
 
     // Loop through each module and ping d.o servers.
     foreach ($modules_list as $module) {
@@ -57,9 +61,31 @@ function cu_update_ping_cron() {
         watchdog('cu_update_ping', '%module didn\'t successfully ping Drupal\'s update servers.', array('%module', $module->name));
         continue;
       }
-
-      // Set time variable on success.
-      variable_set('cu_update_ping_time', REQUEST_TIME);
     }
+
+    // Check for Express profile. We are not going to bother querying this since we know what it is.
+    // This url was gathered from update.fetch.inc#152.
+    /*
+    $url = 'http://updates.drupal.org/release-history/express/7.x?site_key=' . $site_key . '&version=7.x-2.x-dev&list=express';
+    $xml = drupal_http_request($url);
+
+    // Reset counter.
+    $failed_attempts = 0;
+
+    // If request fails, retry.
+    while ($failed_attempts < 2 && $xml->status_message != 'OK') {
+      $xml = drupal_http_request($url);
+      $failed_attempts++;
+    }
+
+    // Write a watchdog message if all request attempts fail.
+    if ($xml->status_message != 'OK') {
+      watchdog('cu_update_ping', 'express didn\'t successfully ping Drupal\'s update servers.');
+    }
+    */
+
+    // Set time variable on success.
+    variable_set('cu_update_ping_time', REQUEST_TIME);
+
   }
 }
