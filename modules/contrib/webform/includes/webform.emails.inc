@@ -183,11 +183,11 @@ function webform_emails_form_submit($form, &$form_state) {
 function webform_emails_form_status_save($form, &$form_state) {
   foreach ($form_state['values']['emails'] as $eid => $status) {
     db_update('webform_emails')->fields(array(
-      'status' => $status['status']
+      'status' => $status['status'],
     ))
-    ->condition('eid', $eid)
-    ->condition('nid', $form['#node']->nid)
-    ->execute();
+      ->condition('eid', $eid)
+      ->condition('nid', $form['#node']->nid)
+      ->execute();
   }
 
   // Refresh the entity cache, should it be cached in persistent storage.
@@ -223,16 +223,19 @@ function webform_email_edit_form($form, $form_state, $node, $email = array(), $c
         $title = t('E-mail to address');
         $description = t('Form submissions will be e-mailed to this address. Any email, select, or hidden form element may be selected as the recipient address. Multiple e-mail addresses may be separated by commas.');
         break;
+
       case 'subject':
         $default_value = webform_replace_tokens(webform_variable_get('webform_default_subject'), $node);
         $title = t('E-mail subject');
         $description = t('Any textfield, select, or hidden form element may be selected as the subject for e-mails.');
         break;
+
       case 'from_address':
         $default_value = webform_replace_tokens(webform_variable_get('webform_default_from_address'), $node);
         $title = t('E-mail from address');
         $description = t('Any email, select, or hidden form element may be selected as the sender\'s e-mail address.');
         break;
+
       case 'from_name':
         $default_value = webform_replace_tokens(webform_variable_get('webform_default_from_name'), $node);
         $title = t('E-mail from name');
@@ -262,7 +265,7 @@ function webform_email_edit_form($form, $form_state, $node, $email = array(), $c
     $component_options = webform_component_list($node, $field_type, FALSE);
     $form[$field . '_component'] = array(
       '#type' => 'select',
-      '#default_value' =>  is_numeric($email[$field]) ? $email[$field] : NULL,
+      '#default_value' => is_numeric($email[$field]) ? $email[$field] : NULL,
       '#options' => empty($component_options) ? array('' => t('No available components')) : $component_options,
       '#disabled' => empty($component_options) ? TRUE : FALSE,
       '#weight' => 6,
@@ -618,8 +621,6 @@ function webform_email_edit_form_submit($form, &$form_state) {
  * Form for deleting an e-mail setting.
  */
 function webform_email_delete_form($form, $form_state, $node, $email) {
-  $eid = $email['eid'];
-
   $form['node'] = array(
     '#type' => 'value',
     '#value' => $node,

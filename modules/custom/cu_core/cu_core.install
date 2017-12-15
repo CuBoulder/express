@@ -59,6 +59,17 @@ function cu_core_install() {
     'cutradition',
   ));
 
+  // these modules need to be enabled late in the install process and/or to be ignored by profile_module_manager's report.
+  $module_array = array(
+    'cu_users',
+    'memcache',
+    'varnish'  // Adding caching modules here for changes involving Travis CI testing.
+  );
+
+  module_enable($module_array);
+
+  profile_module_manager_add_to_ignore($module_array);
+
   // Add blocks shortcut to shortcuts set.
   $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
   $shortcut_set->links[] =
@@ -104,24 +115,6 @@ function cu_core_install() {
 
   // Set message for when enabling of bundles is turned off.
   variable_set('profile_module_manager_disable_enabling_text', 'Due to unexpectedly high load on the servers, the option to enable bundles has temporarily been disabled.  Please check back tomorrow.');
-
-
-
-  variable_set('securepages_enable', '1');
-  variable_set('securepages_pages', 'node/add*
-node/*/edit
-node/*/delete
-user
-user/*
-admin
-admin/*
-sites/default/files/webform/*');
-
-  $authenticated_user_role = user_role_load_by_name('authenticated user');
-  variable_set('securepages_roles', array($authenticated_user_role->rid => $authenticated_user_role->rid));
-  variable_set('securepages_secure', '1');
-  variable_set('securepages_switch', TRUE);
-
   variable_set('rave_alerts_rss_url', 'http://www.getrave.com/rss/cuboulder/channel1');
   variable_set('rave_alerts_check_enable', 1);
   variable_set('rave_alerts_network_fail_message', 'Network Failure: Please go directly to http://alerts.colorado.edu for more information.');
@@ -625,16 +618,9 @@ function cu_core_update_7014() {
 
 /**
  * Core Update 7015 for Express 2.2.8
- * Add webform files to securepages paths.
  */
 function cu_core_update_7015() {
-  $pages = variable_get(securepages_pages);
-  // Need this awkward two line thing to get the var right on the form.
-  $pages = $pages . '
-sites/default/files/webform/*';
-  variable_set('securepages_pages', $pages);
-
-  cu_core_inventory_update('7015');
+// Empty Update hook because we no longer use securepages.
 }
 
 /**
@@ -887,6 +873,57 @@ function cu_core_update_7033() {
   }
 }
 
+/**
+ * Express 2.6.2 Update.
+ *
+ * Disable Update Ping, User Lock, Unused Beans.
+ */
+ function cu_core_update_7034() {
+  module_disable(array(
+    'cu_update_ping',
+    'express_user_lock',
+    'cu_unused_beans'
+  ));
+}
+/*
+ * Express 2.6.5 Update.
+ *
+ * Disable and uninstall securepages. Need to skip hook numbered 7035 because
+ * the homepage will already have run it.
+ */
+ function cu_core_update_7035() {
+  module_disable(array('securepages'));
+  drupal_uninstall_modules($module_list = array('securepages'), $uninstall_dependents = FALSE);
+}
+
+
+/**
+ * Express 2.7.0 Update.
+ *
+ * Enable google_cse and diff modules.
+ */
+ function cu_core_update_7036() {
+  module_enable(array(
+    'google_cse',
+    'diff',
+  ));
+}
+
+/**
+ * Express 2.8.0 Update.
+ *
+ * Revert All Features.
+ */
+function cu_core_update_7037() {
+  module_enable(array(
+    'cu_update_ping',
+    'express_user_lock',
+    'cu_unused_beans'
+  ));
+  module_disable(array('google_appliance'));
+  drupal_uninstall_modules($module_list = array('google_appliance'), $uninstall_dependents = FALSE);
+  cu_core_revert_features();
+}
 
 /**
  * Revert features by passing features in an array.

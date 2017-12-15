@@ -77,16 +77,14 @@ ul.tabs--primary li a.block-designer:before {
   }
   // Heading alignment
   &.exbd-heading-align-centered > .block-inner > .exbd-block-title {
+    text-align: center;
+    & .exbd-block-icon {
 
-    & .exbd-block-title-text,
-    &  .block-title {
-      display: block;
-      text-align: center;
-      justify-content: center;
     }
 
   }
   // Icons Positions
+  &.exbd-icon-position-inline > .block-inner > .exbd-block-title > .block-title
   &.exbd-icon-position-default > .block-inner > .exbd-block-title > .block-title {
     display: flex;
     flex-direction: row;
