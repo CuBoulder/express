@@ -1020,6 +1020,7 @@ function cu_core_environment_check() {
     unset($modules['varnish']);
     unset($modules['memcache']);
 
+    module_enable($modules);
     profile_module_manager_add_to_ignore($modules);
 
     // Return check early to not set core schema version.
