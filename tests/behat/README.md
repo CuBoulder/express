@@ -21,12 +21,20 @@ You can check the versions of what you have locally, but for this tutorial the v
 
 ## Running Tests
 
-You can now install an Express site however you want to using your MySQL setup for the server. The [Express Starter](https://github.com/CuBoulder/express-starter) kit can build you out a skeleton site that you can run `drush si` from after changing the database settings in "sites/default/settings.php".
+You can now install an Express site however you want to using your MySQL setup for the server. The [Express Starter](https://github.com/CuBoulder/express-starter) kit can build you out a skeleton site that you can run `express_profile_configure_form.express_core_version=cu_testing_core --yes` from after changing the database settings in "sites/default/settings.php". The testing core install all of the bundles, which is needed for running the test suite.
+
+Your local site might be on a version of Express that installs the LDAP module which requires HTTPS to login. In order to disable this check if you have trouble you can `vset` a variable before you start your test runs. 
+
+```bash
+drush vset ldap_servers_require_ssl_for_credentials 0
+```
 
 You will need to install Behat's dependencies as well as adding some configuration changes to `behat.local.yml` in order to run tests.
 
 ```bash
 cd site-path/profiles/express/tests/behat
+mv composer
+
 composer install
 ```
 
@@ -54,3 +62,28 @@ composer install
           - "/Users/your-name/Sites/your-path/profiles/express/tests/behat"
 ```
 
+To run tests...
+
+```bash
+# Chrome is installed already...
+alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
+chrome --disable-gpu --headless --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 > /dev/null 2>&1 &
+
+./bin/behat --config behat.local.yml --verbose --tags '~@exclude_all_bundles&&~broken'
+```
+
+## Fixing Broken Tests
+
+The headless Chrome driver is used to run tests on Travis. Selenium was dropped due to its brittle nature of not playing nice with different combinations of Chrome/Firefox as Travis updated the default versions of Chrome and Firefox periodically. Many projects have switched to the method we now use on Travis; however, you will need to use Selenium if a JS test is breaking and you want to maunally inspect why. 
+
+You will need to..
+- [Download standalone server](http://docs.seleniumhq.org/download/)
+- [Download latest Chrome webdriver](https://sites.google.com/a/chromium.org/chromedriver/downloads)
+
+```bash
+# Startup Selenium webserver with the proper version of "selenium-server-standalone-3.4.0.jar".
+java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone-3.4.0.jar > /dev/null 2>&1 &` 
+
+# Run tests using selenium configuration. 
+./bin/behat --config behat.selenium.yml --verbose --tags '~@exclude_all_bundles&&~broken'
+```
