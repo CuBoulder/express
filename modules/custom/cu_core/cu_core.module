@@ -171,3 +171,12 @@ function cu_core_page_alter(&$page) {
     }
   }
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Make sure that actiuons are at bottom of menu item form.
+ */
+function cu_core_form_menu_edit_item_alter(&$form, &$form_state, $form_id) {
+  $form['actions']['#weight'] = 1000;
+}
