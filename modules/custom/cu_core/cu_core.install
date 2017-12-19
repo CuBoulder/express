@@ -27,22 +27,11 @@ function cu_core_install() {
 
   // If no other special environment found, install default modules.
   if ($check['no_environment?']) {
-    $modules = array(
-      'cu_atlas',
-      'atlas',
-      'atlas_statistics',
-      'noreqnewpass',
-      'ldap_authentication',
-      'ldap_servers',
-      'ldap_user',
-      'cu_ldap',
-      'cu_users',
-      'express_user_lock',
-      'memcache',
-      'varnish'
-      // Adding caching modules here for changes involving Travis CI testing.
-    );
+    $modules = cu_core_modules_to_enable();
+
+    // Adding caching modules here for changes involving Travis CI testing.
     module_enable($modules);
+    profile_module_manager_add_to_ignore($modules);
   }
 
   theme_enable(array(
@@ -58,17 +47,6 @@ function cu_core_install() {
     'cuswatch',
     'cutradition',
   ));
-
-  // these modules need to be enabled late in the install process and/or to be ignored by profile_module_manager's report.
-  $module_array = array(
-    'cu_users',
-    'memcache',
-    'varnish'  // Adding caching modules here for changes involving Travis CI testing.
-  );
-
-  module_enable($module_array);
-
-  profile_module_manager_add_to_ignore($module_array);
 
   // Add blocks shortcut to shortcuts set.
   $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
@@ -1032,10 +1010,45 @@ function cu_core_environment_check() {
     module_enable(array('cu_pantheon_core'));
   }
 
+  // Check for local environment.
+  elseif (isset($_SERVER['LANDO'])) {
+    $check['no_environment?'] = FALSE;
+
+    $modules = cu_core_modules_to_enable();
+
+    // Unset Varnish and Memcache.
+    unset($modules['varnish']);
+    unset($modules['memcache']);
+
+    module_enable($modules);
+    profile_module_manager_add_to_ignore($modules);
+
+    // Return check early to not set core schema version.
+    return $check;
+  }
+
   // If on non-CU hosting, then set schema version of cu_core so high the update hooks will never be ran.
   if ($check['no_environment?'] === FALSE) {
     db_query("UPDATE {system} SET schema_version = 9999 WHERE name = 'cu_core'");
   }
 
   return $check;
+}
+
+function cu_core_modules_to_enable() {
+
+  return array(
+      'cu_atlas',
+      'atlas',
+      'atlas_statistics',
+      'noreqnewpass',
+      'ldap_authentication',
+      'ldap_servers',
+      'ldap_user',
+      'cu_ldap',
+      'cu_users',
+      'express_user_lock',
+      'memcache',
+      'varnish'
+  );
 }
