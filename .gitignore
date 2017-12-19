@@ -9,3 +9,8 @@
 *.sass-cache
 # svn
 *.svn*
+
+
+tests/behat/bin/
+tests/behat/composer.lock
+tests/behat/vendor/
