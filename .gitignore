@@ -10,7 +10,7 @@
 # svn
 *.svn*
 
-
+# Local Behat setiup files.
 tests/behat/bin/
 tests/behat/composer.lock
 tests/behat/vendor/
