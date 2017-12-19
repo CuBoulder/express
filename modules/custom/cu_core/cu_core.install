@@ -926,6 +926,15 @@ function cu_core_update_7037() {
 }
 
 /**
+ * Add helpscout beacon.
+ */
+function cu_core_update_7038() {
+  module_enable(array(
+    'cu_helpscout',
+  ));
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
