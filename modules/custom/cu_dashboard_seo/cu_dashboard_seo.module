@@ -57,6 +57,7 @@ function cu_dashboard_seo_express_help($variables) {
 function cu_dashboard_seo_content() {
   $output = array();
 
+  $google_api = variable_get('google_analytics_reports_api_client_id');
 
   $output['left']['widgets']['checklist']['title'] = t('Search Engine Optimization Checklist');
   $output['left']['widgets']['checklist']['content']['#markup'] = cu_dashboard_seo_checklist_output();
@@ -64,6 +65,12 @@ function cu_dashboard_seo_content() {
   $output['right']['widgets']['content_updated']['title'] = 'Content Updated';
   $output['right']['widgets']['content_updated']['content']['#markup'] = cu_dashboard_seo_last_updated();
   $output['right']['widgets']['content_updated']['weight'] = 0;
+
+  if (module_exists('google_analytics_reports')) {
+    $output['right']['widgets']['404 Pages']['title'] = 'Top 404s';
+    $output['right']['widgets']['404 Pages']['content']['#markup'] = cu_dashboard_seo_need_redirect();
+    $output['right']['widgets']['404 Pages']['weight'] = 1;
+  }
 
   return $output;
 }
@@ -567,4 +574,25 @@ function cu_dashboard_seo_last_updated() {
   $date = date('F j, Y', $timestamps[0]);
   $output = "$icon Your site's content was last updated on $date";
   return $output;
+}
+
+function cu_dashboard_seo_need_redirect() {
+  $output = '';
+
+  $google_api = variable_get('google_analytics_reports_api_client_id');
+
+  if (!empty($google_api)) {
+    $output = views_embed_view('404_pages', $display_id = 'block');
+  }
+
+  return $output;
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function cu_dashboard_seo_views_api() {
+  return array(
+    'api' => "3.0",
+  );
 }
