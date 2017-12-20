@@ -38,11 +38,11 @@ function cu_pantheon_core_install() {
   // Add blocks shortcut to shortcuts set.
   $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
   $shortcut_set->links[] =
-  array(
-    'link_path' => 'admin/content/blocks',
-    'link_title' => st('Blocks'),
-    'weight' => -18,
-  );
+    array(
+      'link_path' => 'admin/content/blocks',
+      'link_title' => st('Blocks'),
+      'weight' => -18,
+    );
   shortcut_set_save($shortcut_set);
 
   // change for #FIT-583 for https://www.drupal.org/node/2172293
@@ -87,7 +87,7 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
 
   db_update('responsive_preview')
     ->fields(array('status' => 0,))
-  ->execute();
+    ->execute();
 
   db_update('responsive_preview')
     ->fields(array('status' => 1,))
@@ -95,7 +95,7 @@ Note that the CAPTCHA module disables .+page caching.+ of pages that include a C
       ->condition('name', 'medium')
       ->condition('name', 'small')
     )
-  ->execute();
+    ->execute();
 }
 
 /**
@@ -255,7 +255,7 @@ function cu_pantheon_core_update_7005() {
 
   db_update('responsive_preview')
     ->fields(array('status' => 0,))
-  ->execute();
+    ->execute();
 
   db_update('responsive_preview')
     ->fields(array('status' => 1,))
@@ -263,7 +263,7 @@ function cu_pantheon_core_update_7005() {
       ->condition('name', 'medium')
       ->condition('name', 'small')
     )
-  ->execute();
+    ->execute();
 
   cu_pantheon_core_revert_features();
 
