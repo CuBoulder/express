@@ -208,11 +208,7 @@ class EntityReference_SelectionHandler_Generic implements EntityReference_Select
    * Implements EntityReferenceHandler::validateAutocompleteInput().
    */
   public function validateAutocompleteInput($input, &$element, &$form_state, $form) {
-      $bundled_entities = $this->getReferencableEntities($input, '=', 6);
-      $entities = array();
-      foreach($bundled_entities as $entities_list) {
-        $entities += $entities_list;
-      }
+      $entities = $this->getReferencableEntities($input, '=', 6);
       if (empty($entities)) {
         // Error if there are no entities available for a required field.
         form_error($element, t('There are no entities matching "%value"', array('%value' => $input)));
@@ -309,7 +305,7 @@ class EntityReference_SelectionHandler_Generic implements EntityReference_Select
    */
   public function getLabel($entity) {
     $target_type = $this->field['settings']['target_type'];
-    return entity_access('view', $target_type, $entity) ? entity_label($target_type, $entity) : t(ENTITYREFERENCE_DENIED);
+    return entity_access('view', $target_type, $entity) ? entity_label($target_type, $entity) : t('- Restricted access -');
   }
 
   /**

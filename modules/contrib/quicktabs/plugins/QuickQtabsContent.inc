@@ -62,8 +62,4 @@ class QuickQtabsContent extends QuickContent {
   public function getAjaxKeys() {
     return array('machine_name');
   }
-
-  public function getUniqueKeys() {
-    return array('machine_name');
-  }
 }

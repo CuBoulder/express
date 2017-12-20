@@ -13,10 +13,11 @@ function metatag_hreflang_token_info() {
   if (!(module_exists('translation') || module_exists('entity_translation'))) {
     return;
   }
+
   // Don't do anything if the patch was applied to Entity Translation to add
   // these.
   // @see https://www.drupal.org/node/2603056
-  if (module_exists('entity_translation') && module_load_include('tokens.inc', 'entity_translation')) {
+  if (module_load_include('tokens.inc', 'entity_translation')) {
     return;
   }
 

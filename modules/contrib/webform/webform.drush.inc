@@ -20,7 +20,7 @@ function webform_drush_command() {
         'format' => 'The exporter format to use. Out-of-the-box this may be "delimited" or "excel".',
         'delimiter' => 'Delimiter between columns (defaults to site-wide setting). This option may need to be wrapped in quotes. i.e. --delimter="\t".',
         'components' => 'Comma-separated list of component IDs or form keys to include.' . "\n" .
-                        'May also include "webform_serial", "webform_sid", "webform_time", "webform_complete_time", "webform_modified_time", "webform_draft", "webform_ip_address", "webform_uid", and "webform_username".',
+        'May also include "webform_serial", "webform_sid", "webform_time", "webform_complete_time", "webform_modified_time", "webform_draft", "webform_ip_address", "webform_uid", and "webform_username".',
         'header-keys' => 'Integer -1 for none, 0 for label (default) or 1 for form key.',
         'select-keys' => 'Integer 0 or 1 value. Set to 1 to print select list values by their form keys instead of labels.',
         'select-format' => 'Set to "separate" (default) or "compact" to determine how select list values are exported.',
@@ -69,7 +69,6 @@ function drush_webform_export($nid = FALSE) {
   module_load_include('inc', 'webform', 'includes/webform.components');
   module_load_include('inc', 'webform', 'includes/webform.report');
 
-
   // Pull in options from drush to override the defaults.
   $format = drush_get_option('format', 'delimited');
   $options = webform_results_download_default_options($node, $format);
@@ -88,7 +87,8 @@ function drush_webform_export($nid = FALSE) {
       $component = $form_keys[$component];
     }
   }
-  unset($component); // Drop PHP reference.
+  // Drop PHP reference.
+  unset($component);
 
   // Get the range options.
   unset($options['range']['range_type']);
@@ -126,12 +126,14 @@ function drush_webform_export($nid = FALSE) {
         $options['range']['latest'] = 100;
       }
       break;
+
     case 'range':
     case 'range_serial':
       if (empty($options['range']['start'])) {
         $options['range']['start'] = 1;
       }
       break;
+
     case 'range_date':
       if (empty($options['range']['start_date'])) {
         $options['range']['start_date'] = "1/1/1970";
@@ -139,7 +141,7 @@ function drush_webform_export($nid = FALSE) {
       break;
   }
 
-  // Get the preferred completion type
+  // Get the preferred completion type.
   $options['range']['completion_type'] = drush_get_option('completion-type', NULL);
   if (isset($options['range']['completion_type']) && !in_array($options['range']['completion_type'], array('finished', 'draft', 'all'))) {
     return drush_set_error('Unsupported completion-type. The available options are "finished", "draft", or "all".');
@@ -155,8 +157,10 @@ function drush_webform_export($nid = FALSE) {
 
   // If no filename was specified, print the file and delete it.
   if (drush_get_option('file', FALSE) === FALSE) {
-    drush_print(file_get_contents($options['file_name']));  // The @ makes it silent.
-    @unlink($options['file_name']);  // Clean up, the @ makes it silent.
+    // The @ makes it silent.
+    drush_print(file_get_contents($options['file_name']));
+    // Clean up, the @ makes it silent.
+    @unlink($options['file_name']);
   }
 }
 
@@ -179,10 +183,11 @@ function drush_webform_clear($nid = FALSE) {
     return drush_set_error('webform-clear cancelled.');
   }
 
-  //module_load_include('inc', 'webform', 'includes/webform.submissions');
-  //module_load_include('inc', 'webform', 'includes/webform.components');
+  // @code
+  // module_load_include('inc', 'webform', 'includes/webform.submissions');
+  // module_load_include('inc', 'webform', 'includes/webform.components');
+  // @endcode
   module_load_include('inc', 'webform', 'includes/webform.report');
-
 
   // Pull in option from drush to override the default.
   $batch_size = drush_get_option('batch-size', 10000);

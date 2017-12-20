@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * uuid_services_example.services.inc

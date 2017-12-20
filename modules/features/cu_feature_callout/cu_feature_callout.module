@@ -377,6 +377,7 @@ function cu_feature_callout_column_options() {
  */
 function cu_feature_callout_form_bean_form_alter(&$form, &$form_state, $form_id) {
   if (($form['bean']['#value']->type == 'feature_callout')) {
+    $form['#validate'][] = 'cu_feature_callout_form_bean_form_validate';
     $form['field_callout_columns']['#states'] = array(
      'visible' => array(
        array(':input[name="field_callout_style[und]"]' => array('value' => 'columns')),
