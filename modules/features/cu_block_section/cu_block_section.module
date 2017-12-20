@@ -256,3 +256,14 @@ function cu_block_section_bg_effect_options() {
     'parallax' => 'Parallax',
   );
 }
+
+/**
+ * Implements hook_field_widget_form_alter.
+ *
+ * Format Inline Entity Forms.
+ */
+function cu_block_section_field_widget_form_alter(&$element, &$form_state, $context)	{
+  if (!empty($element['#bundle']) && $element['#bundle'] == 'block_section' && $element['#field_name'] == 'field_blocks_section_blocks') {
+    express_layout_format_ief($element);
+  }
+}
