@@ -56,7 +56,7 @@ function flexslider_views_slideshow_views_pre_render(&$view) {
     if ($fieldname == 'none' or !isset($view->field[$fieldname])) {
       return;
     }
-    
+
     $view->field[$fieldname]->options['element_type'] = 'p';
     $view->field[$fieldname]->options['element_class'] = empty($view->field[$fieldname]->options['element_class'])? 'flex-caption': $view->field[$fieldname]->options['element_class'] . ' flex-caption';
     $view->field[$fieldname]->options['element_label_type'] = '';
@@ -80,7 +80,7 @@ function flexslider_views_slideshow_views_pre_render(&$view) {
  */
 
 // Trying to make sure the theme.inc get's loaded.
-include_once('theme/flexslider_views_slideshow.theme.inc');
+require_once dirname(__FILE__) . '/theme/flexslider_views_slideshow.theme.inc';
 
 function template_preprocess_flexslider_views_slideshow_main_frame(&$vars) {
   _flexslider_views_slideshow_preprocess_flexslider_views_slideshow_main_frame($vars);
