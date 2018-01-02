@@ -1,3 +1,7 @@
 <?php
 
-print $_SERVER['TRAVIS'];
+if (isset($_SERVER['TRAVIS'])) {
+  print 'on Travis.';
+} else {
+  print 'did not work.';
+}
