@@ -10,6 +10,6 @@
 # svn
 *.svn*
 
-# Local Behat setiup files.
+# Behat dependencies.
 tests/behat/bin/
 tests/behat/vendor/
