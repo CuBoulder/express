@@ -5,8 +5,8 @@ Feature: Article Content Type
 
   @api
   Scenario Outline: An authenticated user should be able to access the form for adding page content
-    Given  CU - I am logged in as a user with the <role> role
-    When I go to "node/add/article"
+    Given  I am logged in as a user with the <role> role
+    When I am at "node/add/article"
     Then I should not see <message>
 
     Examples:
@@ -19,12 +19,12 @@ Feature: Article Content Type
   @api
   Scenario: An anonymous user should not be able to access the form for adding page content
     Given I am an anonymous user
-    When I go to "node/add/article"
+    When I am on "node/add/article"
     Then I should see "Access denied"
 
   @api @javascript
   Scenario: An authenticated user should be able to create article node
-    Given  CU - I am logged in as a user with the "content_editor" role
+    Given  I am logged in as a user with the "content_editor" role
       And am on "node/add/article"
       And fill in "Title" with "New article"
       And I click "Disable rich-text"
@@ -42,3 +42,6 @@ Feature: Article Content Type
        | success messages |
        | The taxonomy term has been linked to this page. |
        | An Article List Page has been created for the tags on the article node you just created/updated. |
+
+
+
