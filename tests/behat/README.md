@@ -29,7 +29,7 @@ Your local site might be on a version of Express that installs the LDAP module w
 drush vset ldap_servers_require_ssl_for_credentials 0
 ```
 
-You will need to install Behat's dependencies as well as adding some configuration changes to `behat.local.yml` in order to run tests.
+You will need to install Behat's dependencies as well as export an environmental variable in order to run the Behat tests.
 
 ```bash
 cd site-path/profiles/express/tests/behat
@@ -38,28 +38,12 @@ mv composer
 composer install
 ```
 
-```yaml
-  extensions:
-    DMore\ChromeExtension\Behat\ServiceContainer\ChromeExtension: ~
-    Behat\MinkExtension:
-        browser_name: chrome
-        base_url: http://127.0.0.1:8888
-        sessions:
-          default:
-            chrome:
-              api_url: "http://0.0.0.0:9222"
-        # Change to your path.      
-        files_path: "/Users/your-name/Sites/your-path/profiles/express/tests/behat/assets/"
-    Drupal\DrupalExtension:
-      blackbox: ~
-      api_driver: 'drupal'
-      drupal:
-        # Change to your path.
-        drupal_root: "/Users/your-name/Sites/your-path"
-      subcontexts:
-        # Change to your path.
-        paths:
-          - "/Users/your-name/Sites/your-path/profiles/express/tests/behat"
+Rather than having you change the behat.yml configuration file, it easier to change environmental variables and have Behat pickup on those. This way environmental variables can be used on the CI setup without changing the configuration files as well.
+
+```bash
+
+export BEHAT_PARAMS='{"extensions":{"Drupal\\DrupalExtension":{"drupal":{"drupal_root":"BUILD_TOP/drupal"}},"Behat\\MinkExtension":{"base_url":"http://127.0.0.1:8888/","files_path":"BUILD_TOP/drupal/profiles/express/tests/behat/assets/"}}}'
+
 ```
 
 To run tests...

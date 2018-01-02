@@ -1035,8 +1035,12 @@ function cu_core_environment_check() {
   return $check;
 }
 
+/**
+ * A list of modules to enable if the site is using the main core module.
+ *
+ * @return array
+ */
 function cu_core_modules_to_enable() {
-
   return array(
       'cu_atlas',
       'atlas',
