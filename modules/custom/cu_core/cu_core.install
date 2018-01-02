@@ -1039,6 +1039,7 @@ function cu_core_environment_check() {
  * A list of modules to enable if the site is using the main core module.
  *
  * @return array
+ *   Module list to enable.
  */
 function cu_core_modules_to_enable() {
   return array(
