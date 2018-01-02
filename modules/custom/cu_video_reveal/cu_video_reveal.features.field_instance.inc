@@ -10,7 +10,7 @@
 function cu_video_reveal_field_default_field_instances() {
   $field_instances = array();
 
-  // Exported field_instance: 'bean-video_reveal-field_video_reveal_image'
+  // Exported field_instance: 'bean-video_reveal-field_video_reveal_image'.
   $field_instances['bean-video_reveal-field_video_reveal_image'] = array(
     'bundle' => 'video_reveal',
     'deleted' => 0,
@@ -111,7 +111,7 @@ function cu_video_reveal_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'bean-video_reveal-field_video_reveal_text'
+  // Exported field_instance: 'bean-video_reveal-field_video_reveal_text'.
   $field_instances['bean-video_reveal-field_video_reveal_text'] = array(
     'bundle' => 'video_reveal',
     'default_value' => NULL,
@@ -146,7 +146,7 @@ function cu_video_reveal_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'bean-video_reveal-field_video_reveal_url'
+  // Exported field_instance: 'bean-video_reveal-field_video_reveal_url'.
   $field_instances['bean-video_reveal-field_video_reveal_url'] = array(
     'bundle' => 'video_reveal',
     'default_value' => NULL,
