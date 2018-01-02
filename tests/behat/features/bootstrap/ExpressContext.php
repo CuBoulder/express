@@ -1,19 +1,12 @@
 <?php
 
-use Drupal\DrupalExtension\Context\RawDrupalContext;
-use Behat\Behat\Context\SnippetAcceptingContext;
-use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Driver\Selenium2Driver;
-use Behat\MinkExtension\Context\MinkContext;
-use Behat\Mink\Session;
-use Behat\Mink\Driver\DriverInterface;
-use Behat\Behat\Context\Step\Given;
+use Behat\MinkExtension\Context\RawMinkContext;
 
 /**
  * Defines application features from the specific context.
  */
-class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext {
+class ExpressContext extends RawMinkContext {
 
   /**
    * Initializes context.
@@ -46,7 +39,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
 
   /**
    * After every step in a @javascript scenario, we want to wait for AJAX
-   * loading to finish.
+   * loading to finish. If a test failure, then take a screenshot of failed step.
    *
    * @AfterStep
    */
@@ -57,6 +50,78 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
         return;
       }
       $this->iWaitForAjax();
+    }
+
+    if (99 === $scope->getTestResult()->getResultCode()) {
+      $driver = $this->getSession()->getDriver();
+      if (!($driver instanceof Selenium2Driver)) {
+        return;
+      }
+      file_put_contents('/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
+    }
+  }
+
+  /**
+   * Set timestamp for clearing data.
+   *
+   * @BeforeScenario
+   */
+  public function before(BeforeScenarioScope $scope) {
+    $this->getSession()->visit('behat/set');
+
+    if (!$this->getSession()->getPage()->getText('Set Behat testing timestamp.')) {
+      throw new \Exception(sprintf("Failed to set timestamp marker for clearing test data."));
+    }
+  }
+
+  /**
+   * Clear testing data.
+   *
+   * @AfterScenario
+   */
+  public function after(AfterScenarioScope $scope) {
+    $this->getSession()->visit('behat/clear');
+
+    if (!$this->getSession()->getPage()->getText('Cleared test data created during scenario.')) {
+      throw new \Exception(sprintf("Failed to clear test data."));
+    }
+  }
+
+  /**
+   * Creates and authenticates a user with the given role(s).
+   *
+   * @Given I am logged in as a user with the :role role(s)
+   * @Given I am logged in as a/an :role
+   */
+  public function assertAuthenticatedByRole($role) {
+
+    // Go to user login page.
+    $this->getSession()->visit($this->locatePath('/user'));
+    $element = $this->getSession()->getPage();
+
+    // Logout if logged in.
+    if ($element->getText('CU Login Name')) {
+      $this->getSession()->visit($this->locatePath('/user/logout'));
+      $this->getSession()->visit($this->locatePath('/user'));
+      $element = $this->getSession()->getPage();
+    }
+
+    // Fill fields with login information.
+    $element->fillField('CU Login Name', $role);
+    $element->fillField('IdentiKey Password', $role);
+    $submit = $element->findButton('Log in');
+
+    if (empty($submit)) {
+      throw new \Exception(sprintf("No submit button at %s", $this->getSession()
+        ->getCurrentUrl()));
+    }
+
+    // Log in.
+    $submit->click();
+
+    // Need to figure out better way to check if logged in.
+    if (!$this->getSession()->getPage()->getText('Dashboard')) {
+      throw new \Exception(sprintf("Failed to log in as user '%s'", $role));
     }
   }
 
@@ -87,19 +152,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
         break;
       default:
         $this->getSession()->resizeWindow(1280, 1024, 'current');
-    }
-  }
-
-  /**
-   * @AfterStep
-   */
-  public function takeScreenShotAfterFailedStep($scope) {
-    if (99 === $scope->getTestResult()->getResultCode()) {
-      $driver = $this->getSession()->getDriver();
-      if (!($driver instanceof Selenium2Driver)) {
-        return;
-      }
-      file_put_contents('/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
     }
   }
 
