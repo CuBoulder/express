@@ -23,7 +23,9 @@ function cu_testing_core_install() {
   _cu_testing_core_add_users();
 }
 
-
+/**
+ * Implements hook_uninstall().
+ */
 function cu_testing_core_uninstall() {
   // @todo This probably won't work here...
   // Delete created users.
@@ -32,10 +34,20 @@ function cu_testing_core_uninstall() {
   user_delete_multiple($uids);
 }
 
+/**
+ * Creates users needed for test runs.
+ */
 function _cu_testing_core_add_users() {
 
   // List needed users.
-  $users = array('developer', 'administrator', 'content_editor', 'site_owner', 'edit_my_content', 'authenticated user');
+  $users = array(
+    'developer',
+    'administrator',
+    'content_editor',
+    'site_owner',
+    'edit_my_content',
+    'authenticated user',
+  );
 
   // Create users.
   foreach ($users as $user_name) {
@@ -49,7 +61,7 @@ function _cu_testing_core_add_users() {
     $role = user_role_load_by_name($user_name);
     $new_user = array(
       'name' => $user_name,
-      'pass' => $user_name, // note: do not md5 the password
+      'pass' => $user_name,
       'mail' => 'noreply@nowhere.com',
       'status' => 1,
       'init' => 'noreply@nowhere.com',
