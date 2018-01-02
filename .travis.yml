@@ -89,6 +89,7 @@ before_script:
   # Check and see if testing core module is enabled.
   - drush pm-info cu_testing_core
   - drush pm-info cu_core
+  - drush scr test.php
 
   # Export db so it can be imported after every suite run.
   # Test runs that fill up the db with nodes can impact other tests.
