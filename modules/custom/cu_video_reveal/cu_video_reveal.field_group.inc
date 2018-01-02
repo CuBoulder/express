@@ -8,7 +8,7 @@
  * Implements hook_field_group_info().
  */
 function cu_video_reveal_field_group_info() {
-  $export = array();
+  $field_groups = array();
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -36,7 +36,7 @@ function cu_video_reveal_field_group_info() {
       ),
     ),
   );
-  $export['group_video_reveal_image|bean|video_reveal|form'] = $field_group;
+  $field_groups['group_video_reveal_image|bean|video_reveal|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -63,7 +63,7 @@ function cu_video_reveal_field_group_info() {
       ),
     ),
   );
-  $export['group_video_reveal_tabs|bean|video_reveal|form'] = $field_group;
+  $field_groups['group_video_reveal_tabs|bean|video_reveal|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -91,7 +91,7 @@ function cu_video_reveal_field_group_info() {
       ),
     ),
   );
-  $export['group_video_reveal_text|bean|video_reveal|form'] = $field_group;
+  $field_groups['group_video_reveal_text|bean|video_reveal|form'] = $field_group;
 
   $field_group = new stdClass();
   $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
@@ -119,7 +119,14 @@ function cu_video_reveal_field_group_info() {
       ),
     ),
   );
-  $export['group_video_reveal_video|bean|video_reveal|form'] = $field_group;
+  $field_groups['group_video_reveal_video|bean|video_reveal|form'] = $field_group;
 
-  return $export;
+  // Translatables
+  // Included for use with string extractors like potx.
+  t('Image');
+  t('Tabs');
+  t('Text');
+  t('Video');
+
+  return $field_groups;
 }
