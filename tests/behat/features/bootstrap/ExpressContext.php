@@ -1,12 +1,20 @@
 <?php
 
+
+use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Behat\Behat\Context\SnippetAcceptingContext;
+use Behat\Gherkin\Node\PyStringNode;
+use Behat\Gherkin\Node\TableNode;
 use Behat\Mink\Driver\Selenium2Driver;
-use Behat\MinkExtension\Context\RawMinkContext;
+use Behat\MinkExtension\Context\MinkContext;
+use Behat\Mink\Session;
+use Behat\Mink\Driver\DriverInterface;
+use Behat\Behat\Context\Step\Given;
 
 /**
  * Defines application features from the specific context.
  */
-class ExpressContext extends RawMinkContext {
+class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext {
 
   /**
    * Initializes context.
@@ -66,12 +74,14 @@ class ExpressContext extends RawMinkContext {
    *
    * @BeforeScenario
    */
-  public function before(BeforeScenarioScope $scope) {
+  public function before($scope) {
+    /*
     $this->getSession()->visit('behat/set');
 
     if (!$this->getSession()->getPage()->getText('Set Behat testing timestamp.')) {
       throw new \Exception(sprintf("Failed to set timestamp marker for clearing test data."));
     }
+    */
   }
 
   /**
@@ -79,21 +89,23 @@ class ExpressContext extends RawMinkContext {
    *
    * @AfterScenario
    */
-  public function after(AfterScenarioScope $scope) {
+  public function after($scope) {
+    /*
     $this->getSession()->visit('behat/clear');
 
     if (!$this->getSession()->getPage()->getText('Cleared test data created during scenario.')) {
       throw new \Exception(sprintf("Failed to clear test data."));
     }
+    */
   }
 
   /**
    * Creates and authenticates a user with the given role(s).
    *
-   * @Given I am logged in as a user with the :role role(s)
-   * @Given I am logged in as a/an :role
+   * @Given CU - I am logged in as a user with the :role role(s)
+   * @Given CU - I am logged in as a/an :role
    */
-  public function assertAuthenticatedByRole($role) {
+  public function assertAuthenticatedByRole2($role) {
 
     // Go to user login page.
     $this->getSession()->visit($this->locatePath('/user'));
@@ -467,7 +479,14 @@ class ExpressContext extends RawMinkContext {
    */
   public function iWaitForTheElementToAppear2($arg1) {
     $this->spinner(function($context, $arg1) {
-      return ($context->getSession()->getPage()->findById($arg1)->isVisible());
+
+      $el = $context->getSession()->getPage()->findById($arg1);
+
+      if ($el !== NULL && $el->isVisible()) {
+        return true;
+      }
+
+      return false;
     }, $arg1);
   }
 
@@ -490,4 +509,5 @@ class ExpressContext extends RawMinkContext {
       $backtrace[1]['file'] . ", line " . $backtrace[1]['line']
     );
   }
+
 }
