@@ -329,8 +329,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    *
    */
   public function linkShouldHaveForAttribute($element, $text, $attribute) {
-    $session = $this->getSession();
-    $page = $session->getPage();
+    $page = $this->getSession()->getPage();
 
     $page_element = $page->findLink($element);
     if ($page_element == NULL) {
@@ -409,5 +408,34 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    */
   public function iSwitchToIframe($arg1 = null) {
     $this->getSession()->switchToIFrame($arg1);
+  }
+
+  /**
+   * @When I wait for the :arg1 element to appear
+   */
+  public function iWaitForTheElementToAppear2($arg1) {
+    $this->spinner(function($context, $arg1) {
+      return ($context->getSession()->getPage()->findById($arg1)->isVisible());
+    }, $arg1);
+  }
+
+  public function spinner($lambda, $element, $wait = 60) {
+    for ($i = 0; $i < $wait; $i++) {
+      try {
+        if ($lambda($this, $element)) {
+          return true;
+        }
+      } catch (Exception $e) {
+        // do nothing
+      }
+      sleep(1);
+    }
+
+    $backtrace = debug_backtrace();
+
+    throw new Exception(
+      "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n" .
+      $backtrace[1]['file'] . ", line " . $backtrace[1]['line']
+    );
   }
 }
