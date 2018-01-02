@@ -46,8 +46,8 @@ install:
   - mkdir profiles
   - mv express drupal/profiles/
 
+  # Test environmental variables.
   - drush scr drupal/profiles/express/test.php
-  - drush scr foobar.php
 
   # Harden Codebase
   - cd drupal
