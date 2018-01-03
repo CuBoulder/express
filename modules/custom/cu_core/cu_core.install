@@ -11,7 +11,7 @@
  */
 function cu_core_install() {
 
-  $hosting = cu_core_get_hosting();
+  $hosting = express_check_known_hosts();
 
   if ($hosting == 'travis') {
     module_enable(array('travis_hosting'));
@@ -21,6 +21,8 @@ function cu_core_install() {
     module_enable(array('pantheon_hosting'));
   }
 
+  //@TODO: If it's not Travis or Pantheon, assume it's NG for now.
+  // Eventually update to deal with ng (2.0) vs. 3.0
   if ($hosting == FALSE) {
     module_enable(array('ng_hosting'));
   }
@@ -39,14 +41,6 @@ function cu_core_install() {
     'cutradition',
   ));
 
-  // these modules need to be enabled late in the install process and/or to be ignored by profile_module_manager's report.
-  $module_array = array(
-    'cu_users',
-    'memcache',
-    'varnish'  // Adding caching modules here for changes involving Travis CI testing.
-  );
-
-  module_enable($module_array);
 
   profile_module_manager_add_to_ignore($module_array);
 
@@ -998,26 +992,4 @@ function cu_core_scramble_admin() {
     $user->pass = $hashed_pass;
     user_save($user);
   }
-}
-
-/**
- * A function that checks for external environments and performs tasks if needed.
- *
- * @return array
- *   Results of checks for server environment.
- */
-function cu_core_environment_check() {
-
-  // Check for Travis.
-  if (isset($_SERVER['TRAVIS'])) {
-    return 'travis';
-  }
-
-  // Check for Pantheon.
-  if (defined('PANTHEON_ENVIRONMENT')) {
-    return 'pantheon';
-  }
-
-  //@TODO: Add environment check for ng servers
-  return FALSE;
 }
