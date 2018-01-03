@@ -880,6 +880,8 @@ function cu_core_update_7038() {
     'xmlsitemap_node',
     'xmlsitemap_menu'
   ));
+  drupal_uninstall_modules($module_list = array('cu_events_calendar_block'), $uninstall_dependents = FALSE);
+  cu_core_revert_features();
 }
 
 /**
