@@ -1039,12 +1039,6 @@ function cu_core_environment_check() {
     return $check;
   }
 
-  // Take out after testing.
-  if (isset($_SERVER['USER']) && $_SERVER['USER'] === 'alfi2595') {
-    $check['no_environment?'] = FALSE;
-    module_enable(array('cu_testing_core'));
-  }
-
   // If on non-CU hosting, then set schema version of cu_core so high the update hooks will never be ran.
   if ($check['no_environment?'] === FALSE) {
     db_query("UPDATE {system} SET schema_version = 9999 WHERE name = 'cu_core'");
