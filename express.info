@@ -15,7 +15,6 @@ dependencies[] = express_theme_picker
 dependencies[] = express_settings
 dependencies[] = express_version
 dependencies[] = cu_colorbox
-dependencies[] = cu_helpscout
 ;dependencies[] = express_permissions
 
 ;dependencies[] = cu_settings

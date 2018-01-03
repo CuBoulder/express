@@ -926,11 +926,14 @@ function cu_core_update_7037() {
 }
 
 /**
- * Add helpscout beacon.
+ * Add helpscout beacon and XMLSite Map.
  */
 function cu_core_update_7038() {
   module_enable(array(
     'cu_helpscout',
+    'xmlsitemap',
+    'xmlsitemap_node',
+    'xmlsitemap_menu'
   ));
 }
 
