@@ -8,7 +8,7 @@
 /**
  * Implements hook_install().
  */
-function cu_testing_core_install() {
+function travis_hosting_install() {
   // Setting performance logging variables.
   variable_set('performance_detail', 1);
   variable_set('performance_nodrush', 1);
