@@ -15,7 +15,7 @@ function travis_hosting_install() {
   variable_set('performance_threshold_accesses', '2');
 
   // Don't check for summary detail since not using in report.
-  // variable_set('performance_summary', 1);
+  // variable_set('performance_summary', 1).
   // Don't add query logging since it adds memory overhead.
-  // variable_set('performance_query', 1);
+  // variable_set('performance_query', 1).
 }

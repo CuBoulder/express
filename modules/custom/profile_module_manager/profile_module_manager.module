@@ -191,7 +191,7 @@ function profile_module_manager_get_additional_dependencies() {
   $cores = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 AND name LIKE '%_core' ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
   $hosting = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 AND name LIKE '%_hosting' ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
 
-  return array_merge($cores,$hosting);
+  return array_merge($cores, $hosting);
 }
 
 /**
@@ -205,15 +205,15 @@ function profile_module_manager_build_ideal() {
   $profile_name = drupal_get_profile();
   $profile = install_profile_info($profile_name);
 
-  // Start with the profile
+  // Start with the profile.
   $ideal = isset($profile['dependencies']) ? $profile['dependencies'] : array();
   $ignore = isset($profile['optional-dependencies']) ? $profile['optional-dependencies'] : array();
 
   // Add core dependencies to ideal and ignore arrays.
   $modules = profile_module_manager_get_additional_dependencies();
-  foreach($modules as $module) {
-    // could just replace .module w/ .info from $bundle->filename
-    // which is faster?
+  foreach ($modules as $module) {
+    // Could just replace .module w/ .info from $bundle->filename.
+    // Which is faster?
     $path = drupal_get_path('module', $module->name) . '/' . $module->name . '.info';
     $info = drupal_parse_info_file($path);
     if (isset($info['dependencies'])) {
@@ -222,7 +222,7 @@ function profile_module_manager_build_ideal() {
     if (isset($info['optional-dependencies'])) {
       $ignore = array_merge($ignore, $info['optional-dependencies']);
     }
-    // and the core or hosting module itself
+    // Add the core or hosting module itself.
     $ideal[] = $module->name;
   }
 

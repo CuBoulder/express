@@ -5,7 +5,6 @@
  * Install hooks for cu_core module.
  */
 
-
 /**
  * Implements hook_install().
  */
@@ -21,7 +20,7 @@ function cu_core_install() {
     module_enable(array('pantheon_hosting'));
   }
 
-  //@TODO: If it's not Travis or Pantheon, assume it's NG for now.
+  // @TODO: If it's not Travis or Pantheon, assume it's NG for now.
   // Eventually update to deal with ng (2.0) vs. 3.0
   if ($hosting == FALSE) {
     module_enable(array('ng_hosting'));
@@ -40,9 +39,6 @@ function cu_core_install() {
     'cuswatch',
     'cutradition',
   ));
-
-
-  profile_module_manager_add_to_ignore($module_array);
 
   // Add blocks shortcut to shortcuts set.
   $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Contains hooks for cu_testing_core module.
@@ -6,7 +7,8 @@
 
 /**
  * Implements hook_form_alter().
- * Mirrors changes cu_ldap makes without the overhead of LDAP
+ *
+ * Mirrors changes cu_ldap makes without the overhead of LDAP.
  */
 function travis_hosting_form_user_login_alter(&$form, &$form_state) {
   $form['name']['#title'] = t('CU Login Name');
@@ -14,4 +16,3 @@ function travis_hosting_form_user_login_alter(&$form, &$form_state) {
   $form['pass']['#title'] = t('IdentiKey Password');
   $form['pass']['#description'] = '';
 }
-
