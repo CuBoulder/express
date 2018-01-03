@@ -1,7 +1,7 @@
 name = "Google CSE"
 description = "Use Google Custom Search to search your site and/or any other sites."
 core = 7.x
-;dependencies[] = search
+
 files[] = google_cse.install
 files[] = google_cse.module
 files[] = google_cse.admin.inc
@@ -11,9 +11,9 @@ scripts[] = google_cse.js
 stylesheets[all][] = google_cse.css
 
 
-; Information added by Drupal.org packaging script on 2017-04-26
-version = "7.x-3.0-alpha1"
+; Information added by Drupal.org packaging script on 2017-10-30
+version = "7.x-3.0-alpha1+4-dev"
 core = "7.x"
 project = "google_cse"
-datestamp = "1493228052"
+datestamp = "1509396486"
 
