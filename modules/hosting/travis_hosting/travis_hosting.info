@@ -1,8 +1,8 @@
-name = CU Testing Core
+name = Travis Hosting
 description = Provides CU-specific functionality, like adding variables, to Express Core.
 core = 7.x
-version = 7.x-8.1
-package = CU-Core
+version = 7.x-1.0
+package = Hosting
 
 dependencies[] = cu_redirect
 dependencies[] = cu_help
