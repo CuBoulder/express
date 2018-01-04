@@ -6,43 +6,24 @@
  */
 
 /**
- * Implemenets hook_enable().
- */
-function cu_core_enable() {
-
-}
-
-/**
  * Implements hook_install().
  */
 function cu_core_install() {
 
-  // Check for environmental variables to install other cores.
-  $check = cu_core_environment_check();
+  $hosting = express_check_known_hosts();
 
-  // If needed, exit install before something else happens.
-  if ($check['exit?']) {
-    return;
+  if ($hosting == 'travis') {
+    module_enable(array('travis_hosting'));
   }
 
-  // If no other special environment found, install default modules.
-  if ($check['no_environment?']) {
-    $modules = array(
-      'cu_atlas',
-      'atlas',
-      'atlas_statistics',
-      'noreqnewpass',
-      'ldap_authentication',
-      'ldap_servers',
-      'ldap_user',
-      'cu_ldap',
-      'cu_users',
-      'express_user_lock',
-      'memcache',
-      'varnish'
-      // Adding caching modules here for changes involving Travis CI testing.
-    );
-    module_enable($modules);
+  if ($hosting == 'pantheon') {
+    module_enable(array('pantheon_hosting'));
+  }
+
+  // @TODO: If it's not Travis or Pantheon, assume it's NG for now.
+  // Eventually update to deal with ng (2.0) vs. 3.0
+  if ($hosting == FALSE) {
+    module_enable(array('ng_hosting'));
   }
 
   theme_enable(array(
@@ -58,17 +39,6 @@ function cu_core_install() {
     'cuswatch',
     'cutradition',
   ));
-
-  // these modules need to be enabled late in the install process and/or to be ignored by profile_module_manager's report.
-  $module_array = array(
-    'cu_users',
-    'memcache',
-    'varnish'  // Adding caching modules here for changes involving Travis CI testing.
-  );
-
-  module_enable($module_array);
-
-  profile_module_manager_add_to_ignore($module_array);
 
   // Add blocks shortcut to shortcuts set.
   $shortcut_set = shortcut_set_load(SHORTCUT_DEFAULT_SET_NAME);
@@ -1018,36 +988,4 @@ function cu_core_scramble_admin() {
     $user->pass = $hashed_pass;
     user_save($user);
   }
-}
-
-/**
- * A function that checks for external environments and performs tasks if needed.
- *
- * @return array
- *   Results of checks for server environment.
- */
-function cu_core_environment_check() {
-  // Initialize $check array with default values.
-  $check = array();
-  $check['exit?'] = FALSE;
-  $check['no_environment?'] = TRUE;
-
-  // Check for Travis.
-  if (isset($_SERVER['TRAVIS'])) {
-    $check['no_environment?'] = FALSE;
-    module_enable(array('cu_testing_core'));
-  }
-
-  // Check for Pantheon.
-  elseif (defined('PANTHEON_ENVIRONMENT')) {
-    $check['no_environment?'] = FALSE;
-    module_enable(array('cu_pantheon_core'));
-  }
-
-  // If on non-CU hosting, then set schema version of cu_core so high the update hooks will never be ran.
-  if ($check['no_environment?'] === FALSE) {
-    db_query("UPDATE {system} SET schema_version = 9999 WHERE name = 'cu_core'");
-  }
-
-  return $check;
 }
