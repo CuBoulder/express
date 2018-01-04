@@ -5,11 +5,9 @@ I should be able to access the functionality of the WYSIWYG editor
 
   @api @wysiwyg
   Scenario Outline: An authenticated user should have WYSIWYG selected as the the default text format
-    Given  I am logged in as a user with the <role> role
+    Given  CU - I am logged in as a user with the <role> role
     When I am at "node/add/page"
-      # @todo Remove this step and look for WYSIWYG element to load.
-      # And I wait for the WYSIWYG element to appear.
-      And I wait for AJAX
+      And I wait for the "cke_1_top" element to appear
     Then I should see the button "Bold"
 
     Examples:
@@ -22,11 +20,9 @@ I should be able to access the functionality of the WYSIWYG editor
 
   @api @wysiwyg
   Scenario Outline: An authenticated user should have all the WYSIWYG shortcode and other buttons available
-    Given  I am logged in as a user with the <role> role
+    Given CU - I am logged in as a user with the <role> role
     When I am at "node/add/page"
-      # @todo Remove this step and look for WYSIWYG element to load.
-      # And I wait for the WYSIWYG element to appear.
-      And I wait for AJAX to finish
+      And I wait for the "cke_1_top" element to appear
     Then I should see the button "Button Shortcode Generator"
       And I should see the button "Image Caption Shortcode Generator"
       And I should see the button "Image Caption Shortcode Generator"
