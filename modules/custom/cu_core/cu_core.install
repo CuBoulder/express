@@ -896,7 +896,7 @@ function cu_core_update_7037() {
 }
 
 /**
- * Add helpscout beacon and XMLSite Map.
+ * Express 2.8.2 Update. Add helpscout beacon and XMLSite Map.
  */
 function cu_core_update_7038() {
   module_enable(array(
@@ -905,6 +905,8 @@ function cu_core_update_7038() {
     'xmlsitemap_node',
     'xmlsitemap_menu'
   ));
+  drupal_uninstall_modules($module_list = array('cu_events_calendar_block'), $uninstall_dependents = FALSE);
+  cu_core_revert_features();
 }
 
 /**
