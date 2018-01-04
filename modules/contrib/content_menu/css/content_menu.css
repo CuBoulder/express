@@ -3,11 +3,8 @@
   background: #dfd;
 }
 
-.menu-overview-title-link {
-  float: left;
-}
-
-.menu-overview-title-edit-trigger {
+.menu-overview-title-edit-trigger
+{
   margin-left: 8px;
   display: none;
 }
