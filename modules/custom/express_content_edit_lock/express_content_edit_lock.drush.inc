@@ -3,7 +3,7 @@
 /**
  * Implements hook_drush_command().
  */
-function express_user_lock_drush_command() {
+function express_content_edit_lock_drush_command() {
 
   $commands['lock_user_dev'] = array(
     'description' => 'This logs everyone out and locks out non-developer roles from logging in.',
@@ -13,15 +13,15 @@ function express_user_lock_drush_command() {
   return $commands;
 }
 
-function _express_user_lock_logout_everyone() {
+function _logout_everyone() {
   $table = '{sessions}';
   db_truncate($table)->execute();
 }
 
-function drush_express_user_lock_lock_user_dev() {
+function drush_express_content_edit_lock_lock_user_dev() {
   $lud = variable_get('lock_user_dev');
   if ($lud === FALSE) {
-    _express_user_lock_logout_everyone();
+    _logout_everyone();
     variable_set('lock_user_dev', TRUE);
     drush_print(dt('Users have been logged out and site is locked.'));
   } else {
@@ -33,7 +33,7 @@ function drush_express_user_lock_lock_user_dev() {
 /**
  * Change cron.
  */
-function express_user_lock_take_down_site_update_cron_schedule() {
+function take_down_site_update_cron_schedule() {
   $atlas_id = variable_get('atlas_id', NULL);
   $site_array = atlas_api_request('sites', $atlas_id);
 
@@ -77,7 +77,7 @@ function express_user_lock_take_down_site_update_cron_schedule() {
  * Drush command logic.
  * drush_lud().
  */
-function express_user_lock_command($arg1 = 'N/A', $arg2 = 'N/A') {
+function express_content_edit_lock_command($arg1 = 'N/A', $arg2 = 'N/A') {
   $opt1 = drush_get_option('opt1', 'N/A');
   $tokens = array('@arg1' => $arg1, '@opt1' => $opt1);
   drush_print(dt('My custom command. Argument: @arg1 Option: @opt1', $tokens));

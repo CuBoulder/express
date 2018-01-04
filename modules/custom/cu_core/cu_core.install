@@ -855,7 +855,7 @@ function cu_core_update_7033() {
     'cu_unused_beans'
   ));
 }
-/*
+/**
  * Express 2.6.5 Update.
  *
  * Disable and uninstall securepages. Need to skip hook numbered 7035 because
@@ -905,6 +905,18 @@ function cu_core_update_7038() {
     'xmlsitemap_node',
     'xmlsitemap_menu'
   ));
+}
+
+/**
+ * Express 2.8.3 Update.
+ *
+ * Rename express_user_lock to express_content_edit_lock.
+ */
+function cu_core_update_7039() {
+  module_enable(array(
+    'express_content_edit_lock'
+  ));
+  module_disable(array('express_user_lock'));
 }
 
 /**

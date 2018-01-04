@@ -24,7 +24,7 @@ dependencies[] = xmlsitemap_node
 dependencies[] = xmlsitemap_menu
 
 optional-dependencies[] = cu_users
-optional-dependencies[] = express_user_lock
+optional-dependencies[] = express_content_edit_lock
 optional-dependencies[] = memcache
 optional-dependencies[] = entityreference
 optional-dependencies[] = express_layout
