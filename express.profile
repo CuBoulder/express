@@ -223,7 +223,6 @@ function express_get_node_thumbnail($node, $field, $image_style = 'medium') {
  * A function that checks for known environments.
  *
  * @return string
- *
  */
 function express_check_known_hosts() {
 

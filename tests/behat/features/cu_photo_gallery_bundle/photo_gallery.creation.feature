@@ -4,7 +4,7 @@ Feature: Photo Gallery Creation
   # @todo This test fails on Travis after upload around wait step.
   @api @javascript @files @broken
   Scenario: Create a basic photo gallery.
-    Given  I am logged in as a user with the "content_editor" role
+    Given  CU - I am logged in as a user with the "content_editor" role
       And I am on "node/add/photo-gallery"
       And I fill in "edit-title" with "Test Photo Gallery"
       And I fill in "edit-field-photo-und-0-alt" with "alt one"

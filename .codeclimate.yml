@@ -4,6 +4,9 @@ engines:
     config:
       file_extensions: "php,inc,module,install"
       rulesets: ".phpmd.xml"
+    checks:
+      Controversial/Superglobals:
+        enabled: false
   phpcodesniffer:
     enabled: true
     config:
