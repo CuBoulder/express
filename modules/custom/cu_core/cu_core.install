@@ -5,7 +5,6 @@
  * Install hooks for cu_core module.
  */
 
-
 /**
  * Implements hook_install().
  */
