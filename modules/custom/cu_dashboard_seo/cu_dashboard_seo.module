@@ -56,8 +56,6 @@ function cu_dashboard_seo_express_help($variables) {
  */
 function cu_dashboard_seo_content() {
   $output = array();
-
-
   $output['left']['widgets']['checklist']['title'] = t('Search Engine Optimization Checklist');
   $output['left']['widgets']['checklist']['content']['#markup'] = cu_dashboard_seo_checklist_output();
 
@@ -87,15 +85,11 @@ function cu_dashboard_seo_secure_permissions($role) {
     'administrator' => array(
       'use seo dashboard',
     ),
-    'content_editor' => array(
-      'use seo dashboard',
-    ),
+    'content_editor' => array(),
     'developer' => array(
       'use seo dashboard',
     ),
-    'edit_my_content' => array(
-      'use seo dashboard',
-    ),
+    'edit_my_content' => array(),
     'site_owner' => array(
       'use seo dashboard',
     ),
