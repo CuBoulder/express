@@ -910,13 +910,6 @@ function cu_core_update_7038() {
 }
 
 /**
- * Rename express_user_lock to express_content_edit_lock.
- */
-function cu_core_update_7039() {
-  module_disable(array('express_user_lock'));
-}
-
-/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {

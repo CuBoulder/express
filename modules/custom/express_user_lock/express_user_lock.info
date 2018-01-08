@@ -1,5 +1,0 @@
-name = Express User Lock
-description = Deprecated use express_content_edit_lock.
-core = 7.x
-package = CU-Core
-version = 7.x-1.x
