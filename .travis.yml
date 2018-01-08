@@ -84,7 +84,11 @@ before_script:
   - mysql -e 'create database drupal;'
   - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
-  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" express_profile_configure_form.express_core_version=cu_testing_core --yes
+  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
+
+  # Check and see if testing core module is enabled.
+  - drush pm-info cu_testing_core
+  - drush pm-info cu_core
 
   # Export db so it can be imported after every suite run.
   # Test runs that fill up the db with nodes can impact other tests.

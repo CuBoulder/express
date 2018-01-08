@@ -3,7 +3,7 @@ Feature: CU Layout Creation
 
   @api @layout @javascript
   Scenario: Adding or removing regions on settings form should be reflected on node layout forms
-    Given  I am logged in as a user with the "developer" role
+    Given  CU - I am logged in as a user with the "developer" role
       And I am at "admin/config/content/express-layout"
       And I check the box "page[field_header]"
       And I uncheck the box "page[field_intro]"

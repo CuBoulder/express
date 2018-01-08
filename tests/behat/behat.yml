@@ -15,9 +15,9 @@ default:
     Behat\MinkExtension:
         browser_name: chrome
         sessions:
-            default:
-                chrome:
-                    api_url: "http://0.0.0.0:9222"
+          default:
+            chrome:
+              api_url: "http://0.0.0.0:9222"
     Drupal\DrupalExtension:
       blackbox: ~
       api_driver: 'drupal'

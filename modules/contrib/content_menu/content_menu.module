@@ -349,23 +349,6 @@ function content_menu_form_menu_overview_form_alter(&$form, &$form_state, $form_
   }
 }
 
-/**
- * Implementation of hook_form_FORM_ID_alter().
- *
- * Call our menu overview altering function for the bigmenu overview form, if present.
- */
-function content_menu_form_bigmenu_overview_form_alter(&$form, &$form_state, $form_id) {
-  content_menu_form_menu_overview_form_alter($form, $form_state, $form_id);
-}
-
-/**
- * Implementation of hook_form_FORM_ID_alter().
- *
- * Call our menu overview altering function for the bigmenu slice form, if present.
- */
-function content_menu_form_bigmenu_slice_form_alter(&$form, &$form_state, $form_id) {
-  content_menu_form_menu_overview_form_alter($form, $form_state, $form_id);
-}
 
 /**
  * Implements hook_menu_local_tasks_alter().
