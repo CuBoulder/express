@@ -166,3 +166,14 @@ function cu_block_row_secure_permissions($role) {
     return $permissions[$role];
   }
 }
+
+/**
+ * Implements hook_field_widget_form_alter.
+ *
+ * Format Inline Entity Forms.
+ */
+function cu_block_row_field_widget_form_alter(&$element, &$form_state, $context)	{
+  if (!empty($element['#bundle']) && $element['#bundle'] == 'field_block_row_collection' && $element['#field_name'] == 'field_block_row_block') {
+    express_layout_format_ief($element);
+  }
+}
