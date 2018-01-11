@@ -1,5 +1,6 @@
 <?php
 
+
 use Drupal\DrupalExtension\Context\RawDrupalContext;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
@@ -46,7 +47,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
 
   /**
    * After every step in a @javascript scenario, we want to wait for AJAX
-   * loading to finish.
+   * loading to finish. If a test failure, then take a screenshot of failed step.
    *
    * @AfterStep
    */
@@ -57,6 +58,82 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
         return;
       }
       $this->iWaitForAjax();
+    }
+
+    if (99 === $scope->getTestResult()->getResultCode()) {
+      $driver = $this->getSession()->getDriver();
+      if (!($driver instanceof Selenium2Driver)) {
+        return;
+      }
+      file_put_contents('/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
+    }
+  }
+
+  /**
+   * Set timestamp for clearing data.
+   *
+   * @BeforeScenario
+   */
+  public function before($scope) {
+    /*
+    $this->getSession()->visit('behat/set');
+
+    if (!$this->getSession()->getPage()->getText('Set Behat testing timestamp.')) {
+      throw new \Exception(sprintf("Failed to set timestamp marker for clearing test data."));
+    }
+    */
+  }
+
+  /**
+   * Clear testing data.
+   *
+   * @AfterScenario
+   */
+  public function after($scope) {
+    /*
+    $this->getSession()->visit('behat/clear');
+
+    if (!$this->getSession()->getPage()->getText('Cleared test data created during scenario.')) {
+      throw new \Exception(sprintf("Failed to clear test data."));
+    }
+    */
+  }
+
+  /**
+   * Creates and authenticates a user with the given role(s).
+   *
+   * @Given CU - I am logged in as a user with the :role role(s)
+   * @Given CU - I am logged in as a/an :role
+   */
+  public function assertAuthenticatedByRole2($role) {
+
+    // Go to user login page.
+    $this->getSession()->visit($this->locatePath('/user'));
+    $element = $this->getSession()->getPage();
+
+    // Logout if logged in.
+    if ($element->getText('CU Login Name')) {
+      $this->getSession()->visit($this->locatePath('/user/logout'));
+      $this->getSession()->visit($this->locatePath('/user'));
+      $element = $this->getSession()->getPage();
+    }
+
+    // Fill fields with login information.
+    $element->fillField('CU Login Name', $role);
+    $element->fillField('IdentiKey Password', $role);
+    $submit = $element->findButton('Log in');
+
+    if (empty($submit)) {
+      throw new \Exception(sprintf("No submit button at %s", $this->getSession()
+        ->getCurrentUrl()));
+    }
+
+    // Log in.
+    $submit->click();
+
+    // Need to figure out better way to check if logged in.
+    if (!$this->getSession()->getPage()->getText('Dashboard')) {
+      throw new \Exception(sprintf("Failed to log in as user '%s'", $role));
     }
   }
 
@@ -87,19 +164,6 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
         break;
       default:
         $this->getSession()->resizeWindow(1280, 1024, 'current');
-    }
-  }
-
-  /**
-   * @AfterStep
-   */
-  public function takeScreenShotAfterFailedStep($scope) {
-    if (99 === $scope->getTestResult()->getResultCode()) {
-      $driver = $this->getSession()->getDriver();
-      if (!($driver instanceof Selenium2Driver)) {
-        return;
-      }
-      file_put_contents('/tmp/test.png', $this->getSession()->getDriver()->getScreenshot());
     }
   }
 
@@ -329,8 +393,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
    *
    */
   public function linkShouldHaveForAttribute($element, $text, $attribute) {
-    $session = $this->getSession();
-    $page = $session->getPage();
+    $page = $this->getSession()->getPage();
 
     $page_element = $page->findLink($element);
     if ($page_element == NULL) {
@@ -410,4 +473,41 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   public function iSwitchToIframe($arg1 = null) {
     $this->getSession()->switchToIFrame($arg1);
   }
+
+  /**
+   * @When I wait for the :arg1 element to appear
+   */
+  public function iWaitForTheElementToAppear2($arg1) {
+    $this->spinner(function($context, $arg1) {
+
+      $el = $context->getSession()->getPage()->findById($arg1);
+
+      if ($el !== NULL && $el->isVisible()) {
+        return true;
+      }
+
+      return false;
+    }, $arg1);
+  }
+
+  public function spinner($lambda, $element, $wait = 60) {
+    for ($i = 0; $i < $wait; $i++) {
+      try {
+        if ($lambda($this, $element)) {
+          return true;
+        }
+      } catch (Exception $e) {
+        // do nothing
+      }
+      sleep(1);
+    }
+
+    $backtrace = debug_backtrace();
+
+    throw new Exception(
+      "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n" .
+      $backtrace[1]['file'] . ", line " . $backtrace[1]['line']
+    );
+  }
+
 }
