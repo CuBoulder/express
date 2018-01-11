@@ -33,7 +33,7 @@ function _content_menu_menu_overview_page_extended() {
  * Overhaul the menu_overview_form to improve menu authoring experience.
  */
 function _content_menu_form_menu_overview_form_alter(&$form, &$form_state, $form_id) {
-  $form['#theme'][0] = 'menu_overview_form_extended';
+  $form['#theme'] = 'menu_overview_form_extended';
 
   // Check whether any filtering element should be acitvated.
   $filtering_active = TRUE;
@@ -123,7 +123,7 @@ function _content_menu_form_menu_overview_form_alter(&$form, &$form_state, $form
     }
 
     // Add inline-editing for menu item title.
-    if ($el['#inline_edit_title'] && isset($el['title'])) {
+    if ($el['#inline_edit_title'] && isset($el['title']) && (!isset($el['title']['#type']) || $el['title']['#type'] != 'textfield')) {
       // ToDo: Check title inplace-edit for multilanguage compatibility issues.
       $title = $el['#item']['title'];
       $el['title'] = array(
@@ -140,7 +140,9 @@ function _content_menu_form_menu_overview_form_alter(&$form, &$form_state, $form
   }
 
   // Add "add item" item/row/elements.
-  content_menu_form_menu_overview_form_alter_additem($form);
+  if ($form_id != 'bigmenu_slice_form') {
+    content_menu_form_menu_overview_form_alter_additem($form);
+  }
 
   // Add css as via drupal_add_css and put it after ctools button css files.
   drupal_add_css(drupal_get_path('module', 'content_menu') . "/css/content_menu.css", array('weight' => 2));
@@ -150,14 +152,12 @@ function _content_menu_form_menu_overview_form_alter(&$form, &$form_state, $form
   // Prevent 'destination' from hijacking our submit.
   unset($_GET['destination']);
 
-  if (!isset($form['actions'])) {
-    $form['actions'] = array('#type' => 'actions');
-    $form['actions']['submit'] = array(
+  if (!isset($form['submit'])) {
+    $form['submit'] = array(
       '#type' => 'submit',
-      '#value' => t('Save'),
+      '#value' => t('Save Configuration'),
     );
   }
-  $form['actions']['submit']['#value'] = t('Save');
 }
 
 
@@ -394,6 +394,10 @@ function content_menu_form_menu_overview_form_alter_additem(&$form) {
  * @ingroup themeable
  */
 function theme_menu_overview_form_extended($variables) {
+  if (module_exists('bigmenu')) {
+    drupal_add_js(drupal_get_path('module', 'bigmenu') . '/bigmenu.js');
+    drupal_add_css(drupal_get_path('module', 'bigmenu') . '/bigmenu.css');
+  }
   $form = $variables['form'];
 
   drupal_add_tabledrag('menu-overview', 'match', 'parent', 'menu-plid', 'menu-plid', 'menu-mlid', TRUE, MENU_MAX_DEPTH - 1);
