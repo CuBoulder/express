@@ -857,7 +857,7 @@ function cu_core_update_7033() {
     'cu_unused_beans'
   ));
 }
-/*
+/**
  * Express 2.6.5 Update.
  *
  * Disable and uninstall securepages. Need to skip hook numbered 7035 because

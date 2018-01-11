@@ -1,4 +1,4 @@
-#Express Dashboard Lock
+#Express Content Edit Lock
 This module houses all of the many ways you can lock people out of their site.
 
 ##Atlas Lock
