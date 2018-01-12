@@ -76,12 +76,6 @@ function cu_test_content_context_context_default_contexts() {
           'region' => 'sidebar_second',
           'weight' => '9',
         ),
-        'bean-events_list_block' => array(
-          'module' => 'bean',
-          'delta' => 'events_list_block',
-          'region' => 'sidebar_second',
-          'weight' => '10',
-        ),
       ),
     ),
   );
