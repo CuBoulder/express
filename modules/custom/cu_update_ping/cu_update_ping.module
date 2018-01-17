@@ -12,7 +12,8 @@
  */
 function cu_update_ping_cron() {
   // Only need to do this once a week.
-  if (REQUEST_TIME >= strtotime('+1 week', (int) variable_get('cu_update_ping_time', strtotime('-1 year')))) {
+  $last_update_ping_time = (int) variable_get('cu_update_ping_time', strtotime('-1 year'));
+  if (REQUEST_TIME >= strtotime('+1 week', $last_update_ping_time)) {
     global $base_url;
 
     // Generate site key to send to drupal.org.
@@ -78,7 +79,6 @@ function cu_update_ping_cron() {
     if ($xml->status_message != 'OK') {
       watchdog('cu_update_ping', 'express didn\'t successfully ping Drupal\'s update servers.');
     }
-
 
     // Set time variable on success.
     variable_set('cu_update_ping_time', REQUEST_TIME);
