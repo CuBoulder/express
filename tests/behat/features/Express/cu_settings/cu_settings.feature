@@ -3,7 +3,7 @@ Feature: CU Settings
 
   @api @settings
   Scenario Outline: Content editors should not be able to access settings
-    Given  I am logged in as a user with the "content_editor" role
+    Given  CU - I am logged in as a user with the "content_editor" role
       And am on <path>
     Then I should see "Access Denied"
 
@@ -19,7 +19,7 @@ Feature: CU Settings
 
   @api @settings
   Scenario Outline: An site owner/administrator/developer user should be able to access the settings page
-    Given  I am logged in as a user with the <role> role
+    Given  CU - I am logged in as a user with the <role> role
     When I am at "admin/settings"
     Then I should not see <message>
 
@@ -29,7 +29,7 @@ Feature: CU Settings
       
   @api @settings
   Scenario Outline: An site owner/administrator/developer user should be able to access the settings page
-    Given  I am logged in as a user with the <role> role
+    Given  CU - I am logged in as a user with the <role> role
     When I am at "admin/settings"
     Then I should see <message>
 
@@ -41,7 +41,7 @@ Feature: CU Settings
 
   @api @settings
   Scenario Outline: An site owner/administrator/developer should be able to access the settings contact page
-    Given  I am logged in as a user with the <role> role
+    Given  CU - I am logged in as a user with the <role> role
     When I am at "admin/settings/site-configuration/contact"
     Then I should not see <message>
 
@@ -53,7 +53,7 @@ Feature: CU Settings
 
   @api @settings
   Scenario Outline: An site owner/administrator/developer should be able to access the settings redirects page
-    Given  I am logged in as a user with the <role> role
+    Given  CU - I am logged in as a user with the <role> role
     When I am at "admin/settings/site-configuration/redirects"
     Then I should not see <message>
 
@@ -65,7 +65,7 @@ Feature: CU Settings
 
   @api @settings @redirects
   Scenario Outline: An site owner/administrator/developer should be able to access the settings redirects page
-    Given  I am logged in as a user with the <role> role
+    Given  CU - I am logged in as a user with the <role> role
     When I am at "admin/config/search/redirect/add"
     Then I should not see <message>
 
@@ -77,7 +77,7 @@ Feature: CU Settings
 
   @api @settings @clean_install
   Scenario: A site_owner should see a new title on the homepage
-    Given  I am logged in as a user with the "site_owner" role
+    Given  CU - I am logged in as a user with the "site_owner" role
       And am on "admin/settings/site-configuration/site-name"
       And fill in "Site name - line 1" with "New Site Title"
       And fill in "Site name - line 2 (optional)" with "Second line"
@@ -89,14 +89,14 @@ Feature: CU Settings
   # @todo add test to livechat bundle.
   #@api @settings @livechat
   #Scenario: A site_owner should see livechat configs
-  #  Given  I am logged in as a user with the "site_owner" role
+  #  Given  CU - I am logged in as a user with the "site_owner" role
   #    And am on "admin/settings"
   #  Then I should see "LiveChatINC.com license number"
 
   # @todo add test to livechat bundle.
   #@api @settings @livechat @clean_install
   #Scenario: Livechat settings should not accept alpha characters
-  #  Given  I am logged in as a user with the "site_owner" role
+  #  Given  CU - I am logged in as a user with the "site_owner" role
   #    And am on "admin/settings"
   #    And fill in "LiveChatINC.com license number" with "abcdefg"
   #  When I press the "Save" button
@@ -104,13 +104,13 @@ Feature: CU Settings
 
   @api @settings @contact @clean_install
   Scenario: A site_owner should see contact info form
-    Given  I am logged in as a user with the "site_owner" role
+    Given  CU - I am logged in as a user with the "site_owner" role
       And I am on "admin/settings/site-configuration/contact"
     Then I should see "Contact Information"
 
   @api @settings @contact @clean_install
   Scenario: A site_owner should be able to update the contact info form
-    Given  I am logged in as a user with the "site_owner" role
+    Given  CU - I am logged in as a user with the "site_owner" role
       And I am on "admin/settings/site-configuration/contact"
       # @todo turn on this by default or note in test docs.
       And I click "Disable rich-text"
@@ -122,7 +122,7 @@ Feature: CU Settings
   # No Varnish on Travis
   @api @settings @cache
   Scenario Outline: A site_owner/administrator/developer should be able to see and use cache clearing.
-    Given I am logged in as a user with the <role> role
+    Given CU - I am logged in as a user with the <role> role
       When I am at "admin/settings"
     Then I should see <message>
     When I am at "admin/settings/cache/clear/drupal-full"
@@ -148,7 +148,7 @@ Feature: CU Settings
   @api @settings @cache
   # No Varnish on Travis.
   Scenario: As a CE, I should be able to see and use page cache clearing by path.
-    Given I am logged in as a user with the "content_editor" role
+    Given CU - I am logged in as a user with the "content_editor" role
     When I am at "admin/settings/cache/clear"
       And I click "Clear Page by Path"
       And I fill in "Path To Clear" with "node/1"
@@ -163,7 +163,7 @@ Feature: CU Settings
   
   @api @settings @cache
   Scenario: A user with the edit_my_content role should not be able to see and use cache clearing.
-    Given I am logged in as a user with the "edit_my_content" role
+    Given CU - I am logged in as a user with the "edit_my_content" role
     When I am on "admin/settings/cache/clear/varnish-full"
       Then I should see "Access Denied"
     When I am on "admin/settings/cache/clear/varnish-path"
