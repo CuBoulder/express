@@ -20,11 +20,11 @@ function cu_update_ping_cron() {
     $site_key = drupal_hmac_base64($base_url, drupal_get_private_key());
 
     if ($modules = drush_get_option('modules')) {
-      $modules_info = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 AND name IN (:modules)", array(':modules' => explode(',', $modules)))->fetchAll();
+      $modules_list = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 AND name IN (:modules)", array(':modules' => explode(',', $modules)))->fetchAll();
     }
     else {
       // Get enabled modules of site to report usage of.
-      $modules_info = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1")->fetchAll();
+      $modules_list = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1")->fetchAll();
     }
 
     // Loop through each module and ping d.o servers.
