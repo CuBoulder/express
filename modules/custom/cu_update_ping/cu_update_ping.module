@@ -27,10 +27,6 @@ function cu_update_ping_cron() {
       $modules_info = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1")->fetchAll();
     }
 
-    // Add Express to list.
-    $express_info = db_query("SELECT name, filename FROM {system} WHERE name = 'express' AND status = 1")->fetchAll();
-    $modules_list = array_merge($express_info, $modules_info);
-
     // Loop through each module and ping d.o servers.
     foreach ($modules_list as $module) {
 
@@ -63,14 +59,14 @@ function cu_update_ping_cron() {
       }
     }
 
-    // Check for Express profile. We are not going to bother querying this since we know what it is.
-    // This url was gathered from update.fetch.inc#152.
-    /*
+    // Check for Express profile. We are not going to bother querying this since we know what we want reported.
+
     $url = 'http://updates.drupal.org/release-history/express/7.x?site_key=' . $site_key . '&version=7.x-2.x-dev&list=express';
     $xml = drupal_http_request($url);
 
-    // Reset counter.
+    // Reset counter and status.
     $failed_attempts = 0;
+    $xml = NULL;
 
     // If request fails, retry.
     while ($failed_attempts < 2 && $xml->status_message != 'OK') {
@@ -82,7 +78,7 @@ function cu_update_ping_cron() {
     if ($xml->status_message != 'OK') {
       watchdog('cu_update_ping', 'express didn\'t successfully ping Drupal\'s update servers.');
     }
-    */
+
 
     // Set time variable on success.
     variable_set('cu_update_ping_time', REQUEST_TIME);
