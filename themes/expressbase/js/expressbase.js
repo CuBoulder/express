@@ -31,7 +31,7 @@
       event.preventDefault();
       $('.express-messages').hide();
     });
-    $('a.search-toggle').click(function(event){
+    $('#search-toggle').click(function(event){
       event.preventDefault();
       $('#search').slideToggle('fast').focus();
       $('.express-search-box-small').addClass('fadeIn');

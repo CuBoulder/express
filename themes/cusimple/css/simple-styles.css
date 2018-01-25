@@ -95,3 +95,6 @@ h2.secondary-menu-label { margin-left: 8px; }
 
 #block-menu-block-site-navigation-menus-3 h2.block-title { font-size: 100%; line-height: 120%; padding: 0; margin: 0; }
 #block-menu-block-site-navigation-menus-3 h2.block-title a { display: block; padding: 10px; background-color: #cfb87c; color: black; font-weight: 600; }
+
+/* New Branding */
+.brand-bar { background: #000; }

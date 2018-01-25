@@ -9,7 +9,7 @@
   a:link, a:visited, a:hover {
     color:#363636;
   }
-  .mobile-menu-toggle {
+  .menu-toggle {
     button {
       color:#363636;
       border-color: #363636;
@@ -26,7 +26,7 @@
   a:link, a:visited, a:hover {
     color:#363636;
   }
-  .mobile-menu-toggle {
+  .menu-toggle {
     button {
       color:#363636;
       border-color: #363636;
@@ -43,7 +43,7 @@
   a:link, a:visited, a:hover {
     color:#fff;
   }
-  .mobile-menu-toggle {
+  .menu-toggle {
     button {
       color:#fff;
       border-color: #fff;
@@ -60,7 +60,7 @@
   a:link, a:visited, a:hover {
     color:#fff;
   }
-  .mobile-menu-toggle {
+  .menu-toggle {
     button {
       color:#fff;
       border-color: #fff;
@@ -184,6 +184,7 @@ a.custom-logo-link {
   padding:10px;
   float: right;
   font-size: 150%;
+  margin-right:20px;
 }
 @media screen and (min-width:960px) {
   .search-toggle {
@@ -370,5 +371,101 @@ div#site-name {
   }
   #google-appliance-block-form .culinks {
     text-align: left;
+  }
+}
+
+
+
+/* NEW BRANDING */
+
+.brand-bar {
+  background: #fff;
+  color:#fff;
+  padding:10px 20px;
+  a:link,
+  a:visited {
+    color:#fff;
+  }
+  // margin-bottom: -15px;
+}
+.brand-bar-container {
+
+  display:flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items:center;
+  width:100%;
+
+  .brand-logo img {
+    width:100%;
+    max-width: 200px;
+    height: auto;
+    display: block;
+    @media screen and (min-width:960px) {
+      & {
+        max-width:240px;
+        margin:5px 0;
+      }
+    }
+  }
+}
+#header-wrapper {
+  background: #fff;
+  color:#202020;
+}
+header {
+  position: relative;
+  display:flex;
+  align-items:center;
+  .site-name-wrapper {
+    flex-grow: 1;
+    font-size:135%;
+    @media screen and (min-width:768px) {
+      & {
+        font-size: 150%;
+      }
+    }
+  }
+}
+.site-name {
+  font-weight: 900;
+
+  padding:0;
+  margin: 0;
+  line-height: 1.1;
+}
+
+.affiliation {
+  text-transform:uppercase;
+  font-size:50%;
+
+  padding-top:5px;
+  font-weight: bold;
+  .banner-black #header-wrapper & a:link,
+  .banner-black #header-wrapper & a:visited {
+    color:#aaa;
+  }
+  .banner-dark #header-wrapper & a:link,
+  .banner-dark #header-wrapper & a:visited {
+    color:#9b9b9b;
+  }
+  .banner-white #header-wrapper & a:link,
+  .banner-white #header-wrapper & a:visited {
+    color:#757575;
+  }
+  .banner-light #header-wrapper & a:link,
+  .banner-light #header-wrapper & a:visited {
+    color:#6e6e6e;
+  }
+}
+.site-name-inner {
+  padding-right:40px;
+}
+.layout-responsive .menu-toggle {
+  //top:0;
+  button {
+    background:none;
+    border:none;
+    padding:0;
   }
 }

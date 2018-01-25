@@ -14,17 +14,14 @@
  /**
  * Implements hook_preprocess_html().
  */
-function cushadow_preprocess_html(&$vars) {
+function cuspirit2018_preprocess_html(&$vars) {
 
-  // SET BANNER COLOR (banner-white, banner-light, banner-dark, banner-black)
 
-  $vars['classes_array'][]='banner-black';
-  
-}
 
-function cushadow_preprocess_region(&$vars) {
-  if ($vars['region'] == 'branding') {
-    $vars['logo_color'] = 'white';
-  }
-
+  // SET BANNER COLOR (banner-white, banner-light, banner-cumodern, banner-black)
+  $banner_color = theme_get_setting('banner_color', 'cuspirit2018') ? theme_get_setting('banner_color', 'cuspirit2018') : 'white';
+  //$banner_color = 'light';
+  $vars['classes_array'][]='banner-' . $banner_color;
+  $layout = theme_get_setting('layout_style', 'cuspirit') ? theme_get_setting('layout_style', 'cuspirit2018') : 'layout-wide';
+  $vars['classes_array'][]=$layout;
 }

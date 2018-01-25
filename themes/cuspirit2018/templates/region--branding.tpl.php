@@ -1,7 +1,7 @@
 <?php
   global $base_url;
-  $color = isset($logo_color) ? $logo_color : 'black';
-  $logo = $base_url . '/' . drupal_get_path('theme', 'expressbase') . '/images/cu-boulder-logo-text-' . $color . '.svg';
+
+  $logo = $base_url . '/' . drupal_get_path('theme', 'cuspirit2018') . '/images/cu-boulder-logo-text-white.svg';
 
 ?>
 <div class="brand-bar">

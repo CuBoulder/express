@@ -28,25 +28,14 @@
               <<?php print $site_name_tag; ?> class="site-name">
                 <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" class="header__site-link" rel="home"><span><?php print $site_name; ?></span></a>
               </<?php print $site_name_tag; ?>>
-              <?php $affiliation = variable_get('express_site_affiliation', NULL); ?>
-              <?php if (!empty($affiliation)): ?>
-
-                <div class="affiliation">
-                  <?php
-                    if (!empty($affiliation['url'])) {
-                      print l($affiliation['title'], $affiliation['url'], array('html' => TRUE));
-                    }
-                    else {
-                      print $affiliation['title'];
-                    }
-                  ?>
-                </div>
-              <?php endif; ?>
+              <div class="affiliation">
+                COLLEGE OF ENGINEERING &amp; APPLIED SCIENCE
+              </div>
             </div>
           <?php endif; ?>
         </div>
         <div class="mobile-menu-toggle menu-toggle">
-          <button id="toggle" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-menu" aria-label="Navigation"><i class="fa fa-reorder fa-fw"></i><span class="mobile-menu-text">Menu </span></button>
+          <button id="toggle" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-menu" aria-label="Navigation"><i class="fa fa-reorder fa-fw"></i><span class="element-invisible">Menu </span></button>
         </div>
         <div class="search-toggle-wrapper menu-toggle">
           <button id="search-toggle" class="search-toggle" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-menu" aria-label="Search"><i class="fa fa-search fa-fw"></i><span class="element-invisible">Search </span></button>

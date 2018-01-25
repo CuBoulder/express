@@ -25,6 +25,8 @@ function expressbase_css_alter(&$css) {
  * Implements theme_preprocess_html.
  */
 function expressbase_preprocess_html(&$vars) {
+
+
   global $base_url;
   // Add web fonts from fonts.com
   $element = array(
