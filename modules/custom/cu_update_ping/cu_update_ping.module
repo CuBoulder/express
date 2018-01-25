@@ -49,7 +49,7 @@ function cu_update_ping_cron() {
 
       // Write a watchdog message if all request succeeds.
       if ($xml->status_message == 'OK') {
-        watchdog('cu_update_ping', 'Successful ping of Drupal\'s update servers for %module.', array('%module', $module->name));
+        watchdog('cu_update_ping', 'Successful ping of Drupal\'s update servers for %module.', array('%module' => $module->name));
         continue;
       }
     }
