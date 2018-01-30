@@ -159,6 +159,8 @@ function express_permissions_secure_permissions($role) {
       'view error messages', // currently only the perms below diff with site owner role
       'administer cache settings',
       'configure profile module manager',
+      'view unused beans',
+      'diff view changes',
     ),
     'anonymous user' => array(
       'access content',
@@ -253,6 +255,7 @@ function express_permissions_secure_permissions($role) {
       'view status messages',
       'view warning messages',
       'view error messages',
+      'diff view changes',
     ),
     'developer' => array(
       'access administration pages',
@@ -416,6 +419,8 @@ function express_permissions_secure_permissions($role) {
       'administer elysia_cron',
       'execute elysia_cron',
       'view elysia_cron',
+      'view unused beans',
+      'diff view changes',
     ),
     'edit_my_content' => array(
       'access ckeditor link',
@@ -438,6 +443,7 @@ function express_permissions_secure_permissions($role) {
       'view status messages',
       'view warning messages',
       'view error messages',
+      'diff view changes',
     ),
     'site_owner' => array(
       'access administration pages',
@@ -531,6 +537,7 @@ function express_permissions_secure_permissions($role) {
       'view status messages',
       'view warning messages',
       'view error messages',
+      'diff view changes',
     ),
   );
   if (isset($permissions[$role])) {
