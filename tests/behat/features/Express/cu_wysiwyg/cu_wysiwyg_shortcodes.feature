@@ -5,22 +5,22 @@ I should be able to use the full functionality of the WYSIWYG editor
 
   @api @javascript @wysiwyg
   Scenario: A content editor should be able to add a video shortcode
-    Given  CU - I am logged in as a user with the "content_editor" role
-    When I am at "node/add/page"
+    Given  I am logged in as a user with the "content_editor" role
+    When I go to "node/add/page"
       And I wait for the "cke_1_top" element to appear
       And I fill in "Title" with "My Video Shortcode"
       And I press the "Video Shortcode Generator" button
       And I fill in "video URL" with "https://www.youtube.com/watch?v=m-m7mBSw-5k"
       #And I press the "OK" button
       #And I press the "Save" button
-    #Then I should see the text "My Video Shortcode"
+    #Then I should see "My Video Shortcode"
       # @todo Figure out a step definition for elements.
       #And I should see a ".video-filter" element
 
   @api @javascript @wysiwyg
   Scenario: A content editor should be able to add a button shortcode
-    Given  CU - I am logged in as a user with the "content_editor" role
-    When I am at "node/add/page"
+    Given  I am logged in as a user with the "content_editor" role
+    When I go to "node/add/page"
       And I wait for the "cke_1_top" element to appear
       And I fill in "Title" with "My Button Shortcode"
       And I press the "Button Shortcode Generator" button
@@ -29,15 +29,15 @@ I should be able to use the full functionality of the WYSIWYG editor
       # @todo Figure out why OK button is weird here.
       #And I press the "OK" button
       #And I press the "Save" button
-    #Then I should see the text "My Button Shortcode"
-    #Then I should see the text "New Button"
+    #Then I should see "My Button Shortcode"
+    #Then I should see "New Button"
       #And I click "New Button"
     #Then I should see a "#hplogo" element
 
   @api @javascript @wysiwyg @files @broken
   Scenario: A content editor should be able to add an image caption shortcode
-    Given  CU - I am logged in as a user with the "content_editor" role
-    When I am at "node/add/page"
+    Given  I am logged in as a user with the "content_editor" role
+    When I go to "node/add/page"
       And I wait for the "cke_1_top" element to appear
       And I fill in "Title" with "My Image Caption Shortcode"
       And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
@@ -50,13 +50,13 @@ I should be able to use the full functionality of the WYSIWYG editor
       # And I fill in "Image Caption" with "Ralphie Run"
       # And I press the "OK" button
       # And I press the "Save" button
-    # Then I should see the text "My Image Caption Shortcode"
-    # Then I should see the text "New Button"
+    # Then I should see "My Image Caption Shortcode"
+    # Then I should see "New Button"
 
   @api @javascript @wysiwyg
   Scenario: A content editor should be able to add an icon shortcode
-    Given  CU - I am logged in as a user with the "content_editor" role
-    When I am at "node/add/page"
+    Given  I am logged in as a user with the "content_editor" role
+    When I go to "node/add/page"
       And I wait for the "cke_1_top" element to appear
       And I fill in "Title" with "My Icon Shortcode"
       And I press the "Icon Shortcode Generator" button
@@ -70,8 +70,8 @@ I should be able to use the full functionality of the WYSIWYG editor
 
   @api @javascript @wysiwyg
   Scenario: A content editor should be able to add a give button shortcode
-    Given  CU - I am logged in as a user with the "content_editor" role
-    When I am at "node/add/page"
+    Given  I am logged in as a user with the "content_editor" role
+    When I go to "node/add/page"
       And I wait for the "cke_1_top" element to appear
       And I fill in "Title" with "My Give Button Shortcode"
       And I press the "Give Button Shortcode Generator" button
@@ -83,15 +83,15 @@ I should be able to use the full functionality of the WYSIWYG editor
       # @todo Figure out why OK button is weird here.
       #And I press the "OK" button
       #And I press the "Save" button
-    #Then I should see the text "Give Now!"
+    #Then I should see "Give Now!"
       #And I should see a ".cu-give-button.button-large.button-full.cu-give-button-light" element
     #When I click "Give Now!"
     #Then I should see a "#hplogo" element
 
   @api @javascript @wysiwyg
   Scenario: A content editor should be able to add a expand content shortcode
-    Given  CU - I am logged in as a user with the "content_editor" role
-    When I am at "node/add/page"
+    Given  I am logged in as a user with the "content_editor" role
+    When I go to "node/add/page"
       And I wait for the "cke_1_top" element to appear
       And I fill in "Title" with "My Expandable Content Shortcode"
       And I press the "Expand Content Shortcode Generator" button
@@ -104,10 +104,10 @@ I should be able to use the full functionality of the WYSIWYG editor
       #And I fill in "Expand Content Text" with "Example content #2"
       #And I press the "OK" button
       #And I press the "Save" button
-    #Then I should see the text "Example FAQ #1"
-      #And I should see the text "Example FAQ #2"
+    #Then I should see "Example FAQ #1"
+      #And I should see "Example FAQ #2"
     #When I click "Example FAQ #1"
-    #Then I should see the text "Example content #1"
+    #Then I should see "Example content #1"
       #And I should not see the text "Example content #2"
     #When I click "Example FAQ #1"
       #And I click "Example FAQ #2"
@@ -116,8 +116,8 @@ I should be able to use the full functionality of the WYSIWYG editor
 
   @api @javascript @wysiwyg
   Scenario: A content editor should be able to add a map embed shortcode
-    Given  CU - I am logged in as a user with the "content_editor" role
-    When I am at "node/add/page"
+    Given  I am logged in as a user with the "content_editor" role
+    When I go to "node/add/page"
       And I wait for the "cke_1_top" element to appear
       And I fill in "Title" with "My Map Shortcode"
       And I press the "Map Shortcode Generator" button
@@ -129,8 +129,8 @@ I should be able to use the full functionality of the WYSIWYG editor
 
   @api @javascript @wysiwyg
   Scenario: A content editor should be able to add a box shortcode
-    Given  CU - I am logged in as a user with the "content_editor" role
-    When I am at "node/add/page"
+    Given  I am logged in as a user with the "content_editor" role
+    When I go to "node/add/page"
       And I wait for the "cke_1_top" element to appear
       And I fill in "Title" with "My Box Shortcode"
       And I press the "Box Shortcode Generator" button
@@ -140,19 +140,19 @@ I should be able to use the full functionality of the WYSIWYG editor
       And I select "right" from "Float"
       #And I press the "OK" button
       #And I press the "Save" button
-    #Then I should see the text "Box Shortcode"
-      #And I should see the text "Box Shortcode Text"
+    #Then I should see "Box Shortcode"
+      #And I should see "Box Shortcode Text"
       #And I should see a ".cu-box.box-black.float-right.box-style-filled" element
 
-  @api @wysiwyg
+  @api @wysiwyg @javascript
   Scenario: A content editor should be able to add a countup shortcode
-    Given  CU - I am logged in as a user with the "content_editor" role
-    When I am at "node/add/page"
+    Given  I am logged in as a user with the "content_editor" role
+    When I go to "node/add/page"
       And I wait for the "cke_1_top" element to appear
       And I fill in "Title" with "Countup Shortcode"
       And I fill in "Body" with "[countup]3000[/countup]"
-      And I press the "Save" button
+      And I press "Save"
       And I wait 5 seconds
-    Then I should see the text "3000"
+    Then I should see "3000"
       # @todo Figure out why shortcode doesn't render.
       # And I should not see the text "[countup]3000[/countup]"

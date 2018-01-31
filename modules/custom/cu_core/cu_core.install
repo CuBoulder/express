@@ -20,6 +20,10 @@ function cu_core_install() {
     module_enable(array('pantheon_hosting'));
   }
 
+  if ($hosting == 'lando') {
+    module_enable(array('lando_hosting'));
+  }
+
   // @TODO: If it's not Travis or Pantheon, assume it's NG for now.
   // Eventually update to deal with ng (2.0) vs. 3.0
   if ($hosting == FALSE) {
