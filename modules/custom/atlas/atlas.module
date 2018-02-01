@@ -314,7 +314,7 @@ function atlas_process_core_schema_version($version) {
   if (!$version) {
     // drupal_get_installed_schema_version doesn't appear at the bootstrap level
     // of an updated so query the value.
-    $version = drupal_get_installed_schema_version(variable_get('express_core_version', 'cu_core'));
+    $version = drupal_get_installed_schema_version('cu_core');
   }
   $request_data['express_core_schema_version'] = (int) $version;
 

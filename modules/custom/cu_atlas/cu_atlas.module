@@ -165,7 +165,7 @@ function cu_atlas_atlas_statistics() {
   }
 
   // Core schema version.
-  $version = _get_installed_schema_version(variable_get('express_core_version', 'cu_core'));
+  $version = _get_installed_schema_version('cu_core');
   $statistics_data['express_core_schema_version'] = (int) $version;
 
   // Module Manager.

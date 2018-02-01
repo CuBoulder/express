@@ -125,11 +125,10 @@ function profile_module_manager_system_info_alter(&$info, $file, $type) {
       $info['required'] = TRUE;
     }
 
-    if ($type == 'module' && $file->name == variable_get('express_core_version', '')) {
+    if ($type == 'module' && $file->name === 'cu_core') {
       $info['required'] = TRUE;
     }
   }
-
 }
 
 /**
