@@ -13,14 +13,13 @@ default:
         - FeatureContext
   extensions:
       Behat\MinkExtension:
-        # Base URL provided as an environmental variable. See .travis.yml.
-        base_url: 'http://express.lndo.site/express'
+        base_url: "http://express.lndo.site/express"
+        files_path: "%paths.base%/assets"
+        javascript_session: sauce
         sessions:
           default:
             goutte:
               guzzle_parameters:
                   verify: false
           sauce:
-            sauce_labs:
-              username:
-              access_key:
+            sauce_labs: ~

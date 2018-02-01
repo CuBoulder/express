@@ -10,9 +10,9 @@ Feature: Content Management
         And I should see the link "view online tutorials"
 
   # Test to cover the regression in FIT-902.
-  @api
+  @api @broken
   Scenario: A user should not see a subnavigation menu header
-      Given  I am logged in as a user with the "content_editor" role
+      Given I am logged in as a user with the "content_editor" role
       When I go to "node/add/page"
         And fill in "Title" with "Basic Page"
         And fill in "Menu link title" with "Basic Page"

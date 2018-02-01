@@ -30,8 +30,8 @@ Feature: CU Extended Content Search Views
       And I should see "Promoted"
       And I should see "Published"
       And I should see "Author"
-      And I should see "Apply"
-      And I should see "Reset"
+      And I should see an "#edit-submit-cu-content-administration-override-view" element
+      And I should see a ".views-reset-button" element
       And I should see "Operations"
       And I should see the link "sort by Title"
       And I should see the link "sort by Type"

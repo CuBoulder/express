@@ -7,7 +7,6 @@ use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 use Behat\Behat\Hook\Scope\AfterScenarioScope;
 use Behat\Behat\Hook\Scope\BeforeStepScope;
 use Behat\Behat\Hook\Scope\AfterStepScope;
-use Exception;
 
 
 /**
@@ -136,8 +135,7 @@ class FeatureContext extends MinkContext
   }
 
   /**
-   * @When /^I click the "(?P<element>(?:[^"]|\\")*)" element with
-   *   "(?P<value>(?:[^"]|\\")*)" for "(?P<attribute>(?:[^"]|\\")*)"$/
+   * @When I click the :element element with :value for :attribute
    *
    * @param $element
    * @param $value
@@ -345,4 +343,28 @@ class FeatureContext extends MinkContext
       throw new Exception(sprintf('The "%s" attribute did not contain "%s"', $page_attribute, $text));
     }
   }
+
+  /**
+   * @When I attach the file :path to the :field field
+   */
+  public function iAttachTheFileToTheField($path, $field)
+  {
+    $field = $this->fixStepArgument($field);
+
+    if ($this->getMinkParameter('files_path')) {
+      $fullPath = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$path;
+      echo $fullPath;
+      if (is_file($fullPath)) {
+        $path = $fullPath;
+      }
+    }
+
+    try {
+      $this->getSession()->getPage()->attachFileToField($field, $path);
+    } catch (\Behat\Mink\Exception\ElementNotFoundException $e) {
+      throw new Exception(sprintf('The "%s" path could not be located."', $path));
+    }
+  }
+
+
 }

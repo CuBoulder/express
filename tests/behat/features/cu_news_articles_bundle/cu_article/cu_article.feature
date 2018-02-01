@@ -26,6 +26,7 @@ Feature: Article Content Type
     Given  I am logged in as a user with the "content_editor" role
       And am on "node/add/article"
       And fill in "Title" with "New article"
+      And I follow "Disable rich-text"
       And fill in "Body" with "Demo body content"
       And I follow "External Link"
       And fill in "edit-field-article-external-url-und-0-url" with "www.google.com"
@@ -38,6 +39,3 @@ Feature: Article Content Type
       And I should see "Tag with lots of parts"
       And I should see "The taxonomy term has been linked to this page."
       And I should see "An Article List Page has been created for the tags on the article node you just created/updated."
-
-
-

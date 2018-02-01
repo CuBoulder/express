@@ -5,19 +5,22 @@ Feature: CU Layout Creation
   Scenario: Adding or removing regions on settings form should be reflected on node layout forms
     Given  I am logged in as a user with the "developer" role
       And I go to "admin/config/content/express-layout"
-      And I check "page[field_header]"
-      And I uncheck "page[field_intro]"
+      And I check "edit-page-field-header"
+      And I click the "#edit-page-field-intro" element
       And I press "Save Layout Settings"
     When I go to "node/1"
       And I follow "Edit Layout"
     Then I should not see an "#edit-field-intro" element
       And I should see an "#edit-field-header" element
 
-  @api @layout @javascript @broken
+  @api @layout @javascript
   Scenario: Adding a block in the content region should appear in the region and deleting it should delete it from region
-    When I follow "Edit Layout"
+    Given  I am logged in as a user with the "developer" role
+    When I go to "node/1"
+      And I follow "Edit Layout"
       And I select "block" from "field_header[und][actions][bundle]"
       And I fill in "Text Block Label" with "above content block"
+      And I follow "Disable rich-text"
       And I fill in "Body" with "above content block"
       And I press "Create block"
       And I press "Update layout"
@@ -35,9 +38,11 @@ Feature: CU Layout Creation
       #And I wait 5 seconds
       #And I select autosuggestion option "above content block (8)"
 
-  @api @layout @javascript @broken
+  @api @layout @javascript
   Scenario: Adding a block in the left sidebar region should appear in the region
-    When I follow "Edit Layout"
+    Given  I am logged in as a user with the "developer" role
+    When I go to "node/1"
+      And I follow "Edit Layout"
       And I select "block" from "field_sidebar_first[und][actions][bundle]"
       And I fill in "Text Block Label" with "left sidebar block"
       And I follow "Disable rich-text"
