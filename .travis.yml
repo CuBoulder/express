@@ -60,18 +60,18 @@ install:
   - chmod -R 777 tmp
 
   # Disable sendmail
-  - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  # - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Bump up max execution time.
-  - echo "max_execution_time=60" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  # - echo "max_execution_time=60" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Increase the MySQL connection timeout on the PHP end.
-  - echo "mysql.connect_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo "default_socket_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  # - echo "mysql.connect_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  # - echo "default_socket_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Increase the MySQL server timetout and packet size.
-  - mysql -e "SET GLOBAL wait_timeout = 36000;"
-  - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
+  # - mysql -e "SET GLOBAL wait_timeout = 36000;"
+  # - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
 
 before_script:
 
@@ -79,24 +79,24 @@ before_script:
   - phpenv config-rm xdebug.ini
 
   # Do the site install.
-  - mysql -e 'create database drupal;'
+  # - mysql -e 'create database drupal;'
   - cd drupal
-  - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
-  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
+  # - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
+  # - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
 
   # Check and see if testing core module is enabled.
-  - drush pm-info travis_hosting
-  - drush pm-info cu_core
-  - drush pm-info cu_ldap
-  - drush pm-info ldap_authentication
+  # - drush pm-info travis_hosting
+  # - drush pm-info cu_core
+  # - drush pm-info cu_ldap
+  # - drush pm-info ldap_authentication
 
   # Export db so it can be imported after every suite run.
   # Test runs that fill up the db with nodes can impact other tests.
-  - drush sql-dump --result-file=$HOME/cache/express.sql
+  # - drush sql-dump --result-file=$HOME/cache/express.sql
 
   # Start server.
-  - drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &
-  - nc -zvv 127.0.0.1 8057; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8057..."; nc -zvv localhost 8057; out=$?; sleep 5; done
+  # - drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &
+  # - nc -zvv 127.0.0.1 8057; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8057..."; nc -zvv localhost 8057; out=$?; sleep 5; done
   - cd profiles/express/tests/behat
 
   # Setting Behat environment variables is now done in behat.travis.yml for simplicity.
@@ -107,7 +107,7 @@ script:
   - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~broken'
 
   # Output performance logging data.
-  - drush scr profiles/express/tests/travis-ci/log-express-performance.php
+  # - drush scr profiles/express/tests/travis-ci/log-express-performance.php
 
   # Second Test run for broken tests.
   #- drush sql-drop -y

@@ -13,7 +13,7 @@ default:
         - FeatureContext
   extensions:
       Behat\MinkExtension:
-        base_url: "http://127.0.0.1:8057/"
+        base_url: "http://dev-ext-test.pantheonsite.io/"
         files_path: "%paths.base%/assets"
         javascript_session: sauce
         sessions:
