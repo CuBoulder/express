@@ -42,20 +42,6 @@ class FeatureContext extends MinkContext
       }
       $this->iWaitForAjax();
     }
-
-    if (99 === $scope->getTestResult()->getResultCode()) {
-      $driver = $this->getSession()->getDriver();
-      if (!($driver instanceof Selenium2Driver)) {
-        return;
-      }
-      try {
-        file_put_contents('/tmp/test.png', $this->getSession()
-          ->getDriver()
-          ->getScreenshot());
-      } catch (UnsupportedDriverActionException $e) {
-      } catch (\Behat\Mink\Exception\DriverException $e) {
-      }
-    }
   }
 
   /**
@@ -64,18 +50,6 @@ class FeatureContext extends MinkContext
    * @Given I wait for AJAX
    */
   public function iWaitForAjax() {
-
-    // Polling for the sake of my intern tests
-    $script = '
-    var interval = setInterval(function() {
-    console.log("checking");
-      if (document.readyState === "complete") {
-        clearInterval(interval);
-        done();
-      }
-    }, 1000);';
-
-    //$this->getSession()->evaluateScript($script);
     $this->getSession()->wait(2000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
   }
 

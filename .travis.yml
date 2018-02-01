@@ -84,6 +84,8 @@ before_script:
   # Check and see if testing core module is enabled.
   - drush pm-info travis_hosting
   - drush pm-info cu_core
+  - drush pm-info cu_ldap
+  - drush pm-info ldap_authentication
 
   # Export db so it can be imported after every suite run.
   # Test runs that fill up the db with nodes can impact other tests.
