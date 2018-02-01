@@ -37,7 +37,7 @@ install:
   - travis_retry composer install --prefer-dist --no-interaction
   - cd ../
   # For now, need to copy over file that should be patched in behat/mink-extension.
-  - cp -f travis/SauceLabsFactory.php behat/vendor/behat/mink-extension/src/Behat/MinkExtension/ServiceContainer/Driver/
+  - cp -f travis-ci/SauceLabsFactory.php behat/vendor/behat/mink-extension/src/Behat/MinkExtension/ServiceContainer/Driver/
   - cd ../../
 
   # Build Codebase
