@@ -3,7 +3,7 @@ Feature: Block Row Block
 @api @block-row-block
 Scenario Outline: An authenticated user should be able to access the form for adding a block row block
     #Given  I am logged in as a user with the <role> role
-    Given I go to "user"
+    Given I go to "node/1"
     Then print current URL
     Then print last response
     When I go to "block/add/block-row"
