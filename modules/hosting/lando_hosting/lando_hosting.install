@@ -15,9 +15,7 @@ function lando_hosting_install() {
   variable_set('performance_threshold_accesses', '2');
 
   // Don't check for summary detail since not using in report.
-  // variable_set('performance_summary', 1);
   // Don't add query logging since it adds memory overhead.
-  // variable_set('performance_query', 1);
 
   // @todo Disable modules that might be enabled if turning this on after site install.
 
@@ -26,7 +24,7 @@ function lando_hosting_install() {
 
   // @todo Actually add test content.
   // Add testing content.
-  //_lando_hosting_add_content();
+  // _lando_hosting_add_content();
 }
 
 /**
@@ -86,8 +84,6 @@ function _lando_hosting_add_users() {
  * Adds fixture data for test runs.
  */
 function _lando_hosting_add_content() {
-
-
   // I create a "photo_gallery" node with the title "New Gallery".
 
   // I create a "facebook_like_button" block with the label "Facebook Like Block".
@@ -99,6 +95,7 @@ function _lando_hosting_add_content() {
   // I create a "social_links" block with the label "Social Links Block".
 
   // Create Node.
+  /*
   $node = new stdClass();
   $node->title = $title;
   $node->type = $content_type;
@@ -108,8 +105,6 @@ function _lando_hosting_add_content() {
   // Go to node page.
   // Using vistPath() instead of visit() method since it adds base URL to relative path.
   $this->visitPath('node/' . $node->nid);
-
-
 
   // Create Block.
   $values = array(
@@ -122,5 +117,5 @@ function _lando_hosting_add_content() {
   // Go to bean page.
   // Using vistPath() instead of visit() method since it adds base URL to relative path.
   $this->visitPath('block/' . $entity->delta);
-
+  */
 }
