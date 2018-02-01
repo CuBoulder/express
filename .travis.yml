@@ -35,7 +35,10 @@ install:
   # Build Behat dependencies
   - cd ./tests/behat
   - travis_retry composer install --prefer-dist --no-interaction
-  - cd ../../../
+  - cd ../
+  # For now, need to copy over file that should be patched in behat/mink-extension.
+  - cp -f travis/SauceLabsFactory.php behat/vendor/behat/mink-extension/src/Behat/MinkExtension/ServiceContainer/Driver/
+  - cd ../../
 
   # Build Codebase
   - drush dl drupal-7.56
@@ -97,7 +100,7 @@ before_script:
   - cd profiles/express/tests
 
   # For now, need to copy over file that should be patched in behat/mink-extension.
-  - cp -f travis/SauceLabsFactory.php behat/vendor/behat/mink-extension/src/Behat/MinkExtension/ServiceContainer/Driver/
+  # - cp -f travis/SauceLabsFactory.php behat/vendor/behat/mink-extension/src/Behat/MinkExtension/ServiceContainer/Driver/
 
   # Setting Behat environment variables is now done in behat.travis.yml for simplicity.
 
