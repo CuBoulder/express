@@ -29,6 +29,7 @@ before_install:
   - cd ../
   - git clone https://github.com/CuBoulder/express.git express2
   - cd express2
+  - git pull
   #- git checkout dev
   #- cd ../
   #- diff -crbB express/tests/behat/features express2/tests/behat/features > foo.txt
