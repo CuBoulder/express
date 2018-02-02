@@ -25,6 +25,11 @@ cache:
     - $HOME/cache
 
 before_install:
+  # Check whether anything in the testing folder has changed.
+  - pwd
+  - ls -al
+  - ./foo/script.sh
+
   - google-chrome-stable --disable-gpu --headless --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 --no-sandbox > /dev/null 2>&1 &
 
 install:
