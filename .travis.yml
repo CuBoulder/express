@@ -27,8 +27,8 @@ cache:
 before_install:
   # Check whether anything in the testing folder has changed.
   #- cd ../
-  #- git clone https://github.com/CuBoulder/express.git express2
-  #- cd express2
+  - git clone https://github.com/CuBoulder/express.git express2
+  - cd express2
   #- git pull
   #- git checkout dev
   #- cd ../
@@ -36,9 +36,10 @@ before_install:
   # If diff is greater than one word, fail tests.
   #- git fetch --all
   #- git checkout ${TRAVIS_PULL_REQUEST_BRANCH} && git pull
-  #- git checkout dev
-  #- git checkout ${TRAVIS_PULL_REQUEST_BRANCH}
-  - git diff dev..origin/${TRAVIS_PULL_REQUEST_BRANCH} tests/behat/features > foot.xt
+  - git checkout dev
+  - git pull
+  - git checkout ${TRAVIS_PULL_REQUEST_BRANCH}
+  - git diff dev..${TRAVIS_PULL_REQUEST_BRANCH} tests/behat/features > foot.xt
   - cat foo.txt
   - if [ $(wc -c <foo.txt) -le 2 ]; then echo "No change to beaht/features." && exit 1; fi
   - cd ../
