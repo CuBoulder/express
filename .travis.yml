@@ -50,7 +50,7 @@ install:
   # Harden Codebase
   - cd drupal
   - cd modules
-  - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
+  # - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
   - cd ../..
 
   # Setup files
