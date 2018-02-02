@@ -104,10 +104,10 @@ before_script:
 script:
 
   # Run Behat tests.
-  - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~broken'
+  # - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~broken'
 
   # Output performance logging data.
-  - drush scr profiles/express/tests/travis-ci/log-express-performance.php
+  # - drush scr profiles/express/tests/travis-ci/log-express-performance.php
 
   # Second Test run for broken tests.
   #- drush sql-drop -y
@@ -115,10 +115,10 @@ script:
   #- ./bin/behat --config behat.yml --verbose --tags @broken
 
   # Run Simpletests
-  #- drush en simpletest -y
-  #- cd ../travis-ci
-  #- chmod +x run-simpletests.sh
-  #- ./run-simpletests.sh
+  - drush en simpletest -y
+  - cd ../travis-ci
+  - chmod +x run-simpletests.sh
+  - ./run-simpletests.sh
 
 notifications:
   slack:
