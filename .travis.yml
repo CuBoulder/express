@@ -117,7 +117,9 @@ script:
   # Run Simpletests
   - drush en simpletest -y
   - cd ../travis-ci
-  - ./run-simpletests.sh | tee /dev/tty
+  #- ./run-simpletests.sh | tee /dev/tty
+  - cd ../../../../
+  - php ./scripts/run-tests.sh --url http://127.0.0.1:8057 --php ~/.phpenv/versions/$(phpenv version-name)/bin/php --all
 
 notifications:
   slack:
