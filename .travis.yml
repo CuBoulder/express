@@ -36,7 +36,9 @@ before_install:
   # If diff is greater than one word, fail tests.
   #- git fetch --all
   #- git checkout ${TRAVIS_PULL_REQUEST_BRANCH} && git pull
-  - git diff origin/dev..origin/${TRAVIS_PULL_REQUEST_BRANCH} tests/behat/features > foot.xt
+  - git checkout dev
+  - git checkout ${TRAVIS_PULL_REQUEST_BRANCH}
+  - git diff dev..${TRAVIS_PULL_REQUEST_BRANCH} tests/behat/features > foot.xt
   - cat foo.txt
   - if [ $(wc -c <foo.txt) -le 2 ]; then echo "No change to beaht/features." && exit 1; fi
   - cd ../
