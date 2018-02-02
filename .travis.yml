@@ -33,7 +33,7 @@ before_install:
   #- cd ../
   #- diff -crbB express/tests/behat/features express2/tests/behat/features > foo.txt
   # If diff is greater than one word, fail tests.
-  - git checkout dev && git pull
+  - git checkout ${TRAVIS_PULL_REQUEST_BRANCH} && git pull
   - git diff dev..${TRAVIS_PULL_REQUEST_BRANCH} tests/behat/features > foot.xt
   - cat foo.txt
   - if [ $(wc -c <foo.txt) -le 2 ]; then echo "No change to beaht/features." && exit 1; fi
