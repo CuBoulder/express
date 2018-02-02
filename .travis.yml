@@ -117,7 +117,7 @@ script:
   # Run Simpletests
   - drush en simpletest -y
   - cd ../travis-ci
-  - ./run-simpletests.sh
+  - ./run-simpletests.sh | tee /dev/tty
 
 notifications:
   slack:
