@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 #chmod +x $HOME/drupal/scripts/run-tests.sh
-cd ../../../../../../
+cd ../../../../
 FOO=`pwd`
-echo "${OUTPUT}"
+echo ${FOO}
 
-OUTPUT=`php ./scripts/run-tests.sh --url http://127.0.0.1:8080 --php ~/.phpenv/versions/$(phpenv version-name)/bin/php "Embed Templates"`
-echo "${OUTPUT}"
+OUTPUT=`php ./scripts/run-tests.sh --url http://127.0.0.1:8057 --php ~/.phpenv/versions/$(phpenv version-name)/bin/php --all`
+echo ${OUTPUT}
 
-if [[ $OUTPUT == *fail,* ]]; then
+if [[ ${OUTPUT} == *fail,* ]]; then
   echo 'failed'
   exit 1
 else

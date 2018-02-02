@@ -1,0 +1,25 @@
+default:
+  # Ignore certain tags so they don't have to be excluded on the commandline.
+  gherkin:
+    filters:
+        tags: "~@broken"
+  # Not sure if this is the best, but it sounds nice.
+  formatters:
+      pretty: true
+  suites:
+    default:
+      paths: [ "%paths.base%/features" ]
+      contexts:
+        - FeatureContext
+  extensions:
+      Behat\MinkExtension:
+        base_url: "http://127.0.0.1:8057/"
+        files_path: "%paths.base%/assets"
+        javascript_session: sauce
+        sessions:
+          default:
+            goutte:
+              guzzle_parameters:
+                  verify: false
+          sauce:
+            sauce_labs: ~
