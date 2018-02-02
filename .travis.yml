@@ -35,7 +35,7 @@ before_install:
   - diff -crbB express/tests/behat/features express2/tests/behat/features
   #- echo ${TRAVIS_PULL_REQUEST_BRANCH}
   #- git diff dev..${TRAVIS_PULL_REQUEST_BRANCH} -- tests/behat/features
-  #- ./foo/scr.sh
+  - ./foo/scr.sh
 
   - google-chrome-stable --disable-gpu --headless --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 --no-sandbox > /dev/null 2>&1 &
 
