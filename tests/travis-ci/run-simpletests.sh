@@ -5,7 +5,7 @@ cd ../../../../
 FOO=`pwd`
 echo ${FOO}
 
-OUTPUT=`php ./scripts/run-tests.sh --url http://127.0.0.1:8057 --php ~/.phpenv/versions/$(phpenv version-name)/bin/php`
+OUTPUT=`php ./scripts/run-tests.sh --url http://127.0.0.1:8057 --php ~/.phpenv/versions/$(phpenv version-name)/bin/php --all`
 echo ${OUTPUT}
 
 if [[ ${OUTPUT} == *fail,* ]]; then
