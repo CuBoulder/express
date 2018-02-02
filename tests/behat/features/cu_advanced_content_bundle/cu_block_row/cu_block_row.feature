@@ -14,7 +14,6 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | developer      | "Access denied" |
 
 @api @block-row-block
-  # change to test.
 Scenario: An anonymous user should not be able to access the form
   Given I am an anonymous user
   When I go to "block/add/block-row-block"
