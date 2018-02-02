@@ -26,6 +26,13 @@ cache:
 
 before_install:
   # Check whether anything in the testing folder has changed.
+  # Copy Express to diff.
+  - git status
+  - cd ../
+  - mkdir express2
+  - cp -R express/* express2
+  - cd express2
+  - git status
   - pwd
   - ls -al
   - ./foo/script.sh
