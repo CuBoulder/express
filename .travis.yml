@@ -26,14 +26,17 @@ cache:
 
 before_install:
   # Check whether anything in the testing folder has changed.
-  - cd ../
-  - git clone --depth=50 https://github.com/CuBoulder/express.git express2
-  - cd express2
-  - git checkout dev
-  - cd ../
-  - touch foo.txt
-  - diff -crbB express/tests/behat/features express2/tests/behat/features >> foo.txt
+  #- cd ../
+  #- git clone --depth=50 https://github.com/CuBoulder/express.git express2
+  #- cd express2
+  #- git checkout dev
+  #- cd ../
+  #- diff -crbB express/tests/behat/features express2/tests/behat/features > foo.txt
   # If diff is greater than one word, fail tests.
+  - MY_BRANCH='${TRAVIS_PULL_REQUEST_BRANCH}'
+  - echo ${MY_BRANCH}
+  - git diff dev..${MY_BRANCH} tests/behat/features > foot.xt
+  - cat foo.txt
   - if [ $(wc -c <foo.txt) -le 2 ]; then echo "No change to beaht/features." && exit 1; fi
 
   # Start headless Chrome.
