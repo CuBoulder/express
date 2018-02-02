@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #chmod +x $HOME/drupal/scripts/run-tests.sh
-cd ../../../../../
+cd ../../../../
 FOO=`pwd`
 echo ${FOO}
 

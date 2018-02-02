@@ -117,7 +117,6 @@ script:
   # Run Simpletests
   - drush en simpletest -y
   - cd ../travis-ci
-  - chmod +x run-simpletests.sh
   - ./run-simpletests.sh
 
 notifications:
