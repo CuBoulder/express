@@ -32,7 +32,7 @@ before_install:
   - cd express2
   - git checkout dev
   - cd ../
-  - OUT="$(diff -crbB express/tests/behat/features express2/tests/behat/features)"
+  - OUT=$(diff -crbB express/tests/behat/features express2/tests/behat/features)
   #- echo ${TRAVIS_PULL_REQUEST_BRANCH}
   #- git diff dev..${TRAVIS_PULL_REQUEST_BRANCH} -- tests/behat/features
   - echo ${OUT}
