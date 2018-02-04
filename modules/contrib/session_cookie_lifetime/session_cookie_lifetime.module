@@ -38,6 +38,7 @@ function session_cookie_lifetime_admin_form($form, &$form_state) {
       'default' => t("Default (!default_lifetime)", array('!default_lifetime' => $default_lifetime)),
       'browser_session' => t('When the browser session is closed'),
       'time' => t('After a specific period of time'),
+      'timeofday' => t('At a specific time of day'),
     ),
     '#default_value' => variable_get('session_cookie_lifetime_type', 'default'),
   );
@@ -73,6 +74,23 @@ function session_cookie_lifetime_admin_form($form, &$form_state) {
     '#default_value' => variable_get('session_cookie_lifetime_multiplier', 60),
   );
 
+  $form['session_cookie_timeofday_container'] = array(
+    '#type' => 'container',
+    '#states' => array(
+      'visible' => array(
+        ':input[name="session_cookie_lifetime_type"]' => array('value' => 'timeofday'),
+      ),
+    ),
+  );
+
+  $form['session_cookie_timeofday_container']['session_cookie_timeofday'] = array(
+    '#title' => 'Expiry time',
+    '#title_display' => 'invisible',
+    '#type' => 'textfield',
+    '#size' => 15,
+    '#default_value' => variable_get('session_cookie_timeofday', '02:00'),
+  );
+
   $form['session_cookie_lifetime_description'] = array(
     '#markup' => t('Configure when the session cookies used by this site are set to expire. Upon expiring the user will be forced to re-authenticate with the site.'),
   );
@@ -87,12 +105,16 @@ function session_cookie_lifetime_admin_form($form, &$form_state) {
  * Saves the original session cookie lifetime.
  */
 function session_cookie_lifetime_init() {
+  global $basepath;
+
   $original_cookie_params = session_get_cookie_params();
+
   session_cookie_lifetime_set_original_lifetime($original_cookie_params['lifetime']);
 
   $cookie_lifetime = session_cookie_lifetime_get_lifetime();
+
   if ($cookie_lifetime !== NULL) {
-    session_set_cookie_params($cookie_lifetime);
+    session_set_cookie_params($cookie_lifetime, $basepath);
   }
 }
 
@@ -122,6 +144,15 @@ function session_cookie_lifetime_get_lifetime() {
 
       $lifetime = $amount * $multiplier;
       break;
+    case 'timeofday';
+
+      $currenttime = strtotime(date('H:i'));
+      $sessionendtime = strtotime('tomorrow ' . variable_get('session_cookie_timeofday', '02:00'));
+      $minutesleft = ($sessionendtime - $currenttime)/60;
+      //$hoursleft = ($minutesleft/60);
+      //dsm($hoursleft);
+      $lifetime = $minutesleft;
+      break;
   }
 
   return $lifetime;
@@ -139,6 +170,8 @@ function session_cookie_lifetime_get_lifetime() {
  *   Session cookie expiry date in seconds.
  */
 function session_cookie_lifetime_set_original_lifetime($lifetime = NULL) {
+  //dsm('session_cookie_lifetime_set_original_lifetime');
+  //dsm($lifetime);
   static $original_lifetime = NULL;
   if ($lifetime !== NULL) {
     $original_lifetime = $lifetime;
