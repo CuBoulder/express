@@ -9,6 +9,5 @@
  */
 function cu_article_views_default_views() {
   $export = array();
-
   return $export;
 }
