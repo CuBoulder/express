@@ -25,6 +25,9 @@ function lando_hosting_install() {
   // @todo Actually add test content.
   // Add testing content.
   // _lando_hosting_add_content();
+
+  // @todo Make changes for performance like caching.
+
 }
 
 /**

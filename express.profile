@@ -237,7 +237,7 @@ function express_check_known_hosts() {
   }
 
   // Check for Pantheon.
-  if (defined('LANDO_ENV')) {
+  if (getenv('LANDO_ENV') === 'yes') {
     return 'lando';
   }
 
