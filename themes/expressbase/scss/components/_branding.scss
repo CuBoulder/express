@@ -469,3 +469,11 @@ header {
     padding:0;
   }
 }
+
+/* Custom Logo */
+img.custom-logo {
+  width:100%;
+  //max-width:500px !important;
+  height: auto;
+  display: block;
+}

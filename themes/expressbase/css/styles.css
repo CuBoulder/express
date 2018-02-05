@@ -154,6 +154,9 @@ header .site-name-wrapper { flex-grow: 1; font-size: 135%; }
 
 .layout-responsive .menu-toggle button { background: none; border: none; padding: 0; }
 
+/* Custom Logo */
+img.custom-logo { width: 100%; height: auto; display: block; }
+
 /* Menu visibility */
 .layout-responsive #secondary-menu-wrapper, .layout-responsive #main-menu-wrapper, .layout-responsive #footer-menu-wrapper { display: none; }
 @media (min-width: 960px) { .layout-responsive #secondary-menu-wrapper, .layout-responsive #main-menu-wrapper, .layout-responsive #footer-menu-wrapper { display: block; } }

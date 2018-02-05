@@ -783,6 +783,10 @@ function expressbase_theme(&$existing, $type, $theme, $path) {
     'template' => 'page-title-image',
     'path' => $template_dir,
   );
+  $registry['site_name'] = array(
+    'template' => 'site-name',
+    'path' => $template_dir,
+  );
   return $registry;
 }
 

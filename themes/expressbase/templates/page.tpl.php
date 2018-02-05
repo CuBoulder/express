@@ -19,31 +19,16 @@
     </div>
     <div id="header-wrapper" class="section-wrapper header-wrapper">
       <header class="header container-max clearfix" id="header" role="banner">
-        <div class="site-name-wrapper col-lg-5 col-md-5 col-sm-12 col-xs-12">
+        <div class="site-name-wrapper col-lg-12 col-md-12 col-sm-12 col-xs-12">
           <div class="site-name-inner">
             <?php
-              $site_name_tag = drupal_is_front_page() ? 'h1' : 'div';
+              $vars = array();
+              $vars['site_name_tag'] = drupal_is_front_page() ? 'h1' : 'div';
+              $vars['affiliation'] = variable_get('express_site_affiliation', NULL);
+              $vars['site_name'] = $site_name;
+              print theme('site_name', $vars);
             ?>
-            <?php if ($site_name): ?>
-              <<?php print $site_name_tag; ?> class="site-name">
-                <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" class="header__site-link" rel="home"><span><?php print $site_name; ?></span></a>
-              </<?php print $site_name_tag; ?>>
-              <?php $affiliation = variable_get('express_site_affiliation', NULL); ?>
-              <?php if (!empty($affiliation)): ?>
-
-                <div class="affiliation">
-                  <?php
-                    if (!empty($affiliation['url'])) {
-                      print l($affiliation['title'], $affiliation['url'], array('html' => TRUE));
-                    }
-                    else {
-                      print $affiliation['title'];
-                    }
-                  ?>
-                </div>
-              <?php endif; ?>
-            </div>
-          <?php endif; ?>
+          </div>
         </div>
         <div class="mobile-menu-toggle menu-toggle">
           <button id="toggle" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-menu" aria-label="Navigation"><i class="fa fa-reorder fa-fw"></i><span class="mobile-menu-text">Menu </span></button>
