@@ -35,7 +35,7 @@ install:
   # Build Behat dependencies
   - cd ./tests/behat
   - travis_retry composer install --prefer-dist --no-interaction
-  - cd ../../
+  - cd ../../../
 
   # Build Codebase
   - drush dl drupal-7.56
