@@ -8,7 +8,7 @@
 /**
  * Express 2.8.4 Update. Add session_cookie_lifetime requirement.
  */
-function cu_core_update_7001() {
+function ng_hosting_7001() {
   variable_set('session_cookie_lifetime_type', 'time');
   variable_set('session_cookie_lifetime_multiplier', 3600);
   variable_set('session_cookie_lifetime_amount', 26);
