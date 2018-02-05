@@ -1,15 +1,12 @@
 <?php
 
-namespace SimpleSAML\Test\Utils;
-
-use SimpleSAML\Utils\Attributes;
 
 /**
  * Tests for SimpleSAML\Utils\Attributes.
  *
  * @author Jaime Perez, UNINETT AS <jaime.perez@uninett.no>
  */
-class AttributesTest extends \PHPUnit_Framework_TestCase
+class Utils_AttributesTest extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -24,7 +21,7 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
             'InvalidArgumentException',
             'The attributes array is not an array, it is: '.print_r($attributes, true).'.'
         );
-        Attributes::getExpectedAttribute($attributes, $expected);
+        \SimpleSAML\Utils\Attributes::getExpectedAttribute($attributes, $expected);
     }
 
 
@@ -40,7 +37,7 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
             'InvalidArgumentException',
             'The expected attribute is not a string, it is: '.print_r($expected, true).'.'
         );
-        Attributes::getExpectedAttribute($attributes, $expected);
+        \SimpleSAML\Utils\Attributes::getExpectedAttribute($attributes, $expected);
     }
 
 
@@ -58,7 +55,7 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
             'InvalidArgumentException',
             'The attributes array is not normalized, values should be arrays.'
         );
-        Attributes::getExpectedAttribute($attributes, $expected);
+        \SimpleSAML\Utils\Attributes::getExpectedAttribute($attributes, $expected);
     }
 
 
@@ -76,7 +73,7 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
             'SimpleSAML_Error_Exception',
             "No such attribute '".$expected."' found."
         );
-        Attributes::getExpectedAttribute($attributes, $expected);
+        \SimpleSAML\Utils\Attributes::getExpectedAttribute($attributes, $expected);
     }
 
 
@@ -94,7 +91,7 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
             'SimpleSAML_Error_Exception',
             "Empty attribute '".$expected."'.'"
         );
-        Attributes::getExpectedAttribute($attributes, $expected);
+        \SimpleSAML\Utils\Attributes::getExpectedAttribute($attributes, $expected);
     }
 
 
@@ -115,7 +112,7 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
             'SimpleSAML_Error_Exception',
             'More than one value found for the attribute, multiple values not allowed.'
         );
-        Attributes::getExpectedAttribute($attributes, $expected);
+        \SimpleSAML\Utils\Attributes::getExpectedAttribute($attributes, $expected);
     }
 
 
@@ -130,7 +127,7 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
             'attribute' => array($value),
         );
         $expected = 'attribute';
-        $this->assertEquals($value, Attributes::getExpectedAttribute($attributes, $expected));
+        $this->assertEquals($value, \SimpleSAML\Utils\Attributes::getExpectedAttribute($attributes, $expected));
 
         // check multiple (allowed) values
         $value = 'value';
@@ -138,38 +135,38 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
             'attribute' => array($value, 'value2', 'value3'),
         );
         $expected = 'attribute';
-        $this->assertEquals($value, Attributes::getExpectedAttribute($attributes, $expected, true));
+        $this->assertEquals($value, \SimpleSAML\Utils\Attributes::getExpectedAttribute($attributes, $expected, true));
     }
 
 
     /**
      * Test the normalizeAttributesArray() function with input not being an array
      *
-     * @expectedException \InvalidArgumentException
+     * @expectedException InvalidArgumentException
      */
     public function testNormalizeAttributesArrayBadInput()
     {
-        Attributes::normalizeAttributesArray('string');
+        SimpleSAML\Utils\Attributes::normalizeAttributesArray('string');
     }
 
     /**
      * Test the normalizeAttributesArray() function with an array with non-string attribute names.
      *
-     * @expectedException \InvalidArgumentException
+     * @expectedException InvalidArgumentException
      */
     public function testNormalizeAttributesArrayBadKeys()
     {
-        Attributes::normalizeAttributesArray(array('attr1' => 'value1', 1 => 'value2'));
+        SimpleSAML\Utils\Attributes::normalizeAttributesArray(array('attr1' => 'value1', 1 => 'value2'));
     }
 
     /**
      * Test the normalizeAttributesArray() function with an array with non-string attribute values.
      *
-     * @expectedException \InvalidArgumentException
+     * @expectedException InvalidArgumentException
      */
     public function testNormalizeAttributesArrayBadValues()
     {
-        Attributes::normalizeAttributesArray(array('attr1' => 'value1', 'attr2' => 0));
+        SimpleSAML\Utils\Attributes::normalizeAttributesArray(array('attr1' => 'value1', 'attr2' => 0));
     }
 
     /**
@@ -189,27 +186,8 @@ class AttributesTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals(
             $expected,
-            Attributes::normalizeAttributesArray($attributes),
+            SimpleSAML\Utils\Attributes::normalizeAttributesArray($attributes),
             'Attribute array normalization failed'
-        );
-    }
-
-
-    /**
-     * Test the getAttributeNamespace() function.
-     */
-    public function testNamespacedAttributes()
-    {
-        // test for only the name
-        $this->assertEquals(
-            array('default', 'name'),
-            Attributes::getAttributeNamespace('name', 'default')
-        );
-
-        // test for a given namespace and multiple '/'
-        $this->assertEquals(
-            array('some/namespace', 'name'),
-            Attributes::getAttributeNamespace('some/namespace/name', 'default')
         );
     }
 }

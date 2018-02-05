@@ -1,13 +1,10 @@
 <?php
 
-namespace SimpleSAML\Test\Utils;
-
-use SimpleSAML\Utils\Arrays;
 
 /**
  * Tests for SimpleSAML\Utils\Arrays.
  */
-class ArraysTest extends \PHPUnit_Framework_TestCase
+class Utils_ArraysTest extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -17,23 +14,23 @@ class ArraysTest extends \PHPUnit_Framework_TestCase
     {
         // check with empty array as input
         $array = array();
-        $this->assertEquals($array, Arrays::arrayize($array));
+        $this->assertEquals($array, SimpleSAML\Utils\Arrays::arrayize($array));
 
         // check non-empty array as input
         $array = array('key' => 'value');
-        $this->assertEquals($array, Arrays::arrayize($array));
+        $this->assertEquals($array, SimpleSAML\Utils\Arrays::arrayize($array));
 
         // check indexes are ignored when input is an array
-        $this->assertArrayNotHasKey('invalid', Arrays::arrayize($array, 'invalid'));
+        $this->assertArrayNotHasKey('invalid', SimpleSAML\Utils\Arrays::arrayize($array, 'invalid'));
 
         // check default index
         $expected = array('string');
-        $this->assertEquals($expected, Arrays::arrayize($expected[0]));
+        $this->assertEquals($expected, SimpleSAML\Utils\Arrays::arrayize($expected[0]));
 
         // check string index
         $index = 'key';
         $expected = array($index => 'string');
-        $this->assertEquals($expected, Arrays::arrayize($expected[$index], $index));
+        $this->assertEquals($expected, SimpleSAML\Utils\Arrays::arrayize($expected[$index], $index));
     }
 
 
@@ -42,16 +39,13 @@ class ArraysTest extends \PHPUnit_Framework_TestCase
      */
     public function testTranspose()
     {
-        // check not array
-        $this->assertFalse(Arrays::transpose('string'));
-
         // check bad arrays
         $this->assertFalse(
-            Arrays::transpose(array('1', '2', '3')),
+            SimpleSAML\Utils\Arrays::transpose(array('1', '2', '3')),
             'Invalid two-dimensional array was accepted'
         );
         $this->assertFalse(
-            Arrays::transpose(array('1' => 0, '2' => '0', '3' => array(0))),
+            SimpleSAML\Utils\Arrays::transpose(array('1' => 0, '2' => '0', '3' => array(0))),
             'Invalid elements on a two-dimensional array were accepted'
         );
 
@@ -76,7 +70,7 @@ class ArraysTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals(
             $transposed,
-            Arrays::transpose($array),
+            SimpleSAML\Utils\Arrays::transpose($array),
             'Unexpected result of transpose()'
         );
 
@@ -101,7 +95,7 @@ class ArraysTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals(
             $transposed,
-            Arrays::transpose($array),
+            SimpleSAML\Utils\Arrays::transpose($array),
             'Unexpected result of transpose()'
         );
 
@@ -128,7 +122,7 @@ class ArraysTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals(
             $transposed,
-            Arrays::transpose($array),
+            SimpleSAML\Utils\Arrays::transpose($array),
             'Unexpected result of transpose()'
         );
     }
