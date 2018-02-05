@@ -27,7 +27,7 @@ $config = array(
   //Your $config array continues for a while...
   //until we get to the "store.type" value, where we put in DB config...
 
-  'store.type' => 'sql',
+  'store.type' => 'memcache',
   'store.sql.dsn' => 'mysql:host='. $db['host'] .';port='. $db['port'] .';dbname='. $db['database'],
   'store.sql.username' => $db['username'],
   'store.sql.password' => $db['password'],
