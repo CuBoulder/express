@@ -1,5 +1,7 @@
 <?php
 
+global $base_root;
+
 $config = array(
 
     // This is a authentication source which handles admin authentication.
@@ -66,7 +68,7 @@ $config = array(
 
     'cu_boulder' => array(
       'saml:SP',
-      'entityID' => 'www-dev.colorado.edu',
+      'entityID' => $base_root, //'www-dev.colorado.edu',
       'privatekey' => 'saml.pem',
       'certificate' => 'saml.crt',
       'idp' => 'https://fedauth.colorado.edu/idp/shibboleth',
