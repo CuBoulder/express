@@ -21,6 +21,6 @@ function cu_saml_install() {
   variable_set('simplesamlphp_auth_roleevaleverytime', 1);
   variable_set('simplesamlphp_auth_registerusers', 1);
   variable_set('simplesamlphp_auth_allowsetdrupalpwd' , 1);
-  variable_set('simplesamlphp_auth_allowdefaultlogin', '1');
+  variable_set('simplesamlphp_auth_allowdefaultloginusers', '1');
   variable_set('simplesamlphp_auth_allowdefaultloginroles', ['5' => '5']);
 }
