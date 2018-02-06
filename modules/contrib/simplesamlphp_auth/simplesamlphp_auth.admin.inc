@@ -11,8 +11,6 @@
 function simplesamlphp_auth_settings() {
   global $_simplesamlphp_auth_saml_version, $base_url;
 
-  $samllibrary = libraries_get_path('simplesamlphp', $base_path = FALSE);
-
   if (!empty($_simplesamlphp_auth_saml_version)) {
     $ver = explode('.', $_simplesamlphp_auth_saml_version);
     if (!($ver[0] >= 1 && $ver[1] >= 5)) {
@@ -36,7 +34,7 @@ function simplesamlphp_auth_settings() {
   $form['simplesamlphp_auth_grp_setup']['simplesamlphp_auth_installdir'] = array(
     '#type' => 'textfield',
     '#title' => t('Installation directory (default: /var/simplesamlphp)'),
-    '#default_value' => variable_get('simplesamlphp_auth_installdir', $samllibrary),
+    '#default_value' => variable_get('simplesamlphp_auth_installdir', '/var/simplesamlphp'),
     '#description' => t('The base directory of simpleSAMLphp. Absolute path with no trailing slash.'),
   );
   $form['simplesamlphp_auth_grp_setup']['simplesamlphp_auth_authsource'] = array(
