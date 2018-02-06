@@ -4,6 +4,10 @@
  * 
  */
 
+global $databases;
+
+$db = $databases['default']['default'];
+
 $config = array(
 
     /*******************************
@@ -1007,7 +1011,7 @@ $config = array(
      *
      * (This option replaces the old 'session.handler'-option.)
      */
-    'store.type'                    => 'phpsession',
+    'store.type'                    => 'sql',
 
     /*
      * The DSN the sql datastore should connect to.
@@ -1015,13 +1019,13 @@ $config = array(
      * See http://www.php.net/manual/en/pdo.drivers.php for the various
      * syntaxes.
      */
-    'store.sql.dsn'                 => 'sqlite:/path/to/sqlitedatabase.sq3',
+    'store.sql.dsn'                 => 'mysql:host='. $db['host'] .';port='. $db['port'] .';dbname='. $db['database'],
 
     /*
      * The username and password to use when connecting to the database.
      */
-    'store.sql.username' => null,
-    'store.sql.password' => null,
+    'store.sql.username' => $db['username'],
+    'store.sql.password' => $db['password'],
 
     /*
      * The prefix we should use on our tables.
