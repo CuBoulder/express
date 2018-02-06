@@ -11,6 +11,7 @@
 function cu_saml_install() {
   $samllibrary = libraries_get_path('simplesamlphp', $base_path = FALSE);
 
+  variable_get('simplesamlphp_auth_activate', 0);
   variable_set('simplesamlphp_auth_installdir', $samllibrary);
   variable_set('simplesamlphp_auth_authsource', 'cu_boulder');
   variable_set('simplesamlphp_auth_forcehttps', 1);
@@ -20,5 +21,6 @@ function cu_saml_install() {
   variable_set('simplesamlphp_auth_roleevaleverytime', 1);
   variable_set('simplesamlphp_auth_registerusers', 1);
   variable_set('simplesamlphp_auth_allowsetdrupalpwd' , 1);
+  variable_set('simplesamlphp_auth_allowdefaultlogin', '1');
   variable_set('simplesamlphp_auth_allowdefaultloginroles', ['5' => '5']);
 }
