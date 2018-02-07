@@ -8,6 +8,7 @@
  * Implements hook_views_default_views().
  */
 function cu_content_administration_override_views_default_views() {
+  $export = array();
   $view = new view();
   $view->name = 'cu_content_administration_override_view';
   $view->description = 'Emulates the Drupal content administration page.';
