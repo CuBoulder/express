@@ -25,7 +25,7 @@ function cu_atlas_drush_command() {
  *
  * @param $arg1
  */
-function drush_cu_atlas_get_atlas_bundle($arg1) {
+function drush_cu_atlas_atlas_bundle($arg1) {
   preg_match('/^[a-zA-Z0-9_]*/', $arg1, $module);
   $package = _get_code_options($type = 'module', $name = $module[0]);
 
