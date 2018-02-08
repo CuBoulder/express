@@ -5,15 +5,15 @@
  */
 function cu_atlas_drush_command() {
 
-  $commands['get_atlas_bundle'] = array(
+  $commands['atlas_bundle'] = array(
     'description' => 'Get a bundle from Atlas.',
-    'aliases' => array('get-atlas-bundle', 'gab'),
+    'aliases' => array('atlas_bundle', 'atab'),
     'arguments' => array(
       'arg1' => 'Atlas ID of bundle (package).',
     ),
     'examples' => array(
-      'drush gab' => 'Gets bundle from Atlas.',
-      'drush gab 5931c1c435f7c3454f9ba7e3' => 'Argument value determines repo to be added via Atlas.',
+      'drush atab' => 'Gets bundle from Atlas.',
+      'drush atab 5931c1c435f7c3454f9ba7e3' => 'Argument value determines repo to be added via Atlas.',
     ),
   );
 
