@@ -23,6 +23,18 @@ function cu_rss_block_form_bean_form_alter(&$form, &$form_state, $form_id) {
     $form['#validate'][] = '_cu_rss_block_form_validate';
   }
 }
+
+/**
+ * Implements hook_inline_entity_form_entity_form_alter().
+ * Add validation to make sure url returns XML.
+*/
+function cu_rss_block_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
+
+  if ($entity_form['#entity']->type == 'rss') {
+    $entity_form['#element_validate'][] = '_cu_rss_block_form_validate_ief';
+  }
+}
+
 /**
  * Validation function for cu_rss_block_form_bean_form_alter().
  * Check to see if url entered returns valid XML.
@@ -37,6 +49,24 @@ function _cu_rss_block_form_validate($form, &$form_state) {
     }
   } else {
     form_set_error('field_rss_bean_feed_url', t('This is not a valid RSS feed.'));
+  }
+}
+
+/**
+ * Validation function for cu_rss_block_inline_entity_form_entity_form_alter().
+ * Check to see if url entered returns valid XML.
+ */
+function _cu_rss_block_form_validate_ief($entity_form, &$form_state) {
+  $entity_values = drupal_array_get_nested_value($form_state['values'], $entity_form['#parents']);
+  $url = $entity_values['field_rss_bean_feed_url'][LANGUAGE_NONE][0]['url'];
+  $response = drupal_http_request($url);
+  if ($response->code == '200') {
+    $is_xml = simplexml_load_string($response->data);
+    if($is_xml===FALSE) {
+      form_set_error('field_rss_bean_feed_url', t('This is not a valid RSS feed.'));
+    }
+  } else {
+    form_error($entity_form['field_rss_bean_feed_url'], t('This is not a valid RSS feed.'));
   }
 }
 
