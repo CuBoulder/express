@@ -26,11 +26,10 @@ function cu_atlas_drush_command() {
  * @param $arg1
  */
 function drush_cu_atlas_atlas_bundle($arg1) {
-  preg_match('/^[a-zA-Z0-9_]*/', $arg1, $module);
-  $package = _get_code_options($type = 'module', $name = $module[0]);
-
   $atlas_id = variable_get('atlas_id', NULL);
   $site_array = atlas_api_request('sites', $atlas_id);
+
+  $package = array($arg1);
 
   // Setup empty array for data that is changing.
   $request_data = array();
@@ -51,7 +50,7 @@ function drush_cu_atlas_atlas_bundle($arg1) {
     // Set the etag from the form.
     $request_data['_etag'] = $site_array['_etag'];
     atlas_api_request('sites', $atlas_id, 'PATCH', $request_data);
-    drush_print(dt('@arg1 bundle has been requested from Atlas.', array('@arg1' => $module[0])));
+    drush_print(dt('@arg1 bundle has been requested from Atlas.', array('@arg1' => $arg1)));
   }
   else {
     drush_print(dt('No bundle was added, either request was empty or trouble connecting to Atlas.'), 'warning');
