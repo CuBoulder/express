@@ -9,11 +9,11 @@ function cu_atlas_drush_command() {
     'description' => 'Get a bundle from Atlas.',
     'aliases' => array('atlas_bundle', 'atab'),
     'arguments' => array(
-      'arg1' => 'Atlas machine name of bundle (package).',
+      'arg1' => 'Atlas code ID of bundle (package).',
     ),
     'examples' => array(
       'drush atab' => 'Gets bundle from Atlas.',
-      'drush atab cu_forms_bundle' => 'Argument value determines repo to be added via Atlas.',
+      'drush atab 5931c1c435f7c3454f9ba7e3' => 'Argument value determines repo to be added via Atlas.',
     ),
   );
 
