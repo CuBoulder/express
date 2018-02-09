@@ -13,7 +13,7 @@ function cu_atlas_drush_command() {
     ),
     'examples' => array(
       'drush atab' => 'Gets bundle from Atlas.',
-      'drush atab 5931c1c435f7c3454f9ba7e3' => 'Argument value determines repo to be added via Atlas.',
+      'drush atab cu_forms_bundle' => 'Argument value determines repo to be added via Atlas.',
     ),
   );
 
@@ -30,6 +30,9 @@ function drush_cu_atlas_atlas_bundle($arg1) {
   $site_array = atlas_api_request('sites', $atlas_id);
 
   $package = array($arg1);
+
+  preg_match('/^[a-zA-Z0-9_]*/', $package, $module);
+  $package = _get_code_options($type = 'module', $name = $module[0]);
 
   // Setup empty array for data that is changing.
   $request_data = array();
