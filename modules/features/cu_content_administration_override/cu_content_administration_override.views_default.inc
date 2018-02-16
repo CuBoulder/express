@@ -9,6 +9,7 @@
  */
 function cu_content_administration_override_views_default_views() {
   $export = array();
+
   $view = new view();
   $view->name = 'cu_content_administration_override_view';
   $view->description = 'Emulates the Drupal content administration page.';
@@ -38,7 +39,7 @@ function cu_content_administration_override_views_default_views() {
     'title' => 'title',
     'timestamp' => 'title',
     'type' => 'type',
-    'name' => 'name',
+    'realname' => 'realname',
     'status' => 'status',
     'changed' => 'changed',
     'edit_node' => 'edit_node',
@@ -69,7 +70,7 @@ function cu_content_administration_override_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'name' => array(
+    'realname' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -303,7 +304,7 @@ function cu_content_administration_override_views_default_views() {
   $handler->display->display_options['filters']['realname']['expose']['identifier'] = 'realname';
   $handler->display->display_options['filters']['realname']['expose']['remember'] = TRUE;
   $handler->display->display_options['filters']['realname']['expose']['remember_roles'] = array(
-    2 => '2',
+    2 => 0,
     1 => 0,
     6 => 0,
     4 => 0,
@@ -322,6 +323,7 @@ function cu_content_administration_override_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
+
   $export['cu_content_administration_override_view'] = $view;
 
   return $export;
