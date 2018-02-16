@@ -36,4 +36,5 @@ Feature: CU Extended Content Search Views
       And I should see the text "Operations"
       And I should see the link "sort by Title"
       And I should see the link "sort by Type"
-      And I should see the link "sort by Author"
+      # Commenting out sort by Author until decision on how to handle realname.
+      # And I should see the link "sort by Author"
