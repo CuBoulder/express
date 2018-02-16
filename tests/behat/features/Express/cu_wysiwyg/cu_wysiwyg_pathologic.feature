@@ -1,6 +1,6 @@
 Feature: WYSIWYG Pathologic tests
 
-  @api @wysiwyg @javascript
+  @api @wysiwyg @javascript @broken
   Scenario: Pathologic should change URLs
     Given  CU - I am logged in as a user with the "content_editor" role
     When I setup Pathologic local paths
