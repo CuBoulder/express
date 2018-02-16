@@ -265,6 +265,14 @@ function expressbase_preprocess_page(&$vars) {
     $vars['title_image_title_class'] = 'element-max-width-padding';
     $vars['title_image_width'] = 'title-image-full-width';
   }
+
+  // Search Blocks
+  $block = block_load('cu_search','cu_search');
+  $vars['search_desktop'] = _block_get_renderable_array(_block_render_blocks(array($block)));
+
+  $block = block_load('cu_search','cu_search_mobile');
+  $vars['search_mobile'] = _block_get_renderable_array(_block_render_blocks(array($block)));
+
 }
 
 /**
