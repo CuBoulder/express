@@ -21,6 +21,9 @@ function travis_hosting_install() {
 
   // Add test users.
   _travis_hosting_add_users();
+
+  // Setup Pathologic.
+  _travis_hosting_setup_pathologic();
 }
 
 /**
@@ -74,4 +77,38 @@ function _travis_hosting_add_users() {
     // The first parameter is sent blank so a new user is created.
     user_save('', $new_user);
   }
+}
+
+/**
+ * Save Pathologic settings for testing.
+ */
+function _travis_hosting_setup_pathologic() {
+  $cu_path = 'testing';
+  $cu_sid = 'p1eb825ce549';
+
+  $pathologic_string = "/$cu_sid\r\n" .
+    "/$cu_path\r\n" .
+    "http://www.colorado.edu/$cu_sid\r\n" .
+    "http://www.colorado.edu/$cu_path\r\n" .
+    "https://www.colorado.edu/$cu_sid\r\n" .
+    "https://www.colorado.edu/$cu_path";
+
+  $format = filter_format_load("wysiwyg");
+
+  if (empty($format->filters)) {
+    // Get the filters used by this format.
+    $filters = filter_list_format($format->format);
+
+    // Build the $format->filters array.
+    $format->filters = array();
+    foreach($filters as $name => $filter) {
+      foreach($filter as $k => $v) {
+        $format->filters[$name][$k] = $v;
+      }
+    }
+  }
+
+  // Save the local paths.
+  $format->filters["pathologic"]["settings"]["local_paths"] = $pathologic_string;
+  filter_format_save($format);
 }
