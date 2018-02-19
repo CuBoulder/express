@@ -80,7 +80,7 @@ function cu_slider_field_default_field_bases() {
       'profile2_private' => FALSE,
       'uri_scheme' => 'public',
     ),
-    'translatable' => 1,
+    'translatable' => 0,
     'type' => 'image',
   );
 
