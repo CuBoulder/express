@@ -35,4 +35,5 @@ Feature: CU Extended Content Search Views
       And I should see "Operations"
       And I should see the link "sort by Title"
       And I should see the link "sort by Type"
-      And I should see the link "sort by Author"
+      # Author was removed as a sortable link in the 2.8.5 release.
+      # And I should see the link "sort by Author"
