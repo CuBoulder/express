@@ -4,4 +4,5 @@ core = 7.x
 version = 7.x-1.0
 package = Hosting
 
-dependencies[] = cu_saml
+optional-dependencies[] = cu_saml
+optional-dependencies[] = simplesamlphp_auth
