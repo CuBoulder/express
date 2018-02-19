@@ -5,8 +5,8 @@ Feature: CU Extended Content Search Views
 
   @api @extended_search
   Scenario Outline: An authenticated user should be able to access the form for finding content
-    Given  CU - I am logged in as a user with the <role> role
-    When I am at "admin/content"
+    Given  I am logged in as a user with the <role> role
+    When I go to "admin/content"
     Then I should not see <message>
 
     Examples:
@@ -18,7 +18,6 @@ Feature: CU Extended Content Search Views
 
   @api @extended_search
   Scenario: An anonymous user should not be able to access the form for adding page content
-    Given I am an anonymous user
     When I am on "admin/content"
     Then I should see "Access denied"
 
