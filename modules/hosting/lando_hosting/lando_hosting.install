@@ -98,8 +98,7 @@ function _lando_hosting_add_content() {
   // I create a "social_links" block with the label "Social Links Block".
 
   // Create Node.
-  /*
-  $node = new stdClass();
+  /* $node = new stdClass();
   $node->title = $title;
   $node->type = $content_type;
   node_object_prepare($node);
@@ -111,14 +110,13 @@ function _lando_hosting_add_content() {
 
   // Create Block.
   $values = array(
-    'label' => $label,
-    'type'  => $bean_type,
+  'label' => $label,
+  'type'  => $bean_type,
   );
   $entity = entity_create('bean', $values);
   $saved_entity = entity_save('bean', $entity);
 
   // Go to bean page.
   // Using vistPath() instead of visit() method since it adds base URL to relative path.
-  $this->visitPath('block/' . $entity->delta);
-  */
+  $this->visitPath('block/' . $entity->delta);*/
 }
