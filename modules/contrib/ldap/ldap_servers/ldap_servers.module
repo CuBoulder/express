@@ -139,8 +139,8 @@ define('LDAP_MORE_RESULTS_TO_RETURN', 0x5f);
 define('LDAP_CLIENT_LOOP', 0x60);
 define('LDAP_REFERRAL_LIMIT_EXCEEDED', 0x61);
 
-require_once('ldap_servers.functions.inc');
-require_once('ldap_servers.tokens.inc');
+require_once dirname(__FILE__) . '/ldap_servers.functions.inc';
+require_once dirname(__FILE__) . '/ldap_servers.tokens.inc';
 
 /**
  * Implements hook_init().

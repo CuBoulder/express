@@ -54,6 +54,7 @@ function varnish_admin_settings_form() {
     '#default_value' => variable_get('varnish_control_terminal', '127.0.0.1:6082'),
     '#required' => TRUE,
     '#description' => t('Set this to the server IP or hostname that varnish runs on (e.g. 127.0.0.1:6082). This must be configured for Drupal to talk to Varnish. Separate multiple servers with spaces.'),
+    '#maxlength' => 256,
   );
 
   $form['varnish_control_key'] = array(
@@ -64,6 +65,13 @@ function varnish_admin_settings_form() {
     '#prefix' => '<div id="wrapper-varnish-control-key">',
     '#suffix' => '</div>',
     '#required' => variable_get('varnish_version', 2.1) == '4' ? TRUE : FALSE,
+  );
+
+  $form['varnish_control_key_appendnewline'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Append Newline (\n)'),
+    '#default_value' => variable_get('varnish_control_key_appendnewline', TRUE),
+    '#description' => t('Most control keys have an embedded newline at the end. Uncheck this if you know it doesn\'t or if you are reading the file in direct with an fopen.'),
   );
 
   $form['varnish_socket_timeout'] = array(
