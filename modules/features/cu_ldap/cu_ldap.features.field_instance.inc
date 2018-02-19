@@ -60,7 +60,7 @@ function cu_ldap_field_default_field_instances() {
         'label' => 'above',
         'module' => 'text',
         'settings' => array(),
-        'type' => 'text_default',
+        'type' => 'hidden',
         'weight' => 7,
       ),
     ),
