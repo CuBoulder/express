@@ -1,0 +1,6 @@
+name = CU SAML
+description = CU-specific alteration of contrib simplesamlphp_auth.
+core = 7.x
+package = CU-Core
+
+dependencies[] = simplesamlphp_auth

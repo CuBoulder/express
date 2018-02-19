@@ -912,6 +912,15 @@ function cu_core_update_7038() {
 }
 
 /**
+ * Express 2.8.5 Update.
+ *
+ * Revert all features.
+ */
+function cu_core_update_7039() {
+  cu_core_revert_features();
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
