@@ -4,6 +4,10 @@
  * @file
  * Base class defining the common methods available to exporters.
  */
+
+/**
+ *
+ */
 class webform_exporter {
   public $options = array();
   public $export_wordrap;
@@ -14,7 +18,7 @@ class webform_exporter {
    * @param $options
    *   The array of export options as provided by the user-interface.
    */
-  function __construct($options) {
+  public function __construct($options) {
     $this->options = $options;
     $this->export_wordwrap = webform_variable_get('webform_export_wordwrap');
   }
@@ -34,10 +38,11 @@ class webform_exporter {
    *   Column number, counting from 0.
    * @param string $value
    *   The value of the cell.
-   * @return boolean
-   *   Whether the cell position is elegible for wordwrapping.
+   *
+   * @return bool
+   *   Whether the cell position is eligible for wordwrapping.
    */
-  function wrappable($row, $column, $value) {
+  public function wrappable($row, $column, $value) {
     return strpos($value, "\n") !== FALSE ||
       $this->export_wordwrap && ($row > 2 || $column > 0 || $this->options['header_keys'] < 0);
   }
@@ -52,7 +57,7 @@ class webform_exporter {
    * @param int $row_count
    *   The current number of rows in the export file.
    */
-  function add_row(&$file_handle, $data, $row_count) {
+  public function add_row(&$file_handle, $data, $row_count) {
   }
 
   /**
@@ -61,7 +66,7 @@ class webform_exporter {
    * @param $filename
    *   The name of the file being downloaded, for example, export.xls.
    */
-  function set_headers($filename) {
+  public function set_headers($filename) {
     drupal_add_http_header('Content-Type', 'application/force-download');
     drupal_add_http_header('Pragma', 'public');
     drupal_add_http_header('Cache-Control', 'max-age=0');
@@ -73,7 +78,7 @@ class webform_exporter {
    * @param $file_handle
    *   A PHP file handle to the export file.
    */
-  function bof(&$file_handle) {
+  public function bof(&$file_handle) {
   }
 
   /**
@@ -82,7 +87,7 @@ class webform_exporter {
    * @param $file_handle
    *   A PHP file handle to the export file.
    */
-  function eof(&$file_handle, $row_count, $col_count) {
+  public function eof(&$file_handle, $row_count, $col_count) {
   }
 
   /**
@@ -94,6 +99,7 @@ class webform_exporter {
    *   - file_name: The full file path of the generated file.
    *   - row_count: The final number of rows in the generated file.
    */
-  function post_process(&$results) {
+  public function post_process(&$results) {
   }
+
 }
