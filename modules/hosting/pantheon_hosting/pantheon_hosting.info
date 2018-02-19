@@ -3,3 +3,5 @@ description = Provides CU-specific functionality, like adding variables, to Expr
 core = 7.x
 version = 7.x-1.0
 package = Hosting
+
+dependencies[] = cu_saml
