@@ -138,7 +138,8 @@ function _cu_test_content_recursive_tree_of_pages($nodes, $menu_name, $plid = 0)
   $weight = 0;
   foreach ($nodes as $elem) {
     // Grab a random image
-    $file_path = system_retrieve_file('https://picsum.photos/1500/1000/?random');
+    $file_url = get_redirect_final_target('https://picsum.photos/1500/1000/?random');
+    $file_path = system_retrieve_file($file_url);
 
     $file = (object) array(
       'uid' => $count,
