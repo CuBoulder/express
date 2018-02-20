@@ -1,11 +1,9 @@
 
 ## Local Setup
 
-The proper way to develop Behat tests locally is to run a certain setup that differs from express.local or the Express Starter kit. The reason the setup differs for creating tests is that connecting to a browser emulating server is a huge PITA when you are using VMs. 
+While it is ideal to use VMs or Docker images to share local development environments that are used to run tests, maintaining those VMs can be a huge PITA and requires a decent amount of Docker knowledge. Abstraction layers, like Lando, can be slow as hell and contain a bunch of cruft you don't need.
 
-Specifically, when a JS test opens a window and simulates how a user would navigate a site, you aren't able to see what is going on. Having the VM connect to a browser emulating server on your local machine could mitigate this issue; however, if you have to run any PHP, you won't be able to do that since the web application isn't connected to the emualtor server. 
-
-Rather than fiddle with a brittle local setup using VMs connecting to your local machine, it is easiest and most straight-forward to setup your own environment. 
+So, for now it is easiest to setup a local environment on you MacOS laptop to use for running tests at least, if not day-to-day development.
 
 You will need:
 - PHP 7 - [Homebrew works well for this step](https://github.com/Homebrew/homebrew-php).
@@ -21,9 +19,30 @@ You can check the versions of what you have locally, but for this tutorial the v
 
 ## Running Tests
 
-You can now install an Express site however you want to using your MySQL setup for the server. The [Express Starter](https://github.com/CuBoulder/express-starter) kit can build you out a skeleton site that you can run `express_profile_configure_form.express_core_version=cu_testing_core --yes` from after changing the database settings in "sites/default/settings.php". The testing core install all of the bundles, which is needed for running the test suite.
+You can now install an Express site by downloading Drupal, cloning in the Express profile, and installing the site. 
 
-Your local site might be on a version of Express that installs the LDAP module which requires HTTPS to login. In order to disable this check if you have trouble you can `vset` a variable before you start your test runs. 
+```bash
+ROOT=$(pwd)
+
+# Add Drupal.
+drush dl drupal-7.56
+mv drupal-7.56 testing
+
+# Make files folder and copy settings.php file.
+cd ${ROOT}/testing/sites/default
+cp default.settings.php settings.php && chmod 777 settings.php
+mkdir files && chmod -R 777 files
+
+# Add the Express profile.
+cd ${ROOT}/testing/profiles
+git clone git@github.com:CuBoulder/express.git
+
+# Install site. Need to use your db credentials created when installing MySQL.
+drush si express --db-url=mysql://root:@127.0.0.1/testing
+
+```
+
+When Express installs, environmental variables are used to determine which "core" to install.
 
 ```bash
 drush vset ldap_servers_require_ssl_for_credentials 0
