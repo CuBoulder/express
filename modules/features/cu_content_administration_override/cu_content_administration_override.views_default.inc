@@ -186,13 +186,12 @@ function cu_content_administration_override_views_default_views() {
   $handler->display->display_options['fields']['type']['id'] = 'type';
   $handler->display->display_options['fields']['type']['table'] = 'node';
   $handler->display->display_options['fields']['type']['field'] = 'type';
-  /* Field: User: Name */
-  $handler->display->display_options['fields']['name']['id'] = 'name';
-  $handler->display->display_options['fields']['name']['table'] = 'users';
-  $handler->display->display_options['fields']['name']['field'] = 'name';
-  $handler->display->display_options['fields']['name']['relationship'] = 'uid';
-  $handler->display->display_options['fields']['name']['label'] = 'Author';
-  $handler->display->display_options['fields']['name']['exclude'] = TRUE;
+  /* Field: Realname: Real name */
+  $handler->display->display_options['fields']['realname']['id'] = 'realname';
+  $handler->display->display_options['fields']['realname']['table'] = 'realname';
+  $handler->display->display_options['fields']['realname']['field'] = 'realname';
+  $handler->display->display_options['fields']['realname']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['realname']['exclude'] = TRUE;
   /* Field: User: Last Name */
   $handler->display->display_options['fields']['field_ldap_last_name']['id'] = 'field_ldap_last_name';
   $handler->display->display_options['fields']['field_ldap_last_name']['table'] = 'field_data_field_ldap_last_name';
@@ -200,7 +199,7 @@ function cu_content_administration_override_views_default_views() {
   $handler->display->display_options['fields']['field_ldap_last_name']['relationship'] = 'uid';
   $handler->display->display_options['fields']['field_ldap_last_name']['label'] = 'Author';
   $handler->display->display_options['fields']['field_ldap_last_name']['alter']['alter_text'] = TRUE;
-  $handler->display->display_options['fields']['field_ldap_last_name']['alter']['text'] = '[name]';
+  $handler->display->display_options['fields']['field_ldap_last_name']['alter']['text'] = '[realname]';
   $handler->display->display_options['fields']['field_ldap_last_name']['element_type'] = '0';
   $handler->display->display_options['fields']['field_ldap_last_name']['element_label_colon'] = FALSE;
   $handler->display->display_options['fields']['field_ldap_last_name']['element_wrapper_type'] = '0';
