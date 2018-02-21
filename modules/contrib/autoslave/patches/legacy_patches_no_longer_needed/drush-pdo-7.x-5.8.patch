@@ -1,0 +1,10 @@
+--- includes/bootstrap.inc.orig	2013-04-07 22:54:25.000000000 +0200
++++ includes/bootstrap.inc	2013-04-07 22:54:37.000000000 +0200
+@@ -904,6 +904,7 @@
+  * phase.
+  */
+ function _drush_bootstrap_drupal_database_validate() {
++  return TRUE;
+   if (!drush_valid_db_credentials()) {
+     return drush_bootstrap_error('DRUSH_DRUPAL_DB_ERROR');
+   }
