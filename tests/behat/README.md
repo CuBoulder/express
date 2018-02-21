@@ -37,15 +37,20 @@ mkdir files && chmod -R 777 files
 cd ${ROOT}/testing/profiles
 git clone git@github.com:CuBoulder/express.git
 
+# Install site. Need to use your db credentials created when installing MySQL.
+drush si express --db-url=mysql://root:@127.0.0.1/testing -y
+
+# Depending on your environment, you might not have a hosting module installed.
+# travis_hosting adds users needed for a test run and turns on neccessary bundles. 
+# It is the most appropriate hosting module to enable after install.
+drush en travis_hosting -y
+
 # Start Drush webserver.
 drush runserver 127.0.0.1:8069
 
-# Or to run server in background.
+# Or to run the server process in background.
+# I leave it open in another tab to monitor for debugging purposes.
 drush runserver 127.0.0.1:8069 > /dev/null 2>&1 &
-
-# Install site. Need to use your db credentials created when installing MySQL.
-drush si express --db-url=mysql://root:@127.0.0.1/testing
-
 ```
 
 When Express installs, environmental variables are used to determine which "core" to install. If no environment other than the Express deployment servers is found, the "ng_hosting" module will be enabled by default. You can export a variable to enable the Pantheon or other hosting setups, but they might not install the modules and configuration you want. 
@@ -54,9 +59,15 @@ It is likely that the hosting modules will be modified to take in local environm
 
 ```bash
 drush uli my-username
+
+# If you need the super user login.
+drush uublk 1
+drush uli 1
 ```
 
-The Behat dependencies need to be installed before you can run any tests.  
+Once logged in, make sure that LDAP is in mixed mode by going to "admin/config/people/ldap/authentication" and selecting "Mixed mode. Drupal authentication is tried first. On failure, LDAP authentication is performed."
+
+Next, the Behat dependencies need to be installed before you can run any tests.  
 
 ```bash
 cd site-path/profiles/express/tests/behat
@@ -70,8 +81,8 @@ The [Sauce Connect Proxy](https://wiki.saucelabs.com/display/DOCS/Sauce+Connect+
 ```bash
 cd sauce-connect-directory
 
-# Start the proxy and wait for the "ready for tests" message.
-sc -u username -k access-key
+# Start the proxy and wait for the "...you may start your tests" message.
+./bin/sc -u username -k access-key
 ```
 
 The Behat test suite configuration also wants to know the Sauce Labs authorization keys, and while you can pass in configuration to the behat executable per test run, it is much simpler and easy to modify the behat.yml file, if it doesn't match your local environment for paths and URLs.
@@ -84,9 +95,19 @@ suites:
       - FeatureContext
 extensions:
     Behat\MinkExtension:
-      # Change URL to suite your setup.
-      base_url: "my-url"
+      base_url: "http://127.0.0.1:8069"
       files_path: "%paths.base%/assets"
+      javascript_session: sauce
+      sessions:
+        default:
+          goutte:
+            guzzle_parameters:
+                verify: false
+        sauce:
+          sauce_labs:
+            # Enter your Sauce Labs credentials.
+            username: ""
+            access_key: ""
 ```
 
 Now you should be able to run the test suite with the following command.
