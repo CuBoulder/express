@@ -73,7 +73,7 @@ function cu_ldap_lookup($identikey) {
   return $ldap_entries;
 }
 
-function _set_user_custom_fields($account) {
+function _set_custom_user_fields($account) {
   $ldap = cu_ldap_lookup($account->name);
 
   // Create our own last name.
@@ -97,7 +97,7 @@ function _set_user_custom_fields($account) {
  * Implements hook_user_login
  */
 function cu_ldap_user_login(&$edit, $account) {
-  _set_user_custom_fields($account);
+  _set_custom_user_fields($account);
 }
 
 /**
@@ -110,7 +110,7 @@ function cu_ldap_cron(){
     $users = entity_load('user');
 
     foreach ($users as &$account) {
-      _set_user_custom_fields($account);
+      _set_custom_user_fields($account);
     }
     // Set time variable on success.
     variable_set('cu_ldap_ping_time', REQUEST_TIME);
