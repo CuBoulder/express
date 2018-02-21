@@ -188,12 +188,24 @@ function _linkchecker_bean_add_bean_links($bean, $skip_missing_links_detection =
         $link->status = _linkchecker_link_check_status_filter($url);
         drupal_write_record('linkchecker_link', $link);
       }
-      db_insert('linkchecker_bean')
-        ->fields(array(
-          'bid' => $bean->bid,
-          'lid' => $link->lid,
-        ))
-        ->execute();
+
+      $txn = db_transaction();
+      try {
+        db_merge('linkchecker_bean')
+          ->key(array(
+            'bid' => $bean->bid,
+            'lid' => $link->lid,
+          ))
+          ->fields(array(
+            'bid' => $bean->bid,
+            'lid' => $link->lid,
+          ))
+          ->execute();
+      }
+      catch (Exception $e) {
+        $txn->rollback();
+        watchdog_exception('linkchecker_bean', $e);
+      }
 
       // Break processing if max links limit per run has been reached.
       $i++;
