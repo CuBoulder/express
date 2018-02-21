@@ -102,8 +102,8 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * Creates and authenticates a user with the given role(s).
    *
-   * @Given CU - I am logged in as a user with the :role role(s)
-   * @Given CU - I am logged in as a/an :role
+   * @Given I am logged in as a user with the :role role(s)
+   * @Given I am logged in as a/an :role
    */
   public function assertAuthenticatedByRole2($role) {
 
@@ -477,7 +477,7 @@ class ExpressContext extends RawDrupalContext implements SnippetAcceptingContext
   /**
    * @When I wait for the :arg1 element to appear
    */
-  public function iWaitForTheElementToAppear2($arg1) {
+  public function iWaitForTheElementToAppear($arg1) {
     $this->spinner(function($context, $arg1) {
 
       $el = $context->getSession()->getPage()->findById($arg1);
