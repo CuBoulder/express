@@ -37,56 +37,67 @@ mkdir files && chmod -R 777 files
 cd ${ROOT}/testing/profiles
 git clone git@github.com:CuBoulder/express.git
 
+# Start Drush webserver.
+drush runserver 127.0.0.1:8069
+
+# Or to run server in background.
+drush runserver 127.0.0.1:8069 > /dev/null 2>&1 &
+
 # Install site. Need to use your db credentials created when installing MySQL.
 drush si express --db-url=mysql://root:@127.0.0.1/testing
 
 ```
 
-When Express installs, environmental variables are used to determine which "core" to install.
+When Express installs, environmental variables are used to determine which "core" to install. If no environment other than the Express deployment servers is found, the "ng_hosting" module will be enabled by default. You can export a variable to enable the Pantheon or other hosting setups, but they might not install the modules and configuration you want. 
+
+It is likely that the hosting modules will be modified to take in local environments and some shared VM solution. For now, you will have "ng_hosting" installed by default. You should be able to login to your account via LDAP, but if not, then use Drush.
 
 ```bash
-drush vset ldap_servers_require_ssl_for_credentials 0
+drush uli my-username
 ```
 
-You will need to install Behat's dependencies as well as export an environmental variable in order to run the Behat tests.
+The Behat dependencies need to be installed before you can run any tests.  
 
 ```bash
 cd site-path/profiles/express/tests/behat
-mv composer
-
 composer install
 ```
 
-Rather than having you change the behat.yml configuration file, it easier to change environmental variables and have Behat pickup on those. This way environmental variables can be used on the CI setup without changing the configuration files as well.
+The test suite uses two different drivers during a test run: one for headless tests and one for browser emulated tests using JavaScript. The JavaScript tests are run via Sauce Labs, and you'll need an API key to use that service and run the tests. You can ask a team member for an API key and username, and you'll also need to export those variables. 
+
+The [Sauce Connect Proxy](https://wiki.saucelabs.com/display/DOCS/Sauce+Connect+Proxy) uses those auth keys to tunnel into your machine and accept Behat requests. Please download the latest Mac OS version.
 
 ```bash
+cd sauce-connect-directory
 
-export BEHAT_PARAMS='{"extensions":{"Drupal\\DrupalExtension":{"drupal":{"drupal_root":"BUILD_TOP/drupal"}},"Behat\\MinkExtension":{"base_url":"http://127.0.0.1:8888/","files_path":"BUILD_TOP/drupal/profiles/express/tests/behat/assets/"}}}'
-
+# Start the proxy and wait for the "ready for tests" message.
+sc -u username -k access-key
 ```
 
-To run tests...
+The Behat test suite configuration also wants to know the Sauce Labs authorization keys, and while you can pass in configuration to the behat executable per test run, it is much simpler and easy to modify the behat.yml file, if it doesn't match your local environment for paths and URLs.
+
+```yaml
+suites:
+  default:
+    paths: [ "%paths.base%/features" ]
+    contexts:
+      - FeatureContext
+extensions:
+    Behat\MinkExtension:
+      # Change URL to suite your setup.
+      base_url: "my-url"
+      files_path: "%paths.base%/assets"
+```
+
+Now you should be able to run the test suite with the following command.
 
 ```bash
-# Chrome is installed already...
-alias chrome="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome"
-chrome --disable-gpu --headless --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 > /dev/null 2>&1 &
-
+cd site-path/profiles/express/tests/behat
 ./bin/behat --config behat.local.yml --verbose --tags '~@exclude_all_bundles&&~broken'
 ```
 
 ## Fixing Broken Tests
 
-The headless Chrome driver is used to run tests on Travis. Selenium was dropped due to its brittle nature of not playing nice with different combinations of Chrome/Firefox as Travis updated the default versions of Chrome and Firefox periodically. Many projects have switched to the method we now use on Travis; however, you will need to use Selenium if a JS test is breaking and you want to maunally inspect why. 
+The `--verbose` tag should spit out as much information as possible about a failed test run. You will oftentimes see the stacktrace around the failed test and should be able to investigate the files and line numbers given. 
 
-You will need to..
-- [Download standalone server](http://docs.seleniumhq.org/download/)
-- [Download latest Chrome webdriver](https://sites.google.com/a/chromium.org/chromedriver/downloads)
-
-```bash
-# Startup Selenium webserver with the proper version of "selenium-server-standalone-3.4.0.jar".
-java -Dwebdriver.chrome.driver=chromedriver -jar selenium-server-standalone-3.4.0.jar > /dev/null 2>&1 &` 
-
-# Run tests using selenium configuration. 
-./bin/behat --config behat.selenium.yml --verbose --tags '~@exclude_all_bundles&&~broken'
-```
+For JavaScript tests, Sauce Labs records the test run so you can go back and actually replay the steps to see what happened. You can also watch the test run as it happens on Sauce Labs to see the output of JavaScript tests in real-time. You will need to have a Sauce Labs account to view the results. Ask a team member if you need access.
