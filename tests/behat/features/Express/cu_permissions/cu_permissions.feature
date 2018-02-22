@@ -3,7 +3,7 @@ Feature: CU Permissions
   @api @cu_permissions
   Scenario Outline: An site owner/administrator/content editor user should not be able to access certain admin settings
     Given  I am logged in as a user with the <role> role
-    When I am at "admin/index"
+    When I go to "admin/index"
     Then I should not see "<message>"
     And I should not see "<message1>"
 
@@ -17,6 +17,6 @@ Feature: CU Permissions
   @api @cu_permissions
   Scenario: A developer should be able to access certain admin settings
     Given  I am logged in as a user with the developer role
-    When I am at "admin/index"
+    When I go to "admin/index"
     Then I should see "jQuery Update"
     Then I should see "Express Layout Settings"
