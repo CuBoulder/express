@@ -241,5 +241,10 @@ function express_check_known_hosts() {
     return 'lando';
   }
 
+  // Check for UCB On Prem.
+  if (getenv('OSR_ENV') === 'yes') {
+    return 'ucb_on_prem';
+  }
+
   return FALSE;
 }
