@@ -92,18 +92,24 @@ function cu_dashboard_seo_secure_permissions($role) {
 
   $permissions = array(
     'administrator' => array(
+      'administer google analytics reports api',
+      'access google analytics reports',
       'use seo dashboard',
     ),
     'content_editor' => array(
       'use seo dashboard',
     ),
     'developer' => array(
+      'administer google analytics reports api',
+      'access google analytics reports',
       'use seo dashboard',
     ),
     'edit_my_content' => array(
       'use seo dashboard',
     ),
     'site_owner' => array(
+      'administer google analytics reports api',
+      'access google analytics reports',
       'use seo dashboard',
     ),
   );
@@ -581,8 +587,10 @@ function cu_dashboard_seo_need_redirect() {
 
   $google_api = variable_get('google_analytics_reports_api_client_id');
 
-  if (!empty($google_api)) {
+  if (isset($google_api)) {
     $output = views_embed_view('404_pages', $display_id = 'block');
+  } else {
+    $output = t('No Google Analytics Reports API Client ID detected, you must <a href="@url" target="_blank">authorize</a> your reports API.', array('@url' => url('admin/config/system/google-analytics-reports-api')));
   }
 
   return $output;
