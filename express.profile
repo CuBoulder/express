@@ -238,7 +238,7 @@ function express_check_known_hosts() {
     return 'lando';
   }
   // Check for UCB On Prem.
-  elseif (defined('OSR_ENV')) {
+  elseif (isset($_SERVER['OSR_ENV'])) {
     return 'ucb_on_prem';
   }
   else {
