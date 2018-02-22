@@ -225,26 +225,23 @@ function express_get_node_thumbnail($node, $field, $image_style = 'medium') {
  * @return string
  */
 function express_check_known_hosts() {
-
   // Check for Travis.
   if (isset($_SERVER['TRAVIS'])) {
     return 'travis';
   }
-
   // Check for Pantheon.
-  if (defined('PANTHEON_ENVIRONMENT')) {
+  elseif (defined('PANTHEON_ENVIRONMENT')) {
     return 'pantheon';
   }
-
   // Check for Pantheon.
-  if (getenv('LANDO_ENV') === 'yes') {
+  elseif (getenv('LANDO_ENV') === 'yes') {
     return 'lando';
   }
-
   // Check for UCB On Prem.
-  if (getenv('OSR_ENV') === 'yes') {
+  elseif (defined('OSR_ENV')) {
     return 'ucb_on_prem';
   }
-
-  return FALSE;
+  else {
+    return FALSE;
+  }
 }
