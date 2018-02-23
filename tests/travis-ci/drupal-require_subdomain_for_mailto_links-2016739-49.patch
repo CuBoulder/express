@@ -1,0 +1,16 @@
+diff --git a/modules/filter/filter.module b/modules/filter/filter.module
+index c710ee7..e79c10f 100644
+--- a/modules/filter/filter.module
++++ b/modules/filter/filter.module
+@@ -1497,7 +1497,11 @@ function _filter_url($text, $filter) {
+   $tasks['_filter_url_parse_full_links'] = $pattern;
+
+   // Match e-mail addresses.
+-  $url_pattern = "[A-Za-z0-9._+-]{1,254}@(?:$domain)";
++  // Mail domain pattern differs from the general domain pattern by requiring
++  // a subdomain match. This allows patterns like foo@bar in text without
++  // being converted to a mailto -link.
++  $email_domain = '(?:[A-Za-z0-9._+-]+\.)+[A-Za-z]{2,64}\b';
++  $url_pattern = "[A-Za-z0-9._-]{1,254}@(?:$email_domain)";
+   $pattern = "`($url_pattern)`";
+   $tasks['_filter_url_parse_email_links'] = $pattern;
