@@ -32,26 +32,28 @@ install:
   - travis_retry composer global require "drush/drush:8.*"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
+  - drush --version
+
   # Build Behat dependencies
   - cd ./tests/behat
   - travis_retry composer install --prefer-dist --no-interaction
   - cd ../../../
 
   # Build Codebase
-  - git clone --branch 7.57-hardened --depth 1 git@github.com:CuBoulder/drupal-7.x.git drupal
-  - mkdir profiles
-  - mv express drupal/profiles/
-
-  # - drush dl drupal-7.57
-  # - mkdir drupal
-  # - mv drupal-7.57/* drupal/
+  # - git clone --branch 7.57-hardened --depth 1 git@github.com:CuBoulder/drupal-7.x.git drupal
   # - mkdir profiles
   # - mv express drupal/profiles/
 
+  - drush dl drupal-7.57
+  - mkdir drupal
+  - mv drupal-7.57/* drupal/
+  - mkdir profiles
+  - mv express drupal/profiles/
+
   # Harden Codebase
-  # - cd drupal/modules
-  # - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
-  # - cd ../..
+  - cd drupal/modules
+  - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
+  - cd ../..
 
   # Add patches.
   # - git apply -v drupal/profiles/express/tests/travis-ci/drupal-require_subdomain_for_mailto_links-2016739-49.patch
