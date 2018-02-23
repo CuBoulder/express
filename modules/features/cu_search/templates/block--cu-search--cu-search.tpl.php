@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Template for mobile search block.
+ * Template for desktop search block.
  */
 
 global $base_path;
