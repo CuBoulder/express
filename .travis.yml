@@ -38,20 +38,24 @@ install:
   - cd ../../../
 
   # Build Codebase
-  - drush dl drupal-7.57
-  - mkdir drupal
-  - mv drupal-7.57/* drupal/
+  - git clone --branch 7.57-hardened --depth 1 git@github.com:CuBoulder/drupal-7.x.git drupal
   - mkdir profiles
   - mv express drupal/profiles/
 
+  # - drush dl drupal-7.57
+  # - mkdir drupal
+  # - mv drupal-7.57/* drupal/
+  # - mkdir profiles
+  # - mv express drupal/profiles/
+
   # Harden Codebase
-  - cd drupal/modules
-  - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
-  - cd ../..
+  # - cd drupal/modules
+  # - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
+  # - cd ../..
 
   # Add patches.
-  - git apply -v drupal/profiles/express/tests/travis-ci/drupal-require_subdomain_for_mailto_links-2016739-49.patch
-  - git apply -v drupal/profiles/express/tests/travis-ci/drupal_mkdir_permissions_2789723-1.patch
+  # - git apply -v drupal/profiles/express/tests/travis-ci/drupal-require_subdomain_for_mailto_links-2016739-49.patch
+  # - git apply -v drupal/profiles/express/tests/travis-ci/drupal_mkdir_permissions_2789723-1.patch
 
   # Setup files
   - mkdir -p drupal/sites/default/files/styles/preview/public/gallery/
