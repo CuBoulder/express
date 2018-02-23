@@ -241,6 +241,10 @@ function express_check_known_hosts() {
   elseif (isset($_SERVER['OSR_ENV'])) {
     return 'ucb_on_prem';
   }
+  // Check for NG.
+  elseif (isset($_SERVER['WWWNG_ENV'])) {
+    return 'ng_hosting';
+  }
   else {
     return FALSE;
   }

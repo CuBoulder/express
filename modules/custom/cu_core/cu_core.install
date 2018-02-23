@@ -21,11 +21,11 @@ function cu_core_install() {
   elseif ($hosting == 'lando') {
     module_enable(array('lando_hosting'));
   }
-  elseif ($hosting == 'ucb_on_prem') {
-    module_enable(array('ucb_on_prem_hosting'));
+  elseif ($hosting == 'ng_hosting') {
+    module_enable(array('ng_hosting'));
   }
   else {
-    module_enable(array('ng_hosting'));
+    module_enable(array('ucb_on_prem_hosting'));
   }
 
   theme_enable(array(
