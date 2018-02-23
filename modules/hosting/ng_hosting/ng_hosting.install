@@ -6,11 +6,18 @@
  */
 
 /**
- * Express 2.8.4 Update. Add session_cookie_lifetime requirement.
+ * Implements hook_install().
  */
-function cu_core_update_7001() {
+function ng_hosting_install() {
   variable_set('session_cookie_lifetime_type', 'time');
   variable_set('session_cookie_lifetime_multiplier', 3600);
   variable_set('session_cookie_lifetime_amount', 26);
-  module_enable(array('session_cookie_lifetime'));
+}
+
+
+/**
+ * Express 2.8.4 Update. Add session_cookie_lifetime requirement.
+ */
+function ng_hosting_update_7001() {
+  // NO LONGER ENABLE SESSION COOKIE LIFETIME
 }

@@ -10,7 +10,8 @@ branches:
     - dev
 
 addons:
-  chrome: stable
+  # The username and access key are stored in the Travis settings.
+  sauce_connect: true
 
 mysql:
   database: drupal
@@ -23,9 +24,6 @@ cache:
     - $HOME/.composer/cache
     - $HOME/.drush/cache
     - $HOME/cache
-
-before_install:
-  - google-chrome-stable --disable-gpu --headless --remote-debugging-address=0.0.0.0 --remote-debugging-port=9222 --no-sandbox > /dev/null 2>&1 &
 
 install:
 
@@ -61,9 +59,6 @@ install:
   # Disable sendmail
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
-  # Add memcache.
-  - echo "extension=memcached.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
   # Bump up max execution time.
   - echo "max_execution_time=60" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
@@ -87,28 +82,26 @@ before_script:
   - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
 
   # Check and see if testing core module is enabled.
-  - drush pm-info cu_testing_core
+  - drush pm-info travis_hosting
   - drush pm-info cu_core
+  - drush pm-info cu_ldap
+  - drush pm-info ldap_authentication
 
   # Export db so it can be imported after every suite run.
   # Test runs that fill up the db with nodes can impact other tests.
   - drush sql-dump --result-file=$HOME/cache/express.sql
 
   # Start server.
-  - drush runserver 127.0.0.1:8888 > /dev/null 2>&1 &
-  - nc -zvv 127.0.0.1 8888; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8888..."; nc -zvv localhost 8888; out=$?; sleep 5; done
+  - drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &
+  - nc -zvv 127.0.0.1 8057; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8057..."; nc -zvv localhost 8057; out=$?; sleep 5; done
   - cd profiles/express/tests/behat
 
-  # Setting Behat environment
-  - BUILD_TOP=`dirname $TRAVIS_BUILD_DIR`
-  - BEHAT_PARAMS='{"extensions":{"Drupal\\DrupalExtension":{"drupal":{"drupal_root":"BUILD_TOP/drupal"}},"Behat\\MinkExtension":{"base_url":"http://127.0.0.1:8888/","files_path":"BUILD_TOP/drupal/profiles/express/tests/behat/assets/"}}}'
-  - BEHAT_PARAMS=`echo $BEHAT_PARAMS | sed -e s#BUILD_TOP#$BUILD_TOP#`
-  - export BEHAT_PARAMS
+  # Setting Behat environment variables is now done in behat.travis.yml for simplicity.
 
 script:
 
   # Run Behat tests.
-  - ./bin/behat --config behat.yml --verbose --tags '~@exclude_all_bundles&&~broken'
+  - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~broken'
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
