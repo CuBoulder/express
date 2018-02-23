@@ -37,6 +37,13 @@ mkdir files && chmod -R 777 files
 cd ${ROOT}/testing/profiles
 git clone git@github.com:CuBoulder/express.git
 
+# Installing the site via Drush in the next step should create the database first,
+# but if you have trouble, you can create it manually.
+mysql -u root -p
+# In MYSQL cli...
+> CREATE DATABASE testing;
+> exit
+
 # Install site. Need to use your db credentials created when installing MySQL.
 drush si express --db-url=mysql://root:@127.0.0.1/testing -y
 
