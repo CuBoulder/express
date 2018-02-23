@@ -5,7 +5,7 @@
 <?php $tag = isset($heading_tag['#tag']) ? $heading_tag['#tag'] : 'h2'; ?>
 <?php if (!empty($author_meta)): ?>
   <?php $author_meta = array_reverse($author_meta, TRUE) ?>
-  <div class="author-meta element-max-width">
+  <div class="author-meta">
     <?php print join('', $author_meta); ?>
   </div>
 <?php endif; ?>
@@ -20,7 +20,7 @@
   <?php endif; ?>
 <?php endif; ?>
 <?php print render($content['body']); ?>
-<div class="element-max-width">
+<div class="element-max-width1">
   <?php print render($content); ?>
   <?php print render($content_bottom); ?>
   <?php
