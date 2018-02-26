@@ -12,6 +12,7 @@ Feature: CU Permissions
       | site_owner     | jQuery Update | Express Layout Settings |
       | administrator  | jQuery Update | Express Layout Settings |
       | content_editor | jQuery Update | Express Layout Settings |
+      | edit_my_content| jQuery Update | Express Layout Settings |
 
 
   @api @cu_permissions
