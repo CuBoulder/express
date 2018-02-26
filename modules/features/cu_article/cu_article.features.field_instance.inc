@@ -275,7 +275,7 @@ function cu_article_field_default_field_instances() {
     'settings' => array(
       'absolute_url' => 1,
       'attributes' => array(
-        'class' => '',
+        'class' => 'button-ghost',
         'configurable_class' => 0,
         'configurable_title' => 0,
         'rel' => '',

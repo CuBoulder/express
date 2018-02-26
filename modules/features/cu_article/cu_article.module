@@ -596,7 +596,8 @@ function cu_article_preprocess_entity(&$vars) {
         // Insert categories here
       }
       $output['articles']['remaining'] = $remaining_nodes;
-      $output['articles']['more'] = isset($vars['content']['field_article_link']) ? $vars['content']['field_article_link'] : '';
+      $output['more'] = isset($vars['content']['field_article_link']) ? $vars['content']['field_article_link'] : '';
+      $output['more']['#weight'] = 100;
       $output['articles']['#prefix'] = '<div class="article-feature-remaining clearfix">';
       $output['articles']['#suffix'] = '</div>';
       $vars['content'] = $output;
