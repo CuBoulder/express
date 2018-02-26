@@ -108,15 +108,15 @@ function cu_rss_block_preprocess_entity(&$vars) {
           // Create new XMLElement
           try {
             $data = new SimpleXmlElement($xml);
-            if(isset($data->channel->item)){
-            return true;
+            if (isset($data->channel->item)) {
+              return TRUE;
             } else {
-              throw new Exception("RSS feed is fookin invalid.");
-              return false;
+              throw new Exception("The RSS feed is invalid and cannot be parsed.");
             }
-          } catch(Exception $e){
+          }
+          catch (Exception $e) {
             /* the data provided is not valid XML */
-            return watchdog('cu_rss_block', 'RSS feed is invalid. Check RSS feed.');
+            watchdog('cu_rss_block', 'RSS feed is invalid. Check RSS feed.');
           }
 
           // Convert into a nice array for us to work with.
