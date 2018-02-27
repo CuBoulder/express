@@ -5,6 +5,7 @@
  */
 
 global $databases;
+global $base_url;
 
 $db = $databases['default']['default'];
 
@@ -31,7 +32,7 @@ $config = array(
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath' => 'simplesaml/',
+    'baseurlpath' => $base_url . '/profiles/express/simplesaml/',
 
     /*
      * The 'application' configuration array groups a set configuration options
@@ -76,8 +77,8 @@ $config = array(
      * The email address will be used as the recipient address for error reports, and
      * also as the technical contact in generated metadata.
      */
-    'technicalcontact_name' => 'Administrator',
-    'technicalcontact_email' => 'na@example.org',
+    'technicalcontact_name' => 'Web Express Team',
+    'technicalcontact_email' => 'websupport@colorado.edu',
 
     /*
      * The timezone of the server. This option should be set to the timezone you want
@@ -110,7 +111,7 @@ $config = array(
      * metadata listing and diagnostics pages.
      * You can also put a hash here; run "bin/pwgen.php" to generate one.
      */
-    'auth.adminpassword' => '123',
+    'auth.adminpassword' => '{SMD5}8ChCWlklFIKZ2MIlqNZWTu7WICWdPE6X',
 
     /*
      * Set this options to true if you want to require administrator password to access the web interface
