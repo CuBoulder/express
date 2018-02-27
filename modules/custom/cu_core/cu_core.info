@@ -1,7 +1,7 @@
 name = CU Core
 description = Provides CU-specific functionality, like adding variables, to Express Core.
 core = 7.x
-version = 7.x-8.3
+version = 7.x-8.5
 package = CU-Core
 
 dependencies[] = cu_redirect

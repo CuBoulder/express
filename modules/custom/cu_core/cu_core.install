@@ -20,6 +20,10 @@ function cu_core_install() {
     module_enable(array('pantheon_hosting'));
   }
 
+  if ($hosting == 'lando') {
+    module_enable(array('lando_hosting'));
+  }
+
   // @TODO: If it's not Travis or Pantheon, assume it's NG for now.
   // Eventually update to deal with ng (2.0) vs. 3.0
   if ($hosting == FALSE) {
@@ -908,6 +912,15 @@ function cu_core_update_7038() {
     'xmlsitemap_menu'
   ));
   drupal_uninstall_modules($module_list = array('cu_events_calendar_block'), $uninstall_dependents = FALSE);
+  cu_core_revert_features();
+}
+
+/**
+ * Express 2.8.5 Update.
+ *
+ * Revert all features.
+ */
+function cu_core_update_7039() {
   cu_core_revert_features();
 }
 
