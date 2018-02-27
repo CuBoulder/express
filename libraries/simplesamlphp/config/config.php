@@ -8,8 +8,11 @@ if (!ini_get('session.save_handler')) {
   ini_set('session.save_handler', 'file');
 }
 
-$data = $GLOBALS;
-echo '<pre>' . var_export($data, true) . '</pre>';
+$drupal_dir = "../../../../../"; // wherever Drupal is
+define('DRUPAL_ROOT', $drupal_dir);
+header('Access-Control-Allow-Origin: *');
+include_once DRUPAL_ROOT . '/includes/bootstrap.inc';
+drupal_bootstrap(DRUPAL_BOOTSTRAP_DATABASE);
 
 $db = $GLOBALS['databases']['default']['default'];
 $host = $GLOBALS['base_url'];
