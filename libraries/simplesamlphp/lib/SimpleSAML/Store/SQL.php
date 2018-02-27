@@ -57,6 +57,7 @@ class SQL extends Store
         $password = $config->getString('store.sql.password', null);
         $this->prefix = $config->getString('store.sql.prefix', 'simpleSAMLphp');
 
+        // 'mysql:host=localhost;port=;dbname=lando7', 'root', 'root'
         $this->pdo = new \PDO($dsn, $username, $password);
         $this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 

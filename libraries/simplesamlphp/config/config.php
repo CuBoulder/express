@@ -4,10 +4,21 @@
  * 
  */
 
-global $databases;
-global $base_url;
+if (!ini_get('session.save_handler')) {
+  ini_set('session.save_handler', 'file');
+}
 
-$db = $databases['default']['default'];
+$data = $GLOBALS;
+echo '<pre>' . var_export($data, true) . '</pre>';
+
+$db = $GLOBALS['databases']['default']['default'];
+$host = $GLOBALS['base_url'];
+
+$username = $db['username'];
+$password = $db['password'];
+$host = $db['host'];
+$port = $db['port'];
+$database = $db['database'];
 
 $config = array(
 
@@ -32,7 +43,7 @@ $config = array(
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath' => $base_url . '/profiles/express/simplesaml/',
+    'baseurlpath' => $host .'/profiles/express/simplesaml/',
 
     /*
      * The 'application' configuration array groups a set configuration options
@@ -65,7 +76,7 @@ $config = array(
      * - 'temdir': Saving temporary files. SimpleSAMLphp will attempt to create
      *   this directory if it doesn't exist.
      * When specified as a relative path, this is relative to the SimpleSAMLphp
-     * root directory. 
+     * root directory.
      */
     'certdir' => 'cert/',
     'loggingdir' => 'log/',
@@ -77,8 +88,8 @@ $config = array(
      * The email address will be used as the recipient address for error reports, and
      * also as the technical contact in generated metadata.
      */
-    'technicalcontact_name' => 'Web Express Team',
-    'technicalcontact_email' => 'websupport@colorado.edu',
+    'technicalcontact_name' => 'Web Express Admin',
+    'technicalcontact_email' => 'OSR-DL-WEBDEV@colorado.edu',
 
     /*
      * The timezone of the server. This option should be set to the timezone you want
@@ -373,7 +384,7 @@ $config = array(
     /*
      * SQL database credentials
      */
-    'database.username' => 'simplesamlphp',
+    'database.username' => 'saml',
     'database.password' => 'secret',
 
     /*
@@ -418,7 +429,7 @@ $config = array(
      * one of the functionalities below, but in some cases you could run multiple functionalities.
      * In example when you are setting up a federation bridge.
      */
-    'enable.saml20-idp' => false,
+    'enable.saml20-idp' => true,
     'enable.shib13-idp' => false,
     'enable.adfs-idp' => false,
     'enable.wsfed-sp' => false,
@@ -457,7 +468,6 @@ $config = array(
      * ),
      *
      */
-
 
 
     /*************************
@@ -1020,27 +1030,17 @@ $config = array(
      * See http://www.php.net/manual/en/pdo.drivers.php for the various
      * syntaxes.
      */
-    'store.sql.dsn'                 => 'mysql:host='. $db['host'] .';port='. $db['port'] .';dbname='. $db['database'],
+    'store.sql.dsn'                 => 'mysql:host='. $host .';port='. $port .';dbname='. $database,
 
     /*
      * The username and password to use when connecting to the database.
      */
-    'store.sql.username' => $db['username'],
-    'store.sql.password' => $db['password'],
+    'store.sql.username'            => $username,
+    'store.sql.password'            => $password,
 
     /*
      * The prefix we should use on our tables.
      */
-    'store.sql.prefix' => 'SimpleSAMLphp',
+    'store.sql.prefix'              => 'SimpleSAMLphp',
 
-    /*
-     * The hostname and port of the Redis datastore instance.
-     */
-    'store.redis.host' => 'localhost',
-    'store.redis.port' => 6379,
-
-    /*
-     * The prefix we should use on our Redis datastore.
-     */
-    'store.redis.prefix' => 'SimpleSAMLphp',
 );

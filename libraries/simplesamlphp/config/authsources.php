@@ -1,6 +1,6 @@
 <?php
 
-global $base_root;
+$host = $GLOBALS['base_url'];
 
 $config = array(
 
@@ -68,7 +68,7 @@ $config = array(
 
     'cu_boulder' => array(
       'saml:SP',
-      'entityID' => $base_root, //'www-dev.colorado.edu',
+      'entityID' => $host, //'www-dev.colorado.edu',
       'privatekey' => 'saml.pem',
       'certificate' => 'saml.crt',
       'idp' => 'https://fedauth.colorado.edu/idp/shibboleth',
