@@ -9,10 +9,12 @@
  * Implements hook_install().
  */
 function cu_saml_install() {
+  global $base_url;
   $samllibrary = libraries_get_path('simplesamlphp', $base_path = FALSE);
+  $full_path = $base_url .'/'. $samllibrary;
 
   variable_get('simplesamlphp_auth_activate', 0);
-  variable_set('simplesamlphp_auth_installdir', $samllibrary);
+  variable_set('simplesamlphp_auth_installdir', $full_path);
   variable_set('simplesamlphp_auth_authsource', 'cu_boulder');
   variable_set('simplesamlphp_auth_forcehttps', 1);
   variable_set('simplesamlphp_auth_user_name', 'urn:oid:0.9.2342.19200300.100.1.1');

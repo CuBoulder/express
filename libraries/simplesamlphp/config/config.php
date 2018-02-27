@@ -8,20 +8,15 @@ if (!ini_get('session.save_handler')) {
   ini_set('session.save_handler', 'file');
 }
 
-$drupal_dir = "../../../../../"; // wherever Drupal is
-define('DRUPAL_ROOT', $drupal_dir);
-header('Access-Control-Allow-Origin: *');
-include_once DRUPAL_ROOT . '/includes/bootstrap.inc';
-drupal_bootstrap(DRUPAL_BOOTSTRAP_DATABASE);
+$username = 'root';
+$password = 'root';
+$host = 'localhost';
+$port = '80';
+$database = 'database';
 
-$db = $GLOBALS['databases']['default']['default'];
-$host = $GLOBALS['base_url'];
-
-$username = $db['username'];
-$password = $db['password'];
-$host = $db['host'];
-$port = $db['port'];
-$database = $db['database'];
+$url = $_SERVER['SERVER_NAME'];
+$path = $_SERVER['REQUEST_URI'];
+$site_name = preg_match('/.*?\/(.*?)\//', $path, $match);
 
 $config = array(
 
@@ -46,7 +41,7 @@ $config = array(
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath' => $host .'/profiles/express/simplesaml/',
+    'baseurlpath' => 'http://' . $url . $match[0] . 'profiles/express/simplesaml/',
 
     /*
      * The 'application' configuration array groups a set configuration options
