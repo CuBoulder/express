@@ -43,6 +43,7 @@ function express_permissions_secure_permissions_roles() {
   return array(
     'anonymous user',
     'authenticated user',
+    'form_owner',
     'edit_my_content',
     'administrator',
     'content_editor',

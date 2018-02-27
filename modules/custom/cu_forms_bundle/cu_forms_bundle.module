@@ -36,14 +36,17 @@ function cu_forms_bundle_secure_permissions($role) {
       'delete own webform submissions',
       'edit own webform submissions',
     ),
-    'content_editor' => array(
+    'form_owner' => array(
+      'view the administration theme',
       'access own webform results',
-      'create webform content',
-      'delete any webform content',
-      'delete own webform content',
-      'edit any webform content',
-      'edit own webform content',
+      'access own webform submissions',
+      'edit own webform submissions',
+      'delete own webform submissions',
       'edit webform components',
+      'create webform content',
+      'Use the administration navbar',
+      'access administration pages',
+      'use user dashboard',
     ),
     'developer' => array(
       'access all webform results',
