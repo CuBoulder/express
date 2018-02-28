@@ -239,7 +239,7 @@ function express_check_known_hosts() {
   }
   // Check for UCB On Prem.
   elseif (isset($_SERVER['OSR_ENV'])) {
-    return 'ucb_on_prem';
+    return 'ucb_on_prem_hosting';
   }
   // Check for NG.
   elseif (isset($_SERVER['WWWNG_ENV'])) {
