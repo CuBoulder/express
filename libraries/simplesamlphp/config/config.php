@@ -12,7 +12,7 @@ $username = 'root';
 $password = 'root';
 $host = 'localhost';
 $port = '80';
-$database = 'database';
+$database = 'lando7';
 
 $url = $_SERVER['SERVER_NAME'];
 $path = $_SERVER['REQUEST_URI'];
