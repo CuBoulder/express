@@ -8,11 +8,12 @@ if (!ini_get('session.save_handler')) {
   ini_set('session.save_handler', 'file');
 }
 
-$username = 'root';
-$password = 'root';
-$host = 'localhost';
-$port = '80';
-$database = 'lando7';
+$drupal_dir = "../../../../../"; // wherever Drupal is
+define('DRUPAL_ROOT', $drupal_dir);
+header('Access-Control-Allow-Origin: *');
+include_once(DRUPAL_ROOT . '/sites/default/settings.php');
+global $databases;
+$db = $databases['saml']['default'];
 
 $url = $_SERVER['SERVER_NAME'];
 $path = $_SERVER['REQUEST_URI'];
@@ -1028,13 +1029,13 @@ $config = array(
      * See http://www.php.net/manual/en/pdo.drivers.php for the various
      * syntaxes.
      */
-    'store.sql.dsn'                 => 'mysql:host='. $host .';port='. $port .';dbname='. $database,
+    'store.sql.dsn'                 => 'mysql:host='. $db['host'] .';port='. $db['port'] .';dbname='. $db['database'],
 
     /*
      * The username and password to use when connecting to the database.
      */
-    'store.sql.username'            => $username,
-    'store.sql.password'            => $password,
+    'store.sql.username'            => $db['username'],
+    'store.sql.password'            => $db['password'],
 
     /*
      * The prefix we should use on our tables.
