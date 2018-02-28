@@ -1,7 +1,7 @@
 Feature: Block Row Block
 In order to create interesting displays of content
 Authenticated users with proper role should be able to
-Use the Block Row Block to create and place blocks side by side.
+Use the Block Row Block to create and place other blocks side by side.
 
 @api @block-row-block
 Scenario Outline: An authenticated user should be able to access the form for adding a block row block
