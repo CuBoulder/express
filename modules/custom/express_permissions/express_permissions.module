@@ -48,6 +48,7 @@ function express_permissions_secure_permissions_roles() {
     'content_editor',
     'developer',
     'site_owner',
+    'temp_site_owner'
   );
 }
 
