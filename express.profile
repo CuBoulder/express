@@ -199,32 +199,31 @@ function express_menu_alter(&$items) {
   //@TODO: move to express_settings?
   // tried but didn't work.  Not sure why, but out of time.
   $items['admin/people']['title'] = 'Users';
-
-  // $items['admin/reports'] = array(
-  //   'access callback' => 'user_access',
-  //   'access arguments' => array('access express reports'),
-  // );
+  // 
+  $items['admin/reports']['access arguments'] = array('access express reports');
+  $items['admin/reports']['page callback'] = 'drupal_goto';
+  $items['admin/reports']['page arguments'] = array( 'admin/reports/site-reports');
 }
 
-function express_menu() {
-    $items['admin/reports'] = array(
-    'title' => 'Reports',
-    'description' => 'View reports, updates, and errors.',
-    'page callback' => 'system_admin_menu_block_page',
-    'access callback' => 'reports_access_callback',
-    // 'access arguments' => array('access reports', 'access express reports'),
-    'weight' => 5,
-    'position' => 'left',
-    'file' => 'system.admin.inc',
-  );
-  return $items;  
-}
+// function express_menu() {
+//     $items['admin/reports'] = array(
+//     'title' => 'Reports',
+//     'description' => 'View reports, updates, and errors.',
+//     'page callback' => 'system_admin_menu_block_page',
+//     'access callback' => 'reports_access_callback',
+//     // 'access arguments' => array('access reports', 'access express reports'),
+//     'weight' => 5,
+//     'position' => 'left',
+//     'file' => 'system.admin.inc',
+//   );
+//   return $items;  
+// }
 
-function reports_access_callback() {
-  if ((user_access('access express reports') || user_access('access site reports')))
-    return TRUE;
+// function reports_access_callback() {
+//   if ((user_access('access express reports') || user_access('access site reports')))
+//     return TRUE;
   
-}
+// }
 
 function express_permission(){
   return array(
@@ -242,9 +241,11 @@ function express_secure_permissions($role) {
       'access express reports',
 
     ),
+    'developer' => array(
+      'access express reports',
+    ),
     'site_owner' => array(
       'access express reports',
-
     ),
   );
 
