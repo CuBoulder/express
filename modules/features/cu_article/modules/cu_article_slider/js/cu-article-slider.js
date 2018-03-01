@@ -1,7 +1,7 @@
 (function( $ ){
   $(document).ready(function() {
     $('.article-slider').flickity({
-      'wrapAround': false,
+      'wrapAround': true,
       'adaptiveHeight': true,
       'draggable': false,
       'cellAlign': 'left',

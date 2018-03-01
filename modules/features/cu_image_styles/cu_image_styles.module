@@ -116,8 +116,8 @@ function cu_image_styles_image_default_styles() {
         'module' => 'focal_point',
         'name' => 'focal_point_scale_and_crop',
         'data' => array(
-          'width' => 800,
-          'height' => 450,
+          'width' => 1600,
+          'height' => 900,
           'upscale' => 1,
         ),
         'weight' => 2,
