@@ -16,7 +16,7 @@ header('Access-Control-Allow-Origin: *');
 $drupal_dir = '/data/web'. $match[0] .'sites/default/settings.local_post.php';
 include_once($drupal_dir);
 $db = $databases['saml']['default'];
-var_dump($_SERVER);
+var_dump($GLOBALS);
 
 $config = array(
 
