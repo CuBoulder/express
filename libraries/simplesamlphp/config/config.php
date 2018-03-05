@@ -9,10 +9,9 @@ if (!ini_get('session.save_handler')) {
 }
 
 $drupal_dir = "../../../../../"; // wherever Drupal is
-define(DRUPAL_ROOT, $drupal_dir);
+define('DRUPAL_ROOT', $drupal_dir);
 header('Access-Control-Allow-Origin: *');
 include_once(DRUPAL_ROOT . '/sites/default/settings.php');
-global $databases;
 $db = $databases['saml']['default'];
 
 $url = $_SERVER['SERVER_NAME'];
