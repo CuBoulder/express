@@ -19,7 +19,7 @@ $parts = explode('/', $path);
 $cwd5 = array_slice($parts, 5, 5);
 $newpath = implode('/', $cwd5);
 */
-$drupal_dir = '../../../../sites/default/settings.php';
+$drupal_dir = '../../../../sites/default/settings.local_post.php';
 
 include($drupal_dir);
 $db = $databases['saml']['default'];
