@@ -13,13 +13,17 @@ $path = $_SERVER['REQUEST_URI'];
 $site_name = preg_match('/.*?\/(.*?)\//', $path, $match);
 
 header('Access-Control-Allow-Origin: *');
+/*
+$cwd = getcwd();
+$parts = explode('/', $path);
+$cwd5 = array_slice($parts, 5, 5);
+$newpath = implode('/', $cwd5);
+*/
 $drupal_dir = '../../../../../sites/default/settings.php';
-//$drupal_dir = '../../../../../sites/default/settings.local_post.php';
-// /p1d0d212264e/profiles/express/libraries/simplesamlphp/config/config.php
 
-include_once($drupal_dir);
+include($drupal_dir);
 $db = $databases['saml']['default'];
-var_dump(getcwd());
+var_dump($drupal_dir);
 
 $config = array(
 
