@@ -24,6 +24,7 @@ $drupal_dir = '../../../../sites/default/settings.local_post.php';
 include($drupal_dir);
 $db = $databases['saml']['default'];
 var_dump($drupal_dir);
+var_dump(getcwd());
 
 $config = array(
 
