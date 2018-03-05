@@ -8,15 +8,13 @@ if (!ini_get('session.save_handler')) {
   ini_set('session.save_handler', 'file');
 }
 
-$drupal_dir = '../../../../..'; // wherever Drupal is
-define('DRUPAL_ROOT', $drupal_dir);
-header('Access-Control-Allow-Origin: *');
-include_once(DRUPAL_ROOT . '/sites/default/settings.local_post.php');
-$db = $databases['saml']['default'];
-
 $url = $_SERVER['SERVER_NAME'];
 $path = $_SERVER['REQUEST_URI'];
 $site_name = preg_match('/.*?\/(.*?)\//', $path, $match);
+
+header('Access-Control-Allow-Origin: *');
+include_once('/data/web/'. $path .'/sites/default/settings.local_post.php');
+$db = $databases['saml']['default'];
 
 $config = array(
 
