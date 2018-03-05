@@ -8,12 +8,11 @@ if (!ini_get('session.save_handler')) {
   ini_set('session.save_handler', 'file');
 }
 
-$drupal_dir = readlink('../../../../cores/drupal/drupal-current/'); // wherever Drupal is
+$drupal_dir = '../../../../cores/drupal/drupal-current/'; // wherever Drupal is
 define('DRUPAL_ROOT', $drupal_dir);
 header('Access-Control-Allow-Origin: *');
 include_once(DRUPAL_ROOT . '/sites/default/settings.php');
 $db = $databases['saml']['default'];
-var_dump($drupal_dir);
 
 $url = $_SERVER['SERVER_NAME'];
 $path = $_SERVER['REQUEST_URI'];
