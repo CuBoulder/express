@@ -13,10 +13,10 @@ $path = $_SERVER['REQUEST_URI'];
 $site_name = preg_match('/.*?\/(.*?)\//', $path, $match);
 
 header('Access-Control-Allow-Origin: *');
-$drupal_dir = $_SERVER['DOCUMENT_ROOT'] .'/data/web'. $match[0] .'sites/default/settings.local_post.php';
+$drupal_dir = '/data/web'. $match[0] .'sites/default/settings.local_post.php';
 include_once($drupal_dir);
 $db = $databases['saml']['default'];
-var_dump($drupal_dir);
+var_dump($_SERVER);
 
 $config = array(
 
