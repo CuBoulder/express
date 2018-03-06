@@ -7,5 +7,9 @@ function cu_forms_bundle_enable() {
   //module_enable(FROM .INFO?);
 }
 
-
-
+/**
+ * Update permissions for new form owner role.
+ */
+function cu_forms_bundle_update_7001() {
+  secure_permissions_rebuild();
+}
