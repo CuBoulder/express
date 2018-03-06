@@ -14,7 +14,7 @@ function cu_help_express_help($variables) {
   $variables['admin/content'][] = array(
     'title' => 'Find Content Help',
     'short_title' => 'Find Content',
-    'url' => '/node/412',
+    'url' => '/node/412-test',
   );
 
   $variables['node/add'][] = array(
