@@ -23,8 +23,7 @@ $drupal_dir = $_SERVER['DOCUMENT_ROOT'] . $match[0] . 'sites/default/settings.lo
 
 include($drupal_dir);
 $db = $databases['saml']['default'];
-var_dump($drupal_dir);
-var_dump(getcwd());
+var_dump($url . $match[0]);
 
 $config = array(
 
