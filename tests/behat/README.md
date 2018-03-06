@@ -117,7 +117,7 @@ extensions:
             access_key: ""
 ```
 
-Now you should be able to run the test suite with the following command.
+Now you should be able to run the test suite with the following command:
 
 ```bash
 cd site-path/profiles/express/tests/behat
