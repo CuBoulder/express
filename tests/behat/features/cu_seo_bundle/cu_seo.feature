@@ -9,11 +9,11 @@ Given I am logged in as a user with the "site_owner" role
 @api @seo
 Scenario: The SEO tab should exist
 When I go to "admin/dashboard"
-Then I should see a "seo" element
+Then I should see a "breadcrumb" element
 
 @api @seo
 Scenario: The SEO Checklist should be populated 
-When I go to "admin/dashboard"
+When I go to "admin/dashboard/seo"
 Then I should see "Google Analytics"
 And I should see "Site Verification"
 And I should see "Link Checker"
