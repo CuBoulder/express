@@ -1,5 +1,5 @@
 Feature: User External Invite
-  Given I am an administrator
+  Given I am an "content_editor"
   When I login to a Web Express site
   I should be able to invite users to my site
 
