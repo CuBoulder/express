@@ -5,8 +5,8 @@ Feature: CU Extended Content Search Views
 
   @api @extended_search
   Scenario Outline: An authenticated user should be able to access the form for finding content
-    Given  CU - I am logged in as a user with the <role> role
-    When I am at "admin/content"
+    Given  I am logged in as a user with the <role> role
+    When I go to "admin/content"
     Then I should not see <message>
 
     Examples:
@@ -18,22 +18,22 @@ Feature: CU Extended Content Search Views
 
   @api @extended_search
   Scenario: An anonymous user should not be able to access the form for adding page content
-    Given I am an anonymous user
     When I am on "admin/content"
     Then I should see "Access denied"
 
   @api @extended_search
   Scenario: As a content_editor I should be able to see the additional fields for finding content
-    Given  CU - I am logged in as a user with the "content_editor" role
-    When I am at "admin/content"
-    Then I should see the text "Title contains"
-      And I should see the text "Node: Type"
-      And I should see the text "Promoted"
-      And I should see the text "Published"
-      And I should see the text "Author"
-      And I should see the button "Apply"
-      And I should see the button "Reset"
-      And I should see the text "Operations"
+    Given  I am logged in as a user with the "content_editor" role
+    When I go to "admin/content"
+    Then I should see "Title contains"
+      And I should see "Node: Type"
+      And I should see "Promoted"
+      And I should see "Published"
+      And I should see "Author"
+      And I should see an "#edit-submit-cu-content-administration-override-view" element
+      And I should see a ".views-reset-button" element
+      And I should see "Operations"
       And I should see the link "sort by Title"
       And I should see the link "sort by Type"
-      And I should see the link "sort by Author"
+      # Author was removed as a sortable link in the 2.8.5 release.
+      # And I should see the link "sort by Author"

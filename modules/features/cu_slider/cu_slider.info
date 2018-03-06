@@ -53,3 +53,4 @@ features[field_instance][] = field_collection_item-field_slider_slide-field_slid
 features[field_instance][] = field_collection_item-field_slider_slide-field_slider_url
 features[flexslider_optionset][] = wide_flex_slider
 features[views_view][] = cu_slider
+required = 1
