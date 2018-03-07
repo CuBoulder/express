@@ -12,7 +12,7 @@ When I go to "admin/dashboard"
 # Then I should see "User" WORKS BUT TRYING A TEST FOR CLASS ATTRIBUTE
 # And I should see "SEO"
 Then I should see an "a" element
-And the "a" element should contain "class=\"seo\""
+And the "a" element should contain "seo"
 
 @api @seo
 Scenario: The SEO Checklist should be populated with SEO functionality
@@ -43,7 +43,7 @@ And the "edit-ga-account" field should contain "UA-123456-1"
 Scenario: The Meta Tags page functionality has been added and populated
 When I go to "/"
 And I follow "edit"
-And I follow "Meta tags"
+And I click "Meta tags"
 # Then I should see "Meta tags" THIS ONE FAILS; WHAT CAN IT FIND ON PAGE???
 Then I should see "Configure the meta tags below"
 
@@ -54,4 +54,4 @@ When I fill in "edit-site-description" with "My Amazing Site Description"
 And I press "edit-submit"
 And I go to "/"
 Then I should see a "meta" element
-And the "meta" element should contain "content=\"My Amazing Site Description\""
+And the "meta" element should contain "My Amazing Site Description"
