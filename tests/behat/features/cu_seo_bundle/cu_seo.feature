@@ -41,13 +41,14 @@ And the "edit-ga-account" field should contain "UA-123456-1"
 Scenario: The Meta Tags page functionality has been added and populated
 When I go to "/"
 And I follow "edit"
+And I follow "Meta tags"
 # Then I should see "Meta tags" THIS ONE FAILS; WHAT CAN IT FIND ON PAGE???
-Then I should see "Edit Basic Page"
+Then I should see "Configure the meta tags below"
 
 @api @seo
 Scenario: Adding text to site description populates Meta tag "Description" on site homepage
 When I go to "admin/settings/site-configuration/site-description"
-When I fill in "edit-site-description" with: "My Descriptive Site Description"
+When I fill in "edit-site-description" with "My Descriptive Site Description"
 And I press "edit-submit"
 And I go to "/"
 Then I should see a "meta" element
