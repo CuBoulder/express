@@ -9,8 +9,10 @@ Given I am logged in as a user with the "site_owner" role
 @api @seo
 Scenario: The SEO tab should exist
 When I go to "admin/dashboard"
-Then I should see "User"
-And I should see "SEO"
+# Then I should see "User" WORKS BUT TRYING A TEST FOR CLASS ATTRIBUTE
+# And I should see "SEO"
+Then I should see an "a" element
+And the "a" element should contain "class=\"seo\""
 
 @api @seo
 Scenario: The SEO Checklist should be populated with SEO functionality
@@ -48,8 +50,8 @@ Then I should see "Configure the meta tags below"
 @api @seo
 Scenario: Adding text to site description populates Meta tag "Description" on site homepage
 When I go to "admin/settings/site-configuration/site-description"
-When I fill in "edit-site-description" with "My Descriptive Site Description"
+When I fill in "edit-site-description" with "My Amazing Site Description"
 And I press "edit-submit"
 And I go to "/"
 Then I should see a "meta" element
-And the "meta" element should contain "name=\"description\""
+And the "meta" element should contain "content=\"My Amazing Site Description\""
