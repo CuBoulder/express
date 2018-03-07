@@ -656,7 +656,7 @@ function express_permissions_form_user_profile_form_alter(&$form, &$form_state) 
  */
 function express_permissions_site_owner_cap(&$form, &$form_state) {
   // Limit of how many of the role we should allow.
-  $limit = 5;
+  $limit = intval(variable_get('express_permissions_owner_cap', 5));
 
   // Get Role ID.
   $role = user_role_load_by_name('site_owner');
@@ -696,7 +696,7 @@ function express_permissions_form_user_external_invite_form_alter(&$form, &$form
 
 function express_permissions_invite_site_owner_cap(&$form, &$form_state) {
   // Limit of how many of the role we should allow.
-  $limit = 5;
+  $limit = intval(variable_get('express_permissions_owner_cap', 5));
 
   // Get Role ID.
   $role = user_role_load_by_name('site_owner');
