@@ -4,9 +4,26 @@
  * 
  */
 
-global $databases;
+if (!ini_get('session.save_handler')) {
+  ini_set('session.save_handler', 'file');
+}
 
-$db = $databases['default']['default'];
+$url = $_SERVER['SERVER_NAME'];
+$path = $_SERVER['REQUEST_URI'];
+$site_name = preg_match('/.*?\/(.*?)\//', $path, $match);
+
+header('Access-Control-Allow-Origin: *');
+/*
+$cwd = getcwd();
+$parts = explode('/', $path);
+$cwd5 = array_slice($parts, 5, 5);
+$newpath = implode('/', $cwd5);
+*/
+$drupal_dir = $_SERVER['DOCUMENT_ROOT'] . $match[0] . 'sites/default/settings.local_post.php';
+
+include($drupal_dir);
+$db = $databases['saml']['default'];
+var_dump($url . $match[0]);
 
 $config = array(
 
@@ -31,7 +48,7 @@ $config = array(
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath' => 'simplesaml/',
+    'baseurlpath' => 'https://' . $url . $match[0] . 'profiles/express/simplesaml/',
 
     /*
      * The 'application' configuration array groups a set configuration options
@@ -64,7 +81,7 @@ $config = array(
      * - 'temdir': Saving temporary files. SimpleSAMLphp will attempt to create
      *   this directory if it doesn't exist.
      * When specified as a relative path, this is relative to the SimpleSAMLphp
-     * root directory. 
+     * root directory.
      */
     'certdir' => 'cert/',
     'loggingdir' => 'log/',
@@ -76,8 +93,8 @@ $config = array(
      * The email address will be used as the recipient address for error reports, and
      * also as the technical contact in generated metadata.
      */
-    'technicalcontact_name' => 'Administrator',
-    'technicalcontact_email' => 'na@example.org',
+    'technicalcontact_name' => 'Web Express Admin',
+    'technicalcontact_email' => 'OSR-DL-WEBDEV@colorado.edu',
 
     /*
      * The timezone of the server. This option should be set to the timezone you want
@@ -110,7 +127,7 @@ $config = array(
      * metadata listing and diagnostics pages.
      * You can also put a hash here; run "bin/pwgen.php" to generate one.
      */
-    'auth.adminpassword' => '123',
+    'auth.adminpassword' => '{SMD5}8ChCWlklFIKZ2MIlqNZWTu7WICWdPE6X',
 
     /*
      * Set this options to true if you want to require administrator password to access the web interface
@@ -372,7 +389,7 @@ $config = array(
     /*
      * SQL database credentials
      */
-    'database.username' => 'simplesamlphp',
+    'database.username' => 'saml',
     'database.password' => 'secret',
 
     /*
@@ -417,7 +434,7 @@ $config = array(
      * one of the functionalities below, but in some cases you could run multiple functionalities.
      * In example when you are setting up a federation bridge.
      */
-    'enable.saml20-idp' => false,
+    'enable.saml20-idp' => true,
     'enable.shib13-idp' => false,
     'enable.adfs-idp' => false,
     'enable.wsfed-sp' => false,
@@ -456,7 +473,6 @@ $config = array(
      * ),
      *
      */
-
 
 
     /*************************
@@ -1024,22 +1040,12 @@ $config = array(
     /*
      * The username and password to use when connecting to the database.
      */
-    'store.sql.username' => $db['username'],
-    'store.sql.password' => $db['password'],
+    'store.sql.username'            => $db['username'],
+    'store.sql.password'            => $db['password'],
 
     /*
      * The prefix we should use on our tables.
      */
-    'store.sql.prefix' => 'SimpleSAMLphp',
+    'store.sql.prefix'              => 'SimpleSAMLphp',
 
-    /*
-     * The hostname and port of the Redis datastore instance.
-     */
-    'store.redis.host' => 'localhost',
-    'store.redis.port' => 6379,
-
-    /*
-     * The prefix we should use on our Redis datastore.
-     */
-    'store.redis.prefix' => 'SimpleSAMLphp',
 );
