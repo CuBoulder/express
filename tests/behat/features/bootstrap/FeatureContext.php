@@ -340,5 +340,38 @@ class FeatureContext extends MinkContext
     }
   }
 
-
+ /**
+   * @Then I (should) see the :tag element with the :attribute attribute set to :value 
+   */
+    public function assertElementAttribute($tag, $attribute, $value)
+    {
+       
+        $elements = findAll('css', $tag);
+        if (empty($elements)) {
+            throw new \Exception(sprintf('The element "%s" was not found'));
+        }
+        if (!empty($attribute)) {
+            $found = false;
+            $attrfound = false;
+            foreach ($elements as $element) {
+                $attr = $element->getAttribute($attribute);
+                if (!empty($attr)) {
+                    $attrfound = true;
+                    if (strpos($attr, "$value") !== false) {
+                        $found = true;
+                        break;
+                    }
+                }
+            }
+            if (!$found) {
+                if (!$attrfound) {
+                    throw new \Exception(sprintf('The "%s" attribute is not present on the element "%s"'));
+                } else {
+                    throw new \Exception(sprintf('The "%s" attribute does not equal "%s" on the element "%s" in the "%s" region on the page %s'));
+                }
+            }
+        }
+    }
+  
+  
 }
