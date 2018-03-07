@@ -148,8 +148,13 @@ function simplesamlphp_auth_loginpage() {
     }
 
     // Require the user to be authenticated.
-    $_simplesamlphp_auth_as->requireAuth();
+    // WAS $_simplesamlphp_auth_as->requireAuth();
+    $_simplesamlphp_auth_as->requireAuth(array(
+     // explicitly not setting port to prevent bad port redirects
+      'ReturnTo' => 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
+    ));
     // If the user is authenticated, send them along.
+
   }
   else {
 
