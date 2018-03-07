@@ -32,9 +32,10 @@ Then I should not see "the website encountered an unexpected error"
 @api @seo
 Scenario: A Google Analytics number can be added to site
 When I go to "admin/settings/site-configuration/google-analytics"
-And I fill in "edit-ga-account" with: "UA-123456-1"
+And I fill in "edit-ga-account" with "UA-123456-1"
 And I press "edit-submit"
 Then I should see "The configuration options have been saved"
+And the "edit-ga-account" field should contain "UA-123456-1"
 
 @api @seo
 Scenario: The Meta Tags page functionality has been added and populated
