@@ -12,7 +12,7 @@ When I go to "admin/dashboard"
 # Then I should see "User" WORKS BUT TRYING A TEST FOR CLASS ATTRIBUTE
 # And I should see "SEO"
 Then I should see an "a" element
-And the "a" element should contain "seo"
+Then the "a" element should have "seo" in the "class" attribute
 
 @api @seo
 Scenario: The SEO Checklist should be populated with SEO functionality
@@ -54,4 +54,4 @@ When I fill in "edit-site-description" with "My Amazing Site Description"
 And I press "edit-submit"
 And I go to "/"
 Then I should see a "meta" element
-And the "meta" element should contain "My Amazing Site Description"
+Then the "meta" element should have "My Amazing Site Description" in the "content" attribute
