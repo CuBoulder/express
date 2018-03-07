@@ -9,10 +9,10 @@ Given I am logged in as a user with the "site_owner" role
 @api @seo
 Scenario: The SEO tab should exist
 When I go to "admin/dashboard"
-# Then I should see "User" WORKS BUT TRYING A TEST FOR CLASS ATTRIBUTE
-# And I should see "SEO"
-Then the "body" element should contain "style=\"padding-top: 79px;\""
-Then the "a" element should contain "class=\"seo\""
+Then I should see "User"
+And I should see "SEO"
+And the "body" element should contain "style=\"padding-top: 79px;\""
+
 
 @api @seo
 Scenario: The SEO Checklist should be populated with SEO functionality
@@ -41,9 +41,8 @@ And the "edit-ga-account" field should contain "UA-654321-1"
 
 @api @seo
 Scenario: The Meta Tags page functionality has been added and populated
-When I go to "/"
-And I follow "edit"
-And I wait for AJAX
+When I am on the homepage
+And I follow "Edit"
 Then I should see the link "Meta tags"
 # And I click "Meta tags"
 # Then I should see "Meta tags" THIS ONE FAILS; WHAT CAN IT FIND ON PAGE???
