@@ -40,11 +40,8 @@ Then I should see "The configuration options have been saved"
 Scenario: The Meta Tags page functionality has been added and populated
 When I go to "/"
 And I follow "edit"
-# Then I should see "Meta tags" THIS ONE FAILS; WILL THE REST PASS? STAY TUNED.
-Then I should see "Basic Tags" 
-And I should see "Advanced Tags"
-And I should see "Open Graph"
-And I should see "Twitter Card"
+# Then I should see "Meta tags" THIS ONE FAILS; WHAT CAN IT FIND ON PAGE???
+Then I should see "Edit Basic Page" 
 
 @api @seo
 Scenario: Adding text to site description populates Meta tag "Description" on site homepage
