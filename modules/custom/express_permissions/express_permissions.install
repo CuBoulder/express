@@ -68,3 +68,11 @@ function express_permissions_update_7001() {
   user_role_save($role);
 }
 
+/**
+ * Add Form Owner as a user role.
+ */
+function express_permissions_update_7002() {
+  $role = user_role_load_by_name('form_owner');
+  $role->weight = 2;
+  user_role_save($role);
+}
