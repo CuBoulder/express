@@ -9,7 +9,7 @@ Given I am logged in as a user with the "site_owner" role
 @api @seo
 Scenario: The SEO tab should exist
 When I go to "admin/dashboard"
-Then I should see a "breadcrumb" element
+Then I should see a "meta" element
 
 @api @seo
 Scenario: The SEO Checklist should be populated 
@@ -37,7 +37,8 @@ Then I should see "The configuration options have been saved"
 
 @api @seo
 Scenario: The Meta Tags page functionality has been added and populated
-When I go to "node/2/edit"
+When I go to "/"
+And I follow "edit"
 Then I should see "Meta tags" 
 And I should see "Basic Tags" 
 And I should see "Advanced Tags"
