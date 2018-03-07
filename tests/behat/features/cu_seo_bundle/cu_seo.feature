@@ -1,6 +1,6 @@
 Feature: Search Engine Optimization Bundle
   In order to optimize my site content for search engines
-  As a Site Owner or Content Editor
+  As a Site Owner
   I should be able access and edit SEO links and functionality
 
 Background: 
@@ -29,15 +29,15 @@ Scenario: The SEO Link Checker should work
 When I go to "admin/settings/seo/linkchecker-analyze"
 And I press "edit-linkchecker-analyze"
 # Then I should see I DON'T KNOW; IT'S BROKEN ON ALL SITES RIGHT NOW
-Then I should not see "the website encountered an unexpected error"
+Then I should not see "unexpected error"
 
 @api @seo
 Scenario: A Google Analytics number can be added to site
 When I go to "admin/settings/site-configuration/google-analytics"
-And I fill in "edit-ga-account" with "UA-123456-1"
+And I fill in "edit-ga-account" with "UA-654321-1"
 And I press "edit-submit"
 Then I should see "The configuration options have been saved"
-And the "edit-ga-account" field should contain "UA-123456-1"
+And the "edit-ga-account" field should contain "UA-654321-1"
 
 @api @seo
 Scenario: The Meta Tags page functionality has been added and populated
