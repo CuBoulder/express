@@ -176,15 +176,13 @@ function _linkchecker_bean_add_bean_links($bean, $skip_missing_links_detection =
     // add missing links to database.
     $missing_links = _linkchecker_bean_links_missing($bean->bid, $links);
 
-    // Ignore slave database briefly.
-    variable_set('maximum_replication_lag', 300);
-    db_ignore_slave();
-
     // Only add unique links to database that do not exist.
     $i = 0;
     foreach ($missing_links as $url) {
       $urlhash = drupal_hash_base64($url);
-      $link = db_query('SELECT lid FROM {linkchecker_link} WHERE urlhash = :urlhash', array(':urlhash' => $urlhash))->fetchObject();
+      $link = db_query('SELECT lid FROM {linkchecker_link} WHERE urlhash = :urlhash',
+        array(':urlhash' => $urlhash), 
+        array('target' => 'default'))->fetchObject();
       if (!$link) {
         $link = new stdClass();
         $link->urlhash = $urlhash;
@@ -206,10 +204,6 @@ function _linkchecker_bean_add_bean_links($bean, $skip_missing_links_detection =
         $txn->rollback();
         watchdog_exception('linkchecker_bean', $e);
       }
-
-      // Go back to using the slave database.
-      // db_ignore_slave() sets this session variable that another function uses to see if the slave should be ignored.
-      unset($_SESSION['ignore_slave_server']);
 
       // Break processing if max links limit per run has been reached.
       $i++;
@@ -300,7 +294,9 @@ function _linkchecker_bean_cleanup_bean_references($bid = 0, $links = array()) {
  * Returns an array of bean references missing in the linkchecker_bean table.
  */
 function _linkchecker_bean_links_missing($bid, $links) {
-  $result = db_query('SELECT ll.url FROM {linkchecker_link} ll INNER JOIN {linkchecker_bean} lb ON lb.lid = ll.lid WHERE lb.bid = :bid AND ll.urlhash IN (:urlhashes)', array(':bid' => $bid, ':urlhashes' => array_map('drupal_hash_base64', $links)));
+  $result = db_query('SELECT ll.url FROM {linkchecker_link} ll INNER JOIN {linkchecker_bean} lb ON lb.lid = ll.lid WHERE lb.bid = :bid AND ll.urlhash IN (:urlhashes)', 
+    array(':bid' => $bid, ':urlhashes' => array_map('drupal_hash_base64', $links)), 
+    array('target' => 'default'));
   $links_in_database = array();
   foreach ($result as $row) {
     $links_in_database[] = $row->url;
