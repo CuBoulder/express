@@ -42,10 +42,7 @@ Scenario: The Meta Tags page functionality has been added and populated
 When I am on the homepage
 And I follow "Edit"
 Then the response should contain "id=\"edit-metatags\""
-Then I should see the link "Meta tags"
-# And I click "Meta tags"
-# Then I should see "Meta tags" THIS ONE FAILS; WHAT CAN IT FIND ON PAGE???
-# Then I should see "Configure the meta tags below"
+And the response should contain "Configure the meta tags below"
 
 @api @seo
 Scenario: Adding text to site description populates Meta tag "Description" on site homepage
