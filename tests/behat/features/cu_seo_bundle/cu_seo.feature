@@ -26,7 +26,7 @@ And I should see "Content Updated"
 Scenario: The SEO Link Checker should work
 When I go to "admin/settings/seo/linkchecker-analyze"
 And I press "edit-linkchecker-analyze"
-# Then I should see I DON'T KNOW; IT'S BROKEN ON ALL SITES RIGHT NOW
+# Then I should see DON'T KNOW; IT'S BROKEN ON ALL SITES RIGHT NOW; SHOULD NOT SEE THE FOLLOWING:
 Then I should not see "unexpected error"
 
 @api @seo
