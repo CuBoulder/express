@@ -39,7 +39,7 @@ And the "edit-ga-account" field should contain "UA-654321-1"
 
 @api @seo
 Scenario: The Meta Tags page functionality has been added and populated
-When I am on the homepage
+When I go to "/"
 And I follow "Edit"
 # CHECKING TO SEE IF WE ACTUALLY DO FOLLOW EDIT
 Then the response should contain "<title>Edit Basic page Home"
