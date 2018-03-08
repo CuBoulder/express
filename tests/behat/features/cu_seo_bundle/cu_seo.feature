@@ -41,8 +41,9 @@ And the "edit-ga-account" field should contain "UA-654321-1"
 Scenario: The Meta Tags page functionality has been added and populated
 When I am on the homepage
 And I follow "Edit"
-Then the response should contain "Configure the meta tags below"
-# And I wait 5 seconds
+# CHECKING TO SEE IF WE ACTUALLY DO FOLLOW EDIT
+Then the response should contain "<title>Edit Basic page Home"
+# Then the response should contain "Configure the meta tags below"
 # Then the response should contain "<span class=\"fieldset-legend\">Meta tags</span>"
 # And the response should contain "edit-metatags-und-"
 # And the response should contain "Configure the meta tags below"
