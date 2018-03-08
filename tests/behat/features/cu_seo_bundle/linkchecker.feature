@@ -7,5 +7,5 @@ Feature: Linkchecker Features
       And am on "admin/settings"
     When I follow "Link Checker - Analyze Content"
       And I press "Analyze content for links"
-      And I wait 5 seconds
+      And I wait 10 seconds
     Then I should see "blocks have been scanned"
