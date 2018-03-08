@@ -41,11 +41,12 @@ And the "edit-ga-account" field should contain "UA-654321-1"
 Scenario: The Meta Tags page functionality has been added and populated
 When I am on the homepage
 And I follow "Edit"
-And I wait 5 seconds
-Then the response should contain "<span class=\"fieldset-legend\">Meta tags</span>"
-And the response should contain "edit-metatags-und-"
-And the response should contain "Configure the meta tags below"
-And the response should contain "id=\"edit-metatags\""
+Then the response should contain "Configure the meta tags below"
+# And I wait 5 seconds
+# Then the response should contain "<span class=\"fieldset-legend\">Meta tags</span>"
+# And the response should contain "edit-metatags-und-"
+# And the response should contain "Configure the meta tags below"
+# And the response should contain "id=\"edit-metatags\""
 
 @api @seo
 Scenario: Adding text to site description populates Meta tag "Description" on site homepage
