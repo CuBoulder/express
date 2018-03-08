@@ -11,8 +11,6 @@ Scenario: The SEO tab should exist
 When I go to "admin/dashboard"
 Then I should see "User"
 And I should see "SEO"
-And I should see the "a" element with the "class" attribute set to "seo"
-
 
 @api @seo
 Scenario: The SEO Checklist should be populated with SEO functionality
@@ -43,6 +41,7 @@ And the "edit-ga-account" field should contain "UA-654321-1"
 Scenario: The Meta Tags page functionality has been added and populated
 When I am on the homepage
 And I follow "Edit"
+Then the response should contain "id=\"edit-metatags\""
 Then I should see the link "Meta tags"
 # And I click "Meta tags"
 # Then I should see "Meta tags" THIS ONE FAILS; WHAT CAN IT FIND ON PAGE???
@@ -54,6 +53,6 @@ When I go to "admin/settings/site-configuration/site-description"
 When I fill in "edit-site-description" with "My Amazing Site Description"
 And I press "edit-submit"
 And I go to "/"
-And I should see the "meta" element with the "name" attribute set to "description"
+Then the response should contain "content=\"My Amazing Site Description\""
 # Then the "meta" element should contain "name=\"description\""
 # And the "meta" element should contain "content=\"My Amazing Site Description\""
