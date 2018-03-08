@@ -43,6 +43,7 @@ When I go to "/"
 And I follow "Edit"
 # CHECKING TO SEE IF WE ACTUALLY DO FOLLOW EDIT
 Then the response should contain "<title>Edit Basic page Home"
+And the response should contain "id=\"edit-metatags\""
 # Then the response should contain "Configure the meta tags below"
 # Then the response should contain "<span class=\"fieldset-legend\">Meta tags</span>"
 # And the response should contain "edit-metatags-und-"
