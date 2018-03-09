@@ -11,6 +11,7 @@ Scenario: The SEO tab should exist
 When I go to "admin/dashboard"
 Then I should see "User"
 And I should see "SEO"
+And I should see the "a" element with the "class" attribute set to "seo"
 
 @api @seo
 Scenario: The SEO Checklist should be populated with SEO functionality
