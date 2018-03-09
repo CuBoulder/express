@@ -26,7 +26,7 @@ And I should see "Content Updated"
 Scenario: The SEO Link Checker should work
 When I go to "admin/settings/seo/linkchecker-analyze"
 And I press "edit-linkchecker-analyze"
-# Then I should see DON'T KNOW; IT'S BROKEN ON ALL SITES RIGHT NOW; SHOULD NOT SEE THE FOLLOWING:
+# Then I should see DON'T KNOW; BROKEN ON ALL SITES RIGHT NOW; DEF SHOULD NOT SEE THE FOLLOWING:
 Then I should not see "unexpected error"
 
 @api @seo
@@ -37,7 +37,7 @@ And I press "edit-submit"
 Then I should see "The configuration options have been saved"
 And the "edit-ga-account" field should contain "UA-654321-1"
 
-@api @seo
+@api @seo @javascript
 Scenario: The Meta Tags page functionality has been added and populated
 When I go to "/"
 And I follow "Edit"
@@ -47,7 +47,6 @@ Then the response should contain "<title>Edit Basic page Home"
 And I should see "This document is now locked against simultaneous editing."
 And I should see the link "Meta tags"
 
-
 @api @seo
 Scenario: Adding text to site description populates Meta tag "Description" on site homepage
 When I go to "admin/settings/site-configuration/site-description"
@@ -56,7 +55,7 @@ And I press "edit-submit"
 And I go to "/"
 Then the response should contain "content=\"My Amazing Site Description\""
 
-@api @seo
+@api @seo @javacript
 Scenario: The Meta Tags page functionality has been added and populated
 When I go to "/"
 And I follow "Edit"
