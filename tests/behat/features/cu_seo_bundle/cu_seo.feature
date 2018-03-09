@@ -6,12 +6,12 @@ Feature: Search Engine Optimization Bundle
 Background: 
 Given I am logged in as a user with the "site_owner" role
 
-@api @attributetest
+@api @seo
 Scenario: There should be a foobar element
 When I go to "/"
 And I should see an "foobar" element with the "class" attribute set to "html"
 
-@api @seo @attributetest
+@api @seo
 Scenario: The SEO tab should exist
 When I go to "admin/dashboard"
 Then I should see "User"
@@ -53,7 +53,7 @@ And I follow "Edit"
 Then the response should contain "<title>Edit Basic page Home"
 And I should see "This document is now locked against simultaneous editing."
 #CAN WE EVEN FIND LINKS?
-And I should see the link "view online tutorials"
+And I should see an "a" element with the "class" attribute set to "link-edit-summary"
 And I should see the link "Edit summary"
 
 @api @seo
