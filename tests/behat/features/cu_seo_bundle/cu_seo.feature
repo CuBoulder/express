@@ -11,7 +11,7 @@ Scenario: The SEO tab should exist
 When I go to "admin/dashboard"
 Then I should see "User"
 And I should see "SEO"
-And I should see the "a" element with the "class" attribute set to "seo"
+And I should see an "a" element with the "class" attribute set to "foobar"
 
 @api @seo
 Scenario: The SEO Checklist should be populated with SEO functionality
@@ -60,7 +60,8 @@ Then the response should contain "content=\"My Amazing Site Description\""
 Scenario: The Meta Tags page functionality has been added and populated
 When I go to "/"
 And I follow "Edit"
-Then the response should contain "id=\"edit-metatags\"" 
+Then I should see a "fieldset" element with the "id" attribute set to "edit-metatags"
+And the response should contain "id=\"edit-metatags\"" 
 # And the response should contain "<strong>Meta tags</strong>"
 # And the response should contain "<span class=\"fieldset-legend\">Meta tags</span>" 
 # And the response should contain "id=\"edit-metatags\"" 
