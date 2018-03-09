@@ -367,9 +367,9 @@ class FeatureContext extends MinkContext
             }
             if (!$found) {
                 if (!$attrfound) {
-                    throw new \Exception(sprintf('The "%s" attribute is not present on the element "%s"'));
+                    throw new \Exception(sprintf('Attribute not present on element'));
                 } else {
-                    throw new \Exception(sprintf('The "%s" attribute does not equal "%s" on the element "%s"'));
+                    throw new \Exception(sprintf('Attribute is present but of different value'));
                 }
             }
         }
