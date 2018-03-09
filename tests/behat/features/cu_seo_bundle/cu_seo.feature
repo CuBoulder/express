@@ -46,7 +46,9 @@ And I follow "Edit"
 # CHECKING TO SEE IF WE ACTUALLY DO FOLLOW EDIT - YES WE DO; THE TITLE BELOW SHOWS UP
 Then the response should contain "<title>Edit Basic page Home"
 And I should see "This document is now locked against simultaneous editing."
-And I should see the link "Meta tags"
+#CAN WE EVEN FIND LINKS?
+And I should see the link "view online tutorials"
+And I should see the link "Edit summary"
 
 @api @seo
 Scenario: Adding text to site description populates Meta tag "Description" on site homepage
@@ -61,7 +63,7 @@ Scenario: The Meta Tags page functionality has been added and populated
 When I go to "/"
 And I follow "Edit"
 Then I should see a "fieldset" element with the "id" attribute set to "edit-metatags"
-And the response should contain "id=\"edit-metatags\"" 
+# And the response should contain "id=\"edit-metatags\"" 
 # And the response should contain "<strong>Meta tags</strong>"
 # And the response should contain "<span class=\"fieldset-legend\">Meta tags</span>" 
 # And the response should contain "id=\"edit-metatags\"" 
