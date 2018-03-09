@@ -6,12 +6,18 @@ Feature: Search Engine Optimization Bundle
 Background: 
 Given I am logged in as a user with the "site_owner" role
 
-@api @seo
+@api @attributetest
+Scenario: There should be a foobar element
+When I go to "/"
+And I should see an "foobar" element with the "class" attribute set to "html"
+
+@api @seo @attributetest
 Scenario: The SEO tab should exist
 When I go to "admin/dashboard"
 Then I should see "User"
 And I should see "SEO"
-And I should see an "a" element with the "class" attribute set to "foobar"
+And I should see an "a" element with the "class" attribute set to "seo"
+And I should see an "div" element with the "id" attribute set to "stupid"
 
 @api @seo
 Scenario: The SEO Checklist should be populated with SEO functionality
