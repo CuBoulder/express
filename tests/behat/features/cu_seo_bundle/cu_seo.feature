@@ -7,11 +7,6 @@ Background:
 Given I am logged in as a user with the "site_owner" role
 
 @api @seo
-Scenario: There should be print-site-logo element
-When I go to "/"
-And I should see a ".print-site-logo" element
-
-@api @seo
 Scenario: The SEO tab should exist
 When I go to "admin/dashboard"
 Then I should see "User"
@@ -44,16 +39,6 @@ Then I should see "The configuration options have been saved"
 And the "edit-ga-account" field should contain "UA-654321-1"
 
 @api @seo
-Scenario: The Meta Tags page functionality has been added and populated
-When I go to "/"
-And I follow "Edit"
-# And I wait 10 seconds WHAT IF I DON'T WAIT?
-# CHECKING TO SEE IF WE ACTUALLY DO FOLLOW EDIT - YES WE DO; THE TITLE BELOW SHOWS UP
-Then the response should contain "<title>Edit Basic page Home"
-And I should see "This document is now locked against simultaneous editing."
-And I should see an "#link-edit-summary" element
-
-@api @seo
 Scenario: Adding text to site description populates Meta tag "Description" on site homepage
 When I go to "admin/settings/site-configuration/site-description"
 When I fill in "edit-site-description" with "My Amazing Site Description"
@@ -65,14 +50,5 @@ Then the response should contain "content=\"My Amazing Site Description\""
 Scenario: The Meta Tags page functionality has been added and populated
 When I go to "/"
 And I follow "Edit"
-And I click the "#edit-metatags" element
-Then I should see "Configure the meta tags below"
-
-# Then I should see a "fieldset" element with the "id" attribute set to "edit-metatags" FAIL
-# And the response should contain "id=\"edit-metatags\"" 
-# And the response should contain "<strong>Meta tags</strong>"
-# And the response should contain "<span class=\"fieldset-legend\">Meta tags</span>" 
-# And the response should contain "id=\"edit-metatags\"" 
-# Then the response should contain "Configure the meta tags below"
-# And the response should contain "edit-metatags-und-"
-
+Then I should see an "edit-metatags" element
+And I should see an "#edit-metatags" element
