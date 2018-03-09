@@ -42,7 +42,7 @@ And the "edit-ga-account" field should contain "UA-654321-1"
 Scenario: The Meta Tags page functionality has been added and populated
 When I go to "/"
 And I follow "Edit"
-And I wait for AJAX
+# And I wait 10 seconds WHAT IF I DON'T WAIT?
 # CHECKING TO SEE IF WE ACTUALLY DO FOLLOW EDIT - YES WE DO; THE TITLE BELOW SHOWS UP
 Then the response should contain "<title>Edit Basic page Home"
 And I should see "This document is now locked against simultaneous editing."
