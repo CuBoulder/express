@@ -17,7 +17,7 @@ When I go to "admin/dashboard"
 Then I should see "User"
 And I should see "SEO"
 And I should see an "a" element with the "class" attribute set to "seo"
-And I should see an "div" element with the "id" attribute set to "stupid"
+And I should see an "div" element with the "id" attribute set to "foobar"
 
 @api @seo
 Scenario: The SEO Checklist should be populated with SEO functionality
