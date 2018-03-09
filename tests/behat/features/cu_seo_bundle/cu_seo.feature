@@ -59,7 +59,6 @@ Then the response should contain "content=\"My Amazing Site Description\""
 Scenario: The Meta Tags page functionality has been added and populated
 When I go to "/"
 And I follow "Edit"
-# CHECKING TO SEE IF WE ACTUALLY DO FOLLOW EDIT - YES WE DO; THE TITLE BELOW SHOWS UP
 Then the response should contain "id=\"edit-metatags\"" 
 # And the response should contain "<strong>Meta tags</strong>"
 # And the response should contain "<span class=\"fieldset-legend\">Meta tags</span>" 
