@@ -37,7 +37,7 @@ And I press "edit-submit"
 Then I should see "The configuration options have been saved"
 And the "edit-ga-account" field should contain "UA-654321-1"
 
-@api @seo @javascript
+@api @seo
 Scenario: The Meta Tags page functionality has been added and populated
 When I go to "/"
 And I follow "Edit"
@@ -55,7 +55,7 @@ And I press "edit-submit"
 And I go to "/"
 Then the response should contain "content=\"My Amazing Site Description\""
 
-@api @seo @javacript
+@api @seo
 Scenario: The Meta Tags page functionality has been added and populated
 When I go to "/"
 And I follow "Edit"
