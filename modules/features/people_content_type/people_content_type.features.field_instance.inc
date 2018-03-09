@@ -1049,7 +1049,78 @@ function people_content_type_field_default_field_instances() {
         'summary_rows' => 5,
       ),
       'type' => 'text_textarea_with_summary',
-      'weight' => 20,
+      'weight' => 24,
+    ),
+  );
+
+  // Exported field_instance: 'node-person-field_fis_id'.
+  $field_instances['node-person-field_fis_id'] = array(
+    'bundle' => 'person',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => 'Used to retrieve staff publications. ID is six characters long.',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => '',
+        ),
+        'type' => 'number_integer',
+        'weight' => 15,
+      ),
+      'embed' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'sidebar' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'table' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'teaser' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'title' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'node',
+    'fences_wrapper' => 'div_div_div',
+    'field_name' => 'field_fis_id',
+    'label' => 'CU Faculty Information System ID',
+    'required' => 0,
+    'settings' => array(
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 23,
     ),
   );
 
@@ -1120,7 +1191,7 @@ function people_content_type_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 13,
+      'weight' => 12,
     ),
   );
 
@@ -1340,7 +1411,7 @@ function people_content_type_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 23,
+      'weight' => 25,
     ),
   );
 
@@ -1410,7 +1481,7 @@ function people_content_type_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 24,
+      'weight' => 26,
     ),
   );
 
@@ -1480,7 +1551,7 @@ function people_content_type_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'taxonomy_autocomplete',
-      'weight' => 25,
+      'weight' => 27,
     ),
   );
 
@@ -1764,7 +1835,7 @@ function people_content_type_field_default_field_instances() {
         'rows' => 5,
       ),
       'type' => 'text_textarea',
-      'weight' => 14,
+      'weight' => 13,
     ),
   );
 
@@ -2164,6 +2235,7 @@ function people_content_type_field_default_field_instances() {
   // Included for use with string extractors like potx.
   t('Address');
   t('Body');
+  t('CU Faculty Information System ID');
   t('Choose how the people are displayed in the list.');
   t('Department');
   t('Display');
@@ -2191,6 +2263,7 @@ function people_content_type_field_default_field_instances() {
   t('Show Job Type Filter');
   t('Title');
   t('Used to group people into categories such as administration, faculty, staff, etc.');
+  t('Used to retrieve staff publications. ID is six characters long.');
   t('You can make a custom order by reordering the <a href="[site:url]/admin/structure/taxonomy">taxonomy terms</a>.');
   t('You can set the order of the groups by reordering the <a href="[site:url]/admin/structure/taxonomy">taxonomy terms</a>.');
 

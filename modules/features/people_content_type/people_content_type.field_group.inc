@@ -52,11 +52,12 @@ function people_content_type_field_group_info() {
   $field_group->parent_name = '';
   $field_group->data = array(
     'label' => 'Information',
-    'weight' => '6',
+    'weight' => '3',
     'children' => array(
       0 => 'group_contact',
       1 => 'group_other',
       2 => 'group_personal',
+      3 => 'group_publications',
     ),
     'format_type' => 'htabs',
     'format_settings' => array(
@@ -79,12 +80,13 @@ function people_content_type_field_group_info() {
   $field_group->parent_name = 'group_information';
   $field_group->data = array(
     'label' => 'Other',
-    'weight' => '24',
+    'weight' => '25',
     'children' => array(
       0 => 'body',
       1 => 'field_person_filter_1',
       2 => 'field_person_filter_2',
       3 => 'field_person_filter_3',
+      4 => 'field_fis_id',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
