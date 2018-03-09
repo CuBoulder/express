@@ -341,7 +341,7 @@ class FeatureContext extends MinkContext
   }
 
 /**
-   * @Then I (should) see the :tag element with the :attribute attribute set to :value 
+   * @Then I (should) see a/an :tag element with the :attribute attribute set to :value 
    */
     public function assertElementAttribute($tag, $attribute, $value)
     {
