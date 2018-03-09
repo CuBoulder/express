@@ -7,9 +7,9 @@ Background:
 Given I am logged in as a user with the "site_owner" role
 
 @api @seo
-Scenario: There should be a foobar element
+Scenario: There should be print-site-logo element
 When I go to "/"
-And I should see an "foobar" element with the "class" attribute set to "html"
+And I should see a ".print-site-logo" element
 
 @api @seo
 Scenario: The SEO tab should exist
@@ -17,7 +17,6 @@ When I go to "admin/dashboard"
 Then I should see "User"
 And I should see "SEO"
 And I should see an "a" element with the "class" attribute set to "seo"
-And I should see an "div" element with the "id" attribute set to "foobar"
 
 @api @seo
 Scenario: The SEO Checklist should be populated with SEO functionality
@@ -52,9 +51,7 @@ And I follow "Edit"
 # CHECKING TO SEE IF WE ACTUALLY DO FOLLOW EDIT - YES WE DO; THE TITLE BELOW SHOWS UP
 Then the response should contain "<title>Edit Basic page Home"
 And I should see "This document is now locked against simultaneous editing."
-#CAN WE EVEN FIND LINKS?
-And I should see an "a" element with the "class" attribute set to "link-edit-summary"
-And I should see the link "Edit summary"
+And I should see an "#link-edit-summary" element
 
 @api @seo
 Scenario: Adding text to site description populates Meta tag "Description" on site homepage
@@ -68,7 +65,10 @@ Then the response should contain "content=\"My Amazing Site Description\""
 Scenario: The Meta Tags page functionality has been added and populated
 When I go to "/"
 And I follow "Edit"
-Then I should see a "fieldset" element with the "id" attribute set to "edit-metatags"
+And I click the "#edit-metatags" element
+Then I should see "Configure the meta tags below"
+
+# Then I should see a "fieldset" element with the "id" attribute set to "edit-metatags" FAIL
 # And the response should contain "id=\"edit-metatags\"" 
 # And the response should contain "<strong>Meta tags</strong>"
 # And the response should contain "<span class=\"fieldset-legend\">Meta tags</span>" 
