@@ -350,7 +350,7 @@ class FeatureContext extends MinkContext
       $page = $session->getPage();
 	  $elements = $page->findAll('css', $tag);
         if (empty($elements)) {
-            throw new \Exception(sprintf('The element "%s" was not found'));
+            throw new \Exception(sprintf('No such element on page'));
         }
         if (!empty($attribute)) {
             $found = false;
@@ -367,9 +367,9 @@ class FeatureContext extends MinkContext
             }
             if (!$found) {
                 if (!$attrfound) {
-                    throw new \Exception(sprintf('Attribute not present on element'));
+                    throw new \Exception(sprintf('Element yes, attribute no'));
                 } else {
-                    throw new \Exception(sprintf('Attribute is present but of different value'));
+                    throw new \Exception(sprintf('Element yes, attribute yes, specified value no'));
                 }
             }
         }
