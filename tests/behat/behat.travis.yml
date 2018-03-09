@@ -21,7 +21,6 @@ default:
             goutte:
               guzzle_parameters:
                   verify: false
-            selenium2: ~
           sauce:
             sauce_labs:
               # Browser defaults to Firefox if left out.
