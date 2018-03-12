@@ -86,7 +86,6 @@ function people_content_type_field_group_info() {
       1 => 'field_person_filter_1',
       2 => 'field_person_filter_2',
       3 => 'field_person_filter_3',
-      4 => 'field_fis_id',
     ),
     'format_type' => 'htab',
     'format_settings' => array(
@@ -259,6 +258,37 @@ function people_content_type_field_group_info() {
   );
   $field_groups['group_personal|node|person|form'] = $field_group;
 
+  $field_group = new stdClass();
+  $field_group->disabled = FALSE; /* Edit this to true to make a default field_group disabled initially */
+  $field_group->api_version = 1;
+  $field_group->identifier = 'group_publications|node|person|form';
+  $field_group->group_name = 'group_publications';
+  $field_group->entity_type = 'node';
+  $field_group->bundle = 'person';
+  $field_group->mode = 'form';
+  $field_group->parent_name = 'group_information';
+  $field_group->data = array(
+    'label' => 'Publications',
+    'weight' => '24',
+    'children' => array(
+      0 => 'field_fis_id',
+      1 => 'field_display_publications_by',
+      2 => 'field_number_of_publications',
+      3 => 'field_publications_heading',
+    ),
+    'format_type' => 'fieldset',
+    'format_settings' => array(
+      'formatter' => 'collapsible',
+      'instance_settings' => array(
+        'description' => '',
+        'classes' => 'group-publications field-group-fieldset',
+        'required_fields' => 1,
+        'id' => '',
+      ),
+    ),
+  );
+  $field_groups['group_publications|node|person|form'] = $field_group;
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Contact');
@@ -268,6 +298,7 @@ function people_content_type_field_group_info() {
   t('Information');
   t('Other');
   t('Personal');
+  t('Publications');
   t('Show/Hide Filters');
 
   return $field_groups;

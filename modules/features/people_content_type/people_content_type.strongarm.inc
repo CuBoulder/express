@@ -326,7 +326,7 @@ function people_content_type_strongarm() {
           'weight' => '40',
         ),
         'xmlsitemap' => array(
-          'weight' => '5',
+          'weight' => '4',
         ),
       ),
       'display' => array(),
