@@ -2,8 +2,8 @@ default:
   # Ignore certain tags so they don't have to be excluded on the commandline.
   gherkin:
     filters:
-       # tags: "~@broken"
-       tags: "@cu_permissions"
+      tags: "~@broken"
+       # tags: "@cu_permissions"
   # Not sure if this is the best, but it sounds nice.
   formatters:
       pretty: true
