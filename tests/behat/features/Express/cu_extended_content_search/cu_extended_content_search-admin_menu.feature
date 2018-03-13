@@ -17,16 +17,15 @@ Feature: CU Extended Content Search Menu
     | site_owner |
     | content_editor |
     | edit_my_content |
-    
-@api @extended_search 
-Scenario Outline: All roles
-should see a blue toolbar with the same five links
+
+
+@api @extended_search @broken
+Scenario Outline: All roles should see a blue toolbar with the same five links
  Given  I am logged in as a user with the <role> role
  When I go to "/"
  Then I should see the link "Express"
  And I should see the link "Shortcuts"
- #THE FOLLOWING IS A TITLE, NOT LINK TEXT OR ID AS REQUIRED
- And I should see the link "My Account"
+ # And I should see the link "My Account"
  And I should see the link "Help"
  And I should see the link "Log out"
 
@@ -83,12 +82,11 @@ Examples:
       
   @api @extended_search
   Scenario: As an edit_my_content I should see an extremely limited Express menu
-    Given  I am logged in as a user with the "edit_my_content" role
+   Given I am logged in as a user with the "edit_my_content" role
    When I go to "admin"
    Then I should see "Access Denied"
-   #THE FOLLOWING ARE THE DASHBOARD AND CONTENT LINKS
-   And I should see "navbar-link-admin-dashboard"
-   And I should see "navbar-link-admin-content"
+   And I should see "Dashboard"
+   And I should see "Content"
     
   @api @extended_search @broken
   Scenario Outline: Most user roles should see the same Shortcuts menu
