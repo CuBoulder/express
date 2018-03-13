@@ -11,9 +11,9 @@ Feature: CU Extended Content Search Views
   Scenario Outline: Devs, Admins and SOs get the full content functionality
     Given  I am logged in as a user with the <role> role
     When I go to "admin/content"
-    And I should see link "Content"
-    And I should see link "Blocks"
-    And I should see link "Locked Documents"
+    And I should see the link "Content"
+    And I should see the link "Blocks"
+    And I should see the link "Locked Documents"
     And I should see the link "Add content"
     And I should see the link "Title"
     And I should see the link "Type"
@@ -23,16 +23,17 @@ Feature: CU Extended Content Search Views
 
     Examples:
     | role            | 
-    | site_owner      |
-    | administrator   |
     | developer       |
+    | administrator   |
+    | site_owner      |
+
 
   @api @extended_search
   Scenario: Content Editors get most content functionality
     Given  I am logged in as a user with the "content_editor" role
     When I go to "admin/content"
-    And I should see link "Content"
-    And I should see link "Blocks"
+    And I should see the link "Content"
+    And I should see the link "Blocks"
     And I should see the link "Add content"
     And I should see the link "Title"
     And I should see the link "Type"
