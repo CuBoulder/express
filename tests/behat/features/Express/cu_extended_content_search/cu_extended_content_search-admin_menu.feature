@@ -25,7 +25,7 @@ Scenario Outline: All roles should see a blue toolbar with the same five links
  When I go to "/"
  Then I should see the link "Express"
  And I should see the link "Shortcuts"
- # And I should see the link "My Account"
+ And I should see the link "My account"
  And I should see the link "Help"
  And I should see the link "Log out"
 
