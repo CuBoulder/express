@@ -82,7 +82,7 @@ a.custom-logo-link { display: block; padding-right: 35px; }
 @media screen and (min-width: 480px) { a.custom-logo-link { padding-right: 65px; } }
 #cu-footer img { max-width: 300px; width: 100%; height: auto; }
 
-.search-toggle { display: none; padding: 10px; float: right; font-size: 150%; margin-right: 20px; }
+.search-toggle { display: none; padding: 10px; float: right; font-size: 110%; }
 
 @media screen and (min-width: 960px) { .search-toggle { display: inline-block; } }
 img#logo { position: absolute; top: 0; left: 20px; width: 30px; height: auto; }
@@ -110,7 +110,7 @@ h1#site-name, div#site-name { font-size: 18px; margin: 0; padding: 0; line-heigh
   h1#site-name, div#site-name { font-size: 21px; margin: 0; padding: 0; line-height: 110%; }
   .two-line-title h1#site-name, .two-line-title div#site-name { font-size: 18px; }
   #site-slogan { margin: 0px 0 0 0; font-size: 11px; text-transform: uppercase; } }
-@media all and (min-width: 960px) { #header-wrapper { padding: 30px 0; }
+@media all and (min-width: 960px) { #header-wrapper { padding: 20px 0; }
   img#logo { position: absolute; top: 0; left: 20px; width: 65px; height: auto; }
   #name-and-slogan { margin-left: 75px; margin-right: 65px; padding-top: 13px; }
   .two-line-title #name-and-slogan { padding-top: 0; }
@@ -558,7 +558,9 @@ html { box-sizing: border-box; }
 
 #alerts .block { margin: 0; }
 
-#site-info-wrapper { padding-top: 20px; }
+#site-info { padding-top: 20px; background-color: inherit; }
+
+#site-info-wrapper { background: inherit; background-size: cover; background-position: center center; padding-top: 0; }
 
 .layout-responsive .maxwidth { max-width: 1200px; }
 

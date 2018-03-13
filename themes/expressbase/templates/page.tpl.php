@@ -33,9 +33,6 @@
         <div class="mobile-menu-toggle menu-toggle">
           <button id="toggle" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-menu" aria-label="Navigation"><i class="fa fa-reorder fa-fw"></i><span class="mobile-menu-text">Menu </span></button>
         </div>
-        <div class="search-toggle-wrapper menu-toggle">
-          <button id="search-toggle" class="search-toggle" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-menu" aria-label="Search"><i class="fa fa-search fa-fw"></i><span class="element-invisible">Search </span></button>
-        </div>
       </header>
     </div>
     <div id="navigation-wrapper" class="navigation-wrapper">
@@ -257,8 +254,10 @@
         </div>
       <?php endif; ?>
       <div id="site-info-wrapper" class="section-wrapper site-info-wrapper">
-        <div id="site-info" class="container-max">
-          <?php print render($page['site_info']); ?>
+        <div id="site-info" class="site-info">
+          <div class="element-max-width">
+            <?php print render($page['site_info']); ?>
+          </div>
         </div>
       </div>
     </div>

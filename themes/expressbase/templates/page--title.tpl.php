@@ -24,19 +24,7 @@
             <button id="toggle" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-menu" aria-label="Navigation"><span class="mobile-menu-text">Menu </span><i class="fa fa-reorder fa-fw"></i></button>
           </div>
         </div>
-        <div id="header-content" class="col-lg-4 col-md-4 col-sm-12 col-xs-12 clearfix">
-          <?php
-          $options = variable_get('cu_search_options', array('this' => 'this'));
-          foreach ($options as $key => $option) {
-            if (!$option) {
-              unset($options[$key]);
-            }
-          }
-            if (!empty($options) && !empty($page['search_box'])):
-          ?>
-            <a href="#search" class="search-toggle"><i class="fa fa-search"></i><span class="element-invisible">Search</span></a>
-          <?php endif; ?>
-        </div>
+        
       </header>
     </div>
     <div id="navigation-wrapper" class="navigation-wrapper">
@@ -247,8 +235,10 @@
         </div>
       <?php endif; ?>
       <div id="site-info-wrapper" class="section-wrapper site-info-wrapper">
-        <div id="site-info" class="container-max">
-          <?php print render($page['site_info']); ?>
+        <div id="site-info" class="site-info">
+          <div class="element-max-width">
+            <?php print render($page['site_info']); ?>
+          </div>
         </div>
       </div>
     </div>

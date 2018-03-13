@@ -12,6 +12,9 @@
       </div>
       <div class="brand-links">
       </div>
+      <div class="search-toggle-wrapper menu-toggle">
+        <button id="search-toggle" class="search-toggle" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-menu" aria-label="Search"><i class="fa fa-search fa-fw"></i><span class="element-invisible">Search </span></button>
+      </div>
     </div>
   </div>
 </div>

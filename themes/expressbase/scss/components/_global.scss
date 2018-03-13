@@ -19,8 +19,16 @@ html {
 #alerts .block {
   margin: 0;
 }
-#site-info-wrapper {
+#site-info {
   padding-top: 20px;
+  background-color: inherit;
+}
+#site-info-wrapper {
+  background: inherit;
+
+  background-size: cover;
+  background-position: center center;
+  padding-top: 0;
 }
 
 .layout-responsive .maxwidth {

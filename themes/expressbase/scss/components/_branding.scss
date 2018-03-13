@@ -183,8 +183,7 @@ a.custom-logo-link {
   display: none;
   padding:10px;
   float: right;
-  font-size: 150%;
-  margin-right:20px;
+  font-size: 110%;
 }
 @media screen and (min-width:960px) {
   .search-toggle {
@@ -286,7 +285,7 @@ div#site-name {
 @media all and (min-width: 960px) {
 
   #header-wrapper {
-    padding: 30px 0;
+    padding: 20px 0;
   }
   $zen-column-count: 12;
   #branding {
