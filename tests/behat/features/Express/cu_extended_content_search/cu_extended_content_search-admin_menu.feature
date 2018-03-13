@@ -18,10 +18,9 @@ Feature: CU Extended Content Search Menu
     | content_editor |
     | edit_my_content |
 
-
 @api @extended_search @broken
 Scenario Outline: All roles should see a blue toolbar with the same five links
- Given  I am logged in as a user with the <role> role
+ Given I am logged in as a user with the <role> role
  When I go to "/"
  Then I should see the link "Express"
  And I should see the link "Shortcuts"
@@ -35,6 +34,7 @@ Examples:
      | administrator |
      | site_owner |
      | content_editor |
+     | edit_my_content |
  
 
 #CHECKING THE EXPRESS MENU
@@ -43,28 +43,27 @@ Examples:
   Scenario: As a developer I should see the complete Express menu
     Given  I am logged in as a user with the "developer" role
     When I go to "admin"
-    Then I should see "Dashboard"
-      And I should see "Content"
-      And I should see "Structure"
-      And I should see "Appearance"
-      And I should see "Users"
-      And I should see "Modules"
-      And I should see "Configuration"
-      And I should see "Reports"
-      And I should see "Design"
-      And I should see "Settings"
-      And I should see "Help"
+    Then I should see the link "Dashboard"
+      And I should see the link "Content"
+      And I should see the link "Structure"
+      And I should see the link "Appearance"
+      And I should see the link "Users"
+      And I should see the link "Modules"
+      And I should see the link "Configuration"
+      And I should see the link "Reports"
+      And I should see the link "Design"
+      And I should see the link "Settings"
 
   @api @extended_search
-  Scenario Outline: As a site_owner or an administrator I should see a partial Express menu
+  Scenario Outline: As an administrator or a site_owner I should see a partial Express menu
     Given  I am logged in as a user with the <role> role
     When I go to "admin"
-    Then I should see "Dashboard"
-      And I should see "Content"
-      And I should see "Structure"
-      And I should see "Users"
-      And I should see "Design"
-      And I should see "Settings"
+    Then I should see the link "Dashboard"
+      And I should see the link "Content"
+      And I should see the link "Structure"
+      And I should see the link "Users"
+      And I should see the link "Design"
+      And I should see the link "Settings"
 
     Examples:
     | role |
@@ -75,30 +74,30 @@ Examples:
   Scenario: As a content_editor I should see a limited Express menu
    Given  I am logged in as a user with the "content_editor" role
    When I go to "admin"
-   Then I should see "Dashboard"
-      And I should see "Content"
-      And I should see "Structure"
-      And I should see "Settings"
+   Then I should see the link "Dashboard"
+      And I should see the link "Content"
+      And I should see the link "Structure"
+      And I should see the link "Settings"
       
   @api @extended_search
   Scenario: As an edit_my_content I should see an extremely limited Express menu
    Given I am logged in as a user with the "edit_my_content" role
    When I go to "admin"
    Then I should see "Access Denied"
-   And I should see "Dashboard"
-   And I should see "Content"
+   And I should see the link "Dashboard"
+   And I should see the link "Content"
     
   @api @extended_search @broken
   Scenario Outline: Most user roles should see the same Shortcuts menu
     Given  I am logged in as a user with the <role> role
     When I am on "/"
-    And I click "Shortcuts"
-    Then I should see "Add content"
-    And I should see "Find content"
-    And I should see "Blocks"
-    And I should see "Context"
-    And I should see "Main Menu"
-    And I should see "Edit shortcuts"
+    And I click the "a" element with "Shortcuts" for "title"
+    Then I should see the link "Add content"
+    And I should see the link "Find content"
+    And I should see the link "Blocks"
+    And I should see the link "Context"
+    And I should see the link "Main Menu"
+    And I should see the link "Edit shortcuts"
 
     Examples:
       | role |
@@ -110,6 +109,6 @@ Examples:
    @api @extended_search
   Scenario: An edit_my_content user should see a very limited Shortcuts menu
     Given  I am logged in as a user with the "edit_my_content" role
-   When I am on "/"
-    And I click "Shortcuts"
-    And I should see "Find content"
+    When I am on "/"
+    And I click the "a" element with "Shortcuts" for "title"
+    And I should see the link "Find content"
