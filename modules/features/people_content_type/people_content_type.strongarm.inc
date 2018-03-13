@@ -301,15 +301,6 @@ function people_content_type_strongarm() {
       'embed' => array(
         'custom_settings' => TRUE,
       ),
-      'email_feature' => array(
-        'custom_settings' => FALSE,
-      ),
-      'email_teaser' => array(
-        'custom_settings' => FALSE,
-      ),
-      'feature' => array(
-        'custom_settings' => FALSE,
-      ),
     ),
     'extra_fields' => array(
       'form' => array(
@@ -326,7 +317,7 @@ function people_content_type_strongarm() {
           'weight' => '40',
         ),
         'xmlsitemap' => array(
-          'weight' => '4',
+          'weight' => '30',
         ),
       ),
       'display' => array(),

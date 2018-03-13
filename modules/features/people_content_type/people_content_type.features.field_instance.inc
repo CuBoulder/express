@@ -1053,74 +1053,6 @@ function people_content_type_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-person-field_display_publications_by'.
-  $field_instances['node-person-field_display_publications_by'] = array(
-    'bundle' => 'person',
-    'default_value' => array(
-      0 => array(
-        'value' => 'faculty_publication_name',
-      ),
-    ),
-    'default_value_function' => '',
-    'default_value_php' => '',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'list',
-        'settings' => array(),
-        'type' => 'list_default',
-        'weight' => 17,
-      ),
-      'embed' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'sidebar' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'table' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'title' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'fences_wrapper' => 'div_div_div',
-    'field_name' => 'field_display_publications_by',
-    'label' => 'Display Publications by',
-    'required' => 0,
-    'settings' => array(
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'options',
-      'settings' => array(),
-      'type' => 'options_select',
-      'weight' => 33,
-    ),
-  );
-
   // Exported field_instance: 'node-person-field_fis_id'.
   $field_instances['node-person-field_fis_id'] = array(
     'bundle' => 'person',
@@ -1141,6 +1073,12 @@ function people_content_type_field_default_field_instances() {
         'weight' => 15,
       ),
       'embed' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'grid' => array(
         'label' => 'above',
         'settings' => array(),
         'type' => 'hidden',
@@ -1188,82 +1126,7 @@ function people_content_type_field_default_field_instances() {
       'module' => 'number',
       'settings' => array(),
       'type' => 'number',
-      'weight' => 31,
-    ),
-  );
-
-  // Exported field_instance: 'node-person-field_number_of_publications'.
-  $field_instances['node-person-field_number_of_publications'] = array(
-    'bundle' => 'person',
-    'default_value' => array(
-      0 => array(
-        'value' => 1,
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'number',
-        'settings' => array(
-          'decimal_separator' => '.',
-          'prefix_suffix' => TRUE,
-          'scale' => 0,
-          'thousand_separator' => '',
-        ),
-        'type' => 'number_integer',
-        'weight' => 18,
-      ),
-      'embed' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'sidebar' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'table' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'title' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'fences_wrapper' => 'div_div_div',
-    'field_name' => 'field_number_of_publications',
-    'label' => 'Number of Publications to Display',
-    'required' => 0,
-    'settings' => array(
-      'max' => 20,
-      'min' => 1,
-      'prefix' => '',
-      'suffix' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 0,
-      'module' => 'number',
-      'settings' => array(),
-      'type' => 'number',
-      'weight' => 34,
+      'weight' => 30,
     ),
   );
 
@@ -2374,80 +2237,6 @@ function people_content_type_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'node-person-field_publications_heading'.
-  $field_instances['node-person-field_publications_heading'] = array(
-    'bundle' => 'person',
-    'default_value' => array(
-      0 => array(
-        'value' => 'Publications',
-      ),
-    ),
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 19,
-      ),
-      'embed' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'sidebar' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'table' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-      'title' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
-        'weight' => 0,
-      ),
-    ),
-    'entity_type' => 'node',
-    'fences_wrapper' => 'div_div_div',
-    'field_name' => 'field_publications_heading',
-    'label' => 'Publications Heading',
-    'required' => 0,
-    'settings' => array(
-      'linkit' => array(
-        'button_text' => 'Search',
-        'enable' => 0,
-        'profile' => '',
-      ),
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 60,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 32,
-    ),
-  );
-
   // Translatables
   // Included for use with string extractors like potx.
   t('Address');
@@ -2456,7 +2245,6 @@ function people_content_type_field_default_field_instances() {
   t('Choose how the people are displayed in the list.');
   t('Department');
   t('Display');
-  t('Display Publications by');
   t('Email');
   t('Filter 1');
   t('Filter 2');
@@ -2470,12 +2258,10 @@ function people_content_type_field_default_field_instances() {
   t('Job Type');
   t('Last Name');
   t('Links');
-  t('Number of Publications to Display');
   t('Office Hours');
   t('Order by');
   t('Phone');
   t('Photo');
-  t('Publications Heading');
   t('Show Department Filter');
   t('Show Filter 1');
   t('Show Filter 2');
