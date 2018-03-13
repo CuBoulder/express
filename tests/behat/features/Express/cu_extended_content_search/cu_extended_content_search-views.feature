@@ -1,29 +1,63 @@
+# Content: Three tabs: Content, Blocks and Locked documents
+# Content is sortable by Title, Type, Author, and Updated Date
+
+
 Feature: CU Extended Content Search Views
-  When I log into the website
-  As an content editor, site owner, administrator or developer
-  I should be able to access additional views.
+  When I go to the Admin/Content page
+  As an authenticated user
+  I should be able to access additional views of content
 
   @api @extended_search
-  Scenario Outline: An authenticated user should be able to access the form for finding content
+  Scenario Outline: Devs, Admins and SOs get the full content functionality
     Given  I am logged in as a user with the <role> role
     When I go to "admin/content"
-    Then I should not see <message>
+    And I should see link "Content"
+    And I should see link "Blocks"
+    And I should see link "Locked Documents"
+    And I should see the link "Add content"
+    And I should see the link "Title"
+    And I should see the link "Type"
+    And I should see the link "Author"
+    And I should see the link "Updated Date"
+    And I should see the link "edit"
 
     Examples:
-    | role           | message         |
-    | content_editor | "Access denied" |
-    | site_owner     | "Access denied" |
-    | administrator  | "Access denied" |
-    | developer      | "Access denied" |
+    | role            | 
+    | site_owner      |
+    | administrator   |
+    | developer       |
 
   @api @extended_search
+  Scenario: Content Editors get most content functionality
+    Given  I am logged in as a user with the "content_editor" role
+    When I go to "admin/content"
+    And I should see link "Content"
+    And I should see link "Blocks"
+    And I should see the link "Add content"
+    And I should see the link "Title"
+    And I should see the link "Type"
+    And I should see the link "Author"
+    And I should see the link "Updated Date"
+    And I should see the link "edit"
+
+  @api @extended_search
+  Scenario: Edit_My_Content editors get very limited functionality
+    Given  I am logged in as a user with the "edit_my_content" role
+    When I go to "admin/content"
+    And I should see "Content"
+    And I should see the link "Title"
+    And I should see the link "Type"
+    And I should see the link "Author"
+    And I should see the link "Updated Date"
+    
+    @api @extended_search
   Scenario: An anonymous user should not be able to access the form for adding page content
     When I am on "admin/content"
     Then I should see "Access denied"
 
   @api @extended_search
   Scenario: As a content_editor I should be able to see the additional fields for finding content
-    Given  I am logged in as a user with the "content_editor" role
+    Given I am logged in as a user with the "content_editor" role
     When I go to "admin/content"
     Then I should see "Title contains"
       And I should see "Node: Type"
