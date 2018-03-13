@@ -8,18 +8,13 @@ Feature: CU Extended Content Search Views
   I should be able to access additional views of content
 
   @api @extended_search
-  Scenario Outline: Devs, Admins and SOs get the full content functionality
+  Scenario Outline: Devs, Admins and SOs get three tabs and can add content
     Given  I am logged in as a user with the <role> role
     When I go to "admin/content"
     And I should see the link "Content"
     And I should see the link "Blocks"
     And I should see the link "Locked Documents"
     And I should see the link "Add content"
-    And I should see the link "Title"
-    And I should see the link "Type"
-    And I should see the link "Author"
-    And I should see the link "Updated Date"
-    And I should see the link "edit"
 
     Examples:
     | role            | 
@@ -27,38 +22,29 @@ Feature: CU Extended Content Search Views
     | administrator   |
     | site_owner      |
 
-
-  @api @extended_search
-  Scenario: Content Editors get most content functionality
+ @api @extended_search
+ Scenario: Content Editors get two tabs and can add content
     Given  I am logged in as a user with the "content_editor" role
     When I go to "admin/content"
     And I should see the link "Content"
     And I should see the link "Blocks"
     And I should see the link "Add content"
-    And I should see the link "Title"
-    And I should see the link "Type"
-    And I should see the link "Author"
-    And I should see the link "Updated Date"
-    And I should see the link "edit"
 
-  @api @extended_search
-  Scenario: Edit_My_Content editors get very limited functionality
+ @api @extended_search
+ Scenario: Edit_My_Content editors get very limited functionality
     Given  I am logged in as a user with the "edit_my_content" role
     When I go to "admin/content"
     And I should see "Content"
-    And I should see the link "Title"
-    And I should see the link "Type"
-    And I should see the link "Author"
-    And I should see the link "Updated Date"
+
     
-    @api @extended_search
-  Scenario: An anonymous user should not be able to access the form for adding page content
+ @api @extended_search
+ Scenario: An anonymous user should not be able to access the form for adding page content
     When I am on "admin/content"
     Then I should see "Access denied"
 
   @api @extended_search
-  Scenario: As a content_editor I should be able to see the additional fields for finding content
-    Given I am logged in as a user with the "content_editor" role
+  Scenario Outline: All authenticated users should see the additional fields for finding content
+    Given I am logged in as a user with the <role> role
     When I go to "admin/content"
     Then I should see "Title contains"
       And I should see "Node: Type"
@@ -70,5 +56,13 @@ Feature: CU Extended Content Search Views
       And I should see "Operations"
       And I should see the link "sort by Title"
       And I should see the link "sort by Type"
-      # Author was removed as a sortable link in the 2.8.5 release.
-      # And I should see the link "sort by Author"
+      And I should see the link "sort by Author"
+      And I should see the link "sort by Updated date"
+      
+    Examples:
+    | role            | 
+    | developer       |
+    | administrator   |
+    | site_owner      |
+    | content_editor  |
+    | edit_my_content |
