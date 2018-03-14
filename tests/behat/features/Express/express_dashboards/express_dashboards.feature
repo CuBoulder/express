@@ -1,11 +1,10 @@
-#WHEN I LOGON I SHOULD BE REDIRECTED
+#WHEN I LOGON I SHOULD BE REDIRECTED TO THE DASHBOARD
 
 @dashboards @rebuild
 Feature: The Web Express Dashboard
 When I login to a Web Express website
 As an authenticated user
 I am redirected to my dashboard that correctly includes all components on the User tab.
-
 
 @api 
 Scenario Outline: A Site Owner should see Who's Online, System Status, and username blocks.
