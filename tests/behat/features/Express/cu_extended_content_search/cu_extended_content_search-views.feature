@@ -33,7 +33,7 @@
     And I should see the link "Content"
     And I should see the link "Blocks"
     # LOCKED DOCUMENT TAB IS TURNED OFF FOR NOW
-   # And I should not see the link "Locked documents"
+   # But I should not see the link "Locked documents"
     And I should see the link "Add content"
 
  @api
@@ -42,8 +42,8 @@
     When I go to "admin/content"
     And I should not see the link "Blocks"
     # LOCKED DOCUMENT TAB IS TURNED OFF FOR NOW
-    # And I should not see the link "Locked documents"
-    And I should not see the link "Add content"
+    # But I should not see the link "Locked documents"
+    But I should not see the link "Add content"
 
     
  @api
