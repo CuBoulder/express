@@ -45,6 +45,15 @@ function cu_seo_bundle_secure_permissions($role) {
     ),
     'edit_my_content' => array(
     ),
+    'site_editor' => array(
+      'edit meta tags',
+      'administer meta tags',
+      'administer xmlsitemap',
+      'access broken links report',
+      'edit link settings',
+      'administer site verify',
+      'view seo dashboard',
+    ),
     'site_owner' => array(
       'edit meta tags',
       'administer meta tags',
