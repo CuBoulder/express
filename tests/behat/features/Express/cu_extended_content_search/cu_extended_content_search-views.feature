@@ -4,7 +4,7 @@
 # NOTE: SORT BY AUTHOR IS TURNED OFF IN 2.8.5
 
  @extended_search @rebuild
- Feature: CU Extended Content Search Views
+ Feature: Content page allows viewing and sorting of content
   When I go to the Admin/Content page
   As an authenticated user
   I should be able to view, sort and add content
