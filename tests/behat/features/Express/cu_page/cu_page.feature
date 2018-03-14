@@ -7,14 +7,15 @@ Feature: Page Content Type
   Scenario Outline: An authenticated user should be able to access the form for adding page content
     Given  I am logged in as a user with the <role> role
     When I go to "node/add/page"
-    Then I should not see <message>
+    Then I should see "Create Basic page
 
     Examples:
     | role           | message         |
-    | content_editor | "Access denied" |
-    | site_owner     | "Access denied" |
-    | administrator  | "Access denied" |
-    | developer      | "Access denied" |
+    | edit_my_content | "Access Denied" |
+    | content_editor | "Create Basic page" |
+    | site_owner     | "Create Basic page" |
+    | administrator  | "Create Basic page" |
+    | developer      | "Create Basic page" |
 
   @api @page
   Scenario: An anonymous user should not be able to access the form for adding page content
