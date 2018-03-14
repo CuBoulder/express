@@ -1,8 +1,7 @@
-#Checking /admin/content for functionality
+# Checking /admin/content for functionality
 # Content: Four tabs: Content, Blocks, Webforms and Locked documents
 # Content is sortable by Title, Type, Author, and Updated Date
 # NOTE: SORT BY AUTHOR IS TURNED OFF IN 2.8.5
-
 
  @extended_search @rebuild
  Feature: CU Extended Content Search Views
