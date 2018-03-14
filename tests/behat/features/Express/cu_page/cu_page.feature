@@ -1,30 +1,31 @@
+@page
 Feature: Page Content Type
   When I log into the website
   As an content editor, site owner, administrator or developer
   I should be able to create, edit, and delete page content
 
-  @api @page
+  @api
   Scenario Outline: An authenticated user should be able to access the form for adding page content
     Given  I am logged in as a user with the <role> role
     When I go to "node/add/page"
-    Then I should see "Create Basic page
+    Then I should see <message>
 
     Examples:
-    | role           | message         |
-    | edit_my_content | "Access Denied" |
-    | content_editor | "Create Basic page" |
-    | site_owner     | "Create Basic page" |
-    | administrator  | "Create Basic page" |
-    | developer      | "Create Basic page" |
+    | role            | message             |
+    | edit_my_content | "Access Denied"     |
+    | content_editor  | "Create Basic page" |
+    | site_owner      | "Create Basic page" |
+    | administrator   | "Create Basic page" |
+    | developer       | "Create Basic page" |
 
-  @api @page
+  @api 
   Scenario: An anonymous user should not be able to access the form for adding page content
     When I am on "node/add/page"
     Then I should see "Access denied"
 
-  @api @page @broken
+  @api 
   Scenario: An authenticated user should be able to create page node
-    Given  I am logged in as a user with the "content_editor" role
+    Given I am logged in as a user with the "content_editor" role
       And I am on "node/add/page"
       And fill in "Title" with "New Page"
       And fill in "Body" with "Demo body content"
@@ -41,7 +42,7 @@ Feature: Page Content Type
       # @todo figure out why text isn't showing up.
       And I should see "New Menu Item"
 
-  @api @page
+  @api 
   Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
     Given  I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
