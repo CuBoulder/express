@@ -1,24 +1,17 @@
-Feature: Content Management
-  When I install the website
+#A NEW WEB EXPRESS INSTALLATION
+
+@homepage @rebuild
+Feature: A fresh installation of Web Express has one page
+  When I view a fresh Web Express installation
   As a user
   I should be able to see certain content
 
-  Scenario: A user should see "Welcome!" on the homepage
+Scenario: A user should see "Welcome!" on the homepage
       Given I am on the homepage
-      Then I should see "Welcome to your new Web Express website! This content area is used for your homepage content. You can edit this section by clicking on the Edit link above. Once in edit mode, just edit the body text area. For help with your site, you can view examples of all the Web Express Features or view online tutorials."
-        And I should see the link "view examples of all the Web Express Features"
-        And I should see the link "view online tutorials"
+      Then I should see "University of Colorado Boulder"
+      And I should see a ".fa-home" element
+      And I should see a ".search-toggle" element
+      And I should see "Welcome to your new Web Express website"
+      And I should see the link "University of Colorado Boulder"
+      And I should see a ".beboulder" element
 
-  # Test to cover the regression in FIT-902.
-  @api @broken
-  Scenario: A user should not see a subnavigation menu header
-      Given I am logged in as a user with the "content_editor" role
-      When I go to "node/add/page"
-        And fill in "Title" with "Basic Page"
-        And fill in "Menu link title" with "Basic Page"
-        And I select "-- Home" from "Parent item"
-        And I press "Save"
-      Then I should not see "Home"
-        And I should see "Basic Page"
-
-  # @todo write test to see no messages in the error regions.
