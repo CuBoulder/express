@@ -109,7 +109,7 @@ script:
   # Second Test run for broken tests.
   #- drush sql-drop -y
   #- drush sql-cli < $HOME/express.sql
-  #- ./bin/behat --config behat.yml --verbose --tags @broken
+  #- ./bin/behat --config behat.yml --verbose --tags @page
 
   # Run Simpletests
   #- drush en simpletest -y
