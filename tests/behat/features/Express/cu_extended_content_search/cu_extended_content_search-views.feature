@@ -1,6 +1,7 @@
 #Checking /admin/content for functionality
 # Content: Three tabs: Content, Blocks and Locked documents
 # Content is sortable by Title, Type, Author, and Updated Date
+# NOTE: LOCKED DOCUMENT TAB AND SORT BY AUTHOR ARE TURNED OFF IN 2.8.5
 
 
 Feature: CU Extended Content Search Views
