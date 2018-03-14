@@ -128,6 +128,9 @@ function express_dashboard_user_secure_permissions($role) {
     'edit_my_content' => array(
       'use user dashboard',
     ),
+    'site_editor' => array(
+      'use user dashboard',
+    ),
     'site_owner' => array(
       'use user dashboard',
     ),
