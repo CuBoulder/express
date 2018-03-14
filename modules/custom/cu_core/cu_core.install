@@ -165,11 +165,13 @@ function _set_external_invite_variables() {
   }
 
   $site_owner_role = user_role_load_by_name('site_owner');
+  $site_editor_role = user_role_load_by_name('site_editor');
   $content_editor_role = user_role_load_by_name('content_editor');
   $edit_my_content_role = user_role_load_by_name('edit_my_content');
 
   variable_set('user_external_invite_roles', array(
     $site_owner_role->rid,
+    $site_editor_role->rid,
     $content_editor_role->rid,
     $edit_my_content_role->rid,
   ));
@@ -922,7 +924,31 @@ function cu_core_update_7038() {
  */
 function cu_core_update_7039() {
   cu_core_revert_features();
+
+  // Adding Site Editor role for invites.
+  $site_owner_role = user_role_load_by_name('site_owner');
+  $site_editor_role = user_role_load_by_name('site_editor');
+  $content_editor_role = user_role_load_by_name('content_editor');
+  $edit_my_content_role = user_role_load_by_name('edit_my_content');
+
+  variable_set('user_external_invite_roles', array(
+    $site_owner_role->rid,
+    $site_editor_role->rid,
+    $content_editor_role->rid,
+    $edit_my_content_role->rid,
+  ));
+
+  // Count how many site owners.
+  $query = db_select('users_roles', 'ur');
+  $query->fields('ur', array('uid', 'rid'));
+  $query->condition('ur.rid', $rid, '=');
+  $number_of_rows = $query->countQuery()->execute()->fetchField();
+  if ($number_of_rows >= 5) {
+    // Migrate all site owners to site editors.
+  }
 }
+
+
 
 /**
  * Revert features by passing features in an array.
