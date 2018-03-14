@@ -1,9 +1,10 @@
-Feature: CU Extended Content Search Menu
+ @extended_search @rebuild
+ Feature: CU Extended Content Search Menu
   When I log into the website
   As an authenticated user
   I should be able to see the correct menu and shortcuts.
   
- @api @extended_search
+ @api
  Scenario Outline: All roles should see the blue and white toolbars
   Given I am logged is as a user with the <role> role
   When I go to "/"
@@ -18,7 +19,7 @@ Feature: CU Extended Content Search Menu
     | content_editor |
     | edit_my_content |
 
-@api @extended_search @broken
+@api
 Scenario Outline: All roles should see a blue toolbar with the same five links
  Given I am logged in as a user with the <role> role
  When I go to "/"
@@ -39,7 +40,7 @@ Examples:
 
 #CHECKING THE EXPRESS MENU
 
-  @api @extended_search
+  @api
   Scenario: As a developer I should see the complete Express menu
     Given  I am logged in as a user with the "developer" role
     When I go to "admin"
@@ -54,7 +55,7 @@ Examples:
       And I should see the link "Design"
       And I should see the link "Settings"
 
-  @api @extended_search
+  @api
   Scenario Outline: As an administrator or a site_owner I should see a partial Express menu
     Given  I am logged in as a user with the <role> role
     When I go to "admin"
@@ -70,7 +71,7 @@ Examples:
     | administrator |
     | site_owner |
 
-  @api @extended_search
+  @api
   Scenario: As a content_editor I should see a limited Express menu
    Given  I am logged in as a user with the "content_editor" role
    When I go to "admin"
@@ -79,7 +80,7 @@ Examples:
       And I should see the link "Structure"
       And I should see the link "Settings"
       
-  @api @extended_search
+  @api
   Scenario: As an edit_my_content I should see an extremely limited Express menu
    Given I am logged in as a user with the "edit_my_content" role
    When I go to "admin"
@@ -87,7 +88,7 @@ Examples:
    And I should see the link "Dashboard"
    And I should see the link "Content"
     
-  @api @extended_search @broken
+ @api
   Scenario Outline: Most user roles should see the same Shortcuts menu
     Given  I am logged in as a user with the <role> role
     When I am on "/"
@@ -106,7 +107,7 @@ Examples:
       | site_owner |
       | content_editor |
 
-   @api @extended_search
+  @api
   Scenario: An edit_my_content user should see a very limited Shortcuts menu
     Given  I am logged in as a user with the "edit_my_content" role
     When I am on "/"
