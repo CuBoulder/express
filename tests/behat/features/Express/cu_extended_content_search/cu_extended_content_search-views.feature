@@ -64,7 +64,7 @@
       And I should see "Published"
       And I should see an "#edit-status" element
       And I should see "Author"
-       And I should see an "#edit-name" element
+       And I should see an "#edit-realname" element
       And I should see an "#edit-submit-cu-content-administration-override-view" element
       And I should see a ".views-reset-button" element
       And I should see the link "sort by Title"
