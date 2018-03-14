@@ -15,5 +15,5 @@ Scenario Outline: An authenticated user should be able to access the form for ad
 
 @api @block-row-block
 Scenario: An anonymous user should not be able to access the form
-  Given I go to "block/add/block-row-block"
+  Given I go to "block/add/block-row"
   Then I should see "Access denied"
