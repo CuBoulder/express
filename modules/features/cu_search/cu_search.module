@@ -215,6 +215,9 @@ function cu_search_secure_permissions($role) {
     'site_owner' => array(
       'search Google CSE',
     ),
+    'site_editor' => array(
+      'search Google CSE',
+    ),
   );
 
   if (isset($permissions[$role])) {
