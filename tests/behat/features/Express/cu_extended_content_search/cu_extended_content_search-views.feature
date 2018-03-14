@@ -4,12 +4,13 @@
 # NOTE: SORT BY AUTHOR IS TURNED OFF IN 2.8.5
 
 
-Feature: CU Extended Content Search Views
+ @extended_search @rebuild
+ Feature: CU Extended Content Search Views
   When I go to the Admin/Content page
   As an authenticated user
   I should be able to view, sort and add content
 
-  @api @extended_search
+  @api 
   Scenario Outline: Devs, Admins and SOs get four tabs and 'Add content' link
     Given  I am logged in as a user with the <role> role
     When I go to "admin/content"
@@ -25,7 +26,7 @@ Feature: CU Extended Content Search Views
     | administrator   |
     | site_owner      |
 
- @api @extended_search
+ @api 
  Scenario: Content Editors get two tabs and and 'Add content' link
     Given  I am logged in as a user with the "content_editor" role
     When I go to "admin/content"
@@ -35,7 +36,7 @@ Feature: CU Extended Content Search Views
    # And I should not see the link "Locked documents"
     And I should see the link "Add content"
 
- @api @extended_search
+ @api
  Scenario: Edit_My_Content editors get no tabs; no 'Add content' link
     Given  I am logged in as a user with the "edit_my_content" role
     When I go to "admin/content"
@@ -45,12 +46,12 @@ Feature: CU Extended Content Search Views
     And I should not see the link "Add content"
 
     
- @api @extended_search
+ @api
  Scenario: An anonymous user should not be able to access the form for adding page content
     When I am on "admin/content"
     Then I should see "Access denied"
 
-  @api @extended_search
+  @api
   Scenario Outline: All authenticated users should see the additional fields for finding and sorting content
     Given I am logged in as a user with the <role> role
     When I go to "admin/content"
