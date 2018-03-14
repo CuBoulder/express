@@ -1,4 +1,6 @@
 # Checking the Express toolbar and Shortcut toolbar
+# MOVING THIS FUNCTIONALITY TO INSTALL/TOOLBAR.FEATURE
+/*
 
 @extended_search @rebuild
  Feature: the Express and Shortcut toolbars
@@ -115,3 +117,5 @@ Examples:
     When I am on "/"
     And I click the "a" element with "Shortcuts" for "title"
     And I should see the link "Find content"
+    
+    */
