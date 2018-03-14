@@ -7,14 +7,14 @@ I should see Access denied
 @api 
 Scenario: A developer should be able to access certain admin settings
     Given I am logged in as a user with the developer role
-    When I go to "admin/index"
+    When I am on "admin/index"
     Then I should see "jQuery Update"
     And I should see "Express Layout Settings"
 
 @api 
 Scenario Outline: Most users should not be able to access admin/index
     Given I am logged in as a user with the <role> role
-    When I go to "admin/index"
+    When I am on "admin/index"
     Then I should not see "jQuery Update"
     And I should not see "Express Layout Settings"
  
@@ -29,7 +29,7 @@ Scenario Outline: Most users should not be able to access admin/index
 @api 
 Scenario Outline: Most users should not be able to access Admin pages
     Given I am logged in as a user with the <role> role
-    When I go to <adminUrl>
+    When I am on <adminUrl>
     Then I should see "Access denied"
     
     Examples:
