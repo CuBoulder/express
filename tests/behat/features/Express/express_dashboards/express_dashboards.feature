@@ -1,6 +1,6 @@
 #WHEN I LOGON I SHOULD BE REDIRECTED TO THE DASHBOARD
 
-@dashboards @rebuild
+@dashboard @rebuild
 Feature: The Web Express Dashboard
 When I login to a Web Express website
 As an authenticated user
