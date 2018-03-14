@@ -3,7 +3,7 @@ default:
   gherkin:
     filters:
        # tags: "~@broken"
-       tags: "@accesstest"
+       tags: "@page"
   # Not sure if this is the best, but it sounds nice.
   formatters:
       pretty: true
