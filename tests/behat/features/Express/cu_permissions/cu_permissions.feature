@@ -26,10 +26,10 @@ Scenario Outline: Most users should not be able to access admin/index
     | edit_my_content |
 
 #NOTE THE FOLLOWING ARE ADMITTEDLY RATHER RANDOM TESTS FOR ADMIN ACCESS   
-@api 
+@api @accesstest
 Scenario Outline: Most users should not be able to access Admin pages
     Given I am logged in as a user with the <role> role
-    When I am on <adminUrl>
+    When I am on "admin/config/blocks"
     Then I should see "Access denied"
     
     Examples:
