@@ -26,18 +26,18 @@ Scenario Outline: Most users should not be able to access admin/index
     | edit_my_content |
 
 #NOTE THE FOLLOWING ARE ADMITTEDLY RATHER RANDOM TESTS FOR ADMIN ACCESS   
-@api @accesstest
+@api
 Scenario Outline: Most users should not be able to access Admin pages
     Given I am logged in as a user with the <role> role
-    When I am on "admin/config/blocks"
+    When I am on "admin/config/<mypath>"
     Then I should see "You are not authorized to access this page."
     
     Examples:
-      | role            | 
-      | administrator   |
-      | site_owner      | 
-      | content_editor  |
-      | edit_my_content |
+      | role            | mypath                 |
+      | administrator   | blocks                 |
+      | site_owner      | people/ldap            |
+      | content_editor  | user-interface/bigmenu |
+      | edit_my_content | system/securepages     |
 
 
 
