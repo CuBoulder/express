@@ -1,3 +1,4 @@
+#Checking /admin/content for functionality
 # Content: Three tabs: Content, Blocks and Locked documents
 # Content is sortable by Title, Type, Author, and Updated Date
 
@@ -5,10 +6,10 @@
 Feature: CU Extended Content Search Views
   When I go to the Admin/Content page
   As an authenticated user
-  I should be able to access additional views of content
+  I should be able to view, sort and add content
 
   @api @extended_search
-  Scenario Outline: Devs, Admins and SOs get three tabs and can add content
+  Scenario Outline: Devs, Admins and SOs get three tabs and 'Add content' link
     Given  I am logged in as a user with the <role> role
     When I go to "admin/content"
     And I should see the link "Content"
@@ -23,7 +24,7 @@ Feature: CU Extended Content Search Views
     | site_owner      |
 
  @api @extended_search
- Scenario: Content Editors get two tabs and can add content
+ Scenario: Content Editors get two tabs and and 'Add content' link
     Given  I am logged in as a user with the "content_editor" role
     When I go to "admin/content"
     And I should see the link "Content"
@@ -31,10 +32,12 @@ Feature: CU Extended Content Search Views
     And I should see the link "Add content"
 
  @api @extended_search
- Scenario: Edit_My_Content editors get very limited functionality
+ Scenario: Edit_My_Content editors get no tabs; no 'Add content' link
     Given  I am logged in as a user with the "edit_my_content" role
     When I go to "admin/content"
-    And I should see "Content"
+    And I should not see the link "Blocks"
+    And I should not see the link "Locked Documents"
+    And I should not see the link "Add content"
 
     
  @api @extended_search
@@ -43,7 +46,7 @@ Feature: CU Extended Content Search Views
     Then I should see "Access denied"
 
   @api @extended_search
-  Scenario Outline: All authenticated users should see the additional fields for finding content
+  Scenario Outline: All authenticated users should see the additional fields for finding and sorting content
     Given I am logged in as a user with the <role> role
     When I go to "admin/content"
     Then I should see "Title contains"
@@ -56,7 +59,8 @@ Feature: CU Extended Content Search Views
       And I should see "Operations"
       And I should see the link "sort by Title"
       And I should see the link "sort by Type"
-      And I should see the link "sort by Author"
+     # SORTING BY AUTHOR TURNED OFF FOR NOW
+     # And I should see the link "sort by Author"
       And I should see the link "sort by Updated date"
       
     Examples:
