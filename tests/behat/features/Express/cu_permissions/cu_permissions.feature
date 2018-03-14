@@ -29,15 +29,15 @@ Scenario Outline: Most users should not be able to access admin/index
 @api @accesstest
 Scenario Outline: Most users should not be able to access Admin pages
     Given I am logged in as a user with the <role> role
-    When I am on <adminUrl>
+    When I am on "admin/config/blocks"
     Then I should see "Access denied"
     
     Examples:
-      | role            | adminUrl                            |
-      | administrator   | admin/config/blocks                 | 
-      | site_owner      | admin/config/people/ldap            |
-      | content_editor  | admin/config/user-interface/bigmenu | 
-      | edit_my_content | admin/config/development/logging    |
+      | role            | 
+      | administrator   |
+      | site_owner      | 
+      | content_editor  |
+      | edit_my_content |
 
 
 
