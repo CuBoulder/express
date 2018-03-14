@@ -1,7 +1,7 @@
 #Checking /admin/content for functionality
-# Content: Three tabs: Content, Blocks and Locked documents
+# Content: Four tabs: Content, Blocks, Webforms and Locked documents
 # Content is sortable by Title, Type, Author, and Updated Date
-# NOTE: LOCKED DOCUMENT TAB AND SORT BY AUTHOR ARE TURNED OFF IN 2.8.5
+# NOTE: SORT BY AUTHOR IS TURNED OFF IN 2.8.5
 
 
 Feature: CU Extended Content Search Views
@@ -10,12 +10,13 @@ Feature: CU Extended Content Search Views
   I should be able to view, sort and add content
 
   @api @extended_search
-  Scenario Outline: Devs, Admins and SOs get three tabs and 'Add content' link
+  Scenario Outline: Devs, Admins and SOs get four tabs and 'Add content' link
     Given  I am logged in as a user with the <role> role
     When I go to "admin/content"
     And I should see the link "Content"
     And I should see the link "Blocks"
-    And I should see the link "Locked Documents"
+    And I should see the link "Webforms"
+    And I should see the link "Locked documents"
     And I should see the link "Add content"
 
     Examples:
@@ -30,6 +31,8 @@ Feature: CU Extended Content Search Views
     When I go to "admin/content"
     And I should see the link "Content"
     And I should see the link "Blocks"
+    # LOCKED DOCUMENT TAB IS TURNED OFF FOR NOW
+   # And I should not see the link "Locked documents"
     And I should see the link "Add content"
 
  @api @extended_search
@@ -38,7 +41,7 @@ Feature: CU Extended Content Search Views
     When I go to "admin/content"
     And I should not see the link "Blocks"
     # LOCKED DOCUMENT TAB IS TURNED OFF FOR NOW
-    # And I should not see the link "Locked Documents"
+    # And I should not see the link "Locked documents"
     And I should not see the link "Add content"
 
     
