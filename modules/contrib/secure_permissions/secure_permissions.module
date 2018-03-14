@@ -239,11 +239,13 @@ function secure_permissions_build_permissions() {
   $permissions = array_keys(module_invoke_all('permission'));
   // Now set permissions per role, using our hook.
   $permissions_rebuilt = FALSE;
+
   foreach ($roles as $rid => $role) {
     $perms = array();
     $new_permissions = module_invoke_all('secure_permissions', $role);
     // Change dynamically created permission values.
     $new_permissions = secure_permissions_dynamic_permissions($new_permissions);
+
     foreach ($permissions as $perm) {
       $perms[$perm] = FALSE;
       if (in_array($perm, $new_permissions)) {
@@ -251,7 +253,16 @@ function secure_permissions_build_permissions() {
         $permissions_rebuilt = TRUE;
       }
     }
-    user_role_change_permissions($rid, $perms);
+    // TEMP = don't reset site_editors when we get to that rid
+    if ($role != 'site_editor') {
+      //dsm('setting ' . $role);
+      user_role_change_permissions($rid, $perms);
+    }
+    // TEMP make site_editors match content_editors
+    if ($role == 'content_editor') {
+      //dsm('cloning ' . $role);
+      user_role_change_permissions($rid, $perms);
+    }
   }
   return $permissions_rebuilt;
 }
@@ -488,8 +499,8 @@ EOT;
 EOT;
   $output .= 'function secure_permissions_data_secure_permissions($role) {';
   $output .= "\n  \$permissions = array(\n";
-  
-  
+
+
   foreach ($roles as $rid => $role) {
     $output .= "    '$role' => array(\n";
     $permissions = user_role_permissions(array($rid => $role));
@@ -527,7 +538,7 @@ EOT;
 function secure_permissions_form() {
   $form = array();
   $items = array();
-  
+
   // Check which modules run our hook,
   $modules = module_implements('secure_permissions');
   $files = system_rebuild_module_data();
@@ -589,10 +600,10 @@ function secure_permissions_form() {
     '#title' => t('Reload default permissions on rebuild'),
     '#description' => t('Sets the default Drupal permissions for anonymous and authenticated users.'),
   );
-  
+
   $collapsed = (variable_get('secure_permissions_ignore_in_export')) ? FALSE : TRUE;
 
-  
+
   $form['advanced_export'] = array(
     '#type' => 'fieldset',
     '#title' => t('Advanced export settings'),
