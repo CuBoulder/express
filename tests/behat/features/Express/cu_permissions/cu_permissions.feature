@@ -29,7 +29,7 @@ Scenario Outline: Most users should not be able to access admin/index
 @api @accesstest
 Scenario Outline: Most users should not be able to access Admin pages
     Given I am logged in as a user with the <role> role
-    When I am on "admin/config/blocks"
+    When I am on <adminUrl>
     Then I should see "Access denied"
     
     Examples:
