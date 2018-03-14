@@ -6,6 +6,13 @@
  */
 
 /**
+ * Implementation of hook_views_api()
+ */
+function express_dashboard_user_views_api() {
+  return array('api' => 3.0);
+}
+
+/**
  * Implements hook_user_login().
  *
  * Send user to dashboard after logging in.
@@ -35,6 +42,20 @@ function express_dashboard_user_express_dashboard($variables) {
     'weight' => -99,
     'access arguments' => array('use user dashboard'),
   );
+  $variables['admin/dashboard/user/authored'] = array(
+    'title' => 'Authored Content',
+    'callback' => 'express_dashboard_user_authored_content',
+    'weight' => -98,
+    'access arguments' => array('use user dashboard'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+  $variables['admin/dashboard/user/edited'] = array(
+    'title' => 'Edited Content',
+    'callback' => 'express_dashboard_user_edited_content',
+    'weight' => -98,
+    'access arguments' => array('use user dashboard'),
+    'type' => MENU_LOCAL_TASK,
+  );
   return $variables;
 }
 
@@ -50,11 +71,35 @@ function express_dashboard_user_permission() {
   );
 }
 
+function express_dashboard_user_page_alter(&$page) {
+  //dpm($page);
+}
+
+function express_dashboard_user_edited_content() {
+  global $user; // @todo use realname instead of identikey.
+
+  $user_content = views_embed_view('authored_content', 'page_1');
+  $output['left']['widgets']['test']['title'] = $user->name . '\'s edited content';
+  $output['left']['widgets']['test']['content']['#markup'] = $user_content;
+
+  return $output;
+}
+
+function express_dashboard_user_authored_content() {
+  global $user; // @todo use realname instead of identikey.
+
+  $user_content = views_embed_view('authored_content', 'page');
+  $output['left']['widgets']['test']['title'] = $user->name . '\'s authored content';
+  $output['left']['widgets']['test']['content']['#markup'] = $user_content;
+
+  return $output;
+}
+
 /**
  * Callback function for user dashboard.
  */
 function express_dashboard_user_content() {
-  global $user;
+  global $user; // @todo use realname instead of identikey.
   $vars['user'] = (array) $user;
   $excluded_roles = array(
     'authenticated user',
