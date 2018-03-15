@@ -72,13 +72,6 @@ function express_dashboard_user_permission() {
   );
 }
 
-function express_dashboard_user_page_alter(&$page) {
-  global $user;
-  $uid = $user->uid;
-  $output = db_query('SELECT r.realname FROM {realname} r WHERE r.uid = :uid', array(':uid' => $uid))->fetchField();
-  dpm($output);
-}
-
 function _get_realname($uid) {
   // Use this to get the user's realname without loading entire user object.
   $output = db_query('SELECT r.realname FROM {realname} r WHERE r.uid = :uid', array(':uid' => $uid))->fetchField();
