@@ -72,14 +72,19 @@ function express_dashboard_user_permission() {
   );
 }
 
+/**
+ * Use this to get the user's realname without loading entire user object.
+ */
 function _get_realname($uid) {
-  // Use this to get the user's realname without loading entire user object.
   $output = db_query('SELECT r.realname FROM {realname} r WHERE r.uid = :uid', array(':uid' => $uid))->fetchField();
   return $output;
 }
 
+/**
+ * Callback function for edited dashboard.
+ */
 function express_dashboard_user_edited_content() {
-  global $user; // @todo use realname instead of identikey.
+  global $user;
   $realname = _get_realname($user->uid);
 
   $user_content = views_embed_view('authored_content', 'page_1');
@@ -89,8 +94,11 @@ function express_dashboard_user_edited_content() {
   return $output;
 }
 
+/**
+ * Callback function for authored dashboard.
+ */
 function express_dashboard_user_authored_content() {
-  global $user; // @todo use realname instead of identikey.
+  global $user;
   $realname = _get_realname($user->uid);
 
   $user_content = views_embed_view('authored_content', 'page');
@@ -104,7 +112,7 @@ function express_dashboard_user_authored_content() {
  * Callback function for user dashboard.
  */
 function express_dashboard_user_content() {
-  global $user; // @todo use realname instead of identikey.
+  global $user;
   $realname = _get_realname($user->uid);
   $vars['user'] = (array) $user;
   $excluded_roles = array(

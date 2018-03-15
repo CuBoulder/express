@@ -2,13 +2,12 @@
 
 /**
  * @file
- *
  * Views for user dashboard.
  */
 
 /**
-* Implements hook_views_default_views().
-*/
+ * Implements hook_views_default_views().
+ */
 function express_dashboard_user_views_default_views() {
   $view = new view();
   $view->name = 'authored_content';
@@ -500,8 +499,6 @@ function express_dashboard_user_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
-
-
   $views[$view->name] = $view;
 
   return $views;
