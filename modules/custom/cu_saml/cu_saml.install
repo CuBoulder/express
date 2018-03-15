@@ -9,6 +9,7 @@
  * Implements hook_install().
  */
 function cu_saml_install() {
+  global $base_url;
   $samllibrary = libraries_get_path('simplesamlphp', $base_path = FALSE);
 
   variable_get('simplesamlphp_auth_activate', 0);
