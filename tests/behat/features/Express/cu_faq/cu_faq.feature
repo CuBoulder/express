@@ -1,6 +1,53 @@
-Feature: FAQs
+@faqs
+Feature: Frequently Asked Questions Content Type
+  When I log into the website
+  As an authenticated user
+  I should be able to create, edit, and delete FAQ content
+  
+  @api
+  Scenario Outline: An authenticated user should be able to access the form for adding faq content
+    Given  I am logged in as a user with the <role> role
+    When I go to "node/add/faqs"
+    Then I should see <message>
 
-  @api @faqs
+    Examples:
+    | role            | message                      |
+    | edit_my_content | "Access Denied"              |
+    | content_editor  | "Frequently Asked Questions" |
+    | site_owner      | "Frequently Asked Questions" |
+    | administrator   | "Frequently Asked Questions" |
+    | developer       | "Frequently Asked Questions" |
+
+  @api 
+  Scenario: An anonymous user should not be able to access the form for adding page content
+    When I am on "node/add/faqs"
+    Then I should see "Access denied"
+    
+     @api 
+  Scenario: An authenticated user should be able to create a basic page node
+    Given I am logged in as a user with the <role> role
+      And I am on "node/add/faqs"
+      And fill in "Title" with "FAQs"
+      And fill in "Body" with "Demo FAQ Content"
+       And fill in "edit-field-qa-collection-und-0-field-qa-collection-title-und-0-value" with "Section One"
+       And fill in 
+    When I press "Save"
+    Then the ".page__title" element should contain "New Page"
+      And I should see "Demo body content"
+      # And I should see an image in the "Content" region
+      # And I should see the image alt "Ralphie running with people" in the "Content" region
+      # @todo figure out why text isn't showing up.
+      And I should see "New Menu Item"
+      
+ Examples:
+    | role            | 
+    | content_editor  | 
+    | site_owner      | 
+    | administrator   | 
+    | developer       | 
+    
+
+  @api 
   Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
     Given  I am logged in as a user with the "site_owner" role
     When I go to "node/add/faqs"
