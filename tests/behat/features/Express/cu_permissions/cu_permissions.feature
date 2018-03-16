@@ -1,4 +1,4 @@
-@cu_permissions @rebuild
+@cu_permissions @newtest
 Feature: Admin functionality is hidden from most users
 When I go to the many admin pages
 As an authenticated user
@@ -30,7 +30,7 @@ Scenario Outline: Most users should not be able to access admin/index
 Scenario Outline: Most users should not be able to access Admin pages
     Given I am logged in as a user with the <role> role
     When I am on "admin/config/<mypath>"
-    Then I should see "You are not authorized to access this page."
+    Then I should see "Access denied"
     
     Examples:
       | role            | mypath                 |
