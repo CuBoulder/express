@@ -1,11 +1,11 @@
-@page
-Feature: Page Content Type
+@page @newtest
+Feature: Basic Page Content Type
   When I log into the website
   As an content editor, site owner, administrator or developer
   I should be able to create, edit, and delete page content
 
   @api
-  Scenario Outline: An authenticated user should be able to access the form for adding page content
+  Scenario Outline: An authenticated user should be able to access the form for adding basic page content
     Given  I am logged in as a user with the <role> role
     When I go to "node/add/page"
     Then I should see <message>
@@ -24,8 +24,8 @@ Feature: Page Content Type
     Then I should see "Access denied"
 
   @api 
-  Scenario: An authenticated user should be able to create page node
-    Given I am logged in as a user with the "content_editor" role
+  Scenario: An authenticated user should be able to create a basic page node
+    Given I am logged in as a user with the <role> role
       And I am on "node/add/page"
       And fill in "Title" with "New Page"
       And fill in "Body" with "Demo body content"
@@ -41,10 +41,18 @@ Feature: Page Content Type
       # And I should see the image alt "Ralphie running with people" in the "Content" region
       # @todo figure out why text isn't showing up.
       And I should see "New Menu Item"
+      
+ Examples:
+    | role            | 
+    | content_editor  | 
+    | site_owner      | 
+    | administrator   | 
+    | developer       | 
+    
 
   @api 
   Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
-    Given  I am logged in as a user with the "site_owner" role
+     Given I am logged in as a user with the <role> role
     When I go to "node/add/page"
     And  I fill in "edit-title" with "New Page"
     Then the "edit-menu-enabled" checkbox should be checked
@@ -52,3 +60,10 @@ Feature: Page Content Type
     And I press "Save"
     And I follow "Edit"
     Then the checkbox "edit-menu-enabled" should be unchecked
+    
+    Examples:
+    | role            | 
+    | content_editor  | 
+    | site_owner      | 
+    | administrator   | 
+    | developer       | 
