@@ -1,8 +1,8 @@
 @faqs
 Feature: Frequently Asked Questions Content Type
-  When I log into the website
-  As an authenticated user
-  I should be able to create, edit, and delete FAQ content
+When I login to a Web Express website
+As an authenticated user
+I should be able to create, edit, and delete FAQ content
   
   @api
   Scenario Outline: An authenticated user should be able to access the form for adding faq content
