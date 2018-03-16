@@ -1,4 +1,4 @@
-@page @newtest
+@pages
 Feature: Basic Page Content Type
   When I log into the website
   As an authenticated user
