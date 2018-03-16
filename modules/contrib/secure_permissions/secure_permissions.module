@@ -253,20 +253,25 @@ function secure_permissions_build_permissions() {
         $permissions_rebuilt = TRUE;
       }
     }
+
     // TEMP = don't reset site_editors when we get to that rid
-    if ($role != 'site_editor') {
-      user_role_change_permissions($rid, $perms);
-      $site_editor_rid = $rid;
-    }
-    // TEMP make site_editors match site_owners
-    if ($role == 'site_owner') {
-      $site_owner_perms = $perms;
+    switch ($role) {
+    case 'site_editor':
+        $site_editor_rid = $rid;
+        break;
+    case 'site_owner':
+        $site_owner_perms = $perms;
+        user_role_change_permissions($rid, $perms);
+        break;
+    default:
+       user_role_change_permissions($rid, $perms);
     }
   }
 
   // TEMP - We can't be sure of the rid order on new vs. old sites
+
   if (isset($site_editor_rid)) {
-    user_role_change_permissions($site_editor_rid, $perms);
+    user_role_change_permissions($site_editor_rid, $site_owner_perms);
   }
 
   return $permissions_rebuilt;
