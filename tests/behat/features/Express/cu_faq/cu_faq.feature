@@ -30,14 +30,9 @@ Feature: Frequently Asked Questions Content Type
       And fill in "Title" with "FAQs"
       And fill in "Body" with "Demo FAQ Content"
        And fill in "edit-field-qa-collection-und-0-field-qa-collection-title-und-0-value" with "Section One"
-       And fill in 
-    When I press "Save"
-    Then the ".page__title" element should contain "New Page"
-      And I should see "Demo body content"
-      # And I should see an image in the "Content" region
-      # And I should see the image alt "Ralphie running with people" in the "Content" region
-      # @todo figure out why text isn't showing up.
-      And I should see "New Menu Item"
+     
+#Then what???
+  
       
  Examples:
     | role            | 
