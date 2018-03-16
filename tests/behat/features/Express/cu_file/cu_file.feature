@@ -31,9 +31,9 @@ Feature: File Content Type
       And  I fill in "Title" with "My File"
       And I fill in "body[und][0][value]" with "Sample Description"
     # And I attach the file "aerialDuotoneBlur.jpg" to "edit-field-file-attachment-und-0-upload"
-      And I attach the file "aerialDuotoneBlur.jpg" to "files[field_file_attachment_und_0]"
+      And I attach the file "ralphie.jpg" to "files[field_file_attachment_und_0]"
       And I press "Upload"
       And I wait for AJAX
-    Then I should see "aerialDuotoneBlur.jpg"
+    Then I should see "ralphie.jpg"
     When I press "Save"
     Then I should see "My File"
