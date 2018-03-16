@@ -1,4 +1,4 @@
-Feature: Quicktabs
+Feature: Expandable Quicktabs
 
 @api @expandable
 Scenario Outline: Content Editors, Site Owners, Administrators, Developers should be able to add Expandable from the block/add screen
