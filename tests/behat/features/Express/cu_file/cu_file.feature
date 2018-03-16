@@ -1,8 +1,8 @@
 @file
 Feature: File Content Type
-  When I login to the website
-  As an authenticated user
-  I should be able to upload a file
+When I login to a Web Express website
+As an authenticated user
+I should be able to upload a file
 
 @api
   Scenario Outline: An authenticated user should be able to access the form for adding a file
