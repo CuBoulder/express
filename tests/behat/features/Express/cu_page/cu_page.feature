@@ -1,8 +1,8 @@
 @page
 Feature: Basic Page Content Type
-  When I log into the website
-  As an authenticated user
-  I should be able to create, edit, and delete page content
+When I login to a Web Express website
+As an authenticated user
+I should be able to create, edit, and delete page content
 
   @api
   Scenario Outline: An authenticated user should be able to access the form for adding basic page content
