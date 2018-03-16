@@ -1,3 +1,4 @@
+@cu_permissions
 Feature: File Content Type
   When I login to the website
   As a content editor, site owner, administrator or developer
