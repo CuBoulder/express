@@ -105,11 +105,8 @@ function cu_users_menu() {
 /**
  * Callback function for edited dashboard.
  */
-function cu_users_user_edited_content() {
-  global $user;
-  $realname = _get_realname($user->uid);
-
-  $output = views_embed_view('authored_content', 'page_1');
+function cu_users_user_edited_content($user) {
+  $output = views_embed_view('authored_content', 'block_2');
 
   return $output;
 }
@@ -117,11 +114,8 @@ function cu_users_user_edited_content() {
 /**
  * Callback function for authored dashboard.
  */
-function cu_users_user_authored_content() {
-  global $user;
-  $realname = _get_realname($user->uid);
-
-  $output = views_embed_view('authored_content', 'page');
+function cu_users_user_authored_content($user) {
+  $output = views_embed_view('authored_content', 'block_1');
 
   return $output;
 }
