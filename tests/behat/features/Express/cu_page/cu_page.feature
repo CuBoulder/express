@@ -1,7 +1,7 @@
 @page @newtest
 Feature: Basic Page Content Type
   When I log into the website
-  As an content editor, site owner, administrator or developer
+  As an authenticated user
   I should be able to create, edit, and delete page content
 
   @api
