@@ -9,6 +9,7 @@ Feature: File Content Type
     Given  I am logged in as a user with the <role> role
     When I go to "node/add/file"
     Then I should not see <message>
+    And I should see "Create File"
 
     Examples:
       | role           | message         |
@@ -29,9 +30,9 @@ Feature: File Content Type
     When I go to "node/add/file"
       And  I fill in "Title" with "My File"
       And I fill in "body[und][0][value]" with "Sample Description"
-      And I attach the file "ralphie.jpg" to "edit-field-file-attachment-und-0-upload"
+      And I attach the file "aerialColorBlur.jpg" to "edit-field-file-attachment-und-0-upload"
       And I press "Upload"
       And I wait for AJAX
-    Then I should see "ralphie.jpg"
+    Then I should see "aerialColorBlur.jpg"
     When I press "Save"
     Then I should see "My File"
