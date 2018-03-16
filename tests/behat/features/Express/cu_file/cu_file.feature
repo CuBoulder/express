@@ -30,9 +30,10 @@ Feature: File Content Type
     When I go to "node/add/file"
       And  I fill in "Title" with "My File"
       And I fill in "body[und][0][value]" with "Sample Description"
-      And I attach the file "http://spot.colorado.edu/~sniderc/images/digitalart/butterflyFire.jpg" to "edit-field-file-attachment-und-0-upload"
+    # And I attach the file "aerialDuotoneBlur.jpg" to "edit-field-file-attachment-und-0-upload"
+      And I attach the file "aerialDuotoneBlur.jpg" to "files[field_file_attachment_und_0]"
       And I press "Upload"
       And I wait for AJAX
-    Then I should see "butterflyFire.jpg"
+    Then I should see "aerialDuotoneBlur.jpg"
     When I press "Save"
     Then I should see "My File"
