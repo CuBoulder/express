@@ -579,6 +579,8 @@ function express_dashboard_user_views_default_views() {
 
   /* Display: Block 2 */
   $handler = $view->new_display('block', 'Block 2', 'block_2');
+  $handler->display->display_options['defaults']['title'] = FALSE;
+  $handler->display->display_options['title'] = 'Content You Edited';
   $handler->display->display_options['defaults']['relationships'] = FALSE;
   /* Relationship: Content revision: Content */
   $handler->display->display_options['relationships']['nid']['id'] = 'nid';
