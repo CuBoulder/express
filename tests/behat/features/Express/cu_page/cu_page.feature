@@ -73,12 +73,12 @@ Feature: Basic Page Content Type
   Scenario: An authenticated user can delete a basic page
      Given I am logged in as a user with the <role> role
     When I go to "node/add/page"
-    And  I fill in "edit-title" with "Sample Page"
-    And fill in "Body" with "Sample body content"
+    And  I fill in "edit-title" with "Test Page"
+    And fill in "Body" with "Do not keep this page"
    And I press "Save"
     And I follow "Edit"
     And I press "Delete"
-    Then I should see "Are you sure you want to delete Sample Page?"
+    Then I should see "Are you sure you want to delete Test Page?"
     And I press "Delete"
     Then I am on "/"
     
