@@ -82,7 +82,8 @@ a.custom-logo-link { display: block; padding-right: 35px; }
 @media screen and (min-width: 480px) { a.custom-logo-link { padding-right: 65px; } }
 #cu-footer img { max-width: 300px; width: 100%; height: auto; }
 
-.search-toggle { display: none; padding: 10px; float: right; font-size: 110%; }
+.search-toggle { display: none; padding: 10px; float: right; font-size: 110%; color: #202020; }
+.brand-bar-reverse .search-toggle, .brand-bar-dark .search-toggle, .brand-bar-black .search-toggle { color: #fff; }
 
 @media screen and (min-width: 960px) { .search-toggle { display: inline-block; } }
 img#logo { position: absolute; top: 0; left: 20px; width: 30px; height: auto; }
@@ -133,8 +134,8 @@ h1#site-name, div#site-name { font-size: 18px; margin: 0; padding: 0; line-heigh
 .brand-bar a:link, .brand-bar a:visited { color: #fff; }
 
 .brand-bar-container { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; }
-.brand-bar-container .brand-logo img { width: 100%; max-width: 200px; height: auto; display: block; }
-@media screen and (min-width: 960px) { .brand-bar-container .brand-logo img { max-width: 265px; } }
+.brand-bar-container .brand-logo img { width: 100%; max-width: 240px; height: auto; display: block; }
+@media screen and (min-width: 768px) { .brand-bar-container .brand-logo img { max-width: 300px; } }
 
 #header-wrapper { background: #fff; color: #202020; }
 

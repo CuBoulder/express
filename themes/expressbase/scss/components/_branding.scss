@@ -184,6 +184,12 @@ a.custom-logo-link {
   padding:10px;
   float: right;
   font-size: 110%;
+  color:#202020;
+  .brand-bar-reverse &,
+  .brand-bar-dark &,
+  .brand-bar-black & {
+    color:#fff;
+  }
 }
 @media screen and (min-width:960px) {
   .search-toggle {
@@ -397,12 +403,12 @@ div#site-name {
 
   .brand-logo img {
     width:100%;
-    max-width: 200px;
+    max-width: 240px;
     height: auto;
     display: block;
-    @media screen and (min-width:960px) {
+    @media screen and (min-width:768px) {
       & {
-        max-width:265px;
+        max-width:300px;
         // margin:5px 0;
       }
     }
