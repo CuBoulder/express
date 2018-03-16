@@ -1,7 +1,7 @@
 @file
 Feature: File Content Type
   When I login to the website
-  As a content editor, site owner, administrator or developer
+  As an authenticated user
   I should be able to add a file
 
   @api
