@@ -4,7 +4,7 @@
  Feature: the Express and Shortcut toolbars
   When I log into the website
   As an authenticated user
-  I should be able to see the correct toolbar menus and shortcuts.
+  I should see the correct toolbar menus and shortcuts.
   
  @api
  Scenario Outline: All roles should see the blue and white toolbars
