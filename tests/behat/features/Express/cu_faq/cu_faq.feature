@@ -32,12 +32,14 @@ I should be able to create, edit, and delete FAQ content
        And fill in "edit-body-und-0-value" with "Demo FAQ explanatory text"
        And fill in "edit-field-qa-collection-und-0-field-qa-collection-title-und-0-value" with "Section One Header"
      And fill in "edit-field-qa-collection-und-0-field-qa-und-0-field-qa-question-und-0-value" with "Question One"
-     And fill in "edit-field-qa-collection-und-0-field-qa-und-0-field-qa-answer-und-0-value" with "Answer One"
+     And fill in "edit-field-qa-collection-und-0-field-qa-und-0-field-qa-answer-und-0-value" with "An Answer to the Question"
 And press "Save"
 Then I should see "My New FAQ Page"
 And I should see "Demo FAQ explanatory text"
 And I should see "Section One Header"
 And I should see "Question One"
+When I click the "ui-accordion-1-header-0" element
+Then I should see "An Answer to the Question"
   
  Examples:
     | role            | 
