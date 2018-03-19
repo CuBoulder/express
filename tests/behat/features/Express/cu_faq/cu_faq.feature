@@ -30,7 +30,7 @@ I should be able to create, edit, and delete FAQ content
       And fill in "Title" with "FAQs"
       And fill in "Body" with "Demo FAQ Content"
        And fill in "edit-field-qa-collection-und-0-field-qa-collection-title-und-0-value" with "Section One"
-     Abd fill in "edit-field-qa-collection-und-0-field-qa-und-0-field-qa-question-und-0-value" with "Question One"
+     And fill in "edit-field-qa-collection-und-0-field-qa-und-0-field-qa-question-und-0-value" with "Question One"
      And fill in "cke_edit-field-qa-collection-und-0-field-qa-und-0-field-qa-answer-und-0-value" with "Answer One"
 And press "Save"
 Then I should see "FAQs"
