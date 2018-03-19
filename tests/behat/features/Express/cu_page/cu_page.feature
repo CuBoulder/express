@@ -27,7 +27,7 @@ Scenario: An anonymous user should not be able to access the form for adding pag
 Scenario Outline: An authenticated user should be able to create a basic page node
   Given I am logged in as a user with the <role> role
   And I am on "node/add/page"
-  And fill in "Title" with "New Page"
+  And fill in "edit-title" with "New Page"
   And fill in "Body" with "Demo body content"
   And fill in "Menu link title" with "New Menu Item"
   # When I attach the file "../../../assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
