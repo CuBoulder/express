@@ -28,14 +28,15 @@ I should be able to create, edit, and delete FAQ content
     Given I am logged in as a user with the <role> role
       And I am on "node/add/faqs"
       And fill in "Title" with "FAQs"
-      And fill in "Body" with "Demo FAQ Content"
+      # And fill in "Body" with "Demo FAQ Content"
+       And fill in "edit-body-und-0-value" with "Demo FAQ Content"
        And fill in "edit-field-qa-collection-und-0-field-qa-collection-title-und-0-value" with "Section One"
      And fill in "edit-field-qa-collection-und-0-field-qa-und-0-field-qa-question-und-0-value" with "Question One"
-     And fill in "cke_edit-field-qa-collection-und-0-field-qa-und-0-field-qa-answer-und-0-value" with "Answer One"
+     And fill in "edit-field-qa-collection-und-0-field-qa-und-0-field-qa-answer-und-0-value" with "Answer One"
 And press "Save"
 Then I should see "FAQs"
 And I should see "Section One"
-And I should see "#cu_faq-entity_view_1-0"
+And I should see "Question One"
   
  Examples:
     | role            | 
