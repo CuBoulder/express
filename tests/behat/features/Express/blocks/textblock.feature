@@ -31,7 +31,7 @@ Scenario Outline: An authenticated user should be able to create a text block bl
  And fill in "edit-title" with "Text Block Title"
  And I fill in "edit-field-block-text-und-0-value" with "An informative block of text about our program"
  And I press "Save"
- Then I should see "New Text Block"
+ Then I should see "Text Block Title"
  And I should see "An informative block of text about our program"
       
  Examples:
