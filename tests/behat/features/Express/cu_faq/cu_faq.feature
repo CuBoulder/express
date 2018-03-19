@@ -60,7 +60,7 @@ Scenario: The provide menu link box should be checked on node creation but remai
   Then the checkbox "edit-menu-enabled" should be unchecked
   
   @api 
-  Scenario: An authenticated user can delete an FAQ node
+  Scenario Outline: An authenticated user can delete an FAQ node
      Given I am logged in as a user with the <role> role
     When I go to "node/add/faqs"
     And  I fill in "edit-title" with "Test FAQ Page"
