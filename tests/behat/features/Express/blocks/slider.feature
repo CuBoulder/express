@@ -1,4 +1,4 @@
-@page
+@slider 
 Feature: Slider Block
 When I login to a Web Express website
 As an authenticated user
@@ -23,7 +23,7 @@ Scenario: An anonymous user should not be able to access the form for adding a s
   When I am on "block/add/slider"
   Then I should see "Access denied"
   
-  @api 
+@api @broken
 Scenario Outline: An authenticated user should be able to create a slider block
   Given I am logged in as a user with the <role> role
   And I am on "block/add/slider"
@@ -46,3 +46,4 @@ Scenario Outline: An authenticated user should be able to create a slider block
     | administrator   | 
     | developer       | 
     
+ 
