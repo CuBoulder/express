@@ -1,0 +1,6 @@
+name = Lando Hosting
+description = Provides setup for testing on the Express Starter Lando environment.
+core = 7.x
+version = 7.x-1.0
+package = Hosting
+

@@ -241,5 +241,10 @@ function express_check_known_hosts() {
     return 'lando';
   }
 
+  // Check for Laravel Valet hosting.
+  if (isset($_SERVER['VALET_ENV'])) {
+      return 'valet';
+  }
+
   return FALSE;
 }
