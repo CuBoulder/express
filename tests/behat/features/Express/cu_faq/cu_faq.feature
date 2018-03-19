@@ -27,7 +27,7 @@ I should be able to create, edit, and delete FAQ content
   Scenario Outline: An authenticated user should be able to create a basic page node
     Given I am logged in as a user with the <role> role
       And I am on "node/add/faqs"
-      And fill in "Title" with "My New FAQ Page"
+      And fill in "edit-title" with "My New FAQ Page"
       # And fill in "Body" with "Demo FAQ explanatory text"
        And fill in "edit-body-und-0-value" with "Demo FAQ explanatory text"
        And fill in "edit-field-qa-collection-und-0-field-qa-collection-title-und-0-value" with "Section One Header"
