@@ -5,7 +5,7 @@ As an authenticated user
 I should be able to create, edit, and delete a hero unit block
 
 @api
-Scenario Outline: An authenticated user should be able to access the form for adding a slider block
+Scenario Outline: An authenticated user should be able to access the form for adding a hero unit block
   Given  I am logged in as a user with the <role> role
   When I go to "block/add/hero-unit"
   Then I should see <message>
@@ -19,12 +19,12 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | developer       | "Create Basic page" |
 
 @api 
-Scenario: An anonymous user should not be able to access the form for adding a slider block
+Scenario: An anonymous user should not be able to access the form for adding a hero unit block
   When I am on "block/add/hero-unit"
   Then I should see "Access denied"
 
 @api @broken
-Scenario Outline: An authenticated user should be able to create a slider block
+Scenario Outline: An authenticated user should be able to create a hero unit block
   Given I am logged in as a user with the <role> role
   And I am on "block/add/hero-unit"
  And fill in "edit-label" with "New Hero Unit"
