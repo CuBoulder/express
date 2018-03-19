@@ -24,7 +24,7 @@ Examples:
     Then I should see "Access denied"
 
   @api @javascript @broken
-  Scenario: An authenticated user should be able to upload a form
+  Scenario Outline: An authenticated user should be able to upload a form
     Given  I am logged in as a user with the <role> role
     When I go to "node/add/file"
    And I fill in "edit-title" with "My File"
