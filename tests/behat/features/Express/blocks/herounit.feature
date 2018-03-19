@@ -1,0 +1,24 @@
+@slider 
+Feature: Hero Unit Block
+When I login to a Web Express website
+As an authenticated user
+I should be able to create, edit, and delete a hero unit block
+
+@api
+Scenario Outline: An authenticated user should be able to access the form for adding a slider block
+  Given  I am logged in as a user with the <role> role
+  When I go to "block/add/hero-unit"
+  Then I should see <message>
+
+    Examples:
+    | role            | message             |
+    | edit_my_content | "Access Denied"     |
+    | content_editor  | "Create Basic page" |
+    | site_owner      | "Create Basic page" |
+    | administrator   | "Create Basic page" |
+    | developer       | "Create Basic page" |
+
+@api 
+Scenario: An anonymous user should not be able to access the form for adding a slider block
+  When I am on "block/add/hero-unit"
+  Then I should see "Access denied"
