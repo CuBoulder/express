@@ -24,7 +24,7 @@ function local_hosting_form_user_login_alter(&$form, &$form_state) {
  * @see https://github.com/CuBoulder/express-starter/issues/27 .
  */
 function local_hosting_url_outbound_alter(&$path, &$options, $original_path) {
-  if (isset($options['script']) && $options['script'] == 'index.php') {
-    $options['script'] = '';
-  }
+   if (isset($options['script']) && $options['script'] == 'index.php') {
+     $options['script'] = '';
+   }
 }
