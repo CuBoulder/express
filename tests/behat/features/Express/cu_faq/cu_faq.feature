@@ -24,7 +24,7 @@ I should be able to create, edit, and delete FAQ content
     Then I should see "Access denied"
     
      @api 
-  Scenario: An authenticated user should be able to create a basic page node
+  Scenario Outline: An authenticated user should be able to create a basic page node
     Given I am logged in as a user with the <role> role
       And I am on "node/add/faqs"
       And fill in "Title" with "FAQs"
@@ -37,7 +37,6 @@ Then I should see "FAQs"
 And I should see "Section One"
 And I should see "#cu_faq-entity_view_1-0"
   
-      
  Examples:
     | role            | 
     | content_editor  | 
@@ -47,7 +46,7 @@ And I should see "#cu_faq-entity_view_1-0"
     
 
   @api 
-  Scenario Outline: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
+  Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
     Given  I am logged in as a user with the "site_owner" role
     When I go to "node/add/faqs"
     And  I fill in "edit-title" with "New FAQ"
