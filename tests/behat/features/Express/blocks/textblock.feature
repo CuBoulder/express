@@ -11,12 +11,12 @@ Scenario Outline: An authenticated user should be able to access the form for ad
   Then I should see <message>
 
     Examples:
-    | role            | message             |
-    | edit_my_content | "Access Denied"     |
-    | content_editor  | "Create Basic page" |
-    | site_owner      | "Create Basic page" |
-    | administrator   | "Create Basic page" |
-    | developer       | "Create Basic page" |
+    | role            | message                   |
+    | edit_my_content | "Access Denied"           |
+    | content_editor  | "Create Text Block block" |
+    | site_owner      | "Create Text Block block" |
+    | administrator   | "Create Text Block block" |
+    | developer       | "Create Text Block block" |
 
 @api 
 Scenario: An anonymous user should not be able to access the form for adding a text block block
