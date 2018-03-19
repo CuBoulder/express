@@ -5,7 +5,7 @@ As an authenticated user
 I should be able to create, edit, and delete FAQ content
   
 @api
-Scenario Outline: An authenticated user should be able to access the form for adding faq content
+Scenario Outline: An authenticated user should be able to access the form for adding FAQ content
  Given  I am logged in as a user with the <role> role
  When I go to "node/add/faqs"
  Then I should see <message>
@@ -19,16 +19,15 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | developer       | "Frequently Asked Questions" |
 
 @api 
-Scenario: An anonymous user should not be able to access the form for adding page content
+Scenario: An anonymous user should not be able to access the form for adding FAQ content
   When I am on "node/add/faqs"
   Then I should see "Access denied"
     
 @api 
-Scenario Outline: An authenticated user should be able to create a basic page node
+Scenario Outline: An authenticated user should be able to create an FAQ node
   Given I am logged in as a user with the <role> role
   And I am on "node/add/faqs"
   And fill in "edit-title" with "My New FAQ Page"
-  # And fill in "Body" with "Demo FAQ explanatory text"
   And fill in "edit-body-und-0-value" with "Demo FAQ explanatory text"
   And fill in "edit-field-qa-collection-und-0-field-qa-collection-title-und-0-value" with "Section One Header"
   And fill in "edit-field-qa-collection-und-0-field-qa-und-0-field-qa-question-und-0-value" with "Question One"
@@ -59,3 +58,23 @@ Scenario: The provide menu link box should be checked on node creation but remai
   And I press "Save"
   And I follow "Edit"
   Then the checkbox "edit-menu-enabled" should be unchecked
+  
+  @api 
+  Scenario: An authenticated user can delete an FAQ node
+     Given I am logged in as a user with the <role> role
+    When I go to "node/add/faqs"
+    And  I fill in "edit-title" with "Test FAQ Page"
+    And fill in "Body" with "Do not keep this page"
+   And I press "Save"
+    And I follow "Edit"
+    And I press "Delete"
+    Then I should see "Are you sure you want to delete Test FAQ Page?"
+    And I press "Delete"
+    Then I am on "/"
+    
+    Examples:
+    | role            | 
+    | content_editor  | 
+    | site_owner      | 
+    | administrator   | 
+    | developer       | 
