@@ -5,7 +5,7 @@ As an authenticated user
 I should be able to create, edit, and delete File content
 
 @api
-  Scenario Outline: An authenticated user should be able to access the form for adding a file
+  Scenario Outline: An authenticated user can access the form for adding a file
     Given  I am logged in as a user with the <role> role
     When I go to "node/add/file"
     Then I should see <message>
