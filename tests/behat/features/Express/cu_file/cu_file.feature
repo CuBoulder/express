@@ -2,7 +2,7 @@
 Feature: File Content Type
 When I login to a Web Express website
 As an authenticated user
-I should be able to upload a file
+I should be able to create, edit, and delete File content
 
 @api
   Scenario Outline: An authenticated user should be able to access the form for adding a file
