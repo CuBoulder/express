@@ -24,11 +24,11 @@ Examples:
     Then I should see "Access denied"
 
   @api @javascript @broken
-  Scenario: A content editor should be able to access the form for adding a file
-    Given  I am logged in as a user with the "content_editor" role
+  Scenario: An authenticated user should be able to upload a form
+    Given  I am logged in as a user with the <role> role
     When I go to "node/add/file"
-      And  I fill in "Title" with "My File"
-      And I fill in "body[und][0][value]" with "Sample Description"
+   And I fill in "edit-title" with "My File"
+    And I fill in "body[und][0][value]" with "Sample Description"
     And I attach the file "ralphie.jpg" to "edit-field-file-attachment-und-0-upload"
     And I press "Upload"
     And I wait for AJAX
@@ -37,3 +37,32 @@ Examples:
     When I press "Save"
     Then I should see "My File"
     And I should see "Access the top file listed below with the following url"
+    
+    Examples:
+    | role            | 
+    | content_editor  | 
+    | site_owner      | 
+    | administrator   | 
+    | developer       | 
+      
+      
+@api 
+Scenario: An authenticated user can delete a XXX node
+  Given I am logged in as a user with the <role> role
+    When I go to "node/add/file"
+    And I fill in "edit-title" with "Test Page"
+ And I fill in "body[und][0][value]" with "Do not keep this page"
+   And I press "Save"
+    And I follow "Edit"
+    And I press "Delete"
+    Then I should see "Are you sure you want to delete Test Page?"
+    And I press "Delete"
+    Then I am on "/"
+    
+    Examples:
+    | role            | 
+    | content_editor  | 
+    | site_owner      | 
+    | administrator   | 
+    | developer       | 
+    
