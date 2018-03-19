@@ -215,3 +215,20 @@ function cu_forms_bundle_form_webform_component_edit_form_alter(&$form, &$form_s
   );
   $form['validation']['extensions']['addextensions']['#default_value'] = '';
 }
+
+/**
+ * Tell users what happens next when creating webforms.
+ */
+function cu_forms_bundle_form_webform_node_form_alter(&$form, &$form_state, $form_id) {
+  $form['webcentral_tutorial_info'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Webform Tutorial: Creating a new form'),
+    '#weight' => 90,
+  );
+  $form['webcentral_tutorial_info']['tut_info'] = array(
+    '#markup' => t('This is the first step in creating a Webform--the Webform Page. At this point it looks 
+    like you are creating a regular basic page, as you don\'t see any options for adding form elements. That will come 
+    after. In this screen just set the title and the introductory text (body field). You can also set a menu option for 
+    it, or wait and do that later.<br><br><strong>The next step:</strong> creating form elements (after saving this page).'),
+  );
+}
