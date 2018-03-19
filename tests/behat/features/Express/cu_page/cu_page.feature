@@ -1,4 +1,4 @@
-@pages
+@pages @rebuild
 Feature: Basic Page Content Type
   When I log into the website
   As an authenticated user
@@ -28,7 +28,9 @@ Feature: Basic Page Content Type
     Given I am logged in as a user with the <role> role
       And I am on "node/add/page"
       And fill in "Title" with "New Page"
-      And fill in "Body" with "Demo body content"
+     # And fill in "Body" with "Demo body content"
+        And fill in "edit-body-und-0-value" with "Demo body content"
+      And fill in "A page for questions and answers
       And fill in "Menu link title" with "New Menu Item"
     # When I attach the file "../../../assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
     #   And I press the "Upload" button
