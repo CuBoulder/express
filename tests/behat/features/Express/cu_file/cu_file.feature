@@ -47,7 +47,7 @@ Examples:
       
       
 @api 
-Scenario: An authenticated user can delete a XXX node
+Scenario Outline: An authenticated user can delete a XXX node
   Given I am logged in as a user with the <role> role
     When I go to "node/add/file"
     And I fill in "edit-title" with "Test Page"
