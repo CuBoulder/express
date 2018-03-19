@@ -51,7 +51,7 @@ Scenario Outline: An authenticated user should be able to create a basic page no
     
 
   @api 
-  Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
+  Scenario Outline: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
      Given I am logged in as a user with the <role> role
     When I go to "node/add/page"
     And  I fill in "edit-title" with "New Page"
@@ -68,9 +68,9 @@ Scenario Outline: An authenticated user should be able to create a basic page no
     | administrator   | 
     | developer       | 
     
-    
- @api 
-  Scenario: An authenticated user can delete a basic page
+
+@api 
+Scenario Outline: An authenticated user can delete a basic page
      Given I am logged in as a user with the <role> role
     When I go to "node/add/page"
     And  I fill in "edit-title" with "Test Page"
