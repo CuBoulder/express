@@ -13,10 +13,10 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     Examples:
     | role            | message             |
     | edit_my_content | "Access Denied"     |
-    | content_editor  | "Create Basic page" |
-    | site_owner      | "Create Basic page" |
-    | administrator   | "Create Basic page" |
-    | developer       | "Create Basic page" |
+    | content_editor  | "Create Hero Unit block" |
+    | site_owner      | "Create Hero Unit block" |
+    | administrator   | "Create Hero Unit block" |
+    | developer       | "Create Hero Unit block" |
 
 @api 
 Scenario: An anonymous user should not be able to access the form for adding a hero unit block
