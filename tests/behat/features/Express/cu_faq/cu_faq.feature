@@ -38,8 +38,8 @@ Scenario Outline: An authenticated user should be able to create a basic page no
   And I should see "Demo FAQ explanatory text"
   And I should see "Section One Header"
   And I should see "Question One"
-  When I click the "ui-accordion-1-header-0" element
-  Then I should see "An Answer to the Question"
+ # When I click the "ui-accordion-1-header-0" element
+ # Then I should see "An Answer to the Question"
   
  Examples:
     | role            | 
