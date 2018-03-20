@@ -18,7 +18,6 @@ Scenario Outline: Core bundles
    And I should see "News and Articles"
    And I should see "People"
    And I should see "Photo Gallery"
-   And I should see "Publication"
    And I should see "Search Engine Optimization"
    And I should see "Social Media"
     
@@ -33,15 +32,11 @@ Examples:
 Scenario Outline: Add-on bundles
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/bundles/list/addon"
-  Then I should see "
-   And I should see "
-   And I should see "
-   And I should see "
-   And I should see "
-   And I should see "
-   And I should see "
-   And I should see "
-   And I should see "
+  Then I should see "Content Sequence"
+   And I should see "Collections"
+   And I should see "Localist Events"
+   And I should see "Forms"
+   And I should see "Publication"
     
 Examples:
     | role            | 
@@ -49,34 +44,20 @@ Examples:
     | administrator   | 
     | site_owner      | 
     
-# ADD-ON BUNDLES
-Scenario Outline: Core bundles
+
+# REQUESTED BUNDLES
+Scenario Outline: Requested bundles
   Given I am logged in as a user with the <role> role
-  And am on "admin/settings/bundles/list/addon"
-  Then I should see "
-   And I should see "
-   And I should see "
-   And I should see "
-   And I should see "
-   And I should see "
-   And I should see "
-   And I should see "
-   And I should see "
+  And am on "admin/settings/bundles/list/request"
+  Then I should see "Chemistry Title"
+   And I should see "Live Chat"
+   And I should see "Live Stream"
+   And I should see "Responsive Visibility"
+   And I should see "Video Hero Unit"
+   And I should see "Newsletter"
     
 Examples:
     | role            | 
     | developer       | 
     | administrator   | 
     | site_owner      | 
-
-    
- @api 
-Scenario Outline: CEs and EMCs should not be able to access the Bundle Requeset page
-Given I am logged in as a user with the <role> role
-And am on "admin/settings/bundles/list/request"
-Then I should see "Access denied"
-
- Examples:
-    | role            | 
-    | content_editor  | 
-    | edit_my_content  | 
