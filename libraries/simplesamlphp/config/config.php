@@ -62,7 +62,7 @@ $config = array(
          * need to compute the right URLs yourself and pass them dynamically
          * to SimpleSAMLphp's API.
          */
-        //'baseURL' => 'https://example.com'
+        'baseURL' => 'https://' . $url . $match[0]
     //),
 
     /*
@@ -176,7 +176,7 @@ $config = array(
      * If you have some SP's on HTTP and IdP is normally on HTTPS, this option
      * enables secure POSTing to HTTP endpoint without warning from browser.
      *
-     * For this to work, module.php/core/postredirect.php must be accessible
+     * For this to work, www-te must be accessible
      * also via HTTP on IdP, e.g. if your IdP is on
      * https://idp.example.org/ssp/, then
      * http://idp.example.org/ssp/module.php/core/postredirect.php must be accessible.
