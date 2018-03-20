@@ -12,8 +12,8 @@ Scenario: Devs, Admins and SOs can set the Google Analytics Account ID
   And fill in "edit-ga-account" with "UA-987654-1"
   When I press "Save"
   Then I should see "The configuration options have been saved"
-  And I go to "/"
-  Then I should see "New Site Title Second Line"
+  And I go to "admin/dashboard/seo"
+  Then I should see "You have a custom google analytics account assigned to your website."
     
 Examples:
     | role            | 
@@ -31,4 +31,19 @@ Then I should see "Access denied"
  Examples:
     | role            | 
     | content_editor  | 
-    | edit_my_content  | 
+    | edit_my_content | 
+    
+
+@api
+Scenario Outline: Users cannot access the Google Analytics General Settings page
+Given I am logged in as a user with the <role> role
+And am on "admin/config/system/googleanalytics"
+Then I should see "Access denied"
+
+ Examples:
+    | role            |
+    | administrator   | 
+    | site_owner      |
+    | content_editor  | 
+    | edit_my_content | 
+
