@@ -6,7 +6,7 @@ Should be able to select a published form
 
 #SOME ROLES CAN SELECT A FEEDBACK FORM
 @api
-Scenario: Devs, Admins and SOs can see all the options for the Feedback Form
+Scenario Outline: Devs, Admins and SOs can see all the options for the Feedback Form
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/forms/feedback"
   Then I should see "edit-cu-feedback-path"
