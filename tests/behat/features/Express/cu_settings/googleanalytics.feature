@@ -9,8 +9,8 @@ Should be able to set the Google Analytics Account ID
 Scenario: Devs, Admins and SOs can set the Google Analytics Account ID
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/site-configuration/google-analytics"
-  And fill in "edit-ga-account" with "UA-987654-1"
-  When I press "Save"
+  When I fill in "edit-ga-account" with "UA-987654-1"
+  And I press "Save"
   Then I should see "The configuration options have been saved"
   And I go to "admin/dashboard/seo"
   Then I should see "You have a custom google analytics account assigned to your website."
