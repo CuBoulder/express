@@ -2,16 +2,16 @@
 Feature: Social Share Settings encourage your site's visitors to share your site's content through social media
 In order to place social media links on node types
 An authenticated user with the proper role
-Should be able to select a published form
+Should be able to set Social Share options
 
 #SOME ROLES CAN ACCESS THE SOCIAL SHARE SETTINGS
 @api
 Scenario Outline: Devs, Admins and SOs can set the Social Sharing options
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/social/share"
-  And I click "edit-cu-share-settings-facebook-enabled"
-  And I click "edit-cu-share-position-side-bottom"
-  And I click "edit-basic-settings-page"
+  And I check "edit-cu-share-settings-facebook-enabled"
+  And I check "edit-cu-share-position-side-bottom"
+  And I check "edit-basic-settings-page"
   Then stuff should happen
     
 Examples:
