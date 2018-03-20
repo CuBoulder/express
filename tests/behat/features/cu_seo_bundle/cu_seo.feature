@@ -2,6 +2,12 @@ Feature: Search Engine Optimization Bundle
   In order to optimize my site content for search engines
   Authenticated users with proper role
   I should be able access and edit SEO links and functionality
+  
+ Scenario: The Google Analytics Settings page has been installed
+ Given I am logged is as a user with the "developer" role
+ When I go to "admin/config/system/googleanalytics"
+ Then I should see "General Settings"
+ And I should see "Tracking scope"
 
 Background: 
 Given I am logged in as a user with the "site_owner" role
