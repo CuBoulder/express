@@ -1,6 +1,6 @@
 Feature: Search Engine Optimization Bundle
   In order to optimize my site content for search engines
-  As a Site Owner
+  Authenticated users with proper role
   I should be able access and edit SEO links and functionality
 
 Background: 
