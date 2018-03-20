@@ -1,5 +1,5 @@
 @settings
-Feature: Feedback Form
+Feature: Feedback Form places an existing Webform as a popup
 In order to create a site feedback form
 An authenticated user with the proper role
 Should be able to select a published form
