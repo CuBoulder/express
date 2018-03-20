@@ -1,8 +1,8 @@
 @settings
 Feature: Site Name
-When I am on the admin/settings/site-configuration/site-name
-As a user with the proper role
-I should be able to set the site name
+In order to identify what WEb Express site this is
+An authenticated user with the proper role
+Should be able to set the site name
 
 #SOME ROLES CAN SET THE SITE NAME
 @api
