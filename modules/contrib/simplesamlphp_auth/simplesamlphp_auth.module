@@ -85,6 +85,7 @@ function simplesamlphp_auth_permission() {
 function simplesamlphp_auth_loginpage() {
   global $user;
   global $base_url;
+  global $base_path;
   global $_simplesamlphp_auth_as;
   global $_simplesamlphp_auth_saml_attributes;
 
@@ -151,7 +152,8 @@ function simplesamlphp_auth_loginpage() {
     // WAS $_simplesamlphp_auth_as->requireAuth();
     $_simplesamlphp_auth_as->requireAuth(array(
      // explicitly not setting port to prevent bad port redirects
-      'ReturnTo' => 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
+      //'ReturnTo' => 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
+      'ReturnTo' => 'https://' . $_SERVER['HTTP_HOST'] . $base_path . '/user',
     ));
     // If the user is authenticated, send them along.
 
