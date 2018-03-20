@@ -6,7 +6,7 @@ Should be able to select a published form
 
 #SOME ROLES CAN ACCESS THE SOCIAL SHARE SETTINGS
 @api
-Scenario: Devs, Admins and SOs can set the Social Sharing options
+Scenario Outline: Devs, Admins and SOs can set the Social Sharing options
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/social/share"
   And I click "edit-cu-share-settings-facebook-enabled"
