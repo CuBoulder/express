@@ -6,7 +6,7 @@ Should be able to add a Site Description
 
 #SOME ROLES CAN SET THE SITE DESCRIPTION
 @api
-Scenario: Devs, Admins and SOs can set the Site Description
+Scenario Outline: Devs, Admins and SOs can set the Site Description
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/site-configuration/site-description"
   And fill in "site_description" with "We offer personalized career development"
