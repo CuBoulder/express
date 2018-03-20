@@ -1,0 +1,35 @@
+@settings
+Feature: URL redirects
+In order to create vanity URLs or fix broken pages
+An authenticated user with the proper role
+Should be able to create a URL redirect
+
+#SOME ROLES CAN CREATE URL REDIRECTS
+@api
+Scenario: Devs, Admins and SOs can create a URL redirect
+  Given I am logged in as a user with the <role> role
+  And am on "admin/config/search/redirect"
+  And fill in "edit-site-name-1" with "New Site Title"
+  And fill in "edit-site-name-2" with "Second Line"
+  When I press "Save"
+  Then I should see "The configuration options have been saved"
+  And I go to "/"
+  Then I should see "URL redirects"
+    
+Examples:
+    | role            | 
+    | developer       | 
+    | administrator   | 
+    | site_owner      | 
+
+# SOME ROLES CAN NOT SET SITE NAME
+@api 
+Scenario Outline: CEs and EMCs can not create a URL redirect
+Given I am logged in as a user with the <role> role
+And am on "admin/config/search/redirect"
+Then I should see "Access denied"
+
+ Examples:
+    | role            | 
+    | content_editor  | 
+    | edit_my_content  | 
