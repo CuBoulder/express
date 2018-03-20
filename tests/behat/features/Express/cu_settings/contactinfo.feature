@@ -6,7 +6,7 @@ Should be able to add Contact Information
 
 #SOME ROLES CAN SET THE SITE CONTACT
 @api
-Scenario: Devs, Admins and SOs can set the Site Contact
+Scenario Outline: Devs, Admins and SOs can set the Site Contact
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/site-configuration/contact"
   And fill in "Contact Information" with "1234 Fifth Street"
