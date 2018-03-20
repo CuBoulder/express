@@ -26,7 +26,7 @@ Examples:
 @api 
 Scenario Outline: CEs and EMCs should not be able to set site name
 Given I am logged in as a user with the <role> role
-And am on admin/settings/site-configuration/site-name
+And am on "admin/settings/site-configuration/site-name"
 Then I should see "Access denied"
 
  Examples:
