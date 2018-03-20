@@ -237,8 +237,11 @@ function cu_users_user_insert(&$edit, $account, $category) {
   watchdog('cu_user_logs', 'User account created. UID: %uid name: %name mail: %mail created: %created roles: %roles', $user_vars);
 }
 
+/**
+ * Lookup LDAP user via email (from cu_ldap.module).
+ */
 function cu_users_ldap_email_lookup($email) {
-  //@TODO: replace hardcoded values with configuration from LDAP settings
+  // @TODO: replace hardcoded values with configuration from LDAP settings
 
   // Load the user's entry in LDAP.
   $link_identifier = ldap_connect('directory.colorado.edu');
@@ -250,11 +253,16 @@ function cu_users_ldap_email_lookup($email) {
   return $ldap_entries;
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
 function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form_state) {
   $form['#submit'][] = 'cu_users_override_external_invite_submit';
-  $output = cu_users_ldap_email_lookup('owen.morrill@colorado.edu');
 }
 
+/**
+ * Custom submit handler for external invite override.
+ */
 function cu_users_override_external_invite_submit(&$form, &$form_state) {
   $email = strtolower($form_state['values']['email']);
   $output = cu_users_ldap_email_lookup($email);
@@ -267,7 +275,7 @@ function cu_users_override_external_invite_submit(&$form, &$form_state) {
   if (!empty($output) && !empty($email)&& !empty($ldap_mail_return) && $email == $ldap_mail_return) {
     $new_user = array(
       'name' => $username,
-      'pass' => $username . strrev($username), // note: do not md5 the password
+      'pass' => $username . strrev($username),
       'mail' => $email,
       'status' => 1,
       'init' => $email,
