@@ -1,19 +1,19 @@
 @settings
-Feature: Site Description
-In order to optimize search engine results
+Feature: Site Description populates Meta tag "Description" on site homepage
+In order to optimize search engine results with Meta Tag Description
 Authenticated users with the proper role
 Should be able to add a Site Description
 
-#SOME ROLES CAN SET THE SITE NAME
+#SOME ROLES CAN SET THE SITE DESCRIPTION
 @api
 Scenario: Devs, Admins and SOs can set the Site Description
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/site-configuration/site-description"
   And fill in "site_description" with "We offer personalized career development"
-  When I press "Save"
+  And I press "edit-submit"
   Then I should see "The configuration options have been saved"
   And I go to "/"
-  Then I should see a neta tag with name'description and content ='we offer personalized'
+  Then the response should contain "content=\"We offer personalized career development\""
     
 Examples:
     | role            | 
