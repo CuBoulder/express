@@ -7,7 +7,7 @@ Should be able to Set Site Search Settings
 
 #SOME ROLES CAN SET THE SITE SEARCH SETTINGS
 @api
-Scenario: Devs, Admins and SOs can set the Site Name
+Scenario Outline: Devs, Admins and SOs can set the Site Name
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/search/search-settings"
   Then I should see "Select the options for the site search box"
