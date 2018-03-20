@@ -6,7 +6,7 @@ Should be able to set the site name
 
 #SOME ROLES CAN SET THE SITE NAME
 @api
-Scenario: Devs, Admins and SOs can set the Site Name
+Scenario Outline: Devs, Admins and SOs can set the Site Name
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/site-configuration/site-name"
   And fill in "edit-site-name-1" with "New Site Title"
