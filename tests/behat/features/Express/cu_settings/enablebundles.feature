@@ -6,7 +6,7 @@ Should be able to access the Bundle List pages
 
 #SOME ROLES CAN ENABLE BUNDLES
 @api
-Scenario: Devs, Admins and SOs can access the Bundle List page and see three tabs
+Scenario Outline: Devs, Admins and SOs can access the Bundle List page and see three tabs
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/bundles/list"
   Then I should see "Configure Bundles"
