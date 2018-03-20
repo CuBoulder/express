@@ -236,3 +236,48 @@ function cu_users_user_insert(&$edit, $account, $category) {
 
   watchdog('cu_user_logs', 'User account created. UID: %uid name: %name mail: %mail created: %created roles: %roles', $user_vars);
 }
+
+function cu_users_ldap_email_lookup($email) {
+  //@TODO: replace hardcoded values with configuration from LDAP settings
+
+  // Load the user's entry in LDAP.
+  $link_identifier = ldap_connect('directory.colorado.edu');
+  $base_dn = "dc=colorado,dc=edu";
+  $filter = "mail=" . $email;
+  $result_identifier = ldap_search($link_identifier, $base_dn, $filter);
+  $ldap_entries = ldap_get_entries($link_identifier, $result_identifier);
+
+  return $ldap_entries;
+}
+
+function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form_state) {
+  $form['#submit'][] = 'cu_users_override_external_invite_submit';
+  $output = cu_users_ldap_email_lookup('owen.morrill@colorado.edu');
+}
+
+function cu_users_override_external_invite_submit(&$form, &$form_state) {
+  $email = strtolower($form_state['values']['email']);
+  $output = cu_users_ldap_email_lookup($email);
+  $parts = explode("@", $output[0]['cuedupersonemailhome'][0]);
+  $username = $parts[0];
+
+  $ldap_mail_return = strtolower($output[0]['mail'][0]);
+  $rid = $form_state['values']['rid'];
+
+  if (!empty($output) && !empty($email)&& !empty($ldap_mail_return) && $email == $ldap_mail_return) {
+    $new_user = array(
+      'name' => $username,
+      'pass' => $username . strrev($username), // note: do not md5 the password
+      'mail' => $email,
+      'status' => 1,
+      'init' => $email,
+      'roles' => array(
+        DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+        $rid => 'n/a',
+      ),
+    );
+
+    // The first parameter is sent blank so a new user is created.
+    user_save('', $new_user);
+  }
+}
