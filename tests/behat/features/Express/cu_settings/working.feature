@@ -55,15 +55,7 @@
     | administrator  | "Access denied" |
     | developer      | "Access denied" |
 
-  @api @settings @clean_install
-  Scenario: A site_owner should see a new title on the homepage
-    Given  I am logged in as a user with the "site_owner" role
-      And am on "admin/settings/site-configuration/site-name"
-      And fill in "Site name - line 1" with "New Site Title"
-      And fill in "Site name - line 2 (optional)" with "Second line"
-    When I press "Save"
-      And I go to "home"
-    Then I should see "New Site Title Second Line"
+  
 
   ## Not sure where livechat tests should go.
   # @todo add test to livechat bundle.
