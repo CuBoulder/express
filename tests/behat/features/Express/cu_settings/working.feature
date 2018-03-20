@@ -1,5 +1,4 @@
-Feature: CU Settings
-  An Express user should see the following options on the Express Settings pages.
+
 
   @api @settings
   Scenario Outline: Content editors should not be able to access settings
@@ -17,27 +16,8 @@ Feature: CU Settings
     | "admin/settings/bundles/list"                        |
     | "admin/settings/cache/clear/varnish-full"            |
 
-  @api @settings
-  Scenario Outline: An site owner/administrator/developer user should be able to access the settings page
-    Given  I am logged in as a user with the <role> role
-    When I go to "admin/settings"
-    Then I should not see <message>
 
-    Examples:
-      | role           | message               |
-      | content_editor | "Site Configurations" |
       
-  @api @settings
-  Scenario Outline: An site owner/administrator/developer user should be able to access the settings page
-    Given  I am logged in as a user with the <role> role
-    When I go to "admin/settings"
-    Then I should see <message>
-
-    Examples:
-      | role           | message               |
-      | site_owner     | "Site Configurations" |
-      | administrator  | "Site Configurations" |
-      | developer      | "Site Configurations" |
 
   @api @settings
   Scenario Outline: An site owner/administrator/developer should be able to access the settings contact page
