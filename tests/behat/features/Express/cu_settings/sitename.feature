@@ -1,6 +1,6 @@
 @settings
 Feature: Site Name
-In order to identify what WEb Express site this is
+In order to identify what Web Express site this is
 An authenticated user with the proper role
 Should be able to set the site name
 
