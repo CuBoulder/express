@@ -10,7 +10,7 @@ Scenario Outline: Devs, Admins and SOs can view the URL redirects form
   And am on "admin/config/search/redirect"
   Then I should see "List"
   And I should see "Delete redirects"
- And I should see the link "Add redirect"
+  And I should see the link "Add redirect"
   And I should see "Filter redirects"
   And I should see the link "sort by From"
   And I should see the link "sort by To"
