@@ -9,10 +9,10 @@ Should be able to select a published form
 Scenario: Devs, Admins and SOs can set the Social Sharing options
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/social/share"
-  Then I should see "edit-cu-feedback-path"
-  And I should see "edit-cu-feedback-label"
-  And I should see "edit-cu-feedback-color"
-  And I should see "edit-cu-feedback-embed"
+  And I click "edit-cu-share-settings-facebook-enabled"
+  And I click "edit-cu-share-position-side-bottom"
+  And I click "edit-basic-settings-page"
+  Then stuff should happen
     
 Examples:
     | role            | 
