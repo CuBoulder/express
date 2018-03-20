@@ -18,10 +18,11 @@ function local_hosting_install() {
 $local_post_settings = dirname(__FILE__) . \'/settings.local.php\';
 if (file_exists($local_post_settings)) {
   include $local_post_settings;
-}';
+}
+';
 
   // Set settings file to allow writes.
-  shell_exec('chmod -R 777 ' . $settings_file_path . ' -y');
+  shell_exec('chmod -R 777 ' . $settings_file_path);
 
   // Load local settings file from settings.php.
   file_put_contents($settings_file_path . 'settings.php', $file_content, FILE_APPEND | LOCK_EX);

@@ -226,8 +226,6 @@ function express_get_node_thumbnail($node, $field, $image_style = 'medium') {
  */
 function express_check_known_hosts() {
 
-  variable_set('varz', $_SERVER);
-
   // Check for Travis.
   if (isset($_SERVER['TRAVIS'])) {
     return 'travis';
@@ -245,7 +243,6 @@ function express_check_known_hosts() {
 
   // Check for Laravel Valet hosting.
   if (isset($_SERVER['VALET_ENV'])) {
-      variable_set('marz', 'im valet too!');
       return 'valet';
   }
 
