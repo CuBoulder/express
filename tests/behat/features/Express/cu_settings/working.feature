@@ -9,9 +9,7 @@
     Examples:
     | path                                                 |
     | "admin/config/search/redirect/add"                   |
-    | "admin/settings/site-configuration/site-name"        |
-    | "admin/settings/site-configuration/site-description" |
-    | "admin/settings/site-configuration/contact"          |
+
     | "admin/settings/site-configuration/google-analytics" |
     | "admin/settings/bundles/list"                        |
     | "admin/settings/cache/clear/varnish-full"            |
