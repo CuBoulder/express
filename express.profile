@@ -226,6 +226,16 @@ function express_get_node_thumbnail($node, $field, $image_style = 'medium') {
  */
 function express_check_known_hosts() {
 
+  // Check for Lando.
+  if (getenv('LANDO_ENV') === 'yes') {
+    return 'lando';
+  }
+
+  // Check for Laravel Valet hosting.
+  if (isset($_SERVER['VALET_ENV'])) {
+    return 'valet';
+  }
+
   // Check for Travis.
   if (isset($_SERVER['TRAVIS'])) {
     return 'travis';
@@ -234,16 +244,6 @@ function express_check_known_hosts() {
   // Check for Pantheon.
   if (defined('PANTHEON_ENVIRONMENT')) {
     return 'pantheon';
-  }
-
-  // Check for Lando.
-  if (getenv('LANDO_ENV') === 'yes') {
-    return 'lando';
-  }
-
-  // Check for Laravel Valet hosting.
-  if (isset($_SERVER['VALET_ENV'])) {
-      return 'valet';
   }
 
   return FALSE;
