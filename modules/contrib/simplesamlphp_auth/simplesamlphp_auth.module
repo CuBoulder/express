@@ -244,11 +244,17 @@ function simplesamlphp_auth_init() {
           // if we are allowed to register users.
           if (variable_get('simplesamlphp_auth_registerusers', TRUE)) {
 
-            // We are allowed to register new users.
-            _simplesaml_auth_debug(t('Register [%authname]', array('%authname' => $authname)));
+            // We are allowed to register new users, but check to see if this user exists first
+            $usercheck = user_load_by_name($authname);
 
-            user_external_login_register($authname, 'simplesamlphp_auth');
+            if (!$usercheck->uid) {
+              _simplesaml_auth_debug(t('Register [%authname]', array('%authname' => $authname)));
+              user_external_login_register($authname, 'simplesamlphp_auth');
+            } else {
+              _simplesaml_auth_debug(t('[%authname] already exists', array('%authname' => $authname)));
+            }
             $skip_user_finalization = TRUE;
+
 
             if (!empty($user->uid)) {
               // Populate roles based on configuration setting.
