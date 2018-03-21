@@ -21,7 +21,7 @@ Scenario Outline: Devs, Admins and SOs can access and change the Set Homepage se
   And I am on "admin/settings/adv-content/frontpage"
   And I fill in "edit-site-frontpage" with "new-home"
   When I press "Save"
-  Then I should see "Please enter a valid path."
+  Then I should see "The configuration options have been saved."
   And I go to "/"
   Then I should see "Our special new home page"
     
