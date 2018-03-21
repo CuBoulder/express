@@ -458,7 +458,8 @@ function simplesamlphp_auth_user_logout($account) {
     // Allow modules to alter $gotourl.
     drupal_alter('simplesamlphp_auth_logout_gotourl', $gotourl, $account);
 
-    $_simplesamlphp_auth_as->logout($gotourl);
+    //$_simplesamlphp_auth_as->logout($gotourl);
+    drupal_goto($gotourl);
 
   }
 }
