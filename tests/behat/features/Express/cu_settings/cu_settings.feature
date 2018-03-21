@@ -1,7 +1,11 @@
-Feature: CU Settings
-  An Express user should see the following options on the Express Settings pages.
+#THESE TESTS HAVE ALL BEEN SPLIT OUT INTO SEPARATE FEATURE FILES
 
-  @api @settings
+Feature: CU Settings
+ An Express user should see the following options on the Express Settings pages.
+
+
+
+  @api 
   Scenario Outline: Content editors should not be able to access settings
     Given  I am logged in as a user with the "content_editor" role
       And am on <path>
@@ -17,7 +21,7 @@ Feature: CU Settings
     | "admin/settings/bundles/list"                        |
     | "admin/settings/cache/clear/varnish-full"            |
 
-  @api @settings
+  @api 
   Scenario Outline: An site owner/administrator/developer user should be able to access the settings page
     Given  I am logged in as a user with the <role> role
     When I go to "admin/settings"
@@ -27,7 +31,7 @@ Feature: CU Settings
       | role           | message               |
       | content_editor | "Site Configurations" |
       
-  @api @settings
+  @api 
   Scenario Outline: An site owner/administrator/developer user should be able to access the settings page
     Given  I am logged in as a user with the <role> role
     When I go to "admin/settings"
@@ -39,7 +43,7 @@ Feature: CU Settings
       | administrator  | "Site Configurations" |
       | developer      | "Site Configurations" |
 
-  @api @settings
+  @api 
   Scenario Outline: An site owner/administrator/developer should be able to access the settings contact page
     Given  I am logged in as a user with the <role> role
     When I go to "admin/settings/site-configuration/contact"
@@ -51,7 +55,7 @@ Feature: CU Settings
     | administrator  | "Access denied" |
     | developer      | "Access denied" |
 
-  @api @settings
+  @api 
   Scenario Outline: An site owner/administrator/developer should be able to access the settings redirects page
     Given  I am logged in as a user with the <role> role
     When I go to "admin/settings/site-configuration/redirects"
@@ -63,7 +67,7 @@ Feature: CU Settings
     | administrator  | "Access denied" |
     | developer      | "Access denied" |
 
-  @api @settings @redirects
+  @api  @redirects
   Scenario Outline: An site owner/administrator/developer should be able to access the settings redirects page
     Given  I am logged in as a user with the <role> role
     When I go to "admin/config/search/redirect/add"
@@ -75,7 +79,7 @@ Feature: CU Settings
     | administrator  | "Access denied" |
     | developer      | "Access denied" |
 
-  @api @settings @clean_install
+  @api   @clean_install
   Scenario: A site_owner should see a new title on the homepage
     Given  I am logged in as a user with the "site_owner" role
       And am on "admin/settings/site-configuration/site-name"
@@ -102,13 +106,13 @@ Feature: CU Settings
   #  When I press the "Save" button
   #  Then I should see "The livechat license number must only contain numbers."
 
-  @api @settings @contact @clean_install
+  @api  @clean_install
   Scenario: A site_owner should see contact info form
     Given  I am logged in as a user with the "site_owner" role
       And I am on "admin/settings/site-configuration/contact"
     Then I should see "Contact Information"
 
-  @api @settings @contact @clean_install
+  @api @clean_install
   Scenario: A site_owner should be able to update the contact info form
     Given  I am logged in as a user with the "site_owner" role
       And I am on "admin/settings/site-configuration/contact"
@@ -119,7 +123,7 @@ Feature: CU Settings
     Then I should see "Put site contact information here"
 
   # No Varnish on Travis
-  @api @settings @cache
+  @api  @cache
   Scenario Outline: A site_owner/administrator/developer should be able to see and use cache clearing.
     Given I am logged in as a user with the <role> role
       When I go to "admin/settings"
@@ -144,7 +148,7 @@ Feature: CU Settings
   | administrator  | "Clear Caches" |
   | developer      | "Clear Caches" |
   
-  @api @settings @cache
+  @api  @cache
   # No Varnish on Travis.
   Scenario: As a CE, I should be able to see and use page cache clearing by path.
     Given I am logged in as a user with the "content_editor" role
@@ -160,7 +164,7 @@ Feature: CU Settings
       #And I press "Clear Path From Page Cache"
     #Then I should see <message>
   
-  @api @settings @cache
+  @api @cache
   Scenario: A user with the edit_my_content role should not be able to see and use cache clearing.
     Given I am logged in as a user with the "edit_my_content" role
     When I am on "admin/settings/cache/clear/varnish-full"
