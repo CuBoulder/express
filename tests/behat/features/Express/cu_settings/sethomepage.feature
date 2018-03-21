@@ -1,4 +1,4 @@
-@settings
+@rebuild
 Feature: Setting a New Homepage
 In order to create a unique homepage experience
 An authenticated user with the proper role
@@ -7,7 +7,7 @@ Should be able to change the default front page
 #CREATE A BASIC PAGE TO TEST HOME PAGE SETTING
 Scenario: Creating a page for the following tests
 And I am on "node/add/page"
-And fill in "Title" with "New Home"
+And fill in "edit-title" with "New Home"
 And fill in "Body" with "Our special new home page"
 And I uncheck "edit-menu-enabled"
 And I press "Save"
@@ -20,7 +20,7 @@ Scenario Outline: Devs, Admins and SOs can access and change the Set Homepage se
   And am on "admin/settings/adv-content/frontpage"
   And fill in "edit-site-frontpage" with "new-home"
   When I press "Save"
-  Then I should see "The configuration options have been saved"
+  Then I should see "Please enter a valid path."
   And I go to "/"
   Then I should see "Our special new home page"
     
