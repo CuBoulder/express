@@ -2,7 +2,7 @@
 Feature: Link Checker displays list of broken links
 In order to fix broken links on my site
 An authenticated user with the proper role
-Should be able view the list of broken links
+Should be able to view the list of broken links
 
 #SOME ROLES CAN VIEW LIST OF BROKEN LINKS
 @api
