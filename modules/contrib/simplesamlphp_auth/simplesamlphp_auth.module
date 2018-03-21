@@ -459,7 +459,7 @@ function simplesamlphp_auth_user_logout($account) {
     drupal_alter('simplesamlphp_auth_logout_gotourl', $gotourl, $account);
 
     //$_simplesamlphp_auth_as->logout($gotourl);
-    drupal_goto($gotourl);
+    drupal_goto($base_url);
 
   }
 }
