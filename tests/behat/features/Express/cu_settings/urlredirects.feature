@@ -41,10 +41,11 @@ Scenario Outline: Most users cannot access the URL Redirect Settings page
 @api
 Scenario Outline: Devs, Admins and SOs can create a URL redirect
   Given I am logged in as a user with the <role> role
-  And am on "admin/config/search/redirect/add"
-  Then I should see "#edit-source" 
-  And I should see "#edit-redirect" 
-  Then I should see "Advanced options"
+  When I go to "admin/config/search/redirect/add"
+  Then I should see "From" 
+  And I should see "To" 
+  And the "edit-status" checkbox should be checked
+  And I should see "Advanced options"
     
 Examples:
     | role            | 
