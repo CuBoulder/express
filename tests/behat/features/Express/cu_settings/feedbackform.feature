@@ -9,7 +9,7 @@ Should be able to select a published form
 Scenario Outline: Devs, Admins and SOs can see all the options for the Feedback Form
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/forms/feedback"
-  Then I should see "edit-cu-feedback-path"
+  Then I should see "Available Webforms"
   And I should see "edit-cu-feedback-label"
   And I should see "edit-cu-feedback-color"
   And I should see "edit-cu-feedback-embed"
