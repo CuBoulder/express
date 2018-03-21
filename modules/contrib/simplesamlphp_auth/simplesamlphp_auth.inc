@@ -12,6 +12,10 @@ function _simplesaml_auth_login_register() {
   global $user;
   global $_simplesamlphp_auth_as;
 
+  watchdog('simplesamlphp_auth', 'Attempting to log [%authname] into Drupal', array(
+        '%authname' => $authname,
+      ), WATCHDOG_DEBUG);
+
   dsm('_simplesaml_auth_login_register');
   // Check if the user is logged in via SAML (but not Drupal) and is also allowed
   // to log in by other contrib modules. Please note that no error messaging is done in
