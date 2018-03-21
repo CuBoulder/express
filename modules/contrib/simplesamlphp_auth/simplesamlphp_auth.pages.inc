@@ -77,8 +77,9 @@ function simplesamlphp_auth_loginpage() {
   elseif ((isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER']) &&
     (valid_url($_SERVER['HTTP_REFERER']) && stristr($_SERVER['HTTP_REFERER'], $base_url))
   ) {
-
-    $return_to = $_SERVER['HTTP_REFERER'];
+    //@TODO Allow setting a default return in the config
+    //$return_to = $_SERVER['HTTP_REFERER'];
+    $return_to = 'https://' . $_SERVER['HTTP_HOST'] . $base_path . 'user';
   }
 
   // If the user is anonymous, set the cookie (if we can) and require
