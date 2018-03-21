@@ -12,9 +12,12 @@ function _simplesaml_auth_login_register() {
   global $user;
   global $_simplesamlphp_auth_as;
 
+  dsm('_simplesaml_auth_login_register');
   // Check if the user is logged in via SAML (but not Drupal) and is also allowed
   // to log in by other contrib modules. Please note that no error messaging is done in
   // this hook invocation - each contrib module should do its own messaging.
+  dsm($_simplesamlphp_auth_as->isAuthenticated());
+  dsm(_simplesamlphp_auth_allow_user_by_attribute());
   if ($_simplesamlphp_auth_as->isAuthenticated() && _simplesamlphp_auth_allow_user_by_attribute()) {
 
     // Get unique identifier from saml attributes.
@@ -241,6 +244,7 @@ function simplesaml_auth_moderate_local_login() {
       // seen by the user.
       drupal_set_message(t("We are sorry, users are not permitted to log in using local accounts."));
       // Destroy the user's session (log out).
+      dsm('_simplesamlphp_auth_destroy_drupal_session');
       _simplesamlphp_auth_destroy_drupal_session();
     }
   }
