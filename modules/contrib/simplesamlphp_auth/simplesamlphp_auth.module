@@ -164,6 +164,7 @@ function _simplesaml_auth_autoload() {
  */
 function simplesamlphp_auth_init() {
   if (user_is_anonymous()) {
+    dsm('user_is_anonymous');
     return FALSE;
   }
 
@@ -190,6 +191,7 @@ function simplesamlphp_auth_init() {
   }
 
   // Logs out user if not SAML authenticated and not allowed default login.
+  dsm('Logs out user if not SAML authenticated and not allowed default login.');
   if (!$_simplesamlphp_auth_as->isAuthenticated() && !$user_allowed_default_login) {
     module_load_include('pages.inc', 'user');
     user_logout();
