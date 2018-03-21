@@ -9,7 +9,7 @@ Scenario: Creating a page for the following tests
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 When I fill in "edit-title" with "New Home"
-And fill in "Body" with "Our special new home page"
+And I fill in "Body" with "Our special new home page"
 And I uncheck "edit-menu-enabled"
 And I press "Save"
 Then the url should match "new-home"
@@ -18,8 +18,8 @@ Then the url should match "new-home"
 @api
 Scenario Outline: Devs, Admins and SOs can access and change the Set Homepage settings
   Given I am logged in as a user with the <role> role
-  And am on "admin/settings/adv-content/frontpage"
-  And fill in "edit-site-frontpage" with "new-home"
+  And I am on "admin/settings/adv-content/frontpage"
+  And I fill in "edit-site-frontpage" with "new-home"
   When I press "Save"
   Then I should see "Please enter a valid path."
   And I go to "/"
