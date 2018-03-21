@@ -38,7 +38,7 @@ Examples:
 Scenario Outline: Add-on bundles
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/bundles/list/addon"
-  Then I should see "These are bundles that can be added"
+  Then I should see "Add-on"
 # Then I should see "Content Sequence"
 #   And I should see "Collections"
 #   And I should see "Localist Events"
@@ -59,7 +59,7 @@ Examples:
 Scenario Outline: Requested bundles
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/bundles/list/request"
-  Then I should see "These are bundles that must be requested"
+  Then I should see "Request"
 #  Then I should see "Chemistry Title"
 #  And I should see "Live Chat"
 #  And I should see "Live Stream"
