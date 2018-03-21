@@ -153,7 +153,7 @@ function _simplesaml_auth_autoload() {
   // Load simpleSAMLphp, configuration and metadata.
   $_simplesamlphp_auth_as = new SimpleSAML_Auth_Simple(variable_get('simplesamlphp_auth_authsource', 'default-sp'));
   $_simplesamlphp_auth_saml_attributes = $_simplesamlphp_auth_as->getAttributes();
-
+  dsm($_simplesamlphp_auth_saml_attributes);
   return TRUE;
 }
 
