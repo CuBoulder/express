@@ -19,14 +19,9 @@ And I should see a "span" element with the "class" attribute set to "author-meta
 Scenario Outline: Devs, Admins and SOs can set the Article Settings options
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/news/article-settings"
-  And I check "edit-cu-share-settings-twitter-enabled"
-  And I check "edit-cu-share-settings-facebook-enabled"
-  And I check "edit-cu-share-position-side-bottom"
-  And I check "edit-basic-settings-page"
+  When I check "edit-date-display-hide"
   And I click "edit-submit"
-  And I go to "mypage"
-  Then the response should contain "class=\"cu-share-sidebar\""
-  And I should see a "div" element with the "class" attribute set to "cu-share-sidebar"
+ Then I should see "Article settings have been saved."
     
 Examples:
     | role            | 
