@@ -92,7 +92,7 @@ function simplesamlphp_auth_loginpage() {
     }
 
     // Require the user to be authenticated.
-    $_simplesamlphp_auth_as->requireAuth(array('ReturnTo' => $return_to));
+    $_simplesamlphp_auth_as->requireAuth(array('ReturnTo' => 'https://' . $_SERVER['HTTP_HOST'] . $base_path . 'user'));
 
     // If the user is authenticated, send them along.
   }
