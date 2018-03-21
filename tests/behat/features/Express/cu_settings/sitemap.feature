@@ -1,0 +1,34 @@
+@settings
+Feature: an XML Site Map improves Search Engine results
+In order to communicate my site layout to search engines
+An authenticated user with the proper role
+Should be able to update the Web Express XML site map
+
+#SOME ROLES CAN VIEW LIST OF BROKEN LINKS
+@api
+Scenario Outline: Devs, Admins and SOs can update the sitemap
+  Given I am logged in as a user with the <role> role
+  And am on "admin/settings/seo/xmlsitemap"
+  Then I should see "Update your sitemap"
+  And the checkbox "edit-options-menu-footer-menu" should be checked
+  And the checkbox "edit-options-main-menu" should be checked
+  And the checkbox "edit-options-menu-secondary-menu" should be checked
+  
+Examples:
+    | role            | 
+    | developer       | 
+    | administrator   | 
+    | site_owner      | 
+
+# SOME ROLES CAN NOT VIEW LIST OF BROKEN LINKS
+@api 
+Scenario Outline: CEs and EMCs should not be able to update the sitemap
+Given I am logged in as a user with the <role> role
+And am on "admin/settings/seo/xmlsitemap"
+Then I should see "Access denied"
+
+ Examples:
+    | role            | 
+    | content_editor  | 
+    | edit_my_content  | 
+ 
