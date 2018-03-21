@@ -252,7 +252,7 @@ function simplesamlphp_auth_init() {
               user_external_login_register($authname, 'simplesamlphp_auth');
             } else {
               _simplesaml_auth_debug(t('[%authname] already exists', array('%authname' => $authname)));
-               user_set_authmaps($usercheck, array("simplesamlphp_auth" => $authname));
+               user_set_authmaps($usercheck, array("authname_simplesamlphp_auth" => $authname));
             }
             $skip_user_finalization = TRUE;
 
