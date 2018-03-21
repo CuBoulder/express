@@ -11,7 +11,8 @@ And fill in "Title" with "MyArticle"
 And fill in "Body" with "This happened lately."
 And I press "Save"
 Then I should see "This happened lately."
-And I should see an "span" element 
+And the response should contain "class=\"author-meta-data\""
+And I should see a "span" element with the "class" attribute set to "author-meta-data"
 
 #SOME ROLES CAN ACCESS THE ARTICLE SETTINGS OPTIONS
 @api
