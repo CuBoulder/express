@@ -80,7 +80,7 @@ function simplesamlphp_auth_loginpage() {
   ) {
     //@TODO Allow setting a default return in the config
     //$return_to = $_SERVER['HTTP_REFERER'];
-    $return_to = 'https://' . $_SERVER['HTTP_HOST'] . $base_path . 'sam_login';
+    $return_to = 'https://' . $_SERVER['HTTP_HOST'] . $base_path . 'saml_login';
   }
 
   // If the user is anonymous, set the cookie (if we can) and require
