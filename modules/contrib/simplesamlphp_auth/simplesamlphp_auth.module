@@ -163,6 +163,13 @@ function _simplesaml_auth_autoload() {
  * If the user has logged out via SAML, log out the user in Drupal as well.
  */
 function simplesamlphp_auth_init() {
+  global $user;
+  global $_simplesamlphp_auth_as;
+  global $_simplesamlphp_auth_saml_attributes;
+
+  dsm($_simplesamlphp_auth_as);
+  dsm($_simplesamlphp_auth_saml_attributes);
+
   if (user_is_anonymous()) {
     dsm('user_is_anonymous');
     return FALSE;
@@ -172,9 +179,7 @@ function simplesamlphp_auth_init() {
     return FALSE;
   }
 
-  global $user;
-  global $_simplesamlphp_auth_as;
-  global $_simplesamlphp_auth_saml_attributes;
+
 
   // Get users that are allowed default login.
   $allowed_default_login_users = variable_get('simplesamlphp_auth_allowdefaultloginusers', '');
