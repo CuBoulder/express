@@ -41,6 +41,7 @@ Then I should see "Access denied"
     When I go to "admin/settings/cache/clear/varnish-path"
    And I fill in "edit-clear-varnish-path-cache-path" with "node/1"
    And I press "edit-clear-varnish-path-cache"
+   And I wait 20 seconds
    Then I should see "cleared from Page Cache"
    
 Examples:
@@ -59,6 +60,7 @@ Examples:
     When I go to "admin/settings/cache/clear/varnish-full"
    #Then I should see "Repeatedly clearing caches will cause"
    And I press "edit-clear-varnish-cache"
+   And I wait 20 seconds
    Then I should see "Full Page Cache Cleared"
 
   #NOTE: THIS TEST DEPENDS ON THE ONE DIRECTLY ABOVE
@@ -75,6 +77,7 @@ Examples:
     When I go to "admin/settings/cache/clear/drupal-full"
    Then I should see "Repeatedly clearing caches will cause performance problems"
    And I press "edit-clear-drupal-cache"
+   And I wait 20 seconds
    Then I should see "Full Page Cache Cleared"
 
   #NOTE: THIS TEST DEPENDS ON THE ONE DIRECTLY ABOVE
