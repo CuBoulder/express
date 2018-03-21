@@ -24,7 +24,7 @@ Examples:
 Scenario Outline: Devs, Admins and SOs create an RSS feed
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/feeds/rss/add"
-  And I fill in "edit-rss-title" with "Exciting News"
+  When I fill in "rss-title" with "Exciting News"
   And I press "edit-submit"
   Then I should see "Exciting News"
   And I should see "feed/rss.xml"
