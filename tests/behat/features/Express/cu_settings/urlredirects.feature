@@ -70,10 +70,10 @@ Then I should see "Access denied"
 @api
 Scenario Outline: Devs, Admins and SOs can delete a URL redirect
   Given I am logged in as a user with the <role> role
-  And am on "admin/config/search/redirect/delete"
+  When I go to "admin/config/search/redirect/delete"
   Then I should see "Your site may contain redirects that have never been accessed." 
-  And I should see "edit-submit" 
-  #NOTE: CURRENTLY THE 'EDIT SUBMIT' BUTTON LEADS TO A DRUPAL ERROR PAGE
+  And I click "edit-submit" 
+ Then I should not see "The website encountered an unexpected error"
     
 Examples:
     | role            | 
