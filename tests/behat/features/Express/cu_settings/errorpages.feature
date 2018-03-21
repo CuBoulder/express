@@ -6,8 +6,9 @@ Should be able to set unique 404 and 403 pages
 
 #CREATE A BASIC PAGE TO TEST ERROR PAGE SETTING
 Scenario: Creating a page for the following tests
+Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
-And fill in "edit-title" with "Bad Page"
+When fill in "edit-title" with "Bad Page"
 And fill in "Body" with "The requested page is not available"
 And I uncheck "edit-menu-enabled"
 And I press "Save"
