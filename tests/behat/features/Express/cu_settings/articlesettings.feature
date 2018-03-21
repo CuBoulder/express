@@ -19,7 +19,7 @@ And I should see a "span" element with the "class" attribute set to "author-meta
 Scenario Outline: Devs, Admins and SOs can set the Article Settings options
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/news/article-settings"
-  When I check "edit-date-display-hide"
+  When I select "edit-date-display-hide" from "date_display"
   And I click "edit-submit"
  Then I should see "Article settings have been saved."
     
