@@ -7,7 +7,7 @@ Should be able to set Article Settings options
 #CREATE AN ARTICLE NODE TO TEST ARTICLE SETTINGS OPTIONS
 Scenario: Creating an article node for the following tests
 And I am on "node/add/article"
-And fill in "Title" with "MyArticle"
+And fill in "edit-title" with "MyArticle"
 And fill in "Body" with "This happened lately."
 And I press "Save"
 Then I should see "This happened lately."
