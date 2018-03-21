@@ -39,7 +39,7 @@ Examples:
 @api 
 Scenario Outline: CEs and EMCs should not be able to set site name
 Given I am logged in as a user with the <role> role
-And am on "admin/settings/feeds/rss/overview"
+When I go to "admin/settings/feeds/rss/overview"
 Then I should see "Access denied"
 
  Examples:
@@ -52,7 +52,7 @@ Then I should see "Access denied"
 @api 
 Scenario Outline: CEs and EMCs should not be able to set site name
 Given I am logged in as a user with the <role> role
-And am on "admin/settings/feeds/rss/add"
+When I go to "admin/settings/feeds/rss/add"
 Then I should see "Access denied"
 
  Examples:
