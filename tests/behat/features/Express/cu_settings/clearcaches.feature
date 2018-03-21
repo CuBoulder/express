@@ -4,7 +4,7 @@ In order to get a page to show new edits
 An authenticated user with the proper role
 Should be able to clear the site caches
 
-#SOME ROLES CAN ACCESS THE SITE CACHES PAGE
+#SOME ROLES CAN ACCESS THE CLEAR CACHES PAGE
 @api
 Scenario Outline: Devs, Admins and SOs can access the 'Clear Caches' page where they see four tabs
   Given I am logged in as a user with the <role> role
