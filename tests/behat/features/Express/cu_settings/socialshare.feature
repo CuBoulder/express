@@ -20,7 +20,7 @@ Scenario Outline: Devs, Admins and SOs can set the Social Sharing options
   And am on "admin/settings/social/share"
   And I check "edit-cu-share-settings-twitter-enabled"
   And I check "edit-cu-share-settings-facebook-enabled"
-  And I select "edit-cu-share-position-side-bottom" from "cu_share_position"
+  And I select "side_bottom" from "cu_share_position"
   And I check "edit-basic-settings-page"
   And I click "edit-submit"
   And I go to "mypage"
