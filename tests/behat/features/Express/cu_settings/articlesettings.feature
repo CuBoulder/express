@@ -12,7 +12,7 @@ When I fill in "edit-title" with "MyArticle"
 And I fill in "Body" with "We have lots going on around here."
 And I press "Save"
 Then I should see "We have lots going on around here."
-And the response should contain "class=\"author-meta-data\""
+# DOESN'T WORK And the response should contain "class=\"author-meta-data\""
 And I should see a "span" element with the "class" attribute set to "author-meta-data"
 
 #SOME ROLES CAN ACCESS THE ARTICLE SETTINGS OPTIONS
