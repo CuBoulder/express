@@ -21,6 +21,7 @@ function simplesamlphp_auth_loginpage() {
 
   global $user;
   global $base_url;
+  global $base_path;
   global $_simplesamlphp_auth_as;
   global $_simplesamlphp_auth_saml_attributes;
   module_load_include('inc', 'simplesamlphp_auth');
