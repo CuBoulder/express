@@ -7,7 +7,7 @@ Should be able to set Social Share options
 #CREATE A BASIC PAGE TO TEST SOCIAL SHARE LINKS
 Scenario: Creating a page for the following tests
 And I am on "node/add/page"
-And fill in "Title" with "MyPage"
+And fill in "edit-title" with "MyPage"
 And fill in "Body" with "Amazingly interesting information"
 And I press "Save"
 Then I should see "Amazingly interesting information"
