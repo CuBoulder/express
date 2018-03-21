@@ -45,7 +45,7 @@ Then I should see "Access denied"
     | edit_my_content  | 
     
  @api 
-Scenario Outline: CEs and EMCs should not be able to access the Bundle Requeset page
+Scenario Outline: CEs and EMCs should not be able to access the Bundle Request page
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/bundles/list/request"
 Then I should see "Access denied"
