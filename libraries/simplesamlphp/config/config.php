@@ -13,7 +13,7 @@ $path = $_SERVER['REQUEST_URI'];
 $site_name = preg_match('/.*?\/(.*?)\//', $path, $match);
 
 if (!isset($match[0])) {
-  $match[0] = null;
+  $match[0] = '/';
 }
 
 header('Access-Control-Allow-Origin: *');
