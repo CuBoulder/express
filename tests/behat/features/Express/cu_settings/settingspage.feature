@@ -18,13 +18,13 @@ Scenario Outline: Devs, Admins and SOs can access Site Configurations
       | developer      |
       
 @api 
-  Scenario Outline: CEs and EMCs cannot access Site Configurations
-    Given  I am logged in as a user with the <role> role
+  Scenario: Content Editors cannot set Site Configs; they can only Clear Cache
+    Given  I am logged in as a user with the "content_editor" role
     When I go to "admin/settings"
     Then I should not see "Site Configurations"
-
-    Examples:
-      | role            |
-      | content_editor  |
-      | edit_my_content |
       
+@api 
+  Scenario: EMCs cannot access the Site Settings page
+    Given  I am logged in as a user with the "edit_my_content" role
+    When I go to "admin/settings"
+    Then I should see "Access Denied"
