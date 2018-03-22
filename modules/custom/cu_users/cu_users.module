@@ -246,11 +246,16 @@ function cu_users_user_login(&$edit, $account) {
  * @param null $destination
  */
 function cu_users_exit($destination = NULL) {
-  global $user;
-  ddl($destination, 'destination');
+  //global $user;
+  //ddl($destination, 'destination');
+  //ddl($_SERVER, 'server');
+  //ddl($_SESSION, 'session');
+  //ddl($user, 'user');
+}
+
+function cu_users_page_delivery_callback_alter(&$callback)  {
+  ddl($callback, 'callback');
   ddl($_SERVER, 'server');
-  ddl($_SESSION, 'session');
-  ddl($user, 'user');
 }
 
 /**
