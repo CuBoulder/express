@@ -8,16 +8,23 @@ if (!ini_get('session.save_handler')) {
   ini_set('session.save_handler', 'file');
 }
 
-$url_path = str_replace("index.php", "", $_SERVER['SCRIPT_NAME']);
-$file_path = str_replace("index.php", "", $_SERVER['SCRIPT_FILENAME']);
-$url = $_SERVER['SERVER_NAME'] . $url_path;
-
-print_r($url_path);
-print_r(' - ');
-print_r($file_path);
-print_r(' - ');
-print_r($url);
-die;
+// this works to set the values when Drupal calls the config
+if (strpos($_SERVER['SCRIPT_NAME'], "index.php")) {
+	$url_path = str_replace("index.php", "", $_SERVER['SCRIPT_NAME']);
+	$file_path = str_replace("index.php", "", $_SERVER['SCRIPT_FILENAME']);
+	$url = $_SERVER['SERVER_NAME'] . $url_path;
+} else {
+  // this handles calls directly to /profiles/express/simplesaml/module.php/saml/sp/metadata.php/cu_boulder?output=xhtml
+  $url_path = str_replace("profiles/express/simplesaml/module.php", "", $_SERVER['SCRIPT_NAME']);
+  $file_path = str_replace("profiles/express/simplesaml/module.php", "", $_SERVER['SCRIPT_FILENAME']);
+  $url = $_SERVER['SERVER_NAME'] . $url_path;
+}
+//print_r($url_path);
+//print_r(' - ');
+//print_r($file_path);
+//print_r(' - ');
+//print_r($url);
+//die;
 
 header('Access-Control-Allow-Origin: *');
 
