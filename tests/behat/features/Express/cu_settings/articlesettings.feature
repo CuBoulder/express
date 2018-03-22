@@ -4,7 +4,6 @@ In order to show or hide an article's published date
 An authenticated user with the proper role
 Should be able to set Article Settings options
 
-
 #SOME ROLES CAN ACCESS THE ARTICLE SETTINGS OPTIONS
 @api
 Scenario Outline: Devs, Admins and SOs can access the Article Settings options
