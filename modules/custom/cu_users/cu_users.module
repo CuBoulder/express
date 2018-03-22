@@ -281,6 +281,7 @@ function cu_users_override_external_invite_submit(&$form, &$form_state) {
           'name' => $username,
           'pass' => $username . strrev($username),
           'mail' => $email,
+          'timezone' => 'America/Denver',
           'status' => 1,
           'init' => $email,
           'roles' => array(
