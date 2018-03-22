@@ -6,11 +6,11 @@ Should be able to create an RSS feed of the site articles
 
 #CREATE AN ARTICLE TO BE ON SAFE SIDE OF RSS BUILDER
  @api 
-Scenario: An authenticated user should be able to create article node
-  Given  I am logged in as a user with the "site_owner" role
+Scenario: Create article node in case RSS Builder decides it needs one
+  Given I am logged in as a user with the "site_owner" role
   And am on "node/add/article"
-  When fill in "Title" with "Read About Ducks"
-  And fill in "Body" with "Demo body content"
+  When I fill in "Title" with "Read About Ducks"
+  And I fill in "Body" with "Demo body content"
   And I press "Save"
   Then I should see "Read About Ducks"
 
@@ -30,7 +30,7 @@ Examples:
     
 # SOME ROLES CAN NOT ACCESS RSS FEED SETTINGS
 @api 
-Scenario Outline: CEs and EMCs should not be able to set site name
+Scenario Outline: CEs and EMCs should not be able to view the RSS feeds
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/feeds/rss/overview"
 Then I should see "Access denied"
@@ -41,9 +41,9 @@ Then I should see "Access denied"
     | edit_my_content  | 
     
 
-#SOME ROLES CAN ACCESS RSS FEED SETTINGS
+#SOME ROLES CAN ACCESS THE RSS FEED BUILDER
 @api
-Scenario Outline: Devs, Admins and SOs can view the RSS feeds
+Scenario Outline: Devs, Admins and SOs can access the RSS feed builder page
   Given I am logged in as a user with the <role> role
   When I go to "admin/settings/feeds/rss/add"
  Then I should see "Build custom RSS feeds"
@@ -58,7 +58,7 @@ Examples:
 
 # SOME ROLES CAN NOT ACCESS THE RSS FEED BUILDER
 @api 
-Scenario Outline: CEs and EMCs should not be able to set site name
+Scenario Outline: CEs and EMCs should not be able to access the RSS feed builder page
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/feeds/rss/add"
 Then I should see "Access denied"
