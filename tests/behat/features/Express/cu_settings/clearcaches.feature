@@ -89,14 +89,14 @@ Examples:
  
 # NOTE: NO VARNISH ON TRAVIS 
 # THE PROPER STATUS MESSAGE IS DISPLAYED WHEN FULL PAGE CACHE IS CLEARED
-  @api 
- Scenario: Clearing Full Page Cache is limited to once per hour 
-  Given I am logged in as a user with the "site_owner" role
-  When I go to "admin/settings/cache/clear/varnish-full"
-  And I press "edit-clear-varnish-cache"
-  And I wait 60 seconds
-  Then I should see "The whole Page Cache was recently cleared"
-  And the "#edit-clear-varnish-cache" element should have "disabled" in the "disabled" attribute
+#  @api 
+# Scenario: Clearing Full Page Cache is limited to once per hour 
+#  Given I am logged in as a user with the "site_owner" role
+#  When I go to "admin/settings/cache/clear/varnish-full"
+#  And I press "edit-clear-varnish-cache"
+#  And I wait 60 seconds
+#  Then I should see "The whole Page Cache was recently cleared"
+#  And the "#edit-clear-varnish-cache" element should have "disabled" in the "disabled" attribute
 
 # NOTE: NO VARNISH ON TRAVIS 
 # THE PROPER STATUS MESSAGE IS DISPLAYED WHEN FULL DATABASE CACHE IS CLEARED
