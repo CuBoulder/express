@@ -4,6 +4,7 @@ core = 7.x
 package = CU-Core
 version = 7.x-1.0
 
+dependencies[] = simplesamlphp_auth
 dependencies[] = ctools
 dependencies[] = strongarm
 features[ctools][] = strongarm:strongarm:1

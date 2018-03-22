@@ -7,7 +7,7 @@
 /**
  * Implements hook_strongarm().
  */
-function cu_saml2_strongarm() {
+function cu_saml_strongarm() {
   $export = array();
 
   $strongarm = new stdClass();
