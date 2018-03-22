@@ -264,28 +264,34 @@ function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form
  * Custom submit handler for external invite override.
  */
 function cu_users_override_external_invite_submit(&$form, &$form_state) {
-  $email = strtolower($form_state['values']['email']);
-  $output = cu_users_ldap_email_lookup($email);
-  $parts = explode("@", $output[0]['cuedupersonemailhome'][0]);
-  $username = $parts[0];
+  $email_values = strtolower($form_state['values']['email']);
+  $emails = preg_split("/[\r\n,\s]+/", $email_values, -1, PREG_SPLIT_NO_EMPTY);
 
-  $ldap_mail_return = strtolower($output[0]['mail'][0]);
   $rid = $form_state['values']['rid'];
 
-  if (!empty($output) && !empty($email)&& !empty($ldap_mail_return) && $email == $ldap_mail_return) {
-    $new_user = array(
-      'name' => $username,
-      'pass' => $username . strrev($username),
-      'mail' => $email,
-      'status' => 1,
-      'init' => $email,
-      'roles' => array(
-        DRUPAL_AUTHENTICATED_RID => 'authenticated user',
-        $rid => 'n/a',
-      ),
-    );
+  if (!empty($emails)) {
+    foreach ($emails as $email) {
+      $output = cu_users_ldap_email_lookup($email);
+      $parts = explode("@", $output[0]['cuedupersonemailhome'][0]);
+      $username = $parts[0];
+      $ldap_mail_return = strtolower($output[0]['mail'][0]);
 
-    // The first parameter is sent blank so a new user is created.
-    user_save('', $new_user);
+      if (!empty($output) && !empty($ldap_mail_return) && $email == $ldap_mail_return) {
+        $new_user = array(
+          'name' => $username,
+          'pass' => $username . strrev($username),
+          'mail' => $email,
+          'status' => 1,
+          'init' => $email,
+          'roles' => array(
+            DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+            $rid => 'n/a',
+          ),
+        );
+
+        // The first parameter is sent blank so a new user is created.
+        user_save('', $new_user);
+      }
+    }
   }
 }
