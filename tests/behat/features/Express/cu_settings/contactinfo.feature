@@ -9,17 +9,17 @@ Should be able to add Contact Information
 Scenario Outline: Devs, Admins and SOs can set the Site Contact
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/site-configuration/contact"
-  And fill in "Contact Information" with "1234 Fifth Street"
+  And fill in "Contact Information" with <address>
   And I press "edit-submit"
   Then I should see "The configuration options have been saved"
   And I go to "/"
-  Then I should see "1234 Fifth Street"
+  Then I should see <address>
     
 Examples:
-    | role            | 
-    | developer       | 
-    | administrator   | 
-    | site_owner      | 
+    | role            | address | 
+    | developer       | 1234 Fifth Street | 
+    | administrator   | email@example.edu |
+    | site_owner      | 303-123-4567 |
 
 # SOME ROLES CAN NOT SET SITE CONTACT
 @api 
