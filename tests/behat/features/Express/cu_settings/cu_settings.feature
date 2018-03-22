@@ -3,8 +3,6 @@
 Feature: CU Settings
  An Express user should see the following options on the Express Settings pages.
 
-
-
   @api 
   Scenario Outline: Content editors should not be able to access settings
     Given  I am logged in as a user with the "content_editor" role
