@@ -34,26 +34,6 @@ Scenario: EMCs should not be able to access the 'Clear Caches' landing page
 Given I am logged in as a user with the "edit_my_content" role
 And am on "admin/settings/cache/clear"
 Then I should see "Access denied"
-    
- # TESTING THE CLEAR-PAGE-BY-PATH FUNCTIONALITY
-  @api 
-  Scenario Outline: Devs, Admins, SOs and CEs can Clear Page by Path.
-  Given I am logged in as a user with the <role> role
-  When I go to "admin/settings/cache/clear/varnish-path"
-  Then I should see "Enter the specific path or URL to clear from the Page cache."
-  And I fill in "edit-clear-varnish-path-cache-path" with <testpath>
-  And I press "edit-clear-varnish-path-cache"
-  And I wait 60 seconds
-  Then the response should contain "Status message"
-  And I should see "cleared from Page Cache"
-   
-Examples:
-    | role           | testpath   |
-    | developer      | "node/123" |
-    | administrator  | "node/234" |
-    | site_owner     | "node/345" |
-    | content_editor | "node/456" |
-
 
 # ACCESSING THE CLEAR-PAGE-FULL PAGE
 @api
@@ -71,18 +51,7 @@ Examples:
     | edit_my_content  | "Access denied" |
 
 
-# NOTE: NO VARNISH ON TRAVIS; NO USE TESTING
-# THE PROPER STATUS MESSAGE IS DISPLAYED WHEN FULL PAGE CACHE IS CLEARED
-#  @api 
-# Scenario: Clearing Full Page Cache is limited to once per hour 
-#    Given I am logged in as a user with the "site_owner" role
-#    When I go to "admin/settings/cache/clear/varnish-full"
-#   And I press "edit-clear-varnish-cache"
-#   And I wait 60 seconds
-#  Then I should see "Full Page Cache Cleared"
-#  And the "#edit-clear-varnish-cache" element should have "disabled" in the "disabled" attribute
- 
-# ACCESSING THE CLEAR-DATABASE-FULL PA
+# ACCESSING THE CLEAR-DATABASE-FULL PAGE
 @api
 Scenario Outline: Devs, Admins and SOs can access the 'Clear Database Full' tag; CEs and EMCs cannot
   Given I am logged in as a user with the <role> role
@@ -97,14 +66,44 @@ Examples:
     | content_editor   | "Access denied" |
     | edit_my_content  | "Access denied" |
 
-    
+
+# NOTE: NO VARNISH ON TRAVIS; NO USE TESTING
+# TESTING THE CLEAR-PAGE-BY-PATH FUNCTIONALITY
+#  @api 
+#  Scenario Outline: Devs, Admins, SOs and CEs can Clear Page by Path.
+#  Given I am logged in as a user with the <role> role
+#  When I go to "admin/settings/cache/clear/varnish-path"
+#  Then I should see "Enter the specific path or URL to clear from the Page cache."
+#  And I fill in "edit-clear-varnish-path-cache-path" with <testpath>
+#  And I press "edit-clear-varnish-path-cache"
+#  And I wait 60 seconds
+#  Then the response should contain "Status message"
+#  And I should see "cleared from Page Cache"
    
+#Examples:
+#    | role           | testpath   |
+#    | developer      | "node/123" |
+#    | administrator  | "node/234" |
+#    | site_owner     | "node/345" |
+#    | content_editor | "node/456" |
+ 
+# NOTE: NO VARNISH ON TRAVIS; NO USE TESTING
+# THE PROPER STATUS MESSAGE IS DISPLAYED WHEN FULL PAGE CACHE IS CLEARED
+#  @api 
+# Scenario: Clearing Full Page Cache is limited to once per hour 
+#  Given I am logged in as a user with the "site_owner" role
+#  When I go to "admin/settings/cache/clear/varnish-full"
+#  And I press "edit-clear-varnish-cache"
+#  And I wait 60 seconds
+#  Then I should see "Full Page Cache Cleared"
+#  And the "#edit-clear-varnish-cache" element should have "disabled" in the "disabled" attribute
+
 # NOTE: NO VARNISH ON TRAVIS; NO USE TESTING
 # THE PROPER STATUS MESSAGE IS DISPLAYED WHEN FULL DATABASE CACHE IS CLEARED
 #  @api 
 # Scenario: Clearing Full Page Cache is limited to once per hour 
-#    Given I am logged in as a user with the "site_owner" role
-#    When I go to "admin/settings/cache/clear/drupal-full"
+#   Given I am logged in as a user with the "site_owner" role
+#   When I go to "admin/settings/cache/clear/drupal-full"
 #   And I press "edit-clear-drupal-cache"
 #   And I wait 60 seconds
 #  Then I should see "Full Database Cache Cleared"
