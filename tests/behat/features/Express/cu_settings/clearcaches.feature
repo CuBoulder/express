@@ -20,7 +20,6 @@ Examples:
     | administrator   | 
     | site_owner      | 
 
-
 @api 
 Scenario: CEs can access the 'Clear Caches' page where they see two tabs
 Given I am logged in as a user with the "content_editor" role
