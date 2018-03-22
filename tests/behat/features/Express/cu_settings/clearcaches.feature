@@ -26,6 +26,8 @@ Given I am logged in as a user with the "content_editor" role
 And am on "admin/settings/cache/clear"
 Then I should see "Which Cache to Clear?"
 And I should see the link "Clear Page by Path"
+And I should not see the link "Clear Page Full"
+And I should not see the link "Clear Database Full"
 
 @api 
 Scenario: EMCs should not be able to access the 'Clear Caches' landing page
@@ -68,24 +70,19 @@ Examples:
     | content_editor   | "Access denied" |
     | edit_my_content  | "Access denied" |
 
-# NOTE: NO VARNISH ON TRAVIS; TESTING CONTENT ONLY
+
+# NOTE: NO VARNISH ON TRAVIS
+# THE PROPER STATUS MESSAGE IS DISPLAYED WHEN FULL PAGE CACHE IS CLEARED
   @api 
- Scenario Outline: Devs, Admins and SOs can Clear Page Full.
-    Given I am logged in as a user with the <role> role
+ Scenario: Clearing Full Page Cache is limited to once per hour 
+    Given I am logged in as a user with the "site-owner" role
     When I go to "admin/settings/cache/clear/varnish-full"
-    Then I should see "Repeatedly clearing caches will cause performance problems"
-  # And I press "edit-clear-varnish-cache"
-  # And I wait 20 seconds
-  # Andn I should see "Full Page Cache Cleared"
-   
-   Examples:
-    | role           | 
-    | developer      | 
-    | administrator  | 
-    | site_owner     | 
-
-
-# ACCESSING THE CLEAR-DATABASE-FULL PAGE
+   And I press "edit-clear-varnish-cache"
+   And I wait 60 seconds
+  Then I should see "Full Page Cache Cleared"
+  And the "#edit-clear-varnish-cache" element should have "disabled" in the "disabled" attribute
+ 
+# ACCESSING THE CLEAR-DATABASE-FULL PA
 @api
 Scenario Outline: Devs, Admins and SOs can access the 'Clear Database Full' tag; CEs and EMCs cannot
   Given I am logged in as a user with the <role> role
@@ -99,22 +96,17 @@ Examples:
     | site_owner       | "Repeatedly clearing caches will cause performance problems for you" |
     | content_editor   | "Access denied" |
     | edit_my_content  | "Access denied" |
+
     
    
- # NOTE: NO VARNISH ON TRAVIS; TESTING CONTENT ONLY
-@api 
- Scenario Outline: Devs, Admins and SOs can Clear Database Full.
-   Given I am logged in as a user with the <role> role
-   When I go to "admin/settings/cache/clear/drupal-full"
-   Then I should see "Repeatedly clearing caches will cause performance problems"
-   # And I press "edit-clear-drupal-cache"
-  # And I wait 20 seconds
-  # And I should see "Full Page Cache Cleared"
-
-   Examples:
-    | role           | 
-    | developer      | 
-    | administrator  | 
-    | site_owner     
- 
+# NOTE: NO VARNISH ON TRAVIS
+# THE PROPER STATUS MESSAGE IS DISPLAYED WHEN FULL DATABASE CACHE IS CLEARED
+  @api 
+ Scenario: Clearing Full Page Cache is limited to once per hour 
+    Given I am logged in as a user with the "site-owner" role
+    When I go to "admin/settings/cache/clear/drupal-full"
+   And I press "edit-clear-drupal-cache"
+   And I wait 60 seconds
+  Then I should see "Full Database Cache Cleared"
+  And the "#edit-clear-drupal-cache" element should have "disabled" in the "disabled" attribute
   
