@@ -12,6 +12,13 @@ $url_path = str_replace("index.php", "", $_SERVER['SCRIPT_NAME']);
 $file_path = str_replace("index.php", "", $_SERVER['SCRIPT_FILENAME']);
 $url = $_SERVER['SERVER_NAME'] . $url_path;
 
+print_r($url_path);
+print_r(' - ');
+print_r($file_path);
+print_r(' - ');
+print_r($url);
+die;
+
 header('Access-Control-Allow-Origin: *');
 
 include($file_path . 'sites/default/settings.local_post.php');
