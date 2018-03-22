@@ -4,18 +4,18 @@ In order to simplify the features of a site
 An authenticated user with the proper role
 Should see bundles of features in three categories
 
-# NOTE THIS TEST CANNOT BE AUTOMATED BECAUSE THE BUNDLES THAT APPEAR IN PROFILE MODULE MANAGER ARE CONTROLLED BY
+# NOTE THESE TESTS CANNOT BE AUTOMATED BECAUSE THE BUNDLES THAT APPEAR IN PROFILE MODULE MANAGER ARE CONTROLLED BY
 # THE ATLAS INSTANCE FOR EACH ENVIRONMENT. THEY ONLY EVER MATCH PROD WHEN ITS ALL BEEN REBUILT AS CLONE OF PROD
-
+# MOST OF THEM HAVE BEEN DISABLED
 #NOTE: PAGE ACCESS PERMISSIONS ARE TESTED IN ENABLINGBUNDLES.FEATURE
 
 # CORE BUNDLES
 Scenario Outline: Core bundles
-  Given I am logged in as a user with the <role> role
+Given I am logged in as a user with the <role> role
   When I go to "admin/settings/bundles/list"
   Then I should see "Advanced Content"
-   And I should see "Advanced Design"
-   And I should see "Advanced Layout"
+  And I should see "Advanced Design"
+ And I should see "Advanced Layout"
 #  And I should see "Feeds"
 #  And I should see "Forms"
 #  And I should see "News and Articles"
@@ -35,33 +35,33 @@ Examples:
 # NOTE THIS TEST CANNOT BE AUTOMATED BECAUSE THE BUNDLES THAT APPEAR IN PROFILE MODULE MANAGER ARE CONTROLLED BY
 # THE ATLAS INSTANCE FOR EACH ENVIRONMENT. THEY ONLY EVER MATCH PROD WHEN ITS ALL BEEN REBUILT AS CLONE OF PROD
 
-Scenario Outline: Add-on bundles
-  Given I am logged in as a user with the <role> role
-  When I go to "admin/settings/bundles/list/addon"
-  Then I should see "Add-on"
-  And I should see "These are bundles that can be added at any time"
+#Scenario Outline: Add-on bundles
+#  Given I am logged in as a user with the <role> role
+#  When I go to "admin/settings/bundles/list/addon"
+#  Then I should see "Add-on"
+#  And I should see "These are bundles that can be added at any time"
 # Then I should see "Content Sequence"
 #   And I should see "Collections"
 #   And I should see "Localist Events"
 #   And I should see "Forms"
 #   And I should see "Publication"
     
-Examples:
-    | role            | 
-    | developer       | 
-    | administrator   | 
-    | site_owner      | 
+#Examples:
+#    | role            | 
+#    | developer       | 
+#    | administrator   | 
+#    | site_owner      | 
     
 
 # REQUESTED BUNDLES
 # NOTE THIS TEST CANNOT BE AUTOMATED BECAUSE THE BUNDLES THAT APPEAR IN PROFILE MODULE MANAGER ARE CONTROLLED BY
 # THE ATLAS INSTANCE FOR EACH ENVIRONMENT. THEY ONLY EVER MATCH PROD WHEN ITS ALL BEEN REBUILT AS CLONE OF PROD
 
-Scenario Outline: Requested bundles
-  Given I am logged in as a user with the <role> role
-  When I go to "admin/settings/bundles/list/request"
-  Then I should see "Request"
-  And I should see "These are bundles that must be requested"
+#Scenario Outline: Requested bundles
+#  Given I am logged in as a user with the <role> role
+#  When I go to "admin/settings/bundles/list/request"
+#  Then I should see "Request"
+#  And I should see "These are bundles that must be requested"
 #  Then I should see "Chemistry Title"
 #  And I should see "Live Chat"
 #  And I should see "Live Stream"
@@ -69,8 +69,8 @@ Scenario Outline: Requested bundles
 #  And I should see "Video Hero Unit"
 #  And I should see "Newsletter"
     
-Examples:
-    | role            | 
-    | developer       | 
-    | administrator   | 
-    | site_owner      | 
+#Examples:
+#    | role            | 
+#    | developer       | 
+#    | administrator   | 
+#    | site_owner      | 
