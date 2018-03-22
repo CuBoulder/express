@@ -27,4 +27,4 @@ Scenario Outline: Devs, Admins and SOs can access Site Configurations
   Scenario: EMCs cannot access the Site Settings page
     Given  I am logged in as a user with the "edit_my_content" role
     When I go to "admin/settings"
-    Then I should see "Access Denied"
+    Then I should see "Access denied"
