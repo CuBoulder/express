@@ -92,6 +92,7 @@ function simplesamlphp_auth_loginpage() {
   $fail   = NULL;
   $output = NULL;
 
+
   if (!_simplesamlphp_auth_isEnabled()) {
     // Exit without initializing.
     drupal_set_message(t("We're sorry this feature is not yet enabled."));
@@ -150,11 +151,15 @@ function simplesamlphp_auth_loginpage() {
 
     // Require the user to be authenticated.
     // WAS $_simplesamlphp_auth_as->requireAuth();
-    $_simplesamlphp_auth_as->requireAuth(array(
-     // explicitly not setting port to prevent bad port redirects
-      //'ReturnTo' => 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
-      'ReturnTo' => 'https://' . $_SERVER['HTTP_HOST'] . $base_path . 'user',
-    ));
+    if (isset($_REQUEST['destination'])) {
+      $_simplesamlphp_auth_as->requireAuth(array(
+        'ReturnTo' => 'https://' . $_SERVER['HTTP_HOST'] . $base_path . $_REQUEST['destination'],
+      ));
+    }  else {
+        $_simplesamlphp_auth_as->requireAuth(array(
+        'ReturnTo' => 'https://' . $_SERVER['HTTP_HOST'] . $base_path . 'user',
+      ));
+    }
     // If the user is authenticated, send them along.
 
   }

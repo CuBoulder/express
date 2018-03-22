@@ -160,7 +160,7 @@ function r4032login_redirect() {
     if ($query != '') {
       $path .= '?' . $query;
     }
-    $destination = array('ReturnTo' => $path);
+    $destination = array('destination' => $path);
     header('Location: ' . url($login_path, array('query' => $destination, 'absolute' => TRUE)), TRUE, $code);
     drupal_exit();
   }
