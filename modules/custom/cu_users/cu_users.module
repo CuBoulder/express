@@ -212,6 +212,10 @@ function cu_users_user_update(&$edit, $account, $category) {
   ddl($category, 'category variable');
   ddl($account, 'current account');
 
+  // Clear the user access cache.
+  drupal_static_reset('user_access');
+  drupal_static_reset('user_role_permissions');
+
   $user_vars = array(
     '%uid' => $account->uid,
     '%name' => $account->name,
