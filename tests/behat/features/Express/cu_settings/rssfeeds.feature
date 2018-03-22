@@ -17,17 +17,28 @@ Examples:
     | developer       | 
     | administrator   | 
     | site_owner      | 
+    
 
+#CREATE AN ARTICLE
+ @api 
+Scenario: An authenticated user should be able to create article node
+  Given  I am logged in as a user with the "site_owner" role
+  And am on "node/add/article"
+  When fill in "Title" with "Read About Ducks"
+  And fill in "Body" with "Demo body content"
+  And I press "Save"
+  Then I should see "Read About Ducks"
 
 #SOME ROLES CAN USE THE RSS FEED BUILDER
 @api
 Scenario Outline: Devs, Admins and SOs create an RSS feed
   Given I am logged in as a user with the <role> role
-  And am on "admin/settings/feeds/rss/add"
-  When I fill in "rss-title" with "Exciting News"
-  And I press "edit-submit"
-  Then I should see "Exciting News"
-  And I should see "feed/rss.xml"
+ When I go to "admin/settings/feeds/rss/add"
+ Then I should see "Build custom RSS feeds"
+ And I fill in "edit-rss-title" with "Exciting News"
+ And I press "edit-submit"
+ Then I should see "Exciting News"
+ And I should see "feed/rss.xml"
   
 Examples:
     | role            | 
