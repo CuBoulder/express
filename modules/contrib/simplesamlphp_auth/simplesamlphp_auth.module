@@ -453,7 +453,8 @@ function simplesamlphp_auth_user_logout($account) {
 
     // :KLUDGE: for some reason Drupal is not killing the session, even if
     // drupal_session_destroy_uid() is called here.
-    drupal_session_destroy_uid();
+    ddl($user);
+    // drupal_session_destroy_uid($user->uid);
     // session_destroy();
 
     $gotourl = base_path();
