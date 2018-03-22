@@ -12,19 +12,25 @@ if (!ini_get('session.save_handler')) {
 if (strpos($_SERVER['SCRIPT_NAME'], "index.php")) {
 	$url_path = str_replace("index.php", "", $_SERVER['SCRIPT_NAME']);
 	$file_path = str_replace("index.php", "", $_SERVER['SCRIPT_FILENAME']);
-	$url = $_SERVER['SERVER_NAME'] . $url_path;
+	$baseURL = $_SERVER['HTTP_HOST'] . $url_path;
+	$baseurlpath = 'https://' . $_SERVER['HTTP_HOST'] . $url_path . 'profiles/express/simplesaml/';
 } else {
   // this handles calls directly to /profiles/express/simplesaml/module.php/saml/sp/metadata.php/cu_boulder?output=xhtml
-  $url_path = str_replace("profiles/express/simplesaml/module.php", "", $_SERVER['SCRIPT_NAME']);
-  $file_path = str_replace("profiles/express/simplesaml/module.php", "", $_SERVER['SCRIPT_FILENAME']);
-  $url = $_SERVER['SERVER_NAME'] . $url_path;
+  $filename = basename($_SERVER["SCRIPT_FILENAME"]);
+  $fileparts = explode('/profiles/express/simplesaml/', $_SERVER["SCRIPT_FILENAME"]);
+  $file_path = $fileparts[0];
+  $urlparts = explode('/profiles/express/simplesaml/', $_SERVER["SCRIPT_NAME"]);
+  $baseURL = 'https://' . $_SERVER['HTTP_HOST'] . $urlparts[0] . '/';
+  $baseurlpath = 'https://' . $_SERVER['HTTP_HOST'] . $urlparts[0] . '/profiles/express/simplesaml/';
 }
-//print_r($url_path);
-//print_r(' - ');
-//print_r($file_path);
-//print_r(' - ');
-//print_r($url);
-//die;
+
+if ($_REQUEST['saml-config-debug']) {
+  print $_SERVER["SCRIPT_NAME"];
+	print "File Path: $file_path </br>";
+	print "Base URL: $baseURL </br>";
+	print "Base URL Path: $baseurlpath </br>";
+	die;
+}
 
 header('Access-Control-Allow-Origin: *');
 
@@ -57,7 +63,7 @@ $config = array(
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath' => 'https://' . $url . 'profiles/express/simplesaml/',
+    'baseurlpath' => $baseurlpath ,
 
     /*
      * The 'application' configuration array groups a set configuration options
@@ -78,7 +84,7 @@ $config = array(
          * need to compute the right URLs yourself and pass them dynamically
          * to SimpleSAMLphp's API.
          */
-        'baseURL' => 'https://' . $url,
+        'baseURL' => $baseURL,
     //),
 
     /*
