@@ -1,4 +1,4 @@
-@settings buildcheck
+@settings @buildcheck
 Feature: The Settings page lists all enabled bundle settings
 In order to test all the settings on a Web Express site
 An authenticated user with the Site Owner role
