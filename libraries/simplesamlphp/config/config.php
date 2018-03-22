@@ -12,13 +12,16 @@ $url = $_SERVER['SERVER_NAME'];
 $path = $_SERVER['REQUEST_URI'];
 $site_name = preg_match('/.*?\/(.*?)\//', $path, $match);
 
+if (!isset($match[0])) {
+  $match[0] = null;
+}
+
 header('Access-Control-Allow-Origin: *');
 $drupal_dir = $_SERVER['DOCUMENT_ROOT'] . $match[0] . 'sites/default/settings.local_post.php';
 
 //@TODO Wrap this in an environment check so we can have the SAML modules enabled locally
 //$drupal_dir = $_SERVER['SCRIPT_FILENAME'] . 'sites/default/settings.php';
 //$drupal_dir =  str_replace("index.php", "", $drupal_dir);
-
 
 include($drupal_dir);
 $db = $databases['saml']['default'];
