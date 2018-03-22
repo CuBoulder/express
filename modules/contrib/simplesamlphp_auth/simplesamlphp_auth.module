@@ -153,7 +153,7 @@ function simplesamlphp_auth_loginpage() {
     $_simplesamlphp_auth_as->requireAuth(array(
      // explicitly not setting port to prevent bad port redirects
       //'ReturnTo' => 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
-      'ReturnTo' => 'https://' . $_SERVER['HTTP_HOST'] . $base_path . 'user',
+      'ReturnTo' => 'https://' . $_SERVER['HTTP_HOST'] . $base_path . 'user?destination=' . $_REQUEST['destination'],
     ));
     // If the user is authenticated, send them along.
 
