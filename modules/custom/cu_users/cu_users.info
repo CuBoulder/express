@@ -4,4 +4,3 @@ core = 7.x
 package = CU-Core
 version = 7.x-1.0
 dependencies[] = secure_permissions
-

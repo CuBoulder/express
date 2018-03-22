@@ -201,6 +201,15 @@ function cu_users_form_user_cancel_confirm_form_alter(&$form, &$form_state) {
   unset($form['user_cancel_confirm']);
 }
 
+function cu_users_form_pathauto_patterns_form_alter(&$form, &$form_state, &$form_id) {
+  $form['user']['pathauto_user_pattern']['#disabled'] = TRUE;
+  $form['user']['pathauto_user_pattern']['#default_value'] = '';
+}
+
+function cu_users_form_realname_settings_form_alter(&$form, &$form_state, &$form_id) {
+  $form['general']['realname_pattern']['#default_value'] = '';
+}
+
 /**
  * Implements hook_user_update().
  *
