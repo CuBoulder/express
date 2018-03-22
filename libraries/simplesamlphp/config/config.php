@@ -8,22 +8,16 @@ if (!ini_get('session.save_handler')) {
   ini_set('session.save_handler', 'file');
 }
 
-$url = $_SERVER['SERVER_NAME'];
-$path = $_SERVER['REQUEST_URI'];
-$site_name = preg_match('/.*?\/(.*?)\//', $path, $match);
-
-if (!isset($match[0])) {
-  $match[0] = '/';
-}
+$url_path = str_replace("index.php", "", $_SERVER['SCRIPT_NAME']);
+$file_path = str_replace("index.php", "", $_SERVER['SCRIPT_FILENAME']);
+$url = $_SERVER['SERVER_NAME'] . $url_path;
 
 header('Access-Control-Allow-Origin: *');
-$drupal_dir = $_SERVER['DOCUMENT_ROOT'] . $match[0] . 'sites/default/settings.local_post.php';
 
-//@TODO Wrap this in an environment check so we can have the SAML modules enabled locally
-//$drupal_dir = $_SERVER['SCRIPT_FILENAME'] . 'sites/default/settings.php';
-//$drupal_dir =  str_replace("index.php", "", $drupal_dir);
+include($file_path . 'sites/default/settings.local_post.php');
+//@TODO: add check for local or change ng servers to use single settings file
+//include($file_path . 'sites/default/settings.php');
 
-include($drupal_dir);
 $db = $databases['saml']['default'];
 
 $config = array(
@@ -49,7 +43,7 @@ $config = array(
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath' => 'https://' . $url . $match[0] . 'profiles/express/simplesaml/',
+    'baseurlpath' => 'https://' . $url . 'profiles/express/simplesaml/',
 
     /*
      * The 'application' configuration array groups a set configuration options
@@ -70,7 +64,7 @@ $config = array(
          * need to compute the right URLs yourself and pass them dynamically
          * to SimpleSAMLphp's API.
          */
-        'baseURL' => 'https://' . $url . $match[0],
+        'baseURL' => 'https://' . $url,
     //),
 
     /*
