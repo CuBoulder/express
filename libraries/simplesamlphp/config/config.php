@@ -17,7 +17,7 @@ if (strpos($_SERVER['SCRIPT_NAME'], "index.php")) {
 } else {
   // this handles calls directly to /profiles/express/simplesaml/module.php/saml/sp/metadata.php/cu_boulder?output=xhtml
   $filename = basename($_SERVER["SCRIPT_FILENAME"]);
-  $fileparts = explode('/profiles/express/simplesaml/', $_SERVER["SCRIPT_FILENAME"]);
+  $fileparts = explode('/profiles/express/simplesaml', $_SERVER["SCRIPT_FILENAME"]);
   $file_path = $fileparts[0];
   $urlparts = explode('/profiles/express/simplesaml/', $_SERVER["SCRIPT_NAME"]);
   $baseURL = 'https://' . $_SERVER['HTTP_HOST'] . $urlparts[0] . '/';
@@ -25,7 +25,6 @@ if (strpos($_SERVER['SCRIPT_NAME'], "index.php")) {
 }
 
 if ($_REQUEST['saml-config-debug']) {
-  print $_SERVER["SCRIPT_NAME"];
 	print "File Path: $file_path </br>";
 	print "Base URL: $baseURL </br>";
 	print "Base URL Path: $baseurlpath </br>";
