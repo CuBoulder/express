@@ -37,3 +37,5 @@ Scenario: A Site Owner can set the social share links and verify that they appea
   And I go to "mypage"
   Then the response should contain "class=\"cu-share-sidebar\""
   And I should see a "div" element with the "class" attribute set to "cu-share-sidebar"
+  
+  
