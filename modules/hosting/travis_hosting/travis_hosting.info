@@ -8,6 +8,7 @@ package = Hosting
 dependencies[] = cu_advanced_content_bundle
 dependencies[] = cu_advanced_design_bundle
 dependencies[] = cu_advanced_layout_bundle
+dependencies[] = cu_feeds_bundle
 ;dependencies[] = cu_events_bundle
 dependencies[] = cu_forms_bundle
 dependencies[] = cu_news_bundle
