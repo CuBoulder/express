@@ -6,7 +6,7 @@ Should be able to update the Web Express XML site map
 
 #SOME ROLES CAN ACCESS SITE MAP SETTINGS
 @api
-Scenario Outline: Devs, Admins and SOs can update the sitemap
+Scenario Outline: Devs, Admins and SOs can access the sitemap page
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/seo/xmlsitemap"
   Then I should see "sitemap.xml"
