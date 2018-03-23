@@ -5,12 +5,3 @@
  * Install hooks for ucb_on_prem_hosting module.
  */
 
-/**
- * Implements hook_install().
- */
-function ucb_on_prem_hosting_install() {
-  variable_set('session_cookie_lifetime_type', 'time');
-  variable_set('session_cookie_lifetime_multiplier', 3600);
-  variable_set('session_cookie_lifetime_amount', 26);
-}
-

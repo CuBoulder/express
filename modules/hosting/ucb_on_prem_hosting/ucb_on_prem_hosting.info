@@ -13,4 +13,3 @@ dependencies[] = noreqnewpass
 dependencies[] = cu_atlas
 dependencies[] = atlas
 dependencies[] = atlas_statistics
-dependencies[] = session_cookie_lifetime
