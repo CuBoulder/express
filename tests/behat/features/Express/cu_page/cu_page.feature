@@ -39,7 +39,6 @@ Scenario Outline: An authenticated user should be able to create a basic page no
   And I should see "Demo body content"
   # And I should see an image in the "Content" region
   # And I should see the image alt "Ralphie running with people" in the "Content" region
-  # @todo figure out why text isn't showing up.
   And I should see "New Menu Item"
       
  Examples:
