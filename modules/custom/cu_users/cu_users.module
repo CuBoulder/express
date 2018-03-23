@@ -208,10 +208,6 @@ function cu_users_form_user_cancel_confirm_form_alter(&$form, &$form_state) {
  */
 function cu_users_user_update(&$edit, $account, $category) {
 
-  // ddl($_SESSION, 'session during user update');
-  // ddl($category, 'category variable');
-  // ddl($account, 'current account');
-
   $user_vars = array(
     '%uid' => $account->uid,
     '%name' => $account->name,
@@ -222,67 +218,14 @@ function cu_users_user_update(&$edit, $account, $category) {
 
   watchdog('cu_user_logs', 'User account saved. UID: %uid name: %name mail: %mail created: %created roles: %roles', $user_vars);
 
+  ddl($_SERVER);
+  ddl($_COOKIE);
+
   // Force restart of session.
   drupal_session_start();
 
-  // drupal_goto($_GET['q']);
-}
-
-/**
- * Implements hook_user_login().
- *
- * @param $edit
- * @param $account
- */
-function cu_users_user_login(&$edit, $account) {
-  // ddl($edit, 'edit variable');
-  // ddl($account, 'current account');
-  // ddl($_REQUEST, 'request vars');
-  // ddl($_GET, 'request vars');
-
-}
-
-/**
- * Implements hook_exit().
- *
- * @param null $destination
- */
-function cu_users_exit($destination = NULL) {
-  //global $user;
-  //ddl($destination, 'destination');
-  //ddl($_SERVER, 'server');
-  //ddl($_SESSION, 'session');
-  //ddl($user, 'user');
-}
-
-function cu_users_page_delivery_callback_alter(&$callback)  {
-  // ddl($callback, 'callback');
-  // ddl($_SERVER, 'server');
-}
-
-/**
- * Implements hook_menu().
- */
-function cu_users_menu() {
-  $items = array();
-
-  $items['my/four'] = array(
-    'title' => 'Access Denied',
-    'page callback' => 'cu_users_access_denied',
-    'access arguments' => array('access content'),
-    'type' => MENU_CALLBACK,
-  );
-
-  return $items;
-}
-
-function cu_users_access_denied() {
-  global $user;
-  ddl($user);
-  ddl($_COOKIE);
-
-  print 'HEllo';
-  return;
+  // Go to current request with new session information.
+  drupal_goto($_GET['q']);
 }
 
 /**

@@ -453,10 +453,6 @@ function simplesamlphp_auth_user_logout($account) {
 
     // :KLUDGE: for some reason Drupal is not killing the session, even if
     // drupal_session_destroy_uid() is called here.
-    ddl($user);
-    ddl($_COOKIE);
-    setcookie('SimpleSAMLAuthToken');
-    setcookie('SimpleSAMLSessionID');
     session_destroy();
 
     $gotourl = base_path();
@@ -853,7 +849,6 @@ function _simplesaml_auth_debug($message) {
  * Logged out user that has an active session in Drupal but not with simpleSAML.
  */
 function _simplesamlphp_auth_destroy_drupal_session() {
-  ddl('you got detroyed!!!');
   module_load_include('pages.inc', 'user');
   user_logout();
 }
