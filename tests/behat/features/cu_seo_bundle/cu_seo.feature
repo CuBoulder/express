@@ -75,8 +75,7 @@ Scenario: the SEO Link Checker should work
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/settings/seo/linkchecker-analyze"
 And I press "edit-linkchecker-analyze"
-# Then I should see DON'T KNOW; BROKEN ON ALL SITES RIGHT NOW; DEF SHOULD NOT SEE THE FOLLOWING:
-Then I should not see "unexpected error"
+Then I should see "blocks have been scanned" 
 
 #VERIFY ACCESS TO GOOGLE ANALYTICS ACCOUNT ID PAGE
 @api 
