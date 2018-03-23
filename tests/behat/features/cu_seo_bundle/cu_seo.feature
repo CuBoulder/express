@@ -131,7 +131,7 @@ Then the response should contain "content=\"My Amazing Site Description\""
 
 #GOTTA CHECK FOR ADDITION OF META TAG LINK
 @api  
-Scenario: Enabling SEO Bundle adds Meta Tag functionality to a asic Page
+Scenario: Enabling SEO Bundle adds Meta Tag functionality to a Basic Page
 Given I am logged in as a user with the "site_owner" role
 When I go to "node/page/add"
 Then I should see "This text will be used by screen readers"
