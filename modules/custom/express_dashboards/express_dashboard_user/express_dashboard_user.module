@@ -75,7 +75,7 @@ function express_dashboard_user_content() {
   $output['left']['widgets']['online']['title'] = 'Who\'s online';
   $output['left']['widgets']['online']['content']['#markup'] = $users_online['content'];
   // Display real name if available.
-  $output['left']['widgets']['user']['title'] =  function_exists('realname_load') ? realname_load($user) : $user->name;
+  $output['left']['widgets']['user']['title'] = function_exists('realname_load') ? realname_load($user) : $user->name;
   $output['left']['widgets']['user']['content']['#markup'] = theme('express_dashboard_user_profile', (array) $vars);
 
   return $output;
