@@ -145,16 +145,11 @@ And I go to "/"
 Then the response should contain "content=\"My Amazing Site Description\""
   
 @api  @broken
-Scenario Outline: The Meta Tags page functionality has been added to Basic Page
-Given I am logged in as a user with the <role> role
-When I go to "/"
-And I follow "Edit"
-Then I should see an "edit-metatags" element
+Scenario: Enabling SEO Bundle adds Meta Tags functionality to Basic Page
+Given I am logged in as a user with the "site-owner" role
+When I go to "node/page/add"
+Then I should see the text "This text will be used by screen readers"
+And I should see the link "Menu settings"
+And I should see the link "Meta tags"
+And I should see an "edit-metatags" element
 And I should see an "#edit-metatags" element
-
-Examples:
-    | role            | 
-    | developer       | 
-    | administrator   | 
-    | site_owner      |
-    | content_editor  | 
