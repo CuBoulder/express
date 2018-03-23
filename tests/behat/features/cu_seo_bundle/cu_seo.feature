@@ -17,29 +17,24 @@ Feature: Search Engine Optimization Bundle
     | content_editor  | "Access denied"    |
     | edit_my_content | "Access denied"    |
 
-#CHECK THAT SEO TAB EXISTS FOR APPROPRIATE USERS
+#CHECK THAT SEO TAB HAS BEEN ACTIVATED ON DASHBOARD
 @api 
 Scenario Outline: Devs, SOs and CEs are given the SEO tab
 Given I am logged in as a user with the <role> role
 When I go to "admin/dashboard"
-Then I should see "User"
-And I should see "SEO"
+Then I should see the link "User"
+And I should see the link "SEO"
 And I should see an "a" element with the "class" attribute set to "seo"
 
 Examples:
-    | role            | 
-    | developer       | 
-    | administrator   | 
-    | site_owner      |
-    | content_editor  | 
+    | role             | 
+    | developer        | 
+    | administrator    | 
+    | site_owner       |
+    | content_editor   | 
+    | edit_my_content  | 
     
-Scenario: EMCs are not given the SEO tab
-Given I am logged in as a user with the "edit_my_content" role
-When I go to "admin/dashboard"
-Then I should not see "User"
-And I should not see "SEO"
-
-# USERS WITH PROPER ROLE CAN VIEW THE SEO FUNCTIONALITY
+# THE SEO TAB HAS BEEN POPULATED WITH SEO FUNCTIONALITY
 @api 
 Scenario Outline: Devs, SOs and CEs see the SEO Checklist populated with SEO functionality
 Given I am logged in as a user with the <role> role
@@ -57,18 +52,8 @@ Examples:
     | administrator   | 
     | site_owner      |
     | content_editor  | 
+    | edit_my_content  | 
     
-#NOTE: EMCs DON'T GET ACCESS DENIED; THEY GET THE DASHBOARD
-Scenario: EMCs cannot view SEO functionality
-Given I am logged in as a user with the "edit_my_content" role
-When I go to "admin/dashboard/seo"
-Then I should not see "Google Analytics"
-And I should not see "Site Verification"
-And I should not see "Link Checker"
-And I should not see "Site Description"
-And I should not see "Responsive/Mobile Friendly"
-And I should not see "Content Updated"
-
 #VERIFY ACCESS TO SEO LINK CHECKER
 @api 
 Scenario Outline: only Devs, Admins and SEOs can access the SEO Link Checker
@@ -135,7 +120,7 @@ Examples:
     
  
 #VERIFY THAT ADDING A SITE DESCRIPTION POPULATES THE SITE DESCRIPTION META TAG   
-@api
+@api 
 Scenario: Adding text to site description populates Meta tag "Description" on site homepage
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/settings/site-configuration/site-description"
@@ -146,7 +131,7 @@ Then the response should contain "content=\"My Amazing Site Description\""
   
 @api  @broken
 Scenario: Enabling SEO Bundle adds Meta Tag functionality to a asic Page
-Given I am logged in as a user with the "site-owner" role
+Given I am logged in as a user with the "site_owner" role
 When I go to "node/page/add"
 Then I should see the text "This text will be used by screen readers"
 And I should see the link "Menu settings"
