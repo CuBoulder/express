@@ -128,12 +128,13 @@ When I fill in "edit-site-description" with "My Amazing Site Description"
 And I press "edit-submit"
 And I go to "/"
 Then the response should contain "content=\"My Amazing Site Description\""
-  
-@api  @broken
+
+#GOTTA CHECK FOR ADDITION OF META TAG LINK
+@api  
 Scenario: Enabling SEO Bundle adds Meta Tag functionality to a asic Page
 Given I am logged in as a user with the "site_owner" role
 When I go to "node/page/add"
-Then I should see the text "This text will be used by screen readers"
+Then I should see "This text will be used by screen readers"
 And I should see the link "Menu settings"
 And I should see the link "Meta tags"
 And I should see an "edit-metatags" element
