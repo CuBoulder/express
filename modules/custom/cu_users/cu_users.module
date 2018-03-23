@@ -23,7 +23,7 @@ function cu_users_get_users($type = 'all') {
     'jafu6031' => 'James.W.Fuller@Colorado.EDU',
     'alfi2595' => 'alexander.finnarn@colorado.edu',
     'owmo7772' => 'owen.morrill@colorado.edu',
-    'jeor0980' => 'Jesus.OrtizTovar@colorado.edu'
+    'jeor0980' => 'Jesus.OrtizTovar@colorado.edu',
   );
 
   $user_array['administrator'] = array(
@@ -218,14 +218,23 @@ function cu_users_user_update(&$edit, $account, $category) {
 
   watchdog('cu_user_logs', 'User account saved. UID: %uid name: %name mail: %mail created: %created roles: %roles', $user_vars);
 
-  ddl($_SERVER);
-  ddl($_COOKIE);
 
-  // Force restart of session.
-  drupal_session_start();
+  // If the user is coming from Fedauth, then we need to start the request over again.
+  // When the session is destroyed on logout, the next request sends back user info in the session,
+  // but it is only used on the next request.
+  // Without redirecting the user, they will get an access denied.
+  if (strpos($_SERVER['HTTP_REFERER'], 'https://fedauth.colorado.edu') === 0) {
 
-  // Go to current request with new session information.
-  drupal_goto($_GET['q']);
+    ddl($_SERVER);
+    ddl($_COOKIE);
+    ddl('I am fedauth');
+
+    // Force restart of session.
+    // drupal_session_start();
+
+    // Go to current request with new session information.
+    drupal_goto($_GET['q']);
+  }
 }
 
 /**
