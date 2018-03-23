@@ -136,7 +136,7 @@ Examples:
  
 #VERIFY THAT ADDING A SITE DESCRIPTION POPULATES THE SITE DESCRIPTION META TAG   
 @api
-Scenario Outline: Adding text to site description populates Meta tag "Description" on site homepage
+Scenario: Adding text to site description populates Meta tag "Description" on site homepage
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/settings/site-configuration/site-description"
 When I fill in "edit-site-description" with "My Amazing Site Description"
@@ -145,7 +145,7 @@ And I go to "/"
 Then the response should contain "content=\"My Amazing Site Description\""
   
 @api  @broken
-Scenario: Enabling SEO Bundle adds Meta Tags functionality to Basic Page
+Scenario: Enabling SEO Bundle adds Meta Tag functionality to a asic Page
 Given I am logged in as a user with the "site-owner" role
 When I go to "node/page/add"
 Then I should see the text "This text will be used by screen readers"
