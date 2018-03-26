@@ -183,7 +183,6 @@ function cu_core_form_menu_edit_item_alter(&$form, &$form_state, $form_id) {
 
 function cu_core_preprocess_html(&$vars) {
   $env = $_SERVER['HTTP_HOST'];
-  dpm($env);
   switch ($_SERVER['HTTP_HOST']) {
     case 'www.colorado.edu':
       $vars['classes_array'][] = 'environment-production';
