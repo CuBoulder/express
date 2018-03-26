@@ -48,7 +48,7 @@ Scenario: Content editors can create person nodes
   When I press "Save"
   Then I should see "Person Staff Person has been created."
 
-  Given  I am logged in as a user with the "content_editor" role
+  # Given  I am logged in as a user with the "content_editor" role
     And am on "node/add/person"
     And fill in "First Name" with "Faculty"
     And fill in "Last Name" with "Person"
@@ -58,7 +58,7 @@ Scenario: Content editors can create person nodes
   When I press "Save"
   Then I should see "Person Faculty Person has been created."
 
-  Given  I am logged in as a user with the "content_editor" role
+  # Given  I am logged in as a user with the "content_editor" role
     And am on "node/add/people-list-page"
     And fill in "Title" with "People"
     And I select "Table" from "edit-field-people-list-display-und"
@@ -71,7 +71,7 @@ Scenario: Content editors can create person nodes
     And I should see "Faculty Person"
     And I should see a "select" element
 
-  Given  I am logged in as a user with the "content_editor" role
+  # Given  I am logged in as a user with the "content_editor" role
     And am on "node/add/people-list-page"
     And fill in "Title" with "Faculty People"
     And I check "Faculty"
@@ -80,7 +80,7 @@ Scenario: Content editors can create person nodes
   Then I should not see "Staff Person"
     And I should see "Faculty Person"
 
-  Given  I am logged in as a user with the "content_editor" role
+  # Given  I am logged in as a user with the "content_editor" role
     And am on "node/add/people-list-page"
     And fill in "Title" with "Staff People"
     And I check "Staff"
@@ -89,7 +89,7 @@ Scenario: Content editors can create person nodes
   Then I should see "Staff Person"
     And I should not see "Faculty Person"
 
-  Given  I am logged in as a user with the "content_editor" role
+  # Given  I am logged in as a user with the "content_editor" role
     And am on "node/add/people-list-page"
     And fill in "Title" with "Department One People"
     And I check "Department One"
@@ -98,7 +98,7 @@ Scenario: Content editors can create person nodes
   Then I should see "Staff Person"
     And I should not see "Faculty Person"
 
-  Given  I am logged in as a user with the "content_editor" role
+  # Given  I am logged in as a user with the "content_editor" role
     And am on "node/add/people-list-page"
     And fill in "Title" with "Department Two People"
     And I check "Department Two"

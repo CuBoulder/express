@@ -5,6 +5,8 @@
  * @file
  */
 
+include_once 'cu_saml.features.inc';
+
 /**
  * Define site permissions in code.
  *
