@@ -1,15 +1,12 @@
 @AdvContentBundle
-Feature: Block Row Block
-
 Feature: the Block Row Block
 In order to placed blocks side by side
 As an authenticated user
 I should be able to access and use the Block Row Block
   
-
 @api @block-row-block
 Scenario Outline: An authenticated user should be able to access the form for adding a block row block
-    Given  I am logged in as a user with the <role> role
+    Given I am logged in as a user with the <role> role
     When I go to "block/add/block-row"
     Then I should see <message>
 
@@ -44,7 +41,7 @@ When I go to "block/add/block"
  And I fill in "edit_label" with "My Block Row Block"
  And I fill in "edit_title" with "My Block Row Block"
  And I press "edit-field-block-row-collection-und-0-field-block-row-block-und-actions-ief-add-existing"
- and I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-entity-id" with "Block Row Text One"
+ And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-entity-id" with "Block Row Text One"
  And I press "edit-field-block-row-collection-und-0-field-block-row-block-und-form-actions-ief-reference-save"
  And I press "Save"
  Then I should see "Cupcake ipsum dolor sit amet ice cream cake"
