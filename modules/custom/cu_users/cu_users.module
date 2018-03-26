@@ -201,12 +201,18 @@ function cu_users_form_user_cancel_confirm_form_alter(&$form, &$form_state) {
   unset($form['user_cancel_confirm']);
 }
 
-function cu_users_form_pathauto_patterns_form_alter(&$form, &$form_state, &$form_id) {
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function cu_users_form_pathauto_patterns_form_alter(&$form, &$form_state) {
   $form['user']['pathauto_user_pattern']['#disabled'] = TRUE;
   $form['user']['pathauto_user_pattern']['#default_value'] = '';
 }
 
-function cu_users_form_realname_settings_form_alter(&$form, &$form_state, &$form_id) {
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function cu_users_form_realname_settings_form_alter(&$form, &$form_state) {
   $form['general']['realname_pattern']['#default_value'] = '';
 }
 
@@ -248,11 +254,9 @@ function cu_users_user_insert(&$edit, $account, $category) {
 
 function cu_users_module_implements_alter(&$implementations, $hook) {
   if ($hook == 'user_update') {
-
-    // Move my_module_rdf_mapping() to the end of the list. module_implements()
-    // iterates through $implementations with a foreach loop which PHP iterates
-    // in the order that the items were added, so to move an item to the end of
-    // the array, we remove it and then add it.
     unset($implementations['realname']);
+  }
+  if ($hook == 'user_update_alias') {
+    unset($implementations['pathauto']);
   }
 }
