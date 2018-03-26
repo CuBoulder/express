@@ -21,6 +21,9 @@ function travis_hosting_install() {
 
   // Add test users.
   _travis_hosting_add_users();
+
+  // Change LDAP config.
+
 }
 
 /**

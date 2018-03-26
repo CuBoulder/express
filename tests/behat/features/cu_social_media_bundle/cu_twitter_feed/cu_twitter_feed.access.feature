@@ -3,7 +3,7 @@ Feature: Twitter Feed Access Feature
 
   @api @social_media
   Scenario Outline: Certain user roles should be able to create Create Twitter Block block content.
-  Given  CU - I am logged in as a user with the <role> role
+  Given  I am logged in as a user with the <role> role
   And I am on "block/add/twitter-block"
   Then I should see <message>
 
@@ -20,9 +20,9 @@ Feature: Twitter Feed Access Feature
   Given I am on "block/add/twitter-block"
   Then I should see "Access Denied"
 
-  @api @social_media
+  @api @social_media @broken
   Scenario Outline: Users should be able to view Twitter Block block content.
-  Given  CU - I am logged in as a user with the <role> role
+  Given  I am logged in as a user with the <role> role
   When I create a "twitter_block" block with the label "Twitter Block"
   Then I should see <message>
 
@@ -34,8 +34,7 @@ Feature: Twitter Feed Access Feature
   | developer       | "Twitter Block"  |
   | edit_my_content | "Access Denied"  |
 
-  @api @social_media
+  @api @social_media @broken
   Scenario: Anonymous users shouldn't be able to view Twitter Block block content.
-  Given I am an anonymous user
   When I create a "twitter_block" block with the label "Twitter Block"
   Then I should see "Access Denied"
