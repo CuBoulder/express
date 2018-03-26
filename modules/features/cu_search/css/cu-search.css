@@ -1,4 +1,4 @@
-.cu-search-box .search-form-wrapper { display: flex; flex-direction: column-reverse; margin-bottom: 20px; }
+.cu-search-box .search-form-wrapper { display: flex; flex-direction: column-reverse; }
 
 .search-options { display: flex; flex-direction: row; flex-wrap: wrap; font-size: 85%; }
 
