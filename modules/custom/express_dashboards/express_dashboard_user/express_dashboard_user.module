@@ -155,3 +155,14 @@ function express_dashboard_user_theme_registry_alter(&$theme_registry) {
     }
   }
 }
+
+/**
+ * Implements hook_user_view().
+ */
+function express_dashboard_user_user_view($account) {
+  global $user;
+  if ($account->uid == $user->uid) {
+    drupal_goto('admin/dashboard');
+  }
+
+}
