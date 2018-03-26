@@ -21,7 +21,7 @@ function cu_core_install() {
   }
 
   if ($hosting == 'lando') {
-    module_enable(array('lando_hosting'));
+    module_enable(array('local_hosting'));
   }
 
   // @TODO: If it's not Travis or Pantheon, assume it's NG for now.
