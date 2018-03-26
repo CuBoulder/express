@@ -70,7 +70,7 @@ Examples:
     | edit_my_content | "Access denied" |
     
 #VERIFY THAT LINK CHECKER WORKS
-@api
+@api @javascript
 Scenario: the SEO Link Checker should work
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/settings/seo/linkchecker-analyze"
@@ -129,7 +129,7 @@ And I go to "/"
 Then the response should contain "content=\"My Amazing Site Description\""
 
 #GOTTA CHECK FOR ADDITION OF META TAG LINK
-@api  
+@api @javascript
 Scenario: Enabling SEO Bundle adds Meta Tag functionality to a Basic Page
 Given I am logged in as a user with the "site_owner" role
 When I go to "node/page/add"
