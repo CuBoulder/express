@@ -85,11 +85,13 @@ function simplesamlphp_auth_permission() {
 function simplesamlphp_auth_loginpage() {
   global $user;
   global $base_url;
+  global $base_path;
   global $_simplesamlphp_auth_as;
   global $_simplesamlphp_auth_saml_attributes;
 
   $fail   = NULL;
   $output = NULL;
+
 
   if (!_simplesamlphp_auth_isEnabled()) {
     // Exit without initializing.
@@ -148,8 +150,18 @@ function simplesamlphp_auth_loginpage() {
     }
 
     // Require the user to be authenticated.
-    $_simplesamlphp_auth_as->requireAuth();
+    // WAS $_simplesamlphp_auth_as->requireAuth();
+    if (isset($_REQUEST['destination'])) {
+      $_simplesamlphp_auth_as->requireAuth(array(
+        'ReturnTo' => 'https://' . $_SERVER['HTTP_HOST'] . $base_path . $_REQUEST['destination'],
+      ));
+    }  else {
+        $_simplesamlphp_auth_as->requireAuth(array(
+        'ReturnTo' => 'https://' . $_SERVER['HTTP_HOST'] . $base_path . 'user',
+      ));
+    }
     // If the user is authenticated, send them along.
+
   }
   else {
 
@@ -237,11 +249,18 @@ function simplesamlphp_auth_init() {
           // if we are allowed to register users.
           if (variable_get('simplesamlphp_auth_registerusers', TRUE)) {
 
-            // We are allowed to register new users.
-            _simplesaml_auth_debug(t('Register [%authname]', array('%authname' => $authname)));
+            // We are allowed to register new users, but check to see if this user exists first
+            $usercheck = user_load_by_name($authname);
 
-            user_external_login_register($authname, 'simplesamlphp_auth');
+            if (!$usercheck->uid) {
+              _simplesaml_auth_debug(t('Register [%authname]', array('%authname' => $authname)));
+              user_external_login_register($authname, 'authname_ldap_user');
+            } else {
+              _simplesaml_auth_debug(t('[%authname] already exists', array('%authname' => $authname)));
+               user_set_authmaps($usercheck, array("authname_ldap_user" => $authname));
+            }
             $skip_user_finalization = TRUE;
+
 
             if (!empty($user->uid)) {
               // Populate roles based on configuration setting.
@@ -444,7 +463,8 @@ function simplesamlphp_auth_user_logout($account) {
     // Allow modules to alter $gotourl.
     drupal_alter('simplesamlphp_auth_logout_gotourl', $gotourl, $account);
 
-    $_simplesamlphp_auth_as->logout($gotourl);
+    //$_simplesamlphp_auth_as->logout($gotourl);
+    drupal_goto($base_url);
 
   }
 }
