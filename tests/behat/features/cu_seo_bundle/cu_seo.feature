@@ -3,13 +3,14 @@ Feature: Search Engine Optimization Bundle
   In order to optimize my site content for search engines
   As an authenticated user with the proper role
   I should be able access and edit SEO links and functionality
-  
- Scenario Outline: Only Developers can verify that the Google Analytics Settings page has been installed
- Given I am logged is as a user with the <role> role
- When I go to "admin/config/system/googleanalytics"
- Then I should see <message>
+
+  @api
+  Scenario Outline: Only Developers can verify that the Google Analytics Settings page has been installed
+    Given I am logged in as a user with the <role> role
+    When I go to "admin/config/system/googleanalytics"
+    Then I should see <message>
  
- Examples:
+  Examples:
     | role            | message            |
     | developer       | "General Settings" |
     | administrator   | "Access denied"    |
@@ -18,13 +19,12 @@ Feature: Search Engine Optimization Bundle
     | edit_my_content | "Access denied"    |
 
 #CHECK THAT SEO TAB HAS BEEN ACTIVATED ON DASHBOARD
-@api 
+@api
 Scenario Outline: Devs, SOs and CEs are given the SEO tab
 Given I am logged in as a user with the <role> role
 When I go to "admin/dashboard"
 Then I should see the link "User"
 And I should see the link "SEO"
-And I should see an "a" element with the "class" attribute set to "seo"
 
 Examples:
     | role             | 
@@ -132,9 +132,9 @@ Then the response should contain "content=\"My Amazing Site Description\""
 @api @javascript
 Scenario: Enabling SEO Bundle adds Meta Tag functionality to a Basic Page
 Given I am logged in as a user with the "site_owner" role
-When I go to "node/page/add"
+When I go to "node/add/page"
 Then I should see "This text will be used by screen readers"
 And I should see the link "Menu settings"
 And I should see the link "Meta tags"
-And I should see an "edit-metatags" element
-And I should see an "#edit-metatags" element
+When I follow "Meta tags"
+Then I should see an "#edit-metatags" element
