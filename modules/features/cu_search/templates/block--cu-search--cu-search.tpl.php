@@ -12,7 +12,7 @@ $configs = $block->configs;
 $active_option = key($options);
 $active_configs = $configs[$active_option];
 ?>
-  <div class="cu-search-box cu-search-box-small animated">
+  <div class="cu-search-box cu-search-box-small animated" role="search">
     <h2 class="element-invisible"><?php print t('Search'); ?></h2>
     <form class="cu-search-form" action="<?php print $active_configs['action']; ?>" method="get">
       <div class="search-form-wrapper">
