@@ -326,8 +326,13 @@ class FeatureContext extends MinkContext
     $field = $this->fixStepArgument($field);
 
     if ($this->getMinkParameter('files_path')) {
-      $fullPath = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$path;
+
+      // We can't use realpath() since the tests might be run on a different server.
+      // $fullPath = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$path;
+
+      $fullPath = rtrim($this->getMinkParameter('files_path')).DIRECTORY_SEPARATOR.$path;
       echo $fullPath;
+
       if (is_file($fullPath)) {
         $path = $fullPath;
       }
