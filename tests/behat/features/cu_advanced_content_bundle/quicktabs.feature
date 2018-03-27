@@ -1,6 +1,6 @@
 #NOTE: TESTS FOR EDITING THE AN EXISTING QUICKTAB ARE FUNCTIONAL NOT AUTOMATED
 
-@AdvContentBundle 
+@AdvContentBundle  @rebuild
 Feature: the QuickTabs module has been deprecated
 In order to transfer my content from QuickTabs to Expandable Block
 As an authenticated user
@@ -26,7 +26,7 @@ Scenario: An anonymous user should not be able to access the form
   Given I go to "admin/structure/quicktabs"
   Then I should see "Access denied"
   
-@api @rebuild
+@api 
 Scenario Outline: The link to the Drupal System Block Admin page should not be reachable
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/block"
