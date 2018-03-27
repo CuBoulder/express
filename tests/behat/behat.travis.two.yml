@@ -7,17 +7,23 @@ default:
   formatters:
       pretty: true
   suites:
-    express:
-      paths: [ "%paths.base%/features/Express" ]
+    forms:
+      paths: [ "%paths.base%/features/cu_forms_bundle" ]
       contexts: [ FeatureContext ]
-    advanced_content:
-      paths: [ "%paths.base%/features/cu_advanced_content_bundle" ]
+    news_articles:
+      paths: [ "%paths.base%/features/cu_news_articles_bundle" ]
       contexts: [ FeatureContext ]
-    advanced_design:
-      paths: [ "%paths.base%/features/cu_advanced_design_bundle" ]
+    people:
+      paths: [ "%paths.base%/features/cu_people_bundle" ]
       contexts: [ FeatureContext ]
-    advanced_layout:
-      paths: [ "%paths.base%/features/cu_advanced_layout_bundle" ]
+    photo_gallery:
+      paths: [ "%paths.base%/features/cu_photo_gallery_bundle" ]
+      contexts: [ FeatureContext ]
+    seo_bundle:
+      paths: [ "%paths.base%/features/cu_seo_bundle" ]
+      contexts: [ FeatureContext ]
+    social_media:
+      paths: [ "%paths.base%/features/cu_social_media_bundle" ]
       contexts: [ FeatureContext ]
   extensions:
       Behat\MinkExtension:
