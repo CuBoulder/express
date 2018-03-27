@@ -26,8 +26,8 @@ Scenario: An anonymous user should not be able to access the form
   Given I go to "admin/structure/quicktabs"
   Then I should see "Access denied"
   
-  @api
-  Scenario Outline: The link to the Drupal System Block Admin page should not be reachable
+@api @rebuild
+Scenario Outline: The link to the Drupal System Block Admin page should not be reachable
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/block"
   Then I should see <message>
@@ -36,6 +36,6 @@ Scenario: An anonymous user should not be able to access the form
   | role            | message         |
   | edit_my_content | "Access denied" |
   | content_editor  | "Access denied" |
-  | site_owner      | "Access denied" |
-  | administrator   | "Access denied" |
+  | site_owner      | "This page provides a drag-and-drop interface" |
+  | administrator   | "This page provides a drag-and-drop interface" |
   | developer       | "This page provides a drag-and-drop interface" |  
