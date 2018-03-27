@@ -12,17 +12,27 @@ if (!ini_get('session.save_handler')) {
 if (strpos($_SERVER['SCRIPT_NAME'], "index.php")) {
 	$url_path = str_replace("index.php", "", $_SERVER['SCRIPT_NAME']);
 	$file_path = str_replace("index.php", "", $_SERVER['SCRIPT_FILENAME']);
-	$baseURL = 'https://' . $_SERVER['HTTP_HOST'] . $url_path;
-	$baseurlpath = 'https://' . $_SERVER['HTTP_HOST'] . $url_path . 'profiles/express/simplesaml/';
 } else {
-  // this handles calls directly to /profiles/express/simplesaml/module.php/saml/sp/metadata.php/cu_boulder?output=xhtml
+  // this handles calls directly to php files in /profiles/express/simplesaml/module.php/saml/sp/
   $filename = basename($_SERVER["SCRIPT_FILENAME"]);
   $fileparts = explode('/profiles/express/simplesaml/', $_SERVER["SCRIPT_FILENAME"]);
   $file_path = $fileparts[0];
-  $urlparts = explode('/profiles/express/simplesaml/', $_SERVER["SCRIPT_NAME"]);
-  $baseURL = 'https://' . $_SERVER['HTTP_HOST'] . $urlparts[0] . '/';
-  $baseurlpath = 'https://' . $_SERVER['HTTP_HOST'] . $urlparts[0] . '/profiles/express/simplesaml/';
 }
+
+if (file_exists($file_path . 'sites/default/settings.php')) {
+  include($file_path . 'sites/default/settings.php');
+} else {
+  include($file_path . '/sites/default/settings.local_post.php');
+  include($file_path . '/sites/default/settings.local_pre.php');
+}
+
+if (isset($path)) {
+  $baseURL = 'https://' . $_SERVER['HTTP_HOST'] . '/' . $path;
+} else {
+  $baseURL = 'https://' . $_SERVER['HTTP_HOST'];
+}
+
+$baseurlpath = $baseURL . '/profiles/express/simplesaml/';
 
 if ($_REQUEST['saml-config-debug']) {
 	print "File Path: $file_path </br>";
@@ -32,11 +42,6 @@ if ($_REQUEST['saml-config-debug']) {
 }
 
 header('Access-Control-Allow-Origin: *');
-
-include($file_path . '/sites/default/settings.local_post.php');
-//@TODO: add check for local or change ng servers to use single settings file
-//include($file_path . 'sites/default/settings.php');
-
 $db = $databases['saml']['default'];
 
 $config = array(
