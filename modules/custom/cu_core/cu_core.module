@@ -180,3 +180,16 @@ function cu_core_page_alter(&$page) {
 function cu_core_form_menu_edit_item_alter(&$form, &$form_state, $form_id) {
   $form['actions']['#weight'] = 1000;
 }
+
+function cu_core_preprocess_html(&$vars) {
+  $env = $_SERVER['HTTP_HOST'];
+  switch ($_SERVER['HTTP_HOST']) {
+    case 'www.colorado.edu':
+      $vars['classes_array'][] = 'environment-production';
+      break;
+    case 'www-test.colorado.edu':
+      $vars['classes_array'][] = 'environment-test';
+      break;
+  }
+  drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
+}
