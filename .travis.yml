@@ -79,7 +79,7 @@ before_script:
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
 
-  # Do the site install.
+  # Perform the site install.
   - mysql -e 'create database drupal;'
   - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
