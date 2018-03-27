@@ -26,7 +26,7 @@ if (file_exists($file_path . 'sites/default/settings.php')) {
   include($file_path . '/sites/default/settings.local_pre.php');
 }
 
-if (isset($path)) {
+if (isset($path) && $path) {
   $baseURL = 'https://' . $_SERVER['HTTP_HOST'] . '/' . $path;
 } else {
   $baseURL = 'https://' . $_SERVER['HTTP_HOST'];
