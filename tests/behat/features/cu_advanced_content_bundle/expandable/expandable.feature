@@ -4,7 +4,6 @@ In order to create the look of tabbed content
 As an authenticated user
 I should be able to access and use the Expandable Block
   
-
 @api 
 Scenario Outline: An authenticated user should be able to access the form for adding an expandable block
   Given  I am logged in as a user with the <role> role
