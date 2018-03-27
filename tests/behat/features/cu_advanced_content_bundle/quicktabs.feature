@@ -1,3 +1,5 @@
+#NOTE: TESTS FOR EDITING THE AN EXISTING QUICKTAB ARE FUNCTIONAL NOT AUTOMATED
+
 @AdvContentBundle 
 Feature: the QuickTabs module has been deprecated
 In order to transfer my content from QuickTabs to Expandable Block
