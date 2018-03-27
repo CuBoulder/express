@@ -1,11 +1,16 @@
 <?php
 /**
+ * @file
+ * Contains hooks for cu_core module.
+ */
+
+/**
  * Implements hook_module_implements_alter().
  *
  * @param array $implementations
- *   List of modules that implement hook
+ *   List of modules that implement hook.
  * @param string $hook
- *   Name of the hook being fired
+ *   Name of the hook being fired.
  */
 function cu_core_module_implements_alter(&$implementations, $hook) {
   if ($hook == 'form_alter' && isset($implementations['cu_core'])) {
@@ -165,4 +170,41 @@ function cu_core_page_alter(&$page) {
       unset($page['help']['system_help']);
     }
   }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Make sure that actiuons are at bottom of menu item form.
+ */
+function cu_core_form_menu_edit_item_alter(&$form, &$form_state, $form_id) {
+  $form['actions']['#weight'] = 1000;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function cu_core_permission() {
+  return array(
+    'view express environment indicator' => array(
+      'title' => t('View Express Environment Indicator'),
+    ),
+  );
+}
+
+function cu_core_preprocess_html(&$vars) {
+  if (user_access('view express environment indicator')) {
+    $env = $_SERVER['HTTP_HOST'];
+    switch ($env) {
+      case 'www.colorado.edu':
+        $vars['classes_array'][] = 'environment-indicator-active';
+        $vars['classes_array'][] = 'environment-production';
+        break;
+      case 'www-test.colorado.edu':
+        $vars['classes_array'][] = 'environment-indicator-active';
+        $vars['classes_array'][] = 'environment-test';
+        break;
+    }
+  }
+  drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
 }

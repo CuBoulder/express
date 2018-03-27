@@ -20,7 +20,7 @@ Feature: Photo Gallery Access
     Given I am on "node/add/photo-gallery"
     Then I should see "Access Denied"
 
-  @api
+  @api @broken
   Scenario Outline: All users should be able to view a photo gallery node.
     Given  I am logged in as a user with the <role> role
       And I create a "photo_gallery" node with the title "New Gallery"
@@ -34,8 +34,7 @@ Feature: Photo Gallery Access
       | developer       | "New Gallery"  |
       | edit_my_content | "New Gallery"  |
 
-  @api @node_creation
+  @api @node_creation @broken
   Scenario: An anonymous user should be able to view Photo Gallery content.
-    Given I am an anonymous user
       And I create a "photo_gallery" node with the title "New Gallery"
     Then I should see "New Gallery"

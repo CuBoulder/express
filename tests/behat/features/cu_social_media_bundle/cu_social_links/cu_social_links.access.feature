@@ -20,7 +20,7 @@ Feature: Social Links Access Feature
   Given I am on "block/add/social-links"
   Then I should see "Access Denied"
 
-  @api @social_media @max_execution_time
+  @api @social_media @max_execution_time @broken
   Scenario Outline: Users should be able to view Social Links block content.
     Given  I am logged in as a user with the <role> role
     When I create a "social_links" block with the label "Social Links Block"
@@ -34,8 +34,7 @@ Feature: Social Links Access Feature
       | developer       | "Social Links Block"  |
       | edit_my_content | "Access Denied"       |
 
-  @api @social_media
+  @api @social_media @broken
   Scenario: Anonymous users shouldn't be able to view Social Links block content.
-    Given I am an anonymous user
     When I create a "social_links" block with the label "Social Links Block"
     Then I should see "Access Denied"

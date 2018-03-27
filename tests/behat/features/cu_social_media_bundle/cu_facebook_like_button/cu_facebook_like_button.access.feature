@@ -20,7 +20,7 @@ Feature: Facebook Like Button Access Feature
     Given I am on "block/add/facebook-like-button"
     Then I should see "Access Denied"
 
-  @api @social_media
+  @api @social_media @broken
   Scenario Outline: Users should be able to view Facebook Like block content.
     Given  I am logged in as a user with the <role> role
     When I create a "facebook_like_button" block with the label "Facebook Like Block"
@@ -34,8 +34,7 @@ Feature: Facebook Like Button Access Feature
       | administrator   | "Facebook Like Block"  |
       | developer       | "Facebook Like Block"  |
 
-  @api @social_media
+  @api @social_media @broken
   Scenario: Anonymous users shouldn't be able to view Facebook Like block content.
-    Given I am an anonymous user
     When I create a "facebook_like_button" block with the label "Facebook Like Block"
     Then I should see "Access Denied"
