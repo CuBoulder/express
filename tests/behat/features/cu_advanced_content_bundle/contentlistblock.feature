@@ -1,4 +1,4 @@
-@AdvContentBundle @expandable
+@AdvContentBundle 
 Feature: the Content List block
 In order to create a block with a list of nodes
 As an authenticated user
