@@ -1,6 +1,6 @@
 @AdvLayoutBundle @block-wrapper-block
 Feature: the Block Wrapper Block
-In order to placed system blocks as beans
+In order to place system blocks as beans
 As an authenticated user
 I should be able to access and use the Block Wrapper Block
   
