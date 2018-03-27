@@ -21,8 +21,8 @@ if (strpos($_SERVER['SCRIPT_NAME'], "index.php")) {
 
 include($file_path . 'sites/default/settings.php');
 
-if (isset($path) && $path) {
-  $baseURL = 'https://' . $_SERVER['HTTP_HOST'] . '/' . $path;
+if (isset($conf["cu_path"]) && $conf["cu_path"]) {
+  $baseURL = 'https://' . $_SERVER['HTTP_HOST'] . '/' . $conf["cu_path"];
 } else {
   $baseURL = 'https://' . $_SERVER['HTTP_HOST'];
 }
