@@ -21,4 +21,4 @@ Scenario Outline: An authenticated user should be able to access the form for ad
 @api 
 Scenario: An anonymous user should not be able to access the form
   Given I go to "block/add/feature-callout"
-  Then I should see "Access denied
+  Then I should see "Access denied"
