@@ -2,6 +2,10 @@ language: php
 # We want to avoid sudo. This allow us to use Travis docker infrastructure, which means builds start faster and have more CPU available.
 sudo: false
 
+env:
+  - BEHAT_TAGS="@~exclude_all_bundles&&~broken&&~javascript"
+  - BEHAT_TAGS="@javascript&&~exclude_all_bundles&&~broken"
+
 php:
   - '7.1'
 
@@ -100,9 +104,9 @@ before_script:
 
 script:
 
-  # Run Behat tests.
-  - ./bin/behat --config behat.travis.yml --verbose --tags '@~exclude_all_bundles&&~broken&&~javascript'
-  - ./bin/behat --config behat.travis.yml --verbose --tags '@javascript&&~exclude_all_bundles&&~broken'
+  # Run Behat tests in parallel.
+  # Tags are defined in the "env" key at the top of this file.
+  - ./bin/behat --config behat.travis.yml --verbose --tags $BEHAT_TAGS
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
