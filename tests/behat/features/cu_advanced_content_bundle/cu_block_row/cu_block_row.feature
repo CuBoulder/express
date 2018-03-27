@@ -13,7 +13,7 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     Examples:
     | role            | message         |
     | edit_my_content | "Access denied" |
-    | content_editor  | "Create Block Row block" |
+    | content_editor  | "Create Something Neat" |
     | site_owner      | "Create Block Row block" |
     | administrator   | "Create Block Row block" |
     | developer       | "Create Block Row block" |
