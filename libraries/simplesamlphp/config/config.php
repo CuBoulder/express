@@ -10,30 +10,30 @@ if (!ini_get('session.save_handler')) {
 
 // this works to set the values when Drupal calls the config
 if (strpos($_SERVER['SCRIPT_NAME'], "index.php")) {
-	$url_path = str_replace("index.php", "", $_SERVER['SCRIPT_NAME']);
-	$file_path = str_replace("index.php", "", $_SERVER['SCRIPT_FILENAME']);
+	$saml_url_path = str_replace("index.php", "", $_SERVER['SCRIPT_NAME']);
+	$saml_file_path = str_replace("index.php", "", $_SERVER['SCRIPT_FILENAME']);
 } else {
   // this handles calls directly to php files in /profiles/express/simplesaml/module.php/saml/sp/
-  $filename = basename($_SERVER["SCRIPT_FILENAME"]);
-  $fileparts = explode('/profiles/express/simplesaml/', $_SERVER["SCRIPT_FILENAME"]);
-  $file_path = $fileparts[0];
+  $saml_filename = basename($_SERVER["SCRIPT_FILENAME"]);
+  $saml_fileparts = explode('/profiles/express/simplesaml/', $_SERVER["SCRIPT_FILENAME"]);
+  $saml_file_path = $saml_fileparts[0];
 }
 
-include($file_path . 'sites/default/settings.php');
+include($saml_file_path . 'sites/default/settings.php');
 
 if (isset($conf["cu_path"]) && $conf["cu_path"]) {
-  $baseURL = 'https://' . $_SERVER['HTTP_HOST'] . '/' . $conf["cu_path"];
+  $saml_baseURL = 'https://' . $_SERVER['HTTP_HOST'] . '/' . $conf["cu_path"];
 } else {
-  $baseURL = 'https://' . $_SERVER['HTTP_HOST'];
+  $saml_baseURL = 'https://' . $_SERVER['HTTP_HOST'];
 }
 
-$baseurlpath = $baseURL . '/profiles/express/simplesaml/';
+$saml_baseurlpath = $saml_baseURL . '/profiles/express/simplesaml/';
 
 if ($_REQUEST['saml-config-debug']) {
-  print "Path: $path </br>";
-	print "File Path: $file_path </br>";
-	print "Base URL: $baseURL </br>";
-	print "Base URL Path: $baseurlpath </br>";
+  print "Path: $saml_path </br>";
+	print "File Path: $saml_file_path </br>";
+	print "Base URL: $saml_baseURL </br>";
+	print "Base URL Path: $saml_baseurlpath </br>";
 	die;
 }
 
@@ -63,7 +63,7 @@ $config = array(
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath' => $baseurlpath ,
+    'baseurlpath' => $saml_baseurlpath ,
 
     /*
      * The 'application' configuration array groups a set configuration options
@@ -84,7 +84,7 @@ $config = array(
          * need to compute the right URLs yourself and pass them dynamically
          * to SimpleSAMLphp's API.
          */
-        'baseURL' => $baseURL,
+        'baseURL' => $saml_baseURL,
     //),
 
     /*
