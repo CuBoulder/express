@@ -19,12 +19,7 @@ if (strpos($_SERVER['SCRIPT_NAME'], "index.php")) {
   $file_path = $fileparts[0];
 }
 
-if (file_exists($file_path . 'sites/default/settings.php')) {
-  include($file_path . 'sites/default/settings.php');
-} else {
-  include($file_path . '/sites/default/settings.local_post.php');
-  include($file_path . '/sites/default/settings.local_pre.php');
-}
+include($file_path . 'sites/default/settings.php');
 
 if (isset($path) && $path) {
   $baseURL = 'https://' . $_SERVER['HTTP_HOST'] . '/' . $path;
@@ -35,6 +30,7 @@ if (isset($path) && $path) {
 $baseurlpath = $baseURL . '/profiles/express/simplesaml/';
 
 if ($_REQUEST['saml-config-debug']) {
+  print "Path: $path </br>";
 	print "File Path: $file_path </br>";
 	print "Base URL: $baseURL </br>";
 	print "Base URL Path: $baseurlpath </br>";
