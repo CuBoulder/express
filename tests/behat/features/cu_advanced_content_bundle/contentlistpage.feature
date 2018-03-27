@@ -1,4 +1,4 @@
-@AdvContentBundle @expandable
+@AdvContentBundle 
 Feature: the Content List page
 In order to create a node with a list of other nodes
 As an authenticated user
