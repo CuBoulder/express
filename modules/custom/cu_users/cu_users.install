@@ -354,6 +354,11 @@ function cu_users_update_7026() {
 }
 
 function cu_users_update_7027() {
+  db_update('system')
+    ->fields(array('weight' => 10))
+    ->condition('name', 'cu_users', '=')
+    ->execute();
+
   variable_set('pathauto_user_pattern', '');
   variable_set('realname_pattern', '');
   $key = 'user/';
