@@ -24,7 +24,7 @@ Scenario Outline: An user with the appropriate role can access QuickTabs
 @api 
 Scenario: An anonymous user should not be able to access the form
   Given I go to "admin/structure/quicktabs"
-  Then I should see "Access denied
+  Then I should see "Access denied"
   
   @api
   Scenario Outline: The link to the Drupal System Block Admin page should not be reachable
