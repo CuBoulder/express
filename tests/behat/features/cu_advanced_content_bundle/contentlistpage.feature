@@ -26,7 +26,7 @@ Scenario: An anonymous user should not be able to access the form
 #CREATING A CONTENT LIST PAGE
 @api 
 Scenario: A content list page can pull in articles, pages and persons
-Given I am a logged in as a user with the "site_owner" role
+Given I am logged in as a user with the "site_owner" role
 #BASIC PAGE
 And I am on "node/add/page"
 And fill in "edit-title" with "List Test Page"
