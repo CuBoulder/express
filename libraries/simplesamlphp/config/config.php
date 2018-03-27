@@ -10,7 +10,6 @@ if (!ini_get('session.save_handler')) {
 
 // this works to set the values when Drupal calls the config
 if (strpos($_SERVER['SCRIPT_NAME'], "index.php")) {
-	$saml_url_path = str_replace("index.php", "", $_SERVER['SCRIPT_NAME']);
 	$saml_file_path = str_replace("index.php", "", $_SERVER['SCRIPT_FILENAME']);
 } else {
   // this handles calls directly to php files in /profiles/express/simplesaml/module.php/saml/sp/
@@ -29,8 +28,8 @@ if (isset($conf["cu_path"]) && $conf["cu_path"]) {
 
 $saml_baseurlpath = $saml_baseURL . '/profiles/express/simplesaml/';
 
-if ($_REQUEST['saml-config-debug']) {
-  print "Path: $saml_path </br>";
+if (isset($_REQUEST['saml-config-debug']) && $_REQUEST['saml-config-debug']) {
+  print "Path: " . $conf["cu_path"] . "</br>";
 	print "File Path: $saml_file_path </br>";
 	print "Base URL: $saml_baseURL </br>";
 	print "Base URL Path: $saml_baseurlpath </br>";
@@ -63,7 +62,7 @@ $config = array(
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath' => $saml_baseurlpath ,
+    'baseurlpath' => $saml_baseurlpath,
 
     /*
      * The 'application' configuration array groups a set configuration options
