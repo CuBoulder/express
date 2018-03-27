@@ -83,7 +83,9 @@ before_script:
   - mysql -e 'create database drupal;'
   - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
-  - ./profiles/express/tests/travis-ci/build-express.sh
+  - cd profiles/express
+  - ./tests/travis-ci/build-express.sh
+  - cd ../../
 
   # Check and see if testing core module is enabled.
   - drush pm-info travis_hosting
