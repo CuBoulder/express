@@ -22,3 +22,37 @@ Scenario Outline: An authenticated user should be able to access the content lis
 Scenario: An anonymous user should not be able to access the form
   Given I go to "node/add/content-list-page"
   Then I should see "Access denied"
+  
+#CREATING A CONTENT LIST PAGE
+@api 
+Scenario: A content list page can pull in articles, pages and persons
+Given I am a logged in as a user with the "site_owner" role
+#BASIC PAGE
+And I am on "node/add/page"
+And fill in "edit-title" with "List Test Page"
+And fill in "Body" with "Demo body content"
+And I unclick "edit-menu-enabled"
+And I press "Save"
+#ARTICLE
+And I go to "node/add/article"
+And fill in "edit-title" with "List Test Article"
+And fill in "Body" with "Demo article content"
+And I press "Save"
+#PERSON
+And I go to "node/add/person"
+And fill in "First Name" with "MyFirst"
+And fill in "Last Name" with "MyLast"
+And I press "Save"
+#CONTENT LIST PAGE
+And I go to "node/add/content-list-page"
+And fill in "edit-title" with "Test Content List Page"
+And fill in "edit-field-content-list-reference-und-0-target-id" with "List Test Page"
+And I press "field_content_list_reference_add_more"
+And fill in "edit-field-content-list-reference-und-1-target-id" with "List Test Page"
+And I press "field_content_list_reference_add_more"
+And fill in "edit-field-content-list-reference-und-2-target-id" with "MyFirst MyLast"
+And I press "Save"
+Then I should see "Content List Page Test Content List Page has been created."
+
+
+
