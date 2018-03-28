@@ -1,4 +1,4 @@
-@herounit @block
+@herounit @block @javascript
 Feature: Hero Unit Block
 When I login to a Web Express website
 As an authenticated user
