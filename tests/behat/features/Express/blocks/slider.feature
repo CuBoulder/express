@@ -23,9 +23,9 @@ Scenario: An anonymous user should not be able to access the form for adding a s
   When I am on "block/add/slider"
   Then I should see "Access denied"
   
-@api @broken
-Scenario Outline: An authenticated user should be able to create a slider block
-  Given I am logged in as a user with the <role> role
+@api 
+Scenario: A Slider block can be created
+ Given I am logged in as a user with the "site_owner" role
   And I am on "block/add/slider"
  And fill in "edit-label" with "Homepage Slider"
  And fill in "edit-title" with "Slider Title"
@@ -38,12 +38,4 @@ Scenario Outline: An authenticated user should be able to create a slider block
  And I press "Save"
  Then I should see "Slider Title"
  And I should see "This is an important picture"
-      
- Examples:
-    | role            | 
-    | content_editor  | 
-    | site_owner      | 
-    | administrator   | 
-    | developer       | 
     
- 
