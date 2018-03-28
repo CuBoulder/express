@@ -1,4 +1,4 @@
-@AdvLayouttBundle @block-section-block
+@AdvLayoutBundle @block-section-block @javascript
 Feature: the Block Section Block
 In order to place a block on a background graphic
 As an authenticated user
