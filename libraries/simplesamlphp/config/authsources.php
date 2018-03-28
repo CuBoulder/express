@@ -1,6 +1,8 @@
 <?php
 
-global $base_root;
+$url = $_SERVER['SERVER_NAME'];
+$path = $_SERVER['REQUEST_URI'];
+$site_name = preg_match('/.*?\/(.*?)\//', $path, $match);
 
 $config = array(
 
@@ -68,7 +70,7 @@ $config = array(
 
     'cu_boulder' => array(
       'saml:SP',
-      'entityID' => $base_root, //'www-dev.colorado.edu',
+      'entityID' => 'https://' . $url . '/', //'www-dev.colorado.edu',
       'privatekey' => 'saml.pem',
       'certificate' => 'saml.crt',
       'idp' => 'https://fedauth.colorado.edu/idp/shibboleth',
