@@ -1,4 +1,4 @@
-@AdvLayoutBundle @block-wrapper-block
+@AdvLayoutBundle @block-wrapper-block @javascript
 Feature: the Block Wrapper Block
 In order to place system blocks as beans
 As an authenticated user
