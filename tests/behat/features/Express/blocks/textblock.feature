@@ -29,8 +29,7 @@ Scenario: A Text Block block can be created
   And I am on "block/add/block"
  And fill in "edit-label" with "New Text Block"
  And fill in "edit-title" with "New Text Block Title"
-# CAN'T FIND And I fill in "edit-field-block-text-und-0-value" with "An informative block of text about our program"
-# And I fill in "cke_1_contents" with "cke_1_contents An informative block of text about our program"
+ # THIS NEXT LINE IS A WORKAROUND FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
 And I follow "Disable rich-text"
 And fill in "Body" with "An informative block of text about our program"
  And I press "Save"
