@@ -8,17 +8,14 @@ if (!ini_get('session.save_handler')) {
   ini_set('session.save_handler', 'file');
 }
 
-// this works to set the values when Drupal calls the config
 if (strpos($_SERVER['SCRIPT_NAME'], "index.php")) {
-	$saml_file_path = str_replace("index.php", "", $_SERVER['SCRIPT_FILENAME']);
+  // the $conf array is available without loading this, but the $databases is not
+  include('sites/default/settings.php');
 } else {
   // this handles calls directly to php files in /profiles/express/simplesaml/module.php/saml/sp/
-  $saml_filename = basename($_SERVER["SCRIPT_FILENAME"]);
-  $saml_fileparts = explode('/profiles/express/simplesaml/', $_SERVER["SCRIPT_FILENAME"]);
-  $saml_file_path = $saml_fileparts[0];
+  // in this case we have to load Drupal's settings file
+  include('../../../../../sites/default/settings.php');
 }
-
-include($saml_file_path . 'sites/default/settings.php');
 
 if (isset($conf["cu_path"]) && $conf["cu_path"]) {
   $saml_baseURL = 'https://' . $_SERVER['HTTP_HOST'] . '/' . $conf["cu_path"];
@@ -29,10 +26,10 @@ if (isset($conf["cu_path"]) && $conf["cu_path"]) {
 $saml_baseurlpath = $saml_baseURL . '/profiles/express/simplesaml/';
 
 if (isset($_REQUEST['saml-config-debug']) && $_REQUEST['saml-config-debug']) {
-  print "Path: " . $conf["cu_path"] . "</br>";
-	print "File Path: $saml_file_path </br>";
+  print $_SERVER['SCRIPT_FILENAME'];
 	print "Base URL: $saml_baseURL </br>";
 	print "Base URL Path: $saml_baseurlpath </br>";
+	print_r($databases['saml']['default']);
 	die;
 }
 
