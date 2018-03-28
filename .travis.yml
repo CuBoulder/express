@@ -2,6 +2,10 @@ language: php
 # We want to avoid sudo. This allow us to use Travis docker infrastructure, which means builds start faster and have more CPU available.
 sudo: false
 
+env:
+  - BEHAT_TAGS="@~exclude_all_bundles&&~broken&&~javascript"
+  - BEHAT_TAGS="@javascript&&~exclude_all_bundles&&~broken"
+
 php:
   - '7.1'
 
@@ -75,21 +79,19 @@ before_script:
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
 
-  # Do the site install.
+  # Perform the site install.
   - mysql -e 'create database drupal;'
   - cd drupal
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
-  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
+  - cd profiles/express
+  - ./tests/travis-ci/build-express.sh
+  - cd ../../
 
   # Check and see if testing core module is enabled.
   - drush pm-info travis_hosting
   - drush pm-info cu_core
   - drush pm-info cu_ldap
   - drush pm-info ldap_authentication
-
-  # Export db so it can be imported after every suite run.
-  # Test runs that fill up the db with nodes can impact other tests.
-  - drush sql-dump --result-file=$HOME/cache/express.sql
 
   # Start server.
   - drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &
@@ -100,8 +102,9 @@ before_script:
 
 script:
 
-  # Run Behat tests.
-  - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~broken'
+  # Run Behat tests in parallel.
+  # Tags are defined in the "env" key at the top of this file.
+  - ./bin/behat --config behat.travis.yml --verbose --tags $BEHAT_TAGS
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php

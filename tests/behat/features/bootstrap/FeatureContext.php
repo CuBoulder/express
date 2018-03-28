@@ -286,6 +286,28 @@ class FeatureContext extends MinkContext
   }
 
   /**
+   * @Then I should not see the link :link
+   *
+   * @param $link
+   *
+   * @throws \Exception
+   */
+  public function assertLinkNotVisible($link)
+  {
+    $element = $this->getSession()->getPage();
+    $result = $element->findLink($link);
+    try {
+      if ($result && $result->isVisible()) {
+        throw new Exception(sprintf("Link to '%s' found on the page %s", $link, $this->getSession()->getCurrentUrl()));
+      }
+    } catch (UnsupportedDriverActionException $e) {
+      // We catch the UnsupportedDriverActionException exception in case
+      // this step is not being performed by a driver that supports javascript.
+      // All other exceptions are valid.
+    }
+  }
+
+  /**
    * @Then The :element element should have :text in the :attribute attribute
    *
    * @param $element
