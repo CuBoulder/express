@@ -13,7 +13,6 @@ addons:
   # The username and access key are stored in the Travis settings.
   sauce_connect: true
 
-
 mysql:
   database: drupal
   username: root
