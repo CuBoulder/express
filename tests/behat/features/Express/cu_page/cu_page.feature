@@ -28,9 +28,15 @@ Scenario: A Basic Page node can be created
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "My New Page"
-  And fill in "edit-body-und-0-value" with "Demo body content"
+  # COULDNT FIND And fill in "Body" with "Demo body content"
+  # COULDNT FIND And fill in "edit-body-und-0-value" with "Demo body content"
+  # cke_edit-body-und-0-value
+  # 
+  # 
+  # 
+  And fill in "cke_1_contents" with "cke_1_contents Demo body content"
   And fill in "Menu link title" with "New Menu Item"
-  # When I attach the file "../../../assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
+  # When I attach the file "assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
   #   And I press the "Upload" button
   #   And for "Alternate text" I enter "Ralphie running with people"
   #   And I press the "Insert" button
@@ -57,7 +63,7 @@ Scenario Outline: An authenticated user can delete a basic page
   Given I am logged in as a user with the <role> role
     When I go to "node/add/page"
     And  I fill in "edit-title" with "Test Page"
-    And fill in "Body" with "Do not keep this page"
+   # And fill in "Body" with "Do not keep this page"
    And I press "Save"
     And I follow "Edit"
     And I press "Delete"
