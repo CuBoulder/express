@@ -28,27 +28,21 @@ Scenario: A Basic Page node can be created
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "My New Page"
-  # THIS NEXT LINE IS A WORKAROUND FOR FINDING THE BODY FIELD
+  # THIS NEXT LINE IS A WORKAROUND FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
   And I follow "Disable rich-text"
   And fill in "Body" with "Demo body content"
-
-  # COULDNT FIND And fill in "Body" with "Demo body content"
-  # COULDNT FIND And fill in "edit-body-und-0-value" with "Demo body content"
-  # cke_edit-body-und-0-value
-  # 
-  # 
-  # 
   And fill in "Menu link title" with "New Menu Item"
   # When I attach the file "assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
   #   And I press the "Upload" button
   #   And for "Alternate text" I enter "Ralphie running with people"
   #   And I press the "Insert" button
   When I press "Save"
-  Then the "page-title" element should contain "My New Page"
+  And I should see "New Menu Item"
+  Then I should see "My New Page"
   And I should see "Demo body content"
   # And I should see an image in the "Content" region
   # And I should see the image alt "Ralphie running with people" in the "Content" region
-  And I should see "New Menu Item"
+
  
 @api 
 Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
