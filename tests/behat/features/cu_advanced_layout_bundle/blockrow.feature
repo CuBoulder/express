@@ -23,27 +23,32 @@ Scenario: An anonymous user should not be able to access the form
   Given I go to "block/add/block-row"
   Then I should see "Access denied"
 
-# CREATE TWO TEXT BLOCKS, PLACE WITH BLOCK ROW
+# CREATE TWO TEXT BLOCKS FOR BLOCK ROW CREATION TEST
+Scenario: Create two text blocks for block row heights test
+Given: I am logged in as a user with the "site_owner" role
+And I go to "block/add/block"
+And fill in "edit-label" with "Sample Text One"
+And fill in "edit-title" with "Sample Text One"
+And I fill in "edit-field-block-text-und-0-value" with "Cupcake ipsum dolor sit amet ice cream cake sweets carrot cake carrot cake. Tart candy pastry sweet roll candy tart sugar plum pudding."
+And I press "Save"
+And I go to "block/add/block"
+And fill in "edit-label" with "Sample Text Two"
+And fill in "edit-title" with "Sample Text Two"
+And I fill in "edit-field-block-text-und-0-value" with "Lemon drops dessert chocolate gingerbread dessert."
+And I press "Save"
+And I go to "admin/content/blocks"
+Then I should see "Sample Text One"
+And I should see "Sample Text Two"
+
 @api
 Scenario: All blocks have the same height when "Match Heights" checkbox is checked
 Given: I am logged in as a user with the "site_owner" role
-And I go to "block/add/block"
-Then I should see "Create Text Block block"
-# And fill in "edit-label" with "Block Row Text One"
-# And fill in "edit-title" with "Block Row Text One"
-# And I fill in "edit-field-block-text-und-0-value" with "Cupcake ipsum dolor sit amet ice cream cake sweets carrot cake carrot cake. Tart candy pastry sweet roll candy tart sugar plum pudding."
-## And I press "Save"
-# And I go to "block/add/block"
-# And fill in "edit-label" with "Block Row Text Two"
-# And fill in "edit-title" with "Block Row Text Two"
-# And I fill in "edit-field-block-text-und-0-value" with "Lemon drops dessert chocolate gingerbread dessert."
-# And I press "Save"
-# And I go to "block/add/block-row"
-# And I fill in "edit_label" with "My Block Row Block"
-# And I fill in "edit_title" with "My Block Row Block"
-# And I press "edit-field-block-row-collection-und-0-field-block-row-block-und-actions-ief-add-existing"
-# And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-entity-id" with "Block Row Text One"
-# And I press "edit-field-block-row-collection-und-0-field-block-row-block-und-form-actions-ief-reference-save"
-# And I press "Save"
-# Then I should see "Cupcake ipsum dolor sit amet ice cream cake sweets"
+And I go to "block/add/block-row"
+And I fill in "edit-label" with "My Block Row Block"
+And I fill in "edit-title" with "My Block Row Block"
+And I press "edit-field-block-row-collection-und-0-field-block-row-block-und-actions-ief-add-existing"
+And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-entity-id" with "Sample Text One"
+And I press "edit-field-block-row-collection-und-0-field-block-row-block-und-form-actions-ief-reference-save"
+And I press "Save"
+Then I should see "Cupcake ipsum dolor sit amet ice cream cake sweets"
  
