@@ -58,15 +58,14 @@ Then the checkbox "edit-menu-enabled" should be unchecked
 @api 
 Scenario Outline: An authenticated user can delete a basic page
   Given I am logged in as a user with the <role> role
-    When I go to "node/add/page"
-    And  I fill in "edit-title" with "Test Page"
-   # And fill in "Body" with "Do not keep this page"
-   And I press "Save"
-    And I follow "Edit"
-    And I press "Delete"
-    Then I should see "Are you sure you want to delete Test Page?"
-    And I press "Delete"
-    Then I am on "/"
+  When I go to "node/add/page"
+  And  I fill in "edit-title" with "Test Page"
+  And I press "Save"
+  And I follow "Edit"
+  And I press "Delete"
+  Then I should see "Are you sure you want to delete Test Page?"
+  And I press "Delete"
+  Then I am on "/"
     
     Examples:
     | role            | 
