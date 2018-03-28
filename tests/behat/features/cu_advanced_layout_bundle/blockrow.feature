@@ -48,6 +48,7 @@ Given I am logged in as a user with the "site_owner" role
 And I go to "block/add/block-row"
 And I fill in "edit-label" with "My Block Row Block"
 And I fill in "edit-title" with "My Block Row Block"
+
 # CREATE FIRST TEXT BLOCK
 And I select "Text Block" from "edit-field-block-row-collection-und-0-field-block-row-block-und-actions-bundle"
 And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-label" with "Text One Label"
@@ -55,16 +56,15 @@ And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-f
 And I follow "Disable rich-text"
  And fill in "Body" with "Cupcake ipsum dolor sit amet ice cream carrot cake"
  And I press "Create block"
+
+ # CREATE SECOND TEXT BLOCK
  And I press "Add another column"
- 
-# CREATE SECOND TEXT BLOCK
 And I select "Text Block" from "edit-field-block-row-collection-und-0-field-block-row-block-und-actions-bundle"
 And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-label" with "Text Two Label"
 And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-title" with "Text Two Title"
 And I follow "Disable rich-text"
  And fill in "Body" with "Lemon drops dessert chocolate gingerbread dessert"
  And I press "Create block"
-
 
 And I press "Save"
 Then I should see "My Block Row Block"
