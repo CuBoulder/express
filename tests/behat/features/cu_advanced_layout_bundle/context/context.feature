@@ -1,4 +1,4 @@
-@AdvLayoutBundle
+@AdvLayoutBundle @javascript
 Feature: Context
 In order to exercise control over my regions, pages and blocks 
 As an authenticated user
