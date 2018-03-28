@@ -1,12 +1,12 @@
-@page
+@page @javascript
 Feature: Basic Page Content Type
 When I login to a Web Express website
 As an authenticated user
 I should be able to create, edit, and delete page content
 
 @api
-Scenario Outline: An authenticated user should be able to access the form for adding basic page content
-  Given  I am logged in as a user with the <role> role
+Scenario Outline: A user with the proper role should be able to access the form for adding basic page content
+  Given I am logged in as a user with the <role> role
   When I go to "node/add/page"
   Then I should see <message>
 
@@ -24,53 +24,37 @@ Scenario: An anonymous user should not be able to access the form for adding pag
   Then I should see "Access denied"
 
 @api 
-Scenario Outline: An authenticated user should be able to create a basic page node
-  Given I am logged in as a user with the <role> role
+Scenario: A Basic Page node can be created 
+  Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
-  And fill in "edit-title" with "New Page"
-  And fill in "Body" with "Demo body content"
+  And fill in "edit-title" with "My New Page"
+  And fill in "edit-body-und-0-value" with "Demo body content"
   And fill in "Menu link title" with "New Menu Item"
   # When I attach the file "../../../assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
   #   And I press the "Upload" button
   #   And for "Alternate text" I enter "Ralphie running with people"
   #   And I press the "Insert" button
   When I press "Save"
-  Then the ".page__title" element should contain "New Page"
+  Then the "page-title" element should contain "My New Page"
   And I should see "Demo body content"
   # And I should see an image in the "Content" region
   # And I should see the image alt "Ralphie running with people" in the "Content" region
   And I should see "New Menu Item"
-      
- Examples:
-    | role            | 
-    | content_editor  | 
-    | site_owner      | 
-    | administrator   | 
-    | developer       | 
-    
-
-  @api 
-  Scenario Outline: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
-     Given I am logged in as a user with the <role> role
-    When I go to "node/add/page"
-    And  I fill in "edit-title" with "New Page"
-    Then the "edit-menu-enabled" checkbox should be checked
-    When I uncheck "edit-menu-enabled"
-    And I press "Save"
-    And I follow "Edit"
-    Then the checkbox "edit-menu-enabled" should be unchecked
-    
-    Examples:
-    | role            | 
-    | content_editor  | 
-    | site_owner      | 
-    | administrator   | 
-    | developer       | 
-    
+ 
+@api 
+Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
+Given I am logged in as a user with the "site_owner" role
+When I go to "node/add/page"
+And I fill in "edit-title" with "Not In Menu"
+Then the "edit-menu-enabled" checkbox should be checked
+When I uncheck "edit-menu-enabled"
+And I press "Save"
+And I follow "Edit"
+Then the checkbox "edit-menu-enabled" should be unchecked
 
 @api 
 Scenario Outline: An authenticated user can delete a basic page
-     Given I am logged in as a user with the <role> role
+  Given I am logged in as a user with the <role> role
     When I go to "node/add/page"
     And  I fill in "edit-title" with "Test Page"
     And fill in "Body" with "Do not keep this page"
