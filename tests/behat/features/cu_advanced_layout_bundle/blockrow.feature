@@ -60,7 +60,7 @@ And I follow "Disable rich-text"
 And I select "Text Block" from "edit-field-block-row-collection-und-0-field-block-row-block-und-actions-bundle"
 And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-label" with "Text Two Label"
 And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-title" with "Text Two Title"
-And I follow "Disable rich-text"
+# And I follow "Disable rich-text"
  And fill in "Body" with "Lemon drops dessert chocolate gingerbread dessert"
  And I press "Create block"
 
