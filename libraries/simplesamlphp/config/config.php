@@ -13,9 +13,11 @@ if (strpos($_SERVER['SCRIPT_NAME'], "index.php")) {
   global $databases;
 } else {
   // this handles calls directly to php files in /profiles/express/simplesaml/module.php/saml/sp/
-  // in this case we have to load Drupal's settings file
-  include('../../../../../sites/default/settings.php');
+  // in this case we have to load Drupal's settings file from the realtive location of
+  // /data/web/homepage/profiles/express/simplesaml/module.php
+  include('../../../sites/default/settings.php');
 }
+
 
 if (isset($conf["cu_path"]) && $conf["cu_path"]) {
   $saml_baseURL = 'https://' . $_SERVER['HTTP_HOST'] . '/' . $conf["cu_path"];
@@ -26,7 +28,7 @@ if (isset($conf["cu_path"]) && $conf["cu_path"]) {
 $saml_baseurlpath = $saml_baseURL . '/profiles/express/simplesaml/';
 
 if (isset($_REQUEST['saml-config-debug']) && $_REQUEST['saml-config-debug']) {
-  print $_SERVER['SCRIPT_FILENAME'];
+  print $_SERVER['SCRIPT_FILENAME'] . "</br>";
 	print "Base URL: $saml_baseURL </br>";
 	print "Base URL Path: $saml_baseurlpath </br>";
 	print_r($databases['saml']['default']);
