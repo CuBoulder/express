@@ -1,4 +1,4 @@
-@textblock @block
+@textblock @block @javascript
 Feature: Text Block Block
 When I login to a Web Express website
 As an authenticated user
@@ -29,7 +29,7 @@ Scenario Outline: An authenticated user should be able to create a text block bl
   And I am on "block/add/block"
  And fill in "edit-label" with "New Text Block"
  And fill in "edit-title" with "Text Block Title"
- And I fill in "edit-field-block-text-und-0-value" with "An informative block of text about our program"
+ And I fill in "Body" with "An informative block of text about our program"
  And I press "Save"
  Then I should see "Text Block Title"
  And I should see "An informative block of text about our program"
