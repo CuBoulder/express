@@ -10,7 +10,7 @@ if (!ini_get('session.save_handler')) {
 
 if (strpos($_SERVER['SCRIPT_NAME'], "index.php")) {
   // the $conf array is available without loading this, but the $databases is not
-  include('sites/default/settings.php');
+  global $databases;
 } else {
   // this handles calls directly to php files in /profiles/express/simplesaml/module.php/saml/sp/
   // in this case we have to load Drupal's settings file
