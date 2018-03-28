@@ -28,7 +28,7 @@ Scenario: A Text Block block can be created
   Given I am logged in as a user with the "site_owner" role
   And I am on "block/add/block"
  And fill in "edit-label" with "New Text Block"
- And fill in "edit-title" with "NewText Block Title"
+ And fill in "edit-title" with "New Text Block Title"
  And I fill in "edit-field-block-text-und-0-value" with "An informative block of text about our program"
  And I press "Save"
  Then I should see "New Text Block Title"
