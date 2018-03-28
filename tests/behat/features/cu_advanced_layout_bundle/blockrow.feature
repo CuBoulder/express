@@ -25,7 +25,7 @@ Scenario: An anonymous user should not be able to access the form
 
 # CREATE TWO TEXT BLOCKS FOR BLOCK ROW CREATION TEST
 Scenario: Create two text blocks for block row heights test
-Given: I am logged in as a user with the "site_owner" role
+Given I am logged in as a user with the "site_owner" role
 And I go to "block/add/block"
 And fill in "edit-label" with "Sample Text One"
 And fill in "edit-title" with "Sample Text One"
@@ -42,7 +42,7 @@ And I should see "Sample Text Two"
 
 @api
 Scenario: All blocks have the same height when "Match Heights" checkbox is checked
-Given: I am logged in as a user with the "site_owner" role
+Given I am logged in as a user with the "site_owner" role
 And I go to "block/add/block-row"
 And I fill in "edit-label" with "My Block Row Block"
 And I fill in "edit-title" with "My Block Row Block"
