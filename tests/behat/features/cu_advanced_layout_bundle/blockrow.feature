@@ -1,4 +1,4 @@
-@AdvLayoutBundle
+@AdvLayoutBundle @javascript
 Feature: the Block Row Block
 In order to placed blocks side by side
 As an authenticated user
