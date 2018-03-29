@@ -20,7 +20,8 @@ I should be able to create, edit, and delete FAQ content
   Scenario: An anonymous user should not be able to access the form for adding FAQ content
     When I am on "node/add/faqs"
     Then I should see "Access denied"
-
+    
+@rebuild
   Scenario Outline: An authenticated user should be able to create an FAQ node
     Given I am logged in as a user with the <role> role
     And I am on "node/add/faqs"
@@ -35,7 +36,8 @@ I should be able to create, edit, and delete FAQ content
     And I should see "Section One Header"
     And I should see "Question One"
     But I should not see "An Answer to the Question"
-    And when I click "Question One"
+    And when I press "Question One"
+    And I wait for AJAX
     Then I should see "An Answer to the Question"
    # When I click the "ui-accordion-1-header-0" element
    # Then I should see "An Answer to the Question"
