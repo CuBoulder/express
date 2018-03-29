@@ -4,10 +4,10 @@ When I login to a Web Express website
 As an authenticated user
 I should be able to create, edit, and delete FAQ content
   
-  Scenario Outline: An authenticated user should be able to access the form for adding FAQ content
-    Given I am logged in as a user with the <role> role
-    When I go to "node/add/faqs"
-    Then I should see <message>
+Scenario Outline: An authenticated user should be able to access the form for adding FAQ content
+Given I am logged in as a user with the <role> role
+When I go to "node/add/faqs"
+ Then I should see <message>
 
     Examples:
       | role            | message                      |
@@ -17,12 +17,11 @@ I should be able to create, edit, and delete FAQ content
       | administrator   | "Frequently Asked Questions" |
       | developer       | "Frequently Asked Questions" |
 
-  Scenario: An anonymous user should not be able to access the form for adding FAQ content
-    When I am on "node/add/faqs"
-    Then I should see "Access denied"
+ Scenario: An anonymous user should not be able to access the form for adding FAQ content
+   When I am on "node/add/faqs"
+   Then I should see "Access denied"
     
-
-  Scenario Outline: An authenticated user should be able to create an FAQ node
+Scenario Outline: An authenticated user should be able to create an FAQ node
     Given I am logged in as a user with the <role> role
     And I am on "node/add/faqs"
     And fill in "edit-title" with "My New FAQ Page"
@@ -55,9 +54,9 @@ And I am on "node/add/faqs"
 When I press "edit-field-qa-collection-und-0-field-qa-und-add-more"
 And I wait 5 seconds
 Then I should see "edit-field-qa-collection-und-0-field-qa-und-1-field-qa-question-und-0-value"
- And I press "edit-field-qa-collection-und-add-more"
- And I wait 5 seconds
- Then I should see "edit-field-qa-collection-und-1-field-qa-collection-title-und-0-value"
+And I press "edit-field-qa-collection-und-add-more"
+And I wait 5 seconds
+Then I should see "edit-field-qa-collection-und-1-field-qa-collection-title-und-0-value"
 
   Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
     Given  I am logged in as a user with the "site_owner" role
