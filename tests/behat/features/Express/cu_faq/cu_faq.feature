@@ -40,7 +40,7 @@ Scenario: Pressing "Add More" adds another FAQ section
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/faqs"
 When I press "edit-field-qa-collection-und-0-field-qa-und-add-more"
-And I wait 5 seconds
+And I wait 10 seconds
 Then I should see an "edit-field-qa-collection-und-0-field-qa-und-1-field-qa-question-und-0-value" element
 And I press "edit-field-qa-collection-und-add-more"
 And I wait 5 seconds
