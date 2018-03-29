@@ -24,7 +24,7 @@ Scenario: An anonymous user should not be able to access the form for adding pag
   Then I should see "Access denied"
   
   @api 
-Scenario: A Basic Page node can be created 
+Scenario: A very basic Basic Page node can be created 
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "No Picture Here"
@@ -51,7 +51,7 @@ Scenario: A Basic Page node can be created
   # And I should see "My New Page"
   # And I should see "Demo body content"
  Then I should see an image in the "Content" region
-  And I should see the image alt "Ralphie running with people" in the "Content" region
+  And I should see the image alt "Ralphie Running" in the "Content" region
 
  
 @api 
