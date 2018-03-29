@@ -29,7 +29,7 @@ install:
 
   # Start Sauce if JS tests.
   - cd tests/travis-ci
-  - if [ "${BEHAT_TAGS}" == "@javascript&&~exclude_all_bundles&&~broken" ]; then ./sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY ; fi
+  - ./start-sauce.sh
 
   # Install latest Drush 8.
   - travis_retry composer self-update && composer --version
