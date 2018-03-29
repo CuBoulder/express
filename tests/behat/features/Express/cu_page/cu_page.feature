@@ -27,31 +27,30 @@ Scenario: An anonymous user should not be able to access the form for adding pag
 Scenario: A very basic Basic Page node can be created 
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
-  And fill in "edit-title" with "No Picture Here"
-  And fill in "Body" with "Demo body content"
+  And fill in "edit-title" with "My Page"
+  And fill in "Body" with "Lorem ipsum dolor sit amet"
   When I press "edit-submit"
-  And I should see "No Picture Here"
-  And I should see "Demo body content"
+  And I should see "My Page"
+  And I should see "Lorem ipsum dolor sit amet"
   
   
 #UPLOADING A GRAPHIC
 @api 
-Scenario: A Basic Page node can be created 
+Scenario: A graphic can be inserted into a Basic Page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
-  And fill in "edit-title" with "My New Page"
+  And fill in "edit-title" with "Photo Page"
   # THIS NEXT LINE IS A WORKAROUND FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
   # And I follow "Disable rich-text"
   And fill in "Body" with "Demo body content"
   And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Ralphie Running"
+  And I fill in "edit-field-photo-und-0-alt" with "Ralphie Running with Handlers"
   And I press "Upload"
   And I press "Insert"
   When I press "edit-submit"
-  # And I should see "My New Page"
-  # And I should see "Demo body content"
- Then I should see an image in the "Content" region
-  And I should see the image alt "Ralphie Running" in the "Content" region
+  And I should see "Photo Page"
+  And I should see "Demo body content"
+Then the response should contain "alt=\"Ralphie Running with Handlers\""
 
  
 @api 
