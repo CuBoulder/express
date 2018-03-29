@@ -2,8 +2,7 @@ default:
   # Ignore certain tags so they don't have to be excluded on the commandline.
   gherkin:
     filters:
-        # tags: "~@broken"
-        tags: "@pages"
+       tags: "~@broken"
   # Not sure if this is the best, but it sounds nice.
   formatters:
       pretty: true
