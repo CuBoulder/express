@@ -21,7 +21,6 @@ When I go to "node/add/faqs"
    When I am on "node/add/faqs"
    Then I should see "Access denied"
  
-@javascript
 Scenario: An authenticated user should be able to create an FAQ node
 Given I am logged in as a user with the "site_owner" role
     And I am on "node/add/faqs"
@@ -47,10 +46,10 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/faqs"
 When I press "edit-field-qa-collection-und-0-field-qa-und-add-more"
 And I wait 5 seconds
-Then I should see "edit-field-qa-collection-und-0-field-qa-und-1-field-qa-question-und-0-value"
+Then I should see "#edit-field-qa-collection-und-0-field-qa-und-1-field-qa-question-und-0-value"
 And I press "edit-field-qa-collection-und-add-more"
 And I wait 5 seconds
-Then I should see "edit-field-qa-collection-und-1-field-qa-collection-title-und-0-value"
+Then I should see "#edit-field-qa-collection-und-1-field-qa-collection-title-und-0-value"
 
   Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
     Given  I am logged in as a user with the "site_owner" role
