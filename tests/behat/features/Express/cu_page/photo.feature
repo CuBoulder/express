@@ -30,8 +30,12 @@ Scenario: Upload Cupcakes
   And I press "Upload"
   And I press "Insert"
  When I press "edit-submit"
-  Then I should see "Cupcakes"
-  And I should see "Demo body content"
+ 
+ Then I should see "Basic Page Cupcakes has been created"
+ And I should see "Demo body content"
+ And I should see an image in the "Content" region
+ And I should see the image alt "Scenic Photo" in the "Content" region
+  
 
 @api 
 Scenario: Upload Dog
@@ -44,8 +48,9 @@ When I attach the file "dog.jpg" to "edit-field-photo-und-0-upload"
   And I press "Upload"
   And I press "Insert"
  When I press "edit-submit"
-  Then I should see "Dog"
+  
   And I should see "Demo body content"
+  Then I should see "Dog"
   
   @api 
   Scenario: Upload Old Main
