@@ -20,9 +20,10 @@ When I go to "node/add/faqs"
  Scenario: An anonymous user should not be able to access the form for adding FAQ content
    When I am on "node/add/faqs"
    Then I should see "Access denied"
-    
-Scenario Outline: An authenticated user should be able to create an FAQ node
-    Given I am logged in as a user with the <role> role
+ 
+@javascript
+Scenario: An authenticated user should be able to create an FAQ node
+Given I am logged in as a user with the "site_owner" role
     And I am on "node/add/faqs"
     And fill in "edit-title" with "My New FAQ Page"
     And fill in "edit-body-und-0-value" with "Demo FAQ explanatory text"
@@ -40,13 +41,6 @@ Scenario Outline: An authenticated user should be able to create an FAQ node
     # Then I should see "An Answer to the Question"
    # When I click the "ui-accordion-1-header-0" element
    # Then I should see "An Answer to the Question"
-
-    Examples:
-      | role           |
-      | content_editor |
-      | site_owner     |
-      | administrator  |
-      | developer      |
 
 Scenario: A user can add more Q&A sections, and more collection sections
 Given I am logged in as a user with the "site_owner" role
