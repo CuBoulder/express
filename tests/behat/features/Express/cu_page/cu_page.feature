@@ -22,6 +22,18 @@ Scenario Outline: A user with the proper role should be able to access the form 
 Scenario: An anonymous user should not be able to access the form for adding page content
   When I am on "node/add/page"
   Then I should see "Access denied"
+  
+  @api 
+Scenario: A Basic Page node can be created 
+  Given I am logged in as a user with the "site_owner" role
+  And I am on "node/add/page"
+  And fill in "edit-title" with "No Picture Here"
+  And fill in "Body" with "Demo body content"
+  When I press "edit-submit"
+  And I should see "No Picture Here"
+  And I should see "Demo body content"
+  
+  
 
 @api 
 Scenario: A Basic Page node can be created 
@@ -36,9 +48,9 @@ Scenario: A Basic Page node can be created
   And I press "Upload"
   And I press "Insert"
   When I press "edit-submit"
-  And I should see "My New Page"
-  And I should see "Demo body content"
-  And I should see an image in the "Content" region
+  # And I should see "My New Page"
+  # And I should see "Demo body content"
+ Then I should see an image in the "Content" region
   And I should see the image alt "Ralphie running with people" in the "Content" region
 
  
