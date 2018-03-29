@@ -1,4 +1,4 @@
-@page @javascript
+@page
 Feature: Basic Page Content Type
 When I login to a Web Express website
 As an authenticated user
@@ -29,19 +29,19 @@ Scenario: A Basic Page node can be created
   And I am on "node/add/page"
   And fill in "edit-title" with "My New Page"
   # THIS NEXT LINE IS A WORKAROUND FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
-  And I follow "Disable rich-text"
+  # And I follow "Disable rich-text"
   And fill in "Body" with "Demo body content"
   And fill in "Menu link title" with "New Menu Item"
-  # When I attach the file "assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
-  #   And I press the "Upload" button
-  #   And for "Alternate text" I enter "Ralphie running with people"
-  #   And I press the "Insert" button
-  When I press "Save"
-  And I should see "New Menu Item"
-  Then I should see "My New Page"
+  And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
+  And I fill in "edit-field-photo-und-0-alt" with "Ralphie Running"
+  And I press "Upload"
+  And I press "Insert"
+  When I press "edit-submit"
+  Then I should see "New Menu Item"
+  And I should see "My New Page"
   And I should see "Demo body content"
-  # And I should see an image in the "Content" region
-  # And I should see the image alt "Ralphie running with people" in the "Content" region
+  And I should see an image in the "Content" region
+  And I should see the image alt "Ralphie running with people" in the "Content" region
 
  
 @api 
