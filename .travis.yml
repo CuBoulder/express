@@ -27,10 +27,6 @@ cache:
 
 install:
 
-  # Start Sauce if BEHAT_TAGS has JS tests.
-  - cd tests/travis-ci
-  - ./start-sauce.sh
-
   # Install latest Drush 8.
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:8.*"
@@ -98,14 +94,18 @@ before_script:
   # Start server.
   - drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &
   - nc -zvv 127.0.0.1 8057; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8057..."; nc -zvv localhost 8057; out=$?; sleep 5; done
-  - cd profiles/express/tests/behat
 
   # Setting Behat environment variables is now done in behat.travis.yml for simplicity.
 
 script:
 
+  # Start Sauce if BEHAT_TAGS has JS tests.
+  - cd profiles/express/tests/travis-ci
+  - ./start-sauce.sh
+
   # Run Behat tests in parallel.
   # Tags are defined in the "env" key at the top of this file.
+  - cd ../behat
   - ./bin/behat --config behat.travis.yml --verbose --tags $BEHAT_TAGS
 
   # Output performance logging data.
