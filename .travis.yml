@@ -13,10 +13,6 @@ branches:
   only:
     - dev
 
-addons:
-  # The username and access key are stored in the Travis settings.
-  sauce_connect: true
-
 mysql:
   database: drupal
   username: root
@@ -31,13 +27,17 @@ cache:
 
 install:
 
+  # Start Sauce if JS tests.
+  - cd tests/travis-ci
+  - if [ "${BEHAT_TAGS}" == "@javascript&&~exclude_all_bundles&&~broken" ]; then sc -u $SAUCE_USERNAME -k $SAUCE_ACCESS_KEY ; fi
+
   # Install latest Drush 8.
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:8.*"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
   # Build Behat dependencies
-  - cd ./tests/behat
+  - cd ../behat
   - travis_retry composer install --prefer-dist --no-interaction
   - cd ../../../
 
@@ -52,7 +52,7 @@ install:
   - cd drupal
   - cd modules
   - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
-  - cd ../..
+  - cd ../../
 
   # Setup files
   - mkdir -p drupal/sites/default/files/styles/preview/public/gallery/
