@@ -133,7 +133,7 @@ function cu_slider_field_default_field_bases() {
         'slider-large' => 'Regular (cropped)',
         'large' => 'Original (uncropped)',
       ),
-      'allowed_values_function' => '',
+      'allowed_values_function' => 'cu_slider_size_options',
       'allowed_values_php' => '',
     ),
     'translatable' => 0,
