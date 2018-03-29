@@ -27,7 +27,7 @@ cache:
 
 install:
 
-  # Start Sauce if JS tests.
+  # Start Sauce if BEHAT_TAGS has JS tests.
   - cd tests/travis-ci
   - ./start-sauce.sh
 
