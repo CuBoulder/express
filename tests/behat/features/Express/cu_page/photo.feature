@@ -1,4 +1,4 @@
-@photo
+@page
 Feature: A Basic Page can contain many types of photos
 When I create a Basic Page
 As an authenticated user
@@ -10,25 +10,25 @@ Scenario: Upload Castle
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Castle"
-  And fill in "Body" with "Demo body content"
+  And fill in "Body" with "All about castles"
   When I attach the file "castle.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
   And I press "Upload"
   And I press "Insert"
-  When I press "Save"
+  When I press "edit-submit"
   Then I should see "Castle"
-  And I should see "Demo body content"
+  And I should see ""All about castles"
 
 Scenario: Upload Cupcakes
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Cupcakes"
   And fill in "Body" with "Demo body content"
-  When I attach the file "../cupcakes.jpg" to "edit-field-photo-und-0-upload"
+  When I attach the file "cupcakes.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
   And I press "Upload"
   And I press "Insert"
-  When I press "Save"
+ When I press "edit-submit"
   Then I should see "Cupcakes"
   And I should see "Demo body content"
 
@@ -37,11 +37,11 @@ Scenario: Upload Dog
   And I am on "node/add/page"
   And fill in "edit-title" with "Dog"
   And fill in "Body" with "Demo body content"
-When I attach the file "../../dog.jpg" to "edit-field-photo-und-0-upload"
+When I attach the file "dog.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
   And I press "Upload"
   And I press "Insert"
-  When I press "Save"
+ When I press "edit-submit"
   Then I should see "Dog"
   And I should see "Demo body content"
   
