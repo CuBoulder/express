@@ -29,9 +29,20 @@ $saml_baseurlpath = $saml_baseURL . '/profiles/express/simplesaml/';
 
 if (isset($_REQUEST['saml-config-debug']) && $_REQUEST['saml-config-debug']) {
   print $_SERVER['SCRIPT_FILENAME'] . "</br>";
+  print __DIR__ . "</br>";
+  ///Users/kere7580/Sites/exs/code/dslm_base/profiles/express-2.8.5/libraries/simplesamlphp/config
+  print realpath('../../../'). "</br>";
+  if (file_exists('../../../sites/default/settings.php')) {
+    print "Relative path to settings.php location is correct</br>";
+  } else {
+    print "Relative path to settings.php location is NOT correct</br>";
+  }
 	print "Base URL: $saml_baseURL </br>";
 	print "Base URL Path: $saml_baseurlpath </br>";
 	print_r($databases['saml']['default']);
+	print "<p>";
+	$path_parts = pathinfo($_SERVER['PHP_SELF']);
+	print_r($path_parts);
 	die;
 }
 
