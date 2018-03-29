@@ -34,7 +34,7 @@ Scenario: A Basic Page node can be created
   And I should see "Demo body content"
   
   
-
+#UPLOADING A GRAPHIC
 @api 
 Scenario: A Basic Page node can be created 
   Given I am logged in as a user with the "site_owner" role
@@ -62,6 +62,8 @@ And I fill in "edit-title" with "Not In Menu"
 Then the "edit-menu-enabled" checkbox should be checked
 When I uncheck "edit-menu-enabled"
 And I press "Save"
+# ADD CHECK FOR PAGE TITLE
+Then I should see "Not In Menu"
 And I follow "Edit"
 Then the checkbox "edit-menu-enabled" should be unchecked
 
