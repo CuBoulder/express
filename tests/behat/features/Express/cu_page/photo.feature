@@ -15,7 +15,7 @@ Scenario: Upload Castle Graphic
   And I press "Upload"
   And I press "Insert"
   When I press "edit-submit"
-  Then I should see "No Body Content "
+  Then I should see "No Body Content"
   And I should see "All about castles"
   
 @api 
