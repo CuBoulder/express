@@ -12,13 +12,9 @@ Scenario: An authenticated user should be able to create a basic page node with 
   And fill in "edit-title" with "New Page"
   And fill in "Body" with "Demo body content"
   When I attach the file "../../../assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
-  And for "Alternate text" I enter "Ralphie running with people"
-  And I press the "Upload" button
-  #   And for "Alternate text" I enter "Ralphie running with people"
-  #   And I press the "Insert" button
-  When I press "Save"
-  Then the ".page__title" element should contain "New Page"
+  And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
+  And I press "Upload"
+  And I press "Insert"
+  And I press "Save"
+  Then I should see "New Page"
   And I should see "Demo body content"
-  # And I should see an image in the "Content" region
-  # And I should see the image alt "Ralphie running with people" in the "Content" region
-  And I should see "New Menu Item"
