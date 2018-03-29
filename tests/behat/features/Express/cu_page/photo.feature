@@ -9,14 +9,13 @@ I should be able to upload and place a photo
 Scenario: Upload Castle
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
-  And fill in "edit-title" with "Castle"
-  And fill in "Body" with "All about castles"
+  And fill in "edit-title" with "No Body Content"
   When I attach the file "castle.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
   And I press "Upload"
   And I press "Insert"
   When I press "edit-submit"
-  Then I should see "Castle"
+  Then I should see "No Body Content "
   And I should see "All about castles"
   
 @api 
