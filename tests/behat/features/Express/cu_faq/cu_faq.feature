@@ -41,15 +41,16 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/faqs"
 When I press "edit-field-qa-collection-und-0-field-qa-und-add-more"
 And I wait 5 seconds
+#THIS IS THE ID FOR THE TITLE OF THE NEW QUESTION
 Then the response should contain "id=\"edit-field-qa-collection-und-0-field-qa-und-1-field-qa-question-und-0-value\""
-# DOESN'T WORK Then I should see an "edit-field-qa-collection-und-0-field-qa-und-1-field-qa-question-und-0-value" element
+# THIS DOESN'T WORK Then I should see an "edit-field-qa-collection-und-0-field-qa-und-1-field-qa-question-und-0-value" element
 
 And I press "edit-field-qa-collection-und-add-more"
 And I wait 5 seconds
+#THIS IS THE ID FOR THE TITLE OF THE NEW FAQ SECTION
 Then the response should contain "id=\"edit-field-qa-collection-und-1-field-qa-collection-title-und-0-value\""
-# DOESN'T WORK Then I should see an "edit-field-qa-collection-und-1-field-qa-collection-title-und-0-value" element
-
-  Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
+# THIS DOESN'T WORK Then I should see an "edit-field-qa-collection-und-1-field-qa-collection-title-und-0-value" element
+ Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
     Given  I am logged in as a user with the "site_owner" role
     When I go to "node/add/faqs"
     And  I fill in "edit-title" with "New FAQ"
