@@ -6,7 +6,7 @@ I should be able to upload and place a photo
 
 # An authenticated user should be able to create a basic page node with a photo
 @api 
-Scenario: Upload Castle
+Scenario: Upload Castle Graphic
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "No Body Content"
