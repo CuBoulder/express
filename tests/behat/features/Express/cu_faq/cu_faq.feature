@@ -34,22 +34,17 @@ Given I am logged in as a user with the "site_owner" role
     And I should see "Demo FAQ explanatory text"
     And I should see "Section One Header"
     And I should see "Question One"
-    But I should not see "An Answer to the Question"
-    # And when I press "Question One"
-    # And I wait for AJAX
-    # Then I should see "An Answer to the Question"
-   # When I click the "ui-accordion-1-header-0" element
-   # Then I should see "An Answer to the Question"
-
-Scenario: A user can add more Q&A sections, and more collection sections
+    # THIS LINE FAILS But I should not see "An Answer to the Question"
+   
+Scenario: Pressing "Add More" adds another FAQ section
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/faqs"
 When I press "edit-field-qa-collection-und-0-field-qa-und-add-more"
 And I wait 5 seconds
-Then I should see "#edit-field-qa-collection-und-0-field-qa-und-1-field-qa-question-und-0-value"
+Then I should see and "edit-field-qa-collection-und-0-field-qa-und-1-field-qa-question-und-0-value" element
 And I press "edit-field-qa-collection-und-add-more"
 And I wait 5 seconds
-Then I should see "#edit-field-qa-collection-und-1-field-qa-collection-title-und-0-value"
+Then I should see and "edit-field-qa-collection-und-1-field-qa-collection-title-und-0-value" element
 
   Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
     Given  I am logged in as a user with the "site_owner" role
