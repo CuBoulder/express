@@ -17,7 +17,7 @@ Scenario: Upload Castle
   And I press "Insert"
   When I press "edit-submit"
   Then I should see "Castle"
-  And I should see ""All about castles"
+  And I should see "All about castles"
   
 @api 
 Scenario: Upload Cupcakes
