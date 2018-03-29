@@ -18,7 +18,8 @@ Scenario: Upload Castle
   When I press "edit-submit"
   Then I should see "Castle"
   And I should see ""All about castles"
-
+  
+@api 
 Scenario: Upload Cupcakes
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -32,6 +33,7 @@ Scenario: Upload Cupcakes
   Then I should see "Cupcakes"
   And I should see "Demo body content"
 
+@api 
 Scenario: Upload Dog
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -45,6 +47,7 @@ When I attach the file "dog.jpg" to "edit-field-photo-und-0-upload"
   Then I should see "Dog"
   And I should see "Demo body content"
   
+  @api 
   Scenario: Upload Old Main
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -58,6 +61,7 @@ When I attach the file "../../../main.jpg" to "edit-field-photo-und-0-upload"
   Then I should see "Old Main"
   And I should see "Demo body content"
   
+  @api 
   Scenario: Upload Seagull
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -71,7 +75,8 @@ When I attach the file "../../../../seagull.jpg" to "edit-field-photo-und-0-uplo
   Then I should see "Seagull"
   And I should see "Demo body content"
   
-  Scenario: Upload Mountains
+ @api 
+ Scenario: Upload Mountains
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Mountains"
