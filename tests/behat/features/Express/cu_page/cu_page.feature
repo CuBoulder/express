@@ -31,13 +31,11 @@ Scenario: A Basic Page node can be created
   # THIS NEXT LINE IS A WORKAROUND FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
   # And I follow "Disable rich-text"
   And fill in "Body" with "Demo body content"
-  And fill in "Menu link title" with "New Menu Item"
   And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Ralphie Running"
   And I press "Upload"
   And I press "Insert"
   When I press "edit-submit"
-  Then I should see "New Menu Item"
   And I should see "My New Page"
   And I should see "Demo body content"
   And I should see an image in the "Content" region
