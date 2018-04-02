@@ -49,15 +49,14 @@ And I fill in "edit-field-photo-und-0-alt" with "Ralphie Buffalo with handlers"
   And I should see "Ralphie the Buffalo is the name of the live mascot of the University of Colorado Buffaloes."
 
  #INSERTING A GRAPHIC
-@api @rebuild
+@api @javascript
 Scenario: A graphic can be inserted into a Basic Page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Buffalo"
-  # THIS NEXT LINE IS A WORKAROUND FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
+  # THIS NEXT LINE WILL FIND THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
   And I follow "Disable rich-text"
   And fill in "Body" with "The first Ralphie was donated to the school in 1966."
-  
  And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
 And I fill in "edit-field-photo-und-0-alt" with "Ralphie with her handlers"
   And I press "edit-field-photo-und-0-upload-button"
