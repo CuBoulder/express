@@ -18,7 +18,7 @@ Scenario: Upload Castle Graphic
   Then I should see "Castles"
   And I should see "All about castles"
   
-@api @javascript
+@api 
 #TEST TWO: UPLOADING, THEM COMING BACK AND INSERTING THE GRAPHIC
 Scenario: Upload Cupcakes Graphic
   Given I am logged in as a user with the "site_owner" role
