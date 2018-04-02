@@ -21,7 +21,7 @@ Scenario: An anonymous user should not be able to access the form for adding a f
     When I am on "node/add/file"
     Then I should see "Access denied"
 
- Scenario: An authenticated user can upload a file
+ Scenario: An authenticated user can upload a file; with secure https URL
     Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/file"
     And I fill in "edit-title" with "My Ralphie Photo"
@@ -35,6 +35,7 @@ Scenario: An anonymous user should not be able to access the form for adding a f
     Then I should see "A user without editing permissions would have been redirected"
     Then I should see "My Ralphie Photo"
     And I should see "Access the top file listed below with the following url"
+    And I should not see "http://www.colorado.edu"
     
 Scenario: An authenticated user can delete a File Content Type node
     Given I am logged in as a user with the "site_owner" role
@@ -49,8 +50,7 @@ Scenario: An authenticated user can delete a File Content Type node
     And I press "Delete"
     Then I am on "/"
     
-    
- Scenario: The file content type needs to have a file uploaded on save.
+Scenario: The File Content Type verifies that a file has been uploaded
     Given I am logged in as a user with the "content_editor" role
     When I go to "node/add/file"
       And I fill in "edit-title" with "Test Page"
@@ -58,26 +58,3 @@ Scenario: An authenticated user can delete a File Content Type node
       And I press "Save"
     Then I should see "File Attachment field is required."
     
-
-  @broken
-  # We can't test this until uploading files is fixed since the file node requires an upload on save.
-  Scenario Outline: An authenticated user can delete a XXX node
-    Given I am logged in as a user with the <role> role
-    When I go to "node/add/file"
-    And I fill in "edit-title" with "Test Page"
-    And I fill in "body[und][0][value]" with "Do not keep this page"
-    And I press "Save"
-    And I follow "Edit"
-    And I press "Delete"
-    Then I should see "Are you sure you want to delete Test Page?"
-    And I press "Delete"
-    Then I am on "/"
-
-    Examples:
-      | role           |
-      | content_editor |
-      | site_owner     |
-      | administrator  |
-      | developer      |
-
-
