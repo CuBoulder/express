@@ -34,7 +34,7 @@ Scenario: A very basic Basic Page node can be created
   And I should see "Lorem ipsum dolor sit amet"
   
 #UPLOADING A GRAPHIC
-@api 
+@api @rebuild
 Scenario: A graphic can be inserted into a Basic Page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -42,8 +42,9 @@ Scenario: A graphic can be inserted into a Basic Page
   # THIS NEXT LINE IS A WORKAROUND FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
   # And I follow "Disable rich-text"
   And fill in "Body" with "Ralphie the Buffalo is the name of the live mascot of the University of Colorado Buffaloes."
-  # And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
- #  And I fill in "edit-field-photo-und-0-alt" with "Ralphie Buffalo with handlers"
+  
+ And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
+And I fill in "edit-field-photo-und-0-alt" with "Ralphie Buffalo with handlers"
   # And I press "Upload"
   # And I press "Insert"
   When I press "edit-submit"
