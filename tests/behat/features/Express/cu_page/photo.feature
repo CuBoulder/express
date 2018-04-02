@@ -18,12 +18,13 @@ Scenario: Upload Castle Graphic
   Then I should see "Castles"
   And I should see "All about castles"
   
-@api 
+@api @javascript
 #TEST TWO: UPLOADING, THEM COMING BACK AND INSERTING THE GRAPHIC
 Scenario: Upload Cupcakes Graphic
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Cupcakes"
+  And I follow "Disable rich-text"
  And fill in "Body" with "Cupcakes are little cakes"
  And I attach the file "cupcakes.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Sample Cupcakes"
@@ -37,18 +38,18 @@ Scenario: Upload Cupcakes Graphic
  
  
  
-@api 
+@api @javascript
 Scenario: Upload Dog
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Dog"
+   And I follow "Disable rich-text"
   And fill in "Body" with "Demo body content"
-When I attach the file "dog.jpg" to "edit-field-photo-und-0-upload"
+  And I attach the file "dog.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
   And I press "Upload"
   And I press "Insert"
  When I press "edit-submit"
-  
   And I should see "Demo body content"
   Then I should see "Dog"
   
