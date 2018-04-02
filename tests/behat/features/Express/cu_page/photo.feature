@@ -5,37 +5,38 @@ As an authenticated user
 I should be able to upload and place a photo
 
 # An authenticated user should be able to create a basic page node with a photo
+#TEST ONE: A GRPAHIC CAN BE UPLOADED
 @api 
 Scenario: Upload Castle Graphic
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
-  And fill in "edit-title" with "No Body Content"
-  When I attach the file "castle.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
-  And I press "Upload"
-  And I press "Insert"
+  And fill in "edit-title" with "Castles"
+  And I fill in "Body" with "All about castles"
+  And I attach the file "castle.jpg" to "edit-field-photo-und-0-upload"
+  And I fill in "edit-field-photo-und-0-alt" with "Castle Photo"
   When I press "edit-submit"
-  Then I should see "No Body Content"
+  Then I should see "Castles"
   And I should see "All about castles"
   
 @api 
-Scenario: Upload Cupcakes
+#TEST TWO: UPLOADING, THEM COMING BACK AND INSERTING THE GRAPHIC
+Scenario: Upload Cupcakes Graphic
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Cupcakes"
-  And fill in "Body" with "Demo body content"
-  When I attach the file "cupcakes.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
-  And I press "Upload"
-  And I press "Insert"
- When I press "edit-submit"
+ And fill in "Body" with "Cupcakes are little cakes"
+ And I attach the file "cupcakes.jpg" to "edit-field-photo-und-0-upload"
+  And I fill in "edit-field-photo-und-0-alt" with "Sample Cupcakes"
+ And I press "edit-submit"
+ And I follow "Edit"
+ And I follow "Disable rich-text"
+ And I press "Insert"
+ And I press "edit-submit"
+   Then I should see "Castles"
+  And I should see "Cupcakes are little cakes"
  
- Then I should see "Basic Page Cupcakes has been created"
- And I should see "Demo body content"
- And I should see an image in the "Content" region
- And I should see the image alt "Scenic Photo" in the "Content" region
-  
-
+ 
+ 
 @api 
 Scenario: Upload Dog
   Given I am logged in as a user with the "site_owner" role
