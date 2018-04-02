@@ -59,7 +59,7 @@ function cu_people_administration_override_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'name' => array(
+    'field_ldap_last_name' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -115,7 +115,7 @@ function cu_people_administration_override_views_default_views() {
   $handler->display->display_options['fields']['mail']['link_to_user'] = '0';
   /* Field: Bulk operations: User */
   $handler->display->display_options['fields']['views_bulk_operations']['id'] = 'views_bulk_operations';
-  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'users';
+  $handler->display->display_options['fields']['views_bulk_operations']['table'] = 'views_entity_user';
   $handler->display->display_options['fields']['views_bulk_operations']['field'] = 'views_bulk_operations';
   $handler->display->display_options['fields']['views_bulk_operations']['label'] = '';
   $handler->display->display_options['fields']['views_bulk_operations']['element_label_colon'] = FALSE;
@@ -141,13 +141,24 @@ function cu_people_administration_override_views_default_views() {
       'label' => '',
     ),
   );
-  /* Field: User: Name */
-  $handler->display->display_options['fields']['name']['id'] = 'name';
-  $handler->display->display_options['fields']['name']['table'] = 'users';
-  $handler->display->display_options['fields']['name']['field'] = 'name';
-  $handler->display->display_options['fields']['name']['label'] = 'Username';
-  $handler->display->display_options['fields']['name']['alter']['word_boundary'] = FALSE;
-  $handler->display->display_options['fields']['name']['alter']['ellipsis'] = FALSE;
+  /* Field: Realname: Real name */
+  $handler->display->display_options['fields']['realname']['id'] = 'realname';
+  $handler->display->display_options['fields']['realname']['table'] = 'realname';
+  $handler->display->display_options['fields']['realname']['field'] = 'realname';
+  $handler->display->display_options['fields']['realname']['label'] = 'Username';
+  $handler->display->display_options['fields']['realname']['exclude'] = TRUE;
+  /* Field: User: Last Name */
+  $handler->display->display_options['fields']['field_ldap_last_name']['id'] = 'field_ldap_last_name';
+  $handler->display->display_options['fields']['field_ldap_last_name']['table'] = 'field_data_field_ldap_last_name';
+  $handler->display->display_options['fields']['field_ldap_last_name']['field'] = 'field_ldap_last_name';
+  $handler->display->display_options['fields']['field_ldap_last_name']['label'] = 'Username';
+  $handler->display->display_options['fields']['field_ldap_last_name']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_ldap_last_name']['alter']['text'] = '[realname] ';
+  $handler->display->display_options['fields']['field_ldap_last_name']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_ldap_last_name']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ldap_last_name']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_ldap_last_name']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ldap_last_name']['field_api_classes'] = TRUE;
   /* Field: User: Active */
   $handler->display->display_options['fields']['status']['id'] = 'status';
   $handler->display->display_options['fields']['status']['table'] = 'users';
@@ -197,14 +208,15 @@ function cu_people_administration_override_views_default_views() {
   $handler->display->display_options['filters']['combine']['expose']['remember_roles'] = array(
     2 => '2',
     1 => 0,
-    3 => 0,
-    4 => 0,
-    5 => 0,
     6 => 0,
+    4 => 0,
+    7 => 0,
+    3 => 0,
+    5 => 0,
   );
   $handler->display->display_options['filters']['combine']['fields'] = array(
-    'name' => 'name',
     'mail' => 'mail',
+    'realname' => 'realname',
   );
   /* Filter criterion: User: Roles */
   $handler->display->display_options['filters']['rid']['id'] = 'rid';
@@ -264,6 +276,7 @@ function cu_people_administration_override_views_default_views() {
   $handler->display->display_options['tab_options']['title'] = 'Users';
   $handler->display->display_options['tab_options']['weight'] = '0';
   $handler->display->display_options['tab_options']['name'] = 'management';
+
   $export['cu_people_administration_override_view'] = $view;
 
   return $export;

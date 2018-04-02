@@ -9,6 +9,7 @@
  */
 function cu_content_administration_override_views_default_views() {
   $export = array();
+
   $view = new view();
   $view->name = 'cu_content_administration_override_view';
   $view->description = 'Emulates the Drupal content administration page.';
@@ -69,7 +70,7 @@ function cu_content_administration_override_views_default_views() {
       'separator' => '',
       'empty_column' => 0,
     ),
-    'name' => array(
+    'field_ldap_last_name' => array(
       'sortable' => 1,
       'default_sort_order' => 'asc',
       'align' => '',
@@ -190,7 +191,20 @@ function cu_content_administration_override_views_default_views() {
   $handler->display->display_options['fields']['realname']['table'] = 'realname';
   $handler->display->display_options['fields']['realname']['field'] = 'realname';
   $handler->display->display_options['fields']['realname']['relationship'] = 'uid';
-  $handler->display->display_options['fields']['realname']['label'] = 'Author';
+  $handler->display->display_options['fields']['realname']['exclude'] = TRUE;
+  /* Field: User: Last Name */
+  $handler->display->display_options['fields']['field_ldap_last_name']['id'] = 'field_ldap_last_name';
+  $handler->display->display_options['fields']['field_ldap_last_name']['table'] = 'field_data_field_ldap_last_name';
+  $handler->display->display_options['fields']['field_ldap_last_name']['field'] = 'field_ldap_last_name';
+  $handler->display->display_options['fields']['field_ldap_last_name']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['field_ldap_last_name']['label'] = 'Author';
+  $handler->display->display_options['fields']['field_ldap_last_name']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['field_ldap_last_name']['alter']['text'] = '[realname]';
+  $handler->display->display_options['fields']['field_ldap_last_name']['element_type'] = '0';
+  $handler->display->display_options['fields']['field_ldap_last_name']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['field_ldap_last_name']['element_wrapper_type'] = '0';
+  $handler->display->display_options['fields']['field_ldap_last_name']['element_default_classes'] = FALSE;
+  $handler->display->display_options['fields']['field_ldap_last_name']['field_api_classes'] = TRUE;
   /* Field: Content: Published */
   $handler->display->display_options['fields']['status']['id'] = 'status';
   $handler->display->display_options['fields']['status']['table'] = 'node';
@@ -322,6 +336,7 @@ function cu_content_administration_override_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
+
   $export['cu_content_administration_override_view'] = $view;
 
   return $export;
