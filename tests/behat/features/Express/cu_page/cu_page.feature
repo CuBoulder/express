@@ -23,7 +23,7 @@ Scenario: An anonymous user should not be able to access the form for adding pag
   When I am on "node/add/page"
   Then I should see "Access denied"
   
-  @api 
+@api 
 Scenario: A very basic Basic Page node can be created 
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -32,7 +32,6 @@ Scenario: A very basic Basic Page node can be created
   When I press "edit-submit"
   And I should see "My Page"
   And I should see "Lorem ipsum dolor sit amet"
-  
   
 #UPLOADING A GRAPHIC
 @api 
@@ -44,15 +43,14 @@ Scenario: A graphic can be inserted into a Basic Page
   # And I follow "Disable rich-text"
   And fill in "Body" with "Demo body content"
   And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Ralphie Running with Handlers"
+  And I fill in "edit-field-photo-und-0-alt" with "Ralphie Buffalo with handlers"
   And I press "Upload"
   And I press "Insert"
   When I press "edit-submit"
   And I should see "Photo Page"
   And I should see "Demo body content"
-Then the response should contain "alt=\"Ralphie Running with Handlers\""
+Then the response should contain "alt=\"Ralphie Buffalo with handlers\""
 
- 
 @api 
 Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
 Given I am logged in as a user with the "site_owner" role
