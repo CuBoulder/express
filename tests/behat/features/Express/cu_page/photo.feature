@@ -24,20 +24,18 @@ Scenario: Upload Cupcakes Graphic
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Cupcakes"
-  And I follow "Disable rich-text"
  And fill in "Body" with "Cupcakes are little cakes"
  And I attach the file "cupcakes.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Sample Cupcakes"
  And I press "edit-submit"
  And I follow "Edit"
- And I follow "Disable rich-text"
  And I press "Insert"
  And I press "edit-submit"
-   Then I should see "Castles"
+  Then I should see "Castles"
   And I should see "Cupcakes are little cakes"
  
  
- 
+ #TEST THREE USING JAVASCRIPT  
 @api @javascript
 Scenario: Upload Dog
   Given I am logged in as a user with the "site_owner" role
@@ -46,12 +44,14 @@ Scenario: Upload Dog
    And I follow "Disable rich-text"
   And fill in "Body" with "Demo body content"
   And I attach the file "dog.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
+  And I fill in "edit-field-photo-und-0-alt" with "My dog"
   And I press "Upload"
+  And I wait for AJAX
   And I press "Insert"
  When I press "edit-submit"
-  And I should see "Demo body content"
   Then I should see "Dog"
+  And I should see "Demo body content"
+ 
   
   @api 
   Scenario: Upload Old Main
