@@ -33,23 +33,41 @@ Scenario: A very basic Basic Page node can be created
  Then I should see "My Page"
   And I should see "Lorem ipsum dolor sit amet"
   
-#UPLOADING A GRAPHIC
+#UPLOADING A GRAPHIC - THIS WORKS
 @api @rebuild
-Scenario: A graphic can be inserted into a Basic Page
+Scenario: A graphic can be uploaded into a Basic Page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "About Ralphie"
   # THIS NEXT LINE IS A WORKAROUND FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
   # And I follow "Disable rich-text"
   And fill in "Body" with "Ralphie the Buffalo is the name of the live mascot of the University of Colorado Buffaloes."
-  
  And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
 And I fill in "edit-field-photo-und-0-alt" with "Ralphie Buffalo with handlers"
-  # And I press "Upload"
-  # And I press "Insert"
   When I press "edit-submit"
   Then I should see "About Ralphie"
   And I should see "Ralphie the Buffalo is the name of the live mascot of the University of Colorado Buffaloes."
+
+ 
+#INSERTING A GRAPHIC
+@api @rebuild
+Scenario: A graphic can be inserted into a Basic Page
+  Given I am logged in as a user with the "site_owner" role
+  And I am on "node/add/page"
+  And fill in "edit-title" with "Buffalo"
+  # THIS NEXT LINE IS A WORKAROUND FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
+  # And I follow "Disable rich-text"
+  And fill in "Body" with "The first Ralphie was donated to the school in 1966."
+  
+ And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
+And I fill in "edit-field-photo-und-0-alt" with "Ralphie with her handlers"
+  And I press "edit-field-photo-und-0-upload-button"
+  And I wait 10 seconds
+  And I press "Insert"
+  And I wait 10 seconds
+ And I press "edit-submit"
+  Then I should see "Buffalo"
+  And I should see "The first Ralphie was donated to the school in 1966."
  # Then the response should contain "alt=\"Ralphie Buffalo with handlers\""
 
 @api 
