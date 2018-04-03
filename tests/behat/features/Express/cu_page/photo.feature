@@ -11,12 +11,12 @@ Scenario: Upload Castle Graphic
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Castles"
-  And I fill in "Body" with "All about castles"
+  And I fill in "Body" with "The development of defensive architecture"
   And I attach the file "castle.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Castle Photo"
   When I press "edit-submit"
   Then I should see "Castles"
-  And I should see "All about castles"
+  And I should see "The development of defensive architecture"
   
 @api 
 #TEST TWO: UPLOADING, THEM COMING BACK AND INSERTING THE GRAPHIC
@@ -24,17 +24,17 @@ Scenario: Upload Cupcakes Graphic
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Cupcakes"
- And fill in "Body" with "Cupcakes are little cakes"
+ And fill in "Body" with "Little cakes with frosting"
  And I attach the file "cupcakes.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Sample Cupcakes"
+  And I fill in "edit-field-photo-und-0-alt" with "Yummy goodness"
  And I press "edit-submit"
  And I follow "Edit"
  Then I should see ""
  # And I press "Insert"
  And I press "edit-submit"
   Then I should see "Cupcakes"
-  And I should see "Cupcakes are little cakes"
-  And I should see "Sample Cupcakes"
+  And I should see "Little cakes with frosting"
+  And I should see "Yummy goodness"
  
  
  #TEST THREE 
