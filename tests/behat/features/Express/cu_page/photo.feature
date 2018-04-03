@@ -43,14 +43,20 @@ Scenario: Upload Cupcakes Graphic
  And I follow "Edit"
  Then I should see "Edit Basic page Cupcakes"
  Then I should see "This document is now locked against simultaneous editing"
- And I should see "File information"
- #CAN WE INSERT THIS?
+And I should see "File information"
+ And I should see "Click and drag the crosshair to target the most important portion of the image"
+ And I should see "cupcakes.jpg"
+  #CAN WE INSERT THIS?
  And I press "Insert"
  And I press "edit-submit"
   Then I should see "Cupcakes"
   And I should see "Little cakes with frosting"
   And I should see "Yummy goodness"
     And the response should contain "alt=\"Yummy goodness\""
+    
+     
+ 
+ 
  
 @api 
 #TEST THREE
@@ -66,8 +72,10 @@ Scenario: Upload Dog Graphic
  And I follow "Edit"
  Then I should see "Edit Basic page Dogs"
  Then I should see "This document is now locked against simultaneous editing"
- And I should see "File information"
- #CAN WE INSERT THIS?
+And I should see "File information"
+ And I should see "Click and drag the crosshair to target the most important portion of the image"
+ And I should see "dog.jpg"
+  #CAN WE INSERT THIS?
  And I press "Insert"
  And I press "edit-submit"
   Then I should see "Dogs"
@@ -89,6 +97,8 @@ Scenario: Upload Old Main Graphic
  Then I should see "Edit Basic page Old Main"
  Then I should see "This document is now locked against simultaneous editing"
  And I should see "File information"
+ And I should see "Click and drag the crosshair to target the most important portion of the image"
+ And I should see "main.jpg"
  #CAN WE INSERT THIS?
  And I press "Insert"
  And I press "edit-submit"
@@ -106,12 +116,14 @@ Scenario: Upload Mountains Graphic
  And I attach the file "assets/mountains.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
  And I press "edit-submit"
- Then I should see "Moutains"
+ Then I should see "Mountains"
  And I follow "Edit"
  Then I should see "Edit Basic page Mountains"
  Then I should see "This document is now locked against simultaneous editing"
-  And I should see "File information"
- #CAN WE INSERT THIS?
+ And I should see "File information"
+ And I should see "Click and drag the crosshair to target the most important portion of the image"
+ And I should see "mountains.jpg"
+  #CAN WE INSERT THIS?
  And I press "Insert"
  And I press "edit-submit"
   Then I should see "Mountains"
@@ -133,7 +145,9 @@ Scenario: Upload MTN BEE Graphic
  Then I should see "Edit Basic page Mtn Bee"
  Then I should see "This document is now locked against simultaneous editing"
 And I should see "File information"
- #CAN WE INSERT THIS?
+ And I should see "Click and drag the crosshair to target the most important portion of the image"
+ And I should see "mtnbee.jpg"
+  #CAN WE INSERT THIS?
  And I press "Insert"
  And I press "edit-submit"
   Then I should see "Mtn Bee"
@@ -155,7 +169,9 @@ Scenario: Upload Ralphie Graphic
  Then I should see "Edit Basic page Ralphie"
  Then I should see "This document is now locked against simultaneous editing"
 And I should see "File information"
- #CAN WE INSERT THIS?
+ And I should see "Click and drag the crosshair to target the most important portion of the image"
+ And I should see "ralphie.jpg"
+  #CAN WE INSERT THIS?
  And I press "Insert"
  And I press "edit-submit"
   Then I should see "Ralphie"
@@ -176,7 +192,9 @@ Scenario: Upload Saabs Graphic
  And I follow "Edit"
  Then I should see "Edit Basic page Saabs"
  Then I should see "This document is now locked against simultaneous editing"
- And I should see "File information"
+And I should see "File information"
+ And I should see "Click and drag the crosshair to target the most important portion of the image"
+ And I should see "saab.jpg"
  And I press "edit-submit"
   Then I should see "Saabs"
   And I should see "Demo body content"
@@ -197,8 +215,8 @@ Scenario: Upload Seagull Graphic
  Then I should see "Edit Basic page Seagull"
  Then I should see "This document is now locked against simultaneous editing"
  And I should see "File information"
- #CAN WE INSERT THIS?
- And I press "image_image"
+ And I should see "Click and drag the crosshair to target the most important portion of the image"
+ And I should see "seagull.jpg"
  And I press "edit-submit"
   Then I should see "Seagull"
   And I should see "Demo body content"
@@ -219,8 +237,8 @@ Scenario: Upload Sunset Graphic
  Then I should see "Edit Basic page Sunset"
  Then I should see "This document is now locked against simultaneous editing"
  And I should see "File information"
- #CAN WE INSERT THIS?
- And I press "image_image"
+ And I should see "Click and drag the crosshair to target the most important portion of the image"
+ And I should see "sunset.jpg"
  And I press "edit-submit"
   Then I should see "Sunset"
   And I should see "Demo body content"
