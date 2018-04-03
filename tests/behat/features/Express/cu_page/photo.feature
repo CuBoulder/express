@@ -6,7 +6,6 @@ I should be able to upload and place a photo
 
  #  NOTES ON TESTING:
  # 'WAIT FOR AJAX' IS NOT SUPPORTED BY GOUTTE DRIVER
- 
 
 # An authenticated user should be able to create a basic page node with a photo
 #TEST ONE: A GRAPHIC CAN BE UPLOADED
@@ -23,7 +22,9 @@ Scenario: Upload Castle Graphic
  Then I should see "Edit Basic page Castles"
  Then I should see "This document is now locked against simultaneous editing"
  # THIS NEXT LINE PROVES IT WAS UPLOADED
- And I should see "File information"
+And I should see "File information"
+ And I should see "Click and drag the crosshair to target the most important portion of the image"
+ And I should see "castle.jpg"
  And I press "edit-submit"
   Then I should see "Castles"
   And I should see "The development of defensive architecture"
@@ -87,14 +88,14 @@ And I should see "File information"
 Scenario: Upload Old Main Graphic
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
-  And fill in "edit-title" with "Old Main"
+  And fill in "edit-title" with "OldMain"
  And fill in "Body" with "Demo body content"
  And I attach the file "assets/main.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
  And I press "edit-submit"
- Then I should see "Old Main"
+ Then I should see "OldMain"
  And I follow "Edit"
- Then I should see "Edit Basic page Old Main"
+ Then I should see "Edit Basic page OldMain"
  Then I should see "This document is now locked against simultaneous editing"
  And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
@@ -102,7 +103,7 @@ Scenario: Upload Old Main Graphic
  #CAN WE INSERT THIS?
  And I press "Insert"
  And I press "edit-submit"
-  Then I should see "Old Main"
+  Then I should see "OldMain"
   And I should see "Demo body content"
  And the response should contain "alt=\"Scenic Photo\""
  
@@ -135,12 +136,12 @@ Scenario: Upload Mountains Graphic
 Scenario: Upload MTN BEE Graphic
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
-  And fill in "edit-title" with "Mtn Bee"
+  And fill in "edit-title" with "MtnBee"
  And fill in "Body" with "Demo body content"
  And I attach the file "assets/mtnbee.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
  And I press "edit-submit"
- Then I should see "Mtn Bee"
+ Then I should see "MtnBee"
  And I follow "Edit"
  Then I should see "Edit Basic page Mtn Bee"
  Then I should see "This document is now locked against simultaneous editing"
@@ -150,7 +151,7 @@ And I should see "File information"
   #CAN WE INSERT THIS?
  And I press "Insert"
  And I press "edit-submit"
-  Then I should see "Mtn Bee"
+  Then I should see "MtnBee"
   And I should see "Demo body content"
   And I should see "Scenic Photo"
   
