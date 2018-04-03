@@ -1,4 +1,4 @@
-@photo
+@page @photo
 Feature: A Basic Page can contain many types of photos
 When I create a Basic Page
 As an authenticated user
@@ -48,9 +48,35 @@ Scenario: A graphic can be uploaded and inserted into a page
   And I should see "Little cakes with frosting"
 And the response should contain "alt=\"Lavender and lemony goodness\""
  
+  
 @api 
 #TEST THREE
-Scenario: Upload Dog Graphic
+Scenario: Upload a graphic by saving, then come back and insert it
+  Given I am logged in as a user with the "site_owner" role
+  And I am on "node/add/page"
+  And fill in "edit-title" with "Mountains"
+ And fill in "Body" with "Demo body content"
+ And I attach the file "assets/mountains.jpg" to "edit-field-photo-und-0-upload"
+  And I fill in "edit-field-photo-und-0-alt" with "Pink clouds, blue mountains"
+ And I press "edit-submit"
+ And I follow "Edit"
+ Then I should see "Edit Basic page Mountains"
+ # THIS NEXT LINE PROVES IT WAS UPLOADED
+And I should see "File information"
+ And I should see "Click and drag the crosshair to target the most important portion of the image"
+ And I should see "mountains.jpg"
+ And I should see "Insert"
+ And I click "Insert"
+ And I press "edit-submit"
+  Then I should be on "/mountains"
+  And I should see "Mountains"
+  And I should see "Demo body content"
+ And the response should contain "alt=\"Pink clouds, blue mountains\""
+  
+  
+@api 
+#TEST FOUR
+Scenario: Inserting a different size graphic than the default
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Dogs"
@@ -72,31 +98,5 @@ And I should see "File information"
   Then I should be on "/dogs"
   And I should see "Dogs"
   And I should see "Demo body content"
-  And the response should contain "alt=\"Red heeler with sunflower\""
-
- 
-@api 
-#TEST FIVE
-Scenario: Upload Mountains Graphic
-  Given I am logged in as a user with the "site_owner" role
-  And I am on "node/add/page"
-  And fill in "edit-title" with "Mountains"
- And fill in "Body" with "Demo body content"
- And I attach the file "assets/mountains.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Pink clouds, blue mountains"
- And I press "edit-field-photo-und-0-upload-button"
-  And I wait 5 seconds
- Then I should see "File information"
- And I should see "Click and drag the crosshair to target the most important portion of the image"
- And I should see "mountains.jpg"
- And I should see "Insert"
-   And I select "colorbox__square" from "Style:"
-  #CAN WE INSERT THIS?
- And I click "Insert"
- And I press "edit-submit"
-  Then I should be on "/mountains"
-  And I should see "Mountains"
-  And I should see "Demo body content"
- And the response should contain "alt=\"Pink clouds, blue mountains\""
-  
+  And the response should contain "alt=\"Red heeler with sunflower\""  
 
