@@ -22,7 +22,6 @@ Scenario: Upload Castle Graphic
   Then I should see "Castles"
   And I should see "The development of defensive architecture"
   
-  
 @api 
 #TEST TWO: 
 Scenario: Upload Cupcakes Graphic
@@ -123,7 +122,6 @@ Scenario: Upload MTN BEE Graphic
   And I should see "Demo body content"
   And I should see "Scenic Photo"
   
-  -
 @api 
 #TEST SEVEN
 Scenario: Upload Ralphie Graphic
@@ -143,7 +141,6 @@ Scenario: Upload Ralphie Graphic
   Then I should see "Ralphie"
   And I should see "Demo body content"
   And I should see "Scenic Photo"
-  
   
 @api 
 #TEST EIGHT
@@ -204,3 +201,4 @@ Scenario: Upload Sunset Graphic
   Then I should see "Sunset"
   And I should see "Demo body content"
   And I should see "Scenic Photo"
+
