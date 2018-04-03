@@ -46,7 +46,7 @@ Scenario: A graphic can be uploaded and inserted into a page
   Then I should be on "/cupcakes"
   And I should see "Cupcakes"
   And I should see "Little cakes with frosting"
-And the response should contain "alt=\"Lavender and lemony goodness\"
+And the response should contain "alt=\"Lavender and lemony goodness\""
  
 @api 
 #TEST THREE
