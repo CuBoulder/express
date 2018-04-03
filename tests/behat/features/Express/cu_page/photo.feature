@@ -6,7 +6,7 @@ I should be able to upload and place a photo
 
 #THIS TEST UPLOADS A GRAPHIC; SAVES, THEN VERIFIES THAT IT HAS BEEN UPLOADED AND THAT WE ARE ON CORRECT PAGE
 @api 
-Scenario: A graphic can be uploaded
+Scenario: A graphic can be uploaded by saving the page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Castles"
@@ -27,7 +27,7 @@ And I should see "File information"
   And I should see "The development of defensive architecture"
   
 @api 
-#TEST TWO: THIS TEST UPLOADS AND INSERTS A GRAPHIC AT THE DEFAULT SIZE
+#TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON
 Scenario: A graphic can be inserted in the page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -35,16 +35,17 @@ Scenario: A graphic can be inserted in the page
  And fill in "Body" with "Little cakes with frosting"
  And I attach the file "assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
+  And I press "edit-field-photo-und-1-upload-button"
   And I wait 5 seconds
- And I should see "File information"
+ Then I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "cupcakes.jpg"
+ And I should see "Insert"
   And I click "Insert"
  And I press "edit-submit"
   Then I should be on "/cupcakes"
   And I should see "Cupcakes"
   And I should see "Little cakes with frosting"
-  And I should see "Yummy goodness"
 And the response should contain "alt=\"Lavender and lemony goodness\"
  
 @api 
@@ -64,7 +65,7 @@ Scenario: Upload Dog Graphic
 And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "dog.jpg"
- And I select "image_hero" from "insert-style"
+ And I select "image_hero" from "Style"
   #CAN WE INSERT THIS?
  And I click "Insert"
  And I press "edit-submit"
@@ -82,23 +83,21 @@ Scenario: Upload Mountains Graphic
   And fill in "edit-title" with "Mountains"
  And fill in "Body" with "Demo body content"
  And I attach the file "assets/mountains.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
- And I press "edit-submit"
- Then I should see "Mountains"
- And I follow "Edit"
- Then I should see "Edit Basic page Mountains"
- Then I should see "This document is now locked against simultaneous editing"
- And I should see "File information"
+  And I fill in "edit-field-photo-und-0-alt" with "Pink clouds, blue mountains"
+ And I press "edit-field-photo-und-1-upload-button"
+  And I wait 5 seconds
+ Then I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "mountains.jpg"
  And I should see "Insert"
+   And I select "colorbox__square" from "Style"
   #CAN WE INSERT THIS?
  And I click "Insert"
  And I press "edit-submit"
   Then I should be on "/mountains"
   And I should see "Mountains"
   And I should see "Demo body content"
- And the response should contain "alt=\"Scenic Photo\""
+ And the response should contain "alt=\"Pink clouds, blue mountains\""
   
 @api 
 #TEST SIX
