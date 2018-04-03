@@ -51,6 +51,8 @@ function express_permissions_secure_permissions_roles() {
     'developer',
     'content_editor',
     'content_editor',
+    'access_manager',
+    'configuration_manager',
   );
 }
 
@@ -699,10 +701,19 @@ function express_permissions_form_user_profile_form_alter(&$form, &$form_state) 
     $new_role_name = ucwords(str_replace('_', ' ', $new_role_name));
     if ($role_name == 'edit_only') {
       if (in_array('developer', $user->roles) || in_array('administrator', $user->roles)) {
-        $new_role_name =  '<i>' . $new_role_name . ' (hidden from site owners until 3.0)</i>';
+        $new_role_name =  '<i>' . $new_role_name . ' (temp role hidden from site owners)</i>';
       }
     }
-
+    if ($role_name == 'access_manager') {
+      if (in_array('developer', $user->roles) || in_array('administrator', $user->roles)) {
+        $new_role_name =  '<i>' . $new_role_name . ' (hidden from site owners until 2.9.1)</i>';
+      }
+    }
+    if ($role_name == 'configuration_manager') {
+      if (in_array('developer', $user->roles) || in_array('administrator', $user->roles)) {
+        $new_role_name =  '<i>' . $new_role_name . ' (hidden from site owners until 2.9.1)</i>';
+      }
+    }
     $new_role_options[$rid] = $new_role_name;
 
   }
