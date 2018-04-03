@@ -1,4 +1,4 @@
-@page @photo
+=@page @photo
 Feature: A Basic Page can contain many types of photos
 When I create a Basic Page
 As an authenticated user
@@ -183,7 +183,7 @@ And I should see "File information"
  And I press "Insert"
  And I press "edit-submit"
   Then I should be on "/ralphie"
-  AndI should see "Ralphie"
+  And I should see "Ralphie"
   And I should see "Demo body content"
   And I should see "Scenic Photo"
   
