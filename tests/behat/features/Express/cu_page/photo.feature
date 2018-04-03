@@ -32,6 +32,7 @@ Scenario: Upload Cupcakes Graphic
  And I attach the file "cupcakes.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Yummy goodness"
  And I press "edit-submit"
+ Then I should see "Cupcakes"
  And I follow "Edit"
  Then I should see "This document is now locked against simultaneous editing"
  And I press "Insert"
@@ -40,26 +41,7 @@ Scenario: Upload Cupcakes Graphic
   And I should see "Little cakes with frosting"
   And I should see "Yummy goodness"
  
- 
- #TEST THREE ; WHAT IF GRAPHIC DOESN'T EXIST
-
-@api 
-Scenario: Upload Random Photo
-  Given I am logged in as a user with the "site_owner" role
-  And I am on "node/add/page"
-  And fill in "edit-title" with "Random Photo"
-  And fill in "Body" with "Who is a good dog"
-  And I attach the file "randomPhotoOfMountains.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "My dog"
-  And I press "edit-field-photo-und-0-upload-button"
-  # And I wait for AJAX
-  And I press "Insert"
- When I press "edit-submit"
-  Then I should see "Random Photo"
-  And I should see "Who is a good dog"
- 
-  
-  # SO APPARENTLY THE PROGRAM WAS ABLE TO FIND MAIN.JPG. BUT COULDN'T FIND INSERT. 
+  # CHECKING THAT THE GRAPHIC UPLOADS 
   #TRYING AGAIN WITHOUT PRESSING INSERT
   @api 
   Scenario: Upload Old Main
@@ -67,13 +49,34 @@ Scenario: Upload Random Photo
   And I am on "node/add/page"
   And fill in "edit-title" with "Old Main"
   And fill in "Body" with "Demo body content"
-When I attach the file "../../../main.jpg" to "edit-field-photo-und-0-upload"
+  When I attach the file "main.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
   And I press "edit-field-photo-und-0-upload-button"
-  # And I press "Insert"
- When I press "edit-submit"
+  And I wait 5 seconds
+  Then I should see "File information"
+  And I should see "Operations"
+  When I press "Insert"
+  And When I press "edit-submit"
   Then I should see "Old Main"
   And I should see "Demo body content"
+  
+  
+ #TEST THREE ; WHAT IF GRAPHIC DOESN'T EXIST
+
+@api 
+Scenario: Upload Random Photo
+  Given I am logged in as a user with the "site_owner" role
+  And I am on "node/add/page"
+  And fill in "edit-title" with "Random Photo"
+  And fill in "Body" with "photo does not exist"
+  And I attach the file "randomPhotoOfMountains.jpg" to "edit-field-photo-und-0-upload"
+  And I fill in "edit-field-photo-und-0-alt" with "My dog"
+ When I press "edit-submit"
+  Then I should see "Random Photo"
+  And I should see "photo does not exist"
+ 
+  
+ 
   
   # APPARENTLY PROGRAM COULD FIND SEAGULL.JPG; COULDN'T FIND THE INSERT BUTTON. CHANGING SELECTOR OF INSERT BUTTON
   @api 
@@ -82,10 +85,10 @@ When I attach the file "../../../main.jpg" to "edit-field-photo-und-0-upload"
   And I am on "node/add/page"
   And fill in "edit-title" with "Seagull"
   And fill in "Body" with "Demo body content"
-When I attach the file "../../../../seagull.jpg" to "edit-field-photo-und-0-upload"
+When I attach the file "../../../seagull.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
   And I press "Upload"
-  And I press "image_image"
+  
  When I press "edit-submit"
   Then I should see "Seagull"
   And I should see "Demo body content"
