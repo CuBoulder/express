@@ -25,12 +25,11 @@ Scenario: Upload Castle Graphic
 And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "castle.jpg"
+ And I should see "Insert"
  And I press "edit-submit"
-  Then I should be on "/castle"
+  Then I should be on "/castles"
   And I should see "Castles"
   And I should see "The development of defensive architecture"
-  And I should be on "/castle"
- 
   
 @api 
 #TEST TWO: A GRAPHIC CAN BE INSERTED
@@ -49,6 +48,7 @@ Scenario: Upload Cupcakes Graphic
 And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "cupcakes.jpg"
+ And I should see "Insert"
   #CAN WE INSERT THIS?
  And I press "Insert"
   And I press "edit-submit"
@@ -56,11 +56,7 @@ And I should see "File information"
   And I should see "Cupcakes"
   And I should see "Little cakes with frosting"
   And I should see "Yummy goodness"
-    And the response should contain "alt=\"Yummy goodness\""
-    
-     
- 
- 
+    And the response should contain "alt=\"Yummy goodness\"
  
 @api 
 #TEST THREE
@@ -104,13 +100,12 @@ Scenario: Upload Old Main Graphic
  And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "main.jpg"
- #CAN WE INSERT THIS?
- And I press "Insert"
+And I should see "Insert"
  And I press "edit-submit"
   Then I should be on "/oldmain"
   And I should see "OldMain"
   And I should see "Demo body content"
- And the response should contain "alt=\"Scenic Photo\""
+
  
 @api 
 #TEST FIVE
@@ -129,6 +124,7 @@ Scenario: Upload Mountains Graphic
  And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "mountains.jpg"
+ And I should see "Insert"
   #CAN WE INSERT THIS?
  And I press "Insert"
  And I press "edit-submit"
@@ -149,7 +145,7 @@ Scenario: Upload MTN BEE Graphic
  And I press "edit-submit"
  Then I should see "MtnBee"
  And I follow "Edit"
- Then I should see "Edit Basic page Mtn Bee"
+ Then I should see "Edit Basic page MtnBee"
  Then I should see "This document is now locked against simultaneous editing"
 And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
@@ -179,6 +175,7 @@ Scenario: Upload Ralphie Graphic
 And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "ralphie.jpg"
+ And I should see "Insert"
   #CAN WE INSERT THIS?
  And I press "Insert"
  And I press "edit-submit"
