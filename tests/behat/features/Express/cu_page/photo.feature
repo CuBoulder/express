@@ -26,8 +26,10 @@ And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "castle.jpg"
  And I press "edit-submit"
-  Then I should see "Castles"
+  Then I should be on "/castle"
+  And I should see "Castles"
   And I should see "The development of defensive architecture"
+  And I should be on "/castle"
  
   
 @api 
@@ -49,8 +51,9 @@ And I should see "File information"
  And I should see "cupcakes.jpg"
   #CAN WE INSERT THIS?
  And I press "Insert"
- And I press "edit-submit"
-  Then I should see "Cupcakes"
+  And I press "edit-submit"
+  Then I should be on "/cupcakes"
+  AndI should see "Cupcakes"
   And I should see "Little cakes with frosting"
   And I should see "Yummy goodness"
     And the response should contain "alt=\"Yummy goodness\""
@@ -79,7 +82,8 @@ And I should see "File information"
   #CAN WE INSERT THIS?
  And I press "Insert"
  And I press "edit-submit"
-  Then I should see "Dogs"
+  Then I should be on "/dogs"
+  And I should see "Dogs"
   And I should see "Demo body content"
   And the response should contain "alt=\"Scenic Photo\""
   
@@ -103,7 +107,8 @@ Scenario: Upload Old Main Graphic
  #CAN WE INSERT THIS?
  And I press "Insert"
  And I press "edit-submit"
-  Then I should see "OldMain"
+  Then I should be on "/oldmain"
+  And I should see "OldMain"
   And I should see "Demo body content"
  And the response should contain "alt=\"Scenic Photo\""
  
@@ -127,7 +132,8 @@ Scenario: Upload Mountains Graphic
   #CAN WE INSERT THIS?
  And I press "Insert"
  And I press "edit-submit"
-  Then I should see "Mountains"
+  Then I should be on "/mountains"
+  And I should see "Mountains"
   And I should see "Demo body content"
  And the response should contain "alt=\"Scenic Photo\""
   
@@ -151,7 +157,8 @@ And I should see "File information"
   #CAN WE INSERT THIS?
  And I press "Insert"
  And I press "edit-submit"
-  Then I should see "MtnBee"
+  Then I should be on "/mtnbee"
+  And I should see "MtnBee"
   And I should see "Demo body content"
   And I should see "Scenic Photo"
   
@@ -175,7 +182,8 @@ And I should see "File information"
   #CAN WE INSERT THIS?
  And I press "Insert"
  And I press "edit-submit"
-  Then I should see "Ralphie"
+  Then I should be on "/ralphie"
+  AndI should see "Ralphie"
   And I should see "Demo body content"
   And I should see "Scenic Photo"
   
@@ -196,8 +204,9 @@ Scenario: Upload Saabs Graphic
 And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "saab.jpg"
- And I press "edit-submit"
-  Then I should see "Saabs"
+  And I press "edit-submit"
+  Then I should be on "/saabs"
+  And I should see "Saabs"
   And I should see "Demo body content"
   And I should see "Scenic Photo"
   
@@ -219,7 +228,8 @@ Scenario: Upload Seagull Graphic
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "seagull.jpg"
  And I press "edit-submit"
-  Then I should see "Seagull"
+  Then I should be on "/seagull"
+  And I should see "Seagull"
   And I should see "Demo body content"
  And the response should contain "alt=\"Scenic Photo\"" 
   
@@ -241,7 +251,8 @@ Scenario: Upload Sunset Graphic
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "sunset.jpg"
  And I press "edit-submit"
-  Then I should see "Sunset"
+  Then I should be on "/sunset"
+  And I should see "Sunset"
   And I should see "Demo body content"
   And I should see "Scenic Photo"
 
