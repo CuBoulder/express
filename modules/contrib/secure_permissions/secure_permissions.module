@@ -254,17 +254,19 @@ function secure_permissions_build_permissions() {
       }
     }
 
-    // TEMP = don't reset site_editors when we get to that rid
-    switch ($role) {
-    case 'site_editor':
-        $site_editor_rid = $rid;
-        break;
-    case 'site_owner':
-        $site_owner_perms = $perms;
+    if (secure_permissions_variable('secure_permissions_sync_roles')) {
+     // TEMP = don't reset site_editors when we get to that rid
+     switch ($role) {
+     case 'site_editor':
+         $site_editor_rid = $rid;
+         break;
+     case 'site_owner':
+         $site_owner_perms = $perms;
+         user_role_change_permissions($rid, $perms);
+         break;
+     default:
         user_role_change_permissions($rid, $perms);
-        break;
-    default:
-       user_role_change_permissions($rid, $perms);
+     }
     }
   }
 
@@ -565,6 +567,18 @@ function secure_permissions_form() {
   $form['help'] = array(
     '#markup' => t('The following modules implement secure permissions: !list !extra', array('!list' => $module_list, '!extra' => $extra)),
   );
+
+  $form['temp_express'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Temporary Express Customiztion'),
+  );
+  $form['temp_express']['secure_permissions_sync_roles'] = array(
+    '#type' => 'checkbox',
+    '#default_value' => secure_permissions_variable('secure_permissions_sync_roles'),
+    '#title' => t('Synchronize Site Owner and Site Editor Permissions'),
+    '#description' => t('This overrides any role specific arrays.'),
+  );
+
   $form['user_interface'] = array(
     '#type' => 'fieldset',
     '#title' => t('User interface settings'),
