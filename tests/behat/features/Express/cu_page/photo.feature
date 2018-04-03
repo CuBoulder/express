@@ -34,29 +34,28 @@ Scenario: Upload Cupcakes Graphic
  And I press "edit-submit"
  And I follow "Edit"
  Then I should see "This document is now locked against simultaneous editing"
- # And I press "Insert"
- When I press "image_image"
+ And I press "Insert"
  And I press "edit-submit"
   Then I should see "Cupcakes"
   And I should see "Little cakes with frosting"
   And I should see "Yummy goodness"
  
  
- #TEST THREE ; WHAT IS GRAPHIC DOESN'T EXIST
+ #TEST THREE ; WHAT IF GRAPHIC DOESN'T EXIST
 
 @api 
-Scenario: Upload Dog
+Scenario: Upload Random Photo
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
-  And fill in "edit-title" with "Dog"
+  And fill in "edit-title" with "Random Photo"
   And fill in "Body" with "Who is a good dog"
   And I attach the file "randomPhotoOfMountains.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "My dog"
   And I press "edit-field-photo-und-0-upload-button"
-  And I wait for AJAX
-  And I press "image_image"
+  # And I wait for AJAX
+  And I press "Insert"
  When I press "edit-submit"
-  Then I should see "Dog"
+  Then I should see "Random Photo"
   And I should see "Who is a good dog"
  
   
@@ -70,7 +69,7 @@ Scenario: Upload Dog
 When I attach the file "../../../main.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
   And I press "Upload"
-  $ And I press "Insert"
+  # And I press "Insert"
  When I press "edit-submit"
   Then I should see "Old Main"
   And I should see "Demo body content"
