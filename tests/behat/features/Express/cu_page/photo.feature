@@ -31,26 +31,26 @@ Scenario: Upload Cupcakes Graphic
  And I follow "Edit"
  And I press "Insert"
  And I press "edit-submit"
-  Then I should see "Castles"
+  Then I should see "Cupcakes"
   And I should see "Cupcakes are little cakes"
+  And I should see "Sample Cupcakes"
  
  
- #TEST THREE USING JAVASCRIPT  
-@api @javascript
+ #TEST THREE 
+@api 
 Scenario: Upload Dog
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Dog"
-   And I follow "Disable rich-text"
-  And fill in "Body" with "Demo body content"
+  And fill in "Body" with "Who is a good dog"
   And I attach the file "dog.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "My dog"
-  And I press "Upload"
+  And I press "edit-field-photo-und-0-upload-button"
   And I wait for AJAX
-  And I press "Insert"
+  And I press "image_image"
  When I press "edit-submit"
   Then I should see "Dog"
-  And I should see "Demo body content"
+  And I should see "Who is a good dog"
  
   
   @api 
@@ -84,7 +84,7 @@ When I attach the file "../../../../seagull.jpg" to "edit-field-photo-und-0-uplo
  @api 
  Scenario: Upload Mountains
   Given I am logged in as a user with the "site_owner" role
-  And I am on "node/add/page"
+   And I am on "node/add/page"
   And fill in "edit-title" with "Mountains"
   And fill in "Body" with "Demo body content"
 When I attach the file "assets/mountains.jpg" to "edit-field-photo-und-0-upload"
