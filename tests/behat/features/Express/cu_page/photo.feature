@@ -35,7 +35,7 @@ Scenario: A graphic can be inserted in the page
  And fill in "Body" with "Little cakes with frosting"
  And I attach the file "assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
-  And I press "edit-field-photo-und-1-upload-button"
+  And I press "edit-field-photo-und-0-upload-button"
   And I wait 5 seconds
  Then I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
@@ -84,7 +84,7 @@ Scenario: Upload Mountains Graphic
  And fill in "Body" with "Demo body content"
  And I attach the file "assets/mountains.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Pink clouds, blue mountains"
- And I press "edit-field-photo-und-1-upload-button"
+ And I press "edit-field-photo-und-0-upload-button"
   And I wait 5 seconds
  Then I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
