@@ -1,4 +1,4 @@
-=@page @photo
+@page @photo
 Feature: A Basic Page can contain many types of photos
 When I create a Basic Page
 As an authenticated user
