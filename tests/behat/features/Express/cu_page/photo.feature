@@ -65,7 +65,7 @@ Scenario: Upload Dog Graphic
 And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "dog.jpg"
- And I select "image_hero" from "Style"
+ And I select "image_hero" from "Style:"
   #CAN WE INSERT THIS?
  And I click "Insert"
  And I press "edit-submit"
@@ -90,7 +90,7 @@ Scenario: Upload Mountains Graphic
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "mountains.jpg"
  And I should see "Insert"
-   And I select "colorbox__square" from "Style"
+   And I select "colorbox__square" from "Style:"
   #CAN WE INSERT THIS?
  And I click "Insert"
  And I press "edit-submit"
