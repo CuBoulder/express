@@ -307,7 +307,7 @@ sup,',
         'status' => 1,
         'settings' => array(
           'settings_source' => 'local',
-          'local_paths' => '',
+          'local_paths' => _create_cu_pathologic_paths(),
           'protocol_style' => 'full',
           'local_settings' => array(
             'protocol_style' => 'proto-rel',
