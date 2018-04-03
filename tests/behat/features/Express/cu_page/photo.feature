@@ -4,23 +4,18 @@ When I create a Basic Page
 As an authenticated user
 I should be able to upload and place a photo
 
- #  NOTES ON TESTING:
- # 'WAIT FOR AJAX' IS NOT SUPPORTED BY GOUTTE DRIVER
-
-# An authenticated user should be able to create a basic page node with a photo
-#TEST ONE: A GRAPHIC CAN BE UPLOADED
+#THIS TEST UPLOADS A GRAPHIC; SAVES, THEN VERIFIES THAT IT HAS BEEN UPLOADED AND THAT WE ARE ON CORRECT PAGE
 @api 
-Scenario: Upload Castle Graphic
+Scenario: A graphic can be uploaded
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Castles"
   And I fill in "Body" with "The development of defensive architecture"
   And I attach the file "assets/castle.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
+  And I fill in "edit-field-photo-und-0-alt" with "A ruined castle in the fog"
   And I press "edit-submit"
  And I follow "Edit"
  Then I should see "Edit Basic page Castles"
- Then I should see "This document is now locked against simultaneous editing"
  # THIS NEXT LINE PROVES IT WAS UPLOADED
 And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
@@ -32,31 +27,25 @@ And I should see "File information"
   And I should see "The development of defensive architecture"
   
 @api 
-#TEST TWO: A GRAPHIC CAN BE INSERTED
-Scenario: Upload Cupcakes Graphic
+#TEST TWO: THIS TEST UPLOADS AND INSERTS A GRAPHIC AT THE DEFAULT SIZE
+Scenario: A graphic can be inserted in the page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Cupcakes"
  And fill in "Body" with "Little cakes with frosting"
  And I attach the file "assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Yummy goodness"
- And I press "edit-submit"
- Then I should see "Cupcakes"
- And I follow "Edit"
- Then I should see "Edit Basic page Cupcakes"
- Then I should see "This document is now locked against simultaneous editing"
-And I should see "File information"
+  And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
+  And I wait 5 seconds
+ And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "cupcakes.jpg"
- And I should see "Insert"
-  #CAN WE INSERT THIS?
- And I click "Insert"
-  And I press "edit-submit"
+  And I click "Insert"
+ And I press "edit-submit"
   Then I should be on "/cupcakes"
   And I should see "Cupcakes"
   And I should see "Little cakes with frosting"
   And I should see "Yummy goodness"
-    And the response should contain "alt=\"Yummy goodness\"
+And the response should contain "alt=\"Lavender and lemony goodness\"
  
 @api 
 #TEST THREE
@@ -66,7 +55,7 @@ Scenario: Upload Dog Graphic
   And fill in "edit-title" with "Dogs"
  And fill in "Body" with "Demo body content"
  And I attach the file "assets/dog.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
+  And I fill in "edit-field-photo-und-0-alt" with "Red heeler with sunflower"
  And I press "edit-submit"
  Then I should see "Dogs"
  And I follow "Edit"
@@ -75,36 +64,14 @@ Scenario: Upload Dog Graphic
 And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "dog.jpg"
+ And I select "image_hero" from "insert-style"
   #CAN WE INSERT THIS?
- And I follow "Insert"
+ And I click "Insert"
  And I press "edit-submit"
   Then I should be on "/dogs"
   And I should see "Dogs"
   And I should see "Demo body content"
-  And the response should contain "alt=\"Scenic Photo\""
-  
-@api 
-#TEST Four
-Scenario: Upload Old Main Graphic
-  Given I am logged in as a user with the "site_owner" role
-  And I am on "node/add/page"
-  And fill in "edit-title" with "OldMain"
- And fill in "Body" with "Demo body content"
- And I attach the file "assets/main.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
- And I press "edit-submit"
- Then I should see "OldMain"
- And I follow "Edit"
- Then I should see "Edit Basic page OldMain"
- Then I should see "This document is now locked against simultaneous editing"
- And I should see "File information"
- And I should see "Click and drag the crosshair to target the most important portion of the image"
- And I should see "main.jpg"
-And I should see "Insert"
- And I press "edit-submit"
-  Then I should be on "/oldmain"
-  And I should see "OldMain"
-  And I should see "Demo body content"
+  And the response should contain "alt=\"Red heeler with sunflower\""
 
  
 @api 
@@ -177,7 +144,7 @@ And I should see "File information"
  And I should see "ralphie.jpg"
  And I should see "Insert"
   #CAN WE INSERT THIS?
- And I press "Insert"
+ And I click "Insert"
  And I press "edit-submit"
   Then I should be on "/ralphie"
   And I should see "Ralphie"
@@ -201,6 +168,7 @@ Scenario: Upload Saabs Graphic
 And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "saab.jpg"
+  And I click "Insert"
   And I press "edit-submit"
   Then I should be on "/saabs"
   And I should see "Saabs"
@@ -224,6 +192,7 @@ Scenario: Upload Seagull Graphic
  And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "seagull.jpg"
+  And I click "Insert"
  And I press "edit-submit"
   Then I should be on "/seagull"
   And I should see "Seagull"
@@ -247,6 +216,7 @@ Scenario: Upload Sunset Graphic
  And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "sunset.jpg"
+  And I click "Insert"
  And I press "edit-submit"
   Then I should be on "/sunset"
   And I should see "Sunset"
