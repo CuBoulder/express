@@ -66,8 +66,8 @@ function express_dashboard_user_content() {
   }
 
   // Begin working on Webcentral dashboard.
-  $output['left']['widgets']['test']['title'] = 'My Sites';
-  $output['left']['widgets']['test']['content']['#markup'] = _user_sites_from_atlas($user); //t('Insert a form here that shows Atlas statistics links.<br><hr>');
+  $output['left']['widgets']['my_sites']['title'] = 'My Sites';
+  $output['left']['widgets']['my_sites']['content']['#markup'] = _user_sites_from_atlas($user); //t('Insert a form here that shows Atlas statistics links.<br><hr>');
 
   // Add status.
   $express_status = module_invoke('express_status', 'block_view', 'express_status');
@@ -85,9 +85,12 @@ function express_dashboard_user_content() {
   return $output;
 }
 
+/**
+ * Callback for My Sites widget on express_dashboard_user_content.
+ */
 function _user_sites_from_atlas(&$user) {
-  //global $base_url;
-  $base_url = 'https://www.colorado.edu';
+  global $base_url;
+  $output = '';
   switch ($base_url) {
     case 'https://www-dev.colorado.edu':
       $env = 'https://osr-atlas01.int.colorado.edu';
@@ -225,59 +228,4 @@ function express_dashboard_user_user_view($account) {
     drupal_goto('admin/dashboard');
   }
 
-}
-
-function express_dashboard_user_page_alter(&$page) {
-  global $user;
-  $base_url = 'https://www.colorado.edu';
-  switch ($base_url) {
-    case 'https://www-dev.colorado.edu':
-      $env = 'https://osr-atlas01.int.colorado.edu';
-      break;
-    case 'https://www-test.colorado.edu':
-      $env = 'https://osr-atlas02.int.colorado.edu';
-      break;
-    case 'https://www.colorado.edu':
-      $env = 'https://osr-atlas03.int.colorado.edu';
-      break;
-    default:
-      $env = 'https://osr-atlas03.int.colorado.edu';
-  }
-
-  $query = '';
-  $user_roles = array(
-    'content_editor',
-    'edit_my_content',
-    'site_contact',
-  );
-  foreach ($user_roles as $rid => $role_name) {
-    $link = $env . '/atlas/statistics?where={"users.username.' . $role_name . '":"' . $user->name . '"}';
-    $query .= '<a href="'. $link .'" target="_blank">'. $role_name .'</a><br><br>';
-    $http_output[] = drupal_http_request($link);
-  }
-
-  foreach ($http_output as $data) {
-    $json_info = json_decode($data->data);
-    if (isset($json_info->_items)) {
-      foreach ($json_info->_items as $site) {
-        $link = $env . '/atlas/sites/' . $site->site;
-        $atlas_sites[] = $link;
-      }
-    } else {
-      $atlas_sites = array();
-      break;
-    }
-  }
-
-  // Now get Atlas data for the sites so we can retrieve a path.
-  // https://youtu.be/2UbtcmjfKa8?t=3m41s
-  foreach ($atlas_sites as $site) {
-    $atlas_sites_output = drupal_http_request($site);
-    $json_info = json_decode($atlas_sites_output->data);
-    $link_builder = $base_url . '/' . $json_info->path;
-    $login = $link_builder . '/user';
-    dpm($login);
-  }
-
-  dpm($output);
 }
