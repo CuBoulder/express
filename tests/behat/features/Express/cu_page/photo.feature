@@ -1,4 +1,4 @@
-@page @photo
+@photo
 Feature: A Basic Page can contain many types of photos
 When I create a Basic Page
 As an authenticated user
@@ -28,7 +28,7 @@ And I should see "File information"
   
 @api 
 #TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON
-Scenario: A graphic can be inserted in the page
+Scenario: A graphic can be uploaded and inserted into a page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Cupcakes"
@@ -65,8 +65,8 @@ Scenario: Upload Dog Graphic
 And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "dog.jpg"
+ # SYSTEM CANNOT FIND THE SELECT OPTIONS
  And I select "image_hero" from "Style:"
-  #CAN WE INSERT THIS?
  And I click "Insert"
  And I press "edit-submit"
   Then I should be on "/dogs"
@@ -99,126 +99,4 @@ Scenario: Upload Mountains Graphic
   And I should see "Demo body content"
  And the response should contain "alt=\"Pink clouds, blue mountains\""
   
-@api 
-#TEST SIX
-Scenario: Upload MTN BEE Graphic
-  Given I am logged in as a user with the "site_owner" role
-  And I am on "node/add/page"
-  And fill in "edit-title" with "MtnBee"
- And fill in "Body" with "Demo body content"
- And I attach the file "assets/mtnbee.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
- And I press "edit-submit"
- Then I should see "MtnBee"
- And I follow "Edit"
- Then I should see "Edit Basic page MtnBee"
- Then I should see "This document is now locked against simultaneous editing"
-And I should see "File information"
- And I should see "Click and drag the crosshair to target the most important portion of the image"
- And I should see "mtnbee.jpg"
-  #CAN WE INSERT THIS?
- And I follow "Insert"
- And I press "edit-submit"
-  Then I should be on "/mtnbee"
-  And I should see "MtnBee"
-  And I should see "Demo body content"
-  And I should see "Scenic Photo"
-  
-@api 
-#TEST SEVEN
-Scenario: Upload Ralphie Graphic
-  Given I am logged in as a user with the "site_owner" role
-  And I am on "node/add/page"
-  And fill in "edit-title" with "Ralphie"
- And fill in "Body" with "Demo body content"
- And I attach the file "assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
- And I press "edit-submit"
- Then I should see "Ralphie"
- And I follow "Edit"
- Then I should see "Edit Basic page Ralphie"
- Then I should see "This document is now locked against simultaneous editing"
-And I should see "File information"
- And I should see "Click and drag the crosshair to target the most important portion of the image"
- And I should see "ralphie.jpg"
- And I should see "Insert"
-  #CAN WE INSERT THIS?
- And I click "Insert"
- And I press "edit-submit"
-  Then I should be on "/ralphie"
-  And I should see "Ralphie"
-  And I should see "Demo body content"
-  And I should see "Scenic Photo"
-  
-@api 
-#TEST EIGHT
-Scenario: Upload Saabs Graphic
-  Given I am logged in as a user with the "site_owner" role
-  And I am on "node/add/page"
-  And fill in "edit-title" with "Saabs"
- And fill in "Body" with "Demo body content"
- And I attach the file "assets/saab.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
- And I press "edit-submit"
- Then I should see "Saab"
- And I follow "Edit"
- Then I should see "Edit Basic page Saabs"
- Then I should see "This document is now locked against simultaneous editing"
-And I should see "File information"
- And I should see "Click and drag the crosshair to target the most important portion of the image"
- And I should see "saab.jpg"
-  And I click "Insert"
-  And I press "edit-submit"
-  Then I should be on "/saabs"
-  And I should see "Saabs"
-  And I should see "Demo body content"
-  And I should see "Scenic Photo"
-  
-@api 
-#TEST NINE
-Scenario: Upload Seagull Graphic
-  Given I am logged in as a user with the "site_owner" role
-  And I am on "node/add/page"
-  And fill in "edit-title" with "Seagull"
- And fill in "Body" with "Demo body content"
- And I attach the file "assets/seagull.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
- And I press "edit-submit"
- Then I should see "Seagull"
- And I follow "Edit"
- Then I should see "Edit Basic page Seagull"
- Then I should see "This document is now locked against simultaneous editing"
- And I should see "File information"
- And I should see "Click and drag the crosshair to target the most important portion of the image"
- And I should see "seagull.jpg"
-  And I click "Insert"
- And I press "edit-submit"
-  Then I should be on "/seagull"
-  And I should see "Seagull"
-  And I should see "Demo body content"
- And the response should contain "alt=\"Scenic Photo\"" 
-  
-@api 
-#TEST NINE
-Scenario: Upload Sunset Graphic
-  Given I am logged in as a user with the "site_owner" role
-  And I am on "node/add/page"
-  And fill in "edit-title" with "Sunset"
- And fill in "Body" with "Demo body content"
- And I attach the file "assets/sunset.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
- And I press "edit-submit"
- Then I should see "Sunset"
- And I follow "Edit"
- Then I should see "Edit Basic page Sunset"
- Then I should see "This document is now locked against simultaneous editing"
- And I should see "File information"
- And I should see "Click and drag the crosshair to target the most important portion of the image"
- And I should see "sunset.jpg"
-  And I click "Insert"
- And I press "edit-submit"
-  Then I should be on "/sunset"
-  And I should see "Sunset"
-  And I should see "Demo body content"
-  And I should see "Scenic Photo"
 
