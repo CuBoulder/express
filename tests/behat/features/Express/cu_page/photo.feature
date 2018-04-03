@@ -23,7 +23,7 @@ Scenario: Upload Castle Graphic
   And I should see "The development of defensive architecture"
   
 @api 
-#TEST TWO: UPLOADING, THEM COMING BACK AND INSERTING THE GRAPHIC
+#TEST TWO: UPLOADING BY SAVING, THEM COMING BACK AND INSERTING THE GRAPHIC
 Scenario: Upload Cupcakes Graphic
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -59,7 +59,8 @@ Scenario: Upload Random Photo
   And I should see "Who is a good dog"
  
   
-  # SO APPARENTLY THE PROGRAM WAS ABLE TO FIND MAIN.JPG. BUT COULDN'T FIND INSERT. TRYING AGAIN WITHOUT PRESSING INSERT
+  # SO APPARENTLY THE PROGRAM WAS ABLE TO FIND MAIN.JPG. BUT COULDN'T FIND INSERT. 
+  #TRYING AGAIN WITHOUT PRESSING INSERT
   @api 
   Scenario: Upload Old Main
   Given I am logged in as a user with the "site_owner" role
@@ -68,13 +69,13 @@ Scenario: Upload Random Photo
   And fill in "Body" with "Demo body content"
 When I attach the file "../../../main.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Scenic Photo"
-  And I press "Upload"
+  And I press "edit-field-photo-und-0-upload-button"
   # And I press "Insert"
  When I press "edit-submit"
   Then I should see "Old Main"
   And I should see "Demo body content"
   
-  APPARENTLY PROGRAM COULD FIND SEAGULL.JPG; COULDN'T FIND THE INSERT BUTTON. CHANGING SELECTOR OF INSERT BUTTON
+  # APPARENTLY PROGRAM COULD FIND SEAGULL.JPG; COULDN'T FIND THE INSERT BUTTON. CHANGING SELECTOR OF INSERT BUTTON
   @api 
   Scenario: Upload Seagull
   Given I am logged in as a user with the "site_owner" role
