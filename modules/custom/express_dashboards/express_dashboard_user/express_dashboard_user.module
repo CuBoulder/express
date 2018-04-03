@@ -90,6 +90,7 @@ function express_dashboard_user_content() {
  */
 function _user_sites_from_atlas(&$user) {
   global $base_url;
+
   $output = '';
   switch ($base_url) {
     case 'https://www-dev.colorado.edu':
@@ -138,7 +139,7 @@ function _user_sites_from_atlas(&$user) {
     $link_builder = $base_url . '/' . $json_info->path;
     $login = $link_builder . '/user';
 
-    $output .= '<div class="atlas-user-sites" style="border:1px solid black;margin:3%;padding:3%;"><h3>' . $json_info->path . '</h3><p><a href="' . $link_builder . '">Visit Site</a> | <a href="' . $login . '">Login</a></p></div>';
+    $output .= '<div class="atlas-user-sites"><h3>' . $json_info->path . '</h3><p><a href="' . $link_builder . '" target="_blank">Visit</a><a href="' . $login . '" target="_blank">Login</a></p></div>';
   }
 
   return $output;
