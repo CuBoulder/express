@@ -30,65 +30,52 @@ Scenario: A very basic Basic Page node can be created
   And fill in "edit-title" with "My Page"
   And fill in "Body" with "Lorem ipsum dolor sit amet"
   When I press "edit-submit"
- Then I should see "My Page"
+ Then I should be on "/my-page"
+ And I should see "My Page"
   And I should see "Lorem ipsum dolor sit amet"
   
-#UPLOADING A GRAPHIC - THIS WORKS
 @api
-Scenario: A graphic can be uploaded into a Basic Page
+Scenario: A graphic can be uploaded and inserted into a Basic Page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
-  And fill in "edit-title" with "About Ralphie"
+  And fill in "edit-title" with "Ralphie"
   # THIS NEXT LINE IS A WORKAROUND FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
   # And I follow "Disable rich-text"
   And fill in "Body" with "Ralphie the Buffalo is the name of the live mascot of the University of Colorado Buffaloes."
- And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
+ And I attach the file "assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
 And I fill in "edit-field-photo-und-0-alt" with "Ralphie Buffalo with handlers"
-  When I press "edit-submit"
-  Then I should see "About Ralphie"
+And I press "edit-field-photo-und-0-upload-button"
+  And I wait 5 seconds
+ Then I should see "File information"
+ And I should see "ralphie.jpg"
+ # PRESSING INSERT DOES NOT WORK And I press "Insert"
+  And I click "Insert"
+   And I press "edit-submit"
+   Then I should be on "/ralphie"
+And I should see "Ralphie"
   And I should see "Ralphie the Buffalo is the name of the live mascot of the University of Colorado Buffaloes."
-
- #INSERTING A GRAPHIC
-@api @javascript
-Scenario: A graphic can be inserted into a Basic Page
-  Given I am logged in as a user with the "site_owner" role
-  And I am on "node/add/page"
-  And fill in "edit-title" with "Buffalo"
-  # THIS NEXT LINE WILL FIND THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
-  And I follow "Disable rich-text"
-  And fill in "Body" with "The first Ralphie was donated to the school in 1966."
- And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
-And I fill in "edit-field-photo-und-0-alt" with "Ralphie with her handlers"
-  And I press "edit-field-photo-und-0-upload-button"
-  And I wait 10 seconds
-  And I press "Insert"
-  And I wait 10 seconds
- And I press "edit-submit"
-  Then I should see "Buffalo"
-  And I should see "The first Ralphie was donated to the school in 1966."
- # Then the response should contain "alt=\"Ralphie Buffalo with handlers\""
- 
- 
-#INSERTING A GRAPHIC
-@api @rebuild
-Scenario: A graphic can be inserted into a Basic Page
-  Given I am logged in as a user with the "site_owner" role
-  And I am on "node/add/page"
-  And fill in "edit-title" with "Buffalo"
-  # THIS NEXT LINE IS A WORKAROUND FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
-  # And I follow "Disable rich-text"
-  And fill in "Body" with "The first Ralphie was donated to the school in 1966."
+  And the response should contain "alt=\"Ralphie Buffalo with handlers\"
   
- And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
-And I fill in "edit-field-photo-und-0-alt" with "Ralphie with her handlers"
+ @api 
+#TEST THREE: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON
+Scenario: A graphic can be uploaded and inserted into a page
+  Given I am logged in as a user with the "site_owner" role
+  And I am on "node/add/page"
+  And fill in "edit-title" with "Cupcakes"
+ And fill in "Body" with "Little cakes with frosting"
+ And I attach the file "assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
+  And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
   And I press "edit-field-photo-und-0-upload-button"
-  And I wait 10 seconds
-  And I press "Insert"
-  And I wait 10 seconds
+  And I wait 5 seconds
+ Then I should see "File information"
+ And I should see "cupcakes.jpg"
+ And I should see "Insert"
+  And I click "Insert"
  And I press "edit-submit"
-  Then I should see "Buffalo"
-  And I should see "The first Ralphie was donated to the school in 1966."
- # Then the response should contain "alt=\"Ralphie Buffalo with handlers\""
+  Then I should be on "/cupcakes"
+  And I should see "Cupcakes"
+  And I should see "Little cakes with frosting"
+And the response should contain "alt=\"Lavender and lemony goodness\"
 
 @api 
 Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
