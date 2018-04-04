@@ -140,22 +140,7 @@ function _user_sites_from_atlas(&$user) {
   foreach ($atlas_sites as $site) {
     $atlas_sites_output = drupal_http_request($site);
     $json_info = json_decode($atlas_sites_output->data);
-    switch ($env) {
-      case 'https://osr-atlas01.int.colorado.edu':
-        $link_builder = 'https://www-dev.colorado.edu/' . $json_info->path;
-        break;
-
-      case 'https://osr-atlas02.int.colorado.edu':
-        $link_builder = 'https://www-test.colorado.edu/' . $json_info->path;
-        break;
-
-      case 'https://osr-atlas03.int.colorado.edu':
-        $link_builder = 'https://www.colorado.edu/' . $json_info->path;
-        break;
-        
-      default:
-        $link_builder = 'https://osr-atlas03.int.colorado.edu';
-    }
+    $link_builder = $base_url . '/' . $json_info->path;
     $login = $link_builder . '/user';
 
     $output .= '<div class="atlas-user-sites"><h3>' . $json_info->path . '</h3><p><a href="' . $link_builder . '" target="_blank">Visit</a><a href="' . $login . '" target="_blank">Login</a></p></div>';
