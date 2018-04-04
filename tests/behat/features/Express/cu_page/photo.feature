@@ -30,8 +30,8 @@ And I should see "File information"
   And the response should not contain "alt=\"A ruined castle in the fog\""
   
 @api 
-#TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON; clicks 'insert' element
-Scenario: A graphic can be uploaded and inserted into a page
+#TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON; CHECKING FOR INSERT ELEMENT
+Scenario: A graphic can be uploaded and inserted into a page; checking for an insert element
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Cupcakes"
@@ -44,12 +44,12 @@ Scenario: A graphic can be uploaded and inserted into a page
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "cupcakes.jpg"
  And I should see "Insert"
-  And the "input" element should have "Insert" in the "value" attribute
+And I should see an "Insert" element
  # INSERT IS NOT A LINK; CANNOT FOLLOW And I follow "Insert"
   # CLICKING INSERT IS UNDEFINED STEP And I click "Insert"
   # PRESSING INSERT BUTTON DOESN'T WORK; CAN'T FIND IT APPARENTLY
  # COULD NOT FIND THIS ELEMENT When I click the "input" element with "image_image" for "rel"
- When I click the "Insert" element
+# hold off on this one When I click the "Insert" element
  And I press "edit-submit"
   Then I should be on "/cupcakes"
   And I should see "Cupcakes"
@@ -59,7 +59,7 @@ And the response should contain "alt=\"Lavender and lemony goodness\""
  
   
 @api 
-#TEST THREE: UPLOAD BY SAVING; clicking input element
+#TEST THREE: UPLOAD BY SAVING; clicking 'INSERT' element
 Scenario: Upload a graphic by saving, then come back and insert it
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -75,7 +75,8 @@ And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "mountains.jpg"
  And I should see "Insert"
-  When I click the "input" element with "Insert" for "value"
+# COULD NOT FIND THIS ELEMENT; END UP ON SEARCH PAGE  When I click the "input" element with "Insert" for "value"
+When I click the "Insert" element
  And I press "edit-submit"
   Then I should be on "/mountains"
   And I should see "Mountains"
@@ -99,7 +100,8 @@ Scenario: Inserting a different size graphic than the default
  And I should see "dog.jpg"
  # SYSTEM CANNOT FIND THE SELECT OPTIONS
  # And I select "image_hero" from "Style:"
-  When I click the "input" element with "Insert" for "value"
+ #  When I click the "input" element with "Insert" for "value"
+ When I click the "Insert" element
  And I press "edit-submit"
   Then I should be on "/dogs"
   And I should see "Dogs"
