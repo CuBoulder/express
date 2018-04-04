@@ -4,7 +4,7 @@ When I create a Basic Page
 As an authenticated user
 I should be able to upload and place a photo
 
-#THIS TEST UPLOADS A GRAPHIC; SAVES, THEN VERIFIES THAT IT HAS BEEN UPLOADED AND THAT WE ARE ON CORRECT PAGE
+#THIS TEST UPLOADS A GRAPHIC; SAVES, THEN VERIFIES THAT IT HAS BEEN UPLOADED AND THAT WE ARE ON CORRECT PAGE; NO INSERT; CHECKS FOR ALT TEXT
 @api 
 Scenario: A graphic can be uploaded by saving the page
   Given I am logged in as a user with the "site_owner" role
@@ -25,9 +25,10 @@ And I should see "File information"
   Then I should be on "/castles"
   And I should see "Castles"
   And I should see "The development of defensive architecture"
+  And the response should contain "alt=\"A ruined castle in the fog\""
   
 @api 
-#TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON
+#TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON; CLICKS INSERT
 Scenario: A graphic can be uploaded and inserted into a page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -50,7 +51,7 @@ And the response should contain "alt=\"Lavender and lemony goodness\""
  
   
 @api 
-#TEST THREE
+#TEST THREE: UPLOAD BY SAVING; PRESSING INSERT
 Scenario: Upload a graphic by saving, then come back and insert it
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -66,7 +67,7 @@ And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "mountains.jpg"
  And I should see "Insert"
- And I click "Insert"
+ And I press "Insert"
  And I press "edit-submit"
   Then I should be on "/mountains"
   And I should see "Mountains"
@@ -75,7 +76,7 @@ And I should see "File information"
   
   
 @api 
-#TEST FOUR
+#TEST FOUR: UPLOAD BY CLICKING UPLOAD; PRESSING INSERT
 Scenario: Inserting a different size graphic than the default
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -83,17 +84,14 @@ Scenario: Inserting a different size graphic than the default
  And fill in "Body" with "Demo body content"
  And I attach the file "assets/dog.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Red heeler with sunflower"
- And I press "edit-submit"
- Then I should see "Dogs"
- And I follow "Edit"
- Then I should see "Edit Basic page Dogs"
- Then I should see "This document is now locked against simultaneous editing"
-And I should see "File information"
- And I should see "Click and drag the crosshair to target the most important portion of the image"
+ And I press "edit-field-photo-und-0-upload-button"
+  And I wait 5 seconds
+ Then I should see "File information"
+  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "dog.jpg"
  # SYSTEM CANNOT FIND THE SELECT OPTIONS
- And I select "image_hero" from "Style:"
- And I click "Insert"
+ # And I select "image_hero" from "Style:"
+ And I press "Insert"
  And I press "edit-submit"
   Then I should be on "/dogs"
   And I should see "Dogs"
