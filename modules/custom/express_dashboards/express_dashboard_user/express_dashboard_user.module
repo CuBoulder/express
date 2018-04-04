@@ -67,7 +67,7 @@ function express_dashboard_user_content() {
 
   // Begin working on Webcentral dashboard.
   $output['left']['widgets']['my_sites']['title'] = 'My Sites';
-  $output['left']['widgets']['my_sites']['content']['#markup'] = _user_sites_from_atlas($user); //t('Insert a form here that shows Atlas statistics links.<br><hr>');
+  $output['left']['widgets']['my_sites']['content']['#markup'] = _user_sites_from_atlas($user);
 
   // Add status.
   $express_status = module_invoke('express_status', 'block_view', 'express_status');
@@ -96,12 +96,15 @@ function _user_sites_from_atlas(&$user) {
     case 'https://www-dev.colorado.edu':
       $env = 'https://osr-atlas01.int.colorado.edu';
       break;
+
     case 'https://www-test.colorado.edu':
       $env = 'https://osr-atlas02.int.colorado.edu';
       break;
+
     case 'https://www.colorado.edu':
       $env = 'https://osr-atlas03.int.colorado.edu';
       break;
+
     default:
       $env = 'https://osr-atlas03.int.colorado.edu';
   }
@@ -112,9 +115,9 @@ function _user_sites_from_atlas(&$user) {
     'edit_my_content',
     'site_contact',
   );
-  foreach ($user_roles as $rid => $role_name) {
+  foreach ($user_roles as $role_name) {
     $link = $env . '/atlas/statistics?where={"users.username.' . $role_name . '":"' . $user->name . '"}';
-    $query .= '<a href="'. $link .'" target="_blank">'. $role_name .'</a><br><br>';
+    $query .= '<a href="' . $link . '" target="_blank">' . $role_name . '</a><br><br>';
     $http_output[] = drupal_http_request($link);
   }
 
@@ -128,6 +131,7 @@ function _user_sites_from_atlas(&$user) {
     } else {
       $atlas_sites = array();
       break;
+
     }
   }
 
@@ -140,12 +144,15 @@ function _user_sites_from_atlas(&$user) {
       case 'https://osr-atlas01.int.colorado.edu':
         $link_builder = 'https://www-dev.colorado.edu/' . $json_info->path;
         break;
+
       case 'https://osr-atlas02.int.colorado.edu':
         $link_builder = 'https://www-test.colorado.edu/' . $json_info->path;
         break;
+
       case 'https://osr-atlas03.int.colorado.edu':
         $link_builder = 'https://www.colorado.edu/' . $json_info->path;
         break;
+        
       default:
         $link_builder = 'https://osr-atlas03.int.colorado.edu';
     }
