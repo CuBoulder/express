@@ -24,7 +24,7 @@ And fill in "edit-title" with "Cupcakes1"
 # ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "Lavender frosting"
 And I wait 5 seconds
-And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
+And I attach the file "cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes1"
 And I follow "Edit"
