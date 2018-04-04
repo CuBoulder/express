@@ -20,6 +20,7 @@ Scenario: A graphic can be uploaded by saving the page
 And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "castle.jpg"
+ And the "edit-menu-link-title" element should have "Castles" in the "value" element
  And I should see "Insert"
  And I press "edit-submit"
   Then I should be on "/castles"
@@ -29,7 +30,7 @@ And I should see "File information"
   And the response should not contain "alt=\"A ruined castle in the fog\""
   
 @api 
-#TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON; clicks input element
+#TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON; clicks 'insert' element
 Scenario: A graphic can be uploaded and inserted into a page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -43,9 +44,12 @@ Scenario: A graphic can be uploaded and inserted into a page
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "cupcakes.jpg"
  And I should see "Insert"
+  And the "input" element should have "Insert" in the "value" attribute
  # INSERT IS NOT A LINK; CANNOT FOLLOW And I follow "Insert"
   # CLICKING INSERT IS UNDEFINED STEP And I click "Insert"
- When I click the "input" element with "image_image" for "rel"
+  # PRESSING INSERT BUTTON DOESN'T WORK; CAN'T FIND IT APPARENTLY
+ # COULD NOT FIND THIS ELEMENT When I click the "input" element with "image_image" for "rel"
+ When I click the "Insert" element
  And I press "edit-submit"
   Then I should be on "/cupcakes"
   And I should see "Cupcakes"
