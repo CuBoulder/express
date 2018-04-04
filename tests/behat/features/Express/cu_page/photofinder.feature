@@ -8,15 +8,15 @@
 
 # NOTE: IT IS NECESSARY TO EDIT THE NODE TO VERIFY IMAGE UPLOAD CUZ GOUTTE THINKS IT CAN FIND THE IMAGES WHEN IT CAN NOT
 
-@photofinder 
+@photofinder @javascript
 Feature: Testing Photo Uploads of Goutte Driver and Seleniium Driver
 When testing content creation
 As an authenticated user
 Travis should be able to find assets such as files and photos
 
 @api 
-# cupcakes.jpg
-Scenario: A graphic can be attached to a page node
+# cupcakes.jpg 
+Scenario: A graphic can be attached to a page node (Goutte success)
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes1"
@@ -91,7 +91,7 @@ And the "edit-field-photo-und-0-alt" element should have "purple and yellow" in 
 
 @api 
 # assets/cupcakes.jpg
-Scenario: A graphic can be attached to a page node
+Scenario: A graphic can be attached to a page node (Goutte success)
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes6"
