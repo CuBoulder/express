@@ -29,7 +29,7 @@ Scenario: A basic Slider block can be created
   And I am on "block/add/slider"
  And fill in "edit-label" with "Homepage Slider"
  And fill in "edit-title" with "Slider Title"
-And I attach the file "mountains.jpg" to "edit-field-photo-und-0-upload"
+And I attach the file "mountains.jpg" to "edit-field-slider-slide-und-0-field-slider-image-und-0-upload"
 And I fill in "edit-field-slider-slide-und-0-field-slider-image-und-0-alt" with "Blue Mountains and Pink Clouds"
  And I fill in "edit-field-slider-slide-und-0-field-slider-caption-und-0-value" with "Mountain Fantasy"
  And I fill in "edit-field-slider-slide-und-0-field-slider-link-und-0-url" with "https://www.colorado.edu"
