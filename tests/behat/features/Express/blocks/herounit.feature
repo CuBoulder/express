@@ -52,4 +52,4 @@ Given I am logged in as a user with the "site_owner" role
  Then I should see "A New Hero Unit"
  And I should see "Important News"
  And I should see the link "Click Here"
- And the response should include "hero-unit-overlay"
+ And the response should contain "hero-unit-overlay"
