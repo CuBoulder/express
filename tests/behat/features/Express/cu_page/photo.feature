@@ -25,10 +25,11 @@ And I should see "File information"
   Then I should be on "/castles"
   And I should see "Castles"
   And I should see "The development of defensive architecture"
-  And the response should contain "alt=\"A ruined castle in the fog\""
+  #NEXT LINE SHOWS THAT IMAGE WAS NOT INSERTED INTO BODY
+  And the response should not contain "alt=\"A ruined castle in the fog\""
   
 @api 
-#TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON; FOLLOWS INSERT
+#TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON; clicks input element
 Scenario: A graphic can be uploaded and inserted into a page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -42,17 +43,19 @@ Scenario: A graphic can be uploaded and inserted into a page
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "cupcakes.jpg"
  And I should see "Insert"
-  And I follow "Insert"
+ # INSERT IS NOT A LINK; CANNOT FOLLOW And I follow "Insert"
   # CLICKING INSERT IS UNDEFINED STEP And I click "Insert"
+ When I click the "input" element with "image_image" for "rel"
  And I press "edit-submit"
   Then I should be on "/cupcakes"
   And I should see "Cupcakes"
   And I should see "Little cakes with frosting"
+   #NEXT LINE SHOWS THAT IMAGE WAS INDEED INSERTED INTO BODY
 And the response should contain "alt=\"Lavender and lemony goodness\""
  
   
 @api 
-#TEST THREE: UPLOAD BY SAVING; FOLLOWING INSERT
+#TEST THREE: UPLOAD BY SAVING; clicking input element
 Scenario: Upload a graphic by saving, then come back and insert it
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -68,7 +71,7 @@ And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "mountains.jpg"
  And I should see "Insert"
- And I follow "Insert"
+  When I click the "input" element with "Insert" for "value"
  And I press "edit-submit"
   Then I should be on "/mountains"
   And I should see "Mountains"
@@ -92,7 +95,7 @@ Scenario: Inserting a different size graphic than the default
  And I should see "dog.jpg"
  # SYSTEM CANNOT FIND THE SELECT OPTIONS
  # And I select "image_hero" from "Style:"
- And I follow "Insert"
+  When I click the "input" element with "Insert" for "value"
  And I press "edit-submit"
   Then I should be on "/dogs"
   And I should see "Dogs"
