@@ -70,7 +70,7 @@ $config = array(
 
     'cu_boulder' => array(
       'saml:SP',
-      'entityID' => $url . $match[0], //'www-dev.colorado.edu',
+      'entityID' => 'https://' . $url . '/', //'www-dev.colorado.edu',
       'privatekey' => 'saml.pem',
       'certificate' => 'saml.crt',
       'idp' => 'https://fedauth.colorado.edu/idp/shibboleth',
