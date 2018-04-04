@@ -21,10 +21,10 @@ Scenario: A graphic can be attached to a page node (Goutte success)
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes1"
-And I attach the file "cupcakes.jpg" to "edit-field-photo-und-0-upload"
+# ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "Lavender frosting"
-# PAUSE TO WATCH SAUCELABS
 And I wait 5 seconds
+And I attach the file "cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes1"
 And I follow "Edit"
@@ -38,10 +38,10 @@ Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes2"
-And I attach the file "../cupcakes.jpg" to "edit-field-photo-und-0-upload"
+# ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
-# PAUSE TO WATCH SAUCELABS
 And I wait 5 seconds
+And I attach the file "../cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes2"
 And I follow "Edit"
@@ -55,10 +55,10 @@ Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes3"
-And I attach the file "../../cupcakes.jpg" to "edit-field-photo-und-0-upload"
+# ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "Lemon cakes"
-# PAUSE TO WATCH SAUCELABS
 And I wait 5 seconds
+And I attach the file "../../cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes3"
 And I follow "Edit"
@@ -72,10 +72,10 @@ Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes4"
-And I attach the file "../../../cupcakes.jpg" to "edit-field-photo-und-0-upload"
+# ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "piles of frosting"
-# PAUSE TO WATCH SAUCELABS
 And I wait 5 seconds
+And I attach the file "../../../cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes4"
 And I follow "Edit"
@@ -89,10 +89,10 @@ Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes5"
-And I attach the file "../../../../cupcakes.jpg" to "edit-field-photo-und-0-upload"
+# ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "purple and yellow"
-# PAUSE TO WATCH SAUCELABS
 And I wait 5 seconds
+And I attach the file "../../../../cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes5"
 And I follow "Edit"
@@ -106,10 +106,10 @@ Scenario: A graphic can be attached to a page node (Goutte success)
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes6"
-And I attach the file "assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
+# ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "Lavender lemon"
-# PAUSE TO WATCH SAUCELABS
 And I wait 5 seconds
+And I attach the file "assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes6"
 And I follow "Edit"
@@ -123,10 +123,10 @@ Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes7"
-And I attach the file "../assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
+# ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "delicious little cupcakes"
-# PAUSE TO WATCH SAUCELABS
 And I wait 5 seconds
+And I attach the file "../assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes7"
 And I follow "Edit"
@@ -140,10 +140,10 @@ Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes8"
-And I attach the file "../../assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
+# ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "candy sprinkles"
-# PAUSE TO WATCH SAUCELABS
 And I wait 5 seconds
+And I attach the file "../../assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes8"
 And I follow "Edit"
@@ -157,10 +157,10 @@ Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes9"
-And I attach the file "../../../assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
+# ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "happy birthday"
-# PAUSE TO WATCH SAUCELABS
 And I wait 5 seconds
+And I attach the file "../../../assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes9"
 And I follow "Edit"
@@ -174,10 +174,10 @@ Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes10"
-And I attach the file "../../../../assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
+# ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "sweet little cakes"
-# PAUSE TO WATCH SAUCELABS
 And I wait 5 seconds
+And I attach the file "../../../../assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes10"
 And I follow "Edit"
