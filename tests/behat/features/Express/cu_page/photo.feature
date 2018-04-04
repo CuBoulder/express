@@ -28,7 +28,7 @@ And I should see "File information"
   And the response should contain "alt=\"A ruined castle in the fog\""
   
 @api 
-#TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON; CLICKS INSERT
+#TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON; FOLLOWS INSERT
 Scenario: A graphic can be uploaded and inserted into a page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -42,7 +42,8 @@ Scenario: A graphic can be uploaded and inserted into a page
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "cupcakes.jpg"
  And I should see "Insert"
-  And I click "Insert"
+  And I follow "Insert"
+  # CLICKING INSERT IS UNDEFINED STEP And I click "Insert"
  And I press "edit-submit"
   Then I should be on "/cupcakes"
   And I should see "Cupcakes"
@@ -51,7 +52,7 @@ And the response should contain "alt=\"Lavender and lemony goodness\""
  
   
 @api 
-#TEST THREE: UPLOAD BY SAVING; PRESSING INSERT
+#TEST THREE: UPLOAD BY SAVING; FOLLOWING INSERT
 Scenario: Upload a graphic by saving, then come back and insert it
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -67,7 +68,7 @@ And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "mountains.jpg"
  And I should see "Insert"
- And I press "Insert"
+ And I follow "Insert"
  And I press "edit-submit"
   Then I should be on "/mountains"
   And I should see "Mountains"
@@ -76,7 +77,7 @@ And I should see "File information"
   
   
 @api 
-#TEST FOUR: UPLOAD BY CLICKING UPLOAD; PRESSING INSERT
+#TEST FOUR: UPLOAD BY CLICKING UPLOAD; following INSERT
 Scenario: Inserting a different size graphic than the default
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -91,7 +92,7 @@ Scenario: Inserting a different size graphic than the default
  And I should see "dog.jpg"
  # SYSTEM CANNOT FIND THE SELECT OPTIONS
  # And I select "image_hero" from "Style:"
- And I press "Insert"
+ And I follow "Insert"
  And I press "edit-submit"
   Then I should be on "/dogs"
   And I should see "Dogs"
