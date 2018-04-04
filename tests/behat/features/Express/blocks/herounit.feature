@@ -24,7 +24,7 @@ Scenario: An anonymous user should not be able to access the form for adding a h
   Then I should see "Access denied"
 
 @api 
-Scenario: A Hero Unit block can be created
+Scenario: A basic Hero Unit block can be created
 Given I am logged in as a user with the "site_owner" role
  And I am on "block/add/hero-unit"
  And fill in "edit-label" with "New Hero Unit"
@@ -34,3 +34,22 @@ Given I am logged in as a user with the "site_owner" role
  And I press "Save"
  Then I should see "Hero Unit Title"
  And I should see "Learn more about our program"
+ 
+ 
+@api 
+Scenario: A link, a graphic and an overlay can be added to Hero Unit block
+Given I am logged in as a user with the "site_owner" role
+ And I am on "block/add/hero-unit"
+ And fill in "edit-label" with "My Hero Unit"
+ And fill in "edit-title" with "A New Hero Unit"
+ And I fill in "edit-field-hero-unit-headline-und-0-value" with "Important News"
+ And I fill in "edit-field-hero-unit-text-und-0-value" with "Read More About It"
+ And I fill in "edit-field-hero-unit-link-und-0-title" with "Click Here"
+ And I fill in "edit-field-hero-unit-link-und-0-url" with "node/1"
+ And I attach the file "ralphie.jpg" to "edit-field-hero-unit-image-und-0-upload"
+ And I check "edit-field-hero-unit-overlay-und"
+ And I press "Save"
+ Then I should see "A New Hero Unit"
+ And I should see "Important News"
+ And I should see the link "Click Here"
+ And the response should include "hero-unit-overlay"
