@@ -6,6 +6,8 @@
 # And I follow "Disable rich-text"
 # And fill in "Body" with "Little cakes with frosting"
 
+# NOTE: IT IS NECESSARY TO EDIT THE NODE TO VERIFY IMAGE UPLOAD CUZ GOUTTE THINKS IT CAN FIND THE IMAGES WHEN IT CAN NOT
+
 @photofinder 
 Feature: Testing Photo Uploads of Goutte Driver and Seleniium Driver
 When testing content creation
@@ -19,13 +21,13 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes1"
 And I attach the file "cupcakes.jpg" to "edit-field-photo-und-0-upload"
-And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
+And I fill in "edit-field-photo-und-0-alt" with "Lavender frosting"
 And I press "edit-submit"
 Then I should see "Cupcakes1"
 And I follow "Edit"
 Then I should see "File information"
-And I should see "castle.jpg"
-And the "edit-field-photo-und-0-alt" element should have "Lavender and lemony goodness" in the "value" element
+And I should see "cupcakes.jpg"
+And the "edit-field-photo-und-0-alt" element should have "Lavender frosting" in the "value" element
 
 @api 
 # ../cupcakes.jpg
@@ -39,7 +41,7 @@ And I press "edit-submit"
 Then I should see "Cupcakes2"
 And I follow "Edit"
 Then I should see "File information"
-And I should see "castle.jpg"
+And I should see "cupcakes.jpg"
 And the "edit-field-photo-und-0-alt" element should have "Lavender and lemony goodness" in the "value" element
 
 @api 
@@ -49,13 +51,13 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes3"
 And I attach the file "../../cupcakes.jpg" to "edit-field-photo-und-0-upload"
-And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
+And I fill in "edit-field-photo-und-0-alt" with "Lemon cakes"
 And I press "edit-submit"
 Then I should see "Cupcakes3"
 And I follow "Edit"
 Then I should see "File information"
 And I should see "castle.jpg"
-And the "edit-field-photo-und-0-alt" element should have "Lavender and lemony goodness" in the "value" element
+And the "edit-field-photo-und-0-alt" element should have "Lemon cakes" in the "value" element
 
 @api 
 # ../../../cupcakes.jpg
@@ -64,13 +66,13 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes4"
 And I attach the file "../../../cupcakes.jpg" to "edit-field-photo-und-0-upload"
-And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
+And I fill in "edit-field-photo-und-0-alt" with "piles of frosting"
 And I press "edit-submit"
 Then I should see "Cupcakes4"
 And I follow "Edit"
 Then I should see "File information"
-And I should see "castle.jpg"
-And the "edit-field-photo-und-0-alt" element should have "Lavender and lemony goodness" in the "value" element
+And I should see "cupcakes.jpg"
+And the "edit-field-photo-und-0-alt" element should have "piles of frosting" in the "value" element
 
 @api 
 # ../../../../cupcakes.jpg
@@ -79,13 +81,13 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes5"
 And I attach the file "../../../../cupcakes.jpg" to "edit-field-photo-und-0-upload"
-And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
+And I fill in "edit-field-photo-und-0-alt" with "purple and yellow"
 And I press "edit-submit"
 Then I should see "Cupcakes5"
 And I follow "Edit"
 Then I should see "File information"
-And I should see "castle.jpg"
-And the "edit-field-photo-und-0-alt" element should have "Lavender and lemony goodness" in the "value" element
+And I should see "cupcakes.jpg"
+And the "edit-field-photo-und-0-alt" element should have "purple and yellow" in the "value" element
 
 @api 
 # assets/cupcakes.jpg
@@ -94,13 +96,13 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes6"
 And I attach the file "assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
-And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
+And I fill in "edit-field-photo-und-0-alt" with "Lavender lemon"
 And I press "edit-submit"
 Then I should see "Cupcakes6"
 And I follow "Edit"
 Then I should see "File information"
-And I should see "castle.jpg"
-And the "edit-field-photo-und-0-alt" element should have "Lavender and lemony goodness" in the "value" element
+And I should see "cupcakes.jpg"
+And the "edit-field-photo-und-0-alt" element should have "Lavender lemon" in the "value" element
 
 @api 
 # ../assets/cupcakes.jpg
@@ -109,13 +111,13 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes7"
 And I attach the file "../assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
-And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
+And I fill in "edit-field-photo-und-0-alt" with "delicious little cupcakes"
 And I press "edit-submit"
 Then I should see "Cupcakes7"
 And I follow "Edit"
 Then I should see "File information"
-And I should see "castle.jpg"
-And the "edit-field-photo-und-0-alt" element should have "Lavender and lemony goodness" in the "value" element
+And I should see "cupcakes.jpg"
+And the "edit-field-photo-und-0-alt" element should have "delicious little cupcakes" in the "value" element
 
 @api 
 # ../../assets/cupcakes.jpg
@@ -124,13 +126,13 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes8"
 And I attach the file "../../assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
-And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
+And I fill in "edit-field-photo-und-0-alt" with "candy sprinkles"
 And I press "edit-submit"
 Then I should see "Cupcakes8"
 And I follow "Edit"
 Then I should see "File information"
-And I should see "castle.jpg"
-And the "edit-field-photo-und-0-alt" element should have "Lavender and lemony goodness" in the "value" element
+And I should see "cupcakes.jpg"
+And the "edit-field-photo-und-0-alt" element should have "candy sprinkles" in the "value" element
 
 @api 
 # ../../../assets/cupcakes.jpg
@@ -139,13 +141,13 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes9"
 And I attach the file "../../../assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
-And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
+And I fill in "edit-field-photo-und-0-alt" with "happy birthday"
 And I press "edit-submit"
 Then I should see "Cupcakes9"
 And I follow "Edit"
 Then I should see "File information"
-And I should see "castle.jpg"
-And the "edit-field-photo-und-0-alt" element should have "Lavender and lemony goodness" in the "value" element
+And I should see "cupcakes.jpg"
+And the "edit-field-photo-und-0-alt" element should have "happy birthday" in the "value" element
 
 @api 
 # ../../../../assets/cupcakes.jpg
@@ -154,11 +156,11 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes10"
 And I attach the file "../../../../assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
-And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
+And I fill in "edit-field-photo-und-0-alt" with "sweet little cakes"
 And I press "edit-submit"
 Then I should see "Cupcakes10"
 And I follow "Edit"
 Then I should see "File information"
-And I should see "castle.jpg"
-And the "edit-field-photo-und-0-alt" element should have "Lavender and lemony goodness" in the "value" element
+And I should see "cupcakes.jpg"
+And the "edit-field-photo-und-0-alt" element should have "sweet little cakes" in the "value" element
 
