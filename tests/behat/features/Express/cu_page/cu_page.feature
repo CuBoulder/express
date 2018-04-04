@@ -39,7 +39,7 @@ Scenario: A graphic can be uploaded and inserted into a Basic Page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Ralphie"
-  # THIS NEXT LINE IS A WORKAROUND FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
+  # THIS NEXT LINE IS NECESSARY FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
   # And I follow "Disable rich-text"
   And fill in "Body" with "Ralphie the Buffalo is the name of the live mascot of the University of Colorado Buffaloes."
  And I attach the file "assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
