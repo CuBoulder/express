@@ -143,7 +143,7 @@ function _user_sites_from_atlas(&$user) {
     $link_builder = $base_url . '/' . $json_info->path;
     $login = $link_builder . '/user';
 
-    $output .= '<div class="atlas-user-sites"><h3>' . $json_info->path . '</h3><p><a href="' . $link_builder . '" target="_blank">Visit</a><a href="' . $login . '" target="_blank">Login</a></p></div>';
+    $output .= '<div class="atlas-user-sites"><h3>' . $json_info->path . '</h3><a href="' . $link_builder . '" target="_blank">Visit</a><a href="' . $login . '" target="_blank">Login</a></div>';
   }
 
   return $output;

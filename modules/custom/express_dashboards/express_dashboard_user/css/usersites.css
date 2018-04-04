@@ -1,20 +1,42 @@
 .atlas-user-sites {
-  border: 1px solid black;
+  border: 1px solid #e7e7e7;
   margin: 2%;
-  padding: 2% 3%;
-  background: #c9af71;
-  color: white;
+  padding: 3% 3% 4% 3%;
+  height: auto;
+  overflow: hidden;
+}
+.atlas-user-sites h3 {
+  margin-bottom: 3%;
+  text-transform: uppercase;
+  font-family: "Neue Helvetica W01","Helvetica Neue",Helvetica,Arial,sans-serif;
+  border-bottom: 1px solid gray;
 }
 .atlas-user-sites a {
-  font-size: large;
-  color: white;
-  border: 1px solid black;
-  margin: 3px;
-  padding: 3px 6px;
-  border-radius: 5px;
-  background: black;
+  transition: -webkit-box-shadow 0.5s ease,background-color 0.5s ease,color 0.5s ease;
+  transition: -moz-box-shadow 0.5s ease,background-color 0.5s ease,color 0.5s ease;
+  transition: box-shadow 0.5s ease,background-color 0.5s ease,color 0.5s ease;
+  background-color: #cfb87c;
+  color: #000 !important;
+  display: inline-block;
+  padding: 5px 10px;
+  font-weight: 500;
+  font-family: "Neue Helvetica W01","Helvetica Neue",Helvetica,Arial,sans-serif;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  -moz-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  margin: 0px 6px;
+  text-decoration: none !important;
+  float: right;
 }
 .atlas-user-sites a:hover {
-  color: black;
-  background: white;
+  background-color: #cbb271;
+  -webkit-box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  -moz-box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.3);
 }
