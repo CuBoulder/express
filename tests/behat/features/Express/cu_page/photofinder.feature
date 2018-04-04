@@ -14,7 +14,7 @@ Travis should be able to find assets such as files and photos
 
 @api 
 # cupcakes.jpg
-Scenario: A graphic can be uploaded and inserted into a page; checking for an insert element with javascript
+Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes"
@@ -25,7 +25,7 @@ Then I should see "Cupcakes"
 
 @api 
 # ../cupcakes.jpg
-Scenario: A graphic can be uploaded and inserted into a page; checking for an insert element with javascript
+Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes"
@@ -36,7 +36,7 @@ Then I should see "Cupcakes"
 
 @api 
 # ../../cupcakes.jpg
-Scenario: A graphic can be uploaded and inserted into a page; checking for an insert element with javascript
+Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes"
@@ -47,7 +47,7 @@ Then I should see "Cupcakes"
 
 @api 
 # ../../../cupcakes.jpg
-Scenario: A graphic can be uploaded and inserted into a page; checking for an insert element with javascript
+Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes"
@@ -58,7 +58,7 @@ Then I should see "Cupcakes"
 
 @api 
 # ../../../../cupcakes.jpg
-Scenario: A graphic can be uploaded and inserted into a page; checking for an insert element with javascript
+Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes"
@@ -69,7 +69,7 @@ Then I should see "Cupcakes"
 
 @api 
 # assets/cupcakes.jpg
-Scenario: A graphic can be uploaded and inserted into a page; checking for an insert element with javascript
+Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes"
@@ -80,7 +80,7 @@ Then I should see "Cupcakes"
 
 @api 
 # ../assets/cupcakes.jpg
-Scenario: A graphic can be uploaded and inserted into a page; checking for an insert element with javascript
+Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes"
@@ -91,7 +91,7 @@ Then I should see "Cupcakes"
 
 @api 
 # ../../assets/cupcakes.jpg
-Scenario: A graphic can be uploaded and inserted into a page; checking for an insert element with javascript
+Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes"
@@ -102,7 +102,7 @@ Then I should see "Cupcakes"
 
 @api 
 # ../../../assets/cupcakes.jpg
-Scenario: A graphic can be uploaded and inserted into a page; checking for an insert element with javascript
+Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes"
@@ -113,7 +113,7 @@ Then I should see "Cupcakes"
 
 @api 
 # ../../../../assets/cupcakes.jpg
-Scenario: A graphic can be uploaded and inserted into a page; checking for an insert element with javascript
+Scenario: A graphic can be attached to a page node
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes"
