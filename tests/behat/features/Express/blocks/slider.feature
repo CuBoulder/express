@@ -22,7 +22,6 @@ Scenario Outline: An authenticated user should be able to access the form for ad
 Scenario: An anonymous user should not be able to access the form for adding a slider block
   When I am on "block/add/slider"
   Then I should see "Access denied"
- 
 
 @api 
 Scenario: A basic Slider block can be created
