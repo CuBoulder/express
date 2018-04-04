@@ -69,6 +69,19 @@ function express_dashboard_user_content() {
   $output['left']['widgets']['my_sites']['title'] = 'My Sites';
   $output['left']['widgets']['my_sites']['content']['#markup'] = _user_sites_from_atlas($user);
 
+  // Display real name if available.
+  $output['left']['widgets']['user']['title'] = function_exists('realname_load') ? realname_load($user) : $user->name;
+  $output['left']['widgets']['user']['content']['#markup'] = theme('express_dashboard_user_profile', (array) $vars);
+
+  // Other Stuff
+  $output['right']['widgets']['other_stuff']['title'] = 'Important Links';
+  $output['right']['widgets']['other_stuff']['content']['#markup'] = _other_stuff_db_widget();
+
+  // Newsfeed widget
+  $express_newsfeed = module_invoke('express_status', 'block_view', 'express_status');
+  $output['right']['widgets']['newsfeed']['title'] = 'Webcentral News';
+  $output['right']['widgets']['newsfeed']['content']['#markup'] = ''; //$express_newsfeed['content'];
+
   // Add status.
   $express_status = module_invoke('express_status', 'block_view', 'express_status');
   $output['right']['widgets']['status']['title'] = 'System Status';
@@ -78,9 +91,16 @@ function express_dashboard_user_content() {
   $users_online = module_invoke('user', 'block_view', 'online');
   $output['right']['widgets']['online']['title'] = 'Who\'s online';
   $output['right']['widgets']['online']['content']['#markup'] = $users_online['content'];
-  // Display real name if available.
-  $output['right']['widgets']['user']['title'] = function_exists('realname_load') ? realname_load($user) : $user->name;
-  $output['right']['widgets']['user']['content']['#markup'] = theme('express_dashboard_user_profile', (array) $vars);
+
+  return $output;
+}
+
+function _other_stuff_db_widget() {
+  $output = '';
+
+  $output .= '<a href="https://www.colorado.edu/atoz/letter/a">Directory</a><br>';
+  $output .= '<a href="https://calendar.colorado.edu/">Calender</a><br>';
+  $output .= '<a href="https://google.com/">????</a><br>';
 
   return $output;
 }
