@@ -2,7 +2,7 @@
 Feature: Text Block Block
 When I login to a Web Express website
 As an authenticated user
-I should be able to create, edit, and delete a text block block
+I should be able to create, edit, and delete a text block
 
 @api
 Scenario Outline: An authenticated user should be able to access the form for adding a text block block
