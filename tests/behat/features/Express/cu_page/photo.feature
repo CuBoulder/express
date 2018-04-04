@@ -29,12 +29,14 @@ And I should see "File information"
   #NEXT LINE SHOWS THAT IMAGE WAS NOT INSERTED INTO BODY
   And the response should not contain "alt=\"A ruined castle in the fog\""
   
-@api 
+@api @javascript
 #TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON; CHECKING FOR INSERT ELEMENT
-Scenario: A graphic can be uploaded and inserted into a page; checking for an insert element
+Scenario: A graphic can be uploaded and inserted into a page; checking for an insert element with javascript
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Cupcakes"
+  # THIS NEXT LINE IS NECESSARY FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
+  And I follow "Disable rich-text"
  And fill in "Body" with "Little cakes with frosting"
  And I attach the file "assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
@@ -58,12 +60,14 @@ And I should see an "Insert" element
 And the response should contain "alt=\"Lavender and lemony goodness\""
  
   
-@api 
+@api @javascript
 #TEST THREE: UPLOAD BY SAVING; clicking 'INSERT' element
 Scenario: Upload a graphic by saving, then come back and insert it
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "Mountains"
+    # THIS NEXT LINE IS NECESSARY FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
+  And I follow "Disable rich-text"
  And fill in "Body" with "Demo body content"
  And I attach the file "assets/mountains.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Pink clouds, blue mountains"
