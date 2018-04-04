@@ -1,0 +1,39 @@
+@slider @block
+Feature: Slider Block
+When I login to a Web Express website
+As an authenticated user
+I should be able to create, edit, and delete a slider
+
+@api
+Scenario Outline: An authenticated user should be able to access the form for adding a slider block
+  Given  I am logged in as a user with the <role> role
+  When I go to "block/add/slider"
+  Then I should see <message>
+
+    Examples:
+    | role            | message               |
+    | edit_my_content | "Access Denied"       |
+    | content_editor  | "Create Slider block" |
+    | site_owner      | "Create Slider block" |
+    | administrator   | "Create Slider block" |
+    | developer       | "Create Slider block" |
+
+@api 
+Scenario: An anonymous user should not be able to access the form for adding a slider block
+  When I am on "block/add/slider"
+  Then I should see "Access denied"
+
+@api 
+Scenario: A basic Slider block can be created
+ Given I am logged in as a user with the "site_owner" role
+  And I am on "block/add/slider"
+ And fill in "edit-label" with "Homepage Slider"
+ And fill in "edit-title" with "Slider Title"
+And I attach the file "mountains.jpg" to "edit-field-slider-slide-und-0-field-slider-image-und-0-upload"
+And I fill in "edit-field-slider-slide-und-0-field-slider-image-und-0-alt" with "Blue Mountains and Pink Clouds"
+ And I fill in "edit-field-slider-slide-und-0-field-slider-caption-und-0-value" with "Mountain Fantasy"
+ And I fill in "edit-field-slider-slide-und-0-field-slider-link-und-0-url" with "https://www.colorado.edu"
+ And I press "Save"
+ Then I should see "Slider Title"
+ And I should see "Mountain Fantasy"
+    
