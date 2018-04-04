@@ -4,6 +4,8 @@ When I create a Basic Page
 As an authenticated user
 I should be able to upload and place a photo
 
+# THERE IS CURRENTLY NO WAY TO PRESS THE INSERT BUTTON. 
+
 #THIS TEST UPLOADS A GRAPHIC; SAVES, THEN VERIFIES THAT IT HAS BEEN UPLOADED AND THAT WE ARE ON CORRECT PAGE; NO INSERT; CHECKS FOR ALT TEXT
 @api 
 Scenario: A graphic can be uploaded by saving the page
