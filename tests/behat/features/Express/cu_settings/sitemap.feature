@@ -53,3 +53,7 @@ Then I should see "Access denied"
     | content_editor  | 
     | edit_my_content  | 
  
+@api 
+Scenario: An anonymous user should not be able to update the sitemap
+  When I am on "admin/settings/seo/xmlsitemap"
+  Then I should see "Access denied"
