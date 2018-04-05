@@ -31,3 +31,8 @@ Then I should see "Access denied"
     | role            | 
     | content_editor  | 
     | edit_my_content  | 
+
+@api 
+Scenario: An anonymous user should not be able to access feedback form settings
+  When I am on "admin/settings/forms/feedback"
+  Then I should see "Access denied"
