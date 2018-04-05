@@ -4,7 +4,7 @@ In order to link my Web Express site with Google Analytics
 An authenticated user with the proper role
 Should be able to set the Google Analytics Account ID
 
-#SOME ROLES CAN SET THE SITE NAME
+#SOME ROLES CAN SET THE GOOGLE ANALYTICS ID
 @api
 Scenario Outline: Devs, Admins and SOs can set the Google Analytics Account ID
   Given I am logged in as a user with the <role> role
@@ -21,7 +21,7 @@ Examples:
     | administrator   | 
     | site_owner      | 
 
-# SOME ROLES CAN NOT SET SITE NAME
+# SOME ROLES CAN NOT SET GOOGLE ANALYTICS ID
 @api 
 Scenario Outline: CEs and EMCs should not be able to set the Google Analytics Account ID
 Given I am logged in as a user with the <role> role
@@ -33,6 +33,11 @@ Then I should see "Access denied"
     | content_editor  | 
     | edit_my_content | 
     
+
+@api 
+Scenario: An anonymous user should not be able to set the Google Analytics Account ID
+  When I am on "admin/settings/site-configuration/google-analytics"
+  Then I should see "Access denied"
 
 @api
 Scenario Outline: Users cannot access the Google Analytics General Settings page
