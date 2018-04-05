@@ -32,3 +32,9 @@ Then I should see "Access denied"
     | role            | 
     | content_editor  | 
     | edit_my_content  | 
+
+@api 
+Scenario: An anonymous user should not be able to set site name
+  When I am on "admin/settings/site-configuration/site-description"
+  Then I should see "Access denied"
+  
