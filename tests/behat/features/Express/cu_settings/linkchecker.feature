@@ -32,3 +32,7 @@ Then I should see "Access denied"
     | content_editor  | 
     | edit_my_content  | 
     
+@api 
+Scenario: An anonymous user should not be able to view broken links
+  When I am on "admin/reports/linkchecker"
+  Then I should see "Access denied"
