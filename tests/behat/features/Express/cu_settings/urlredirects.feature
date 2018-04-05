@@ -65,7 +65,11 @@ Then I should see "Access denied"
     | role            | 
     | content_editor  | 
     | edit_my_content  | 
-    
+
+@api 
+Scenario: An anonymous user can not create a URL redirect
+  When I am on "admin/config/search/redirect"
+  hen I should see "Access denied"
 
 @api
 Scenario Outline: Devs, Admins and SOs can delete a URL redirect
