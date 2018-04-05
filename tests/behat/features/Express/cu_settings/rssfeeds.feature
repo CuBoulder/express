@@ -79,8 +79,8 @@ Scenario: An anonymous user should not be able to access the RSS feed builder pa
   
 # BUILDING AN RSS FEED
 @api
-Scenario Outline: One user can build a feed with the default feed/rss.xml
-  Given I am logged in as a user with the "site_owner" role
+Scenario: One user can build a feed with the default feed/rss.xml
+ Given I am logged in as a user with the "site_owner" role
  When I go to "admin/settings/feeds/rss/add"
  Then I should see "Build custom RSS feeds"
  And I fill in "edit-rss-title" with "Exciting News"
