@@ -4,7 +4,7 @@ In order to create a unique homepage experience
 An authenticated user with the proper role
 Should be able to change the default front page
 
-#ACCESSING THE HOME PAGE SETTINGS
+# ACCESSING THE HOME PAGE SETTINGS
 @api
 Scenario Outline: Devs, Admins and SOs can access Home Page settings; CEs and EMCs cannot
   Given I am logged in as a user with the <role> role
@@ -31,7 +31,7 @@ And I uncheck "edit-menu-enabled"
 And I press "Save"
 Then the url should match "new-home"
 And I go to "admin/settings/adv-content/frontpage"
-#VERIFY THAT THE CURRENT HOMEPAGE IS CALLED 'HOME'
+# VERIFY THAT THE CURRENT HOMEPAGE IS CALLED 'HOME'
 Then I should see "home" in the "edit-site-frontpage" element
 And I fill in "edit-site-frontpage" with "new-home"
 When I press "Save"
