@@ -4,8 +4,6 @@ In order to add functionality to a Web Express site
 An authenticated user with the proper role
 Should be able to access the Bundle List pages
 
-#NOTE: MORE BUNDLE-RELATED FUNCTIONALITY IS TESTED IN BUNDLELIST.FEATURE
-
 #SOME ROLES CAN ENABLE BUNDLES
 @api
 Scenario Outline: Devs, Admins and SOs can access the Bundle List page and they see three tabs
