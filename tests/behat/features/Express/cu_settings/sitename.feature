@@ -1,8 +1,8 @@
 @settings
-Feature: Site Name
+Feature: Site Name identifies the Web Express website; appears in top banner
 In order to identify what Web Express site this is
 An authenticated user with the proper role
-Should be able to set the site name
+Should be able to set the website name
 
 #SOME ROLES CAN SET THE SITE NAME
 @api
@@ -14,8 +14,9 @@ Scenario Outline: Devs, Admins and SOs can set the Site Name
   When I press "Save"
   Then I should see "The configuration options have been saved"
   And I go to "/"
-  Then I should see "New Site Title Second Line"
-    
+  Then I should see a ".site-name-two-lines" element
+  And I should see "New Site Title Second Line"
+  
 Examples:
     | role            | 
     | developer       | 
@@ -33,3 +34,8 @@ Then I should see "Access denied"
     | role            | 
     | content_editor  | 
     | edit_my_content  | 
+
+@api 
+Scenario: An anonymous user should not be able to set site name
+ When I am on "admin/settings/site-configuration/site-name"
+ Then I should see "Access denied"
