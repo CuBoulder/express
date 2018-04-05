@@ -6,20 +6,29 @@ Should be able to set Article Settings options
 
 #SOME ROLES CAN ACCESS THE ARTICLE SETTINGS OPTIONS
 @api
-Scenario Outline: Devs, Admins and SOs can access the Article Settings options
+Scenario Outline: A user with the proper role can access the Article Settings options
  Given I am logged in as a user with the <role> role
  When I go to "admin/settings/news/article-settings"
- Then I should see "Article Published Date Display"
+ Then I should see <message>
     
 Examples:
-    | role            | 
-    | developer       | 
-    | administrator   | 
-    | site_owner      | 
+    | role            | message                          |
+    | developer       | "Article Published Date Display" |
+    | administrator   | "Article Published Date Display" |
+    | site_owner      | "Article Published Date Display" |
+    | content_editor  | Access denied" |
+    | edit_my_content | Access denied" |
+    
+@api 
+Scenario: An anonymous user cannot access the Article Settings options
+  When I am on "admin/settings/news/article-settings"
+  Then I should see "Access denied"
+  
+  author-meta-date
 
 #CHANGING THE SETTINGS HIDES THE PUBLISHED DATE ON ARTICLE
 @api
-Scenario Outline: Devs, Admins and SOs can change the Article Settings; aka hide publish date on article
+Scenario Outline: User can change the Article Settings; aka hide publish date on article
  Given I am logged in as a user with the <role> role
  And am on "admin/settings/news/article-settings"
  When I select "hide" from "date_display"
@@ -29,9 +38,8 @@ Scenario Outline: Devs, Admins and SOs can change the Article Settings; aka hide
  And I fill in "edit-title" with "A New Article"
  And I fill in "Body" with "Here is more information."
  And I press "Save"
- Then I should see "Here is more information."
- # DOESN'T WORK And the response should contain "class=\"author-meta-data\""
- And I should not see a "span" element with the "class" attribute set to "author-meta-data"
+ Then I should see "A New Article"
+ And I should not see a ".author-meta-date" element
     
 Examples:
     | role            | 
@@ -39,14 +47,3 @@ Examples:
     | administrator   | 
     | site_owner      | 
 
-# SOME ROLES CAN NOT ACCESS THE ARTICLE SETTINGS OPTIONS
-@api 
-Scenario Outline: CEs and EMCs should not be able to set the Article Settings options
-Given I am logged in as a user with the <role> role
-And am on "admin/settings/news/article-settings"
-Then I should see "Access denied"
-
- Examples:
-    | role            | 
-    | content_editor  | 
-    | edit_my_content  | 
