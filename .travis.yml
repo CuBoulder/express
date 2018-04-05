@@ -7,8 +7,8 @@ php:
 
 branches:
   only:
-    - randomBranch
-    # - dev
+    # - randomBranch
+    - dev
 
 addons:
   # The username and access key are stored in the Travis settings.
