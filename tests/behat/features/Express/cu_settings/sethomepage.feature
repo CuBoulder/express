@@ -31,6 +31,7 @@ And I uncheck "edit-menu-enabled"
 And I press "Save"
 Then the url should match "new-home"
 And I go to "admin/settings/adv-content/frontpage"
+#VERIFY THAT THE CURRENT HOMEPAGE IS CALLED 'HOME'
 Then I should see "home" in the "edit-site-frontpage" element
 And I fill in "edit-site-frontpage" with "new-home"
 When I press "Save"
