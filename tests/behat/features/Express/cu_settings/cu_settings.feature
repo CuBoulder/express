@@ -147,29 +147,4 @@ Feature: CU Settings
   | administrator  | "Clear Caches" |
   | developer      | "Clear Caches" |
   
-  @api  @cache
-  # No Varnish on Travis.
-  Scenario: As a CE, I should be able to see and use page cache clearing by path.
-    Given I am logged in as a user with the "content_editor" role
-    When I go to "admin/settings/cache/clear"
-      And I follow "Clear Page by Path"
-      And I fill in "Path To Clear" with "node/1"
-      # @todo Test cache clear since the Chrome Driver should be faster.
-      #And I press "Clear Path From Page Cache"
-    #Then I should see "The front page of a site can only be cleared by users with permission to clear the Full Page Cache."
-    Then I should see "Enter the specific path or URL to clear from the Page cache."
-    #When I go to "admin/settings/cache/clear/varnish-path"
-      #And I fill in "Path To Clear" with "node/2"
-      #And I press "Clear Path From Page Cache"
-    #Then I should see <message>
-  
-  @api @cache
-  Scenario: A user with the edit_my_content role should not be able to see and use cache clearing.
-    Given I am logged in as a user with the "edit_my_content" role
-    When I am on "admin/settings/cache/clear/varnish-full"
-      Then I should see "Access Denied"
-    When I am on "admin/settings/cache/clear/varnish-path"
-      Then I should see "Access Denied"
-    When I am on "node/1/clear-varnish"
-      Then I should see "Access Denied"
-
+ 
