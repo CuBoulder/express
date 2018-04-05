@@ -16,7 +16,7 @@ Scenario: Create article node in case RSS Builder decides it needs one
 
 #SOME ROLES CAN ACCESS RSS FEED SETTINGS
 @api
-Scenario Outline: Devs, Admins and SOs can view the RSS feeds
+Scenario Outline: A user with proper role can view the RSS feeds
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/feeds/rss/overview"
   Then I should see "Manage RSS Feeds"
@@ -40,7 +40,11 @@ Then I should see "Access denied"
     | content_editor  | 
     | edit_my_content  | 
     
-
+@api 
+Scenario: An anonymous user should not be able to view the RSS feeds
+  When I am on "admin/settings/feeds/rss/overview"
+  Then I should see "Access denied"
+  
 #SOME ROLES CAN ACCESS THE RSS FEED BUILDER
 @api
 Scenario Outline: Devs, Admins and SOs can access the RSS feed builder page
@@ -68,6 +72,11 @@ Then I should see "Access denied"
     | content_editor  | 
     | edit_my_content  | 
     
+@api 
+Scenario: An anonymous user should not be able to access the RSS feed builder page
+  When I am on "admin/settings/feeds/rss/add"
+  Then I should see "Access denied"
+  
 # BUILDING AN RSS FEED
 @api
 Scenario Outline: One user can build a feed with the default feed/rss.xml
