@@ -95,6 +95,16 @@ function express_dashboard_user_content() {
   return $output;
 }
 
+function _search_sites_form($form, &$form_state) {
+
+  $form['submit_button'] = array(
+    '#type' => 'submit',
+    '#value' => t('Click Here!'),
+  );
+
+  return $form;
+}
+
 function _other_stuff_db_widget() {
   $output = '';
 
