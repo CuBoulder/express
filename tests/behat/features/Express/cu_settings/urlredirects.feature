@@ -96,4 +96,9 @@ Then I should see "Access denied"
     | role            | 
     | content_editor  | 
     | edit_my_content  | 
+    
+@api 
+Scenario: An anonymous user can not access the 'delete URL redirect' page
+  When I am on "admin/config/search/redirect/delete"
+  Then I should see "Access denied"
 
