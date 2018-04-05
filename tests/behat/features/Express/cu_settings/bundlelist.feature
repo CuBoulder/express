@@ -4,18 +4,19 @@ In order to simplify the features of a site
 An authenticated user with the proper role
 Should see bundles of features in three categories
 
-# NOTE THESE TESTS CANNOT BE AUTOMATED BECAUSE THE BUNDLES THAT APPEAR IN PROFILE MODULE MANAGER ARE CONTROLLED BY
+# NOTE MOST OF THESE TESTS CANNOT BE AUTOMATED BECAUSE THE BUNDLES THAT APPEAR IN PROFILE MODULE MANAGER ARE CONTROLLED BY
 # THE ATLAS INSTANCE FOR EACH ENVIRONMENT. THEY ONLY EVER MATCH PROD WHEN ITS ALL BEEN REBUILT AS CLONE OF PROD
 # MOST OF THEM HAVE BEEN DISABLED
 #NOTE: PAGE ACCESS PERMISSIONS ARE TESTED IN ENABLINGBUNDLES.FEATURE
 
 # CORE BUNDLES
-Scenario Outline: Core bundles
+Scenario Outline: Users with the proper role can access the Site Settings page
 Given I am logged in as a user with the <role> role
   When I go to "admin/settings/bundles/list"
   Then I should see "Advanced Content"
   And I should see "Advanced Design"
  And I should see "Advanced Layout"
+#  THE REST OF THESE CHANGE OVER TIME AND DON'T MATCH PROD
 #  And I should see "Feeds"
 #  And I should see "Forms"
 #  And I should see "News and Articles"
@@ -29,7 +30,23 @@ Examples:
     | developer       | 
     | administrator   | 
     | site_owner      | 
-
+    
+    
+@api 
+Scenario Outline: Users with a restricted role cannot access the Site Settings page
+Given I am logged in as a user with the <role> role
+When I go to "admin/settings/bundles/list"
+Then I should see "Access denied"
+  
+ Examples:
+    | role            | 
+    | edit_my_content | 
+    | content_editor  | 
+  
+ @api 
+Scenario: An anonymous user should not be able to access the Site Settings page
+ When I go to "admin/settings/bundles/list"
+ Then I should see "Access denied"
 
 # ADD-ON BUNDLES
 # NOTE THIS TEST CANNOT BE AUTOMATED BECAUSE THE BUNDLES THAT APPEAR IN PROFILE MODULE MANAGER ARE CONTROLLED BY
