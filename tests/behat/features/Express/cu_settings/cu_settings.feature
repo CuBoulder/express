@@ -1,4 +1,5 @@
 #THESE TESTS HAVE ALL BEEN SPLIT OUT INTO SEPARATE FEATURE FILES
+THIS PAGE CAN BE DELETED.
 
 Feature: CU Settings
  An Express user should see the following options on the Express Settings pages.
