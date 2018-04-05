@@ -35,6 +35,11 @@ Given I am logged in as a user with the "edit_my_content" role
 And am on "admin/settings/cache/clear"
 Then I should see "Access denied"
 
+@api 
+Scenario: An anonymous user should not be able to access the 'Clear Caches' landing page
+ When I am on "admin/settings/cache/clear"
+ Then I should see "Access denied"
+
 # ACCESSING THE CLEAR-PAGE-FULL PAGE
 @api
 Scenario Outline: Devs, Admins and SOs can access the 'Clear Page Full' tag; CEs and EMCs cannot
