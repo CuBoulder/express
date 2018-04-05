@@ -40,3 +40,8 @@ Then I should see "Access denied"
     | role            | 
     | content_editor  | 
     | edit_my_content  | 
+    
+@api 
+Scenario: An anonymous user should not be able to  access the People Filter Labels
+  When I am on "admin/settings/people/settings"
+  Then I should see "Access denied"
