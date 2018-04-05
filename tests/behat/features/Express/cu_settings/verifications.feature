@@ -2,7 +2,7 @@
 Feature: Site Verification allows for improved Google Search results
 In order to create verification files for Google verification
 An authenticated user with the proper role
-Should be able to verify
+Should be able to verify their site
 
 #SOME ROLES CAN ACCESS SEO VERIFICATIONS PAGE
 @api
@@ -64,3 +64,11 @@ Then I should see "Access denied"
     | role            | 
     | content_editor  | 
     | edit_my_content  | 
+    
+    
+ @api 
+Scenario: An anonymous user should not be able to verify the site
+  When I am on "admin/config/search/verifications"
+  Then I should see "Access denied"
+  And I go to "admin/config/search/verifications/add"
+  Then I should see "Access denied"
