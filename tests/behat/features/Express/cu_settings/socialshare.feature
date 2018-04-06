@@ -37,7 +37,7 @@ Scenario: A Site Owner can set the social share links and verify that they appea
   And I check "edit-cu-share-settings-facebook-enabled"
   And I select "side_bottom" from "cu_share_position"
   And I check "edit-basic-settings-page"
-  And I click "edit-submit"
+  And I press "edit-submit"
   And I go to "mypage"
   Then the response should contain "class=\"cu-share-sidebar\""
   And I should see a "div" element with the "class" attribute set to "cu-share-sidebar"
