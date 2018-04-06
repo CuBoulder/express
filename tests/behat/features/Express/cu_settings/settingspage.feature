@@ -26,7 +26,7 @@ Scenario Outline: A user with the appropriate role can access the Settings page 
       | administrator  |
       | developer      |
       
-@api 
+@api @meonly
 Scenario: Content Editors cannot set Site Configs; they can only Clear Cache
 Given  I am logged in as a user with the "content_editor" role
 When I go to "admin/settings"
@@ -34,7 +34,7 @@ Then I should not see "Site Configurations"
 And I should not see "URL Management"
  # HIDING FOR NOW AS FORMS IS IN FLUX And I should not see "Forms"
   And I should not see "Social Media"
-  And I should not see "Search"
+ # SEARCH IS UBIQUITOUS And I should not see "Search"
   And I should not see "News"
   And I should not see "People"
   And I should not see "Advanced Content"
