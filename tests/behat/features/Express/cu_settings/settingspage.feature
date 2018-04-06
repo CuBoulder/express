@@ -1,4 +1,4 @@
-@settings
+@settings @meonly
 Feature: The Settings page lists the configuration options for all the enabled bundles
 When I am on the admin/settings page
 As a user with the proper role
@@ -35,7 +35,7 @@ And I should not see "URL Management"
   And I should not see "Social Media"
  # HIDING FOR NOW AS FORMS IS IN FLUX And I should not see "Forms"
  # SEARCH IS UBIQUITOUS And I should not see "Search"
-  # And I should not see "News"
+ # And I should not see "News"
   And I should not see "People"
   And I should not see "Advanced Content"
   And I should not see "Feeds"
