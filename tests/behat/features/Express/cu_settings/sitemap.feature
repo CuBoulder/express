@@ -28,10 +28,10 @@ Examples:
 Scenario Outline: Devs, Admins and SOs can update the sitemap
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/seo/xmlsitemap"
-  And I click "edit-submit"
+  And I press "edit-submit"
   And I wait 20 seconds
   Then I should see "The sitemap links were rebuilt."
-  And I click "edit-submit--2"
+  And I press "edit-submit--2"
   And I wait 20 seconds
   Then I should see "Menu options have been updated for sitemap"
   
