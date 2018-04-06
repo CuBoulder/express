@@ -10,7 +10,7 @@
 # GOUTTE CAN FIND ASSET AT .cupcakes.jpg AND assets/cupcakes.jpg
 # JAVASCRIPT CANNOT FIND ASSET
 
-@photofinder 
+@photofinder @javascript
 Feature: Testing Photo Uploads of Goutte Driver and Seleniium Driver
 When testing content creation
 As an authenticated user
