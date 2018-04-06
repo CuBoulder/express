@@ -8,19 +8,45 @@ if (!ini_get('session.save_handler')) {
   ini_set('session.save_handler', 'file');
 }
 
-$url = $_SERVER['SERVER_NAME'];
-$path = $_SERVER['REQUEST_URI'];
-$site_name = preg_match('/.*?\/(.*?)\//', $path, $match);
+if (strpos($_SERVER['SCRIPT_NAME'], "index.php")) {
+  // the $conf array is available without loading this, but the $databases is not
+  global $databases;
+} else {
+  // this handles calls directly to php files in /profiles/express/simplesaml/module.php/saml/sp/
+  // in this case we have to load Drupal's settings file from the realtive location of
+  // /data/web/homepage/profiles/express/simplesaml/module.php
+  include('../../../sites/default/settings.php');
+}
+
+
+if (isset($conf["cu_path"]) && $conf["cu_path"]) {
+  $saml_baseURL = 'https://' . $_SERVER['HTTP_HOST'] . '/' . $conf["cu_path"];
+} else {
+  $saml_baseURL = 'https://' . $_SERVER['HTTP_HOST'];
+}
+
+$saml_baseurlpath = $saml_baseURL . '/profiles/express/simplesaml/';
+
+if (isset($_REQUEST['saml-config-debug']) && $_REQUEST['saml-config-debug']) {
+  print $_SERVER['SCRIPT_FILENAME'] . "</br>";
+  print __DIR__ . "</br>";
+  ///Users/kere7580/Sites/exs/code/dslm_base/profiles/express-2.8.5/libraries/simplesamlphp/config
+  print realpath('../../../'). "</br>";
+  if (file_exists('../../../sites/default/settings.php')) {
+    print "Relative path to settings.php location is correct</br>";
+  } else {
+    print "Relative path to settings.php location is NOT correct</br>";
+  }
+	print "Base URL: $saml_baseURL </br>";
+	print "Base URL Path: $saml_baseurlpath </br>";
+	print_r($databases['saml']['default']);
+	print "<p>";
+	$path_parts = pathinfo($_SERVER['PHP_SELF']);
+	print_r($path_parts);
+	die;
+}
 
 header('Access-Control-Allow-Origin: *');
-$drupal_dir = $_SERVER['DOCUMENT_ROOT'] . $match[0] . 'sites/default/settings.local_post.php';
-
-//@TODO Wrap this in an environment check so we can have the SAML modules enabled locally
-//$drupal_dir = $_SERVER['SCRIPT_FILENAME'] . 'sites/default/settings.php';
-//$drupal_dir =  str_replace("index.php", "", $drupal_dir);
-
-
-include($drupal_dir);
 $db = $databases['saml']['default'];
 
 $config = array(
@@ -46,7 +72,7 @@ $config = array(
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath' => 'https://' . $url . $match[0] . 'profiles/express/simplesaml/',
+    'baseurlpath' => $saml_baseurlpath,
 
     /*
      * The 'application' configuration array groups a set configuration options
@@ -67,7 +93,7 @@ $config = array(
          * need to compute the right URLs yourself and pass them dynamically
          * to SimpleSAMLphp's API.
          */
-        'baseURL' => 'https://' . $url . $match[0],
+        'baseURL' => $saml_baseURL,
     //),
 
     /*

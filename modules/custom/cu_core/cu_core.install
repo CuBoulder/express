@@ -958,6 +958,15 @@ function cu_core_update_7039() {
 
 
 /**
+ * Express 2.8.6 Update.
+ *
+ * Revert all features to fix WYSIWYG filter.
+ */
+function cu_core_update_7040() {
+  cu_core_revert_features();
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
