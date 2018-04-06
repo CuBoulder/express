@@ -1,35 +1,40 @@
-@page @photo
+@page @photoinsert
 Feature: A Basic Page can contain many types of photos
 When I create a Basic Page
 As an authenticated user
 I should be able to upload and place a photo
 
-# THERE IS CURRENTLY NO WAY TO PRESS THE INSERT BUTTON. 
+# TO INCLUDE BODY CONTENT
+# THIS NEXT LINE IS NECESSARY FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
+# And I follow "Disable rich-text"
+# And fill in "Body" with "Little cakes with frosting"
+
+# THERE IS CURRENTLY NO KNOWN WAY TO PRESS THE INSERT BUTTON. 
 
 #THIS TEST UPLOADS A GRAPHIC; SAVES, THEN VERIFIES THAT IT HAS BEEN UPLOADED AND THAT WE ARE ON CORRECT PAGE; NO INSERT; CHECKS FOR ALT TEXT
 @api 
 Scenario: A graphic can be uploaded by saving the page
-  Given I am logged in as a user with the "site_owner" role
-  And I am on "node/add/page"
-  And fill in "edit-title" with "Castles"
-  And I fill in "Body" with "The development of defensive architecture"
-   And I fill in "edit-field-photo-und-0-alt" with "A ruined castle in the fog"
-   And I attach the file "assets/castle.jpg" to "edit-field-photo-und-0-upload"
-  And I press "edit-submit"
+ Given I am logged in as a user with the "site_owner" role
+ And I am on "node/add/page"
+ And fill in "edit-title" with "Castles"
+ And I fill in "Body" with "The development of defensive architecture"
+ And I fill in "edit-field-photo-und-0-alt" with "A ruined castle in the fog"
+ And I attach the file "assets/castle.jpg" to "edit-field-photo-und-0-upload"
+ And I press "edit-submit"
  And I follow "Edit"
  Then I should see "Edit Basic page Castles"
  # THIS NEXT LINE PROVES IT WAS UPLOADED
-And I should see "File information"
+ And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "castle.jpg"
  And the "edit-menu-link-title" element should have "Castles" in the "value" element
  And I should see "Insert"
  And I press "edit-submit"
-  Then I should be on "/castles"
-  And I should see "Castles"
-  And I should see "The development of defensive architecture"
-  #NEXT LINE SHOWS THAT IMAGE WAS NOT INSERTED INTO BODY
-  And the response should not contain "alt=\"A ruined castle in the fog\""
+ Then I should be on "/castles"
+ And I should see "Castles"
+ And I should see "The development of defensive architecture"
+ #NEXT LINE SHOWS THAT IMAGE WAS NOT INSERTED INTO BODY
+ And the response should not contain "alt=\"A ruined castle in the fog\""
   
 @api @javascript
 #TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON; CHECKs FOR INSERT ELEMENT
