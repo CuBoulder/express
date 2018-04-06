@@ -1,4 +1,4 @@
-@page @photoinsert
+@page @photoinsert @broken
 Feature: A Basic Page can contain many types of photos
 When I create a Basic Page
 As an authenticated user
@@ -8,6 +8,8 @@ I should be able to upload and place a photo
 # THIS NEXT LINE IS NECESSARY FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
 # And I follow "Disable rich-text"
 # And fill in "Body" with "Little cakes with frosting"
+
+# PER TESTING WITH photofinder.feature, JAVASCRIPT CAN'T FIND THE ASSET TO UPLOAD
 
 # THERE IS CURRENTLY NO KNOWN WAY TO PRESS THE INSERT BUTTON. 
 
