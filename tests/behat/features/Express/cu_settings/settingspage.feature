@@ -1,4 +1,4 @@
-@settings @meonly
+@settings
 Feature: The Settings page lists the configuration options for all the enabled bundles
 When I am on the admin/settings page
 As a user with the proper role
@@ -33,14 +33,14 @@ When I go to "admin/settings"
 Then I should not see "Site Configurations"
 And I should not see "URL Management"
   And I should not see "Social Media"
- # HIDING FOR NOW AS FORMS IS IN FLUX And I should not see "Forms"
- # SEARCH IS UBIQUITOUS And I should not see "Search"
+ # WHY ARE THESE SHOWING? And I should not see "Forms"
+ # WHY ARE THESE SHOWING? And I should not see "Search"
  # WHY ARE THESE SHOWING? And I should not see "News"
  # WHY ARE THESE SHOWING? And I should not see "People"
   And I should not see "Advanced Content"
   And I should not see "Feeds"
   And I should not see "Search Engine Optimization"
-   # CONTENT EDITOR CAN ONLY CLEAR CACHE
+ # CONTENT EDITOR CAN ONLY CLEAR CACHE
   And I should see "Cache"
       
 @api 
