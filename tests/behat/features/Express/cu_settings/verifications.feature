@@ -52,7 +52,6 @@ Then I should see "Access denied"
     | content_editor  | 
     | edit_my_content  | 
  
- 
 # SOME ROLES CAN NOT ADD VERIFICATION INFORMATION
 @api 
 Scenario Outline: CEs and EMCs should not be able to set site name
@@ -64,7 +63,6 @@ Then I should see "Access denied"
     | role            | 
     | content_editor  | 
     | edit_my_content  | 
-    
     
  @api 
 Scenario: An anonymous user should not be able to verify the site
