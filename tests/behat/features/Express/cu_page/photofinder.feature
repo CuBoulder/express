@@ -7,7 +7,8 @@
 # And fill in "Body" with "Little cakes with frosting"
 
 # NOTE: IT IS NECESSARY TO EDIT THE NODE TO VERIFY IMAGE UPLOAD CUZ GOUTTE THINKS IT CAN FIND THE IMAGES WHEN IT CAN NOT
-# SUCCESSFUL TESTS ARE MARKED
+# GOUTTE CAN FIND ASSET AT .cupcakes.jpg AND assets/cupcakes.jpg
+# JAVASCRIPT CANNOT FIND ASSET
 
 @photofinder 
 Feature: Testing Photo Uploads of Goutte Driver and Seleniium Driver
@@ -15,7 +16,7 @@ When testing content creation
 As an authenticated user
 Travis should be able to find assets such as files and photos
 
-@api @javascript
+@api 
 # cupcakes.jpg 
 Scenario: A graphic can be attached to a page node (Goutte success)
 Given I am logged in as a user with the "site_owner" role
@@ -30,7 +31,9 @@ Then I should see "Cupcakes1"
 And I follow "Edit"
 Then I should see "File information"
 And I should see "ralphie.jpg"
-And the "edit-field-photo-und-0-alt" element should have "Lavender frosting" in the "value" element
+# UNDEFINED STEP And the "edit-field-photo-und-0-alt" element should have "Lavender frosting" in the "value" element
+And the "edit-field-photo-und-0-alt" field should contain "Lavender frosting"
+
 
 @api 
 # ../cupcakes.jpg
@@ -47,7 +50,8 @@ Then I should see "Cupcakes2"
 And I follow "Edit"
 Then I should see "File information"
 And I should see "cupcakes.jpg"
-And the "edit-field-photo-und-0-alt" element should have "Lavender and lemony goodness" in the "value" element
+# UNDEFINED STEP And the "edit-field-photo-und-0-alt" element should have "Lavender and lemony goodness" in the "value" element
+And the "edit-field-photo-und-0-alt" field should contain "Lavender and lemony goodness"
 
 @api 
 # ../../cupcakes.jpg
@@ -115,7 +119,8 @@ Then I should see "Cupcakes6"
 And I follow "Edit"
 Then I should see "File information"
 And I should see "cupcakes.jpg"
-And the "edit-field-photo-und-0-alt" element should have "Lavender lemon" in the "value" element
+# UNDEFINED STEP And the "edit-field-photo-und-0-alt" element should have "Lavender lemon" in the "value" element
+And the "edit-field-photo-und-0-alt" field should contain "Lavender lemon"
 
 @api 
 # ../assets/cupcakes.jpg
