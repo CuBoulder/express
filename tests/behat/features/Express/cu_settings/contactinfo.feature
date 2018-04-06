@@ -17,9 +17,9 @@ Scenario Outline: Devs, Admins and SOs can set the Site Contact
     
 Examples:
     | role            | address | 
-    | developer       | 1234 Fifth Street | 
-    | administrator   | email@example.edu |
-    | site_owner      | 303-123-4567 |
+    | developer       | "1234 Fifth Street" | 
+    | administrator   | "email@example.edu" |
+    | site_owner      | "303-123-4567" |
 
 # SOME ROLES CAN NOT SET SITE CONTACT
 @api 
