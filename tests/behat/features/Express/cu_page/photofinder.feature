@@ -30,10 +30,8 @@ And I press "edit-submit"
 Then I should see "Cupcakes1"
 And I follow "Edit"
 Then I should see "File information"
-And I should see "ralphie.jpg"
-# UNDEFINED STEP And the "edit-field-photo-und-0-alt" element should have "Lavender frosting" in the "value" element
+And I should see "cupcakes.jpg"
 And the "edit-field-photo-und-0-alt" field should contain "Lavender frosting"
-
 
 @api 
 # ../cupcakes.jpg
@@ -50,7 +48,6 @@ Then I should see "Cupcakes2"
 And I follow "Edit"
 Then I should see "File information"
 And I should see "cupcakes.jpg"
-# UNDEFINED STEP And the "edit-field-photo-und-0-alt" element should have "Lavender and lemony goodness" in the "value" element
 And the "edit-field-photo-und-0-alt" field should contain "Lavender and lemony goodness"
 
 @api 
@@ -68,7 +65,7 @@ Then I should see "Cupcakes3"
 And I follow "Edit"
 Then I should see "File information"
 And I should see "castle.jpg"
-And the "edit-field-photo-und-0-alt" element should have "Lemon cakes" in the "value" element
+And the "edit-field-photo-und-0-alt" field should contain "Lemon cakes"
 
 @api 
 # ../../../cupcakes.jpg
@@ -85,7 +82,7 @@ Then I should see "Cupcakes4"
 And I follow "Edit"
 Then I should see "File information"
 And I should see "cupcakes.jpg"
-And the "edit-field-photo-und-0-alt" element should have "piles of frosting" in the "value" element
+And the "edit-field-photo-und-0-alt" field should contain "piles of frosting"
 
 @api 
 # ../../../../cupcakes.jpg
@@ -102,7 +99,7 @@ Then I should see "Cupcakes5"
 And I follow "Edit"
 Then I should see "File information"
 And I should see "cupcakes.jpg"
-And the "edit-field-photo-und-0-alt" element should have "purple and yellow" in the "value" element
+And the "edit-field-photo-und-0-alt" field should contain "purple and yellow"
 
 @api 
 # assets/cupcakes.jpg
@@ -119,7 +116,6 @@ Then I should see "Cupcakes6"
 And I follow "Edit"
 Then I should see "File information"
 And I should see "cupcakes.jpg"
-# UNDEFINED STEP And the "edit-field-photo-und-0-alt" element should have "Lavender lemon" in the "value" element
 And the "edit-field-photo-und-0-alt" field should contain "Lavender lemon"
 
 @api 
@@ -137,7 +133,7 @@ Then I should see "Cupcakes7"
 And I follow "Edit"
 Then I should see "File information"
 And I should see "cupcakes.jpg"
-And the "edit-field-photo-und-0-alt" element should have "delicious little cupcakes" in the "value" element
+And the "edit-field-photo-und-0-alt" field should contain "delicious little cupcakes"
 
 @api 
 # ../../assets/cupcakes.jpg
@@ -154,7 +150,7 @@ Then I should see "Cupcakes8"
 And I follow "Edit"
 Then I should see "File information"
 And I should see "cupcakes.jpg"
-And the "edit-field-photo-und-0-alt" element should have "candy sprinkles" in the "value" element
+And the "edit-field-photo-und-0-alt" field should contain "candy sprinkles"
 
 @api 
 # ../../../assets/cupcakes.jpg
@@ -171,7 +167,7 @@ Then I should see "Cupcakes9"
 And I follow "Edit"
 Then I should see "File information"
 And I should see "cupcakes.jpg"
-And the "edit-field-photo-und-0-alt" element should have "happy birthday" in the "value" element
+And the "edit-field-photo-und-0-alt" field should contain "happy birthday"
 
 @api 
 # ../../../../assets/cupcakes.jpg
@@ -188,5 +184,5 @@ Then I should see "Cupcakes10"
 And I follow "Edit"
 Then I should see "File information"
 And I should see "cupcakes.jpg"
-And the "edit-field-photo-und-0-alt" element should have "sweet little cakes" in the "value" element
+And the "edit-field-photo-und-0-alt" field should contain "sweet little cakes"
 
