@@ -13,8 +13,8 @@ Scenario: A graphic can be uploaded by saving the page
   And I am on "node/add/page"
   And fill in "edit-title" with "Castles"
   And I fill in "Body" with "The development of defensive architecture"
-  And I attach the file "assets/castle.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "A ruined castle in the fog"
+   And I fill in "edit-field-photo-und-0-alt" with "A ruined castle in the fog"
+   And I attach the file "assets/castle.jpg" to "edit-field-photo-und-0-upload"
   And I press "edit-submit"
  And I follow "Edit"
  Then I should see "Edit Basic page Castles"
@@ -32,7 +32,7 @@ And I should see "File information"
   And the response should not contain "alt=\"A ruined castle in the fog\""
   
 @api @javascript
-#TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON; CHECKING FOR INSERT ELEMENT
+#TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON; CHECKs FOR INSERT ELEMENT
 Scenario: A graphic can be uploaded and inserted into a page; checking for an insert element with javascript
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -40,8 +40,8 @@ Scenario: A graphic can be uploaded and inserted into a page; checking for an in
   # THIS NEXT LINE IS NECESSARY FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
   And I follow "Disable rich-text"
  And fill in "Body" with "Little cakes with frosting"
- And I attach the file "assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
+   And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
+   And I attach the file "assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
   And I press "edit-field-photo-und-0-upload-button"
   And I wait 5 seconds
  Then I should see "File information"
@@ -60,7 +60,6 @@ And I should see an "Insert" element
   And I should see "Little cakes with frosting"
    #NEXT LINE SHOWS THAT IMAGE WAS INDEED INSERTED INTO BODY
 And the response should contain "alt=\"Lavender and lemony goodness\""
- 
   
 @api @javascript
 #TEST THREE: UPLOAD BY SAVING; clicking 'INSERT' element
@@ -71,9 +70,9 @@ Scenario: Upload a graphic by saving, then come back and insert it
     # THIS NEXT LINE IS NECESSARY FOR FINDING THE BODY FIELD WHEN JAVASCRIPT TESTING IS ENABLED
   And I follow "Disable rich-text"
  And fill in "Body" with "Demo body content"
+ And I fill in "edit-field-photo-und-0-alt" with "Pink clouds, blue mountains"
  And I attach the file "assets/mountains.jpg" to "edit-field-photo-und-0-upload"
-  And I fill in "edit-field-photo-und-0-alt" with "Pink clouds, blue mountains"
- And I press "edit-submit"
+  And I press "edit-submit"
  And I follow "Edit"
  Then I should see "Edit Basic page Mountains"
  # THIS NEXT LINE PROVES IT WAS UPLOADED
