@@ -27,17 +27,17 @@ Examples:
     | developer       | 
     | administrator   | 
     | site_owner      | 
+    | content_editor  | 
     
 # SOME ROLES CAN NOT ACCESS RSS FEED SETTINGS
 @api 
-Scenario Outline: CEs and EMCs should not be able to view the RSS feeds
+Scenario Outline: EMCs should not be able to view the RSS feeds
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/feeds/rss/overview"
 Then I should see "Access denied"
 
  Examples:
     | role            | 
-    | content_editor  | 
     | edit_my_content  | 
     
 @api 
@@ -47,7 +47,7 @@ Scenario: An anonymous user should not be able to view the RSS feeds
   
 #SOME ROLES CAN ACCESS THE RSS FEED BUILDER
 @api
-Scenario Outline: Devs, Admins and SOs can access the RSS feed builder page
+Scenario Outline: A user with proper role can access the RSS feed builder page
   Given I am logged in as a user with the <role> role
   When I go to "admin/settings/feeds/rss/add"
  Then I should see "Build custom RSS feeds"
@@ -59,17 +59,17 @@ Examples:
     | developer       | 
     | administrator   | 
     | site_owner      | 
+    | content_editor  | 
 
 # SOME ROLES CAN NOT ACCESS THE RSS FEED BUILDER
 @api 
-Scenario Outline: CEs and EMCs should not be able to access the RSS feed builder page
+Scenario Outline: EMCs should not be able to access the RSS feed builder page
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/feeds/rss/add"
 Then I should see "Access denied"
 
  Examples:
     | role            | 
-    | content_editor  | 
     | edit_my_content  | 
     
 @api 
@@ -78,6 +78,7 @@ Scenario: An anonymous user should not be able to access the RSS feed builder pa
   Then I should see "Access denied"
   
 # BUILDING AN RSS FEED
+# NOTE THIS PARTICULAR FEED CAN ONLY BE TESTED ONCE; USE OTHER FEEDS TO TEST OTHER ROLES
 @api
 Scenario: One user can build a feed with the default feed/rss.xml
  Given I am logged in as a user with the "site_owner" role
