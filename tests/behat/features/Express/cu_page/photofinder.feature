@@ -11,7 +11,7 @@
 # JAVASCRIPT CANNOT FIND ASSET
 
 @photofinder @javascript
-Feature: Testing Photo Uploads of Goutte Driver and Seleniium Driver
+Feature: Testing Photo Uploads of Goutte Driver and Selenium Driver
 When testing content creation
 As an authenticated user
 Travis should be able to find assets such as files and photos
