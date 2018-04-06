@@ -19,7 +19,7 @@ function cu_core_install() {
     module_enable(array('pantheon_hosting'));
   }
   elseif ($hosting == 'lando') {
-    module_enable(array('lando_hosting'));
+    module_enable(array('local_hosting'));
   }
   elseif ($hosting == 'ng_hosting') {
     module_enable(array('ng_hosting'));

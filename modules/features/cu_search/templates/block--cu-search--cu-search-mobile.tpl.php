@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Template for desktop search block.
+ * Template for mobile search block.
  */
 
 global $base_path;
@@ -12,7 +12,7 @@ $configs = $block->configs;
 $active_option = key($options);
 $active_configs = $configs[$active_option];
 ?>
-  <div class="cu-search-box cu-search-box-small animated" role="search">
+  <div class="cu-search-box cu-search-box-small animated">
     <h2 class="element-invisible"><?php print t('Search'); ?></h2>
     <form class="cu-search-form" action="<?php print $active_configs['action']; ?>" method="get">
       <div class="search-form-wrapper">
@@ -37,10 +37,10 @@ $active_configs = $configs[$active_option];
         <div class="search-fields">
           <div class="cu-search clearfix">
             <div class="form-item form-type-textfield form-item-search-keys">
-              <label class="element-invisible" for="edit-search-keys">Enter the terms you wish to search for. </label>
-              <input placeholder="<?php print $active_configs['placeholder']; ?>" type="search" id="edit-search-keys" name="cse" value="" size="15" maxlength="128" class="form-text">
+              <label class="element-invisible" for="edit-search-keys-mobile">Enter the terms you wish to search for. </label>
+              <input placeholder="<?php print $active_configs['placeholder']; ?>" type="search" id="edit-search-keys-mobile" name="cse" value="" size="15" maxlength="128" class="form-text">
             </div>
-            <div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Search" class="form-submit"></div>
+            <div class="form-actions form-wrapper" id="edit-actions-mobile"><input type="submit" id="edit-submit-mobile" name="op" value="Search" class="form-submit"></div>
           </div>
         </div>
       </div>
