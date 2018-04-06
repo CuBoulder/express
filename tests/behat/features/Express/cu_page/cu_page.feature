@@ -5,6 +5,7 @@ As an authenticated user
 I should be able to create, edit, and delete page content
 
 # NOTE: THERE IS CURRENTLY NO KNOWN WAY TO PRESS THE INSERT BUTTON; GRAPHICS CAN BE UPLOADED BUT NOT INSERTED
+# CONTINUE TESTING THIS PROBLEM WITH PHOTOINSERT.FEATURE
 
 @api
 Scenario Outline: A user with the proper role should be able to access the form for adding basic page content
