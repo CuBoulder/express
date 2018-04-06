@@ -1,3 +1,9 @@
+@page @photofinder @broken
+Feature: Testing Photo Uploads of Goutte Driver and Selenium Driver
+When testing content creation
+As an authenticated user
+Travis should be able to find assets such as files and photos
+
 #   FOR GOUTTE DRIVER: REMOVE JAVASCRIPT TAG 
 #   FOR SELENIUM DRIVER: ADD JAVASCRIPT TAG 
 
@@ -9,12 +15,6 @@
 # NOTE: IT IS NECESSARY TO EDIT THE NODE TO VERIFY IMAGE UPLOAD CUZ GOUTTE THINKS IT CAN FIND THE IMAGES WHEN IT CAN NOT
 # GOUTTE CAN FIND ASSET AT .cupcakes.jpg AND assets/cupcakes.jpg
 # JAVASCRIPT CANNOT FIND ASSET AT ALL
-
-@page @photofinder @broken
-Feature: Testing Photo Uploads of Goutte Driver and Selenium Driver
-When testing content creation
-As an authenticated user
-Travis should be able to find assets such as files and photos
 
 @api 
 # cupcakes.jpg 
