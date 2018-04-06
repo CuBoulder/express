@@ -57,7 +57,8 @@ Scenario: A graphic can be uploaded and inserted into a page; checking for an in
  And I should see "Insert"
 And I should see an "Insert" element
  # INSERT IS NOT A LINK; CANNOT FOLLOW And I follow "Insert"
-  # CLICKING INSERT IS UNDEFINED STEP And I click "Insert"
+# CLICKING INSERT IS UNDEFINED STEP And I click "Insert"
+   # INSERT IS A FORM SUBMIT BUTTON; SHOULD BE PRESSABLE
   # PRESSING INSERT BUTTON DOESN'T WORK; CAN'T FIND IT APPARENTLY
  # COULD NOT FIND THIS ELEMENT When I click the "input" element with "image_image" for "rel"
 # hold off on this one When I click the "Insert" element
