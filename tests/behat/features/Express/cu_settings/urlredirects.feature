@@ -69,7 +69,7 @@ Then I should see "Access denied"
 @api 
 Scenario: An anonymous user can not create a URL redirect
   When I am on "admin/config/search/redirect"
-  Rhen I should see "Access denied"
+  Then I should see "Access denied"
 
 @api
 Scenario Outline: Devs, Admins and SOs can delete a URL redirect
