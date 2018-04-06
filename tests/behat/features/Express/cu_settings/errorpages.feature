@@ -13,9 +13,9 @@ Scenario Outline: Devs, Admins and SOs can access Error Pages; CEs and EMCs cann
 
  Examples:
     | role            | message |
-    | developer       | "Allows you to set the default "Not Found" page." |
-    | administrator   | "Allows you to set the default "Not Found" page." |
-    | site_owner      | "Allows you to set the default "Not Found" page." |
+    | developer       | "Allows you to set the default \"Not Found\" page." |
+    | administrator   | "Allows you to set the default \"Not Found\" page." |
+    | site_owner      | "Allows you to set the default \"Not Found\" page." |
     | content_editor  | "Access Denied" |
     | edit_my_content | "Access Denied" |
 
@@ -32,11 +32,12 @@ And I press "Save"
 Then the url should match "404-page"
 Then I go to "admin/settings/adv-content/error"
  And fill in "edit-site-404" with "404-page"
-  When I press "Save"
-  Then I should see "The configuration options have been saved"
-  And I go to "missing-page-test"
-  Then I should see "404 Page"
-    
+ When I press "Save"
+ Then I should see "The configuration options have been saved"
+ And I go to "missing-page-test"
+ Then I should see "404 Page"
+
+
  #SETTING THE 403 PAGE 
 # create a basic page; use it for 403 page
 Scenario: A site-owner can create a Basic Page and use it for the 403 page
