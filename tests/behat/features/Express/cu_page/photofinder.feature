@@ -8,7 +8,7 @@
 
 # NOTE: IT IS NECESSARY TO EDIT THE NODE TO VERIFY IMAGE UPLOAD CUZ GOUTTE THINKS IT CAN FIND THE IMAGES WHEN IT CAN NOT
 # GOUTTE CAN FIND ASSET AT .cupcakes.jpg AND assets/cupcakes.jpg
-# JAVASCRIPT CANNOT FIND ASSET
+# JAVASCRIPT CANNOT FIND ASSET AT ALL
 
 @photofinder @javascript
 Feature: Testing Photo Uploads of Goutte Driver and Selenium Driver
@@ -18,7 +18,7 @@ Travis should be able to find assets such as files and photos
 
 @api 
 # cupcakes.jpg 
-Scenario: 1) A graphic can be attached to a page node (Goutte success)
+Scenario: 1) A graphic can be attached to a page node (Goutte success) (JS fail)
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes1"
@@ -35,7 +35,7 @@ And the "edit-field-photo-und-0-alt" field should contain "Lavender frosting"
 
 @api 
 # ../cupcakes.jpg
-Scenario: 2) A graphic can be attached to a page node (Goutte fail)
+Scenario: 2) A graphic can be attached to a page node (Goutte fail) (JS fail)
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes2"
@@ -52,7 +52,7 @@ And the "edit-field-photo-und-0-alt" field should contain "Lavender and lemony g
 
 @api 
 # ../../cupcakes.jpg
-Scenario: 3) A graphic can be attached to a page node (Goutte fail)
+Scenario: 3) A graphic can be attached to a page node (Goutte fail) (JS fail)
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes3"
@@ -69,7 +69,7 @@ And the "edit-field-photo-und-0-alt" field should contain "Lemon cakes"
 
 @api 
 # ../../../cupcakes.jpg
-Scenario: 4) A graphic can be attached to a page node (Goutte fail)
+Scenario: 4) A graphic can be attached to a page node (Goutte fail) (JS fail)
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes4"
@@ -86,7 +86,7 @@ And the "edit-field-photo-und-0-alt" field should contain "piles of frosting"
 
 @api 
 # ../../../../cupcakes.jpg
-Scenario: 5) A graphic can be attached to a page node (Goutte fail)
+Scenario: 5) A graphic can be attached to a page node (Goutte fail) (JS fail)
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes5"
@@ -103,7 +103,7 @@ And the "edit-field-photo-und-0-alt" field should contain "purple and yellow"
 
 @api 
 # assets/cupcakes.jpg
-Scenario: 6) A graphic can be attached to a page node (Goutte success)
+Scenario: 6) A graphic can be attached to a page node (Goutte success) (JS fail)
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes6"
@@ -120,7 +120,7 @@ And the "edit-field-photo-und-0-alt" field should contain "Lavender lemon"
 
 @api 
 # ../assets/cupcakes.jpg
-Scenario: 7) A graphic can be attached to a page node (Goutte success)
+Scenario: 7) A graphic can be attached to a page node (Goutte success) (JS fail)
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes7"
@@ -137,7 +137,7 @@ And the "edit-field-photo-und-0-alt" field should contain "delicious little cupc
 
 @api 
 # ../../assets/cupcakes.jpg
-Scenario: 8) A graphic can be attached to a page node (Goutte fail)
+Scenario: 8) A graphic can be attached to a page node (Goutte fail) (JS fail)
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes8"
@@ -154,7 +154,7 @@ And the "edit-field-photo-und-0-alt" field should contain "candy sprinkles"
 
 @api 
 # ../../../assets/cupcakes.jpg
-Scenario: 9) A graphic can be attached to a page node (Goutte fail)
+Scenario: 9) A graphic can be attached to a page node (Goutte fail) (JS fail)
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes9"
@@ -171,7 +171,7 @@ And the "edit-field-photo-und-0-alt" field should contain "happy birthday"
 
 @api 
 # ../../../../assets/cupcakes.jpg
-Scenario: 10) A graphic can be attached to a page node (Goutte fail)
+Scenario: 10) A graphic can be attached to a page node (Goutte fail) (JS fail)
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes10"
