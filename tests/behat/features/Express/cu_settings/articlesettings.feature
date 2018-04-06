@@ -30,7 +30,7 @@ Scenario Outline: User can change the Article Settings; aka hide publish date on
  Given I am logged in as a user with the <role> role
  And am on "admin/settings/news/article-settings"
  When I select "hide" from "date_display"
- And I click "edit-submit"
+ And I press "edit-submit"
  Then I should see "Article settings have been saved."
  And I go to "node/add/article"
  And I fill in "edit-title" with "A New Article"
