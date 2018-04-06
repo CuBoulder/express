@@ -32,9 +32,7 @@ Given  I am logged in as a user with the "content_editor" role
 When I go to "admin/settings"
 Then I should not see "Site Configurations"
 And I should not see "URL Management"
-  # CONTENT EDITOR CAN ONLY CLEAR CACHE
-  And I should see "Cache"
-  And I should not see "Forms"
+ And I should not see "Forms"
   And I should not see "Social Media"
   And I should not see "Search"
   And I should not see "News"
@@ -42,6 +40,8 @@ And I should not see "URL Management"
   And I should not see "Advanced Content"
   And I should not see "Feeds"
   And I should not see "Search Engine Optimization"
+   # CONTENT EDITOR CAN ONLY CLEAR CACHE
+  And I should see "Cache"
       
 @api 
 Scenario: EMCs cannot access the Site Settings page
