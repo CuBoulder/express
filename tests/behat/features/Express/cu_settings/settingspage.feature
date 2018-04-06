@@ -30,7 +30,7 @@ Scenario Outline: A user with the appropriate role can access the Settings page 
 Scenario: Content Editors cannot set Site Configs; they can only Clear Cache
 Given  I am logged in as a user with the "content_editor" role
 When I go to "admin/settings"
-Then I should see "Site Configurations"
+Then I should not see "Site Configurations"
 And I should not see "URL Management"
   # CONTENT EDITOR CAN ONLY CLEAR CACHE
   And I should see "Cache"
