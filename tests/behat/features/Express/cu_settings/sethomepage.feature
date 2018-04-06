@@ -34,7 +34,8 @@ And I go to "admin/settings/adv-content/frontpage"
 # VERIFY THAT THE CURRENT HOMEPAGE IS CALLED 'HOME'
 # NO DIDNT WORK Then I should see "home" in the "edit-site-frontpage" element
 # DIDN'T WORK EITHER Then the "edit-site-frontpage" element should contain "home"
-Then the "#edit-site-frontpage" element should contain "home"
+# DIDN'T WORK EITHER Then the "#edit-site-frontpage" element should contain "home"
+Then the "edit-site-frontpage" field should contain "home"
 And I fill in "edit-site-frontpage" with "new-home"
 When I press "Save"
 Then I should see "The configuration options have been saved."
