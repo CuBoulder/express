@@ -1,7 +1,7 @@
 (function( $ ){
   $(document).ready(function(){
     // Normal sliders
-    $('.cu-slider').flickity({
+    $('.cu-slider-ui').flickity({
       'wrapAround': true,
       'adaptiveHeight': true,
       'draggable': false,
