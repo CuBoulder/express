@@ -129,12 +129,21 @@ And I go to "/"
 Then the response should contain "content=\"My Amazing Site Description\""
 
 #GOTTA CHECK FOR ADDITION OF META TAG LINK
-@api @javascript
+@api @rebuild
 Scenario: Enabling SEO Bundle adds Meta Tag functionality to a Basic Page
-Given I am logged in as a user with the "site_owner" role
-When I go to "node/add/page"
-Then I should see "This text will be used by screen readers"
-And I should see the link "Menu settings"
-And I should see the link "Meta tags"
-When I follow "Meta tags"
-Then I should see an "#edit-metatags" element
+  Given I am logged in as a user with the "site_owner" role
+  And I am on "node/add/page"
+  And fill in "edit-title" with "Meta Test"
+  And fill in "Body" with "Lorem ipsum dolor sit amet"
+  And I should see the link "Menu settings"
+ # And I should see the link "Meta tags"
+  # When I follow "Meta tags"
+   #Then I should see an "#edit-metatags" element
+   And I fill in "edit-metatags-und-description-value" with "Important information about my page"
+  When I press "edit-submit"
+ Then I should be on "/meta-test"
+ And I should see "Meta Test"
+  And I should see "Lorem ipsum dolor sit amet"
+  Then the response should contain "content=\"Important information about my page\""
+  
+  
