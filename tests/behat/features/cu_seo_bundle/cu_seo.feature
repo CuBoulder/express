@@ -129,7 +129,7 @@ And I go to "/"
 Then the response should contain "content=\"My Amazing Site Description\""
 
 #GOTTA CHECK FOR ADDITION OF META TAG LINK
-@api @rebuild
+@api @metatagtest
 Scenario: Enabling SEO Bundle adds Meta Tag functionality to a Basic Page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
