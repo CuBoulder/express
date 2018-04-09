@@ -39,7 +39,6 @@ Examples:
      | content_editor |
      | edit_my_content |
  
-
 #CHECKING THE EXPRESS MENU
 
   @api
@@ -62,11 +61,11 @@ Examples:
     Given  I am logged in as a user with the <role> role
     When I go to "admin"
     Then I should see the link "Dashboard"
-      And I should see the link "Content"
-      And I should see the link "Structure"
-      And I should see the link "Users"
-      And I should see the link "Design"
-      And I should see the link "Settings"
+     And I should see the link "Content"
+     And I should see the link "Structure"
+     And I should see the link "Users"
+     And I should see the link "Design"
+     And I should see the link "Settings"
 
     Examples:
     | role |
@@ -78,9 +77,9 @@ Examples:
    Given  I am logged in as a user with the "content_editor" role
    When I go to "admin"
    Then I should see the link "Dashboard"
-      And I should see the link "Content"
-      And I should see the link "Structure"
-      And I should see the link "Settings"
+    And I should see the link "Content"
+    And I should see the link "Structure"
+    And I should see the link "Settings"
       
   @api
   Scenario: As an edit_my_content I should see an extremely limited Express menu
@@ -111,7 +110,7 @@ Examples:
 
   @api
   Scenario: An edit_my_content user should see a very limited Shortcuts menu
-    Given  I am logged in as a user with the "edit_my_content" role
-    When I am on "/"
-    And I click the "a" element with "Shortcuts" for "title"
-    And I should see the link "Find content"
+   Given I am logged in as a user with the "edit_my_content" role
+   When I am on "/"
+   And I click the "a" element with "Shortcuts" for "title"
+   Then I should see the link "Find content"
