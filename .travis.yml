@@ -101,7 +101,7 @@ before_script:
 script:
 
   # Run Behat tests.
-  - ./bin/behat --config behat.travis.yml --verbose --tags '@rebuild'
+  - ./bin/behat --config behat.travis.yml --verbose --tags '@metatagtest'
   #  - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken'
   
   # Output performance logging data.
