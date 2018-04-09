@@ -43,7 +43,7 @@ Examples:
 
   @api
   Scenario: As a developer I should see the complete Express menu
-    Given  I am logged in as a user with the "developer" role
+    Given I am logged in as a user with the "developer" role
     When I go to "admin"
     Then I should see the link "Dashboard"
       And I should see the link "Content"
@@ -58,7 +58,7 @@ Examples:
 
   @api
   Scenario Outline: As an administrator or a site_owner I should see a partial Express menu
-    Given  I am logged in as a user with the <role> role
+    Given I am logged in as a user with the <role> role
     When I go to "admin"
     Then I should see the link "Dashboard"
      And I should see the link "Content"
@@ -90,16 +90,16 @@ Examples:
    And I should see the link "Content"
     
  @api
-  Scenario Outline: Most user roles should see the same Shortcuts menu
-    Given  I am logged in as a user with the <role> role
-    When I am on "/"
-    And I click the "a" element with "Shortcuts" for "title"
-    Then I should see the link "Add content"
-    And I should see the link "Find content"
-    And I should see the link "Blocks"
-    And I should see the link "Context"
-    And I should see the link "Main Menu"
-    And I should see the link "Edit shortcuts"
+ Scenario Outline: Most user roles should see the same Shortcuts menu
+   Given I am logged in as a user with the <role> role
+   When I am on "/"
+   And I click the "a" element with "Shortcuts" for "title"
+   Then I should see the link "Add content"
+   And I should see the link "Find content"
+   And I should see the link "Blocks"
+   And I should see the link "Context"
+   And I should see the link "Main Menu"
+   And I should see the link "Edit shortcuts"
 
     Examples:
       | role |
