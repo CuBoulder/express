@@ -1,6 +1,6 @@
 # Checking the Express toolbar and Shortcut toolbar
 
-@extended_search @rebuild
+@toolbars
  Feature: the Express and Shortcut toolbars
   When I log into the website
   As an authenticated user
@@ -8,7 +8,7 @@
   
  @api
  Scenario Outline: All roles should see the blue and white toolbars
-  Given I am logged is as a user with the <role> role
+  Given I am logged in as a user with the <role> role
   When I go to "/"
   Then I should see "navbar-bar"
   And I should see "navbar-item--2-tray"
