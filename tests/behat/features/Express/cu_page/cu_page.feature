@@ -46,7 +46,6 @@ Scenario: A graphic can be uploaded to a Basic Page node
  And I fill in "edit-field-photo-und-0-alt" with "Ralphie Buffalo with handlers"
  And I attach the file "assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-field-photo-und-0-upload-button"
-  And I wait 5 seconds
  Then I should see "File information"
  And I should see "ralphie.jpg"
  And I should see "Insert"

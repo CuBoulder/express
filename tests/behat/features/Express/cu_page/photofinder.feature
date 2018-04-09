@@ -24,7 +24,6 @@ And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes1"
 # ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "Lavender frosting"
-And I wait 5 seconds
 And I attach the file "cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes1"
@@ -41,7 +40,6 @@ And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes2"
 # ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
-And I wait 5 seconds
 And I attach the file "../cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes2"
@@ -58,7 +56,6 @@ And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes3"
 # ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "Lemon cakes"
-And I wait 5 seconds
 And I attach the file "../../cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes3"
@@ -75,7 +72,6 @@ And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes4"
 # ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "piles of frosting"
-And I wait 5 seconds
 And I attach the file "../../../cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes4"
@@ -92,7 +88,6 @@ And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes5"
 # ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "purple and yellow"
-And I wait 5 seconds
 And I attach the file "../../../../cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes5"
@@ -109,7 +104,6 @@ And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes6"
 # ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "Lavender lemon"
-And I wait 5 seconds
 And I attach the file "assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes6"
@@ -126,7 +120,6 @@ And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes7"
 # ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "delicious little cupcakes"
-And I wait 5 seconds
 And I attach the file "../assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes7"
@@ -143,7 +136,6 @@ And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes8"
 # ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "candy sprinkles"
-And I wait 5 seconds
 And I attach the file "../../assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes8"
@@ -160,7 +152,6 @@ And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes9"
 # ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "happy birthday"
-And I wait 5 seconds
 And I attach the file "../../../assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes9"
@@ -177,7 +168,6 @@ And I am on "node/add/page"
 And fill in "edit-title" with "Cupcakes10"
 # ENTER ALT TEXT AND PAUSE TO WATCH SAUCELABS
 And I fill in "edit-field-photo-und-0-alt" with "sweet little cakes"
-And I wait 5 seconds
 And I attach the file "../../../../assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-submit"
 Then I should see "Cupcakes10"

@@ -50,7 +50,6 @@ Scenario: A graphic can be uploaded and inserted into a page; checking for an in
    And I fill in "edit-field-photo-und-0-alt" with "Lavender and lemony goodness"
    And I attach the file "assets/cupcakes.jpg" to "edit-field-photo-und-0-upload"
   And I press "edit-field-photo-und-0-upload-button"
-  And I wait 5 seconds
  Then I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "cupcakes.jpg"
@@ -107,7 +106,6 @@ Scenario: Inserting a different size graphic than the default
  And I attach the file "assets/dog.jpg" to "edit-field-photo-und-0-upload"
   And I fill in "edit-field-photo-und-0-alt" with "Red heeler with sunflower"
  And I press "edit-field-photo-und-0-upload-button"
-  And I wait 5 seconds
  Then I should see "File information"
   And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "dog.jpg"
