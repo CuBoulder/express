@@ -135,7 +135,7 @@ Scenario: Enabling SEO Bundle adds Meta Tag functionality to a Basic Page
   And I am on "node/add/page"
   And fill in "edit-title" with "Meta Test"
   And fill in "Body" with "Lorem ipsum dolor sit amet"
-  And I should see the link "Menu settings"
+ # And I should see the link "Menu settings"
  # And I should see the link "Meta tags"
   # When I follow "Meta tags"
    #Then I should see an "#edit-metatags" element
