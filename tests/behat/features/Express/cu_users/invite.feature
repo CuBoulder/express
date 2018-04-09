@@ -3,7 +3,7 @@ Feature: User External Invite
   When I login to a Web Express site
   I should be able to invite users to my site
 
-  @api @invite
+  @api @invite @broken
   Scenario: Invite page has correct variables set.
     Given I am logged in as a user with the "site_owner" role
     When I go to "/admin/people/invite"
