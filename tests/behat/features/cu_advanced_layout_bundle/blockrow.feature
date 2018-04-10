@@ -1,4 +1,4 @@
-@AdvLayoutBundle @javascript
+@AdvLayoutBundle
 Feature: the Block Row Block
 In order to placed blocks side by side
 As an authenticated user
@@ -43,31 +43,32 @@ Scenario: An anonymous user should not be able to access the form
 #And I should see "Sample Text Two"
 
 @api
-Scenario: All blocks have the same height when "Match Heights" checkbox is checked
+Scenario: A block row block can be created
 Given I am logged in as a user with the "site_owner" role
 And I go to "block/add/block-row"
-And I fill in "edit-label" with "My Block Row Block"
-And I fill in "edit-title" with "My Block Row Block"
+And I fill in "edit-label" with "My Block Row Block Label"
+And I fill in "edit-title" with "My Block Row Block Title"
 
 # CREATE FIRST TEXT BLOCK
 And I select "Text Block" from "edit-field-block-row-collection-und-0-field-block-row-block-und-actions-bundle"
 And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-label" with "Text One Label"
 And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-title" with "Text One Title"
-And I follow "Disable rich-text"
+# DONT NEED IF NOT JAVASCRIPT And I follow "Disable rich-text"
  And fill in "Body" with "Cupcake ipsum dolor sit amet ice cream carrot cake"
  And I press "Create block"
 
  # CREATE SECOND TEXT BLOCK
  And I press "Add another column"
-And I select "Text Block" from "edit-field-block-row-collection-und-0-field-block-row-block-und-actions-bundle"
-And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-label" with "Text Two Label"
-And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-title" with "Text Two Title"
-And I follow "Disable rich-text"
+And I select "Text Block" from "edit-field-block-row-collection-und-1-field-block-row-block-und-actions-bundle"
+And I fill in "edit-field-block-row-collection-und-1-field-block-row-block-und-form-label" with "Text Two Label"
+And I fill in "edit-field-block-row-collection-und-1-field-block-row-block-und-form-title" with "Text Two Title"
+# DONT NEED IF NOT JAVASCRIPT And I follow "Disable rich-text"
  And fill in "Body" with "Lemon drops dessert chocolate gingerbread dessert"
  And I press "Create block"
 
+And I check "edit-field-block-row-match-height-und"
 And I press "Save"
-Then I should see "My Block Row Block"
+Then I should see "My Block Row Block Title"
 Then I should see "Cupcake ipsum dolor sit amet ice cream carrot cake"
 And I should see "Lemon drops dessert chocolate gingerbread dessert"
  
