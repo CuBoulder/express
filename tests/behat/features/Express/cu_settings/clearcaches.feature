@@ -74,12 +74,12 @@ Examples:
 
 # NOTE: NO VARNISH ON TRAVIS 
 # THE PROPER STATUS MESSAGE IS DISPLAYED WHEN FULL DATABASE CACHE IS CLEARED
-@api 
+@api @javascript
 Scenario: Clearing Full Page Cache is limited to once per hour 
   Given I am logged in as a user with the "site_owner" role
   When I go to "admin/settings/cache/clear/drupal-full"
-  And I press "edit-clear-drupal-cache"
-  And I wait 60 seconds
+  And I press "Clear Full Database Cache"
+  And I wait for the ".messages.status" element to appear
   Then I should see "Full Database Cache Cleared"
   And the "#edit-clear-drupal-cache" element should have "disabled" in the "disabled" attribute
   
@@ -92,7 +92,6 @@ Scenario: Clearing Full Page Cache is limited to once per hour
 #  Then I should see "Enter the specific path or URL to clear from the Page cache."
 #  And I fill in "edit-clear-varnish-path-cache-path" with <testpath>
 #  And I press "edit-clear-varnish-path-cache"
-#  And I wait 60 seconds
 #   Then the response should contain "class=\"messages status\""  
 #   And I should see a "div" element with the "class" attribute set to "messages status"
    
@@ -110,7 +109,6 @@ Scenario: Clearing Full Page Cache is limited to once per hour
 #  Given I am logged in as a user with the "site_owner" role
 #  When I go to "admin/settings/cache/clear/varnish-full"
 #  And I press "edit-clear-varnish-cache"
-#  And I wait 60 seconds
 #  Then I should see "The whole Page Cache was recently cleared"
 #  And the "#edit-clear-varnish-cache" element should have "disabled" in the "disabled" attribute
 

@@ -222,7 +222,7 @@ class FeatureContext extends MinkContext
   public function iWaitForTheElementToAppear($arg1) {
     $this->spinner(function($context, $arg1) {
 
-      $el = $context->getSession()->getPage()->findById($arg1);
+      $el = $context->getSession()->getPage()->find("css", $arg1);
 
       if ($el !== NULL && $el->isVisible()) {
         return true;

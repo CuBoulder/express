@@ -7,7 +7,6 @@ php:
 
 branches:
   only:
-    # - randomBranch
     - dev
 
 addons:
