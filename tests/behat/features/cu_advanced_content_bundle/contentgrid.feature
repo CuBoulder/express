@@ -23,7 +23,6 @@ Scenario: An anonymous user should not be able to access the form
   Given I go to "block/add/feature-callout"
   Then I should see "Access denied"
   
-  
 @api 
 Scenario Outline: An authenticated user should see a number of Grid Style options
 Given I am logged in as a user with the "site_owner" role
@@ -38,6 +37,30 @@ And I should see an "edit-field-callout-style-und-cards" element
 And I should see an "edit-field-callout-style-und-teaser" element
 And I should see an "edit-field-callout-style-und-tiles-alt" element
 
+@api 
+Scenario Outline: An authenticated user should see a number of Column options
+Given I am logged in as a user with the "site_owner" role
+And am on "block/add/feature-callout"
+When I select <condition> from "edit-field-callout-columns-und"
+
+  Examples:
+    | condition |
+    | "2" |
+    | "3" |
+    | "4" |
+    | "5" |
+    | "6" |
+
+ @api 
+Scenario Outline: An authenticated user should see a number of Image Size options
+Given I am logged in as a user with the "site_owner" role
+And am on "block/add/feature-callout"
+When I select <condition> from "edit-field-callout-image-size-und"
+
+  Examples:
+    | condition |
+    | "Wide" |
+    | "Square" |
 
 @api @javascript
 Scenario: A simple Content Grid can be created
