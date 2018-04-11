@@ -50,4 +50,21 @@ When I select <condition> from "edit-field-content-list-display-und"
     | "Title" |
     | "Sidebar" |
     
-    
+@api @javascript
+Scenario: A simple Content List block can be created
+Given I am logged in as a user with the "site_owner" role
+#CREATE A BASIC PAGE TO LOAD INTO THE LIST
+And I am on "node/add/page"
+And fill in "edit-title" with "Ducks"
+And I follow "Disable rich-text"
+And I fill in "Body" with "Ducks can fly and swim"
+And I press "edit-submit"
+Then I should see "Ducks"
+And I go to "block/add/content-list"
+And I fill in "edit-label" with "My Block Row Block Label"
+And I fill in "edit-title" with "My Block Row Block Title"
+And I fill in "edit-field-content-list-reference-und-0-target-id" with "Ducks"
+And I wait 5 seconds
+And I press "edit-submit"
+Then I should see "My Block Row Block Title"
+And I should see "Ducks can fly and swim"
