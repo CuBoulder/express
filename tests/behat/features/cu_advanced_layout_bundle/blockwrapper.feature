@@ -1,4 +1,4 @@
-@AdvLayoutBundle @block-wrapper-block @javascript
+@AdvLayoutBundle @block-wrapper-block
 Feature: the Block Wrapper Block
 In order to place system blocks as beans
 As an authenticated user
@@ -22,3 +22,11 @@ Scenario Outline: An authenticated user should be able to access the form for ad
 Scenario: An anonymous user should not be able to access the form
   Given I go to "block/add/block-wrapper"
   Then I should see "Access denied"
+
+@api
+Scenario: A block wrapper block can be created
+Given I am logged in as a user with the "site_owner" role
+And I go to "block/add/block-wrapper"
+And I select "Footer Menu" from "edit-field-block-wrapper-reference-und"
+And I press "Save"
+Then I should see "Block Wrapper My Block Wrapper has been created."
