@@ -13,6 +13,10 @@ branches:
   only:
     - dev
 
+addons:
+  # The username and access key are stored in the Travis settings.
+  sauce_connect: true
+
 mysql:
   database: drupal
   username: root
@@ -26,6 +30,12 @@ cache:
     - $HOME/cache
 
 install:
+
+  # Start Sauce if BEHAT_TAGS has JS tests.
+  # - cd profiles/express/tests/travis-ci
+  # - ./start-sauce.sh
+  - echo ${_SC_PID}
+  - cd dkdjsj
 
   # Install latest Drush 8.
   - travis_retry composer self-update && composer --version
@@ -98,10 +108,6 @@ before_script:
   # Setting Behat environment variables is now done in behat.travis.yml for simplicity.
 
 script:
-
-  # Start Sauce if BEHAT_TAGS has JS tests.
-  - cd profiles/express/tests/travis-ci
-  - ./start-sauce.sh
 
   # Run Behat tests in parallel.
   # Tags are defined in the "env" key at the top of this file.
