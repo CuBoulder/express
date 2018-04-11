@@ -27,15 +27,15 @@ Scenario: An anonymous user should not be able to access the form
 Scenario: An authenticated user should see a number of Grid Style options
 Given I am logged in as a user with the "site_owner" role
 And am on "block/add/feature-callout"
-Then I should see an "edit-field-callout-style-und-columns" element
-And I should see an "edit-field-callout-style-und-overlay" element
-And I should see an "edit-field-callout-style-und-large-teaser" element
-And I should see an "edit-field-callout-style-und-large-teaser-alt" element
-And I should see an "edit-field-callout-style-und-feature" element
-And I should see an "edit-field-callout-style-und-offset" element
-And I should see an "edit-field-callout-style-und-cards" element
-And I should see an "edit-field-callout-style-und-teaser" element
-And I should see an "edit-field-callout-style-und-tiles-alt" element
+Then I should see an "#edit-field-callout-style-und-columns" element
+And I should see an "#edit-field-callout-style-und-overlay" element
+And I should see an "#edit-field-callout-style-und-large-teaser" element
+And I should see an "#edit-field-callout-style-und-large-teaser-alt" element
+And I should see an "#edit-field-callout-style-und-feature" element
+And I should see an "#edit-field-callout-style-und-offset" element
+And I should see an "#edit-field-callout-style-und-cards" element
+And I should see an "#edit-field-callout-style-und-teaser" element
+And I should see an "#edit-field-callout-style-und-tiles-alt" element
 
 @api 
 Scenario Outline: An authenticated user should see a number of Column options
