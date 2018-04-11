@@ -23,25 +23,6 @@ Scenario: An anonymous user should not be able to access the form
   Given I go to "block/add/block-row"
   Then I should see "Access denied"
 
-# CREATE TWO TEXT BLOCKS FOR BLOCK ROW CREATION TEST
-#Scenario: Create two text blocks for block row heights test
-#Given I am logged in as a user with the "site_owner" role
-#And I go to "block/add/block"
-#And fill in "edit-label" with "Sample Text One"
-#And fill in "edit-title" with "Sample Text One"
-#And I follow "Disable rich-text"
-#And I fill in "Body" with "Cupcake ipsum dolor sit amet ice cream cake sweets carrot cake carrot cake. Tart candy pastry sweet roll candy tart sugar plum pudding."
-#And I press "Save"
-#And I go to "block/add/block"
-#And fill in "edit-label" with "Sample Text Two"
-#And fill in "edit-title" with "Sample Text Two"
-#And I follow "Disable rich-text"
-#And I fill in "Body" with "Lemon drops dessert chocolate gingerbread dessert"
-#And I press "Save"
-#And I go to "admin/content/blocks"
-#Then I should see "Sample Text One"
-#And I should see "Sample Text Two"
-
 @api
 Scenario: A block row block can be created
 Given I am logged in as a user with the "site_owner" role
@@ -51,6 +32,7 @@ And I fill in "edit-title" with "My Block Row Block Title"
 
 # CREATE FIRST TEXT BLOCK
 And I select "Text Block" from "edit-field-block-row-collection-und-0-field-block-row-block-und-actions-bundle"
+And I wait 5 seconds
 And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-label" with "Text One Label"
 And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-title" with "Text One Title"
 # DONT NEED IF NOT JAVASCRIPT And I follow "Disable rich-text"
@@ -60,6 +42,7 @@ And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-f
  # CREATE SECOND TEXT BLOCK
  And I press "Add another column"
 And I select "Text Block" from "edit-field-block-row-collection-und-1-field-block-row-block-und-actions-bundle"
+And I wait 5 seconds
 And I fill in "edit-field-block-row-collection-und-1-field-block-row-block-und-form-label" with "Text Two Label"
 And I fill in "edit-field-block-row-collection-und-1-field-block-row-block-und-form-title" with "Text Two Title"
 # DONT NEED IF NOT JAVASCRIPT And I follow "Disable rich-text"
