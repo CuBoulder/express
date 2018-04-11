@@ -928,9 +928,13 @@ function cu_core_update_7039() {
 function cu_core_update_7040() {
  module_disable(array(
    'securepages',
-   'memcache'
+   'memcache',
+   'ng_hosting'
   ));
-  drupal_uninstall_modules($module_list = array('securepages','memcache'), $uninstall_dependents = FALSE);
+  drupal_uninstall_modules($module_list = array('securepages','memcache','ng_hosting'), $uninstall_dependents = FALSE);
+  module_enable(array(
+    'ucb_on_prem_hosting'
+  ));
 }
 
 /**
