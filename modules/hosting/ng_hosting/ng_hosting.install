@@ -23,7 +23,8 @@ function ng_hosting_update_7001() {
  * Implements hook_uninstall().
  */
 function ng_hosting_uninstall() {
-  variable_delete('session_cookie_lifetime_type');
-  variable_delete('session_cookie_lifetime_multiplier');
-  variable_delete('session_cookie_lifetime_amount');
+  variable_del('session_cookie_lifetime_type');
+  variable_del('session_cookie_lifetime_multiplier');
+  variable_del('session_cookie_lifetime_amount');
+
 }
