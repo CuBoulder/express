@@ -24,7 +24,7 @@ Scenario: An anonymous user should not be able to access the form
   Then I should see "Access denied"
   
 @api 
-Scenario Outline: An authenticated user should see a number of Grid Style options
+Scenario: An authenticated user should see a number of Grid Style options
 Given I am logged in as a user with the "site_owner" role
 And am on "block/add/feature-callout"
 Then I should see an "edit-field-callout-style-und-columns" element
