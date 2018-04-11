@@ -24,7 +24,7 @@ Scenario: An anonymous user should not be able to access the form
   Then I should see "Access denied"
 
 
-@api
+@api @javascript
 Scenario: A block section block can be created
 Given I am logged in as a user with the "site_owner" role
 And I go to "block/add/block-section"
@@ -33,10 +33,11 @@ And I fill in "edit-title" with "My Block Section Block Title"
 
 # CREATE a TEXT BLOCK
 And I select "Text Block" from "edit-field-blocks-section-blocks-und-actions-bundle"
-And I wait 5 seconds
+And I wait for AJAX
 And I fill in "edit-field-blocks-section-blocks-und-form-label" with "Ralphie Buffalo Label"
 And I fill in "edit-field-blocks-section-blocks-und-form-title" with "Ralphie Buffalo Title"
- And fill in "Body" with "Ralphie Handlers run Ralphie around Folsom Field."
+And I follow "Disable rich-text"
+ And I fill in "Body" with "Ralphie Handlers run Ralphie around Folsom Field."
  And I press "Create block"
 And I attach the file "ralphie.jpg" to "edit-field-block-section-bg-image-und-0-upload"
 And I press "edit-field-block-section-bg-image-und-0-upload-button"
