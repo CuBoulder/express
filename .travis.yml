@@ -82,6 +82,7 @@ before_script:
   - echo ${_SC_PID}
   - if [[ ${_SC_PID} != unset ]]  && [[ "${BEHAT_TAGS}" != "@javascript&&~exclude_all_bundles&&~broken" ]]; then kill -9 ${_SC_PID} ; else echo "running JS tests"; fi
   - ps -ax | grep ${_SC_PID}
+  - ps -ax | grep "sc"
 
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
