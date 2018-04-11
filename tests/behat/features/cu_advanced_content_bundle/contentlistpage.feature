@@ -6,7 +6,7 @@ I should be able to access and use the Content List page
   
 @api 
 Scenario Outline: An authenticated user should be able to access the content list page
-  Given  I am logged in as a user with the <role> role
+  Given I am logged in as a user with the <role> role
   When I go to "node/add/content-list-page"
   Then I should see <message>
 
@@ -31,7 +31,7 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 And fill in "edit-title" with "List Test Page"
 And fill in "Body" with "Demo body content"
-And I unclick "edit-menu-enabled"
+When I uncheck "edit-menu-enabled"
 And I press "Save"
 #ARTICLE
 And I go to "node/add/article"
