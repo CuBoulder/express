@@ -17,22 +17,24 @@ use Behat\Behat\Hook\Scope\AfterStepScope;
 class FeatureContext extends MinkContext
 {
 
-  /** @AfterScenario
+  /*
+   * @AfterScenario
    * @param \Behat\Behat\Hook\Scope\AfterScenarioScope $scope
-   */
+
   public function after(AfterScenarioScope $scope)
   {
     $this->getSession()->visit($this->locatePath('/user/logout'));
-  }
+  } */
 
-  /**
+  /*
    * After every step in a @javascript scenario, we want to wait for AJAX
    * loading to finish. If a test failure, then take a screenshot of failed step.
    *
    * @AfterStep
    *
    * @param \Behat\Behat\Hook\Scope\AfterStepScope $scope
-   */
+
+  /*
   public function afterStep(AfterStepScope $scope)
   {
     if (0 === $scope->getTestResult()->getResultCode()) {
@@ -42,7 +44,7 @@ class FeatureContext extends MinkContext
       }
       $this->iWaitForAjax();
     }
-  }
+  } */
 
   /**
    * Wait for AJAX to finish.
@@ -71,7 +73,7 @@ class FeatureContext extends MinkContext
     $element = $this->getSession()->getPage();
 
     // Logout if logged in.
-    if ($element->hasContent('Real name:')) {
+    if ($element->hasContent('Who\'s online')) {
       $this->getSession()->visit($this->locatePath('/user/logout'));
       $this->getSession()->visit($this->locatePath('/user'));
       $element = $this->getSession()->getPage();
@@ -254,10 +256,7 @@ class FeatureContext extends MinkContext
 
     $backtrace = debug_backtrace();
 
-    throw new Exception(
-      "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n" .
-      $backtrace[1]['file'] . ", line " . $backtrace[1]['line']
-    );
+    throw new Exception("Timeout thrown by ". $backtrace[1]['class']. "::". $backtrace[1]['function']. "()\n". $backtrace[1]['file']. ", line ". $backtrace[1]['line']);
   }
 
   /**
