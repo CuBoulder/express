@@ -72,7 +72,7 @@ And I fill in "edit-title" with "My Content Grid Title"
 And I fill in "edit-field-callouts-und-0-field-callout-title-und-0-title" with "Heading One"
 And I follow "Disable rich-text"
 And fill in "Body" with "Cupcake ipsum dolor sit amet ice cream carrot cake"
-And I press 'Add another item"
+And I press "Add another item"
 # SECOND CELL
 And I fill in "edit-field-callouts-und-1-field-callout-title-und-0-title" with "Heading Two"
 And I follow "Disable rich-text"
