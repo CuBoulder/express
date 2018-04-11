@@ -38,6 +38,7 @@ install:
   - cd ../../../
 
   # Build Codebase
+  - drush cc drush
   - drush dl drupal-7.58
   - mkdir drupal
   - mv drupal-7.58/* drupal/
