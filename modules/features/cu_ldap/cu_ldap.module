@@ -60,7 +60,7 @@ function cu_ldap_lookup($identikey) {
   //@TODO: replace hadcoded values with configuration from LDAP settings
 
   // Load the user's entry in LDAP.
-  $link_identifier = ldap_connect('directory.colorado.edu');
+  $link_identifier = ldap_connect('ldaps://directory.colorado.edu', 636);
   $base_dn = "dc=colorado,dc=edu";
   $filter = "uid=" . $identikey;
   $result_identifier = ldap_search($link_identifier, $base_dn, $filter);
