@@ -2,10 +2,6 @@ language: php
 # We want to avoid sudo. This allow us to use Travis docker infrastructure, which means builds start faster and have more CPU available.
 sudo: false
 
-env:
-  - BEHAT_TAGS="@~exclude_all_bundles&&~broken&&~javascript"
-  - BEHAT_TAGS="@javascript&&~exclude_all_bundles&&~broken"
-
 php:
   - '7.1'
 
