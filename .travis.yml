@@ -80,7 +80,8 @@ before_script:
   # - cd profiles/express/tests/travis-ci
   # - ./start-sauce.sh
   - echo ${_SC_PID}
-  - cd dkdjsj
+  - if [[ ${_SC_PID} != unset ]] ; then echo "sauce running"; fi
+  - cd ksksksj
 
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
