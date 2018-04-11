@@ -33,7 +33,7 @@ install:
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
   # Build Behat dependencies
-  - cd tests/behat
+  - cd ./tests/behat
   - travis_retry composer install --prefer-dist --no-interaction
   - cd ../../../
 
@@ -48,7 +48,7 @@ install:
   - cd drupal
   - cd modules
   - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
-  - cd ../../
+  - cd ../..
 
   # Setup files
   - mkdir -p drupal/sites/default/files/styles/preview/public/gallery/
@@ -72,14 +72,6 @@ install:
 
 before_script:
 
-  # Start Sauce if BEHAT_TAGS has JS tests.
-  # - cd profiles/express/tests/travis-ci
-  # - ./start-sauce.sh
-  # - echo ${_SC_PID}
-  # - if [[ ${_SC_PID} != unset ]]  && [[ "${BEHAT_TAGS}" != "@javascript&&~exclude_all_bundles&&~broken" ]]; then kill -9 ${_SC_PID} ; else echo "running JS tests"; fi
-  # - ps -ax | grep "${_SC_PID}"
-  # - ps -ax | grep "sc"
-
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
 
@@ -89,30 +81,28 @@ before_script:
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
   - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
 
-  # Export db so it can be imported after every suite run.
-  # Test runs that fill up the db with nodes can impact other tests.
-  - drush sql-dump --result-file=$HOME/cache/express.sql
-
   # Check and see if testing core module is enabled.
   - drush pm-info travis_hosting
   - drush pm-info cu_core
   - drush pm-info cu_ldap
   - drush pm-info ldap_authentication
 
-  # Start server.
+  # Export db so it can be imported after every suite run.
+  # Test runs that fill up the db with nodes can impact other tests.
+  - drush sql-dump --result-file=$HOME/cache/express.sql
+
+  # Start server...
   - drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &
   - nc -zvv 127.0.0.1 8057; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8057..."; nc -zvv localhost 8057; out=$?; sleep 5; done
+  - cd profiles/express/tests/behat
 
   # Setting Behat environment variables is now done in behat.travis.yml for simplicity.
 
 script:
 
-  # Run Behat tests in parallel.
-  # Tags are defined in the "env" key at the top of this file.
-  - cd profiles/express/tests/behat
-  - ls -al
-  - ./bin/behat --config behat.travis.yml --verbose --tags "@~exclude_all_bundles&&~broken&&~javascript"
-  - ./bin/behat --config behat.travis.yml --verbose --tags "@javascript&&~exclude_all_bundles&&~broken"
+  # Run Behat tests.
+  - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&~@javascript'
+  - ./bin/behat --config behat.travis.yml --verbose --tags '@javascript&&~@exclude_all_bundles&&~@broken'
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
