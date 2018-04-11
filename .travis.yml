@@ -113,8 +113,8 @@ script:
 
   # Run Behat tests in parallel.
   # Tags are defined in the "env" key at the top of this file.
-  - pwd
-  - cd profiles/express/tests
+  - cd profiles/express/tests/behat
+  - ls -al
   - ./bin/behat --config behat.travis.yml --verbose --tags $BEHAT_TAGS
 
   # Output performance logging data.
