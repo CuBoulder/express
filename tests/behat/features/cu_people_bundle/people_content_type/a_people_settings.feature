@@ -17,17 +17,3 @@ Feature: People Settings
     Given  I am logged in as a user with the "site_owner" role
     And am on "admin/settings/people/settings"
     Then the "edit-type-label" field should contain "type"
-
-  @api
-  Scenario: A site owner should be able to change people labels
-    Given  I am logged in as a user with the "site_owner" role
-    And am on "admin/settings/people/settings"
-    And fill in "edit-type-label" with "Affiliation"
-    And fill in "Filter One Label" with "Label One Test"
-    And fill in "Filter Two Label" with "Label Two Test"
-    And fill in "Filter Three Label" with "Label Three Test"
-    When I press "Save"
-    Then the "edit-type-label" field should contain "Affiliation"
-    And the "edit-filter-one-label" field should contain "Label One Test"
-    And the "edit-filter-two-label" field should contain "Label Two Test"
-    And the "edit-filter-three-label" field should contain "Label Three Test"
