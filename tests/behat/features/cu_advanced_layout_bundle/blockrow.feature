@@ -32,12 +32,12 @@ And I fill in "edit-title" with "My Block Row Block Title"
 
 # CREATE FIRST TEXT BLOCK
 And I select "Text Block" from "edit-field-block-row-collection-und-0-field-block-row-block-und-actions-bundle"
-And I wait 5 seconds
-Then I should see "Block Row Label"
-And I should see "Block Row Title"
+And I wait for AJAX
+Then I should see "Text Block Label"
+And I should see "Text Block Title"
 And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-label" with "Text One Label"
 And I fill in "edit-field-block-row-collection-und-0-field-block-row-block-und-form-title" with "Text One Title"
-# DONT NEED IF NOT JAVASCRIPT And I follow "Disable rich-text"
+And I follow "Disable rich-text"
  And fill in "Body" with "Cupcake ipsum dolor sit amet ice cream carrot cake"
  And I press "Create block"
 
