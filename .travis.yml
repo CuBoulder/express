@@ -74,6 +74,16 @@ install:
   - mysql -e "SET GLOBAL wait_timeout = 36000;"
   - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
 
+  # Do the site install.
+  - mysql -e 'create database drupal;'
+  - cd drupal
+  - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
+  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
+
+  # Export db so it can be imported after every suite run.
+  # Test runs that fill up the db with nodes can impact other tests.
+  - drush sql-dump --result-file=$HOME/cache/express.sql
+
 before_script:
 
   # Start Sauce if BEHAT_TAGS has JS tests.
@@ -87,21 +97,11 @@ before_script:
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
 
-  # Do the site install.
-  - mysql -e 'create database drupal;'
-  - cd drupal
-  - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
-  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
-
   # Check and see if testing core module is enabled.
   - drush pm-info travis_hosting
   - drush pm-info cu_core
   - drush pm-info cu_ldap
   - drush pm-info ldap_authentication
-
-  # Export db so it can be imported after every suite run.
-  # Test runs that fill up the db with nodes can impact other tests.
-  - drush sql-dump --result-file=$HOME/cache/express.sql
 
   # Start server.
   - drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &
