@@ -80,7 +80,7 @@ before_script:
   # - cd profiles/express/tests/travis-ci
   # - ./start-sauce.sh
   - echo ${_SC_PID}
-  - if [[ ${_SC_PID} != unset ]] ; then echo "sauce running"; fi
+  - if [[ ${_SC_PID} != unset ]]  && [[ "${BEHAT_TAGS}" != "@javascript&&~exclude_all_bundles&&~broken" ]]; then echo "sauce running"; else echo "no sauce for you!"; fi
   - cd ksksksj
 
   # Disable XDebug to speed up test runs.
