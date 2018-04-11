@@ -22,3 +22,32 @@ Scenario Outline: An authenticated user should be able to access the form for ad
 Scenario: An anonymous user should not be able to access the form
   Given I go to "block/add/content-list"
   Then I should see "Access denied"
+
+@api 
+Scenario Outline: An authenticated user should see a number of Sort options
+Given I am logged in as a user with the "site_owner" role
+And am on "block/add/content-list"
+When I select <condition> from "edit-field-content-list-sort-und"
+
+  Examples:
+    | condition |
+    | "_none" |
+    | "Custom" |
+    | "Date Created" |
+    | "Date Created Reverse" |
+    | "Alphabetical" |
+    
+ @api 
+Scenario Outline: An authenticated user should see a number of Display options
+Given I am logged in as a user with the "site_owner" role
+And am on "block/add/content-list"
+When I select <condition> from "edit-field-content-list-display-und"
+
+  Examples:
+    | condition |
+    | "Teaser" |
+    | "Embed" |
+    | "Title" |
+    | "Sidebar" |
+    
+    
