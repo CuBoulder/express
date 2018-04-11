@@ -11,7 +11,7 @@
   Given I am logged in as a user with the <role> role
   When I go to "/"
   Then I should see the link "Express"
-  Then I should see the link "Dashboard"
+   And I should see the link "Dashboard"
 
   Examples:
     | role |

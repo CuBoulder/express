@@ -44,10 +44,15 @@ function express_permissions_secure_permissions_roles() {
     'anonymous user',
     'authenticated user',
     'edit_my_content',
-    'administrator',
-    'content_editor',
-    'developer',
+    'edit_only',
+    'site_editor',
     'site_owner',
+    'administrator',
+    'developer',
+    'content_editor',
+    'content_editor',
+    'access_manager',
+    'configuration_manager',
   );
 }
 
@@ -447,6 +452,82 @@ function express_permissions_secure_permissions($role) {
       'view error messages',
       'diff view changes',
     ),
+    'site_editor' => array(
+      'access administration pages',
+      'access bean overview',
+      'access ckeditor link',
+      'access content',
+      'access content overview',
+      'access contextual links',
+      'access express settings',
+      'access user profiles',
+      'access users overview',
+      'administer beans',
+      'administer blocks',
+      'administer checked out documents',
+      'administer contexts',
+      'administer express settings',
+      'administer menu',
+      'administer nodes',
+      'administer redirects',
+      'check out documents',
+      'create any block bean',
+      'create any feature_callout bean',
+      'create any hero_unit bean',
+      'create any slider bean',
+      'create faqs content',
+      'create file content',
+      'create page content',
+      'create url aliases',
+      'customize shortcut links',
+      'delete any block bean',
+      'delete any faqs content',
+      'delete any file content',
+      'delete any hero_unit bean',
+      'delete any page content',
+      'delete any slider bean',
+      'delete own faqs content',
+      'delete own file content',
+      'delete own page content',
+      'delete revisions',
+      'edit any block bean',
+      'edit any faqs content',
+      'edit any file content',
+      'edit any hero_unit bean',
+      'edit any page content',
+      'edit any slider bean',
+      'edit cu blocks',
+      'edit own faqs content',
+      'edit own file content',
+      'edit own page content',
+      'execute node_assign_owner_action',
+      'execute node_make_sticky_action',
+      'execute node_make_unsticky_action',
+      'execute node_promote_action',
+      'execute node_publish_action',
+      'execute node_unpromote_action',
+      'execute node_unpublish_action',
+      'execute node_unpublish_by_keyword_action',
+      'execute views_bulk_operations_delete_item',
+      'preview focal point',
+      'revert revisions',
+      'use bigmenu',
+      'use text format wysiwyg',
+      'view any block bean',
+      'view any hero_unit bean',
+      'view any slider bean',
+      'view any unpublished content',
+      'view bean page',
+      'view bean revisions',
+      'view own unpublished content',
+      'view revisions',
+      'view the administration theme',
+      'access navbar',
+      'view status messages',
+      'view warning messages',
+      'view error messages',
+      'diff view changes',
+    ),
     'site_owner' => array(
       'access administration pages',
       'access bean overview',
@@ -457,7 +538,6 @@ function express_permissions_secure_permissions($role) {
       'access express settings',
       'access user profiles',
       'access users overview',
-      'access_google_appliance_content',
       'administer beans',
       'administer blocks',
       'administer checked out documents',
@@ -541,8 +621,185 @@ function express_permissions_secure_permissions($role) {
       'view error messages',
       'diff view changes',
     ),
+    'edit_only' => array(
+      'access administration pages',
+      'access bean overview',
+      'access ckeditor link',
+      'access content overview',
+      'access contextual links',
+      'access express settings',
+      'access user profiles',
+      'check out documents',
+      'clear path caches',
+      'create any block bean',
+      'create any feature_callout bean',
+      'create any hero_unit bean',
+      'create any slider bean',
+      'create faqs content',
+      'create file content',
+      'create page content',
+      'create url aliases',
+      'customize shortcut links',
+      'edit any block bean',
+      'edit any faqs content',
+      'edit any file content',
+      'edit any hero_unit bean',
+      'edit any page content',
+      'edit any slider bean',
+      'edit cu blocks',
+      'edit own faqs content',
+      'edit own file content',
+      'edit own page content',
+      'execute node_assign_owner_action',
+      'execute node_make_sticky_action',
+      'execute node_make_unsticky_action',
+      'execute node_promote_action',
+      'execute node_publish_action',
+      'execute node_unpromote_action',
+      'execute node_unpublish_action',
+      'execute node_unpublish_by_keyword_action',
+      'execute views_bulk_operations_delete_item',
+      'preview focal point',
+      'revert revisions',
+      'use bigmenu',
+      'use text format wysiwyg',
+      'view any hero_unit bean',
+      'view any slider bean',
+      'view bean page',
+      'view bean revisions',
+      'view any unpublished content',
+      'view revisions',
+      'view the administration theme',
+      'access navbar',
+      'view status messages',
+      'view warning messages',
+      'view error messages',
+      'diff view changes',
+    ),
   );
   if (isset($permissions[$role])) {
     return $permissions[$role];
   }
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Add validation to user form.
+ */
+function express_permissions_form_user_profile_form_alter(&$form, &$form_state) {
+  global $user;
+  $form['#validate'][] = 'express_permissions_site_owner_cap';
+
+  $new_role_options = array();
+  // Get Roles of user being edited.
+  $original_role_options = $form['account']['roles']['#options'];
+
+  foreach ($original_role_options as $rid => $role_name) {
+    // Format role name to be  more readable.
+    $new_role_name = check_plain($role_name);
+    $new_role_name = ucwords(str_replace('_', ' ', $new_role_name));
+    if ($role_name == 'edit_only') {
+      if (in_array('developer', $user->roles) || in_array('administrator', $user->roles)) {
+        $new_role_name =  '<i>' . $new_role_name . ' (temp role hidden from site owners)</i>';
+      }
+    }
+    if ($role_name == 'access_manager') {
+      if (in_array('developer', $user->roles) || in_array('administrator', $user->roles)) {
+        $new_role_name =  '<i>' . $new_role_name . ' (hidden from site owners until 2.9.1)</i>';
+      }
+    }
+    if ($role_name == 'configuration_manager') {
+      if (in_array('developer', $user->roles) || in_array('administrator', $user->roles)) {
+        $new_role_name =  '<i>' . $new_role_name . ' (hidden from site owners until 2.9.1)</i>';
+      }
+    }
+    $new_role_options[$rid] = $new_role_name;
+
+  }
+
+  $form['account']['roles']['#options'] = $new_role_options;
+}
+
+/**
+ * Validation function for user form.
+ *
+ * Check to make sure that there are no more than 5 site owners.
+ */
+function express_permissions_site_owner_cap(&$form, &$form_state) {
+  // Limit of how many of the role we should allow.
+  $limit = intval(variable_get('express_permissions_owner_cap', 5));
+
+  // Get Roles of user being edited.
+  $current_roles = $form_state['user']->roles;
+
+  // Get Role ID.
+  $role = user_role_load_by_name('site_owner');
+
+  // Check to see if the user already has the role.
+  // We should only run the validation of the role is being added.
+  if (in_array($role->rid, $form_state['values']['roles'], TRUE) && !isset($current_roles[$role->rid])) {
+    $users_in_role = express_permissions_get_site_owners();
+    // If adding the role to this user would be over the limit, set an error.
+    if ($users_in_role['count'] > $limit) {
+
+      form_set_error("roles][$rid", "You have exceeded the allowed limit for Temporary Site Owners. To grant the role to this user you must first remove it from someone else. Current Site Owners include: " . $users_in_role['list']);
+    }
+  }
+
+}
+
+function express_permissions_form_user_external_invite_form_alter(&$form, &$form_state) {
+  $form['#validate'][] = 'express_permissions_invite_site_owner_cap';
+}
+
+function express_permissions_invite_site_owner_cap(&$form, &$form_state) {
+  // Limit of how many of the role we should allow.
+  $limit = intval(variable_get('express_permissions_owner_cap', 5));
+
+  // Get Role ID.
+  $role = user_role_load_by_name('site_owner');
+
+  if ($form_state['values']['rid'] == $role->rid) {
+    $email_value = $form_state['values']['email'];
+    // Split on , or line break.
+    $emails = preg_split("/[\r\n,\s]+/", $email_value, -1, PREG_SPLIT_NO_EMPTY);
+    $email_count = count($emails);
+    $users_in_role = express_permissions_get_site_owners();
+    if (($users_in_role['count'] + $email_count > $limit)) {
+      form_set_error("", "You have exceeded the allowed limit for Temporary Site Owners. To grant this role you must first remove it from someone else. Current Site Owners include: " .  $users_in_role['list']);
+    }
+  }
+
+}
+
+/**
+ * Helper funciton for form validation.
+ *
+ * Returns arary with count and list values
+ */
+function express_permissions_get_site_owners() {
+  $users = array();
+// Get Role ID.
+  $role = user_role_load_by_name('site_owner');
+  $rid = $role->rid;
+
+  // Get current number of people with the role.
+  // Get the total number of users with the role.
+  $query = db_select('users_roles', 'ur');
+  $query->fields('ur', array('uid', 'rid'));
+  $query->condition('ur.rid', $rid, '=');
+  $users['count'] = $query->countQuery()->execute()->fetchField();
+
+  // try to avoid loading user objects
+  if ($users['count'] > 5) {
+      $results = $query->execute()->fetchCol();
+      $site_owners = user_load_multiple($results);
+      $user_list = array();
+      foreach ($site_owners as $site_owner) {
+        $user_list[] = !empty($site_owner->realname) ? $site_owner->realname : $site_owner->mail;
+      }
+     $users['list'] = join(', ', $user_list);
+  }
+  return $users;
 }
