@@ -7,7 +7,7 @@ php:
 
 branches:
   only:
-    - testing/2102
+    - dev
 
 addons:
   # The username and access key are stored in the Travis settings.
@@ -101,8 +101,7 @@ before_script:
 script:
 
   # Run Behat tests.
-   # - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken'
-  - ./bin/behat --config behat.travis.yml --verbose --tags '@AdvLayoutBundle'
+  - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken'
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
