@@ -68,3 +68,4 @@ And I wait 5 seconds
 And I press "edit-submit"
 Then I should see "My Block Row Block Title"
 And I should see "Ducks can fly and swim"
+
