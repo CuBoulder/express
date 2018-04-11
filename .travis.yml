@@ -31,12 +31,6 @@ cache:
 
 install:
 
-  # Start Sauce if BEHAT_TAGS has JS tests.
-  # - cd profiles/express/tests/travis-ci
-  # - ./start-sauce.sh
-  - echo ${_SC_PID}
-  - cd dkdjsj
-
   # Install latest Drush 8.
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:8.*"
@@ -81,6 +75,12 @@ install:
   - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
 
 before_script:
+
+  # Start Sauce if BEHAT_TAGS has JS tests.
+  # - cd profiles/express/tests/travis-ci
+  # - ./start-sauce.sh
+  - echo ${_SC_PID}
+  - cd dkdjsj
 
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
