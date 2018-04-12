@@ -56,6 +56,9 @@ And fill in "edit-field-content-list-reference-und-2-target-id" with "MyFirst My
 And I wait 5 seconds
 And I press "Save"
 Then I should see "Content List Page Test Content List Page has been created."
+And I should see the link "List Test Page"
+And I should see the link "List Test Article" 
+And I should see the link "MyFirst MyLast"
 
 
 
