@@ -149,5 +149,37 @@ Then I should see "Meta tags"
 # And I should see "Meta Test"
  # And I should see "Here is important content"
  # Then the response should contain "content=\"Important information about my page\""
+ 
+
+@api @metatagtest
+Scenario: Check for text ShortCodes usage
+Given I am logged in as a user with the "site_owner" role
+And I am on "node/add/page"
+Then I should see "ShortCodes usage"
+
+@api @metatagtest
+Scenario: Check for text Menu settings
+Given I am logged in as a user with the "site_owner" role
+And I am on "node/add/page"
+Then I should see "Menu settings"
+
+@api @metatagtest
+Scenario: a bunch of vertical tab elements exist
+Given I am logged in as a user with the "site_owner" role
+And I am on "node/add/page"
+Then I should see a "#edit-menu" element
+And I should see a "#edit-revision-information" element
+And I should see a "#edit-metatags" element
+
+
+#GOTTA CHECK FOR ADDITION OF META TAG LINK
+@api @metatagtest
+Scenario: Enabling SEO Bundle adds Meta Tag functionality to a Basic Page
+Given I am logged in as a user with the "site_owner" role
+And I am on "node/add/page"
+Then I should see "Meta tags"
+
+
+
   
   
