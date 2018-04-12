@@ -7,7 +7,7 @@ As an authenticated user
 I should be able to access the QuickTabs page but not add more of them
   
 @api 
-Scenario Outline: An user with the appropriate role can access QuickTabs
+Scenario Outline: An user with the appropriate role can access QuickTabs page but not add any
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/quicktabs"
   Then I should see <message>
@@ -27,7 +27,7 @@ Scenario: An anonymous user should not be able to access the form
   Then I should see "Access denied"
   
 @api 
-Scenario Outline: The link to the Drupal System Block Admin page should not be reachable
+Scenario Outline: Most users cannot access the Drupal System Block Admin page
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/block"
   Then I should see <message>
@@ -36,6 +36,6 @@ Scenario Outline: The link to the Drupal System Block Admin page should not be r
   | role            | message         |
   | edit_my_content | "Access denied" |
   | content_editor  | "Access denied" |
-  | site_owner      | "This page provides a drag-and-drop interface" |
-  | administrator   | "This page provides a drag-and-drop interface" |
+  | site_owner      | "Access denied" |
+  | administrator   | "Access denied" |
   | developer       | "This page provides a drag-and-drop interface" |  
