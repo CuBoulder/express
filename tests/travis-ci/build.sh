@@ -14,6 +14,7 @@ cd ../../../
 # Build Codebase
 drush cc drush
 pwd
+ls -al
 exit 1
 drush dl drupal-7.58
 mkdir drupal
