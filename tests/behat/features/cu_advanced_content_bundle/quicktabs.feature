@@ -27,6 +27,7 @@ Scenario: An anonymous user should not be able to access QuickTabs page
   Then I should see "Access denied"
   
 @api 
+# NOTE: THE QUICKTABS PAGE HAS A LINK TO THE BLOCKS ADMINISTRATION PAGE
 Scenario Outline: Most users cannot access the Drupal System Block Admin page
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/block"
