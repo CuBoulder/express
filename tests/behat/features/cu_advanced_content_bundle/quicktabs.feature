@@ -37,6 +37,6 @@ Scenario Outline: Most users cannot access the Drupal System Block Admin page
   | role            | message         |
   | edit_my_content | "Access denied" |
   | content_editor  | "Access denied" |
-  | site_owner      | "Access denied" |
+  | site_owner      | "This page provides a drag-and-drop interface" |  
   | administrator   | "Access denied" |
   | developer       | "This page provides a drag-and-drop interface" |  
