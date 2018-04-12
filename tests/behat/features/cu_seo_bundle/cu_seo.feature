@@ -150,7 +150,6 @@ Then I should see "Meta tags"
  # And I should see "Here is important content"
  # Then the response should contain "content=\"Important information about my page\""
  
-
 @api @metatagtest
 Scenario: Check for text ShortCodes usage
 Given I am logged in as a user with the "site_owner" role
@@ -169,6 +168,8 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
 Then I should see a "#edit-menu" element
 And I should see a "#edit-revision-information" element
+And I should see a "#edit-author" element
+And I should see a "#edit-options" element
 And I should see a "#edit-metatags" element
 
 
