@@ -13,7 +13,7 @@ jobs:
       script: ./tests/behat/bin/behat --config behat.travis.yml --verbose --tags "@~exclude_all_bundles&&~broken&&~javascript"
       script: ./tests/behat/bin/behat --config behat.travis.yml --verbose --tags "@javascript&&~exclude_all_bundles&&~broken"
     - stage: report
-      script: drush scr profiles/express/tests/travis-ci/log-express-performance.php
+      script: drush scr ./tests/travis-ci/log-express-performance.php
 
 php:
   - '7.1'

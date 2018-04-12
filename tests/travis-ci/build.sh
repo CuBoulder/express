@@ -1,21 +1,17 @@
 #!/usr/bin/env bash
 
+cd /home/travis/build/CuBoulder
+pwd
+ls -al
+
 # Install latest Drush 8.
 # No travis_retry command found outside of .travis.yml.
 composer self-update && composer --version
 composer global require "drush/drush:8.*"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 
-# Build Behat dependencies
-cd /tests/behat
-travis_retry composer install --prefer-dist --no-interaction
-cd ../../../
-
 # Build Codebase
 drush cc drush
-pwd
-ls -al
-exit 1
 drush dl drupal-7.58
 mkdir drupal
 mv drupal-7.58/* drupal/
@@ -23,16 +19,13 @@ mkdir profiles
 mv express drupal/profiles/
 
 # Harden Codebase
-cd drupal
-cd modules
+cd drupal/modules
 rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
 cd ../..
 
 # Setup files
-mkdir -p drupal/sites/default/files/styles/preview/public/gallery/
-chmod -R 777 drupal/sites
-mkdir tmp
-chmod -R 777 tmp
+mkdir -p drupal/sites/default/files/styles/preview/public/gallery/ && chmod -R 777 drupal/sites
+mkdir tmp && chmod -R 777 tmp
 
 # Disable sendmail
 echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -74,3 +67,7 @@ drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &
 nc -zvv 127.0.0.1 8057; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8057..."; nc -zvv localhost 8057; out=$?; sleep 5; done
 
 # Setting Behat environment variables is now done in behat.travis.yml for simplicity.
+
+# Build Behat dependencies
+cd profiles/express/tests/behat
+composer install --prefer-dist --no-interaction
