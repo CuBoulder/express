@@ -8,7 +8,6 @@ git:
 jobs:
   include:
     - stage: build
-      script: echo ${TRAVIS_BUILD_DIR}; ls ${TRAVIS_BUILD_DIR}; exit 1;
       script: ./tests/travis-ci/build.sh
     - stage: test
       script: ./tests/behat/bin/behat --config behat.travis.yml --verbose --tags "@~exclude_all_bundles&&~broken&&~javascript"

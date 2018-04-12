@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 
-
-
 # Install latest Drush 8.
-travis_retry composer self-update && composer --version
-travis_retry composer global require "drush/drush:8.*"
+# No travis_retry command found outside of .travis.yml.
+composer self-update && composer --version
+composer global require "drush/drush:8.*"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 
 # Build Behat dependencies
-cd ./tests/behat
+cd /tests/behat
 travis_retry composer install --prefer-dist --no-interaction
 cd ../../../
 
