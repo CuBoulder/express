@@ -10,7 +10,8 @@ jobs:
     - stage: build
       script: ./tests/travis-ci/build.sh
     - stage: test
-      script: /home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/bin/behat --config behat.travis.yml --verbose --tags "@~exclude_all_bundles&&~broken&&~javascript"
+      script: ls -al
+      # script: /home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/bin/behat --config behat.travis.yml --verbose --tags "@~exclude_all_bundles&&~broken&&~javascript"
       script: /home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/bin/behat --config behat.travis.yml --verbose --tags "@javascript&&~exclude_all_bundles&&~broken"
     - stage: report
       script: drush scr /home/travis/build/CuBoulder/drupal/profiles/express/tests/travis-ci/log-express-performance.php
