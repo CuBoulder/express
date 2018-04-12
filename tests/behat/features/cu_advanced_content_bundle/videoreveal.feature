@@ -36,4 +36,3 @@ And I press "Save"
 Then I should see "Video Reveal My Video Reveal Title has been created."
 And I should see "My Video Reveal Title"
 And I should see "Boulder should be beautiful this time of the year, all that snow"
-
