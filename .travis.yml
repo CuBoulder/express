@@ -5,17 +5,6 @@ sudo: false
 git:
   depth: 1
 
-jobs:
-  include:
-    - stage: build
-      script: ./tests/travis-ci/build.sh
-    - stage: test
-      script: ls -al
-      # script: /home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/bin/behat --config behat.travis.yml --verbose --tags "@~exclude_all_bundles&&~broken&&~javascript"
-      script: /home/travis/build/CuBoulder/drupal/profiles/express/tests/behat/bin/behat --config behat.travis.yml --verbose --tags "@javascript&&~exclude_all_bundles&&~broken"
-    - stage: report
-      script: drush scr /home/travis/build/CuBoulder/drupal/profiles/express/tests/travis-ci/log-express-performance.php
-
 php:
   - '7.1'
 
@@ -36,8 +25,85 @@ mysql:
 cache:
   directories:
     - $HOME/.composer/cache/files
-    - $HOME/.drush/cache
     - $HOME/cache
+
+install:
+
+  # Install latest Drush 8.
+  - travis_retry composer self-update && composer --version
+  - travis_retry composer global require "drush/drush:8.*"
+  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+
+  # Build Behat dependencies
+  - cd ./tests/behat
+  - travis_retry composer install --prefer-dist --no-interaction
+  - cd ../../../
+
+  # Build Codebase
+  # Clear drush cache since it holds onto Drupal versions.
+  - drush dl drupal-7.58
+  - mkdir drupal && mv drupal-7.58/* drupal/
+  - mkdir profiles && mv express drupal/profiles/
+
+  # Harden Codebase
+  - cd drupal/modules
+  - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
+  - cd ../
+
+  # Setup files
+  - mkdir -p drupal/sites/default/files/styles/preview/public/gallery/ && chmod -R 777 drupal/sites
+  - mkdir tmp && chmod -R 777 tmp
+
+  # Disable sendmail
+  - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+  # Bump up max execution time.
+  - echo "max_execution_time=60" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+  # Increase the MySQL connection timeout on the PHP end.
+  - echo "mysql.connect_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+  - echo "default_socket_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+
+  # Increase the MySQL server timetout and packet size.
+  - mysql -e "SET GLOBAL wait_timeout = 36000;"
+  - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
+
+before_script:
+
+  # Disable XDebug to speed up test runs.
+  - phpenv config-rm xdebug.ini
+
+  # Do the site install.
+  - mysql -e 'create database drupal;'
+  - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
+  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
+
+  # Check and see if testing core module is enabled.
+  - drush pm-info travis_hosting
+  - drush pm-info cu_core
+  - drush pm-info cu_ldap
+  - drush pm-info ldap_authentication
+
+  # Export db so it can be imported after every suite run.
+  # Test runs that fill up the db with nodes can impact other tests.
+  - drush sql-dump --result-file=$HOME/cache/express.sql
+
+  # Start server.
+  - drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &
+  - nc -zvv 127.0.0.1 8057; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8057..."; nc -zvv localhost 8057; out=$?; sleep 5; done
+  - cd profiles/express/tests/behat
+
+  # Setting Behat environment variables is now done in behat.travis.yml for simplicity.
+
+script:
+
+  # Run headless Behat tests.
+  - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&~@javascript'
+  # Run JS Behat tests.
+  - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&@javascript'
+
+  # Output performance logging data.
+  - drush scr profiles/express/tests/travis-ci/log-express-performance.php
 
 notifications:
   slack:
