@@ -28,7 +28,7 @@ Scenario: A simple Video Reveal block can be created
 Given I am logged in as a user with the "site_owner" role
 And I go to "block/add/video-reveal"
 And I fill in "edit-label" with "My Video Reveal Label"
-And I fill in "edit-title" with "Video Reveal Title"
+And I fill in "edit-title" with "My Video Reveal Title"
 And I fill in "edit-field-video-reveal-url-und-0-video-url" with "https://youtu.be/ihnibrcwtnQ"
 And I attach the file "ralphie.jpg" to "edit-field-video-reveal-image-und-0-upload"
 And I fill in "edit-field-video-reveal-text-und-0-value" with "Boulder should be beautiful this time of the year, all that snow"
