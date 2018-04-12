@@ -62,7 +62,7 @@ When I select <condition> from "edit-field-callout-image-size-und"
     | "Wide" |
     | "Square" |
 
-@api @javascript
+@api
 Scenario: A simple Content Grid can be created
 Given I am logged in as a user with the "site_owner" role
 And I go to "block/add/feature-callout"
