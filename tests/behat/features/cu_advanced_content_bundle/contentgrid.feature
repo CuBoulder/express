@@ -5,7 +5,7 @@ As an authenticated user
 I should be able to access and use the Content Grid Block
   
 @api 
-Scenario Outline: An authenticated user should be able to access the form for adding a content list block
+Scenario Outline: An authenticated user can access the form for adding a content list block
   Given I am logged in as a user with the <role> role
   When I go to "block/add/feature-callout"
   Then I should see <message>
@@ -19,7 +19,7 @@ Scenario Outline: An authenticated user should be able to access the form for ad
   | developer       | "Create Content Grid block" |
   
 @api 
-Scenario: An anonymous user should not be able to access the form
+Scenario: An anonymous user can not access the form for adding a content list block
   Given I go to "block/add/feature-callout"
   Then I should see "Access denied"
   
@@ -70,13 +70,13 @@ And I fill in "edit-label" with "My Content Grid Label"
 And I fill in "edit-title" with "My Content Grid Title"
 # FIRST CELL
 And I fill in "edit-field-callouts-und-0-field-callout-title-und-0-title" with "Heading One"
-And I follow "Disable rich-text"
-And fill in "Body" with "Cupcake ipsum dolor sit amet ice cream carrot cake"
+# And I follow "Disable rich-text"
+And fill in "edit-field-callouts-und-0-field-callout-text-und-0-value" with "Cupcake ipsum dolor sit amet ice cream carrot cake"
 And I press "Add another item"
 # SECOND CELL
 And I fill in "edit-field-callouts-und-1-field-callout-title-und-0-title" with "Heading Two"
-And I follow "Disable rich-text"
-And fill in "Body" with "Veggie ipsum dolor sit amet cucumber broccoli carrot stringbean"
+# And I follow "Disable rich-text"
+And fill in "edit-field-callouts-und-1-field-callout-text-und-0-value" with "Veggie ipsum dolor sit amet cucumber broccoli carrot stringbean"
 And I press "Save"
 Then I should see "Content Grid My Content Grid Title has been created."
 And I should see "Cupcake ipsum dolor sit amet ice cream carrot cake" 
