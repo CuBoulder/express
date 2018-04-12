@@ -27,6 +27,7 @@ Feature: CU Layout Creation
     Then I should see "above content block"
     When I follow "Edit Layout"
       And I click the "#edit-field-header-und-entities-0-actions-ief-entity-remove" element
+      And I wait for the "#edit-field-header-und-entities-0-form-actions-ief-remove-confirm" element to appear
       And I click the "#edit-field-header-und-entities-0-form-actions-ief-remove-confirm" element
       And I press "Update layout"
     Then I should not see "above content block"
