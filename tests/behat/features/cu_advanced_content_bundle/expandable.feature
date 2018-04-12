@@ -57,7 +57,3 @@ And I should see "Expandable Title"
 And I should see "Heading One"
 And I should see "Cupcake ipsum dolor sit amet ice cream carrot cake"
 And I should see "Heading Two"
-
-
-
-
