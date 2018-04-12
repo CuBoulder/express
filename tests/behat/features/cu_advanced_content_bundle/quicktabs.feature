@@ -22,7 +22,7 @@ Scenario Outline: An user with the appropriate role can access QuickTabs page bu
   | developer       | "Each Quicktabs instance has a corresponding block" |
   
 @api 
-Scenario: An anonymous user should not be able to access the form
+Scenario: An anonymous user should not be able to access QuickTabs page
   Given I go to "admin/structure/quicktabs"
   Then I should see "Access denied"
   
