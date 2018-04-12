@@ -37,7 +37,6 @@ Examples:
 | "tabs-vertical" |
 | "select" |
 
-
 @api 
 Scenario: A simple Expandable block can be created
 Given I am logged in as a user with the "site_owner" role
