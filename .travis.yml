@@ -67,16 +67,16 @@ install:
   - mysql -e "SET GLOBAL wait_timeout = 36000;"
   - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
 
-  # Perform the site install.
-  - mysql -e 'create database drupal;'
-  - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
-  - cd profiles/express/tests
-  - ./travis-ci/build-express.sh
-
 before_script:
 
   # Disable XDebug to speed up test runs.
   - phpenv config-rm xdebug.ini
+
+  # Perform the site install after removing Xdebug since it seems faster.
+  - mysql -e 'create database drupal;'
+  - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
+  - cd profiles/express/tests
+  - ./travis-ci/build-express.sh
 
   # Check and see if testing core module is enabled.
   - drush pm-info travis_hosting
