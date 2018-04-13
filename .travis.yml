@@ -49,7 +49,7 @@ install:
   - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
   - cd ../
 
-  # Setup files
+  # Setup files.
   - mkdir -p sites/default/files/styles/preview/public/gallery/ && chmod -R 777 sites
   - mkdir ../tmp && chmod -R 777 ../tmp
 
