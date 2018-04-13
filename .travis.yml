@@ -29,7 +29,7 @@ cache:
 
 install:
 
-  - echo ${TRAVIS_COMMIT_MESSAGE}
+  - echo ${TRAVIS_COMMIT}
   - echo ${TRAVIS_PULL_REQUEST}
   - cd slkjdjsjk
 
