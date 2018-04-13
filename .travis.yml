@@ -47,7 +47,7 @@ install:
   - mkdir drupal && mv drupal-7.58/* drupal/
   - mkdir profiles && mv express drupal/profiles/
 
-  # Harden Codebase
+  # Harden Codebase.
   - cd drupal/modules
   - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
   - cd ../
