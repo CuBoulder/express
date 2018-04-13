@@ -40,7 +40,6 @@ install:
   - cd ../../../
 
   # Build Codebase
-  # Clear drush cache since it holds onto Drupal versions.
   - drush dl drupal-7.58
   - mkdir drupal && mv drupal-7.58/* drupal/
   - mkdir profiles && mv express drupal/profiles/
@@ -51,8 +50,8 @@ install:
   - cd ../
 
   # Setup files
-  - mkdir -p drupal/sites/default/files/styles/preview/public/gallery/ && chmod -R 777 drupal/sites
-  - mkdir tmp && chmod -R 777 tmp
+  - mkdir -p sites/default/files/styles/preview/public/gallery/ && chmod -R 777 sites
+  - mkdir ../tmp && chmod -R 777 ../tmp
 
   # Disable sendmail
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -80,9 +79,9 @@ before_script:
 
   # Check and see if testing core module is enabled.
   - drush pm-info travis_hosting
+  - drush pm-info ng_hosting
   - drush pm-info cu_core
   - drush pm-info cu_ldap
-  - drush pm-info ldap_authentication
 
   # Export db so it can be imported after every suite run.
   # Test runs that fill up the db with nodes can impact other tests.
