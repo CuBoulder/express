@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 EXPRESS_COMMIT="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '===build')"
-echo "${EXPRESS_COMMIT}"
+echo "Build Express? - ${EXPRESS_COMMIT}"
 
 # Build Express if no db export or commit is "merged into dev".
 if [ ! -f $HOME/cache/express.sql ] || [ "${EXPRESS_COMMIT}" ]; then
