@@ -93,9 +93,10 @@ before_script:
 script:
 
   # Run headless Behat tests.
-  - ./behat/bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&~@javascript'
+  - cd behat
+  - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&~@javascript'
   # Run JS Behat tests.
-  - ./behat/bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&@javascript'
+  - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&@javascript'
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
