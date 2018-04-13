@@ -50,7 +50,7 @@ Scenario Outline: Most users cannot access the Drupal System Block Admin page
   | administrator   | "Access denied" |
   | developer       | "This page provides a drag-and-drop interface" |  
   
-  @api 
+ @api 
 Scenario Outline: Authorized users can access the Footer Menu
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/menu/manage/menu-footer-menu"
@@ -64,7 +64,7 @@ Scenario Outline: Authorized users can access the Footer Menu
   | administrator   | "Footer Menu" |
   | developer       | "Footer Menu" |
   
-  @api 
+@api 
 Scenario Outline: Authorized users can access the Main Menu
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/menu/manage/main-menu"
@@ -78,7 +78,7 @@ Scenario Outline: Authorized users can access the Main Menu
   | administrator   | "Main Menu" |
   | developer       | "Main Menu" |
   
-    @api 
+@api 
 Scenario Outline: Authorized users can access the Mobile Menu
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/menu/manage/menu-mobile-menu"
@@ -92,7 +92,7 @@ Scenario Outline: Authorized users can access the Mobile Menu
   | administrator   | "Mobile Menu" |
   | developer       | "Mobile Menu" |
   
-      @api 
+ @api 
 Scenario Outline: Authorized users can access the Secondary Menu
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/menu/manage/menu-secondary-menu"
@@ -105,5 +105,28 @@ Scenario Outline: Authorized users can access the Secondary Menu
   | site_owner      | "Secondary Menu" |
   | administrator   | "Secondary Menu" |
   | developer       | "Secondary Menu" |
+  
+  @api
+  Scenario Outline: A menu item can be added to a menu
+  Given I am logged in as a user with the "site_owner" role
+  When I go to <path>
+  And I fill in "edit-additem-title" with "University of Colorado"
+  And I press "Save Configuration" 
+  Then the "edit-link-title" field should contain "University of Colorado"
+  And I fill in "edit-link-path" with "https://www.colorado.edu"
+  And I should see "Icon"
+  And I should see "Advanced menu item settings"
+  And I press "Save"
+  Then I should see "Your configuration has been saved."
+  
+  Examples:
+  | path |
+  | "admin/structure/menu/manage/menu-footer-menu" |
+  | "admin/structure/menu/manage/main-menu" |
+  | "admin/structure/menu/manage/menu-mobile-menu" |
+  | "admin/structure/menu/manage/menu-secondary-menu" |
+  
+  
+  
   
   
