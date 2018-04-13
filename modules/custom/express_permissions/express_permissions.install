@@ -76,67 +76,67 @@ function express_permissions_update_7001() {
   user_role_save($role);
 }
 
-/**
- * Reset role weight by increasing permissions
- */
-function express_permissions_update_7002() {
-  // force roles to be weighted by increasing permissions
-  $role = user_role_load_by_name('edit_my_content');
-  $role->weight = 2;
-  user_role_save($role);
+// /**
+//  * Reset role weight by increasing permissions
+//  */
+// function express_permissions_update_7002() {
+//   // force roles to be weighted by increasing permissions
+//   $role = user_role_load_by_name('edit_my_content');
+//   $role->weight = 2;
+//   user_role_save($role);
 
-  $role = user_role_load_by_name('content_editor');
-  $role->weight = 3;
-  user_role_save($role);
+//   $role = user_role_load_by_name('content_editor');
+//   $role->weight = 3;
+//   user_role_save($role);
 
-  $role = user_role_load_by_name('site_editor');
-  $role->weight = 4;
-  user_role_save($role);
+//   $role = user_role_load_by_name('site_editor');
+//   $role->weight = 4;
+//   user_role_save($role);
 
-  $role = user_role_load_by_name('site_owner');
-  $role->weight = 5;
-  user_role_save($role);
+//   $role = user_role_load_by_name('site_owner');
+//   $role->weight = 5;
+//   user_role_save($role);
 
-  $role = user_role_load_by_name('administrator');
-  $role->weight = 6;
-  user_role_save($role);
+//   $role = user_role_load_by_name('administrator');
+//   $role->weight = 6;
+//   user_role_save($role);
 
-  $role = user_role_load_by_name('developer');
-  $role->weight = 7;
-  user_role_save($role);
-}
+//   $role = user_role_load_by_name('developer');
+//   $role->weight = 7;
+//   user_role_save($role);
+// }
 
-/**
- * Reset role weight by increasing permissions
- */
-function express_permissions_update_7003() {
-  // force roles to be weighted by increasing permissions
-  $role = user_role_load_by_name('edit_my_content');
-  $role->weight = 2;
-  user_role_save($role);
+// /**
+//  * Reset role weight by increasing permissions
+//  */
+// function express_permissions_update_7003() {
+//   // force roles to be weighted by increasing permissions
+//   $role = user_role_load_by_name('edit_my_content');
+//   $role->weight = 2;
+//   user_role_save($role);
 
-  $role = user_role_load_by_name('edit_only');
-  $role->weight = 3;
-  user_role_save($role);
+//   $role = user_role_load_by_name('edit_only');
+//   $role->weight = 3;
+//   user_role_save($role);
 
-  $role = user_role_load_by_name('content_editor');
-  $role->weight = 4;
-  user_role_save($role);
+//   $role = user_role_load_by_name('content_editor');
+//   $role->weight = 4;
+//   user_role_save($role);
 
-  $role = user_role_load_by_name('site_editor');
-  $role->weight = 5;
-  user_role_save($role);
+//   $role = user_role_load_by_name('site_editor');
+//   $role->weight = 5;
+//   user_role_save($role);
 
-  $role = user_role_load_by_name('site_owner');
-  $role->weight = 6;
-  user_role_save($role);
+//   $role = user_role_load_by_name('site_owner');
+//   $role->weight = 6;
+//   user_role_save($role);
 
-  $role = user_role_load_by_name('administrator');
-  $role->weight = 7;
-  user_role_save($role);
+//   $role = user_role_load_by_name('administrator');
+//   $role->weight = 7;
+//   user_role_save($role);
 
-  $role = user_role_load_by_name('developer');
-  $role->weight = 8;
-  user_role_save($role);
-}
+//   $role = user_role_load_by_name('developer');
+//   $role->weight = 8;
+//   user_role_save($role);
+// }
 
