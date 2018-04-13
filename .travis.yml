@@ -53,7 +53,7 @@ install:
   - mkdir -p sites/default/files/styles/preview/public/gallery/ && chmod -R 777 sites
   - mkdir ../tmp && chmod -R 777 ../tmp
 
-  # Disable sendmail
+  # Disable sendmail.
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
   # Bump up max execution time.
