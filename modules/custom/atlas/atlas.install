@@ -50,10 +50,10 @@ function atlas_requirements($phase) {
         'severity' => REQUIREMENT_OK,
       );
       // Link to the logging in the Elasticsearch, Logstash, Kibana stack.
-      $logging_url = variable_get('atlas_log_url');
+      $logging_url = variable_get('atlas_logging_url');
       $requirements['cu_log_link'] = array(
         'title' => $t('Atlas Syslog'),
-        'value' => $t('See <a href="@url" target="_blank">logs on wlogstash.colorado.edu</a>. <em>Requires authorized Identikey</em>.', array('@url' => $logging_url)),
+        'value' => $t('See <a href="@url" target="_blank">logs on Logstash</a>. <em>Requires authorized Identikey</em>.', array('@url' => $logging_url)),
         'severity' => REQUIREMENT_OK,
       );
     }
