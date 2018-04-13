@@ -147,7 +147,7 @@ Scenario: The Menu Settings page is properly populated with functionality
   Then I should see "Source for the Main links"
   And I should see "Source for the Secondary links"
   And I should see "Secondary Menu Label"
-  And I should see 'Source for the mobile links"
+  And I should see "Source for the mobile links"
   And I should see "Source for the footer links"
   
   
