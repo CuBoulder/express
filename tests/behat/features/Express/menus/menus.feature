@@ -126,7 +126,28 @@ Scenario Outline: Authorized users can access the Secondary Menu
   | "admin/structure/menu/manage/menu-mobile-menu" |
   | "admin/structure/menu/manage/menu-secondary-menu" |
   
+@api 
+Scenario Outline: Authorized users can access the Menu Settings page
+  Given I am logged in as a user with the <role> role
+  When I go to "admin/structure/menu/settings"
+  Then I should see <message>
   
+  Examples:
+  | role            | message         |
+  | edit_my_content | "Access denied" |
+  | content_editor  | "Source for the Main links" |
+  | site_owner      | "Source for the Main links" |
+  | administrator   | "Source for the Main links" |
+  | developer       | "Source for the Main links" |
   
+ @api 
+Scenario: The Menu Settings page is properly populated with functionality
+  Given I am logged in as a user with the "site_owner" role
+  When I go to "admin/structure/menu/settings"
+  Then I should see "Source for the Main links"
+  And I should see "Source for the Secondary links"
+  And I should see "Secondary Menu Label"
+  And I should See 'Source for the mobile links"
+  And I should see "Source for the footer links"
   
   
