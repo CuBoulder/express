@@ -2,9 +2,8 @@ language: php
 # We want to avoid sudo. This allow us to use Travis docker infrastructure, which means builds start faster and have more CPU available.
 sudo: false
 
-env:
-  - BEHAT_TAGS="@~exclude_all_bundles&&~broken&&~javascript"
-  - BEHAT_TAGS="@javascript&&~exclude_all_bundles&&~broken"
+git:
+  depth: 1
 
 php:
   - '7.1'
@@ -25,8 +24,7 @@ mysql:
 # Cache Composer & Drush directories.
 cache:
   directories:
-    - $HOME/.composer/cache
-    - $HOME/.drush/cache
+    - $HOME/.composer/cache/files
     - $HOME/cache
 
 install:
@@ -42,23 +40,18 @@ install:
   - cd ../../../
 
   # Build Codebase
-  - drush dl drupal-7.56
-  - mkdir drupal
-  - mv drupal-7.56/* drupal/
-  - mkdir profiles
-  - mv express drupal/profiles/
+  - drush dl drupal-7.58
+  - mkdir drupal && mv drupal-7.58/* drupal/
+  - mkdir profiles && mv express drupal/profiles/
 
   # Harden Codebase
-  - cd drupal
-  - cd modules
+  - cd drupal/modules
   - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
-  - cd ../..
+  - cd ../
 
   # Setup files
-  - mkdir -p drupal/sites/default/files/styles/preview/public/gallery/
-  - chmod -R 777 drupal/sites
-  - mkdir tmp
-  - chmod -R 777 tmp
+  - mkdir -p sites/default/files/styles/preview/public/gallery/ && chmod -R 777 sites
+  - mkdir ../tmp && chmod -R 777 ../tmp
 
   # Disable sendmail
   - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
@@ -89,9 +82,9 @@ before_script:
 
   # Check and see if testing core module is enabled.
   - drush pm-info travis_hosting
+  - drush pm-info ng_hosting
   - drush pm-info cu_core
   - drush pm-info cu_ldap
-  - drush pm-info ldap_authentication
 
   # Start server.
   - drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &
@@ -102,23 +95,13 @@ before_script:
 
 script:
 
-  # Run Behat tests in parallel.
-  # Tags are defined in the "env" key at the top of this file.
-  - ./bin/behat --config behat.travis.yml --verbose --tags $BEHAT_TAGS
+  # Run headless Behat tests.
+  - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&~@javascript'
+  # Run JS Behat tests.
+  - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&@javascript'
 
   # Output performance logging data.
   - drush scr profiles/express/tests/travis-ci/log-express-performance.php
-
-  # Second Test run for broken tests.
-  #- drush sql-drop -y
-  #- drush sql-cli < $HOME/express.sql
-  #- ./bin/behat --config behat.yml --verbose --tags @broken
-
-  # Run Simpletests
-  #- drush en simpletest -y
-  #- cd ../travis-ci
-  #- chmod +x run-simpletests.sh
-  #- ./run-simpletests.sh
 
 notifications:
   slack:
