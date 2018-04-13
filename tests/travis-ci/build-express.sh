@@ -3,8 +3,16 @@
 EXPRESS_COMMIT_HAS_BUILD="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '===build')"
 echo "Build Express? - ${EXPRESS_COMMIT_HAS_BUILD}"
 
+# https://docs.travis-ci.com/user/caching/
+# Travis takes the cache of the default branch if the PR branch doesn't hve one.
+# So, if this is a merge into dev, we need to delete the db export.
+if [ ! "${TRAVIS_PULL_REQUEST}" ]; then
+  echo Removing cached db on merge into dev...
+  rm -f $HOME/cache/express.sql
+fi
+
 # Build Express if no db export or commit is "merged into dev".
-if [ ! -f $HOME/cache/express.sql ] || [ "${EXPRESS_COMMIT_HAS_BUILD}" ] || [ ! "${TRAVIS_PULL_REQUEST}" ]; then
+if [ ! -f $HOME/cache/express.sql ] || [ "${EXPRESS_COMMIT_HAS_BUILD}" ] ||
 
   # Install site like normal.
   echo Installing Express...
