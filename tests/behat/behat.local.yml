@@ -13,7 +13,7 @@ default:
         - FeatureContext
   extensions:
       Behat\MinkExtension:
-        base_url: "https://express.lndo.site/express"
+        base_url: "http://127.0.0.1:8079/"
         files_path: "%paths.base%/assets"
         javascript_session: sauce
         sessions:
@@ -23,8 +23,6 @@ default:
                   verify: false
           sauce:
             sauce_labs:
-              username: ""
-              access_key: ""
               # Browser defaults to Firefox if left out.
               browser: "chrome"
               #browser: "internet explorer"

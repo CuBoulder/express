@@ -165,12 +165,14 @@ function _set_external_invite_variables() {
   }
 
   $site_owner_role = user_role_load_by_name('site_owner');
-  $content_editor_role = user_role_load_by_name('content_editor');
+  $site_editor_role = user_role_load_by_name('site_editor');
+  //$content_editor_role = user_role_load_by_name('content_editor');
   $edit_my_content_role = user_role_load_by_name('edit_my_content');
 
   variable_set('user_external_invite_roles', array(
     $site_owner_role->rid,
-    $content_editor_role->rid,
+    $site_editor_role->rid,
+    //$content_editor_role->rid,
     $edit_my_content_role->rid,
   ));
   variable_set('user_external_invite_days_valid_for', 5);
@@ -918,11 +920,42 @@ function cu_core_update_7038() {
 /**
  * Express 2.8.5 Update.
  *
- * Revert all features.
+ * Revert all features.  When more than 5 site owners, make all site owners site editors
  */
 function cu_core_update_7039() {
   cu_core_revert_features();
+
+  // Adding Site Editor role for invites.
+  $site_owner_role = user_role_load_by_name('site_owner');
+  $site_editor_role = user_role_load_by_name('site_editor');
+  $edit_my_content_role = user_role_load_by_name('edit_my_content');
+
+  variable_set('user_external_invite_roles', array(
+    $site_owner_role->rid,
+    $site_editor_role->rid,
+    $edit_my_content_role->rid,
+  ));
+
+  // Get all the uids of the site owners.
+  $query = db_select('users_roles', 'ur');
+  $query->fields('ur', array('uid', 'rid'));
+  $query->condition('ur.rid', $site_owner_role->rid, '=');
+  $site_owners = $query->execute()->fetchAll();
+
+  // if there are more than 5 make everyone a site_editor
+  if (count($site_owners) >= 5) {
+    foreach ($site_owners as $owner) {
+      // Grant user the role.
+      $query = db_insert('users_roles')->fields(array('uid', 'rid'));
+      $query->values(array('uid' => $owner->uid, 'rid' => $site_editor_role->rid));
+      $query->execute();
+    }
+    // delete everyone from test
+    $query = db_delete('users_roles')->condition('rid', $site_owner_role->rid)->execute();
+  }
 }
+
+
 
 /**
  * Express 2.8.6 Update.

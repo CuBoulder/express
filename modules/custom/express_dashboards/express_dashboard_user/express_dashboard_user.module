@@ -74,8 +74,8 @@ function express_dashboard_user_content() {
   $users_online = module_invoke('user', 'block_view', 'online');
   $output['left']['widgets']['online']['title'] = 'Who\'s online';
   $output['left']['widgets']['online']['content']['#markup'] = $users_online['content'];
-
-  $output['left']['widgets']['user']['title'] = $user->name;
+  // Display real name if available.
+  $output['left']['widgets']['user']['title'] = function_exists('realname_load') ? realname_load($user) : $user->name;
   $output['left']['widgets']['user']['content']['#markup'] = theme('express_dashboard_user_profile', (array) $vars);
 
   return $output;
@@ -126,6 +126,9 @@ function express_dashboard_user_secure_permissions($role) {
       'use user dashboard',
     ),
     'edit_my_content' => array(
+      'use user dashboard',
+    ),
+    'site_editor' => array(
       'use user dashboard',
     ),
     'site_owner' => array(
