@@ -96,8 +96,8 @@
 
 .content-grid-style-teaser { display: block; }
 .content-grid-style-teaser h2.feature-callout-title, .content-grid-style-teaser h3.feature-callout-title { font-size: 110%; }
-.content-grid-style-teaser .content-grid-item img.image-square { float: left; margin: 0 10px 0 0; width: 50px; }
-@media screen and (min-width: 768px) { .content-grid-style-teaser .content-grid-item img.image-square { width: 100px; } }
+.content-grid-style-teaser .content-grid-item img.image-square { float: left; margin: 0 10px 0 0; width: 50px; height: 50px; }
+@media screen and (min-width: 768px) { .content-grid-style-teaser .content-grid-item img.image-square { width: 100px; height: 100px; } }
 .content-grid-style-teaser .content-grid-item .content-grid-content > *:last-child { margin: 0; }
 
 .content-grid-style-masonry { display: block; column-count: 1; column-gap: 0; }
