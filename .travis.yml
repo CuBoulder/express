@@ -29,6 +29,9 @@ cache:
 
 install:
 
+  # Export variables used later on in bash scripts.
+  - export ${TRAVIS_PULL_REQUEST}
+
   # Install latest Drush 8.
   - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:8.*"
