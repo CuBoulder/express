@@ -110,10 +110,10 @@ Scenario Outline: Authorized users can access the Secondary Menu
   Scenario Outline: A menu item can be added to a menu
   Given I am logged in as a user with the "site_owner" role
   When I go to <path>
-  And I fill in "edit-additem-title" with "University of Colorado"
-  And I press "Save configuration" 
-  Then the "edit-link-title" field should contain "University of Colorado"
-  And I fill in "edit-link-path" with "https://www.colorado.edu"
+  And I fill in "edit-additem-title" with "Academics"
+  And I press "edit-submit" 
+  Then the "edit-link-title" field should contain "Academics"
+  And I fill in "edit-link-path" with "https://www.colorado.edu/academics"
   And I should see "Icon"
   And I should see "Advanced menu item settings"
   And I press "Save"
