@@ -12,7 +12,7 @@ if [ ! "${TRAVIS_PULL_REQUEST}" ]; then
 fi
 
 # Build Express if no db export or commit is "merged into dev".
-if [ ! -f $HOME/cache/express.sql ] || [ "${EXPRESS_COMMIT_HAS_BUILD}" ] ||
+if [ ! -f $HOME/cache/express.sql ] || [ "${EXPRESS_COMMIT_HAS_BUILD}" ]; then
 
   # Install site like normal.
   echo Installing Express...
