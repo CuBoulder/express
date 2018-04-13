@@ -3,11 +3,8 @@
 EXPRESS_COMMIT_HAS_BUILD="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '===build')"
 echo "Build Express? - ${EXPRESS_COMMIT_HAS_BUILD}"
 
-EXPRESS_COMMIT_HAS_MERGE="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep 'Merge pull request')"
-echo "commit merged to dev? - ${EXPRESS_COMMIT_HAS_MERGE}"
-
 # Build Express if no db export or commit is "merged into dev".
-if [ ! -f $HOME/cache/express.sql ] || [ "${EXPRESS_COMMIT_HAS_BUILD}" ] || [ "${EXPRESS_COMMIT_HAS_MERGE}" ]; then
+if [ ! -f $HOME/cache/express.sql ] || [ "${EXPRESS_COMMIT_HAS_BUILD}" ] || [ ! "${TRAVIS_PULL_REQUEST}" ]; then
 
   # Install site like normal.
   echo Installing Express...
