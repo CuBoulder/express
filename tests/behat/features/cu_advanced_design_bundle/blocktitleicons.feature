@@ -31,7 +31,7 @@
    
   
  
- @api
+ @api @AdvDesign
 Scenario: An authenticated user can add an icon to a block title
 Given I am logged in as a user with the "site_owner" role
 # CREATE A TEXT BLOCK
