@@ -42,7 +42,7 @@ install:
   - travis_retry composer install --prefer-dist --no-interaction
   - cd ../../../
 
-  # Build Codebase
+  # Build Codebase.
   - drush dl drupal-7.58
   - mkdir drupal && mv drupal-7.58/* drupal/
   - mkdir profiles && mv express drupal/profiles/
