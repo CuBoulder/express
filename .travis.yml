@@ -30,15 +30,14 @@ cache:
 install:
 
   # Export variables used later on in bash scripts.
-  - echo $TRAVIS_PULL_REQUEST
-  - echo $TRAVIS_BUILD_DIR
-  - echo $TRAVIS_EVENT_TYPE
-  - echo $TRAVIS_PULL_REQUEST
-  - echo $TRAVIS_PULL_REQUEST_BRANCH
+  - export $TRAVIS_BUILD_DIR
+  - export $TRAVIS_EVENT_TYPE
+  - export $TRAVIS_PULL_REQUEST
+  - ./echo.sh
   - cd dldlsklsk
 
   # Install latest Drush 8.
-  - travis_retry composer self-update && composer --version
+  #- travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:8.*"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
