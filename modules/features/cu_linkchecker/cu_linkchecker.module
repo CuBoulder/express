@@ -44,7 +44,7 @@ function cu_linkchecker_analyze_form() {
 
 function cu_linkchecker_analyze_form_submit($form, $form_state) {
   module_load_include('inc', 'linkchecker', 'linkchecker.admin');
-  linkchecker_analyze_links_submit();
+  linkchecker_analyze_links_submit($form, $form_state);
   variable_set('cu_linkchecker_status', 1);
   drupal_set_message('The site\'s content has been analyzed for links and the links have been added to the link checker queue.');
 }
