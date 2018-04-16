@@ -1,4 +1,4 @@
-@AdvDesign @abcdefg
+@AdvDesign
 Feature: Font Awesome Icons in menus and block titles
 In order to add visual interest to my site
 As an authenticated user
