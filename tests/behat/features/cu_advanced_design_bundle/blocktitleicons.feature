@@ -57,11 +57,11 @@ Then I go to "node/add/page"
   And I press "edit-submit"
 Then I should see "About Apples"
 # ADD BLOCK TO PAGE
-And I follow "Edit layout"
+And I follow "Edit Layout"
 And I press "edit-field-sidebar-second-und-actions-ief-add-existing"
 And I fill in "edit-field-sidebar-second-und-form-entity-id" with "ABC Text Block Title"
 And I wait 5 seconds
 And I press "Add block"
-And I press "Update layout"
+And I press "edit-submit"
 Then I should see "ABC Text Block Title"
 Then the response should contain "class=\"fa fa-apple\""
