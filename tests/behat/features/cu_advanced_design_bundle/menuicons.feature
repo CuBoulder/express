@@ -1,8 +1,8 @@
 @AdvDesign
-Feature: Font Awesome Icons in menus and block titles
+Feature: Font Awesome Icons in menus
 In order to add visual interest to my site
 As an authenticated user
-I should be able to add icons to menus and block titles
+I should be able to add icons to menu links
 
 Scenario: An authenticated user can add an icon to the main menu
 Given I am logged in as a user with the "site_owner" role
