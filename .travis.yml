@@ -32,9 +32,6 @@ install:
   # Export variables used later on in bash scripts.
   - export TRAVIS_BUILD_DIR
   - export TRAVIS_EVENT_TYPE
-  - export TRAVIS_PULL_REQUEST
-  - ./echo.sh
-  - cd dldlsklsk
 
   # Install latest Drush 8.
   #- travis_retry composer self-update && composer --version
