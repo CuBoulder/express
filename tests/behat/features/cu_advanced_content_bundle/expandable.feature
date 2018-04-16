@@ -23,7 +23,7 @@ Scenario: An anonymous user should not be able to access the form
   Given I go to "block/add/expandable"
   Then I should see "Access denied"
   
-@api @current
+@api
 Scenario: An authenticated user should see a number of display options
 Given I am logged in as a user with the "site_owner" role
 When I go to "block/add/expandable"
