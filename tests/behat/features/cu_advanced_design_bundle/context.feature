@@ -2,7 +2,7 @@
 
 Feature: Context
 
-@api @context @contextconditions @exclude_all_bundles
+@api @AdvDesign @context
 Scenario Outline: A content_editor should see a limited number of context conditions
   Given  I am logged in as a user with the "content_editor" role
     And am on "admin/structure/context/add"
