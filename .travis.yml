@@ -10,7 +10,7 @@ php:
 
 branches:
   only:
-    - dev
+    - testing/2033a
 
 addons:
   # The username and access key are stored in the Travis settings.
@@ -97,7 +97,8 @@ script:
 
   # Run headless Behat tests.
   - cd behat
-  - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&~@javascript'
+  - ./bin/behat --config behat.travis.yml --verbose --tags '@blocks'
+  # - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&~@javascript'
 
   # Run JS Behat tests if merged into dev.
   - ../travis-ci/run-js-tests.sh
