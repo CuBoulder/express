@@ -35,7 +35,6 @@ Given I am logged in as a user with the "site_owner" role
  Then I should see "Hero Unit Title"
  And I should see "Learn more about our program"
  
- 
 @api 
 Scenario: A link, a graphic and an overlay can be added to Hero Unit block
 Given I am logged in as a user with the "site_owner" role
