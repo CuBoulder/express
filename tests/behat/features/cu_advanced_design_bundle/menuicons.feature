@@ -1,10 +1,10 @@
-@AdvDesign
+@AdvDesign @abcdefg
 Feature: Font Awesome Icons in menus and block titles
 In order to add visual interest to my site
 As an authenticated user
 I should be able to add icons to menus and block titles
 
-@javascript @abcdefg
+@javascript 
 Scenario: An authenticated user can add an icon to a block title
 Given I am logged in as a user with the "site_owner" role
 # CREATE A BASIC PAGE
@@ -25,7 +25,7 @@ And I am on "node/add/page"
    And I press "Update layout"
    Then I should see "A is for Apple"
   # MIGHT WORK And I click the ".express_block_designer' element (A LIST ITEM ELEMENT)
-  # MIGHT WORK And I follow ".contextual-links-trigger"
+  And I follow ".contextual-links-trigger"
   # ELEMENT NOT VISIBLE And I click the "a" element with "contextual-links-trigger" for "class"  
   And I wait for AJAX
    And I follow "Block Designer"
