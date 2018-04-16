@@ -23,19 +23,15 @@ Scenario: An anonymous user should not be able to access the form
   Given I go to "block/add/expandable"
   Then I should see "Access denied"
   
-@api 
-Scenario Outline: An authenticated user should see a number of display options
+@api @current
+Scenario: An authenticated user should see a number of display options
 Given I am logged in as a user with the "site_owner" role
 When I go to "block/add/expandable"
 Then the "edit-field-expandable-section-open-und" checkbox should be checked
-And I select <condition> from "edit-field-expandable-display-und"
-
-Examples:
-| condition |
-| "accordion" |
-| "tabs" |
-| "tabs-vertical" |
-| "select" |
+And I select "accordion" from "edit-field-expandable-display-und"
+And I select "tabs" from "edit-field-expandable-display-und"
+And I select "tabs-vertical" from "edit-field-expandable-display-und"
+And I select "select" from "edit-field-expandable-display-und"
 
 @api 
 Scenario: A simple Expandable block can be created

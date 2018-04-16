@@ -37,30 +37,22 @@ And I should see an "#edit-field-callout-style-und-cards" element
 And I should see an "#edit-field-callout-style-und-teaser" element
 And I should see an "#edit-field-callout-style-und-tiles-alt" element
 
-@api 
-Scenario Outline: An authenticated user should see a number of Column options
+@api
+Scenario: An authenticated user should see a number of Column options
 Given I am logged in as a user with the "site_owner" role
 And am on "block/add/feature-callout"
-When I select <condition> from "edit-field-callout-columns-und"
+When I select "2" from "edit-field-callout-columns-und"
+And I select "3" from "edit-field-callout-columns-und"
+And I select "4" from "edit-field-callout-columns-und"
+And I select "5" from "edit-field-callout-columns-und"
+And I select "6" from "edit-field-callout-columns-und"
 
-  Examples:
-    | condition |
-    | "2" |
-    | "3" |
-    | "4" |
-    | "5" |
-    | "6" |
-
- @api 
-Scenario Outline: An authenticated user should see a number of Image Size options
+@api
+Scenario: An authenticated user should see a number of Image Size options
 Given I am logged in as a user with the "site_owner" role
 And am on "block/add/feature-callout"
-When I select <condition> from "edit-field-callout-image-size-und"
-
-  Examples:
-    | condition |
-    | "Wide" |
-    | "Square" |
+When I select "Wide" from "edit-field-callout-image-size-und"
+When I select "Square" from "edit-field-callout-image-size-und"
 
 @api
 Scenario: A simple Content Grid can be created

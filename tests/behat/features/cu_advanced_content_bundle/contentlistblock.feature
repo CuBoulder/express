@@ -23,33 +23,25 @@ Scenario: An anonymous user should not be able to access the form
   Given I go to "block/add/content-list"
   Then I should see "Access denied"
 
-@api 
-Scenario Outline: An authenticated user should see a number of Sort options
+@api
+Scenario: An authenticated user should see a number of Sort options
 Given I am logged in as a user with the "site_owner" role
 And am on "block/add/content-list"
-When I select <condition> from "edit-field-content-list-sort-und"
-
-  Examples:
-    | condition |
-    | "_none" |
-    | "Custom" |
-    | "Date Created" |
-    | "Date Created Reverse" |
-    | "Alphabetical" |
+When I select "_none" from "edit-field-content-list-sort-und"
+When I select "Custom" from "edit-field-content-list-sort-und"
+When I select "Date Created" from "edit-field-content-list-sort-und"
+When I select "Date Created Reverse" from "edit-field-content-list-sort-und"
+When I select "Alphabetical" from "edit-field-content-list-sort-und"
     
- @api 
-Scenario Outline: An authenticated user should see a number of Display options
+ @api
+Scenario: An authenticated user should see a number of Display options
 Given I am logged in as a user with the "site_owner" role
 And am on "block/add/content-list"
-When I select <condition> from "edit-field-content-list-display-und"
+When I select "Teaser" from "edit-field-content-list-display-und"
+When I select "Embed" from "edit-field-content-list-display-und"
+When I select "Title" from "edit-field-content-list-display-und"
+When I select "Sidebar" from "edit-field-content-list-display-und"
 
-  Examples:
-    | condition |
-    | "Teaser" |
-    | "Embed" |
-    | "Title" |
-    | "Sidebar" |
-    
 @api @javascript
 Scenario: A simple Content List block can be created
 Given I am logged in as a user with the "site_owner" role
