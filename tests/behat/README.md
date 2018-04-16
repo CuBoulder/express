@@ -1,3 +1,6 @@
+## Writing Tests
+
+Wiriting tests for the Express codebase is [covered in another documentation repository](https://github.com/CuBoulder/express_documentation/blob/master/docs/behat.md).
 
 ## Local Setup
 
@@ -25,8 +28,8 @@ You can now install an Express site by downloading Drupal, cloning in the Expres
 ROOT=$(pwd)
 
 # Add Drupal.
-drush dl drupal-7.56
-mv drupal-7.56 testing
+drush dl drupal-7.57
+mv drupal-7.57 testing
 
 # Make files folder and copy settings.php file.
 cd ${ROOT}/testing/sites/default
@@ -48,9 +51,10 @@ mysql -u root -p
 drush si express --db-url=mysql://root:@127.0.0.1/testing -y
 
 # Depending on your environment, you might not have a hosting module installed.
-# travis_hosting adds users needed for a test run and turns on neccessary bundles. 
-# It is the most appropriate hosting module to enable after install.
-drush en travis_hosting -y
+# lando_hosting adds users needed for a test run and turns on neccessary bundles. 
+# It is the most appropriate hosting module to enable after install, but a local_hosting
+# module will be merged into the dev branch soon.
+drush en lando_hosting -y
 
 # Start Drush webserver.
 drush runserver 127.0.0.1:8069
@@ -81,7 +85,7 @@ cd site-path/profiles/express/tests/behat
 composer install
 ```
 
-The test suite uses two different drivers during a test run: one for headless tests and one for browser emulated tests using JavaScript. The JavaScript tests are run via Sauce Labs, and you'll need an API key to use that service and run the tests. You can ask a team member for an API key and username, and you'll also need to export those variables. 
+The test suite uses two different drivers during a test run: one for headless tests and one for browser emulated tests using JavaScript. The JavaScript tests are run via Sauce Labs, and you'll need an API key to use that service and run the tests. You can ask a team member for an API key and username, and they will be shared using LastPass. You'll also need to export those variables. 
 
 The [Sauce Connect Proxy](https://wiki.saucelabs.com/display/DOCS/Sauce+Connect+Proxy) uses those auth keys to tunnel into your machine and accept Behat requests. Please download the latest Mac OS version.
 
@@ -92,14 +96,11 @@ cd sauce-connect-directory
 ./bin/sc -u username -k access-key
 ```
 
-The Behat test suite configuration also wants to know the Sauce Labs authorization keys, and while you can pass in configuration to the behat executable per test run, it is much simpler and easy to modify the behat.yml file, if it doesn't match your local environment for paths and URLs.
+The Behat test suite configuration also wants to know the Sauce Labs authorization keys, and while you can pass in configuration to the behat executable per test run, it is much simpler and easy to modify the behat.local.yml file, if it doesn't match your local environment for paths and URLs.
 
 ```yaml
-suites:
-  default:
-    paths: [ "%paths.base%/features" ]
-    contexts:
-      - FeatureContext
+#...more config
+
 extensions:
     Behat\MinkExtension:
       base_url: "http://127.0.0.1:8069"
@@ -115,6 +116,8 @@ extensions:
             # Enter your Sauce Labs credentials.
             username: ""
             access_key: ""
+            
+#...more config
 ```
 
 Now you should be able to run the test suite with the following command.
