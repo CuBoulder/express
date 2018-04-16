@@ -59,14 +59,15 @@ And fill in "edit-title" with "Ducks"
 And I follow "Disable rich-text"
 And I fill in "Body" with "Ducks can fly and swim"
 When I uncheck "edit-menu-enabled"
-And I press "edit-submit"
+And I press "Save"
 Then I should see "Ducks"
 And I go to "block/add/content-list"
 And I fill in "edit-label" with "My Block Row Block Label"
 And I fill in "edit-title" with "My Block Row Block Title"
 And I fill in "edit-field-content-list-reference-und-0-target-id" with "Ducks"
-And I wait 5 seconds
-And I press "edit-submit"
+And I press "Add another item"
+And I wait for the ".ajax-new-content" element to appear
+And I press "Save"
 Then I should see "My Block Row Block Title"
 And I should see "Ducks can fly and swim"
 

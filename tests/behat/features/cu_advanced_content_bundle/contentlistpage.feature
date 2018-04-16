@@ -24,18 +24,20 @@ Scenario: An anonymous user should not be able to access the form
   Then I should see "Access denied"
   
 #CREATING A CONTENT LIST PAGE
-@api 
+@api @javascript
 Scenario: A content list page can pull in articles, pages and persons
 Given I am logged in as a user with the "site_owner" role
 #BASIC PAGE
 And I am on "node/add/page"
 And fill in "edit-title" with "List Test Page"
+And I follow "Disable rich-text"
 And fill in "Body" with "Demo body content"
 When I uncheck "edit-menu-enabled"
 And I press "Save"
 #ARTICLE
 And I go to "node/add/article"
 And fill in "edit-title" with "List Test Article"
+And I follow "Disable rich-text"
 And fill in "Body" with "Demo article content"
 And I press "Save"
 #PERSON
@@ -47,13 +49,14 @@ And I press "Save"
 And I go to "node/add/content-list-page"
 And fill in "edit-title" with "Test Content List Page"
 And fill in "edit-field-content-list-reference-und-0-target-id" with "List Test Page"
-And I wait 5 seconds
 And I press "field_content_list_reference_add_more"
+And I wait for the ".ajax-new-content" element to appear
 And fill in "edit-field-content-list-reference-und-1-target-id" with "List Test Article"
-And I wait 5 seconds
 And I press "field_content_list_reference_add_more"
+And I wait for the ".ajax-new-content" element to appear
 And fill in "edit-field-content-list-reference-und-2-target-id" with "MyFirst MyLast"
-And I wait 5 seconds
+And I press "field_content_list_reference_add_more"
+And I wait for the ".ajax-new-content" element to appear
 And I press "Save"
 Then I should see "Content List Page Test Content List Page has been created."
 And I should see the link "List Test Page"
