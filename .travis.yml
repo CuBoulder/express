@@ -34,7 +34,6 @@ install:
   - export TRAVIS_EVENT_TYPE
 
   # Install latest Drush 8.
-  #- travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:8.*"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
