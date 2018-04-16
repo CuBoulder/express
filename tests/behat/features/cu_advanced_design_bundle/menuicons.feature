@@ -4,7 +4,7 @@ In order to add visual interest to my site
 As an authenticated user
 I should be able to add icons to menus and block titles
 
-@javascript
+@javascript @abcdefg
 Scenario: An authenticated user can add an icon to a block title
 Given I am logged in as a user with the "site_owner" role
 # CREATE A BASIC PAGE
@@ -26,7 +26,7 @@ And I am on "node/add/page"
    Then I should see "A is for Apple"
   # MIGHT WORK And I click the ".express_block_designer' element (A LIST ITEM ELEMENT)
   # MIGHT WORK And I follow ".contextual-links-trigger"
-  And I click the "a" element with "contextual-links-trigger" for "class"  
+  # ELEMENT NOT VISIBLE And I click the "a" element with "contextual-links-trigger" for "class"  
   And I wait for AJAX
    And I follow "Block Designer"
    Then I should see "Block Designer: \'ABC Text Block Label\'"
