@@ -24,7 +24,10 @@ And I am on "node/add/page"
    And I press "Create block"
    And I press "Update layout"
    Then I should see "A is for Apple"
-  # And I click the ".express_block_designer' element (A LIST ITEM ELEMENT)
+  # MIGHT WORK And I click the ".express_block_designer' element (A LIST ITEM ELEMENT)
+  # MIGHT WORK And I follow ".contextual-links-trigger"
+  And I click the "a" element with "contextual-links-trigger" for "class"  
+  And I wait for AJAX
    And I follow "Block Designer"
    Then I should see "Block Designer: \'ABC Text Block Label\'"
   And I check "edit-exbd-icon-fa-apple"
