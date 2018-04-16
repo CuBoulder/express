@@ -21,7 +21,7 @@ And I am on "node/add/page"
   And I fill in "edit-field-sidebar-second-und-form-title" with "ABC Text Block Title"
   And I follow "Disable rich-text"
    And I fill in "Body" with "A is for Apple"
-   And I press "Create Block"
+   And I press "Create block"
    And I press "Update layout"
    Then I should see "A is for Apple"
   # And I click the ".express_block_designer' element (A LIST ITEM ELEMENT)
