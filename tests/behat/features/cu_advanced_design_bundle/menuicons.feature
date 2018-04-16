@@ -30,7 +30,7 @@ And I am on "node/add/page"
   And I wait for AJAX
    And I follow "Block Designer"
    Then I should see "Block Designer: \'ABC Text Block Label\'"
-  And I check "edit-exbd-icon-fa-apple"
+  And I select "fa-apple" from "icon"
   And I press "edit-submit"
    Then the response should contain "class=\"fa fa-apple\""
    
