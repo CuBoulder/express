@@ -187,6 +187,17 @@ function cu_advanced_content_bundle_secure_permissions($role) {
       'view any video_reveal bean',
       'view any feature_callout bean',
     ),
+    'site_editor' => array(
+      'create any video_reveal bean',
+      'delete any video_reveal bean',
+      'edit any video_reveal bean',
+      'view any video_reveal bean',
+      'create any feature_callout bean',
+      'delete any feature_callout bean',
+      'edit any feature_callout bean',
+      'view any feature_callout bean',
+      'administer quicktabs',
+    ),
     'site_owner' => array(
       'create any video_reveal bean',
       'delete any video_reveal bean',
