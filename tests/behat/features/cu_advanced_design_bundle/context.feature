@@ -1,6 +1,11 @@
-# THIS IS AN OLDER TEST; MAY WANT TO DELETE SO WE DONT HAVE TESTS FOR CONTEXT ALL OVER THE PLACE; TOO HARD TO KEEP TRACK OF.
+# CONTEXT FUNCTIONALITY IS TESTED IN OTHER FEATURES. THIS FEATURE TARGETS SITE BACKGROUND IMAGES ONLY
 
-Feature: Context
+@AdvDesign
+Feature: Add a Site Background image with Context
+In order to add visual interest to my site
+As an authenticated user
+I should be able to add a background image to my site
+
 
 @api @AdvDesign @context
 Scenario Outline: A content_editor should see a limited number of context conditions
