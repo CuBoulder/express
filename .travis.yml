@@ -29,13 +29,6 @@ cache:
 
 install:
 
-  - mysql -e "SET @@global.innodb_file_per_table=0;"
-  - mysql -e "SET @@global.innodb_flush_log_at_trx_commit=2;"
-  - phpenv config-add tests/travis-ci/config/express-php.ini
-  - php -i | grep memory
-  - cat /proc/meminfo
-  - cd chchdjdsj
-
   # Export variables used later on in bash scripts.
   - export TRAVIS_BUILD_DIR
   - export TRAVIS_EVENT_TYPE
