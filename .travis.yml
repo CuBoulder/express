@@ -29,7 +29,8 @@ cache:
 
 install:
 
-  - php -m
+  - php -i | grep memory
+  - cat /proc/meminfo
   - cd chchdjdsj
 
   # Export variables used later on in bash scripts.

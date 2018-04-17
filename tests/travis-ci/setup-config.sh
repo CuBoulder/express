@@ -3,16 +3,12 @@
 # Disable XDebug to speed up test runs.
 phpenv config-rm xdebug.ini
 
-# Disable sendmail.
+# Disable sendmail from https://www.drupal.org/project/phpconfig/issues/1826652.
 echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
-# Bump up max execution time.
-echo "max_execution_time=60" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+# Change InnoDB settings that speed things up.
+# https://www.percona.com/blog/2015/02/24/mysqls-innodb_file_per_table-slowing/
+mysql -e "SET @@global.innodb_file_per_table=0;"
 
-# Increase the MySQL connection timeout on the PHP end.
-echo "mysql.connect_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-echo "default_socket_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
-# Increase the MySQL server timetout and packet size.
-mysql -e "SET GLOBAL wait_timeout = 36000;"
-mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
+# https://dba.stackexchange.com/questions/12611/is-it-safe-to-use-innodb-flush-log-at-trx-commit-2
+mysql -e "SET @@global.innodb_flush_log_at_trx_commit=2;"
