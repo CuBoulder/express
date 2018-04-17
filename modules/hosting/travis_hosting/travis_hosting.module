@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains hooks for cu_testing_core module.
+ * Contains hooks for the travis_hosting module.
  */
 
 /**

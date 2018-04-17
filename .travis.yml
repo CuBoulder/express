@@ -37,7 +37,7 @@ install:
   - travis_retry composer global require "drush/drush:8.*"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
-  # Build Behat dependencies
+  # Build Behat dependencies.
   - cd ./tests/behat
   - travis_retry composer install --prefer-dist --no-interaction
   - cd ../../../

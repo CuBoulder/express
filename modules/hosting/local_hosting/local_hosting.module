@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains hooks for lando_hosting module.
+ * Contains hooks for local_hosting module.
  */
 
 /**
@@ -10,7 +10,7 @@
  *
  * Mirrors changes cu_ldap makes without the overhead of LDAP.
  */
-function lando_hosting_form_user_login_alter(&$form, &$form_state) {
+function local_hosting_form_user_login_alter(&$form, &$form_state) {
   $form['name']['#title'] = t('CU Login Name');
   $form['name']['#description'] = '';
   $form['pass']['#title'] = t('IdentiKey Password');
