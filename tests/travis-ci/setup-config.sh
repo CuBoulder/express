@@ -7,7 +7,7 @@ phpenv config-rm xdebug.ini
 echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 # Add PHP config that somewhat matches current prod.
-phpenv config-add tests/travis-ci/config/express-php.ini
+phpenv config-add travis-ci/config/express-php.ini
 
 # Change InnoDB settings that speed things up.
 # https://www.percona.com/blog/2015/02/24/mysqls-innodb_file_per_table-slowing/
