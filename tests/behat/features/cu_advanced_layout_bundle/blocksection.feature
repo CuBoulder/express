@@ -24,55 +24,39 @@ Scenario: An anonymous user should not be able to access the form
   Then I should see "Access denied"
 
 @api 
-Scenario Outline: An authenticated user should see a number of Background Effect choices
+Scenario: An authenticated user should see a number of Background Effect choices
 Given  I am logged in as a user with the "site_owner" role
 And am on "block/add/block-section"
-When I select <condition> from "edit-field-block-section-bg-effect-und"
-
-  Examples:
-    | condition |
-    | "Fixed" |
-    | "Scroll" |
-    | "Parallax" |
+When I select "Fixed" from "edit-field-block-section-bg-effect-und"
+When I select "Scroll" from "edit-field-block-section-bg-effect-und"
+When I select "Parallax" from "edit-field-block-section-bg-effect-und"
     
 @api 
-Scenario Outline: An authenticated user should see a number of Background Color choices
+Scenario: An authenticated user should see a number of Background Color choices
 Given  I am logged in as a user with the "site_owner" role
 And am on "block/add/block-section"
-When I select <condition> from "edit-field-hero-unit-bg-color-und"
+When I select "White" from "edit-field-hero-unit-bg-color-und"
+When I select "Gray" from "edit-field-hero-unit-bg-color-und"
+When I select "Black" from "edit-field-hero-unit-bg-color-und"
+When I select "Dark Gray" from "edit-field-hero-unit-bg-color-und"
+When I select "Gold" from "edit-field-hero-unit-bg-color-und"
+When I select "Tan" from "edit-field-hero-unit-bg-color-und"
+When I select "Light Blue" from "edit-field-hero-unit-bg-color-und"
 
-  Examples:
-    | condition |
-    | "White" |
-    | "Gray" |
-    | "Black" |
-    | "Dark Gray" |    
-    | "Gold" |
-    | "Tan" |
-    | "Light Blue" |
-    
- @api 
-Scenario Outline: An authenticated user should see a number of Text Color choices
+@api
+Scenario: An authenticated user should see a number of Text Color choices
 Given  I am logged in as a user with the "site_owner" role
 And am on "block/add/block-section"
-When I select <condition> from "edit-field-hero-unit-text-color-und"
+When I select "Black" from "edit-field-hero-unit-text-color-und"
+When I select "White" from "edit-field-hero-unit-text-color-und"
 
-  Examples:
-    | condition |
-    | "Black" |
-    | "White" |
-    
 @api 
-Scenario Outline: An authenticated user should see a number of Content Background choices
+Scenario: An authenticated user should see a number of Content Background choices
 Given  I am logged in as a user with the "site_owner" role
 And am on "block/add/block-section"
-When I select <condition> from "edit-field-block-section-content-bg-und"
-
-  Examples:
-    | condition |
-    | "Hidden" |
-    | "Transparent" |
-    | "Solid" |    
+When I select "Hidden" from "edit-field-block-section-content-bg-und"
+When I select "Transparent" from "edit-field-block-section-content-bg-und"
+When I select "Solid" from "edit-field-block-section-content-bg-und"
 
 @api @javascript
 Scenario: A block section block can be created
@@ -83,7 +67,7 @@ And I fill in "edit-title" with "My Block Section Block Title"
 
 # CREATE a TEXT BLOCK
 And I select "Text Block" from "edit-field-blocks-section-blocks-und-actions-bundle"
-And I wait for AJAX
+And I wait for the ".ief-form" element to appear
 And I fill in "edit-field-blocks-section-blocks-und-form-label" with "Ralphie Buffalo Label"
 And I fill in "edit-field-blocks-section-blocks-und-form-title" with "Ralphie Buffalo Title"
 And I follow "Disable rich-text"
@@ -91,7 +75,8 @@ And I follow "Disable rich-text"
  And I press "Create block"
 # JAVASCRIPT CANNOT FIND GRAPHIC And I attach the file "ralphie.jpg" to "edit-field-block-section-bg-image-und-0-upload"
 # And I press "edit-field-block-section-bg-image-und-0-upload-button"
-And I select "White" from "edit-field-hero-unit-text-color-und"
+And I click the ".horizontal-tab-button.horizontal-tab-button-1.last a" element
+And I select "White" from "Text Color"
 And I press "Save"
 Then I should see "My Block Section Block Title"
 And I should see "Ralphie Buffalo Title"
