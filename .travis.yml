@@ -56,29 +56,17 @@ install:
   - mkdir -p sites/default/files/styles/preview/public/gallery/ && chmod -R 777 sites
   - mkdir ../tmp && chmod -R 777 ../tmp
 
-  # Disable sendmail.
-  - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
-  # Bump up max execution time.
-  - echo "max_execution_time=60" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
-  # Increase the MySQL connection timeout on the PHP end.
-  - echo "mysql.connect_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo "default_socket_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
-  # Increase the MySQL server timetout and packet size.
-  - mysql -e "SET GLOBAL wait_timeout = 36000;"
-  - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
-
 before_script:
 
-  # Disable XDebug to speed up test runs.
-  - phpenv config-rm xdebug.ini
-
-  # Perform the site install after removing Xdebug since it seems faster.
+  # Add database and settings.php file.
   - mysql -e 'create database drupal;'
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
   - cd profiles/express/tests
+
+  # Setup config for PHP/MySQL.
+  - ./travis-ci/setup-config.sh
+
+  # Perform the site install after removing Xdebug since it seems faster.
   - ./travis-ci/build-express.sh
 
   # Check and see if testing core module is enabled.
