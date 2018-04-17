@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Install hooks for lando_hosting module.
+ * Install hooks for local_hosting module.
  */
 
 /**
