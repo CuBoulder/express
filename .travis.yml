@@ -86,6 +86,7 @@ before_script:
   - drush pm-info ng_hosting
   - drush pm-info cu_core
   - drush pm-info cu_ldap
+  - drush pm-info cu_local_users
 
   # Start server.
   - drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &
