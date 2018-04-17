@@ -58,13 +58,15 @@ install:
 
 before_script:
 
+  # Add database and settings.php file.
+  - mysql -e 'create database drupal;'
+  - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
+  - cd profiles/express/tests
+
   # Setup config for PHP/MySQL.
   - ./travis-ci/setup-config.sh
 
   # Perform the site install after removing Xdebug since it seems faster.
-  - mysql -e 'create database drupal;'
-  - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
-  - cd profiles/express/tests
   - ./travis-ci/build-express.sh
 
   # Check and see if testing core module is enabled.
