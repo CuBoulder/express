@@ -28,5 +28,5 @@ if (file_exists($local_post_settings)) {
   file_put_contents($settings_file_path . 'settings.php', $file_content, FILE_APPEND | LOCK_EX);
 
   // Copy local settings file over.
-  shell_exec('cp '. $module_path . '/settings.local.php ' . $settings_file_path);
+  shell_exec('cp ' . $module_path . '/settings.local.php ' . $settings_file_path);
 }

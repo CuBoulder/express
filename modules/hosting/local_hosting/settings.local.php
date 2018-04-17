@@ -13,7 +13,7 @@ $conf['cache'] = 1;
 
 // Compress cached pages always off; we use mod_deflate
 // I'm not sure mod_deflate is on Lando or Valet.
-// $conf['page_compression'] = 0;
+// $conf['page_compression'] = 0;.
 
 // Min cache lifetime 0, max 5 mins * 60 = 300 seconds.
 $conf['cache_lifetime'] = 0;
@@ -48,5 +48,5 @@ $conf['block_cache_bypass_node_grants'] = TRUE;
 
 // Used for Laravel Valet sharing functionality.
 if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
-  $base_url = $_SERVER['HTTP_X_FORWARDED_PROTO']. '://'. $_SERVER['HTTP_X_FORWARDED_HOST'];
+  $base_url = $_SERVER['HTTP_X_FORWARDED_PROTO'] . '://' . $_SERVER['HTTP_X_FORWARDED_HOST'];
 }
