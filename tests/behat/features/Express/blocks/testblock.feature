@@ -47,7 +47,6 @@ And fill in "Body" with "Lorem ipsum dolor sit amet"
  And I attach the file "assets/cupcakes.jpg" to "edit-field-block-photo-und-0-upload"
   And I fill in "edit-field-block-photo-und-0-alt" with "Lavender and lemony goodness"
   And I press "edit-field-block-photo-und-0-upload-button"
-  And I wait 5 seconds
  Then I should see "File information"
  And I press "Save"
  Then I should see "My New Text Block"
