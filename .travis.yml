@@ -81,11 +81,15 @@ before_script:
   - cd profiles/express/tests
   - ./travis-ci/build-express.sh
 
+  # Enable testing module.
+  - drush en cu_behat_tests -y
+
   # Check and see if testing core module is enabled.
   - drush pm-info travis_hosting
   - drush pm-info ng_hosting
   - drush pm-info cu_core
   - drush pm-info cu_ldap
+  - drush pm-info cu_local_users
 
   # Start server.
   - drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &

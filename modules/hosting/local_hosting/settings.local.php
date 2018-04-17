@@ -50,5 +50,3 @@ $conf['block_cache_bypass_node_grants'] = TRUE;
 if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
   $base_url = $_SERVER['HTTP_X_FORWARDED_PROTO']. '://'. $_SERVER['HTTP_X_FORWARDED_HOST'];
 }
-
-$_SERVER['VALET_ENV'] = 'yes';
