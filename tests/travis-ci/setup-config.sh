@@ -10,10 +10,10 @@ echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc
 phpenv config-add travis-ci/config/express-php.ini
 
 # Change InnoDB settings that speed things up.
-# https://www.percona.com/blog/2015/02/24/mysqls-innodb_file_per_table-slowing/
+# https://www.percona.com/blog/2015/02/24/mysqls-innodb_file_per_table-slowing/.
 mysql -e "SET @@global.innodb_file_per_table=0;"
 
-# https://dba.stackexchange.com/questions/12611/is-it-safe-to-use-innodb-flush-log-at-trx-commit-2
+# https://dba.stackexchange.com/questions/12611/is-it-safe-to-use-innodb-flush-log-at-trx-commit-2.
 mysql -e "SET @@global.innodb_flush_log_at_trx_commit=2;"
 
 # Echo out some system info.
