@@ -11,5 +11,5 @@ Given I am logged in as a user with the "site_owner" role
  And I select "edit-use-sticky-menu-1" from "use_sticky_menu"
  And I press "Save configuration"
  And I go to "/"
-And the response should contain "id=\"sticky-menu\""
+Then the response should contain "id=\"sticky-menu\""
 
