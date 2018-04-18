@@ -31,7 +31,11 @@ cache:
 before_install:
 
   - echo $TRAVIS_BUILD_DIR
-  - echo $TRAVIS_BUILD_DIR
+  - ls -al
+  - cd $TRAVIS_BUILD_DIR && cd ../
+  - export ROOT_DIR=$(pwd)
+  - echo $ROOT_DIR
+  - ls -al $ROOT_DIR
   - cd skdjkdj
 
 install:
