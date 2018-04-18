@@ -63,8 +63,11 @@ And I fill in "edit-conditions-plugins-path-values" with "my-page-title"
 # And I fill in "edit-reactions-plugins-title-image-title-image-file" with with "node/XXX/large"
  And I press "Save"
  # GO TO URL OF BASIC PAGE, YOU SHOULD SEE: 
- And I go to "my-page-title"
+ And I go to "/my-page-title"
+ Then I should see "My Page Title"
+ And I should see "Lorem ipsum dolor sit amet"
 # FAILED TO FIND Then the "#page-title-image-wrapper" element should have "background-image:url();" in the "style" attribute
 # NOT FOUND DAMMIT Then the "h1" element should have "page-title-image-title" in the "class" attribute
-Then I should see a "#page-title-image-title" element
+And I should see a "#page-title-image-title" element
+And I should see a "#page-title-image-overlay" element
 # IF POPULATED And the "#page-title-image-wrapper" element should have "background-image:url(node/XXX/large);" in the "style" attribute
