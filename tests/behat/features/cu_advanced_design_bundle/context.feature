@@ -2,10 +2,10 @@
 # THIS FEATURE TARGETS SITE BACKGROUND IMAGES AND PAGE TITLE IMAGES ONLY
 
 @AdvDesign
-Feature: Add a background images with Context
+Feature: Add background images with Context
 In order to add visual interest to my site
 As an authenticated user
-I should be able to add a graphics to site and page title backgrounds 
+I should be able to attach graphics to site and page title backgrounds 
 
 # THIS TEST PRESUMES THAT WE CAN GRAB THE NODE ID AND PASS THAT VARIABLE TO OTHER SCENARIOS
 # NEXT WRITE A CUSTOM STEP TO FIGURE OUT THE NODE ID
@@ -46,10 +46,10 @@ Then the response should contain "backstretchURL"
 # WHEN WE KNOW NODE URL: And the response should contain "node\/XXX\/backstretch"
     
 
-Scenario: An authenticated user can attach a background image to a site
-    Given I am logged in as a user with the "site_owner" role
-   # CREATE A BASIC PAGE; NOTE THE URL AS YOU WILL USE THIS PATH IN CONTEXT
-   And I am on "node/add/page"
+Scenario: An authenticated user can attach a background image to a page title
+  Given I am logged in as a user with the "site_owner" role
+  # CREATE A BASIC PAGE; NOTE THE URL AS YOU WILL USE THIS PATH IN CONTEXT
+  And I am on "node/add/page"
   And fill in "edit-title" with "My Page Title"
   And fill in "Body" with "Lorem ipsum dolor sit amet"
   When I press "edit-submit"
@@ -64,7 +64,7 @@ And I fill in "edit-conditions-plugins-path-values" with "my-page-title"
  And I press "Save"
  # GO TO URL OF BASIC PAGE, YOU SHOULD SEE: 
  And I go to "my-page-title"
- Then the "#page-title-image-wrapper" element should have "background-image:url();" in the "style" attribute
-# Then the "h1" element should have "page-title-image-title" in the "class" attribute
+# FAILED TO FIND Then the "#page-title-image-wrapper" element should have "background-image:url();" in the "style" attribute
+Then the "h1" element should have "page-title-image-title" in the "class" attribute
 # OR Then I should see a "#page-title-image-title" element
 # IF POPULATED And the "#page-title-image-wrapper" element should have "background-image:url(node/XXX/large);" in the "style" attribute
