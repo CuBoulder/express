@@ -21,7 +21,6 @@ And I select "fa-apple" from "exbd_icon"
  # CREATE BASIC PAGE
 Then I go to "node/add/page"
   And fill in "edit-title" with "About Apples"
-  And I follow "Disable rich-text"
   And fill in "Body" with "Apple blossom is the state flower of Michigan."
   And I press "edit-submit"
 Then I should see "About Apples"
