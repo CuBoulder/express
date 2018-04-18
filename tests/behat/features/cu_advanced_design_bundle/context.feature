@@ -62,6 +62,7 @@ And I fill in "edit-conditions-plugins-path-values" with "my-page-title"
  And I select "title_image" from "edit-reactions-selector"
 # And I fill in "edit-reactions-plugins-title-image-title-image-file" with with "node/XXX/large"
  And I press "Save"
+ Then I should see "mypagetitle has been created"
  # GO TO URL OF BASIC PAGE, YOU SHOULD SEE: 
  And I go to "/my-page-title"
  Then I should see "My Page Title"
