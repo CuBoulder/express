@@ -11,7 +11,7 @@ cp $ROOT_DIR/drupal/profiles/express/tests/travis-ci/settings.travis.php $ROOT_D
 echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 # Add PHP config that somewhat matches current prod.
-phpenv config-add $ROOT_DIR/drupal/profiles/express/travis-ci/config/express-php.ini
+phpenv config-add $ROOT_DIR/drupal/profiles/express/tests/travis-ci/config/express-php.ini
 
 # Change InnoDB settings that speed things up.
 # https://www.percona.com/blog/2015/02/24/mysqls-innodb_file_per_table-slowing/.

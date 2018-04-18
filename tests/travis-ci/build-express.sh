@@ -17,12 +17,12 @@ if [ ! -f $HOME/cache/express.sql ] || [ "${EXPRESS_COMMIT_HAS_BUILD}" ]; then
 
   # Install site like normal.
   echo Installing Express...
-  drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
+  $HOME/.composer/vendor/bin/drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
 
   # Export db so it can be imported after every suite run.
   # Test runs that fill up the db with nodes can impact other tests.
   echo Exporting database...
-  drush sql-dump --result-file=$HOME/cache/express.sql
+  $HOME/.composer/vendor/bin/drush sql-dump --result-file=$HOME/cache/express.sql
 else
 
   # Import db if it is already built.
@@ -33,6 +33,6 @@ fi
 # Check and see if testing core module is enabled.
 $HOME/.composer/vendor/bin/drush pm-info travis_hosting
 $HOME/.composer/vendor/bin/drush pm-info ng_hosting
-drush pm-info cu_core
-drush pm-info cu_ldap
-drush pm-info cu_local_users
+$HOME/.composer/vendor/bin/drush pm-info cu_core
+$HOME/.composer/vendor/bin/drush pm-info cu_ldap
+$HOME/.composer/vendor/bin/drush pm-info cu_local_users
