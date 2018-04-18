@@ -32,6 +32,7 @@ install:
 
   # Export variables used later on in bash scripts.
   - cd $TRAVIS_BUILD_DIR && cd ../ && export ROOT_DIR=$(pwd)
+  - export HOME
   - export TRAVIS_EVENT_TYPE
   - export BUNDLE_NAME="null"
 
