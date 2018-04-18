@@ -27,12 +27,12 @@ else
 
   # Import db if it is already built.
   echo Importing Express database...
-  drush sql-cli < $HOME/cache/express.sql
+  $HOME/.composer/vendor/bin/drush sql-cli < $HOME/cache/express.sql
 fi
 
 # Check and see if testing core module is enabled.
-drush pm-info travis_hosting
-drush pm-info ng_hosting
+$HOME/.composer/vendor/bin/drush pm-info travis_hosting
+$HOME/.composer/vendor/bin/drush pm-info ng_hosting
 drush pm-info cu_core
 drush pm-info cu_ldap
 drush pm-info cu_local_users
