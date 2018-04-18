@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+cd $ROOT_DIR/drupal/profiles/express
 EXPRESS_COMMIT_HAS_BUILD="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '===build')"
 echo "Build Express? - ${EXPRESS_COMMIT_HAS_BUILD}"
 

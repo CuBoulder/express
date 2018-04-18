@@ -28,38 +28,28 @@ cache:
     - $HOME/.composer/cache/files
     - $HOME/cache
 
-before_install:
-
-  - echo $TRAVIS_BUILD_DIR
-  - ls -al
-  - cd $TRAVIS_BUILD_DIR && cd ../
-  - export ROOT_DIR=$(pwd)
-  - echo $ROOT_DIR
-  - ls -al $ROOT_DIR
-  - cd skdjkdj
-
 install:
 
   # Export variables used later on in bash scripts.
-  - export TRAVIS_BUILD_DIR
+  - cd $TRAVIS_BUILD_DIR && cd ../ && export ROOT_DIR=$(pwd)
   - export TRAVIS_EVENT_TYPE
   - export BUNDLE_NAME="null"
 
   # Install and build dependencies.
-  - ./tests/travis-ci/install.sh
+  - $ROOT_DIR/express/tests/travis-ci/install.sh
 
 before_script:
 
   # Setup config for PHP/MySQL, settings.php, and install database.
-  - ./travis-ci/setup-config.sh
+  - $ROOT_DIR/drupal/profiles/express/travis-ci/setup-config.sh
 
   # Perform the site install after removing Xdebug since it seems faster.
-  - ./travis-ci/build-express.sh
+  - $ROOT_DIR/drupal/profiles/express/travis-ci/build-express.sh
 
 script:
 
   # Run Behat tests.
-  - ./travis-ci/behat-tests.sh
+  - $ROOT_DIR/drupal/profiles/express/travis-ci/behat-tests.sh
 
 notifications:
   slack:
