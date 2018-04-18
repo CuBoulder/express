@@ -19,6 +19,7 @@ Feature: CU Layout Creation
     When I go to "node/1"
       And I follow "Edit Layout"
       And I select "block" from "field_header[und][actions][bundle]"
+      And I wait for the ".ief-form" element to appear
       And I fill in "Text Block Label" with "above content block"
       And I follow "Disable rich-text"
       And I fill in "Body" with "above content block"
@@ -27,6 +28,7 @@ Feature: CU Layout Creation
     Then I should see "above content block"
     When I follow "Edit Layout"
       And I click the "#edit-field-header-und-entities-0-actions-ief-entity-remove" element
+      And I wait for the "#edit-field-header-und-entities-0-form-actions-ief-remove-confirm" element to appear
       And I click the "#edit-field-header-und-entities-0-form-actions-ief-remove-confirm" element
       And I press "Update layout"
     Then I should not see "above content block"
@@ -44,6 +46,7 @@ Feature: CU Layout Creation
     When I go to "node/1"
       And I follow "Edit Layout"
       And I select "block" from "field_sidebar_first[und][actions][bundle]"
+      And I wait for the ".ief-form" element to appear
       And I fill in "Text Block Label" with "left sidebar block"
       And I follow "Disable rich-text"
       And I fill in "Body" with "left sidebar block"

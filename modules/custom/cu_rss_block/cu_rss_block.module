@@ -203,6 +203,12 @@ function cu_rss_block_secure_permissions($role) {
       'edit any rss bean',
       'view any rss bean',
     ),
+    'site_editor' => array(
+      'create any rss bean',
+      'delete any rss bean',
+      'edit any rss bean',
+      'view any rss bean',
+    ),
     'site_owner' => array(
       'create any rss bean',
       'delete any rss bean',

@@ -236,9 +236,14 @@ function express_check_known_hosts() {
     return 'pantheon';
   }
 
-  // Check for Pantheon.
+  // Check for Lando.
   if (getenv('LANDO_ENV') === 'yes') {
     return 'lando';
+  }
+
+  // Check for Valet.
+  if (getenv('VALET_ENV') === 'yes') {
+    return 'valet';
   }
 
   return FALSE;
