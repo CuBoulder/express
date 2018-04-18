@@ -65,6 +65,6 @@ And I fill in "edit-conditions-plugins-path-values" with "my-page-title"
  # GO TO URL OF BASIC PAGE, YOU SHOULD SEE: 
  And I go to "my-page-title"
 # FAILED TO FIND Then the "#page-title-image-wrapper" element should have "background-image:url();" in the "style" attribute
-Then the "h1" element should have "page-title-image-title" in the "class" attribute
-# OR Then I should see a "#page-title-image-title" element
+# NOT FOUND DAMMIT Then the "h1" element should have "page-title-image-title" in the "class" attribute
+Then I should see a "#page-title-image-title" element
 # IF POPULATED And the "#page-title-image-wrapper" element should have "background-image:url(node/XXX/large);" in the "style" attribute
