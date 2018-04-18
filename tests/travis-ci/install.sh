@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 # Install latest Drush 8.
-travis_retry composer global require "drush/drush:8.*"
+composer global require "drush/drush:8.*"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 
 # Build Behat dependencies.
 cd $ROOT_DIR/express/tests/behat
-travis_retry composer install --prefer-dist --no-interaction
+composer install --prefer-dist --no-interaction
 
 # Build Codebase.
 cd $ROOT_DIR
