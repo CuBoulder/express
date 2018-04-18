@@ -4,7 +4,7 @@ In order to add visual interest to my site
 As an authenticated user
  I should be able to attach Font Awesome icons to my block titles
 
- @api @javascript
+ @api
 Scenario: An authenticated user can add an icon to a block title
 Given I am logged in as a user with the "site_owner" role
 # CREATE A TEXT BLOCK
