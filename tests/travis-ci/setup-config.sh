@@ -3,6 +3,11 @@
 # Disable XDebug to speed up test runs.
 phpenv config-rm xdebug.ini
 
+# Add database and settings.php file.
+mysql -e 'create database drupal;'
+cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
+cd profiles/express/tests
+
 # Disable sendmail from https://www.drupal.org/project/phpconfig/issues/1826652.
 echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
