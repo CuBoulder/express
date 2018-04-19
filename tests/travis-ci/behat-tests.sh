@@ -14,6 +14,7 @@ echo "Build Express? - ${SKIP_EXPRESS_TESTS}"
 
 # Run headless Behat tests.
 if [ ! "${SKIP_EXPRESS_TESTS}" ]; then
+    echo "Running Express headless tests..."
   ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&~@javascript'
   earlyexit
 
@@ -23,8 +24,11 @@ if [ ! "${SKIP_EXPRESS_TESTS}" ]; then
 fi
 
 # Run bundle tests.
-if [ BUNDLE_NAME != "null" ]; then
+echo "printing bundle name: ${BUNDLE_NAME}"
+if [ "${BUNDLE_NAME}" != "null" ]; then
+  echo "Running bundle tests..."
   ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.bundle.yml --verbose --tags '~@exclude_all_bundles&&~@broken'
+  earlyexit
 fi
 
 # Output performance logging data.
