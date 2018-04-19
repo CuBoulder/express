@@ -25,6 +25,7 @@ fi
 # Run bundle tests.
 if [ BUNDLE_NAME != "null" ]; then
   ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.bundle.yml --verbose --tags '~@exclude_all_bundles&&~@broken'
+  earlyexit
 fi
 
 # Output performance logging data.
