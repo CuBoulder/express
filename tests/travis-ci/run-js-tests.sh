@@ -10,8 +10,8 @@ if [ "${TRAVIS_EVENT_TYPE}" == "push" ] || [ "${EXPRESS_COMMIT_HAS_JS}" ]; then
   ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&@javascript'
   echo ----
   echo ----
-  echo Exit Code is: $?
   if [ "$?" = "1" ]; then exit 1 ; fi
+  echo Exit Code is: $?
   echo ---
   echo ---
 else

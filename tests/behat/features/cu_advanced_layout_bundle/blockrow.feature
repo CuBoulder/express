@@ -18,10 +18,10 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | administrator   | "Create Block Row block" |
     | developer       | "Create Block Row block" |
 
-@api @block-row-block
+@api @block-row-block @current
 Scenario: An anonymous user should not be able to access the form
   Given I go to "block/add/block-row"
-  Then I should see "Access denied"
+  Then I should see "Accessss denied"
 
 @api @javascript
 Scenario: A block row block can be created

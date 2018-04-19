@@ -5,12 +5,6 @@ phpenv config-rm xdebug.ini
 
 # Add database and settings.php file.
 mysql -e 'create database drupal;'
-echo ----
-echo ----
-echo Exit Code is: $?
-if [ "$?" = "1" ]; then exit 1 ; fi
-echo ---
-echo ---
 cp $ROOT_DIR/drupal/profiles/express/tests/travis-ci/settings.travis.php $ROOT_DIR/drupal/sites/default/settings.php
 
 # Disable sendmail from https://www.drupal.org/project/phpconfig/issues/1826652.
@@ -20,8 +14,8 @@ echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc
 phpenv config-add $ROOT_DIR/drupal/profiles/express/tests/travis-ci/config/express-php.ini
 echo ----
 echo ----
-echo Exit Code is: $?
 if [ "$?" = "1" ]; then exit 1 ; fi
+echo Exit Code is: $?
 echo ---
 echo ---
 
@@ -33,8 +27,8 @@ mysql -e "SET @@global.innodb_file_per_table=0;"
 mysql -e "SET @@global.innodb_flush_log_at_trx_commit=2;"
 echo ----
 echo ----
-echo Exit Code is: $?
 if [ "$?" = "1" ]; then exit 1 ; fi
+echo Exit Code is: $?
 echo ---
 echo ---
 
