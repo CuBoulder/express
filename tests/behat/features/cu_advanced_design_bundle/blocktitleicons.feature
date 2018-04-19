@@ -44,6 +44,8 @@ And I select "path" from "edit-conditions-selector"
 And I fill in "edit-conditions-plugins-path-values" with "about-apples"
 And I select "block" from "edit-reactions-selector"
 And I break
+And I click the "#edit-reactions-plugins-block-selector-block a.fieldset-title" element
+And I break
 And I check "edit-reactions-plugins-block-selector-text-block-checkboxes-bean-my-apples-label"
 And I click the ".context-blockform-regionlabel-sidebar_second a" element
 And I press "Save"
