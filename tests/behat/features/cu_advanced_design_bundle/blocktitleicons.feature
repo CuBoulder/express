@@ -9,13 +9,14 @@ Scenario: An authenticated user can add an icon to a block title
 Given I am logged in as a user with the "site_owner" role
 # CREATE A TEXT BLOCK AND ATTACH AN ICON TO IT
 And I am on "block/add/block"
-And I fill in "edit-label" with "My Apples Label"
-And fill in "edit-title" with "My Apples Title"
+And I fill in "edit-label" with "Granny Smith"
+And fill in "edit-title" with "Granny Smith"
 And I follow "Disable rich-text"
 And I fill in "Body" with "A is for Apple"
 And I press "Save"
 # JAVASCRIPT CANNOT FIND And I follow "Block Designer"
-And I follow "BLOCK DESIGNER"
+#And I follow "BLOCK DESIGNER"
+And I go to "block/granny-smith/design"
 And I select "fa-apple" from "exbd_icon"
 And I press "edit-submit"
 Then I should see "Block Desiger settings have been saved."
