@@ -10,7 +10,7 @@ cd $ROOT_DIR/express/tests/behat
 composer install --prefer-dist --no-interaction
 echo ----
 echo ----
-if [ "$?" = "1" ]; then exit 1 ; fi
+if [ "$?" == "1" ]; then exit 1 ; fi
 echo Exit Code is: $?
 echo ---
 echo ---
@@ -26,7 +26,7 @@ cd $ROOT_DIR/drupal/modules
 rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
 echo ----
 echo ----
-if [ "$?" = "1" ]; then exit 1 ; fi
+if [ "$?" == "1" ]; then exit 1 ; fi
 echo Exit Code is: $?
 echo ---
 echo ---

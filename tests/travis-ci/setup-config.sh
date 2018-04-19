@@ -14,7 +14,7 @@ echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc
 phpenv config-add $ROOT_DIR/drupal/profiles/express/tests/travis-ci/config/express-php.ini
 echo ----
 echo ----
-if [ "$?" = "1" ]; then exit 1 ; fi
+if [ "$?" == "1" ]; then exit 1 ; fi
 echo Exit Code is: $?
 echo ---
 echo ---

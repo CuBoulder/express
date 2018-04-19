@@ -20,7 +20,7 @@ if [ ! -f $HOME/cache/express.sql ] || [ "${EXPRESS_COMMIT_HAS_BUILD}" ]; then
   $HOME/.composer/vendor/bin/drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
   echo ----
   echo ----
-  if [ "$?" = "1" ]; then exit 1 ; fi
+  if [ "$?" == "1" ]; then exit 1 ; fi
   echo Exit Code is: $?
   echo ---
   echo ---
@@ -37,7 +37,7 @@ else
   $HOME/.composer/vendor/bin/drush sql-cli < $HOME/cache/express.sql
   echo ----
   echo ----
-  if [ "$?" = "1" ]; then exit 1 ; fi
+  if [ "$?" == "1" ]; then exit 1 ; fi
   echo Exit Code is: $?
   echo ---
   echo ---
