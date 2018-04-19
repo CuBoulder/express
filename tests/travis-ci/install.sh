@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-cd sksjkskj
-# if [ $? == 1 ]; then exit 1 ; fi
-
 # Install latest Drush 8.
 composer global require "drush/drush:8.*"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
