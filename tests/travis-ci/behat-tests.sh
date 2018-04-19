@@ -8,7 +8,7 @@ nc -zvv 127.0.0.1 8057; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 
 # Setting Behat environment variables is now done in behat.travis.yml for simplicity.
 
 # Run headless Behat tests.
-${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&~@javascript'
+${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&~@javascript'
 
 # Run JS Behat tests if merged into dev.
 ${ROOT_DIR}/drupal/profiles/express/tests/travis-ci/run-js-tests.sh
