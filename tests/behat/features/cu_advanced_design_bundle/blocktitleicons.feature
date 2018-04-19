@@ -15,7 +15,6 @@ And I follow "Disable rich-text"
 And I fill in "Body" with "A is for Apple"
 And I press "Save"
 # JAVASCRIPT CANNOT FIND And I follow "Block Designer"
-#And I follow "BLOCK DESIGNER"
 And I go to "block/learn-more/design"
 And I click the "#edit-icon a.fieldset-title" element
 And I select "fa-apple" from "exbd_icon"
@@ -29,7 +28,7 @@ And fill in "Body" with "The apple blossom is the state flower of Michigan."
 And I press "edit-submit"
 Then I should see "About Apples"
 
-# ADD BLOCK TO PAGE WITH CONTEXT
+# ADD BLOCK TO PAGE WITH PAGE LAYOUT
 #And I follow "Edit Layout"
 #And I press "edit-field-sidebar-second-und-actions-ief-add-existing"
 #And I fill in "edit-field-sidebar-second-und-form-entity-id" with "Apples Label"
@@ -38,6 +37,7 @@ Then I should see "About Apples"
 #And I press "edit-submit"
 #Then I should see "ABC Text Block Title"
 
+# ADD BLOCK TO PAGE WITH CONTEXT
 Then I go to "admin/structure/context/add"
 And I fill in "edit-name" with "appleicon"
 And I select "path" from "edit-conditions-selector"
