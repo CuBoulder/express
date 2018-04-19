@@ -36,7 +36,7 @@ install:
   - export TRAVIS_EVENT_TYPE
   - export BUNDLE_NAME="null"
 
-  # Pulls in any helper functions used in scripts.
+  # Pulls in any helper functions used later in scripts.
   - source $ROOT_DIR/express/tests/travis-ci/helper-functions.sh
 
   # Install and build dependencies.
