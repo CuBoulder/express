@@ -17,6 +17,7 @@ And I press "Save"
 # JAVASCRIPT CANNOT FIND And I follow "Block Designer"
 #And I follow "BLOCK DESIGNER"
 And I go to "block/granny-smith/design"
+And I click the "#edit-icon a.fieldset-title" element
 And I select "fa-apple" from "exbd_icon"
 And I press "edit-submit"
 Then I should see "Block Desiger settings have been saved."
