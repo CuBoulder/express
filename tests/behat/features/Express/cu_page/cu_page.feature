@@ -37,11 +37,12 @@ Scenario: A very basic Basic Page node can be created
  And I should see "My Page"
   And I should see "Lorem ipsum dolor sit amet"
   
-@api
+@api @javascript
 Scenario: A graphic can be uploaded to a Basic Page node
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "About Ralphie"
+  And I follow "Disable rich-text"
   And fill in "Body" with "Ralphie the Buffalo is the name of the live mascot of the University of Colorado Buffaloes."
  And I fill in "edit-field-photo-und-0-alt" with "Ralphie Buffalo with handlers"
  And I attach the file "assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
