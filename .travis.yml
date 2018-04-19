@@ -38,6 +38,8 @@ install:
 
   # Install and build dependencies.
   - $ROOT_DIR/express/tests/travis-ci/install.sh
+  - echo $?
+  - if [ $? = 1 ]; then exit 1 ; fi
 
 before_script:
 
