@@ -25,7 +25,7 @@ Then I should see "Block Desiger settings have been saved."
 Then I go to "node/add/page"
 And fill in "edit-title" with "About Apples"
 And I follow "Disable rich-text"
-And fill in "Body" with "Apple blossom is the state flower of Michigan."
+And fill in "Body" with "The apple blossom is the state flower of Michigan."
 And I press "edit-submit"
 Then I should see "About Apples"
 
@@ -43,7 +43,6 @@ And I fill in "edit-name" with "appleicon"
 And I select "path" from "edit-conditions-selector"
 And I fill in "edit-conditions-plugins-path-values" with "about-apples"
 And I select "block" from "edit-reactions-selector"
-And I break
 And I click the "#edit-reactions-plugins-block-selector-block a.fieldset-title" element
 And I break
 And I check "edit-reactions-plugins-block-selector-text-block-checkboxes-bean-learn-more"
