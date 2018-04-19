@@ -18,9 +18,15 @@ if [ ! -f $HOME/cache/express.sql ] || [ "${EXPRESS_COMMIT_HAS_BUILD}" ]; then
   # Install site like normal.
   echo Installing Express...
   $HOME/.composer/vendor/bin/drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
+  CODE="$?"
   echo ----
   echo ----
-  if [ "$?" == "1" ]; then exit 1 ; fi
+  if [ ${CODE} = 1 ]; then
+    echo ---
+    echo Exiting on failure...
+    echo ---
+    exit 1
+  fi
   echo Exit Code is: $?
   echo ---
   echo ---
@@ -35,9 +41,15 @@ else
   # Import db if it is already built.
   echo Importing Express database...
   $HOME/.composer/vendor/bin/drush sql-cli < $HOME/cache/express.sql
+  CODE="$?"
   echo ----
   echo ----
-  if [ "$?" == "1" ]; then exit 1 ; fi
+  if [ ${CODE} = 1 ]; then
+    echo ---
+    echo Exiting on failure...
+    echo ---
+    exit 1
+  fi
   echo Exit Code is: $?
   echo ---
   echo ---

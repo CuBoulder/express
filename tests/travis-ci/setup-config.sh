@@ -12,9 +12,15 @@ echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc
 
 # Add PHP config that somewhat matches current prod.
 phpenv config-add $ROOT_DIR/drupal/profiles/express/tests/travis-ci/config/express-php.ini
+CODE="$?"
 echo ----
 echo ----
-if [ "$?" == "1" ]; then exit 1 ; fi
+if [ ${CODE} = 1 ]; then
+  echo ---
+  echo Exiting on failure...
+  echo ---
+  exit 1
+fi
 echo Exit Code is: $?
 echo ---
 echo ---
@@ -25,9 +31,15 @@ mysql -e "SET @@global.innodb_file_per_table=0;"
 
 # https://dba.stackexchange.com/questions/12611/is-it-safe-to-use-innodb-flush-log-at-trx-commit-2.
 mysql -e "SET @@global.innodb_flush_log_at_trx_commit=2;"
+CODE="$?"
 echo ----
 echo ----
-if [ "$?" = "1" ]; then exit 1 ; fi
+if [ ${CODE} = 1 ]; then
+  echo ---
+  echo Exiting on failure...
+  echo ---
+  exit 1
+fi
 echo Exit Code is: $?
 echo ---
 echo ---

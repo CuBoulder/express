@@ -8,9 +8,15 @@ export PATH="$HOME/.composer/vendor/bin:$PATH"
 # Build Behat dependencies.
 cd $ROOT_DIR/express/tests/behat
 composer install --prefer-dist --no-interaction
+CODE="$?"
 echo ----
 echo ----
-if [ "$?" == "1" ]; then exit 1 ; fi
+if [ ${CODE} = 1 ]; then
+  echo ---
+  echo Exiting on failure...
+  echo ---
+  exit 1
+fi
 echo Exit Code is: $?
 echo ---
 echo ---
@@ -24,9 +30,15 @@ mkdir profiles && mv express drupal/profiles/
 # Harden Codebase.
 cd $ROOT_DIR/drupal/modules
 rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
+CODE="$?"
 echo ----
 echo ----
-if [ "$?" == "1" ]; then exit 1 ; fi
+if [ ${CODE} = 1 ]; then
+  echo ---
+  echo Exiting on failure...
+  echo ---
+  exit 1
+fi
 echo Exit Code is: $?
 echo ---
 echo ---
