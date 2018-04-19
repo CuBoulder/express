@@ -44,7 +44,7 @@ Scenario: A graphic can be uploaded to a Basic Page node
   And fill in "edit-title" with "About Ralphie"
   And fill in "Body" with "Ralphie the Buffalo is the name of the live mascot of the University of Colorado Buffaloes."
  And I fill in "edit-field-photo-und-0-alt" with "Ralphie Buffalo with handlers"
- And I attach the file "assets/ralphie.jpg" to "edit-field-photo-und-0-upload"
+ And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
 And I press "edit-field-photo-und-0-upload-button"
  Then I should see "File information"
  And I should see "ralphie.jpg"
