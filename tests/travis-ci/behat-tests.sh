@@ -14,7 +14,7 @@ echo ---
 # Setting Behat environment variables is now done in behat.travis.yml for simplicity.
 
 # Run headless Behat tests.
-${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&~@javascript'
+${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&~@javascript'
 echo ----
 echo ----
 echo Exit Code is: $?
