@@ -1,3 +1,6 @@
+# THE MENU ICON TITLE TEST WILL BREAK ONCE THE DEVS FIX THE PROBLEM WITH CONTEXT/ADD
+# WHEN FIXED, BLOCK SELECTOR WILL CHANGE AND TEST MUST BE UPDATED TO REFLECT THAT
+
 @AdvDesign
 Feature: Font Awesome Icons in block titles
 In order to add visual interest to my site
@@ -46,4 +49,5 @@ Then I should see "appleicon has been created"
  And I go to "/about-apples"
  Then I should see "About Apples"
  And I should see "Learn More"
+ And the response should contain "fa fa-apple"
  And the response should contain "class=\"exbd-block-icon fa fa-apple\""
