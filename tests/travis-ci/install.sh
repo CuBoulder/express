@@ -4,22 +4,10 @@
 composer global require "drush/drush:8.*"
 export PATH="$HOME/.composer/vendor/bin:$PATH"
 
-
 # Build Behat dependencies.
 cd $ROOT_DIR/express/tests/behat
 composer install --prefer-dist --no-interaction
-CODE="$?"
-echo ----
-echo ----
-if [ ${CODE} = 1 ]; then
-  echo ---
-  echo Exiting on failure...
-  echo ---
-  exit 1
-fi
-echo Exit Code is: $?
-echo ---
-echo ---
+earlyexit
 
 # Build Codebase.
 cd $ROOT_DIR
@@ -30,18 +18,7 @@ mkdir profiles && mv express drupal/profiles/
 # Harden Codebase.
 cd $ROOT_DIR/drupal/modules
 rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
-CODE="$?"
-echo ----
-echo ----
-if [ ${CODE} = 1 ]; then
-  echo ---
-  echo Exiting on failure...
-  echo ---
-  exit 1
-fi
-echo Exit Code is: $?
-echo ---
-echo ---
+earlyexit
 
 # Setup files.
 mkdir -p $ROOT_DIR/drupal/sites/default/files/styles/preview/public/gallery/ && chmod -R 777 $ROOT_DIR/drupal/sites

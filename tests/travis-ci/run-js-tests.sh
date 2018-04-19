@@ -8,18 +8,7 @@ echo "commit has JS? - ${EXPRESS_COMMIT_HAS_JS}"
 if [ "${TRAVIS_EVENT_TYPE}" == "push" ] || [ "${EXPRESS_COMMIT_HAS_JS}" ]; then
   echo "Running JS tests..."
   ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&@javascript'
-  CODE="$?"
-  echo ----
-  echo ----
-  if [ ${CODE} = 1 ]; then
-    echo ---
-    echo Exiting on failure...
-    echo ---
-    exit 1
-  fi
-  echo Exit Code is: $?
-  echo ---
-  echo ---
+  earlyexit
 else
   echo "Not Running JS tests..."
 fi

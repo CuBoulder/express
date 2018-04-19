@@ -30,31 +30,28 @@ cache:
 
 install:
 
-  # Export variables used later on in bash scripts.
+  # Export variables and functions used later on in bash scripts.
   - cd $TRAVIS_BUILD_DIR && cd ../ && export ROOT_DIR=$(pwd)
   - export HOME
   - export TRAVIS_EVENT_TYPE
   - export BUNDLE_NAME="null"
+  - source $ROOT_DIR/express/tests/travis-ci/helper-functions.sh
 
   # Install and build dependencies.
   - $ROOT_DIR/express/tests/travis-ci/install.sh
-  - echo $?
 
 before_script:
 
   # Setup config for PHP/MySQL, settings.php, and install database.
   - $ROOT_DIR/drupal/profiles/express/tests/travis-ci/setup-config.sh
-  - echo $?
 
   # Perform the site install after removing Xdebug since it seems faster.
   - $ROOT_DIR/drupal/profiles/express/tests/travis-ci/build-express.sh
-  - echo $?
 
 script:
 
   # Run Behat tests.
   - $ROOT_DIR/drupal/profiles/express/tests/travis-ci/behat-tests.sh
-  - echo $?
 
 notifications:
   slack:

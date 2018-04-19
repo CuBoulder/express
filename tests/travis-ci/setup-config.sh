@@ -12,18 +12,7 @@ echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc
 
 # Add PHP config that somewhat matches current prod.
 phpenv config-add $ROOT_DIR/drupal/profiles/express/tests/travis-ci/config/express-php.ini
-CODE="$?"
-echo ----
-echo ----
-if [ ${CODE} = 1 ]; then
-  echo ---
-  echo Exiting on failure...
-  echo ---
-  exit 1
-fi
-echo Exit Code is: $?
-echo ---
-echo ---
+earlyexit
 
 # Change InnoDB settings that speed things up.
 # https://www.percona.com/blog/2015/02/24/mysqls-innodb_file_per_table-slowing/.
@@ -31,18 +20,7 @@ mysql -e "SET @@global.innodb_file_per_table=0;"
 
 # https://dba.stackexchange.com/questions/12611/is-it-safe-to-use-innodb-flush-log-at-trx-commit-2.
 mysql -e "SET @@global.innodb_flush_log_at_trx_commit=2;"
-CODE="$?"
-echo ----
-echo ----
-if [ ${CODE} = 1 ]; then
-  echo ---
-  echo Exiting on failure...
-  echo ---
-  exit 1
-fi
-echo Exit Code is: $?
-echo ---
-echo ---
+earlyexit
 
 # Echo out some system info.
 php -i | grep memory
