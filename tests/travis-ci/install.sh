@@ -5,6 +5,7 @@ composer global require "drush/drush:8.*"
 echo ----
 echo ----
 echo Exit Code is: $?
+if [ "$?" = "1" ]; then exit 1 ; fi
 echo ---
 echo ---
 export PATH="$HOME/.composer/vendor/bin:$PATH"
@@ -25,6 +26,7 @@ composer install --prefer-dist --no-interaction
 echo ----
 echo ----
 echo Exit Code is: $?
+if [ "$?" = "1" ]; then exit 1 ; fi
 echo ---
 echo ---
 
@@ -34,6 +36,7 @@ drush dl drupal-7.58
 echo ----
 echo ----
 echo Exit Code is: $?
+if [ "$?" = "1" ]; then exit 1 ; fi
 echo ---
 echo ---
 mkdir drupal && mv drupal-7.58/* drupal/
@@ -60,6 +63,7 @@ rm -rf php aggregator blog book color contact translation dashboard forum locale
 echo ----
 echo ----
 echo Exit Code is: $?
+if [ "$?" = "1" ]; then exit 1 ; fi
 echo ---
 echo ---
 
@@ -74,5 +78,8 @@ mkdir $ROOT_DIR/tmp && chmod -R 777 $ROOT_DIR/tmp
 echo ----
 echo ----
 echo Exit Code is: $?
+if [ "$?" = "1" ]; then exit 1 ; fi
 echo ---
 echo ---
+
+exit 0

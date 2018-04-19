@@ -37,29 +37,24 @@ install:
   - export BUNDLE_NAME="null"
 
   # Install and build dependencies.
-  - echo $?
   - $ROOT_DIR/express/tests/travis-ci/install.sh
   - echo $?
-  - if [ "$?" = "1" ]; then exit 1 ; fi
 
 before_script:
 
   # Setup config for PHP/MySQL, settings.php, and install database.
   - $ROOT_DIR/drupal/profiles/express/tests/travis-ci/setup-config.sh
   - echo $?
-  - if [ "$?" = "1" ]; then exit 1 ; fi
 
   # Perform the site install after removing Xdebug since it seems faster.
   - $ROOT_DIR/drupal/profiles/express/tests/travis-ci/build-express.sh
   - echo $?
-  - if [ "$?" = "1" ]; then exit 1 ; fi
 
 script:
 
   # Run Behat tests.
   - $ROOT_DIR/drupal/profiles/express/tests/travis-ci/behat-tests.sh
   - echo $?
-
 
 notifications:
   slack:
