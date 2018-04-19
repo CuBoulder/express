@@ -43,7 +43,6 @@ Scenario: A graphic can be uploaded to a Text Block
   And I am on "block/add/block"
   And fill in "edit-label" with "My Text Block"
   And fill in "edit-title" with "My New Text Block"
-  And I follow "Disable rich-text"
   And fill in "Body" with "Lorem ipsum dolor sit amet"
   And I attach the file "cupcakes.jpg" to "edit-field-block-photo-und-0-upload"
   And I fill in "edit-field-block-photo-und-0-alt" with "Lavender and lemony goodness"
