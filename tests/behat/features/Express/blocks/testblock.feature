@@ -37,7 +37,7 @@ And fill in "Body" with "An informative block of text about our program"
  And I should see "An informative block of text about our program"
 
 # NOTE THAT THE INSERT BUTTON IS IMPOSSIBLE TO TARGET AT THIS TIME
-@api @javascript
+@api
 Scenario: A graphic can be uploaded to a Text Block
   Given I am logged in as a user with the "site_owner" role
   And I am on "block/add/block"
@@ -45,7 +45,7 @@ Scenario: A graphic can be uploaded to a Text Block
   And fill in "edit-title" with "My New Text Block"
   And I follow "Disable rich-text"
   And fill in "Body" with "Lorem ipsum dolor sit amet"
-  And I attach the file "assets/cupcakes.jpg" to "edit-field-block-photo-und-0-upload"
+  And I attach the file "cupcakes.jpg" to "edit-field-block-photo-und-0-upload"
   And I fill in "edit-field-block-photo-und-0-alt" with "Lavender and lemony goodness"
   And I press "edit-field-block-photo-und-0-upload-button"
  Then I should see "File information"
