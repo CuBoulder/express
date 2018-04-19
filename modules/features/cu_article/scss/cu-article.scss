@@ -1,3 +1,30 @@
+@mixin gradient($color, $color2:false) {
+  @if $color2 {
+
+  }
+  @else {
+    $color2: darken($color, 5%);
+  }
+  background-color: $color;
+  background-image: -webkit-gradient(linear, left top, left bottom, from($color), to($color2));
+  background-image: -webkit-linear-gradient(top, $color, $color2);
+  background-image: -moz-linear-gradient(top, $color, $color2);
+  background-image: -o-linear-gradient(top, $color, $color2);
+  background-image: -ms-linear-gradient(top, $color, $color2);
+  background-image: linear-gradient(top, $color, $color2);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#{ie_hex_str($color)}', EndColorStr='#{ie_hex_str($color2)}');
+}
+
+@mixin transparentGradient($color, $alpha, $direction) {
+  $rgba1: rgba($color,$alpha);
+  $rgba2: rgba($color,0);
+  background-image: -webkit-linear-gradient($direction, $rgba1, $rgba2);
+  background-image: -moz-linear-gradient($direction, $rgba1, $rgba2);
+  background-image: -o-linear-gradient($direction, $rgba1, $rgba2);
+  background-image: -ms-linear-gradient($direction, $rgba1, $rgba2);
+  background-image: linear-gradient($direction, $rgba1, $rgba2);
+}
+
 @mixin clearfloats {
   &:after {
     content: "";
@@ -280,7 +307,14 @@ p.tags {
   &:after {
     font-family: FontAwesome;
     content: '\f101';
-
     padding-left:5px;
+  }
+}
+
+/* Article Feature Block */
+.article-feature {
+  .field-name-field-article-link {
+    clear:both;
+    text-align: center;
   }
 }
