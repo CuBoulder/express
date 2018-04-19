@@ -1,7 +1,7 @@
 # CONTEXT FUNCTIONALITY IS TESTED IN OTHER FEATURES. 
 # THIS FEATURE TARGETS SITE BACKGROUND IMAGES AND PAGE TITLE IMAGES ONLY
 
-@AdvDesign
+@api @AdvDesign
 Feature: Add background images with Context
 In order to add visual interest to my site
 As an authenticated user
@@ -44,12 +44,13 @@ Scenario: An authenticated user can attach a background image to a site
  Then the response should contain "backstretchURL"
  # WHEN WE KNOW NODE URL: And the response should contain "node\/XXX\/backstretch"
     
-
+@javascript
 Scenario: An authenticated user can attach a background image to a page title
   Given I am logged in as a user with the "site_owner" role
   # CREATE A BASIC PAGE; NOTE THE URL AS YOU WILL USE THIS PATH IN CONTEXT
   And I am on "node/add/page"
   And fill in "edit-title" with "My Page Title"
+  And I follow "Disable rich-text"
   And fill in "Body" with "Lorem ipsum dolor sit amet"
   When I press "edit-submit"
  Then I should be on "/my-page-title"
@@ -66,7 +67,7 @@ Scenario: An authenticated user can attach a background image to a page title
  And I go to "/my-page-title"
  Then I should see "My Page Title"
  And I should see "Lorem ipsum dolor sit amet"
-Then show last response
+# Then show last response
  # FAILED TO FIND Then the "#page-title-image-wrapper" element should have "background-image:url();" in the "style" attribute
  # NOT FOUND DAMMIT Then the "h1" element should have "page-title-image-title" in the "class" attribute
  And the response should contain "id=\"page-title-image-overlay\""
