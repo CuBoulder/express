@@ -1,29 +1,26 @@
 @api @people
 Feature: Person Content Type
-When I login to a Web Express website
+In order to create individual profiles
 As an authenticated user
 I should be able to create, edit, and delete a person node
 
-
 Scenario Outline: An authenticated user should be able to access the form for adding person content
-    Given  I am logged in as a user with the <role> role
-    When I go to "node/add/person"
-    Then I should see <message>
+ Given  I am logged in as a user with the <role> role
+ When I go to "node/add/person"
+ Then I should see <message>
 
     Examples:
     | role            | message         |
     | edit_my_content | "Access denied" |
     | content_editor  | "Create Person" |
-    | site_owner      |  "Create Person" |
-    | administrator   |  "Create Person" |
-    | developer       |  "Create Person" |
-
+    | site_owner      | "Create Person" |
+    | administrator   | "Create Person" |
+    | developer       | "Create Person" |
 
 Scenario: An anonymous user should not be able to access the form for adding person content
   When I am on "node/add/person"
   Then I should see "Access denied"
 
-@api @people
 Scenario: Content editors can create person nodes
   Given  I am logged in as a user with the "content_editor" role
     And am on "node/add/person"
