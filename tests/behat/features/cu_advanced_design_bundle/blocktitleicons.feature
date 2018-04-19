@@ -1,5 +1,6 @@
 # THE MENU ICON TITLE TEST WILL BREAK ONCE THE DEVS FIX THE PROBLEM WITH CONTEXT/ADD
-# WHEN FIXED, BLOCK SELECTOR WILL CHANGE AND TEST MUST BE UPDATED TO REFLECT THAT
+# https://github.com/CuBoulder/express/issues/2177
+# WHEN FIXED, SELECTOR USED IN LINE 47 WILL CHANGE AND TEST MUST BE UPDATED TO REFLECT THAT
 
 @AdvDesign
 Feature: Font Awesome Icons in block titles
@@ -41,6 +42,8 @@ And I select "block" from "edit-reactions-selector"
 # And I click the "#edit-reactions-plugins-block-selector-block a.fieldset-title" element
 # And I click the "#edit-reactions-plugins-block-selector-text-block a.fieldset-title" element
 And I click the "#edit-reactions-plugins-block-selector-bean a.fieldset-title" element
+
+# THE SELECTOR BELOW WILL CHANGE WHEN PROBLEM WITH CONTEXT/ADD IS FIXED
 And I check "edit-reactions-plugins-block-selector-bean-checkboxes-bean-learn-more"
 And I click the ".context-blockform-regionlabel-sidebar_second a" element
 And I press "Save"
