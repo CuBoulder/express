@@ -66,6 +66,7 @@ Scenario: An authenticated user can attach a background image to a page title
  And I go to "/my-page-title"
  Then I should see "My Page Title"
  And I should see "Lorem ipsum dolor sit amet"
+Then show last response
  # FAILED TO FIND Then the "#page-title-image-wrapper" element should have "background-image:url();" in the "style" attribute
  # NOT FOUND DAMMIT Then the "h1" element should have "page-title-image-title" in the "class" attribute
  And the response should contain "id=\"page-title-image-overlay\""
