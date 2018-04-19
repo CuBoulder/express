@@ -9,14 +9,14 @@ Scenario: An authenticated user can add an icon to a block title
 Given I am logged in as a user with the "site_owner" role
 # CREATE A TEXT BLOCK AND ATTACH AN ICON TO IT
 And I am on "block/add/block"
-And I fill in "edit-label" with "Granny Smith"
-And fill in "edit-title" with "Granny Smith"
+And I fill in "edit-label" with "Learn More"
+And fill in "edit-title" with "Learn More"
 And I follow "Disable rich-text"
 And I fill in "Body" with "A is for Apple"
 And I press "Save"
 # JAVASCRIPT CANNOT FIND And I follow "Block Designer"
 #And I follow "BLOCK DESIGNER"
-And I go to "block/granny-smith/design"
+And I go to "block/learn-more/design"
 And I click the "#edit-icon a.fieldset-title" element
 And I select "fa-apple" from "exbd_icon"
 And I press "edit-submit"
@@ -46,12 +46,12 @@ And I select "block" from "edit-reactions-selector"
 And I break
 And I click the "#edit-reactions-plugins-block-selector-block a.fieldset-title" element
 And I break
-And I check "edit-reactions-plugins-block-selector-text-block-checkboxes-bean-my-apples-label"
+And I check "edit-reactions-plugins-block-selector-text-block-checkboxes-bean-learn-more"
 And I click the ".context-blockform-regionlabel-sidebar_second a" element
 And I press "Save"
 Then I should see "appleicon has been created"
 # GO CHECK THE PAGE
  And I go to "/about-apples"
  Then I should see "About Apples"
- And I should see "My Apples Title"
+ And I should see "Learn More"
  And the response should contain "class=\"fa fa-apple\""
