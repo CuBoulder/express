@@ -30,11 +30,13 @@ cache:
 
 install:
 
-  # Export variables and functions used later on in bash scripts.
+  # Export variables used later on in bash scripts.
   - cd $TRAVIS_BUILD_DIR && cd ../ && export ROOT_DIR=$(pwd)
   - export HOME
   - export TRAVIS_EVENT_TYPE
   - export BUNDLE_NAME="null"
+
+  # Pulls in any helper functions used in scripts.
   - source $ROOT_DIR/express/tests/travis-ci/helper-functions.sh
 
   # Install and build dependencies.
