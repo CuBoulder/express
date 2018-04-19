@@ -29,22 +29,25 @@ cache:
 
 install:
 
+  # Export variables used later on in bash scripts.
+  - export TRAVIS_BUILD_DIR
+  - export TRAVIS_EVENT_TYPE
+
   # Install latest Drush 8.
-  - travis_retry composer self-update && composer --version
   - travis_retry composer global require "drush/drush:8.*"
   - export PATH="$HOME/.composer/vendor/bin:$PATH"
 
-  # Build Behat dependencies
+  # Build Behat dependencies.
   - cd ./tests/behat
   - travis_retry composer install --prefer-dist --no-interaction
   - cd ../../../
 
-  # Build Codebase
+  # Build Codebase.
   - drush dl drupal-7.58
   - mkdir drupal && mv drupal-7.58/* drupal/
   - mkdir profiles && mv express drupal/profiles/
 
-  # Harden Codebase
+  # Harden Codebase.
   - cd drupal/modules
   - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
   - cd ../
@@ -53,29 +56,17 @@ install:
   - mkdir -p sites/default/files/styles/preview/public/gallery/ && chmod -R 777 sites
   - mkdir ../tmp && chmod -R 777 ../tmp
 
-  # Disable sendmail.
-  - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
-  # Bump up max execution time.
-  - echo "max_execution_time=60" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
-  # Increase the MySQL connection timeout on the PHP end.
-  - echo "mysql.connect_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo "default_socket_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
-  # Increase the MySQL server timetout and packet size.
-  - mysql -e "SET GLOBAL wait_timeout = 36000;"
-  - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
-
 before_script:
 
-  # Disable XDebug to speed up test runs.
-  - phpenv config-rm xdebug.ini
-
-  # Perform the site install after removing Xdebug since it seems faster.
+  # Add database and settings.php file.
   - mysql -e 'create database drupal;'
   - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
   - cd profiles/express/tests
+
+  # Setup config for PHP/MySQL.
+  - ./travis-ci/setup-config.sh
+
+  # Perform the site install after removing Xdebug since it seems faster.
   - ./travis-ci/build-express.sh
 
   # Check and see if testing core module is enabled.
@@ -83,6 +74,7 @@ before_script:
   - drush pm-info ng_hosting
   - drush pm-info cu_core
   - drush pm-info cu_ldap
+  - drush pm-info cu_local_users
 
   # Start server.
   - drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &
