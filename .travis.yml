@@ -36,24 +36,27 @@ install:
   - export TRAVIS_EVENT_TYPE
   - export BUNDLE_NAME="null"
 
+  # Copy scripts to root.
+  - cp -R ${ROOT_DIR}/express/tests/travis-ci/* ${ROOT_DIR}
+
   # Pulls in any helper functions used later in scripts.
-  - source $ROOT_DIR/express/tests/travis-ci/helper-functions.sh
+  - source $ROOT_DIR/helper-functions.sh
 
   # Install and build dependencies.
-  - $ROOT_DIR/express/tests/travis-ci/install.sh
+  - $ROOT_DIR/install.sh
 
 before_script:
 
   # Setup config for PHP/MySQL, settings.php, and install database.
-  - $ROOT_DIR/drupal/profiles/express/tests/travis-ci/setup-config.sh
+  - $ROOT_DIR/setup-config.sh
 
   # Perform the site install after removing Xdebug since it seems faster.
-  - $ROOT_DIR/drupal/profiles/express/tests/travis-ci/build-express.sh
+  - $ROOT_DIR/build-express.sh
 
 script:
 
   # Run Behat tests.
-  - $ROOT_DIR/drupal/profiles/express/tests/travis-ci/behat-tests.sh
+  - $ROOT_DIR/behat-tests.sh
 
 notifications:
   slack:
