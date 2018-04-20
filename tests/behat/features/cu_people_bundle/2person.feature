@@ -64,22 +64,22 @@ Scenario: A Person node appears correctly in the mobile menu
       
  ## POPULATING DATA TABLE FOR PEOPLE LIST PAGES AND BLOCKS
  
- Scenario: Create Person 1 - Deshawn Michael 
+ Scenario: Create Person 1 - Deshawn Michael StaffGeoMariDes
   Given I am logged in as a user with the "content_editor" role
    And am on "node/add/person"
     And fill in "First Name" with "Deshawn"
-    And fill in "Last Name" with "StaffGeoFankDes"
+    And fill in "Last Name" with "StaffGeoMariDes"
     And fill in "edit-field-person-job-type-und" with "Staff"
     And fill in "edit-field-person-title-und-0-value" with "Director"
     And fill in "edit-field-person-department-und" with "Geophysics"
     And fill in "edit-field-person-email-und-0-email" with "@example.com"
     And fill in "edit-field-person-phone-und-0-value" with "303-123-4567"
-    And fill in "edit-field-person-filter-1-und" with "Fankhouser"
+    And fill in "edit-field-person-filter-1-und" with "Marietta"
     And fill in "edit-field-person-filter-2-und" with "Design"
   When I press "Save"
-  Then I should see "Person Deshawn StaffGeoFankDes has been created."
+  Then I should see "Person Deshawn StaffGeoMariDes has been created."
   
-   Scenario: Create Person 2 - Alejandro Cruz
+   Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyDes
   Given I am logged in as a user with the "content_editor" role
    And am on "node/add/person"
     And fill in "First Name" with "Alejandro"
@@ -94,7 +94,7 @@ Scenario: A Person node appears correctly in the mobile menu
   When I press "Save"
   Then I should see "Person Alejandro FacGeoHoneyDes has been created."
   
-   Scenario: Create Person 3 - Kendall Hull
+   Scenario: Create Person 3 - Kendall Hull StaffTechHoneyLaw
   Given I am logged in as a user with the "content_editor" role
    And am on "node/add/person"
     And fill in "First Name" with "Kendall"
@@ -109,20 +109,20 @@ Scenario: A Person node appears correctly in the mobile menu
   When I press "Save"
   Then I should see "Person Kendall StaffTechHoneyLaw has been created."
   
-   Scenario: Create Person 4 - Abdullah Lang 
+   Scenario: Create Person 4 - Abdullah Lang FacTechMariDes
   Given I am logged in as a user with the "content_editor" role
    And am on "node/add/person"
     And fill in "First Name" with "Abdullah"
-    And fill in "Last Name" with "FacTechFankDes"
+    And fill in "Last Name" with "FacTechMariDes"
     And fill in "edit-field-person-job-type-und" with "Faculty"
     And fill in "edit-field-person-title-und-0-value" with "Instructor"
     And fill in "edit-field-person-department-und" with "Technology"
     And fill in "edit-field-person-email-und-0-email" with "@example.com"
     And fill in "edit-field-person-phone-und-0-value" with "303-123-4567"
-    And fill in "edit-field-person-filter-1-und" with "Fankhouser"
+    And fill in "edit-field-person-filter-1-und" with "Marietta"
     And fill in "edit-field-person-filter-2-und" with "Design"
   When I press "Save"
-  Then I should see "Person Abdullah FacTechFankDes has been created."
+  Then I should see "Person Abdullah FacTechMariDes has been created."
   
   
   
