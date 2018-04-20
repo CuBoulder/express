@@ -12,7 +12,6 @@ else
   cd ${ROOT_DIR}/drupal/profiles/express
 fi
 
-
 SKIP_EXPRESS_TESTS="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '!==express')"
 echo "Build Express? - ${SKIP_EXPRESS_TESTS}"
 
