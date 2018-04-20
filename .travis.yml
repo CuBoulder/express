@@ -36,7 +36,8 @@ install:
   - export TRAVIS_EVENT_TYPE
   - export BUNDLE_NAME="null"
 
-  - cp ${ROOT_DIR}/express/tests/travis-ci/* ${ROOT_DIR}
+  # Copy scripts to root.
+  - cp -R ${ROOT_DIR}/express/tests/travis-ci/* ${ROOT_DIR}
 
   # Pulls in any helper functions used later in scripts.
   - source $ROOT_DIR/helper-functions.sh
