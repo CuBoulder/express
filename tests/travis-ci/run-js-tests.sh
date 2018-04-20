@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-cd $ROOT_DIR/drupal/profiles/express
+if [ "${BUNDLE_NAME}" != "null" ]; then
+  cd ${ROOT_DIR}/drupal/sites/all/modules/${BUNDLE_NAME}
+else
+  cd ${ROOT_DIR}/drupal/profiles/express
+fi
+
 EXPRESS_COMMIT_HAS_JS="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '===js')"
 echo "commit has JS? - ${EXPRESS_COMMIT_HAS_JS}"
 
