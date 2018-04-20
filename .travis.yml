@@ -10,8 +10,7 @@ php:
 
 branches:
   only:
-    # - dev
-    -testing/2185
+    - dev
 
 addons:
   # The username and access key are stored in the Travis settings.
