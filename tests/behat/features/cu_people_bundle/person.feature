@@ -21,14 +21,31 @@ Scenario: An anonymous user should not be able to access the form for adding per
   When I am on "node/add/person"
   Then I should see "Access denied"
 
+Scenario: A simple Person node can be created and deleted
+  Given  I am logged in as a user with the "content_editor" role
+    And am on "node/add/person"
+    And fill in "First Name" with "Random"
+    And fill in "Last Name" with "Individual"
+    And I fill in "edit-field-person-photo-und-0-alt" with "Random Portrait"
+And I attach the file "ralphie.jpg" to "edit-field-person-photo-und-0-upload"
+  When I press "Save"
+  Then I should see "Person Random Individual has been created."
+  And I follow "Edit"
+  And I press "edit-delete"
+  Then I should see "Are you sure you want to delete Random Individual?"
+  And I press "edit-submit"
+  Then I should see "Person Random Individual has been deleted."
+  
+  
+  
 Scenario: Content editors can create person nodes
   Given  I am logged in as a user with the "content_editor" role
     And am on "node/add/person"
     And fill in "First Name" with "Staff"
     And fill in "Last Name" with "Person"
-    And fill in "Job Type" with "Staff"
+    And fill in "edit-field-person-job-type-und" with "Staff"
     And fill in "edit-field-person-title-und-0-value" with "My Job Title"
-    And fill in "Department" with "Department One"
+    And fill in "edit-field-person-department-und" with "Department One"
   When I press "Save"
   Then I should see "Person Staff Person has been created."
 
@@ -36,9 +53,9 @@ Scenario: Content editors can create person nodes
     And am on "node/add/person"
     And fill in "First Name" with "Faculty"
     And fill in "Last Name" with "Person"
-    And fill in "Job Type" with "Faculty"
+    And fill in "edit-field-person-job-type-und" with "Faculty"
     And fill in "edit-field-person-title-und-0-value" with "My Job Title"
-      And fill in "Department" with "Department Two"
+      And fill in "edit-field-person-department-und" with "Department Two"
   When I press "Save"
   Then I should see "Person Faculty Person has been created."
 
