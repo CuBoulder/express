@@ -67,32 +67,65 @@ Scenario: A Person node appears correctly in the mobile menu
  Scenario: Create Person 1 - Deshawn Michael 
   Given I am logged in as a user with the "content_editor" role
    And am on "node/add/person"
-    And fill in "First Name" with ""
-    And fill in "Last Name" with ""
-    And fill in "edit-field-person-job-type-und" with ""
-    And fill in "edit-field-person-title-und-0-value" with ""
-    And fill in "edit-field-person-department-und" with ""
+    And fill in "First Name" with "Deshawn"
+    And fill in "Last Name" with "StaffGeo"
+    And fill in "edit-field-person-job-type-und" with "Staff"
+    And fill in "edit-field-person-title-und-0-value" with "Director"
+    And fill in "edit-field-person-department-und" with "Geophysics"
     And fill in "edit-field-person-email-und-0-email" with "@example.com"
     And fill in "edit-field-person-phone-und-0-value" with "303-123-4567"
     And fill in "edit-field-person-filter-1-und" with ""
     And fill in "edit-field-person-filter-2-und" with ""
   When I press "Save"
-  Then I should see "Person Staff Person has been created."
+  Then I should see "Person Deshawn Michael has been created."
   
-   Scenario: Create Person 1 - Deshawn Michael 
+   Scenario: Create Person 2 - Alejandro Cruz
   Given I am logged in as a user with the "content_editor" role
    And am on "node/add/person"
-    And fill in "First Name" with ""
-    And fill in "Last Name" with ""
-    And fill in "edit-field-person-job-type-und" with ""
-    And fill in "edit-field-person-title-und-0-value" with ""
-    And fill in "edit-field-person-department-und" with ""
+    And fill in "First Name" with "Alejandro"
+    And fill in "Last Name" with "FacGeo"
+    And fill in "edit-field-person-job-type-und" with "Faculty"
+    And fill in "edit-field-person-title-und-0-value" with "Director"
+    And fill in "edit-field-person-department-und" with "Geophysics"
     And fill in "edit-field-person-email-und-0-email" with "@example.com"
     And fill in "edit-field-person-phone-und-0-value" with "303-123-4567"
     And fill in "edit-field-person-filter-1-und" with ""
     And fill in "edit-field-person-filter-2-und" with ""
   When I press "Save"
-  Then I should see "Person Staff Person has been created."
+  Then I should see "Person Alejandro Cruz has been created."
+  
+   Scenario: Create Person 3 - Kendall Hull
+  Given I am logged in as a user with the "content_editor" role
+   And am on "node/add/person"
+    And fill in "First Name" with "Kendall"
+    And fill in "Last Name" with "StaffTech"
+    And fill in "edit-field-person-job-type-und" with "Staff"
+    And fill in "edit-field-person-title-und-0-value" with "Supervisor"
+    And fill in "edit-field-person-department-und" with "Technology"
+    And fill in "edit-field-person-email-und-0-email" with "@example.com"
+    And fill in "edit-field-person-phone-und-0-value" with "303-123-4567"
+    And fill in "edit-field-person-filter-1-und" with ""
+    And fill in "edit-field-person-filter-2-und" with ""
+  When I press "Save"
+  Then I should see "Person SKendall Hull has been created."
+  
+   Scenario: Create Person 4 - Abdullah Lang 
+  Given I am logged in as a user with the "content_editor" role
+   And am on "node/add/person"
+    And fill in "First Name" with "Abdullah"
+    And fill in "Last Name" with "FacTech"
+    And fill in "edit-field-person-job-type-und" with "Faculty"
+    And fill in "edit-field-person-title-und-0-value" with "Instructor"
+    And fill in "edit-field-person-department-und" with "Technology"
+    And fill in "edit-field-person-email-und-0-email" with "@example.com"
+    And fill in "edit-field-person-phone-und-0-value" with "303-123-4567"
+    And fill in "edit-field-person-filter-1-und" with ""
+    And fill in "edit-field-person-filter-2-und" with ""
+  When I press "Save"
+  Then I should see "Person Abdullah Lang has been created."
+  
+  
+  
   
 Scenario: Content editors can create person nodes
   Given I am logged in as a user with the "content_editor" role
