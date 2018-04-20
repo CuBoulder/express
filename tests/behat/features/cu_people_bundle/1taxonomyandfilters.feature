@@ -4,7 +4,7 @@ In order to group and filter my people
 As an authenticated user
 I should be able to add taxonomy and rename filters
 
-Scenario: The People Vocabularies have been added to the Taxonomy list
+Scenario: The People Vocabularies have been added to Structure/Taxonomy
 Given I am signed on as a "site_owner"
 And I am on "admin/structure/taxonomy"
 Then I should see "Department"
@@ -32,5 +32,3 @@ And I should see "Department/Division"
 And I should see "Filter 1/ Research Group"
 And I should see "Filter 2/Area of Expertise"
 And I should see "Filter 3/Team"
-
-
