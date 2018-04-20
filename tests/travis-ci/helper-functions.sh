@@ -16,4 +16,10 @@ earlyexit() {
   echo ---
 }
 
+findcommitmessage() {
+  local FOUND="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '$1')"
+  echo ${FOUND}
+}
+
 export -f earlyexit
+export -f findcommitmessage
