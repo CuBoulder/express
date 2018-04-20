@@ -402,4 +402,11 @@ class FeatureContext extends MinkContext
     } while (true);
     fwrite(STDOUT, "\033[u");
   }
+
+  /**
+   * @Given /^I switch to the iframe "([^"]*)"$/
+   */
+  public function iSwitchToIframe($arg1 = null) {
+      $this->getSession()->switchToIFrame($arg1);
+  }
 }
