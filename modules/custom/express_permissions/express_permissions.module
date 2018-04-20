@@ -803,3 +803,21 @@ function express_permissions_get_site_owners() {
   }
   return $users;
 }
+
+/**
+ * Implements hook_form_formid_alter().
+ *
+ * Remove underscores from roles to make the permissions table display better.
+ */
+function express_permissions_form_user_admin_permissions_alter(&$form, &$form_state) {
+  $roles = $form['role_names'];
+  // Get just the role arrays.
+  $roles = array_intersect_key($roles, array_flip(element_children($roles)));
+  // Replace underscores with spaces.
+  foreach ($roles as $id => $role) {
+    $name = str_replace('_', ' ', $form['role_names'][$id]['#markup']);
+    $form['role_names'][$id]['#markup'] = $name;
+  }
+  // Add some css to make the permissions table headers smaller.
+  drupal_add_css('form#user-admin-permissions #permissions th { font-size:75%; font-weight:bold; }', 'inline');
+}
