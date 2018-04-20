@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 
 # Start server.
-cd $ROOT_DIR/drupal
+cd ${ROOT_DIR}/drupal
 $HOME/.composer/vendor/bin/drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &
 nc -zvv 127.0.0.1 8057; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8057..."; nc -zvv localhost 8057; out=$?; sleep 5; done
 earlyexit
 
-cd $ROOT_DIR/drupal/profiles/express
+if [ "${BUNDLE_NAME}" != "null" ]; then
+  cd ${ROOT_DIR}/drupal/sites/all/modules/${BUNDLE_NAME}
+else
+  cd ${ROOT_DIR}/drupal/profiles/express
+fi
+
 SKIP_EXPRESS_TESTS="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '!==express')"
 echo "Build Express? - ${SKIP_EXPRESS_TESTS}"
 
