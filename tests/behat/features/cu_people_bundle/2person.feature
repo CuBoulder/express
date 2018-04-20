@@ -35,6 +35,31 @@ And I press "edit-delete"
 Then I should see "Are you sure you want to delete Random Individual?"
 And I press "edit-submit"
 Then I should see "Person Random Individual has been deleted."
+
+@api 
+ Scenario: Footer, Main Menu, and Secondary Menus should be available when creating a Person
+  Given I am logged in as a user with the "content_editor" role
+ And I am on "node/add/person"
+ And I check "#edit-menu-enabled"
+Then I select "<Footer Menu>" from "edit-menu-parent"
+And I select "<Main Menu>" from "edit-menu-parent"
+And I select "<Secondary Menu>" from "edit-menu-parent"
+       
+      
+ @api @javascript 
+    Scenario: A Person node appears correctly in the mobile menu
+      Given  I am logged in as a user with the "content_editor" role
+        And I am on "node/add/person"
+       And fill in "First Name" with "John"
+      And fill in "Last Name" with "Doe"
+        And I check "#edit-menu-enabled"
+        And I select "<Secondary Menu>" from "edit-menu-parent"
+        And I press "Save"
+      Given I resize the window to a "mobile" resolution.
+      When I click the ".mobile-menu-toggle a" element
+      Then I should see "John Doe"
+      And I resize the window to a "desktop" resolution.
+      
   
 Scenario: Content editors can create person nodes
   Given I am logged in as a user with the "content_editor" role
@@ -130,19 +155,8 @@ Scenario: Content editors can create person nodes
       And I should see "Filter 3 Term 2"
       And I should not see "Filter 3 Term 1, Filter 3 Term 2"
 
-    @api @people @javascript @broken
-    Scenario: Footer, Main Menu, and Secondary Menus should be available when creating a Person
-      Given  I am logged in as a user with the "content_editor" role
-        And I am on "node/add/person"
-        And I fill in "First Name" with "John Doe"
-        And I click the "#edit-menu-enabled" element
-        And I select "<Footer Menu>" from "Parent item"
-        And I select "<Secondary Menu>" from "Parent item"
-        And I press "Save"
-      Given I resize the window to a "mobile" resolution.
-      When I click the ".mobile-menu-toggle a" element
-      Then I should see "John Doe"
-      And I resize the window to a "desktop" resolution.
+  
+      
 
   @api @people @people-filters
   Scenario: Adding a label to the filter terms should result in the label showing up on the people list page.
