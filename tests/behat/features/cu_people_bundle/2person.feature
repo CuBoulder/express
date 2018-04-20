@@ -47,10 +47,10 @@ And I select "<Secondary Menu>" from "edit-menu-parent"
        
       
  @api @javascript 
-    Scenario: A Person node appears correctly in the mobile menu
-      Given  I am logged in as a user with the "content_editor" role
-        And I am on "node/add/person"
-       And fill in "First Name" with "John"
+Scenario: A Person node appears correctly in the mobile menu
+ Given  I am logged in as a user with the "content_editor" role
+   And I am on "node/add/person"
+  And fill in "First Name" with "John"
       And fill in "Last Name" with "Doe"
         And I check "#edit-menu-enabled"
         And I select "<Secondary Menu>" from "edit-menu-parent"
@@ -60,6 +60,39 @@ And I select "<Secondary Menu>" from "edit-menu-parent"
       Then I should see "John Doe"
       And I resize the window to a "desktop" resolution.
       
+      
+      
+ ## POPULATING DATA TABLE FOR PEOPLE LIST PAGES AND BLOCKS
+ 
+ Scenario: Create Person 1 - Deshawn Michael 
+  Given I am logged in as a user with the "content_editor" role
+   And am on "node/add/person"
+    And fill in "First Name" with ""
+    And fill in "Last Name" with ""
+    And fill in "edit-field-person-job-type-und" with ""
+    And fill in "edit-field-person-title-und-0-value" with ""
+    And fill in "edit-field-person-department-und" with ""
+    And fill in "edit-field-person-email-und-0-email" with "@example.com"
+    And fill in "edit-field-person-phone-und-0-value" with "303-123-4567"
+    And fill in "edit-field-person-filter-1-und" with ""
+    And fill in "edit-field-person-filter-2-und" with ""
+  When I press "Save"
+  Then I should see "Person Staff Person has been created."
+  
+   Scenario: Create Person 1 - Deshawn Michael 
+  Given I am logged in as a user with the "content_editor" role
+   And am on "node/add/person"
+    And fill in "First Name" with ""
+    And fill in "Last Name" with ""
+    And fill in "edit-field-person-job-type-und" with ""
+    And fill in "edit-field-person-title-und-0-value" with ""
+    And fill in "edit-field-person-department-und" with ""
+    And fill in "edit-field-person-email-und-0-email" with "@example.com"
+    And fill in "edit-field-person-phone-und-0-value" with "303-123-4567"
+    And fill in "edit-field-person-filter-1-und" with ""
+    And fill in "edit-field-person-filter-2-und" with ""
+  When I press "Save"
+  Then I should see "Person Staff Person has been created."
   
 Scenario: Content editors can create person nodes
   Given I am logged in as a user with the "content_editor" role
