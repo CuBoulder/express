@@ -108,7 +108,7 @@ Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyLaw
   Then I should see "Person Abdullah FacTechMariDes has been created."    
   
 @api @javascript
- Scenario: The People List Page has been populated with Filters
+ Scenario: Adding taxonomy terms to Persons populates the the People List Page filters
     Given I am logged in as a user with the "site_owner" role
     And am on "node/add/people-list-page"
  And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
