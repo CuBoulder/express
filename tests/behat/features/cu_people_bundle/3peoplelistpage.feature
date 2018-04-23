@@ -123,28 +123,31 @@ Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyLaw
 
 @api
  Scenario: A People List Page filters persons correctly
-    Given I am logged in as a user with the "site_owner" role
-  And am on "node/add/people-list-page"
-    And fill in "Title" with "Our Faculty"
-    And I check "Faculty"
+ Given I am logged in as a user with the "site_owner" role
+ And am on "node/add/people-list-page"
+  And fill in "Title" with "Our Faculty"
+  And I check "Faculty"
   When I press "Save"
-    And I go to "our-faculty"
-    Then I should see "Our Faculty"
-    And I should see "Alejandro FacGeoHoneyLaw"
-    And I should see "Abdullah FacTechMariDes"
+  And I go to "our-faculty"
+  Then I should see "Our Faculty"
+  And I should see "Alejandro FacGeoHoneyLaw"
+   And I should see "Abdullah FacTechMariDes"
    And I should not see "Kendall StaffTechHoneyLaw"
    And I should not see "Deshawn StaffGeoMariDes"
    
-@api @javascript
- Scenario: A People List Page can group people by chosen filter
-  Given I am logged in as a user with the "site_owner" role
-  And am on "node/add/people-list-page"
-    And fill in "Title" with "Research Groups"
-    And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
-    And I select "people_filter_2" from "edit-field-people-group-by-und"
-    And I press "Save"
-    Then I should see "Design"
-    And I should see "Law"
+@api
+Scenario: A People List Page can group people by chosen filter
+Given I am logged in as a user with the "site_owner" role
+And am on "node/add/people-list-page"
+And fill in "Title" with "Research Groups"
+And I check "Geophysics"
+ # And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
+And I select "people_filter_2" from "edit-field-people-group-by-und"
+And I press "Save"
+Then I should see "Design"
+And I should see "Deshawn StaffGeoMariDe"
+And I should see "Law"
+And I should see "Alejandro FacGeoHoneyLaw"
 
  @api @javascript
   Scenario: A People List Page can display all the chosen filters
@@ -152,7 +155,7 @@ Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyLaw
    And am on "node/add/people-list-page"
     And fill in "Title" with "Directory"
     # CHOOSE TABLE DISPLAY
-    And I click the ".group-people-list-display.field-group-fieldset a.fieldset-title" element
+    And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
     And I select "Table" from "edit-field-people-list-display-und"
     # SHOW ALL THE TAXONOMIES
     And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
