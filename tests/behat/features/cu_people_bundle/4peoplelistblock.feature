@@ -1,4 +1,4 @@
-@api @people
+@people
 Feature: People List Block
 In order to place lists of people on different types of node
 As an authenticated user
@@ -50,7 +50,7 @@ Scenario Outline: A simple People List Block offers several display views
  And I should see "Design"
  And I should see "Law"
  
-  @api 
+@api 
 Scenario: A simple People List Block can be created
  Given I am logged in as a user with the "content_editor" role
  And am on "block/add/people-list-block"
@@ -74,6 +74,3 @@ And I am on "block/my-people/view"
    And I press "Save" 
    Then I should see "Alejandro FacGeoHoneyLaw"
    And I should see "Kendall StaffTechHoneyLaw"
-  
- 
- 
