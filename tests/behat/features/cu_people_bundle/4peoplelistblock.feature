@@ -1,4 +1,4 @@
-@people
+@api @people
 Feature: People List Block
 In order to place lists of people on different types of node
 As an authenticated user
@@ -46,8 +46,6 @@ Scenario: A simple People List Block can be created; offers several display view
 Then I should see "People List Block My People has been created."
 And I am on "block/my-people/view"
   
-
-
 @api 
 Scenario: Content editors can create person nodes
   Given I am logged in as a user with the "content_editor" role
