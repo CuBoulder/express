@@ -38,29 +38,29 @@ Scenario: An anonymous user should not be able to access the form for adding peo
  Scenario: The People List Page provides several display/format types
     Given I am logged in as a user with the "site_owner" role
     And am on "node/add/people-list-page"
+   And I click the ".group-people-list-display.field-group-fieldset a.fieldset-title" element
     And I select "Table" from "edit-field-people-list-display-und"
     And I select "Grid" from "edit-field-people-list-display-und"
     And I select "List" from "edit-field-people-list-display-und"
-
-@api @javascript
- Scenario: The People List Page provides several display/format types
-    Given I am logged in as a user with the "site_owner" role
-    And am on "node/add/people-list-page"
-    And I click ".group-people-list-display a.fieldset-title"
-    And I select "Table" from "edit-field-people-list-display-und"
-    And I select "Grid" from "edit-field-people-list-display-und"
-    And I select "List" from "edit-field-people-list-display-und"   
-     
+  
 @api @javascript
  Scenario: The People List Page has been populated with Filters
     Given I am logged in as a user with the "site_owner" role
     And am on "node/add/people-list-page"
-    And I click ".group-people-list-display a.fieldset-title"
-    And I select "Table" from "edit-field-people-list-display-und"
-    And I select "Grid" from "edit-field-people-list-display-und"
-    And I select "List" from "edit-field-people-list-display-und"   
+ And I click the ".group-people-list-display.field-group-fieldset a.fieldset-title" element
+  Then I should see "Staff"
+ Then I should see "Faculty"
+ And I should see "Geophysics"
+ And I should see "Technology"
+ And I should see "Fankhouser"
+ And I should see "Honeywell"
+ And I should see "Design"
+ And I should see "Law"
 
-  # Given  I am logged in as a user with the "content_editor" role
+@api
+ Scenario: A People List Page filters persons correctly
+    Given I am logged in as a user with the "site_owner" role
+
     And am on "node/add/people-list-page"
     And fill in "Title" with "Faculty People"
     And I check "Faculty"
