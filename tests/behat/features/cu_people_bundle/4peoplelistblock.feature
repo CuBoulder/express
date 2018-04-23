@@ -19,7 +19,7 @@ Scenario Outline: An authenticated user can access the form for adding a people 
     | developer      | "Create People List Block block" |
 
 @api 
-Scenario: An anonymous user cannot access the form for adding person content
+Scenario: An anonymous user cannot access the form for adding a people list block
  When I am on "block/add/people-list-block"
  Then I should see "Access denied"
   
