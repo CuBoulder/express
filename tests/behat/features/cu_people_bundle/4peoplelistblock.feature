@@ -40,7 +40,7 @@ Scenario Outline: A simple People List Block offers several display views
  Scenario: The People List Block has been populated with Filters
     Given I am logged in as a user with the "site_owner" role
     And am on "block/add/people-list-block"
- And I click the ".group-people-list-display.field-group-fieldset a.fieldset-title" element
+   And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
   Then I should see "Staff"
  Then I should see "Faculty"
  And I should see "Geophysics"
