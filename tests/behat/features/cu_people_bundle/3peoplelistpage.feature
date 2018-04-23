@@ -111,13 +111,13 @@ Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyDes
  Scenario: The People List Page has been populated with Filters
     Given I am logged in as a user with the "site_owner" role
     And am on "node/add/people-list-page"
- And I click the ".group-people-list-display.field-group-fieldset a.fieldset-title" element
-  Then I should see "Staff"
- Then I should see "Faculty"
- And I should see "Geophysics"
+ And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
+  And I should see "Geophysics"
  And I should see "Technology"
- And I should see "Marietta"
+  Then I should see "Faculty"
+  Then I should see "Staff"
  And I should see "Honeywell"
+ And I should see "Marietta"
  And I should see "Design"
  And I should see "Law"
 
