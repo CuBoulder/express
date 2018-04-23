@@ -24,7 +24,7 @@ Scenario: An anonymous user cannot access the form for adding person content
  Then I should see "Access denied"
   
  @api 
-Scenario: A simple People List Block offers several display views
+Scenario Outline: A simple People List Block offers several display views
   Given I am logged in as a user with the "content_editor" role
   And am on "block/add/people-list-block"
   When I select <condition> from "edit-field-people-block-thumbnail-und"
