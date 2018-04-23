@@ -41,12 +41,12 @@ Scenario Outline: A simple People List Block offers several display views
     Given I am logged in as a user with the "site_owner" role
     And am on "block/add/people-list-block"
    And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
-  Then I should see "Staff"
- Then I should see "Faculty"
  And I should see "Geophysics"
  And I should see "Technology"
- And I should see "Marietta"
+  Then I should see "Faculty"
+  Then I should see "Staff"
  And I should see "Honeywell"
+ And I should see "Marietta"
  And I should see "Design"
  And I should see "Law"
  
@@ -58,35 +58,22 @@ Scenario: A simple People List Block can be created
  And fill in "edit-title" with "Simple People Block Title"
  When I press "Save"
 Then I should see "Simple People Block Title has been created."
+And I should see "Deshawn StaffGeoMariDes"
+And I should see "Alejandro FacGeoHoneyLaw"
+And I shold see "Kendall StaffTechHoneyLaw"
+And I should see "Abdullah FacTechMariDes"
 And I am on "block/my-people/view"
   
-  ## WHAT ABOUT THIS STUFF
-@api 
-Scenario: Content editors can create person nodes
-  Given I am logged in as a user with the "content_editor" role
-    And am on "node/add/person"
-    And fill in "First Name" with "Staff"
-    And fill in "Last Name" with "Person"
-    And fill in "Job Type" with "Staff"
-    And fill in "edit-field-person-title-und-0-value" with "My Job Title"
-    And fill in "Department" with "Department One"
-  When I press "Save"
-  Then I should see "Person Staff Person has been created."
-
-  # Given I am logged in as a user with the "content_editor" role
-    And am on "node/add/person"
-    And fill in "First Name" with "Faculty"
-    And fill in "Last Name" with "Person"
-    And fill in "Job Type" with "Faculty"
-    And fill in "edit-field-person-title-und-0-value" with "My Job Title"
-    And fill in "Department" with "Department Two"
-  When I press "Save"
-  Then I should see "Person Faculty Person has been created."
-
-  # Given I am logged in as a user with the "content_editor" role
+ @api @javascript
+ Scenario: The People List Block can filter out persons
+    Given I am logged in as a user with the "site_owner" role
     And am on "block/add/people-list-block"
-    And fill in "Title" with "People List Block"
-    And fill in "Label" with "People List Block"
-  When I press "Save"
-  Then I should see "Staff Person"
-    And I should see "Faculty Person"
+   And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
+  # And I check "edit-field-people-filter-1-und-8"
+  And I check "Honeywell"
+   And I press "Save" 
+   Then I should see "Alejandro FacGeoHoneyLaw"
+   And I should see "Kendall StaffTechHoneyLaw"
+  
+ 
+ 
