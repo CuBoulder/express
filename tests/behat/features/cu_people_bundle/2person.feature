@@ -48,10 +48,9 @@ Then I select "<Footer Menu>" from "edit-menu-parent"
 And I select "<Main Menu>" from "edit-menu-parent"
 And I select "<Secondary Menu>" from "edit-menu-parent"
        
-      
- @api @javascript 
+@api @javascript 
 Scenario: A Person node appears correctly in the mobile menu
- Given  I am logged in as a user with the "content_editor" role
+ Given I am logged in as a user with the "content_editor" role
    And I am on "node/add/person"
   And fill in "First Name" with "John"
       And fill in "Last Name" with "Doe"
@@ -133,8 +132,8 @@ Scenario: Create Person 1 - Deshawn Michael StaffGeoMariDes
   
   
 @api  
- Scenario: Content editors can create person nodes
-  Given I am logged in as a user with the "content_editor" role
+Scenario: Content editors can create person nodes
+ Given I am logged in as a user with the "content_editor" role
    And am on "node/add/person"
     And fill in "First Name" with "Staff"
     And fill in "Last Name" with "Person"
