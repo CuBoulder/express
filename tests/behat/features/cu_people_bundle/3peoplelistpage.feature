@@ -168,3 +168,5 @@ Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyLaw
       And I should see "Area of Expertise"
       # THIS LAST ONE WAS NOT POPULATED
       And I should not see "Team"
+      # THIS ONE IS AN ATLAS ERROR
+      And I should not see "Leave This Field Blank"
