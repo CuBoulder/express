@@ -154,8 +154,9 @@ Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyLaw
     # CHOOSE TABLE DISPLAY
     And I click the ".group-people-list-display.field-group-fieldset a.fieldset-title" element
     And I select "Table" from "edit-field-people-list-display-und"
-    # SHOW ALL THE FILTERS
+    # SHOW ALL THE TAXONOMIES
     And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
+    # SHOW ALL THE FILTERS
     And I click the ".group-people-filter-display.field-group-fieldset a.fieldset-title" element
       And I select "Show" from "edit-field-people-dept-filter-show-und"
       And I select "Show" from "edit-field-people-pos-filter-show-und"
