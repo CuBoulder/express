@@ -141,7 +141,7 @@ Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyLaw
   And am on "node/add/people-list-page"
     And fill in "Title" with "Research Groups"
     And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
-    And I choose "people_filter_2" from "edit-field-people-group-by-und"
+    And I select "people_filter_2" from "edit-field-people-group-by-und"
     And I press "Save"
     Then I should see "Design"
     And I should see "Law"
