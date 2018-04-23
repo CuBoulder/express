@@ -4,11 +4,10 @@ In order to create individual profiles
 As an authenticated user
 I should be able to create, edit, and delete a person node
 
-@api 
 Scenario Outline: An authenticated user should be able to access the form for adding person content
- Given I am logged in as a user with the <role> role
- When I go to "node/add/person"
- Then I should see <message>
+Given I am logged in as a user with the <role> role
+When I go to "node/add/person"
+Then I should see <message>
 
     Examples:
     | role            | message         |
@@ -18,12 +17,11 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | administrator   | "Create Person" |
     | developer       | "Create Person" |
 
-@api 
+ 
 Scenario: An anonymous user should not be able to access the form for adding person content
   When I am on "node/add/person"
   Then I should see "Access denied"
 
-@api 
 Scenario: A simple Person node can be created and deleted
  Given  I am logged in as a user with the "content_editor" role
  And am on "node/add/person"
@@ -39,36 +37,33 @@ Then I should see "Are you sure you want to delete Random Individual?"
 And I press "edit-submit"
 Then I should see "Person Random Individual has been deleted."
 
-@api 
- Scenario: Footer, Main Menu, and Secondary Menus should be available when creating a Person
-  Given I am logged in as a user with the "content_editor" role
- And I am on "node/add/person"
- And I check "#edit-menu-enabled"
+Scenario: Footer, Main Menu, and Secondary Menus should be available when creating a Person
+Given I am logged in as a user with the "content_editor" role
+And I am on "node/add/person"
+And I check "#edit-menu-enabled"
 Then I select "<Footer Menu>" from "edit-menu-parent"
 And I select "<Main Menu>" from "edit-menu-parent"
 And I select "<Secondary Menu>" from "edit-menu-parent"
        
-@api @javascript 
+@javascript 
 Scenario: A Person node appears correctly in the mobile menu
  Given I am logged in as a user with the "content_editor" role
-   And I am on "node/add/person"
-  And fill in "First Name" with "John"
-      And fill in "Last Name" with "Doe"
-        And I check "#edit-menu-enabled"
-        And I select "<Secondary Menu>" from "edit-menu-parent"
-        And I press "Save"
-      Given I resize the window to a "mobile" resolution.
-      When I click the ".mobile-menu-toggle a" element
-      Then I should see "John Doe"
-      And I resize the window to a "desktop" resolution.
+ And I am on "node/add/person"
+ And fill in "First Name" with "John"
+     And fill in "Last Name" with "Doe"
+  And I check "#edit-menu-enabled"
+  And I select "<Secondary Menu>" from "edit-menu-parent"
+  And I press "Save"
+  Given I resize the window to a "mobile" resolution.
+  When I click the ".mobile-menu-toggle a" element
+   Then I should see "John Doe"
+   And I resize the window to a "desktop" resolution.
       
       
-      
- ## POPULATING DATA TABLE FOR PEOPLE LIST PAGES AND BLOCKS
- 
-@api 
+## POPULATING DATA TABLE FOR PEOPLE LIST PAGES AND BLOCKS
+  
 Scenario: Create Person 1 - Deshawn Michael StaffGeoMariDes
-  Given I am logged in as a user with the "content_editor" role
+ Given I am logged in as a user with the "content_editor" role
    And am on "node/add/person"
     And fill in "First Name" with "Deshawn"
     And fill in "Last Name" with "StaffGeoMariDes"
@@ -82,11 +77,10 @@ Scenario: Create Person 1 - Deshawn Michael StaffGeoMariDes
   When I press "Save"
   Then I should see "Person Deshawn StaffGeoMariDes has been created."
   
- @api 
- Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyDes
-  Given I am logged in as a user with the "content_editor" role
-   And am on "node/add/person"
-    And fill in "First Name" with "Alejandro"
+Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyDes
+ Given I am logged in as a user with the "content_editor" role
+ And am on "node/add/person"
+   And fill in "First Name" with "Alejandro"
     And fill in "Last Name" with "FacGeoHoneyDes"
     And fill in "edit-field-person-job-type-und" with "Faculty"
     And fill in "edit-field-person-title-und-0-value" with "Director"
@@ -131,7 +125,6 @@ Scenario: Create Person 1 - Deshawn Michael StaffGeoMariDes
   Then I should see "Person Abdullah FacTechMariDes has been created."
   
   
-@api  
 Scenario: Content editors can create person nodes
  Given I am logged in as a user with the "content_editor" role
    And am on "node/add/person"
