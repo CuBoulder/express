@@ -146,7 +146,7 @@ Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyLaw
     Then I should see "Design"
     And I should see "Law"
 
- @api
+ @api @javascript
   Scenario: A People List Page can display all the chosen filters
     Given I am logged in as a user with the "site_owner" role
    And am on "node/add/people-list-page"
