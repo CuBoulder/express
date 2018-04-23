@@ -36,8 +36,24 @@ Scenario Outline: A simple People List Block offers several display views
     | "sidebar" |
     | "title" |
    
- @api 
-Scenario: A simple People List Block can be created; offers several display views
+
+
+@api @javascript
+ Scenario: The People List Block has been populated with Filters
+    Given I am logged in as a user with the "site_owner" role
+    And am on "block/add/people-list-block"
+ And I click the ".group-people-list-display.field-group-fieldset a.fieldset-title" element
+  Then I should see "Staff"
+ Then I should see "Faculty"
+ And I should see "Geophysics"
+ And I should see "Technology"
+ And I should see "Marietta"
+ And I should see "Honeywell"
+ And I should see "Design"
+ And I should see "Law"
+ 
+  @api 
+Scenario: A simple People List Block can be created
  Given I am logged in as a user with the "content_editor" role
  And am on "block/add/people-list-block"
  And fill in "edit-label" with "Simple People Block Label"
