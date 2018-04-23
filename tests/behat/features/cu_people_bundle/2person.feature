@@ -40,7 +40,7 @@ Then I should see "Person Random Individual has been deleted."
 Scenario: Footer, Main Menu, and Secondary Menus should be available when creating a Person
 Given I am logged in as a user with the "content_editor" role
 And I am on "node/add/person"
-And I check "#edit-menu-enabled"
+And I check "edit-menu-enabled"
 Then I select "<Footer Menu>" from "edit-menu-parent"
 And I select "<Main Menu>" from "edit-menu-parent"
 And I select "<Secondary Menu>" from "edit-menu-parent"
@@ -56,8 +56,8 @@ Scenario: A Person node appears correctly in the mobile menu
   And I press "Save"
   Given I resize the window to a "mobile" resolution.
   When I click the ".mobile-menu-toggle a" element
-   Then I should see "John Doe"
-   And I resize the window to a "desktop" resolution.
+ Then I should see "John Doe"
+ And I resize the window to "desktop" resolution.
       
       
 ## POPULATING DATA TABLE FOR PEOPLE LIST PAGES AND BLOCKS
