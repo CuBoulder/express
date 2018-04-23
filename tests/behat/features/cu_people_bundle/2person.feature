@@ -42,7 +42,7 @@ Given I am logged in as a user with the "content_editor" role
 And I am on "node/add/person"
 And I check "edit-menu-enabled"
 Then I select "<Footer Menu>" from "edit-menu-parent"
-And I select "<Main Menu>" from "edit-menu-parent"
+And I select "<Main menu>" from "edit-menu-parent"
 And I select "<Secondary Menu>" from "edit-menu-parent"
        
 @javascript 
