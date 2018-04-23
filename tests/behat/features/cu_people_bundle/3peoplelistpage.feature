@@ -4,6 +4,7 @@ In order to display a directory list of Person nodes
 As an authenticated user
 I should be able to create, edit, and delete People List Page content
 
+@api 
 Scenario Outline: An authenticated user should be able to access the form for adding people list page content
     Given  I am logged in as a user with the <role> role
     When I go to "node/add/people-list-page"
@@ -17,12 +18,12 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | administrator   | "Create People List Page" |
     | developer       | "Create People List Page" |
 
-@api @people
+@api 
 Scenario: An anonymous user should not be able to access the form for adding people list page content
   When I am on "node/add/people-list-page"
   Then I should see "Access denied"
 
- @api @people
+ @api
   Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
     Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/people-list-page"
@@ -33,7 +34,7 @@ Scenario: An anonymous user should not be able to access the form for adding peo
     And I follow "Edit"
    Then the checkbox "edit-menu-enabled" should be unchecked
    
-@javascript
+@api @javascript
  Scenario: The People List Page provides several display/format types
     Given I am logged in as a user with the "site_owner" role
     And am on "node/add/people-list-page"
@@ -41,7 +42,7 @@ Scenario: An anonymous user should not be able to access the form for adding peo
     And I select "Grid" from "edit-field-people-list-display-und"
     And I select "List" from "edit-field-people-list-display-und"
 
-@javascript
+@api @javascript
  Scenario: The People List Page provides several display/format types
     Given I am logged in as a user with the "site_owner" role
     And am on "node/add/people-list-page"
@@ -50,7 +51,7 @@ Scenario: An anonymous user should not be able to access the form for adding peo
     And I select "Grid" from "edit-field-people-list-display-und"
     And I select "List" from "edit-field-people-list-display-und"   
      
-@javascript
+@api @javascript
  Scenario: The People List Page has been populated with Filters
     Given I am logged in as a user with the "site_owner" role
     And am on "node/add/people-list-page"
@@ -95,7 +96,7 @@ Scenario: An anonymous user should not be able to access the form for adding peo
   Then I should not see "Staff Person"
     And I should see "Faculty Person"
 
-  @api @people @people-filters
+  @api
   Scenario: Person nodes should accept more than 1 filter value per filter
     Given  I am logged in as a user with the "content_editor" role
       And am on "node/add/person"
@@ -118,10 +119,7 @@ Scenario: An anonymous user should not be able to access the form for adding peo
       And I should see "Filter 3 Term 2"
       And I should not see "Filter 3 Term 1, Filter 3 Term 2"
 
-  
-      
-
-  @api @people 
+ @api
   Scenario: Adding a label to the filter terms should result in the label showing up on the people list page.
     Given  I am logged in as a user with the "site_owner" role
       And am on "node/add/person"
