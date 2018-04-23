@@ -145,7 +145,7 @@ Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyLaw
     And I press "Save"
     Then I should see "Design"
     And I should see "Law"
-  
+
  @api
   Scenario: A People List Page can display all the chosen filters
     Given I am logged in as a user with the "site_owner" role
@@ -153,8 +153,9 @@ Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyLaw
     And fill in "Title" with "Directory"
     # CHOOSE TABLE DISPLAY
     And I click the ".group-people-list-display.field-group-fieldset a.fieldset-title" element
-     And I select "Table" from "edit-field-people-list-display-und"
+    And I select "Table" from "edit-field-people-list-display-und"
     # SHOW ALL THE FILTERS
+    And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
     And I click the ".group-people-filter-display.field-group-fieldset a.fieldset-title" element
       And I select "Show" from "edit-field-people-dept-filter-show-und"
       And I select "Show" from "edit-field-people-pos-filter-show-und"
