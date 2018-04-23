@@ -4,6 +4,7 @@ In order to create individual profiles
 As an authenticated user
 I should be able to create, edit, and delete a person node
 
+@api 
 Scenario Outline: An authenticated user should be able to access the form for adding person content
  Given  I am logged in as a user with the <role> role
  When I go to "node/add/person"
@@ -17,10 +18,12 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | administrator   | "Create Person" |
     | developer       | "Create Person" |
 
+@api 
 Scenario: An anonymous user should not be able to access the form for adding person content
   When I am on "node/add/person"
   Then I should see "Access denied"
 
+@api 
 Scenario: A simple Person node can be created and deleted
  Given  I am logged in as a user with the "content_editor" role
  And am on "node/add/person"
@@ -64,7 +67,8 @@ Scenario: A Person node appears correctly in the mobile menu
       
  ## POPULATING DATA TABLE FOR PEOPLE LIST PAGES AND BLOCKS
  
- Scenario: Create Person 1 - Deshawn Michael StaffGeoMariDes
+@api 
+Scenario: Create Person 1 - Deshawn Michael StaffGeoMariDes
   Given I am logged in as a user with the "content_editor" role
    And am on "node/add/person"
     And fill in "First Name" with "Deshawn"
@@ -79,7 +83,8 @@ Scenario: A Person node appears correctly in the mobile menu
   When I press "Save"
   Then I should see "Person Deshawn StaffGeoMariDes has been created."
   
-   Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyDes
+ @api 
+ Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyDes
   Given I am logged in as a user with the "content_editor" role
    And am on "node/add/person"
     And fill in "First Name" with "Alejandro"
@@ -94,6 +99,7 @@ Scenario: A Person node appears correctly in the mobile menu
   When I press "Save"
   Then I should see "Person Alejandro FacGeoHoneyDes has been created."
   
+   @api 
    Scenario: Create Person 3 - Kendall Hull StaffTechHoneyLaw
   Given I am logged in as a user with the "content_editor" role
    And am on "node/add/person"
@@ -109,7 +115,8 @@ Scenario: A Person node appears correctly in the mobile menu
   When I press "Save"
   Then I should see "Person Kendall StaffTechHoneyLaw has been created."
   
-   Scenario: Create Person 4 - Abdullah Lang FacTechMariDes
+ @api 
+ Scenario: Create Person 4 - Abdullah Lang FacTechMariDes
   Given I am logged in as a user with the "content_editor" role
    And am on "node/add/person"
     And fill in "First Name" with "Abdullah"
@@ -125,9 +132,8 @@ Scenario: A Person node appears correctly in the mobile menu
   Then I should see "Person Abdullah FacTechMariDes has been created."
   
   
-  
-  
-Scenario: Content editors can create person nodes
+@api  
+ Scenario: Content editors can create person nodes
   Given I am logged in as a user with the "content_editor" role
    And am on "node/add/person"
     And fill in "First Name" with "Staff"
@@ -198,7 +204,7 @@ Scenario: Content editors can create person nodes
   Then I should not see "Staff Person"
     And I should see "Faculty Person"
 
-  @api @people @people-filters
+  @api 
   Scenario: Person nodes should accept more than 1 filter value per filter
     Given  I am logged in as a user with the "content_editor" role
       And am on "node/add/person"
@@ -220,9 +226,6 @@ Scenario: Content editors can create person nodes
     Then I should see "Filter 3 Term 1"
       And I should see "Filter 3 Term 2"
       And I should not see "Filter 3 Term 1, Filter 3 Term 2"
-
-  
-      
 
   @api @people @people-filters
   Scenario: Adding a label to the filter terms should result in the label showing up on the people list page.
