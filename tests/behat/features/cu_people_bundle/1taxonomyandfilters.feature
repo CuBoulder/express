@@ -1,11 +1,11 @@
-@people
+@api @people
 Feature: People Taxonomy and Filters
 In order to group and filter my people
 As an authenticated user
 I should be able to add taxonomy and rename filters
 
 Scenario: The People Vocabularies have been added to Structure/Taxonomy
-Given I am signed on as a "site_owner"
+Given I am signed in as a "site_owner"
 And I am on "admin/structure/taxonomy"
 Then I should see "Department"
 And I should see "Job Type"
