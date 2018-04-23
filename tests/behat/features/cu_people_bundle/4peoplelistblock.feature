@@ -36,8 +36,6 @@ Scenario Outline: A simple People List Block offers several display views
     | "sidebar" |
     | "title" |
    
-
-
 @api @javascript
  Scenario: The People List Block has been populated with Filters
     Given I am logged in as a user with the "site_owner" role
@@ -62,6 +60,7 @@ Scenario: A simple People List Block can be created
 Then I should see "Simple People Block Title has been created."
 And I am on "block/my-people/view"
   
+  ## WHAT ABOUT THIS STUFF
 @api 
 Scenario: Content editors can create person nodes
   Given I am logged in as a user with the "content_editor" role
