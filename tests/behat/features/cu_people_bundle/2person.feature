@@ -51,7 +51,7 @@ Scenario: A Person node appears correctly in the mobile menu
  And I am on "node/add/person"
  And fill in "First Name" with "John"
      And fill in "Last Name" with "Doe"
-  And I check "#edit-menu-enabled"
+  And I check "edit-menu-enabled"
   And I select "<Secondary Menu>" from "edit-menu-parent"
   And I press "Save"
   Given I resize the window to a "mobile" resolution.
