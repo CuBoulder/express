@@ -135,7 +135,7 @@ Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyLaw
    And I should not see "Kendall StaffTechHoneyLaw"
    And I should not see "Deshawn StaffGeoMariDes"
    
-   @api
+@api @javascript
  Scenario: A People List Page can group people by chosen filter
   Given I am logged in as a user with the "site_owner" role
   And am on "node/add/people-list-page"
