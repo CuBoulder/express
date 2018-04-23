@@ -59,7 +59,7 @@ Scenario: A simple People List Block can be created
  And fill in "edit-label" with "Simple People Block Label"
  And fill in "edit-title" with "Simple People Block Title"
  When I press "Save"
-Then I should see "People List Block My People has been created."
+Then I should see "Simple People Block Title has been created."
 And I am on "block/my-people/view"
   
 @api 
