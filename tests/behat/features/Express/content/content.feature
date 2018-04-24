@@ -15,7 +15,6 @@
     When I go to "admin/content"
     And I should see the link "Content"
     And I should see the link "Blocks"
-    And I should see the link "Webforms"
     And I should see the link "Locked documents"
     And I should see the link "Add content"
 
