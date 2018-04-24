@@ -1,4 +1,4 @@
-@settings 
+@settings
 Feature: Setting a New Homepage
 In order to create a unique homepage experience
 An authenticated user with the proper role
@@ -22,6 +22,7 @@ Scenario Outline: Devs, Admins and SOs can access Home Page settings; CEs and EM
     
 # SETTING A NEW HOME PAGE
 # create a basic page; use it for the new homepage; then change it back
+@campus_map_bundle_conflict
 Scenario: A site-owner can create a Basic Page and use it for the new homepage
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
