@@ -160,7 +160,7 @@ And I should see "Alejandro FacGeoHoneyLaw"
     # DON'T - BOTHER SHOW ALL THE TAXONOMIES
     # And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
     # SHOW ALL THE FILTERS
-    And I click the ".group-people-filter-display.field-group-fieldset a.fieldset-title" element
+    # NOPE DON'T NEED THIS EITHER And I click the ".group-people-filter-display.field-group-fieldset a.fieldset-title" element
       And I select "Show" from "edit-field-people-dept-filter-show-und"
       And I select "Show" from "edit-field-people-pos-filter-show-und"
       And I select "Show" from "edit-field-people-filter1-show-und"
