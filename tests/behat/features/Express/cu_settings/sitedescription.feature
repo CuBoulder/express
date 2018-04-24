@@ -5,7 +5,7 @@ Authenticated users with the proper role
 Should be able to add a Site Description
 
 #SOME ROLES CAN SET THE SITE DESCRIPTION
-@api
+@api @testing_frontpage
 Scenario Outline: Devs, Admins and SOs can set the Site Description
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/site-configuration/site-description"

@@ -21,7 +21,8 @@ mysql:
   username: root
   encoding: utf8
 
-# Cache Composer & Drush directories.
+# Cache Composer and db export.
+# I removed caching of Drush since you have to clear Drush cache to get new Drupal versions.
 cache:
   directories:
     - $HOME/.composer/cache/files
@@ -29,80 +30,36 @@ cache:
 
 install:
 
-  # Install latest Drush 8.
-  - travis_retry composer self-update && composer --version
-  - travis_retry composer global require "drush/drush:8.*"
-  - export PATH="$HOME/.composer/vendor/bin:$PATH"
+  # Export variables used later on in bash scripts.
+  - cd $TRAVIS_BUILD_DIR && cd ../ && export ROOT_DIR=$(pwd)
+  - export HOME
+  - export TRAVIS_EVENT_TYPE
+  - export BUNDLE_NAME="null"
+  - export EXPRESS_JS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@javascript"
+  - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript"
+  - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken"
 
-  # Build Behat dependencies
-  - cd ./tests/behat
-  - travis_retry composer install --prefer-dist --no-interaction
-  - cd ../../../
+  # Copy scripts to root.
+  - cp -R ${ROOT_DIR}/express/tests/travis-ci/* ${ROOT_DIR}
 
-  # Build Codebase
-  - drush dl drupal-7.58
-  - mkdir drupal && mv drupal-7.58/* drupal/
-  - mkdir profiles && mv express drupal/profiles/
+  # Pulls in any helper functions used later in scripts.
+  - source $ROOT_DIR/helper-functions.sh
 
-  # Harden Codebase
-  - cd drupal/modules
-  - rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
-  - cd ../
-
-  # Setup files
-  - mkdir -p sites/default/files/styles/preview/public/gallery/ && chmod -R 777 sites
-  - mkdir ../tmp && chmod -R 777 ../tmp
-
-  # Disable sendmail
-  - echo sendmail_path=`which true` >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
-  # Bump up max execution time.
-  - echo "max_execution_time=60" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
-  # Increase the MySQL connection timeout on the PHP end.
-  - echo "mysql.connect_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - echo "default_socket_timeout=3000" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-
-  # Increase the MySQL server timetout and packet size.
-  - mysql -e "SET GLOBAL wait_timeout = 36000;"
-  - mysql -e "SET GLOBAL max_allowed_packet = 33554432;"
+  # Install and build dependencies.
+  - $ROOT_DIR/install.sh
 
 before_script:
 
-  # Disable XDebug to speed up test runs.
-  - phpenv config-rm xdebug.ini
+  # Setup config for PHP/MySQL, settings.php, and install database.
+  - $ROOT_DIR/setup-config.sh
 
-  # Do the site install.
-  - mysql -e 'create database drupal;'
-  - cp profiles/express/tests/travis-ci/settings.travis.php sites/default/settings.php
-  - drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
-
-  # Check and see if testing core module is enabled.
-  - drush pm-info travis_hosting
-  - drush pm-info ng_hosting
-  - drush pm-info cu_core
-  - drush pm-info cu_ldap
-
-  # Export db so it can be imported after every suite run.
-  # Test runs that fill up the db with nodes can impact other tests.
-  - drush sql-dump --result-file=$HOME/cache/express.sql
-
-  # Start server.
-  - drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &
-  - nc -zvv 127.0.0.1 8057; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8057..."; nc -zvv localhost 8057; out=$?; sleep 5; done
-  - cd profiles/express/tests/behat
-
-  # Setting Behat environment variables is now done in behat.travis.yml for simplicity.
+  # Perform the site install after removing Xdebug since it seems faster.
+  - $ROOT_DIR/build-express.sh
 
 script:
 
-  # Run headless Behat tests.
-  - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&~@javascript'
-  # Run JS Behat tests.
-  - ./bin/behat --config behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&@javascript'
-
-  # Output performance logging data.
-  - drush scr profiles/express/tests/travis-ci/log-express-performance.php
+  # Run Behat tests.
+  - $ROOT_DIR/behat-tests.sh
 
 notifications:
   slack:

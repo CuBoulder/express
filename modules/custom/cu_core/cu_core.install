@@ -12,21 +12,21 @@ function cu_core_install() {
 
   $hosting = express_check_known_hosts();
 
-  if ($hosting == 'travis') {
+  if ($hosting === 'travis') {
     module_enable(array('travis_hosting'));
   }
 
-  if ($hosting == 'pantheon') {
+  if ($hosting === 'pantheon') {
     module_enable(array('pantheon_hosting'));
   }
 
-  if ($hosting == 'lando') {
-    module_enable(array('lando_hosting'));
+  if ($hosting === 'lando' || $hosting === 'valet') {
+    module_enable(array('local_hosting'));
   }
 
   // @TODO: If it's not Travis or Pantheon, assume it's NG for now.
   // Eventually update to deal with ng (2.0) vs. 3.0
-  if ($hosting == FALSE) {
+  if ($hosting === FALSE) {
     module_enable(array('ng_hosting'));
   }
 

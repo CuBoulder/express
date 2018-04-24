@@ -5,7 +5,7 @@ An authenticated user with the proper role
 Should be able to set the website name
 
 #SOME ROLES CAN SET THE SITE NAME
-@api
+@api @testing_frontpage
 Scenario Outline: Devs, Admins and SOs can set the Site Name
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/site-configuration/site-name"
