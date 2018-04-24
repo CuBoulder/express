@@ -23,13 +23,23 @@ Scenario Outline: Some users see four links
   | administrator   |
   | site_owner      |
   | content_editor  |
+  | site_editor |
     
 
 @api
-Scenario: A EMC should not be able to access Admin/Structure
-  Given I am logged in as a user with the "edit_my_content" role
+Scenario Outline:  Some users should not be able to access Admin/Structure
+  Given I am logged in as a user with the <role> role
   And I am on "admin/structure"
   Then I should see "Access denied"
+  
+  Examples:
+  | role            | 
+  | edit_my_content   |
+  | configuration_manager |
+  | edit_only |
+  | access_manager |
+  | form_manager |
+  
     
  @api
  Scenario: An anonymous user should not be able to access Admin/Structure
