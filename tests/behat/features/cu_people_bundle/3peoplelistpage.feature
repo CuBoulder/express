@@ -177,6 +177,5 @@ And I should see "Alejandro FacGeoHoneyLaw"
       And I should see "Area of Expertise"
       And I should not see "Committees"
       # THIS ONE IS AN ATLAS ERROR
-        And I break
       And I should not see "Leave This Field Blank"
     
