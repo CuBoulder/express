@@ -155,12 +155,12 @@ And I should see "Alejandro FacGeoHoneyLaw"
    And am on "node/add/people-list-page"
     And fill in "Title" with "Directory"
     # DON'T BOTHER - CHOOSE TABLE DISPLAY
- And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
+ # CHRIST And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
     And I select "Table" from "edit-field-people-list-display-und"
     # DON'T - BOTHER SHOW ALL THE TAXONOMIES
-    And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
+   #FUCK YOU SAUCE LABS And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
     # SHOW ALL THE FILTERS
-   And I click the ".group-people-filter-display.field-group-fieldset a.fieldset-title" element
+  # I HATE ALL OF YOU And I click the ".group-people-filter-display.field-group-fieldset a.fieldset-title" element
       And I select "Show" from "edit-field-people-dept-filter-show-und"
       And I select "Show" from "edit-field-people-pos-filter-show-und"
       And I select "Show" from "edit-field-people-filter1-show-und"
@@ -173,5 +173,6 @@ And I should see "Alejandro FacGeoHoneyLaw"
       And I should see "Area of Expertise"
       And I should not see "Committees"
       # THIS ONE IS AN ATLAS ERROR
+        And I break
       And I should not see "Leave This Field Blank"
-      And I break
+    
