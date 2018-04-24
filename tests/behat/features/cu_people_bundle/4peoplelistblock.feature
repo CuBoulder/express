@@ -11,12 +11,18 @@ Scenario Outline: An authenticated user can access the form for adding a people 
    Then I should see <message>
 
     Examples:
-    | role           | message         |
+    | role            | message         |
     | edit_my_content | "Access denied" |
-    | content_editor | "Create People List Block block" |
-    | site_owner     | "Create People List Block block" |
-    | administrator  | "Create People List Block block" |
-    | developer      | "Create People List Block block" |
+    | content_editor  | "Create People List Block block" |
+    | site_owner      | "Create People List Block block" |
+    | administrator   | "Create People List Block block" |
+    | developer       | "Create People List Block block" |
+    | configuration_manager | "Access denied" |
+    | site_editor     | "Create People List Block block" |
+    | edit_only       | "Access denied" |
+    | access_manager  | "Access denied" |
+    | form_manager    | "Access denied" |
+
 
 @api 
 Scenario: An anonymous user cannot access the form for adding a people list block
