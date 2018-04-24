@@ -5,7 +5,8 @@ Authenticated users with the proper role
 Should be able to add Contact Information
 
 #SOME ROLES CAN SET THE SITE CONTACT
-@api
+# Testing the frontpage affects the cu_campus_map_bundle tests.
+@api @campus_map_bundle_conflict
 Scenario Outline: Devs, Admins and SOs can set the Site Contact
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/site-configuration/contact"

@@ -17,22 +17,23 @@ echo "Build Express? - ${SKIP_EXPRESS_TESTS}"
 
 # Setting Behat environment variables is now done in behat.travis.yml for simplicity.
 
-# Run headless Behat tests.
+# Run Behat Express tests when in a bundle repo if commit flag is set.
 if [ ! "${SKIP_EXPRESS_TESTS}" ]; then
-    echo "Running Express headless tests..."
-  ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&~@javascript'
+
+  echo "Running Express headless tests..."
+  ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags ${EXPRESS_HEADLESS_BEHAT_TAGS}
   earlyexit
 
   # Run JS Behat tests if merged into dev.
   ${ROOT_DIR}/drupal/profiles/express/tests/travis-ci/run-js-tests.sh
   earlyexit
+
 fi
 
 # Run bundle tests.
-echo "printing bundle name: ${BUNDLE_NAME}"
 if [ "${BUNDLE_NAME}" != "null" ]; then
-  echo "Running bundle tests..."
-  ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.bundle.yml --verbose --tags '~@exclude_all_bundles&&~@broken'
+  echo "Running ${BUNDLE_NAME} bundle tests..."
+  ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.bundle.yml --verbose --tags ${BUNDLE_BEHAT_TAGS}
   earlyexit
 fi
 

@@ -11,11 +11,11 @@ echo "commit has JS? - ${EXPRESS_COMMIT_HAS_JS}"
 
 # Run JS tests if merging PR into dev or has JS in it.
 if [ "${TRAVIS_EVENT_TYPE}" == "push" ] || [ "${EXPRESS_COMMIT_HAS_JS}" ]; then
-  echo "Running JS tests..."
-  ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags '~@exclude_all_bundles&&~@broken&&@javascript'
+  echo "Running Express JS tests..."
+  ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags ${EXPRESS_JS_BEHAT_TAGS}
   earlyexit
 else
-  echo "Not Running JS tests..."
+  echo "Not Running Express JS tests..."
 fi
 
 exit 0
