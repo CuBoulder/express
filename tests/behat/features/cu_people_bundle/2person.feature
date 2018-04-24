@@ -16,6 +16,11 @@ Then I should see <message>
     | site_owner      | "Create Person" |
     | administrator   | "Create Person" |
     | developer       | "Create Person" |
+    | configuration_manager | "Access denied" |
+    | site_editor | "Create Person" |
+    | edit_only | "Access denied" |
+    | access_manager | "Access denied" |
+    | form_manager | "Access denied" |
 
  
 Scenario: An anonymous user should not be able to access the form for adding person content
