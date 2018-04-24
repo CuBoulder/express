@@ -124,7 +124,7 @@ Examples:
     
  
 #VERIFY THAT ADDING A SITE DESCRIPTION POPULATES THE SITE DESCRIPTION META TAG   
-@api 
+@api @testing_frontpage
 Scenario: Adding text to site description populates Meta tag "Description" on site homepage
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/settings/site-configuration/site-description"

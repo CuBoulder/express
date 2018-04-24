@@ -22,7 +22,7 @@ Examples:
 
 
 #SOME ROLES CAN ADD VERIFICATION INFORMATION
-@api
+@api @testing_frontpage
 Scenario Outline: Devs, Admins and SOs create an RSS feed
   Given I am logged in as a user with the <role> role
   And am on "admin/config/search/verifications/add"
