@@ -64,7 +64,7 @@ And I shold see "Kendall StaffTechHoneyLaw"
 And I should see "Abdullah FacTechMariDes"
 And I am on "block/my-people/view"
   
- @api @javascript
+ @api 
  Scenario: The People List Block can filter out persons
     Given I am logged in as a user with the "site_owner" role
     And am on "block/add/people-list-block"
