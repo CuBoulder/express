@@ -6,9 +6,9 @@ I should be able to create a People List block
 
 @api
 Scenario Outline: An authenticated user can access the form for adding a people list block
-    Given I am logged in as a user with the <role> role
-    When I go to "block/add/people-list-block"
-    Then I should see <message>
+   Given I am logged in as a user with the <role> role
+   When I go to "block/add/people-list-block"
+   Then I should see <message>
 
     Examples:
     | role           | message         |
