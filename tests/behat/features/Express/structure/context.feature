@@ -17,9 +17,15 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | site_owner      | "Context allows you to manage contextual conditions" |
     | administrator   | "Context allows you to manage contextual conditions" |
     | developer       | "Context allows you to manage contextual conditions" |
+    | configuration_manager | "Access denied" |
+    | site_editor | "Context allows you to manage contextual conditions" |
+    | edit_only | "Access denied" |
+    | access_manager | "Access denied" |
+    | form_manager | "Access denied" |
+    
 
 @api
-Scenario Outline: Available Contexts are limited for some roles
+Scenario Outline: Available Contexts are limited for all but Devs
 Given I am logged in as a user with the <role> role
 When I go to "admin/structure/context"
 Then I should see "homepage"
@@ -34,6 +40,7 @@ Then I should see "homepage"
     | content_editor  |
     | site_owner      |
     | administrator   |
+    | site_editor |
     
     
 @api @context @contextconditions
