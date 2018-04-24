@@ -3,6 +3,7 @@ Feature: Content Management
   As a user
   I should be able to see certain content
 
+  @testing_frontpage
   Scenario: A user should see "Welcome!" on the homepage
       Given I am on the homepage
       Then I should see "Welcome to your new Web Express website! This content area is used for your homepage content. You can edit this section by clicking on the Edit link above. Once in edit mode, just edit the body text area. For help with your site, you can view examples of all the Web Express Features or view online tutorials."
