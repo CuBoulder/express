@@ -271,10 +271,6 @@ function cu_redirect_redirect_insert($redirect) {
   )));
 }
 
-function cu_redirect_page_alter(&$page) {
-  //dpm($page['content']);
-}
-
 function cu_redirect_menu_alter(&$items) {
   $items['admin/config/search/redirect']['title'] = t('Redirects');
   $items['admin/config/search/redirect/list']['title'] = t('URL');
@@ -283,9 +279,4 @@ function cu_redirect_menu_alter(&$items) {
   $items['admin/config/search/redirect/wildcards']['type'] = MENU_LOCAL_TASK;
   $items['admin/config/search/redirect/wildcards']['weight'] = 12;
   //unset($items['admin/config/search/match_redirect']);
-  dpm($items['admin/config/search/redirect/wildcards']);
-}
-
-function cu_redirect_form_alter(&$form, &$form_state, $form_id) {
-  //dpm($form);
 }
