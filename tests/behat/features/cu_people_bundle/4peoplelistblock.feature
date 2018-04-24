@@ -57,13 +57,12 @@ Scenario: A simple People List Block can be created
  And fill in "edit-label" with "Simple People Block Label"
  And fill in "edit-title" with "Simple People Block Title"
  When I press "Save"
- Then I am on "block/my-people/view"
-And I should see "Simple People Block Title has been created."
-And I should see "Deshawn StaffGeoMariDes"
+ Then I should be on "block/simple-people-block-label/view"
+And I should see "People List Block Simple People Block Title has been created."
 And I should see "Alejandro FacGeoHoneyLaw"
-And I shold see "Kendall StaffTechHoneyLaw"
 And I should see "Abdullah FacTechMariDes"
-
+And I should see "Deshawn StaffGeoMariDes"
+And I should see "Kendall StaffTechHoneyLaw"
   
  @api 
  Scenario: The People List Block can filter out persons
@@ -71,7 +70,10 @@ And I should see "Abdullah FacTechMariDes"
     And am on "block/add/people-list-block"
    # And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
   # And I check "edit-field-people-filter-1-und-8"
+  And fill in "edit-label" with "Research Group Block Label"
+ And fill in "edit-title" with "Research Group Block Title"
   And I check "Honeywell"
    And I press "Save" 
-   Then I should see "Alejandro FacGeoHoneyLaw"
+   Then I should see "Research Group Block Title"
+   And I should see "Alejandro FacGeoHoneyLaw"
    And I should see "Kendall StaffTechHoneyLaw"
