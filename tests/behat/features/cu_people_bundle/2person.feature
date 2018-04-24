@@ -59,26 +59,25 @@ Scenario: A Person node appears correctly in the mobile menu
  Then I should see "John Doe"
  And I resize the window to "desktop" resolution.
       
- 
   @api 
-  Scenario: Person nodes should accept more than 1 filter value per filter
+  Scenario: Person nodes can accept more than one filter value per filter
     Given  I am logged in as a user with the "content_editor" role
       And am on "node/add/person"
       And fill in "First Name" with "Random"
-      And fill in "Last Name" with "Individuao"
-      And fill in "edit-field-person-filter-1-und" with "Orange, Apple"
-      And fill in "edit-field-person-filter-2-und" with "Dog, Cat"
-      And fill in "edit-field-person-filter-3-und" with "Yellow, Green"
+      And fill in "Last Name" with "Individual"
+      And fill in "edit-field-person-filter-1-und" with "Apple, Orange"
+      And fill in "edit-field-person-filter-2-und" with "Cat, Dog"
+      And fill in "edit-field-person-filter-3-und" with "Green, Red"
     When I press "Save"
     Given I go to "admin/structure/taxonomy/people_filter_1"
-    Then I should see "Orange"
-      And I should see "Apple"
-      And I should not see "Orange, Apple"
+    Then I should see "Apple"
+      And I should see "Orange"
+      And I should not see "Apple, Orange"
     Given I go to "admin/structure/taxonomy/people_filter_2"
-    Then I should see "Dog"
-      And I should see "Cat"
-      And I should not see "Dog, Cat"
+    Then I should see "Cat"
+      And I should see "Dog"
+      And I should not see "Cat, Dog"
     Given I go to "admin/structure/taxonomy/people_filter_3"
-    Then I should see "Red"
-      And I should see "Green"
-      And I should not see "Red, Green"
+    Then I should see "Green"
+      And I should see "Red"
+      And I should not see "Green, Red"
