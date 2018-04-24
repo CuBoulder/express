@@ -149,16 +149,16 @@ And I should see "Deshawn StaffGeoMariDe"
 And I should see "Law"
 And I should see "Alejandro FacGeoHoneyLaw"
 
- @api @javascript
+ @api 
   Scenario: A People List Page can display all the chosen filters
     Given I am logged in as a user with the "site_owner" role
    And am on "node/add/people-list-page"
     And fill in "Title" with "Directory"
-    # CHOOSE TABLE DISPLAY
-    And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
+    # DON'T BOTHER - CHOOSE TABLE DISPLAY
+    # APPARENTLY NOT NECESSARY And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
     And I select "Table" from "edit-field-people-list-display-und"
-    # SHOW ALL THE TAXONOMIES
-    And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
+    # DON'T - BOTHER SHOW ALL THE TAXONOMIES
+    # And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
     # SHOW ALL THE FILTERS
     And I click the ".group-people-filter-display.field-group-fieldset a.fieldset-title" element
       And I select "Show" from "edit-field-people-dept-filter-show-und"
