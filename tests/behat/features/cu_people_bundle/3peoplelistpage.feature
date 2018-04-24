@@ -149,7 +149,7 @@ And I should see "Deshawn StaffGeoMariDe"
 And I should see "Law"
 And I should see "Alejandro FacGeoHoneyLaw"
 
- @api @javascript @rebuild
+ @api
   Scenario: A People List Page can display all the chosen filters
     Given I am logged in as a user with the "site_owner" role
    And am on "node/add/people-list-page"
