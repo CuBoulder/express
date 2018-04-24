@@ -9,7 +9,7 @@ earlyexit
 # Setting Behat environment variables is now done in behat.travis.yml for simplicity.
 
 # Run headless Behat tests.
-${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags '@people&&~@broken'
+${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags '@rebuild'
 earlyexit
 
 # Run JS Behat tests if merged into dev.
