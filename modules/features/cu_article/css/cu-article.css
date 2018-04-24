@@ -101,3 +101,6 @@ p.tags { margin-top: 20px; }
 .article-list-filter .form-item select { max-width: 250px; }
 
 .article-list-filter .form-submit { float: left; margin-bottom: 10px; margin-top: 5px; font-size: 11px; font-weight: 500; }
+
+/* Article Feature Block */
+.article-feature .field-name-field-article-link { clear: both; text-align: center; }
