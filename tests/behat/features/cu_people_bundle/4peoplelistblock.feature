@@ -57,12 +57,13 @@ Scenario: A simple People List Block can be created
  And fill in "edit-label" with "Simple People Block Label"
  And fill in "edit-title" with "Simple People Block Title"
  When I press "Save"
-Then I should see "Simple People Block Title has been created."
+ Then I am on "block/my-people/view"
+And I should see "Simple People Block Title has been created."
 And I should see "Deshawn StaffGeoMariDes"
 And I should see "Alejandro FacGeoHoneyLaw"
 And I shold see "Kendall StaffTechHoneyLaw"
 And I should see "Abdullah FacTechMariDes"
-And I am on "block/my-people/view"
+
   
  @api 
  Scenario: The People List Block can filter out persons
