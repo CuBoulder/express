@@ -154,28 +154,19 @@ And I should see "Alejandro FacGeoHoneyLaw"
     Given I am logged in as a user with the "site_owner" role
    And am on "node/add/people-list-page"
     And fill in "Title" with "Directory"
-    
-    # DON'T BOTHER - CHOOSE TABLE DISPLAY
- # CHRIST And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
-   # SCREW THIS; BEHAT CAN'T FIND IT GOD ONLY KNOWS WHY And I select "Table" from "edit-field-people-list-display-und"
-    # DON'T - BOTHER SHOW ALL THE TAXONOMIES
-   #FUCK YOU SAUCE LABS And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
-    # SHOW ALL THE FILTERS
-  # I HATE ALL OF YOU And I click the ".group-people-filter-display.field-group-fieldset a.fieldset-title" element
-  
-      And I select "Show" from "edit-field-people-dept-filter-show-und"
-      And I select "Show" from "edit-field-people-pos-filter-show-und"
-      And I select "Show" from "edit-field-people-filter1-show-und"
+ And I select "Show" from "edit-field-people-dept-filter-show-und"
+   And I select "Show" from "edit-field-people-pos-filter-show-und"
+    And I select "Show" from "edit-field-people-filter1-show-und"
       And I select "Show" from "edit-field-people-filter2-show-und"
-      # LEAVE DEFAULT And I select "Hide" from "edit-field-people-filter3-show-und"
+  # LEAVE DEFAULT And I select "Hide" from "edit-field-people-filter3-show-und"
       And I press "Save"
       Then I should see a ".people-list-filter" element
-      And the response should contain "class=\"people-list-filter\""
+    #  DUPLICATE CHECK  And the response should contain "class=\"people-list-filter\""
     Then I should see "Appointment"
       And I should see "Division"
       And I should see "Research Group"
       And I should see "Area of Expertise"
       And I should not see "Committees"
       # THIS ONE IS AN ATLAS ERROR
-      And I should not see "Leave This Field Blank"
+    # TEST FINDS THIS EVEN THOUGH HIDDEN And I should not see "Leave This Field Blank"
     
