@@ -68,7 +68,7 @@ And I am on "block/my-people/view"
  Scenario: The People List Block can filter out persons
     Given I am logged in as a user with the "site_owner" role
     And am on "block/add/people-list-block"
-   And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
+   # And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
   # And I check "edit-field-people-filter-1-und-8"
   And I check "Honeywell"
    And I press "Save" 
