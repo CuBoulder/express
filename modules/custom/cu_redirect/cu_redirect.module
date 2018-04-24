@@ -21,6 +21,39 @@ function cu_redirect_menu() {
 }
 
 /**
+ * Implements hook_secure_permissions().
+ *
+ * Adding permissions for webcentral
+ */
+function cu_redirect_secure_permissions($role) {
+  $permissions = array(
+    'anonymous user' => array(
+
+    ),
+    'authenticated user' => array(
+
+    ),
+    'administrator' => array(
+      'administer matchredirect',
+    ),
+    'content_editor' => array(),
+    'developer' => array(
+      'administer matchredirect',
+    ),
+    'edit_my_content' => array(
+
+    ),
+    'site_owner' => array(
+      'administer matchredirect',
+    ),
+  );
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+/**
  * Implements hook_redirect_validate().
  *
  * @param $redirect
@@ -236,4 +269,23 @@ function cu_redirect_redirect_insert($redirect) {
     '!source' => l($redirect->source, $redirect->source),
     '!redirect' => $redirect->redirect ? l($redirect->redirect, $redirect->redirect) : l('<front>', '<front>')
   )));
+}
+
+function cu_redirect_page_alter(&$page) {
+  //dpm($page['content']);
+}
+
+function cu_redirect_menu_alter(&$items) {
+  $items['admin/config/search/redirect']['title'] = t('Redirects');
+  $items['admin/config/search/redirect/list']['title'] = t('URL');
+  $items['admin/config/search/redirect/wildcards'] = $items['admin/config/search/match_redirect'];
+  $items['admin/config/search/redirect/wildcards']['title'] = t('Wildcards');
+  $items['admin/config/search/redirect/wildcards']['type'] = MENU_LOCAL_TASK;
+  $items['admin/config/search/redirect/wildcards']['weight'] = 12;
+  //unset($items['admin/config/search/match_redirect']);
+  dpm($items['admin/config/search/redirect/wildcards']);
+}
+
+function cu_redirect_form_alter(&$form, &$form_state, $form_id) {
+  //dpm($form);
 }
