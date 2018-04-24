@@ -17,6 +17,11 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | site_owner      | "Create People List Page" |
     | administrator   | "Create People List Page" |
     | developer       | "Create People List Page" |
+    | configuration_manager | "Access denied" |
+    | site_editor     | "Create People List Page" |
+    | edit_only       | "Access denied" |
+    | access_manager  | "Access denied" |
+    | form_manager    | "Access denied" |
 
 @api 
 Scenario: An anonymous user should not be able to access the form for adding people list page content
