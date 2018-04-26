@@ -57,7 +57,8 @@ And I should see "Edit Layout"
 And I should see "Revisions"
 And I should see "Clear Page Cache"
 Then I follow "Edit"
-Then I should see "Delete"
+# Then I should see "Delete"
+Then I should see "This document is now locked against simultaneous editing."
 And I should see a "#edit-delete" element
   
 @api
