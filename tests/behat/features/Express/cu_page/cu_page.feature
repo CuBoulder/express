@@ -42,7 +42,8 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
 And I follow "My Page"
 And I follow "Edit"
-# And fill in "edit-name" with "osr-test-edit-own"
+Then I should see "This document is now locked against simultaneous editing."
+And fill in "edit-name" with "osr-test-edit-own"
  And fill in "Body" with "Lavender Lemon Drops"
  And I press "Save"
  Then I should see "Basic page My Page has been updated."
@@ -57,7 +58,6 @@ And I should see "Edit Layout"
 And I should see "Revisions"
 And I should see "Clear Page Cache"
 Then I follow "Edit"
-# Then I should see "Delete"
 Then I should see "This document is now locked against simultaneous editing."
 And I should see a "#edit-delete" element
   
