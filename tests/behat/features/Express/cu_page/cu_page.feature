@@ -37,7 +37,14 @@ Scenario: A very basic Basic Page node can be created
  And I should see "My Page"
   And I should see "Lorem ipsum dolor sit amet"
   
-  
+  Scenario: Node functionality - Editing a node creates revisions
+Given I am logged in as a user with the "site_owner" role
+And I am on "admin/content"
+And I follow "My Page"
+ And I fill in "Body" with "Lorem ipsum dolor sit amet"
+ And I press "Save"
+ Then I should see "Basic page My Page has been updated."
+ 
 Scenario: Node Access: The Delete Button is Visible
 Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
