@@ -7,13 +7,13 @@ I should be able to create, edit, and delete Basic Pages
 # NOTE: THERE IS CURRENTLY NO KNOWN WAY TO PRESS THE INSERT BUTTON; GRAPHICS CAN BE UPLOADED BUT NOT INSERTED
 # CONTINUE TESTING THIS PROBLEM WITH PHOTOINSERT.FEATURE
 
-1) CHECK NODE ADD PRIVILEDGES
-2) CHECK THAT SIMPLE NODE CAN BE CREATED AND REVISED
-3) CHECK EDITING AND DELETING PRIVILEGES FOR ALL ROLES (GO TO ADMIN/CONTENT AND EDIT THE CONTENT JUST MADE)
-4) CHECK THAT DELETE BUTTON ACTUALLY WORKS
-5) CHECK MORE COMPLEX NODE CREATION
+# 1) CHECK NODE ADD PRIVILEDGES
+# 2) CHECK THAT SIMPLE NODE CAN BE CREATED AND REVISED
+# 3) CHECK EDITING AND DELETING PRIVILEGES FOR ALL ROLES (GO TO ADMIN/CONTENT AND EDIT THE CONTENT JUST MADE)
+# 4) CHECK THAT DELETE BUTTON ACTUALLY WORKS
+# 5) CHECK MORE COMPLEX NODE CREATION
 
-1) CHECK NODE ADD PRIVILEGES 
+# 1) CHECK NODE ADD PRIVILEGES 
 Scenario Outline: Node Access - Some roles can add Basic Page content
 Given I am logged in as a user with the <role> role
 When I go to "node/add/page"
@@ -37,7 +37,7 @@ Examples:
   When I am on "node/add/page"
   Then I should see "Access denied"
   
- 2) CHECK THAT SIMPLE NODE CAN BE CREATED
+#  2) CHECK THAT SIMPLE NODE CAN BE CREATED
  Scenario: Node Functionality - A very basic Basic Page node can be created 
  Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -48,7 +48,7 @@ Examples:
  And I should see "My Page"
 And I should see "Lorem ipsum dolor sit amet"
  
- 2.5 CREATE REVISIONS TO THE NODE ABOVE
+ # 2.5 CREATE REVISIONS TO THE NODE ABOVE
 Scenario: Node functionality - Create Revision and Change Authorship of node
 Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
@@ -59,7 +59,7 @@ And I follow "Edit"
  And I press "Save"
  Then I should see "Basic page Page Title has been updated."
 
-3) CHECK EDITING PRIVILEGES: GO TO ADMIN/CONTENT AND EDIT THE CONTENT JUST MADE
+# 3) CHECK EDITING PRIVILEGES: GO TO ADMIN/CONTENT AND EDIT THE CONTENT JUST MADE
 
 Scenario Outline: Node Access -  Some roles can edit and delete Basic Page content
 Given I am logged in as a user with the <role> role
@@ -120,7 +120,7 @@ Examples:
 | campaign_manager      | 
 | form_manager          | 
 
-4) CHECK THAT DELETE BUTTON ACTUALLY WORKS
+# 4) CHECK THAT DELETE BUTTON ACTUALLY WORKS
 
 Scenario: Verify that the Delete button actually works
  Given I am logged in as a user with the "site_owner" role
@@ -133,7 +133,7 @@ And I follow "Edit"
    Then I am on "/"
 
 
-5) CHECK MORE COMPLEX NODE CREATION
+# 5) CHECK MORE COMPLEX NODE CREATION
 
 @api
 Scenario: A graphic can be uploaded to a Basic Page node
