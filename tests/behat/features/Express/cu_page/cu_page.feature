@@ -1,4 +1,4 @@
-@page
+@page @rebuild
 Feature: Basic Page Content Type
 When I login to a Web Express website
 As an authenticated user
@@ -36,6 +36,20 @@ Scenario: A very basic Basic Page node can be created
  Then I should be on "/my-page"
  And I should see "My Page"
   And I should see "Lorem ipsum dolor sit amet"
+  
+  
+Scenario: Node Access: The Delete Button is Visible
+Given I am logged in as a user with the "site-owner" role
+And I am on "admin/content"
+And I follow "My Page"
+Then I should see "View"
+And I should see "Edit"
+And I should see "Edit Layout"
+And I should see "Revisions"
+And I should see "Clear Page Cache"
+Then I follow "Edit"
+Then I should see "Delete"
+And I should see a "#edit-delete" element
   
 @api
 Scenario: A graphic can be uploaded to a Basic Page node
