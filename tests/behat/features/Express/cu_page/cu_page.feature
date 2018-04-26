@@ -9,7 +9,7 @@ I should be able to create, edit, and delete Basic Pages
 
 # 1) CHECK NODE ADD PRIVILEDGES
 # 2) CHECK THAT SIMPLE NODE CAN BE CREATED AND REVISED
-# 3) CHECK EDITING AND DELETING PRIVILEGES FOR ALL ROLES (GO TO ADMIN/CONTENT AND EDIT THE CONTENT JUST MADE)
+# 3) CHECK EDITING AND DELETING PRIVILEGES ON THE CONTENT JUST MADE
 # 4) CHECK THAT DELETE BUTTON ACTUALLY WORKS
 # 5) CHECK MORE COMPLEX NODE CREATION
 
@@ -20,18 +20,18 @@ When I go to "node/add/page"
 Then I should see <message>
 
 Examples:
- | role                             | message                      |
- | developer             | "Create Basic page" |
+ | role                 | message             |
+ | developer            | "Create Basic page" |
 | administrator         | "Create Basic page" |
 | site_owner            | "Create Basic page" |
 | content_editor        | "Create Basic page" |
-| edit_my_content       | "Access Denied"              |
+| edit_my_content       | "Access Denied"     |
 | site_editor           | "Create Basic page" |
-| edit_only             | "Access Denied"              |
-| access_manager        | "Access Denied"              |
-| configuration_manager | "Access Denied"              |
-| campaign_manager      | "Access Denied"              |
-| form_manager          | "Access Denied"              |
+| edit_only             | "Access Denied"     |
+| access_manager        | "Access Denied"     |
+| configuration_manager | "Access Denied"     |
+| campaign_manager      | "Access Denied"     |
+| form_manager          | "Access Denied"     |
 
  Scenario: Node Access -  An anonymous user cannot add Basic Page content
   When I am on "node/add/page"
@@ -55,11 +55,11 @@ And I am on "admin/content"
 And I follow "My Page"
 And I follow "Edit"
  # BROKEN AT THIS TIME And fill in "edit-name" with "osr-test-edit-own" 
-  And fill in "Body" with "Lavender Lemon Drops"
+ And fill in "Body" with "Lavender Lemon Drops"
  And I press "Save"
  Then I should see "Basic page Page Title has been updated."
 
-# 3) CHECK EDITING PRIVILEGES: GO TO ADMIN/CONTENT AND EDIT THE CONTENT JUST MADE
+# 3) CHECK EDITING AND DELETING PRIVILEGES ON THE CONTENT JUST MADE
 
 Scenario Outline: Node Access -  Some roles can edit and delete Basic Page content
 Given I am logged in as a user with the <role> role
@@ -74,7 +74,7 @@ When I follow "Edit"
 Then I should see "This document is now locked against simultaneous editing."
 Then I should see "#edit-delete" 
 
-Examples
+Examples: 
 | role |
 | developer       | 
 | administrator   | 
@@ -114,7 +114,7 @@ And I am on "admin/content"
 Then I should see "Access denied"
 
 Examples:
- | role                             | 
+| role                             | 
 | access_manager        | 
 | configuration_manager | 
 | campaign_manager      | 
