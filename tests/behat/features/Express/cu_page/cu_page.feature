@@ -37,11 +37,11 @@ Scenario: A very basic Basic Page node can be created
  And I should see "My Page"
 And I should see "Lorem ipsum dolor sit amet"
 
-  Scenario: Node functionality - Editing a node creates revisions
+  Scenario: Node functionality - Create Revision and Change Authorship of node
 Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
 And I follow "My Page"
- And fill in "Body" with "Jelly-o gingerbread brownie powder lemon drops"
+ And fill in "edit-name" with "osr-test-owner"
  And I press "Save"
  Then I should see "Basic page My Page has been updated."
 
