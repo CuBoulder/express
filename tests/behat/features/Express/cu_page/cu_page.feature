@@ -1,4 +1,4 @@
-@page @rebuild
+@page @todaystest
 Feature: Basic Page Content Type
 When I login to a Web Express website
 As an authenticated user
