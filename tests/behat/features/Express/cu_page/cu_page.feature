@@ -28,20 +28,21 @@ Scenario: An anonymous user should not be able to access the form for adding pag
   
 @api 
 Scenario: A very basic Basic Page node can be created 
-  Given I am logged in as a user with the "site_owner" role
+ Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   And fill in "edit-title" with "My Page"
-   And fill in "Body" with "Lorem ipsum dolor sit amet"
+  And fill in "Body" with "Lorem ipsum dolor sit amet"
   When I press "edit-submit"
  Then I should be on "/my-page"
  And I should see "My Page"
 And I should see "Lorem ipsum dolor sit amet"
 
-  Scenario: Node functionality - Create Revision and Change Authorship of node
+Scenario: Node functionality - Create Revision and Change Authorship of node
 Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
 And I follow "My Page"
- And fill in "edit-name" with "osr-test-owner"
+And I follow "Edit"
+ And fill in "edit-name" with "osr-test-edit-own"
  And I press "Save"
  Then I should see "Basic page My Page has been updated."
 
