@@ -387,7 +387,6 @@ function secure_permissions_secure_permissions_roles() {
  * to do so.
  */
 function secure_permissions_form_user_admin_permissions_alter(&$form, $form_state) {
-  dpm($form);
   if (!secure_permissions_variable('secure_permissions_disable_forms')) {
     return;
   }
@@ -400,7 +399,7 @@ function secure_permissions_form_user_admin_permissions_alter(&$form, $form_stat
     if ($permission == "0") {
       continue;
     }
-    
+
     $form['permission'][$permission]['#markup'] .= ' <div class="permission-machine-name">'.$permission.'</div>';
   }
 
