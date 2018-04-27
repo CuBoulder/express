@@ -104,8 +104,8 @@ And I should not see "Edit Layout"
 And I should not see "Revisions"
 And I should not see "Clear Page Cache"
 When I follow "Edit"
-Then I should not see "This document is now locked against simultaneous editing."
-And I should see an "#edit-delete" element
+Then I should see "This document is now locked against simultaneous editing."
+And I should not see an "#edit-delete" element
 And I press "Cancel edit"
 
 Scenario Outline: Node Access -  The add on roles cannot by themselves access content
