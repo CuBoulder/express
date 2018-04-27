@@ -87,6 +87,7 @@ And I should see "Clear Page Cache"
 When I follow "Edit"
 Then I should see "This document is now locked against simultaneous editing."
 And I should see an "#edit-delete" element
+And I press "Cancel edit"
 
 Examples: 
 | role |
@@ -106,7 +107,9 @@ And I should not see "Edit Layout"
 And I should not see "Revisions"
 And I should see "Clear Page Cache"
 When I follow "Edit"
-Then I should not see an "#edit-delete" element
+Then I should see "This document is now locked against simultaneous editing."
+And I should not see an "#edit-delete" element
+And I press "Cancel edit"
 
 @broken
 #THIS TEST IS BROKEN UNTIL AUTHORSHIP CAN BE ASSIGNED ABOVE
@@ -120,7 +123,9 @@ And I should not see "Edit Layout"
 And I should not see "Revisions"
 And I should not see "Clear Page Cache"
 When I follow "Edit"
-Then I should not see an "#edit-delete" element
+Then I should see "This document is now locked against simultaneous editing."
+And I should not see an "#edit-delete" element
+And I press "Cancel edit"
 
 Scenario Outline: Node Access -  The add on roles cannot by themselves access Basic Page content
 Given I am logged in as a user with the <role> role
