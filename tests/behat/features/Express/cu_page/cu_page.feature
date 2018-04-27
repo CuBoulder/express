@@ -148,7 +148,8 @@ And I follow "Edit"
  And I press "Delete"
  Then I should see "Are you sure you want to delete My Page?"
  And I press "Delete"
- Then I am on "/"
+ Then I should see "Basic page My Page has been deleted."
+ And I am on "/"
 
 
 # 5) CHECK MORE COMPLEX NODE CREATION
