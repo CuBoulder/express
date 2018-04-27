@@ -33,7 +33,6 @@ Examples:
   Then I should see "Access denied"
   
 # 2) CHECK THAT A SIMPLE NODE CAN BE CREATED AND REVISED
-#  2) THIS PROBABLY ALREADY EXISTS IN THE CODE; KEEP IT
  Scenario: Node Functionality - a simple FAQ node can be created
  Given I am logged in as a user with the "site_owner" role
     And I am on "node/add/faqs"
@@ -55,7 +54,7 @@ And I follow "Edit"
  And I press "Save"
  Then I should see "Frequently Asked Questions My FAQs has been updated."
 
-3) CHECK EDITING AND DELETING PRIVILEGES ON THE NODE JUST MADE
+# 3) CHECK EDITING AND DELETING PRIVILEGES ON THE NODE JUST MADE
 
 Scenario Outline: Node Access -  Some roles can edit and delete node content
 Given I am logged in as a user with the <role> role
