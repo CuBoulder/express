@@ -39,6 +39,7 @@ function _add_users() {
     'edit_my_content',
     'authenticated user',
     'site_editor',
+    'edit_only',
   );
 
   // Create users.
