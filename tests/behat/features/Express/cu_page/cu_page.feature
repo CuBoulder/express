@@ -42,9 +42,9 @@ Examples:
 | content_editor        | "Create Basic page" |
 | edit_my_content       | "Access Denied"     |
 | site_editor           | "Create Basic page" |
-| edit_only             | "Access Denied"     |
-| access_manager        | "Access Denied"              |
-| configuration_manager | "Access Denied"              |
+#| edit_only             | "Access Denied"     |
+#| access_manager        | "Access Denied"              |
+#| configuration_manager | "Access Denied"              |
 
 
  Scenario: Node Access -  An anonymous user cannot add Basic Page content
