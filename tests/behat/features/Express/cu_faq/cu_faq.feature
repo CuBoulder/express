@@ -125,7 +125,7 @@ And I follow "Edit"
   And I press "Delete"
 Then I am on "/"
 
- 5) CHECK MORE COMPLEX NODE CREATION
+# 5) CHECK MORE COMPLEX NODE CREATION
  
  Scenario: An authenticated user should be able to create an FAQ node
 Given I am logged in as a user with the "site_owner" role
