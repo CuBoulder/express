@@ -38,6 +38,7 @@ function _add_users() {
     'site_owner',
     'edit_my_content',
     'authenticated user',
+    'site_editor',
   );
 
   // Create users.
