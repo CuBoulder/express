@@ -1,4 +1,4 @@
-@faqs
+@faqs @todaystest
 Feature: Frequently Asked Questions Content Type
 When I login to a Web Express website
 As an authenticated user
@@ -67,7 +67,7 @@ And I should see "Revisions"
 And I should see "Clear Page Cache"
 When I follow "Edit"
 Then I should see "This document is now locked against simultaneous editing."
-Then I should see "#edit-delete" 
+Then I should see an "#edit-delete" element
 
 Examples: 
 | role |
@@ -87,7 +87,7 @@ And I should not see "Edit Layout"
 And I should not see "Revisions"
 And I should see "Clear Page Cache"
 When I follow "Edit"
-Then I should not see "#edit-delete" 
+Then I should not see an "#edit-delete" element
 
 @broken
 #THIS TEST IS BROKEN UNTIL AUTHORSHIP CAN BE ASSIGNED ABOVE
@@ -101,7 +101,7 @@ And I should not see "Edit Layout"
 And I should not see "Revisions"
 And I should not see "Clear Page Cache"
 When I follow "Edit"
-Then I should not see "#edit-delete" 
+Then I should not see an "#edit-delete" element
 
 Scenario Outline: Node Access -  The add on roles cannot by themselves access content
 Given I am logged in as a user with the <role> role
