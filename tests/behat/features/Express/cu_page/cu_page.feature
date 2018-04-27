@@ -71,7 +71,7 @@ And I follow "Edit"
  # BROKEN AT THIS TIME And fill in "edit-name" with "osr-test-edit-own" 
  And fill in "Body" with "Lavender Lemon Drops"
  And I press "Save"
- Then I should see "Basic page Page Title has been updated."
+ Then I should see "Basic page My Page has been updated."
 
 # 3) CHECK EDITING AND DELETING PRIVILEGES ON THE CONTENT JUST MADE
 
