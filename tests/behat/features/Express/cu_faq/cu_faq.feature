@@ -92,7 +92,7 @@ Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
 And I press "Cancel edit"
 
-@broken
+@broken @rolefix
 #THIS TEST IS BROKEN UNTIL AUTHORSHIP CAN BE ASSIGNED ABOVE
 Scenario: Node Access -  Edit My Content can edit but not delete node; can clear page cache
 Given I am logged in as a user with the "edit_my_content" role
@@ -108,26 +108,27 @@ Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
 And I press "Cancel edit"
 
-Scenario Outline: Node Access -  The add on roles cannot by themselves access content
-Given I am logged in as a user with the <role> role
-And I am on "admin/content"
-Then I should see "Access denied"
+# THESE ROLES ARE NOT SET UP YET. 
+# Scenario Outline: Node Access -  The add on roles cannot by themselves access content
+# Given I am logged in as a user with the <role> role
+# And I am on "admin/content"
+# Then I should see "Access denied"
 
-Examples:
- | role                 | 
-| access_manager        | 
-| configuration_manager | 
+# Examples:
+# | role                 | 
+# | access_manager        | 
+# | configuration_manager | 
 
 # 4) CHECK THAT THE DELETE BUTTON ACTUALLY WORKS
 
-  Scenario: Verify that the Delete button actually works
- Given I am logged in as a user with the "site_owner" role
+Scenario: Verify that the Delete button actually works
+Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
 And I follow "My FAQs"
 And I follow "Edit"
- And I press "Delete"
- Then I should see "Are you sure you want to delete Test FAQ Page?"
-  And I press "Delete"
+And I press "Delete"
+Then I should see "Are you sure you want to delete My FAQs?"
+And I press "Delete"
 Then I am on "/"
 
 # 5) CHECK MORE COMPLEX NODE CREATION
