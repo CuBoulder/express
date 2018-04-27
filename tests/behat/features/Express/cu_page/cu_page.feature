@@ -86,7 +86,7 @@ And I should see "Revisions"
 And I should see "Clear Page Cache"
 When I follow "Edit"
 Then I should see "This document is now locked against simultaneous editing."
-Then I should see "#edit-delete" 
+And I should see an "#edit-delete" element
 
 Examples: 
 | role |
@@ -106,7 +106,7 @@ And I should not see "Edit Layout"
 And I should not see "Revisions"
 And I should see "Clear Page Cache"
 When I follow "Edit"
-Then I should not see "#edit-delete" 
+Then I should not see an "#edit-delete" element
 
 @broken
 #THIS TEST IS BROKEN UNTIL AUTHORSHIP CAN BE ASSIGNED ABOVE
@@ -120,7 +120,7 @@ And I should not see "Edit Layout"
 And I should not see "Revisions"
 And I should not see "Clear Page Cache"
 When I follow "Edit"
-Then I should not see "#edit-delete" 
+Then I should not see an "#edit-delete" element
 
 Scenario Outline: Node Access -  The add on roles cannot by themselves access Basic Page content
 Given I am logged in as a user with the <role> role
@@ -139,10 +139,10 @@ Scenario: Verify that the Delete button actually works
 And I am on "admin/content"
 And I follow "My Page"
 And I follow "Edit"
-    And I press "Delete"
-    Then I should see "Are you sure you want to delete Test FAQ Page?"
-    And I press "Delete"
-   Then I am on "/"
+ And I press "Delete"
+ Then I should see "Are you sure you want to delete Test FAQ Page?"
+ And I press "Delete"
+ Then I am on "/"
 
 
 # 5) CHECK MORE COMPLEX NODE CREATION
