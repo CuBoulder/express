@@ -129,7 +129,11 @@ And I follow "Edit"
 And I press "Delete"
 Then I should see "Are you sure you want to delete My FAQs?"
 And I press "Delete"
-Then I am on "/"
+Then I should see "Frequently Asked Questions My FAQs has been deleted."
+And I am on "/"
+
+
+
 
 # 5) CHECK MORE COMPLEX NODE CREATION
  
