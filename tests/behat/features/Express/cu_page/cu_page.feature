@@ -46,10 +46,9 @@ Examples:
 #| access_manager        | "Access Denied"              |
 #| configuration_manager | "Access Denied"              |
 
-
- Scenario: Node Access -  An anonymous user cannot add Basic Page content
-  When I am on "node/add/page"
-  Then I should see "Access denied"
+Scenario: Node Access -  An anonymous user cannot add Basic Page content
+ When I am on "node/add/page"
+ Then I should see "Access denied"
   
 #  2) CHECK THAT SIMPLE NODE CAN BE CREATED
  Scenario: Node Functionality - A very basic Basic Page node can be created 
@@ -111,7 +110,7 @@ Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
 And I press "Cancel edit"
 
-@broken
+@broken @rolefix
 #THIS TEST IS BROKEN UNTIL AUTHORSHIP CAN BE ASSIGNED ABOVE
 Scenario: Node Access -  Edit My Content can edit but not delete node; can clear page cache
 Given I am logged in as a user with the "edit_my_content" role
@@ -127,15 +126,17 @@ Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
 And I press "Cancel edit"
 
-Scenario Outline: Node Access -  The add on roles cannot by themselves access Basic Page content
-Given I am logged in as a user with the <role> role
-And I am on "admin/content"
-Then I should see "Access denied"
+# THESE ROLES ARE NOT SET UP YET. 
+# Scenario Outline: Node Access -  The add on roles cannot by themselves access Basic Page content
+# Given I am logged in as a user with the <role> role
+# And I am on "admin/content"
+# Then I should see "Access denied"
 
-Examples:
-| role                | 
-| access_manager        | 
-| configuration_manager | 
+# Examples:
+# | role                 | 
+# | access_manager        | 
+# | configuration_manager | 
+
 
 # 4) CHECK THAT DELETE BUTTON ACTUALLY WORKS
 
@@ -145,7 +146,7 @@ And I am on "admin/content"
 And I follow "My Page"
 And I follow "Edit"
  And I press "Delete"
- Then I should see "Are you sure you want to delete Test FAQ Page?"
+ Then I should see "Are you sure you want to delete My Page?"
  And I press "Delete"
  Then I am on "/"
 
