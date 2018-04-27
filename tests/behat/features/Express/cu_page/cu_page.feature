@@ -13,7 +13,6 @@ I should be able to create, edit, and delete Basic Pages
 # 4) CHECK THAT DELETE BUTTON ACTUALLY WORKS
 # 5) CHECK MORE COMPLEX NODE CREATION
 
-
 Scenario: check that user roles all exist
 Given I am logged in as a user with the "developer" role
 When I go to "admin/people/permissions/roles"
