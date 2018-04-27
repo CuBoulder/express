@@ -17,8 +17,8 @@ When I go to "node/add/faqs"
 Then I should see <message>
 
 Examples:
- | role                             | message                      |
- | developer             | "Create Frequently Asked Questions" |
+| role                  | message                      |
+| developer             | "Create Frequently Asked Questions" |
 | administrator         | "Create Frequently Asked Questions" |
 | site_owner            | "Create Frequently Asked Questions" |
 | content_editor        | "Create Frequently Asked Questions" |
@@ -28,7 +28,7 @@ Examples:
 # | access_manager        | "Access Denied"              |
 # | configuration_manager | "Access Denied"              |
 
- Scenario: FAQ Access -  An anonymous user cannot add FAQ content
+Scenario: FAQ Access -  An anonymous user cannot add FAQ content
   When I am on "node/add/faqs"
   Then I should see "Access denied"
   
@@ -71,7 +71,7 @@ And I should see an "#edit-delete" element
 And I press "Cancel edit"
 
 Examples: 
-| role |
+| role            |
 | developer       | 
 | administrator   | 
 | site_owner      | 
