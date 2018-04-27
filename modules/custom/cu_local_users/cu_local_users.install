@@ -40,6 +40,8 @@ function _add_users() {
     'authenticated user',
     'site_editor',
     'edit_only',
+    'access_manager',
+    'configuration_manager',
   );
 
   // Create users.
