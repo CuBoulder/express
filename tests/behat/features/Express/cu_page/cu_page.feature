@@ -44,6 +44,8 @@ Examples:
 | edit_my_content       | "Access Denied"     |
 | site_editor           | "Create Basic page" |
 | edit_only             | "Access Denied"     |
+| access_manager        | "Access Denied"              |
+| configuration_manager | "Access Denied"              |
 
 
  Scenario: Node Access -  An anonymous user cannot add Basic Page content
@@ -121,18 +123,15 @@ And I should not see "Clear Page Cache"
 When I follow "Edit"
 Then I should not see "#edit-delete" 
 
-# WEVE CHOSEN NOT TO TEST ADD ON ROLES IN CORE
-# Scenario Outline: Node Access -  The add on roles cannot by themselves access Basic Page content
-# Given I am logged in as a user with the <role> role
-# And I am on "admin/content"
-# Then I should see "Access denied"
+Scenario Outline: Node Access -  The add on roles cannot by themselves access Basic Page content
+Given I am logged in as a user with the <role> role
+And I am on "admin/content"
+Then I should see "Access denied"
 
-# Examples:
-# | role                | 
-# | access_manager        | 
-# | configuration_manager | 
-# | campaign_manager      | 
-# | form_manager          | 
+Examples:
+| role                | 
+| access_manager        | 
+| configuration_manager | 
 
 # 4) CHECK THAT DELETE BUTTON ACTUALLY WORKS
 
