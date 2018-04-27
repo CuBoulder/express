@@ -33,14 +33,14 @@ Examples:
   Then I should see "Access denied"
   
 # 2) CHECK THAT A SIMPLE NODE CAN BE CREATED AND REVISED
- Scenario: Node Functionality - a simple FAQ node can be created
- Given I am logged in as a user with the "site_owner" role
-    And I am on "node/add/faqs"
-    And fill in "edit-title" with "My FAQs"
-    And fill in "Body" with "Lorem ipsum dolor sit amet"
-    When I press "edit-submit"
- Then I should be on "/my-faqs"
- And I should see "My FAQs"
+Scenario: Node Functionality - a simple FAQ node can be created
+Given I am logged in as a user with the "site_owner" role
+ And I am on "node/add/faqs"
+ And fill in "edit-title" with "My FAQs"
+ And fill in "Body" with "Lorem ipsum dolor sit amet"
+ When I press "edit-submit"
+Then I should be on "/my-faqs"
+And I should see "My FAQs"
 And I should see "Lorem ipsum dolor sit amet"
  
 #  2.5 CREATE REVISIONS TO THE NODE ABOVE
