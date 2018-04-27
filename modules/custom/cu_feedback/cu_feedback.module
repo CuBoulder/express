@@ -192,13 +192,8 @@ function cu_feedback_preprocess_html(&$variables) {
       }
       $variables['page']['page_bottom']['cu_feedback']['#markup'] = '<div id="cu-feedback">' . $link;
       if ($embed) {
-        $variables['page']['page_bottom']['cu_feedback']['#markup'] .= '
-        <div id="cu-feedback-content"></div>
-        <script>
-          function cu_feedback_ajax_load() {
-            jQuery("#cu-feedback-content").load("' . $base_url . '/node/ajax/' . $nid . '");
-          }
-        </script>';
+        $form_content = drupal_render(node_view(node_load($nid)));
+        $variables['page']['page_bottom']['cu_feedback']['#markup'] .= "<div id=\"cu-feedback-content\">{$form_content}</div>";
       }
       $variables['page']['page_bottom']['cu_feedback']['#markup'] .= '</div>';
       $variables['classes_array'][] = 'has-feedback-form';
