@@ -819,5 +819,5 @@ function express_permissions_form_user_admin_permissions_alter(&$form, &$form_st
     $form['role_names'][$id]['#markup'] = $name;
   }
   // Add some css to make the permissions table headers smaller.
-  drupal_add_css('form#user-admin-permissions #permissions th { font-size:75%; font-weight:bold; }', 'inline');
+  drupal_add_css('form#user-admin-permissions #permissions th { font-size:75%; font-weight:bold; } form#user-admin-permissions #permissions .permission-machine-name { font-size:75%; opacity:.75;}', 'inline');
 }
