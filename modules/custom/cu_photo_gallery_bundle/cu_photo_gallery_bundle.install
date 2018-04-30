@@ -7,5 +7,6 @@ function cu_photo_gallery_bundle_enable() {
 
 }
 
-
-
+function cu_photo_gallery_bundle_update_7001() {
+  secure_permissions_rebuild();
+}
