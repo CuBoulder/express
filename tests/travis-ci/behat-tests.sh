@@ -33,7 +33,7 @@ fi
 # Run bundle tests.
 if [ "${BUNDLE_NAME}" != "null" ]; then
   echo "Running ${BUNDLE_NAME} bundle tests..."
-  ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.bundle.yml --verbose --tags ${BUNDLE_BEHAT_TAGS}
+  ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.bundle.yml --verbose --tags ${BUNDLE_BEHAT_TAGS}
   earlyexit
 fi
 
