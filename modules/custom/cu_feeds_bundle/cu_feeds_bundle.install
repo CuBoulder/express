@@ -1,0 +1,5 @@
+<?php
+
+function cu_feeds_bundle_update_7001() {
+  secure_permissions_rebuild();
+}
