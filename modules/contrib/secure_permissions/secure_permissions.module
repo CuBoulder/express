@@ -387,7 +387,6 @@ function secure_permissions_secure_permissions_roles() {
  * to do so.
  */
 function secure_permissions_form_user_admin_permissions_alter(&$form, $form_state) {
-  dpm($form);
   foreach (element_children($form['permission']) as $permission) {
     //Show permission machine names, skip permission group headers
     if (gettype($permission) == "integer") {
