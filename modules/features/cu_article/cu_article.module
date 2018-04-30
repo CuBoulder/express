@@ -647,7 +647,7 @@ function cu_article_preprocess_node(&$vars) {
     $vars['content']['article_meta']['#weight'] = 100;
 
     // Add publish date to author meta element
-    $vars['author_meta']['date'] = '<span class="author-meta-date author-meta-item"><i class="fa fa-clock-o"></i><span class="element-invisible">Published:</span>  ' . $vars['ap_date_cu_medium_date'] . '</span>';
+    $vars['author_meta']['date'] = '<span class="author-meta-date author-meta-item"><i class="fa fa-calendar-o"></i><span class="element-invisible">Published:</span>  ' . $vars['ap_date_cu_medium_date'] . '</span>';
 
     // Show/hide publish date
     $article_date_settings = !empty($vars['node']->field_article_date_display) ? $vars['node']->field_article_date_display[LANGUAGE_NONE][0]['value'] : NULL;
