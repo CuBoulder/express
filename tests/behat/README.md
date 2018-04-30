@@ -1,3 +1,6 @@
+## Writing Tests
+
+Wiriting tests for the Express codebase is [covered in another documentation repository](https://github.com/CuBoulder/express_documentation/blob/master/docs/behat.md).
 
 ## Local Setup
 
@@ -25,8 +28,8 @@ You can now install an Express site by downloading Drupal, cloning in the Expres
 ROOT=$(pwd)
 
 # Add Drupal.
-drush dl drupal-7.57
-mv drupal-7.57 testing
+drush dl drupal-7.59
+mv drupal-7.59 testing
 
 # Make files folder and copy settings.php file.
 cd ${ROOT}/testing/sites/default

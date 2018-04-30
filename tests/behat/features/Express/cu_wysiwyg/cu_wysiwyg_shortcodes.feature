@@ -7,7 +7,7 @@ I should be able to use the full functionality of the WYSIWYG editor
   Scenario: A content editor should be able to add a video shortcode
     Given  I am logged in as a user with the "content_editor" role
     When I go to "node/add/page"
-      And I wait for the "cke_1_top" element to appear
+      And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "My Video Shortcode"
       And I press "Video Shortcode Generator"
       And I fill in "video URL" with "https://www.youtube.com/watch?v=m-m7mBSw-5k"
@@ -21,7 +21,7 @@ I should be able to use the full functionality of the WYSIWYG editor
   Scenario: A content editor should be able to add a button shortcode
     Given  I am logged in as a user with the "content_editor" role
     When I go to "node/add/page"
-      And I wait for the "cke_1_top" element to appear
+      And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "My Button Shortcode"
       And I press "Button Shortcode Generator"
       And I fill in "Button Text" with "New Button"
@@ -38,7 +38,7 @@ I should be able to use the full functionality of the WYSIWYG editor
   Scenario: A content editor should be able to add an image caption shortcode
     Given  I am logged in as a user with the "content_editor" role
     When I go to "node/add/page"
-      And I wait for the "cke_1_top" element to appear
+      And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "My Image Caption Shortcode"
       And I attach the file "ralphie.jpg" to the "edit-field-photo-und-0-upload" field
       And I fill in "Alternate text" with "Ralphie"
@@ -57,7 +57,7 @@ I should be able to use the full functionality of the WYSIWYG editor
   Scenario: A content editor should be able to add an icon shortcode
     Given  I am logged in as a user with the "content_editor" role
     When I go to "node/add/page"
-      And I wait for the "cke_1_top" element to appear
+      And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "My Icon Shortcode"
       And I press "Icon Shortcode Generator"
       And I select "ambulance" from "Icon [View Icons]"
@@ -72,7 +72,7 @@ I should be able to use the full functionality of the WYSIWYG editor
   Scenario: A content editor should be able to add a give button shortcode
     Given  I am logged in as a user with the "content_editor" role
     When I go to "node/add/page"
-      And I wait for the "cke_1_top" element to appear
+      And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "My Give Button Shortcode"
       And I press "Give Button Shortcode Generator"
       And I select "light" from "give Color"
@@ -92,7 +92,7 @@ I should be able to use the full functionality of the WYSIWYG editor
   Scenario: A content editor should be able to add a expand content shortcode
     Given  I am logged in as a user with the "content_editor" role
     When I go to "node/add/page"
-      And I wait for the "cke_1_top" element to appear
+      And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "My Expandable Content Shortcode"
       And I press "Expand Content Shortcode Generator"
       And I fill in "Title" with "Example FAQ #1"
@@ -118,7 +118,7 @@ I should be able to use the full functionality of the WYSIWYG editor
   Scenario: A content editor should be able to add a map embed shortcode
     Given  I am logged in as a user with the "content_editor" role
     When I go to "node/add/page"
-      And I wait for the "cke_1_top" element to appear
+      And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "My Map Shortcode"
       And I press "Map Shortcode Generator"
       And I fill in "Map Embed Code" with "<iframe src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3055.782574009197!2d-105.25404084826329!3d40.0133039793131!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876bedc53ea9c665%3A0x2927ccc033644a4b!2s3100+Marine+St%2C+Boulder%2C+CO+80303!5e0!3m2!1sen!2sus!4v1445292423584\" width=\"600\" height=\"450\" frameborder=\"0\" style=\"border:0\" allowfullscreen></iframe>"
@@ -131,7 +131,7 @@ I should be able to use the full functionality of the WYSIWYG editor
   Scenario: A content editor should be able to add a box shortcode
     Given  I am logged in as a user with the "content_editor" role
     When I go to "node/add/page"
-      And I wait for the "cke_1_top" element to appear
+      And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "My Box Shortcode"
       And I press "Box Shortcode Generator"
       And I fill in "Title (optional)" with "Box Shortcode"
@@ -148,7 +148,7 @@ I should be able to use the full functionality of the WYSIWYG editor
   Scenario: A content editor should be able to add a countup shortcode
     Given  I am logged in as a user with the "content_editor" role
     When I go to "node/add/page"
-      And I wait for the "cke_1_top" element to appear
+      And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "Countup Shortcode"
       And I follow "Disable rich-text"
       And I fill in "Body" with "[countup]3000[/countup]"
