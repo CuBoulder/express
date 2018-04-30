@@ -149,15 +149,15 @@ function cu_feedback_settings_submit($form_id, &$form_state) {
  */
 function cu_feedback_preprocess_html(&$variables) {
   $config = variable_get('cu_feedback_config');
-  $nid =  $config['cu_feedback_path'] ?? '';
+  $nid = $config['cu_feedback_path'] ?? '';
 
   if (node_load($nid) && !path_is_admin(current_path())) {
     drupal_add_css(drupal_get_path('module', 'cu_feedback') . '/css/cu_feedback.css');
     drupal_add_js(drupal_get_path('module', 'cu_feedback') . '/js/cu_feedback.js');
 
-    $label =  $config['cu_feedback_label'] ?? 'Contact Us';
-    $color =  $config['cu_feedback_color'] ?? 'blue';
-    $embed =  $config['cu_feedback_embed'] ?? 'embed';
+    $label = $config['cu_feedback_label'] ?? 'Contact Us';
+    $color = $config['cu_feedback_color'] ?? 'blue';
+    $embed = $config['cu_feedback_embed'] ?? 'embed';
 
     $path = 'node/' . $nid;
     $link_class[] = 'cu-feedback-link';
