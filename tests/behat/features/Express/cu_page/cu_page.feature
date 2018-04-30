@@ -13,21 +13,6 @@ I should be able to create, edit, and delete Basic Pages
 # 4) CHECK THAT DELETE BUTTON ACTUALLY WORKS
 # 5) CHECK MORE COMPLEX NODE CREATION
 
-Scenario: check that user roles all exist
-Given I am logged in as a user with the "developer" role
-When I go to "admin/people/permissions/roles"
-Then I should see "anonymous user"
-And I should see "authenticated user "
-And I should see "access_manager"
-And I should see "edit_my_content"
-And I should see "edit_only"
-And I should see "configuration_manager"
-And I should see "content_editor"
-And I should see "site_editor"
-And I should see "site_owner"
-And I should see "administrator"
-And I should see "developer"
-
 # 1) CHECK NODE ADD PRIVILEGES 
 Scenario Outline: Node Access - Some roles can add Basic Page content
 Given I am logged in as a user with the <role> role
