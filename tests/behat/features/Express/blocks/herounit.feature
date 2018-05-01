@@ -53,7 +53,7 @@ And I fill in "edit-field-hero-unit-text-und-0-value" with "A world class univer
 
 # 3) TEST EDITING AND DELETING PRIVILEGES ON THE BLOCK JUST MADE
 
-Scenario Outline: Block Access - Site Owner and above roles can edit, revise, theme and delete Hero Unit content
+Scenario Outline: Block Access - Site Editor, Site Owner and above roles can edit, revise, theme and delete Hero Unit content
 Given I am logged in as a user with the <role> role
 And I am on "admin/content/blocks"
 And I follow "Hero Unit Label"
@@ -73,29 +73,16 @@ Examples:
 | administrator   | 
 | site_owner      | 
 | content_editor  |
+| site_editor |
 
-Scenario: Block Access - The Site Editor role can edit, revise, and delete Hero Unit content
-Given I am logged in as a user with the "site_editor" role
-And I am on "admin/content/blocks"
-And I follow "Hero Unit Label"
-Then I should see "View"
-And I should see "Edit Block"
-And I should see "Revisions"
-And I should see "Block Designer"
-And I should see "Delete Block"
-When I follow "Edit Block"
-Then I should see "Edit Hero Unit: Hero Unit Label"
-And I should see an "#edit-delete" element
-And I follow "View"
-
-Scenario: Block Access - The Edit Only role can edit and revise, but not theme or delete Hero Unit content
+Scenario: Block Access - The Edit Only role can edit, revise, theme but not delete Hero Unit content
 Given I am logged in as a user with the "edit_only" role
 And I am on "admin/content/blocks"
 And I follow "Hero Unit Label"
 Then I should see "View"
 And I should see "Edit Block"
 And I should see "Revisions"
-And I should not see "Block Designer"
+And I should see "Block Designer"
 And I should not see "Delete Block"
 When I follow "Edit Block"
 Then I should see "Edit Hero Unit: Hero Unit Label"
