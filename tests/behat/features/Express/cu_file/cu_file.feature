@@ -24,9 +24,9 @@ Examples:
 | content_editor        | "Create File" |
 | edit_my_content       | "Access Denied"              |
 | site_editor           | "Create File" |
-# | edit_only             | "Access Denied"              |
-# | access_manager        | "Access Denied"              |
-# | configuration_manager | "Access Denied"              |
+| edit_only             | "Access Denied"              |
+| access_manager        | "Access Denied"              |
+| configuration_manager | "Access Denied"              |
 
  Scenario: FAQ Access -  An anonymous user cannot add File content
   When I am on "node/add/file"
@@ -112,16 +112,6 @@ When I follow "Edit"
 Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
 And I press "Cancel edit"
-
-# Scenario Outline: Node Access -  The add on roles cannot by themselves access content
-# Given I am logged in as a user with the <role> role
-# And I am on "admin/content"
-# Then I should see "Access denied"
-
-# Examples:
-# | role                 | 
-# | access_manager        | 
-# | configuration_manager | 
 
 # 4) TEST THAT THE DELETE BUTTON ACTUALLY WORKS
 Scenario: Verify that the Delete button actually works
