@@ -17,7 +17,7 @@ When I go to "block/add/block"
 Then I should see <message>
 
 Examples:
- | role                             | message                      |
+ | role                  | message                      |
  | developer             | "Create Text Block block" |
 | administrator         | "Create Text Block block" |
 | site_owner            | "Create Text Block block" |
@@ -25,8 +25,6 @@ Examples:
 | edit_my_content       | "Access Denied"              |
 | site_editor           | "Create Text Block block" |
 | edit_only             | "Access Denied"              |
-| access_manager        | "Access Denied"              |
-| configuration_manager | "Access Denied"              |
 
  Scenario: Block Access: An anonymous user cannot add a Text Block block
   When I am on "block/add/block"
