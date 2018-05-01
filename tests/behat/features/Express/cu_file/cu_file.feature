@@ -17,14 +17,14 @@ When I go to "node/add/file"
 Then I should see <message>
 
 Examples:
- | role                             | message                      |
+ | role                  | message                      |
  | developer             | "Create File" |
 | administrator         | "Create File" |
 | site_owner            | "Create File" |
 | content_editor        | "Create File" |
-| edit_my_content       | "Access Denied"              |
+| edit_my_content       | "Access Denied"    |
 | site_editor           | "Create File" |
-| edit_only             | "Access Denied"              |
+| edit_only             | "Access Denied"    |
 
  Scenario: FAQ Access -  An anonymous user cannot add File content
   When I am on "node/add/file"
@@ -83,13 +83,13 @@ Examples:
 | content_editor  |
 | site_editor |
 
-Scenario: Node Access -  Edit Only can edit but not delete node; can clear page cache
+Scenario: Node Access -  Edit Only can edit and revise but not delete node; can clear page cache
 Given I am logged in as a user with the "edit_only" role
 And I am on "admin/content"
 And I follow "My File"
 Then I should see "View"
 And I should see "Edit"
-And I should not see "Revisions"
+And I should see "Revisions"
 And I should see "Clear Page Cache"
 When I follow "Edit"
 Then I should see "This document is now locked against simultaneous editing."
