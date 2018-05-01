@@ -510,7 +510,6 @@ function express_permissions_secure_permissions($role) {
       'revert revisions',
       'search Google CSE',
       'use bigmenu',
-      'use block designer',
       'use text format wysiwyg',
       'use user dashboard',
       'view any block bean',
