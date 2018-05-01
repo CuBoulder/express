@@ -764,6 +764,9 @@ function express_layout_secure_permissions($role) {
       'administer express layout',
       'edit express layouts',
     ),
+    'site_editor' => array(
+      'edit express layouts',
+    ),
     'site_owner' => array(
       'edit express layouts',
     ),

@@ -268,3 +268,63 @@ function cu_users_module_implements_alter(&$implementations, $hook) {
     unset($implementations['realname']);
   }
 }
+
+/**
+ * Lookup LDAP user via email (from cu_ldap.module).
+ */
+function cu_users_ldap_email_lookup($email) {
+  // @TODO: replace hardcoded values with configuration from LDAP settings
+
+  // Load the user's entry in LDAP.
+  $link_identifier = ldap_connect('directory.colorado.edu');
+  $base_dn = "dc=colorado,dc=edu";
+  $filter = "mail=" . $email;
+  $result_identifier = ldap_search($link_identifier, $base_dn, $filter);
+  $ldap_entries = ldap_get_entries($link_identifier, $result_identifier);
+
+  return $ldap_entries;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form_state) {
+  $form['#submit'][] = 'cu_users_override_external_invite_submit';
+}
+
+/**
+ * Custom submit handler for external invite override.
+ */
+function cu_users_override_external_invite_submit(&$form, &$form_state) {
+  $email_values = strtolower($form_state['values']['email']);
+  $emails = preg_split("/[\r\n,\s]+/", $email_values, -1, PREG_SPLIT_NO_EMPTY);
+
+  $rid = $form_state['values']['rid'];
+
+  if (!empty($emails)) {
+    foreach ($emails as $email) {
+      $output = cu_users_ldap_email_lookup($email);
+      $parts = explode("@", $output[0]['cuedupersonemailhome'][0]);
+      $username = $parts[0];
+      $ldap_mail_return = strtolower($output[0]['mail'][0]);
+
+      if (!empty($output) && !empty($ldap_mail_return) && $email == $ldap_mail_return) {
+        $new_user = array(
+          'name' => $username,
+          'pass' => $username . strrev($username),
+          'mail' => $email,
+          'timezone' => 'America/Denver',
+          'status' => 1,
+          'init' => $email,
+          'roles' => array(
+            DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+            $rid => 'n/a',
+          ),
+        );
+
+        // The first parameter is sent blank so a new user is created.
+        user_save('', $new_user);
+      }
+    }
+  }
+}

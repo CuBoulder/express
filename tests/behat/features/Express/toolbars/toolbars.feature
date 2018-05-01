@@ -1,6 +1,6 @@
 # Checking the Express toolbar and Shortcut toolbar
 
-@extended_search @rebuild
+@toolbars
  Feature: the Express and Shortcut toolbars
   When I log into the website
   As an authenticated user
@@ -8,10 +8,10 @@
   
  @api
  Scenario Outline: All roles should see the blue and white toolbars
-  Given I am logged is as a user with the <role> role
+  Given I am logged in as a user with the <role> role
   When I go to "/"
-  Then I should see "navbar-bar"
-  And I should see "navbar-item--2-tray"
+  Then I should see the link "Express"
+   And I should see the link "Dashboard"
 
   Examples:
     | role |
@@ -39,12 +39,11 @@ Examples:
      | content_editor |
      | edit_my_content |
  
-
 #CHECKING THE EXPRESS MENU
 
   @api
   Scenario: As a developer I should see the complete Express menu
-    Given  I am logged in as a user with the "developer" role
+    Given I am logged in as a user with the "developer" role
     When I go to "admin"
     Then I should see the link "Dashboard"
       And I should see the link "Content"
@@ -59,14 +58,14 @@ Examples:
 
   @api
   Scenario Outline: As an administrator or a site_owner I should see a partial Express menu
-    Given  I am logged in as a user with the <role> role
+    Given I am logged in as a user with the <role> role
     When I go to "admin"
     Then I should see the link "Dashboard"
-      And I should see the link "Content"
-      And I should see the link "Structure"
-      And I should see the link "Users"
-      And I should see the link "Design"
-      And I should see the link "Settings"
+     And I should see the link "Content"
+     And I should see the link "Structure"
+     And I should see the link "Users"
+     And I should see the link "Design"
+     And I should see the link "Settings"
 
     Examples:
     | role |
@@ -78,9 +77,9 @@ Examples:
    Given  I am logged in as a user with the "content_editor" role
    When I go to "admin"
    Then I should see the link "Dashboard"
-      And I should see the link "Content"
-      And I should see the link "Structure"
-      And I should see the link "Settings"
+    And I should see the link "Content"
+    And I should see the link "Structure"
+    And I should see the link "Settings"
       
   @api
   Scenario: As an edit_my_content I should see an extremely limited Express menu
@@ -91,16 +90,16 @@ Examples:
    And I should see the link "Content"
     
  @api
-  Scenario Outline: Most user roles should see the same Shortcuts menu
-    Given  I am logged in as a user with the <role> role
-    When I am on "/"
-    And I click the "a" element with "Shortcuts" for "title"
-    Then I should see the link "Add content"
-    And I should see the link "Find content"
-    And I should see the link "Blocks"
-    And I should see the link "Context"
-    And I should see the link "Main Menu"
-    And I should see the link "Edit shortcuts"
+ Scenario Outline: Most user roles should see the same Shortcuts menu
+   Given I am logged in as a user with the <role> role
+   When I am on "/"
+   And I click the "a" element with "Shortcuts" for "title"
+   Then I should see the link "Add content"
+   And I should see the link "Find content"
+   And I should see the link "Blocks"
+   And I should see the link "Context"
+   And I should see the link "Main Menu"
+   And I should see the link "Edit shortcuts"
 
     Examples:
       | role |
@@ -111,7 +110,7 @@ Examples:
 
   @api
   Scenario: An edit_my_content user should see a very limited Shortcuts menu
-    Given  I am logged in as a user with the "edit_my_content" role
-    When I am on "/"
-    And I click the "a" element with "Shortcuts" for "title"
-    And I should see the link "Find content"
+   Given I am logged in as a user with the "edit_my_content" role
+   When I am on "/"
+   And I click the "a" element with "Shortcuts" for "title"
+   Then I should see the link "Find content"
