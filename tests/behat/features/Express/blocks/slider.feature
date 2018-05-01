@@ -104,7 +104,7 @@ Then I should see "Edit Slider: Slider Label"
 And I should not see an "#edit-delete" element
 And I follow "View"
 
-Scenario Outline: Block Access - The add-on roles cannot by themselves access or edit block content
+Scenario Outline: Block Access - EditMyContent and the add-on roles cannot by themselves access or edit block content
 Given I am logged in as a user with the <role> role
 And I am on "admin/content/blocks"
 Then I should see "Access denied"
@@ -113,6 +113,7 @@ Then I should see "Access denied"
 
 Examples:
 | role              | 
+| edit_my_content     |
 | access_manager        | 
 | configuration_manager | 
 
