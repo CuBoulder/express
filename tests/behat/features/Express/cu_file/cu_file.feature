@@ -102,7 +102,7 @@ And I follow "My File"
 Then the url should match "sites/default/files/attached-files"
 
 # 4) TEST THAT THE DELETE BUTTON ACTUALLY WORKS
-Scenario: Verify that the Delete button actually works
+ Scenario: Node Functionality - Verify that the Delete button actually works
  Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
 And I follow "My File"
@@ -116,7 +116,7 @@ And I am on "/"
 
 # 5) TEST MORE COMPLEX NODE CREATION
 
-Scenario: The File Content Type verifies that a file has been uploaded
+ Scenario: Node Functionality - The File Content Type verifies that a file has been uploaded
  Given I am logged in as a user with the "site_owner" role
   When I go to "node/add/file"
    And I fill in "edit-title" with "Test Page"
