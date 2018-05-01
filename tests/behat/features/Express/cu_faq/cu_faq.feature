@@ -90,8 +90,8 @@ Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
 And I press "Cancel edit"
 
-@broken @rolefix
-#THIS TEST IS BROKEN UNTIL AUTHORSHIP CAN BE ASSIGNED ABOVE
+@broken 
+# THIS TEST IS BROKEN UNTIL AUTHORSHIP CAN BE ASSIGNED ABOVE
 Scenario: Node Access -  Edit My Content can edit but not delete node; can clear page cache
 Given I am logged in as a user with the "edit_my_content" role
 And I am on "admin/content"
