@@ -53,7 +53,7 @@ And I fill in "edit-field-hero-unit-text-und-0-value" with "A world class univer
 
 # 3) TEST EDITING AND DELETING PRIVILEGES ON THE BLOCK JUST MADE
 
-Scenario Outline: Block Access - Site Editor, Site Owner and above roles can edit, revise, theme and delete Hero Unit content
+Scenario Outline: Block Access - SE, SO and above roles can edit, revise, theme and delete Hero Unit
 Given I am logged in as a user with the <role> role
 And I am on "admin/content/blocks"
 And I follow "Hero Unit Label"
