@@ -126,18 +126,6 @@ Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
 And I press "Cancel edit"
 
-# THESE ROLES ARE NOT SET UP YET. 
-# Scenario Outline: Node Access -  The add on roles cannot by themselves access Basic Page content
-# Given I am logged in as a user with the <role> role
-# And I am on "admin/content"
-# Then I should see "Access denied"
-
-# Examples:
-# | role                 | 
-# | access_manager        | 
-# | configuration_manager | 
-
-
 # 4) CHECK THAT DELETE BUTTON ACTUALLY WORKS
 
 Scenario: Verify that the Delete button actually works
