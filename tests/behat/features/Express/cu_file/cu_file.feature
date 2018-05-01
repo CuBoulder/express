@@ -95,14 +95,11 @@ Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
 And I press "Cancel edit"
 
-Scenario: Node Access -  Edit My Content can not edit File nodes
+Scenario: Node Access - Edit My Content can not edit File nodes
 Given I am logged in as a user with the "edit_my_content" role
 And I am on "admin/content"
 And I follow "My File"
-Then I should see "View"
-And I should not see "Edit"
-And I should not see "Clear Page Cache"
-
+Then the url should match "sites/default/files/attached-files"
 
 # 4) TEST THAT THE DELETE BUTTON ACTUALLY WORKS
 Scenario: Verify that the Delete button actually works
