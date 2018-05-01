@@ -676,6 +676,10 @@ function express_permissions_secure_permissions($role) {
       'view error messages',
       'diff view changes',
     ),
+    'access_manager' => array(
+    ),
+    'configuration_manager' => array(
+    ),
   );
   if (isset($permissions[$role])) {
     return $permissions[$role];
