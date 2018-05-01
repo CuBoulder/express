@@ -217,9 +217,10 @@ class FeatureContext extends MinkContext
   /**
    * @When I wait for the :arg1 element to appear
    *
-   * @param $arg1
+   * Wait for an element to appear before continuing a test.
    *
-   * @throws \Exception
+   * @param string $arg1
+   *   The CSS selector you are waiting to appear.
    */
   public function iWaitForTheElementToAppear($arg1) {
     $this->spinner(function($context, $arg1) {
@@ -235,9 +236,14 @@ class FeatureContext extends MinkContext
   }
 
   /**
-   * @param $lambda
-   * @param $element
+   * Accepts and element and "spins" until the element appears.
+   *
+   * @param string $lambda
+   *   The function to test for truthiness.
+   * @param string $element
+   *   The CSS selector used for truthiness.
    * @param int $wait
+   *   The timeout to wait for before the step fails.
    *
    * @return bool
    * @throws \Exception
@@ -395,5 +401,12 @@ class FeatureContext extends MinkContext
       }
     } while (true);
     fwrite(STDOUT, "\033[u");
+  }
+
+  /**
+   * @Given /^I switch to the iframe "([^"]*)"$/
+   */
+  public function iSwitchToIframe($arg1 = null) {
+      $this->getSession()->switchToIFrame($arg1);
   }
 }

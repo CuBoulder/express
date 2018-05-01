@@ -233,10 +233,6 @@ function express_check_known_hosts() {
   elseif (defined('PANTHEON_ENVIRONMENT')) {
     return 'pantheon';
   }
-  // Check for Pantheon.
-  elseif (getenv('LANDO_ENV') === 'yes') {
-    return 'lando';
-  }
   // Check for UCB On Prem.
   elseif (isset($_SERVER['OSR_ENV'])) {
     return 'ucb_on_prem_hosting';
@@ -244,6 +240,14 @@ function express_check_known_hosts() {
   // Check for NG.
   elseif (isset($_SERVER['WWWNG_ENV'])) {
     return 'ng_hosting';
+  }
+  // Check for Lando.
+  elseif (getenv('LANDO_ENV') === 'yes') {
+    return 'lando';
+  }
+  // Check for Valet.
+  elseif (getenv('VALET_ENV') === 'yes') {
+    return 'valet';
   }
   else {
     return FALSE;

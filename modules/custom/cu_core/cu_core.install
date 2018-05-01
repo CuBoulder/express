@@ -12,13 +12,13 @@ function cu_core_install() {
 
   $hosting = express_check_known_hosts();
 
-  if ($hosting == 'travis') {
+  if ($hosting === 'travis') {
     module_enable(array('travis_hosting'));
   }
-  elseif ($hosting == 'pantheon') {
+  elseif ($hosting === 'pantheon') {
     module_enable(array('pantheon_hosting'));
   }
-  elseif ($hosting == 'lando') {
+  elseif ($hosting === 'lando' || $hosting === 'valet') {
     module_enable(array('local_hosting'));
   }
   elseif ($hosting == 'ng_hosting') {
