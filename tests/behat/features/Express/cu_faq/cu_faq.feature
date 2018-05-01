@@ -22,9 +22,9 @@ Examples:
 | administrator         | "Create Frequently Asked Questions" |
 | site_owner            | "Create Frequently Asked Questions" |
 | content_editor        | "Create Frequently Asked Questions" |
-| edit_my_content       | "Access Denied"              |
+| edit_my_content       | "Access Denied"                     |
 | site_editor           | "Create Frequently Asked Questions" |
-| edit_only             | "Create Frequently Asked Questions" |
+| edit_only             | "Access Denied"                     |
 
 Scenario: FAQ Access -  An anonymous user cannot add FAQ content
   When I am on "node/add/faqs"
