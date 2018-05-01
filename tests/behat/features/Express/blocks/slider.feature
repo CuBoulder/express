@@ -104,18 +104,12 @@ Then I should see "Edit Slider: Slider Label"
 And I should not see an "#edit-delete" element
 And I follow "View"
 
-Scenario Outline: Block Access - EditMyContent and the add-on roles cannot by themselves access or edit block content
-Given I am logged in as a user with the <role> role
+Scenario: Block Access - EditMyContent cannot access or edit block content
+Given I am logged in as a user with the "edit_my_content" role
 And I am on "admin/content/blocks"
 Then I should see "Access denied"
 And I go to "block/slider-label/edit"
 Then I should see "Access denied"
-
-Examples:
-| role              | 
-| edit_my_content     |
-| access_manager        | 
-| configuration_manager | 
 
 # 4) TEST THAT THE DELETE BUTTON ACTUALLY WORKS
 Scenario: Verify that the Delete button actually works
