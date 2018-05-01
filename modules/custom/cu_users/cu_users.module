@@ -261,15 +261,6 @@ function cu_users_user_insert(&$edit, $account, $category) {
 }
 
 /**
- * Implements hook_module_implements_alter().
- */
-function cu_users_module_implements_alter(&$implementations, $hook) {
-  if ($hook == 'user_update') {
-    unset($implementations['realname']);
-  }
-}
-
-/**
  * Lookup LDAP user via email (from cu_ldap.module).
  */
 function cu_users_ldap_email_lookup($email) {
