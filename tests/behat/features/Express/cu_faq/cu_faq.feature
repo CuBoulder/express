@@ -90,22 +90,13 @@ Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
 And I press "Cancel edit"
 
-@broken 
-# THIS TEST IS BROKEN UNTIL AUTHORSHIP CAN BE ASSIGNED ABOVE
-Scenario: Node Access -  Edit My Content can edit but not delete node; can clear page cache
+Scenario: Node Access -  Edit My Content can not edit FAQs
 Given I am logged in as a user with the "edit_my_content" role
 And I am on "admin/content"
 And I follow "My FAQs"
 Then I should see "View"
-And I should see "Edit"
-And I should not see "Edit Layout"
-And I should not see "Revisions"
+And I should not see "Edit"
 And I should not see "Clear Page Cache"
-When I follow "Edit"
-Then I should see "This document is now locked against simultaneous editing."
-And I should not see an "#edit-delete" element
-And I press "Cancel edit"
-
 
 # 4) CHECK THAT THE DELETE BUTTON ACTUALLY WORKS
 
