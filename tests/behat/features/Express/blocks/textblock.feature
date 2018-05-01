@@ -17,14 +17,14 @@ When I go to "block/add/block"
 Then I should see <message>
 
 Examples:
- | role                  | message                      |
+ | role                  | message                  |
  | developer             | "Create Text Block block" |
 | administrator         | "Create Text Block block" |
 | site_owner            | "Create Text Block block" |
 | content_editor        | "Create Text Block block" |
-| edit_my_content       | "Access Denied"              |
+| edit_my_content       | "Access Denied"           |
 | site_editor           | "Create Text Block block" |
-| edit_only             | "Access Denied"              |
+| edit_only             | "Access Denied"            |
 
  Scenario: Block Access: An anonymous user cannot add a Text Block block
   When I am on "block/add/block"
@@ -54,7 +54,7 @@ And fill in "Body" with "Academics, Research and Student Life"
 
 # 3) TEST EDITING AND DELETING PRIVILEGES ON THE BLOCK JUST MADE
 
-Scenario Outline: Block Access - Site Editor, Site Owner and above can edit, revise, theme and delete Text Block content
+Scenario Outline: Block Access - SE, SO and above can edit, revise, theme and delete Text Block
 Given I am logged in as a user with the <role> role
 And I am on "admin/content/blocks"
 And I follow "Text Block Label"
@@ -75,6 +75,7 @@ Examples:
 | site_owner      | 
 | content_editor  |
 | site_editor |
+
 
 Scenario: Block Access - The Edit Only role can edit, revise, theme but not delete Text Block content
 Given I am logged in as a user with the "edit_only" role
