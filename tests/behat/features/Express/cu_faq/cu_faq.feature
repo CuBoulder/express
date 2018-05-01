@@ -25,8 +25,6 @@ Examples:
 | edit_my_content       | "Access Denied"              |
 | site_editor           | "Create Frequently Asked Questions" |
 | edit_only             | "Create Frequently Asked Questions" |
-| access_manager        | "Access Denied"              |
-| configuration_manager | "Access Denied"              |
 
 Scenario: FAQ Access -  An anonymous user cannot add FAQ content
   When I am on "node/add/faqs"
@@ -121,8 +119,6 @@ Then I should see "Are you sure you want to delete My FAQs?"
 And I press "Delete"
 Then I should see "Frequently Asked Questions My FAQs has been deleted."
 And I am on "/"
-
-
 
 
 # 5) CHECK MORE COMPLEX NODE CREATION
