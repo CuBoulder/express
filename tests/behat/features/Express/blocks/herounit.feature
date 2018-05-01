@@ -25,8 +25,6 @@ Examples:
 | edit_my_content       | "Access Denied"              |
 | site_editor           | "Create Hero Unit block" |
 | edit_only             | "Access Denied"              |
-| access_manager        | "Access Denied"              |
-| configuration_manager | "Access Denied"              |
 
  Scenario: Block Access: An anonymous user cannot add a Hero Unit block
   When I am on "block/add/hero-unit"
@@ -110,7 +108,6 @@ And I am on "admin/content/blocks"
 Then I should see "Access denied"
 And I go to "block/hero-unit-label/edit"
 Then I should see "Access denied"
-
 
 # 4) TEST THAT THE DELETE BUTTON ACTUALLY WORKS
 Scenario: Verify that the Delete button actually works
