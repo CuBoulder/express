@@ -42,7 +42,6 @@ Examples:
   Then I should see "File Information"
   And I should see "Operations"
   And I press "edit-submit"
-  Then I should be on "/my-file"
   And I should see "A user without editing permissions would have been redirected"
   And I should see "My File"
   And I should see "Access the top file listed below with the following url"
@@ -50,7 +49,7 @@ Examples:
   And I should not see "http://www.colorado.edu"
  
 #  2.5 CREATE REVISIONS TO THE NODE ABOVE
-Scenario: Node functionality - Create Revision of node
+Scenario: Node functionality - Create Revision of File node
 Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
 And I follow "My File"
@@ -61,7 +60,7 @@ And I follow "Edit"
 
 # 3) TEST EDITING AND DELETING PRIVILEGES ON THE NODE JUST MADE
 
-Scenario Outline: Node Access -  Some roles can edit and delete node content
+Scenario Outline: Node Access -  Some roles can edit and delete File content
 Given I am logged in as a user with the <role> role
 And I am on "admin/content"
 And I follow "My File"
@@ -82,7 +81,7 @@ Examples:
 | content_editor  |
 | site_editor |
 
-Scenario: Node Access -  Edit Only can edit and revise but not delete node; can clear page cache
+Scenario: Node Access -  Edit Only can edit and revise but not delete File; can clear page cache
 Given I am logged in as a user with the "edit_only" role
 And I am on "admin/content"
 And I follow "My File"
