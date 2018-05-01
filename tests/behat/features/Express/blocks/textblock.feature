@@ -105,24 +105,7 @@ Then I should see "Edit Text Block: Text Block Label"
 And I should not see an "#edit-delete" element
 And I follow "View"
 
-@broken
-#THIS TEST IS BROKEN UNTIL AUTHORSHIP CAN BE ASSIGNED ABOVE - WAIT BLOCKS DON'T HAVE OWNERSHIP
-# NAIL DOWN BLOCK OWNERSHIP
-Scenario: Block Access -  Edit My Content can edit but not delete node; can clear page cache
-Given I am logged in as a user with the "edit_my_content" role
-And I am on "admin/content/blocks"
-And I follow "Text Block Label"
-Then I should see "View"
-And I should see "Edit Block"
-And I should not see "Edit Layout"
-And I should not see "Revisions"
-And I should not see "Clear Page Cache"
-When I follow "Edit Block"
-Then I should see "Edit Text Block: Text Block Label"
-And I should not see an "#edit-delete" element
-And I follow "View"
-
-Scenario Outline: Block Access - The add-on roles cannot by themselves access or edit block content
+Scenario Outline: Block Access - EditMyContent and the add-on roles cannot by themselves access or edit block content
 Given I am logged in as a user with the <role> role
 And I am on "admin/content/blocks"
 Then I should see "Access denied"
@@ -131,6 +114,7 @@ Then I should see "Access denied"
 
 Examples:
 | role              | 
+| edit_my_content     |
 | access_manager        | 
 | configuration_manager | 
 
