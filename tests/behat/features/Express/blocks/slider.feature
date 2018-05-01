@@ -17,14 +17,14 @@ When I go to "block/add/slider"
 Then I should see <message>
 
 Examples:
- | role                  | message                      |
+ | role                  | message      |
  | developer             | "Create Slider block" |
 | administrator         | "Create Slider block" |
 | site_owner            | "Create Slider block" |
 | content_editor        | "Create Slider block" |
-| edit_my_content       | "Access Denied"              |
+| edit_my_content       | "Access Denied"       |
 | site_editor           | "Create Slider block" |
-| edit_only             | "Access Denied"              |
+| edit_only             | "Access Denied"       |
 
  Scenario: Block Access: An anonymous user cannot add a Slider block
   When I am on "block/add/slider"
@@ -54,7 +54,7 @@ And I attach the file "behatBanner1.jpg" to "edit-field-slider-slide-und-0-field
 
 # 3) TEST EDITING AND DELETING PRIVILEGES ON THE BLOCK JUST MADE
 
-Scenario Outline: Block Access - Site Editor, Site Owner and above roles can edit, revise, theme and delete Slider content
+Scenario Outline: Block Access - SE, SO and above roles can edit, revise, theme and delete Slider 
 Given I am logged in as a user with the <role> role
 And I am on "admin/content/blocks"
 And I follow "Slider Label"
@@ -75,6 +75,7 @@ Examples:
 | site_owner      | 
 | content_editor  |
 | site_editor |
+
 
 Scenario: Block Access - The Edit Only role can edit, revise, theme but not delete Slider content
 Given I am logged in as a user with the "edit_only" role
