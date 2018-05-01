@@ -109,16 +109,6 @@ And I should not see an "#edit-delete" element
 And I press "Cancel edit"
 
 
-Scenario Outline: Node Access -  The add on roles cannot by themselves access content
-Given I am logged in as a user with the <role> role
-And I am on "admin/content"
-Then I should see "Access denied"
-
-Examples:
-| role                 | 
-| access_manager        | 
-| configuration_manager | 
-
 # 4) CHECK THAT THE DELETE BUTTON ACTUALLY WORKS
 
 Scenario: Verify that the Delete button actually works
