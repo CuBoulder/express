@@ -50,12 +50,11 @@ Examples:
   And I should not see "http://www.colorado.edu"
  
 #  2.5 CREATE REVISIONS TO THE NODE ABOVE
-Scenario: Node functionality - Create Revision and Change Authorship of node
+Scenario: Node functionality - Create Revision of node
 Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
 And I follow "My File"
 And I follow "Edit"
- # BROKEN AT THIS TIME And fill in "edit-name" with "osr-test-edit-own" 
  And I fill in "body[und][0][value]" with "A Scenic Photo"
  And I press "Save"
  Then I should see "File My File has been updated."
@@ -102,7 +101,6 @@ And I am on "admin/content"
 And I follow "My File"
 Then I should see "View"
 And I should not see "Edit"
-And I should not see "Revisions"
 And I should not see "Clear Page Cache"
 
 
