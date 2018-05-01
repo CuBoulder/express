@@ -69,11 +69,11 @@ And I should see an "#edit-delete" element
 And I press "Cancel edit"
 
 Examples: 
-| role            |
-| developer       | 
-| administrator   | 
-| site_owner      | 
-| content_editor  |
+| role         |
+| developer    |    
+| administrator |   
+| site_owner    | 
+| content_editor |
 | site_editor |
 
 Scenario: Node Access -  Edit Only can edit and revise but not delete FAQ; can clear page cache
