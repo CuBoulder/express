@@ -1,11 +1,8 @@
 <?php
 
 /**
- * @file
  * Views handler to display links to a submission.
- */
-
-/**
+ *
  * Field handler to present a link to the user.
  */
 class webform_handler_field_submission_link extends views_handler_field {
