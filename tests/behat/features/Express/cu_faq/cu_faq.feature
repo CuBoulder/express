@@ -114,7 +114,7 @@ And I am on "/"
 
 # 5) CHECK MORE COMPLEX NODE CREATION
  
- Scenario: An authenticated user should be able to create an FAQ node
+Scenario: Node Functionality - a more complicated FAQ node can be created
 Given I am logged in as a user with the "site_owner" role
     And I am on "node/add/faqs"
     And fill in "edit-title" with "My New FAQ Page"
@@ -129,7 +129,7 @@ Given I am logged in as a user with the "site_owner" role
     And I should see "Question One"
     # THIS LINE FAILS But I should not see "An Answer to the Question"
    
-Scenario: Pressing "Add More" adds another FAQ section
+Scenario: Node Functionality -  Pressing "Add More" adds another FAQ section
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/faqs"
 When I press "edit-field-qa-collection-und-0-field-qa-und-add-more"
