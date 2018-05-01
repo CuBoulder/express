@@ -25,8 +25,6 @@ Examples:
 | edit_my_content       | "Access Denied"              |
 | site_editor           | "Create Slider block" |
 | edit_only             | "Access Denied"              |
-| access_manager        | "Access Denied"              |
-| configuration_manager | "Access Denied"              |
 
  Scenario: Block Access: An anonymous user cannot add a Slider block
   When I am on "block/add/slider"
