@@ -25,8 +25,6 @@ Examples:
 | edit_my_content       | "Access Denied"              |
 | site_editor           | "Create File" |
 | edit_only             | "Access Denied"              |
-| access_manager        | "Access Denied"              |
-| configuration_manager | "Access Denied"              |
 
  Scenario: FAQ Access -  An anonymous user cannot add File content
   When I am on "node/add/file"
