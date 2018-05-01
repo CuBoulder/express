@@ -91,13 +91,13 @@ Then I should see "Edit Text Block: Text Block Label"
 And I should see an "#edit-delete" element
 And I follow "View"
 
-Scenario: Block Access - The Edit Only role can edit but not revise, theme or delete Text Block content
+Scenario: Block Access - The Edit Only role can edit and revise, but not theme or delete Text Block content
 Given I am logged in as a user with the "edit_only" role
 And I am on "admin/content/blocks"
 And I follow "Text Block Label"
 Then I should see "View"
 And I should see "Edit Block"
-And I should not see "Revisions"
+And I should see "Revisions"
 And I should not see "Block Designer"
 And I should not see "Delete Block"
 When I follow "Edit Block"
