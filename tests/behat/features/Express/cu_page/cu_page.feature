@@ -93,33 +93,21 @@ Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
 And I press "Cancel edit"
 
-@broken @rolefix
+@broken
 #THIS TEST IS BROKEN UNTIL AUTHORSHIP CAN BE ASSIGNED ABOVE
-Scenario: Node Access -  Edit My Content can edit but not delete node; can clear page cache
+Scenario: Node Access -  Edit My Content can edit Basic Pages and Persons if owner; cannot delete; can clear page cache
 Given I am logged in as a user with the "edit_my_content" role
 And I am on "admin/content"
 And I follow "My Page"
 Then I should see "View"
 And I should see "Edit"
 And I should not see "Edit Layout"
-And I should not see "Revisions"
+And I should see "Revisions"
 And I should not see "Clear Page Cache"
 When I follow "Edit"
 Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
 And I press "Cancel edit"
-
-
-Scenario Outline: Node Access -  The add on roles cannot by themselves access Basic Page content
-Given I am logged in as a user with the <role> role
-And I am on "admin/content"
-Then I should see "Access denied"
-
-Examples:
-| role                 | 
-| access_manager        | 
-| configuration_manager | 
-
 
 # 4) CHECK THAT DELETE BUTTON ACTUALLY WORKS
 
