@@ -1,8 +1,53 @@
-@roletest
+@cu_permissions @roletest
 Feature: CU Permissions
 
+Scenario Outline: All roles can acccess Admin Content
+Given I am logged in as a user with the <role> role
+When I go to "admin/content"
+Then I should not see "Access denied"
 
-@api @cu_permissions
+Examples:
+| role             | 
+| developer        | 
+| administrator    |
+| site_owner       |
+| content_editor   | 
+| edit_my_content  | 
+| site_editor      |
+| edit_only        | 
+
+Scenario Outline: All roles can acccess Admin Content Blocks
+Given I am logged in as a user with the <role> role
+When I go to "admin/content/blocks"
+Then I should not see "Access denied"
+
+Examples:
+| role             | 
+| developer        | 
+| administrator    |
+| site_owner       |
+| content_editor   | 
+| edit_my_content  | 
+| site_editor      |
+| edit_only        | 
+
+
+Scenario Outline: All roles can acccess the Dashboard
+Given I am logged in as a user with the <role> role
+When I go to "admin/dashboard"
+Then I should not see "Access denied"
+
+Examples:
+| role             | 
+| developer        | 
+| administrator    |
+| site_owner       |
+| content_editor   | 
+| edit_my_content  | 
+| site_editor      |
+| edit_only        | 
+
+@api 
 Scenario Outline: Some roles can create Block Designer themes
 Given I am logged in as a user with the <role> role
 When I go to "admin/theme/block-designer/add"
@@ -14,9 +59,9 @@ Examples:
 | administrator       | "A name describing your block theme" |
 | site_owner          | "A name describing your block theme" |
 | content_editor      | "A name describing your block theme" |
-| edit_my_content     | "Access Denied" |
+| edit_my_content     | "Access denied" |
 | site_editor         | "A name describing your block theme" |
-| edit_only           | "Access Denied" |
+| edit_only           | "Access denied" |
 
   @api @cu_permissions
   Scenario Outline: An site owner/administrator/content editor user should not be able to access certain admin settings
