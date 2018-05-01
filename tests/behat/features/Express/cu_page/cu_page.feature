@@ -1,4 +1,4 @@
-@page
+@page @api @roletest
 Feature: Basic Page Content Type
 When I login to a Web Express website
 As an authenticated user
@@ -12,21 +12,6 @@ I should be able to create, edit, and delete Basic Pages
 # 3) CHECK EDITING AND DELETING PRIVILEGES ON THE CONTENT JUST MADE
 # 4) CHECK THAT DELETE BUTTON ACTUALLY WORKS
 # 5) CHECK MORE COMPLEX NODE CREATION
-
-Scenario: check that user roles all exist
-Given I am logged in as a user with the "developer" role
-When I go to "admin/people/permissions/roles"
-Then I should see "anonymous user"
-And I should see "authenticated user "
-And I should see "access_manager"
-And I should see "edit_my_content"
-And I should see "edit_only"
-And I should see "configuration_manager"
-And I should see "content_editor"
-And I should see "site_editor"
-And I should see "site_owner"
-And I should see "administrator"
-And I should see "developer"
 
 # 1) CHECK NODE ADD PRIVILEGES 
 Scenario Outline: Node Access - Some roles can add Basic Page content
@@ -42,9 +27,7 @@ Examples:
 | content_editor        | "Create Basic page" |
 | edit_my_content       | "Access Denied"     |
 | site_editor           | "Create Basic page" |
-#| edit_only             | "Access Denied"     |
-#| access_manager        | "Access Denied"              |
-#| configuration_manager | "Access Denied"              |
+| edit_only             | "Access Denied"     |
 
 Scenario: Node Access -  An anonymous user cannot add Basic Page content
  When I am on "node/add/page"
@@ -96,30 +79,30 @@ Examples:
 | content_editor  |
 | site_editor |
 
-Scenario: Node Access -  Edit Only can edit but not delete node; can clear page cache
+Scenario: Node Access -  Edit Only can edit and revise but not delete node; can clear page cache
 Given I am logged in as a user with the "edit_only" role
 And I am on "admin/content"
 And I follow "My Page"
 Then I should see "View"
 And I should see "Edit"
 And I should not see "Edit Layout"
-And I should not see "Revisions"
+And I should see "Revisions"
 And I should see "Clear Page Cache"
 When I follow "Edit"
 Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
 And I press "Cancel edit"
 
-@broken @rolefix
+@broken
 #THIS TEST IS BROKEN UNTIL AUTHORSHIP CAN BE ASSIGNED ABOVE
-Scenario: Node Access -  Edit My Content can edit but not delete node; can clear page cache
+Scenario: Node Access -  Edit My Content can edit Basic Pages and Persons if owner; cannot delete; can clear page cache
 Given I am logged in as a user with the "edit_my_content" role
 And I am on "admin/content"
 And I follow "My Page"
 Then I should see "View"
 And I should see "Edit"
 And I should not see "Edit Layout"
-And I should not see "Revisions"
+And I should see "Revisions"
 And I should not see "Clear Page Cache"
 When I follow "Edit"
 Then I should see "This document is now locked against simultaneous editing."
