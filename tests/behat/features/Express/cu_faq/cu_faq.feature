@@ -24,9 +24,9 @@ Examples:
 | content_editor        | "Create Frequently Asked Questions" |
 | edit_my_content       | "Access Denied"              |
 | site_editor           | "Create Frequently Asked Questions" |
-# | edit_only             | "Create Frequently Asked Questions" |
-# | access_manager        | "Access Denied"              |
-# | configuration_manager | "Access Denied"              |
+| edit_only             | "Create Frequently Asked Questions" |
+| access_manager        | "Access Denied"              |
+| configuration_manager | "Access Denied"              |
 
 Scenario: FAQ Access -  An anonymous user cannot add FAQ content
   When I am on "node/add/faqs"
@@ -108,16 +108,16 @@ Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
 And I press "Cancel edit"
 
-# THESE ROLES ARE NOT SET UP YET. 
-# Scenario Outline: Node Access -  The add on roles cannot by themselves access content
-# Given I am logged in as a user with the <role> role
-# And I am on "admin/content"
-# Then I should see "Access denied"
 
-# Examples:
-# | role                 | 
-# | access_manager        | 
-# | configuration_manager | 
+Scenario Outline: Node Access -  The add on roles cannot by themselves access content
+Given I am logged in as a user with the <role> role
+And I am on "admin/content"
+Then I should see "Access denied"
+
+Examples:
+| role                 | 
+| access_manager        | 
+| configuration_manager | 
 
 # 4) CHECK THAT THE DELETE BUTTON ACTUALLY WORKS
 
