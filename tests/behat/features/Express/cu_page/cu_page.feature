@@ -1,4 +1,4 @@
-@page @api @roletest
+@page @api @todaystest
 Feature: Basic Page Content Type
 When I login to a Web Express website
 As an authenticated user
@@ -45,11 +45,13 @@ Scenario: Node Access -  An anonymous user cannot add Basic Page content
 And I should see "Lorem ipsum dolor sit amet"
  
  # 2.5 CREATE REVISIONS TO THE NODE ABOVE
+ @javascript
 Scenario: Node functionality - Create Revision and Change Authorship of node
 Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
 And I follow "My Page"
 And I follow "Edit"
+And I click the ".horizontal-tab-button.horizontal-tab-button-1.last a" element
  # BROKEN AT THIS TIME And fill in "edit-name" with "osr-test-edit-own" 
  And fill in "Body" with "Lavender Lemon Drops"
  And I press "Save"
