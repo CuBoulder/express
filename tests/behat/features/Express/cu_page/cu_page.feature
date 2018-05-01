@@ -79,14 +79,14 @@ Examples:
 | content_editor  |
 | site_editor |
 
-Scenario: Node Access -  Edit Only can edit but not delete node; can clear page cache
+Scenario: Node Access -  Edit Only can edit and revise but not delete node; can clear page cache
 Given I am logged in as a user with the "edit_only" role
 And I am on "admin/content"
 And I follow "My Page"
 Then I should see "View"
 And I should see "Edit"
 And I should not see "Edit Layout"
-And I should not see "Revisions"
+And I should see "Revisions"
 And I should see "Clear Page Cache"
 When I follow "Edit"
 Then I should see "This document is now locked against simultaneous editing."
