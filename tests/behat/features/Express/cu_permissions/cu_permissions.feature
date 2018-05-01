@@ -16,19 +16,20 @@ Examples:
 | site_editor      |
 | edit_only        | 
 
-Scenario Outline: All roles can acccess Admin Content Blocks
+Scenario Outline: All roles except EditMyContent can acccess Admin Content Blocks
 Given I am logged in as a user with the <role> role
 When I go to "admin/content/blocks"
-Then I should not see "Access denied"
+Then I should see <message>
 
 Examples:
-| role             | 
-| developer        | 
-| administrator    |
-| site_owner       |
-| content_editor   | 
-| site_editor      |
-| edit_only        | 
+| role             | message  |
+| developer        | "Blocks" |
+| administrator    | "Blocks" |
+| site_owner       | "Blocks" |
+| content_editor   | "Blocks" |
+| edit_my_content  | "Access denied" |
+| site_editor      | "Blocks" |
+| edit_only        | "Blocks" |
 
 
 Scenario Outline: All roles can acccess the Dashboard
