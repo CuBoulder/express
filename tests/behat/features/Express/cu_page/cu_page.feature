@@ -23,13 +23,34 @@ And I am on "admin/content"
 And I check "edit-views-bulk-operations-0"
 And I select "Change the author of content" from "edit-operation"
 And I press "Execute"
-And I wait for AJAX
-And I select "osr-test-edit-own" from "edit-owner-name"
-And I press "Next"
-And I wait for AJAX
- Then I should see "Are you sure you want to perform Change the author of content on the selected items"
- And I press "Confirm"
- Then I should see "Performed Change the author of content on 1 item"
+Then I should see "The username of the user to which you would like to assign ownership."
+#And I select "osr-test-edit-own" from "edit-owner-name"
+#And I press "Next"
+# Then I should see "Are you sure you want to perform Change the author of content on the selected items"
+# And I press "Confirm"
+# Then I should see "Performed Change the author of content on 1 item"
+
+ When I select <condition> from "edit-owner-name"
+
+Examples:
+| condition |
+  | "alfi2595" |
+  | "brokaw" |
+  | "crafts" |
+  | "jafu6031" |
+  | "jeor0980" |
+  | "kere7580" |
+  | "leslie" |
+  | "linebarg" |
+  | "mortone" |
+  | "osr-test-content" |
+  | "osr-test-edit-own" |
+  | "osr-test-owner" |
+  | "owmo7772" |
+  | "sniderc" |
+  | "wetu1300" |
+      
+      
 
 #THIS TEST IS BROKEN UNTIL AUTHORSHIP CAN BE ASSIGNED ABOVE
 Scenario: Node Access -  EditMyContent can edit Basic Pages and Persons if owner; cannot delete; can clear page cache
