@@ -22,9 +22,9 @@ Examples:
 | administrator         | "Create File" |
 | site_owner            | "Create File" |
 | content_editor        | "Create File" |
-| edit_my_content       | "Access Denied"    |
+| edit_my_content       | "Access denied"    |
 | site_editor           | "Create File" |
-| edit_only             | "Access Denied"    |
+| edit_only             | "Access denied"    |
 
  Scenario: FAQ Access -  An anonymous user cannot add File content
   When I am on "node/add/file"
