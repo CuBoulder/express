@@ -22,9 +22,9 @@ Examples:
 | administrator         | "Create Slider block" |
 | site_owner            | "Create Slider block" |
 | content_editor        | "Create Slider block" |
-| edit_my_content       | "Access Denied"       |
+| edit_my_content       | "Access denied"       |
 | site_editor           | "Create Slider block" |
-| edit_only             | "Access Denied"       |
+| edit_only             | "Access denied"       |
 
  Scenario: Block Access: An anonymous user cannot add a Slider block
   When I am on "block/add/slider"
