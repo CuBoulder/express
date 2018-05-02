@@ -44,7 +44,7 @@ Scenario: Node Access -  An anonymous user cannot add Basic Page content
  And I should see "My Page"
 And I should see "Lorem ipsum dolor sit amet"
  
- # 2.5 CREATE REVISIONS TO THE NODE ABOVE
+ # 2.5 CREATE REVISIONS TO THE NEW NODE
 Scenario: Node functionality - Create Revision and Change Authorship of node
 Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
@@ -54,6 +54,7 @@ And I follow "Edit"
  And fill in "Body" with "Lavender Lemon Drops"
  And I press "Save"
  Then I should see "Basic page My Page has been updated."
+ And I should see the link "Revisions"
 
 # 3) CHECK EDITING AND DELETING PRIVILEGES ON THE CONTENT JUST MADE
 
