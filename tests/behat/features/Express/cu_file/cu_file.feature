@@ -65,10 +65,10 @@ Scenario Outline: Node Access -  Some roles can edit and delete File content
 Given I am logged in as a user with the <role> role
 And I am on "admin/content"
 And I follow "My File"
-Then I should see "View"
-And I should see "Edit"
-And I should see "Revisions"
-And I should see "Clear Page Cache"
+Then I should see the link "View"
+And I should see the link "Edit"
+And I should see the link "Revisions"
+And I should see the link "Clear Page Cache"
 When I follow "Edit"
 Then I should see "This document is now locked against simultaneous editing."
 And I should see an "#edit-delete" element
@@ -86,10 +86,10 @@ Scenario: Node Access -  EditOnly can edit and revise but not delete File; can c
 Given I am logged in as a user with the "edit_only" role
 And I am on "admin/content"
 And I follow "My File"
-Then I should see "View"
-And I should see "Edit"
-And I should see "Revisions"
-And I should see "Clear Page Cache"
+Then I should see the link "View"
+And I should see the link "Edit"
+And I should see the link "Revisions"
+And I should see the link "Clear Page Cache"
 When I follow "Edit"
 Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
