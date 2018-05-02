@@ -477,7 +477,7 @@ function express_permissions_secure_permissions($role) {
       'access content',
       'access content overview',
       'access contextual links',
-     # 'access express settings',
+      'access express settings',
       'access navbar',
       'administer beans',
       'administer blocks',
