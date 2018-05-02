@@ -25,9 +25,9 @@ Examples:
 | administrator         | "Create Basic page" |
 | site_owner            | "Create Basic page" |
 | content_editor        | "Create Basic page" |
-| edit_my_content       | "Access Denied"     |
+| edit_my_content       | "Access denied"     |
 | site_editor           | "Create Basic page" |
-| edit_only             | "Access Denied"     |
+| edit_only             | "Access denied"     |
 
 Scenario: Node Access -  An anonymous user cannot add Basic Page content
  When I am on "node/add/page"
