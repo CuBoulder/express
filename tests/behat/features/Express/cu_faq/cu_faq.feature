@@ -41,7 +41,7 @@ Then I should be on "/my-faqs"
 And I should see "My FAQs"
 And I should see "Lorem ipsum dolor sit amet"
  
-#  2.5 CREATE REVISIONS TO THE NODE ABOVE
+#  2.5 CREATE REVISIONS TO THE NEW NODE
 Scenario: Node functionality - Create Revision of FAQ
 Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
@@ -51,6 +51,7 @@ And I follow "Edit"
   And fill in "Body" with "Find out more here"
  And I press "Save"
  Then I should see "Frequently Asked Questions My FAQs has been updated."
+  And I should see the link "Revisions"
 
 # 3) CHECK EDITING AND DELETING PRIVILEGES ON THE NODE JUST MADE
 
@@ -76,7 +77,7 @@ Examples:
 | content_editor |
 | site_editor |
 
-Scenario: Node Access -  Edit Only can edit and revise but not delete FAQ; can clear page cache
+Scenario: Node Access -  EditOnly can edit and revise but not delete FAQ; can clear page cache
 Given I am logged in as a user with the "edit_only" role
 And I am on "admin/content"
 And I follow "My FAQs"
@@ -90,7 +91,7 @@ Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
 And I press "Cancel edit"
 
-Scenario: Node Access -  Edit My Content can not edit FAQs
+Scenario: Node Access -  EditMyContent can not edit FAQs
 Given I am logged in as a user with the "edit_my_content" role
 And I am on "admin/content"
 And I follow "My FAQs"
