@@ -86,6 +86,92 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Contact Information" |
 
+Scenario Outline: Most roles cannot Set the Google Analytics ID
+Given I am logged in as a user with the <role> role
+When I go to "admin/settings/site-configuration/google-analytics"
+Then I should see <message>
+
+Examples:
+| role             | message |
+| developer        | "Google Analytics" |
+| administrator    | "Google Analytics" |
+| site_owner       | "Google Analytics" |
+| content_editor   | "Access denied" |
+| edit_my_content  | "Access denied" |
+| site_editor      | "Access denied" |
+| edit_only        | "Access denied" |
+| access_manager   | "Access denied" |
+| configuration_manager | "Google Analytics" |
+
+Scenario Outline: Most roles cannot Configure Bundles
+Given I am logged in as a user with the <role> role
+When I go to "admin/settings/bundles/list"
+Then I should see <message>
+
+Examples:
+| role             | message |
+| developer        | "Configure Bundles" |
+| administrator    | "Configure Bundles" |
+| site_owner       | "Configure Bundles" |
+| content_editor   | "Access denied" |
+| edit_my_content  | "Access denied" |
+| site_editor      | "Access denied" |
+| edit_only        | "Access denied" |
+| access_manager   | "Access denied" |
+| configuration_manager | "Configure Bundles" |
+
+Scenario Outline: Most roles cannot Create URL Redirects
+Given I am logged in as a user with the <role> role
+When I go to "admin/config/search/redirect"
+Then I should see <message>
+
+Examples:
+| role             | message |
+| developer        | "URL redirects" |
+| administrator    | "URL redirects" |
+| site_owner       | "URL redirects" |
+| content_editor   | "Access denied" |
+| edit_my_content  | "Access denied" |
+| site_editor      | "Access denied" |
+| edit_only        | "Access denied" |
+| access_manager   | "Access denied" |
+| configuration_manager | "URL redirects" |
+
+Scenario Outline: Some roles can see Cache Clear options
+Given I am logged in as a user with the <role> role
+When I go to "admin/settings/cache/clear"
+Then I should see <message>
+
+Examples:
+| role             | message |
+| developer        | "Which Cache to Clear?" |
+| administrator    | "Which Cache to Clear?" |
+| site_owner       | "Which Cache to Clear?" |
+| content_editor   | "Which Cache to Clear?" |
+| edit_my_content  | "Access denied" |
+| site_editor      | "Which Cache to Clear?" |
+| edit_only        | "Which Cache to Clear?" |
+| access_manager   | "Access denied" |
+| configuration_manager | "Which Cache to Clear?" |
+
+Scenario Outline: Some roles can Clear Cache By Page
+Given I am logged in as a user with the <role> role
+When I go to "admin/settings/cache/clear/varnish-path"
+Then I should see <message>
+
+Examples:
+| role             | message |
+| developer        | "Path To Clear" |
+| administrator    | "Path To Clear" |
+| site_owner       | "Path To Clear" |
+| content_editor   | "Path To Clear" |
+| edit_my_content  | "Access denied" |
+| site_editor      | "Path To Clear" |
+| edit_only        | "Path To Clear" |
+| access_manager   | "Access denied" |
+| configuration_manager | "Path To Clear" |
+
+
 
 
 
