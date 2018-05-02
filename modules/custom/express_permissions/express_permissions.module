@@ -476,7 +476,7 @@ function express_permissions_secure_permissions($role) {
       'access content',
       'access content overview',
       'access contextual links',
-      'access express settings',
+     # 'access express settings',
       'access navbar',
       'administer beans',
       'administer blocks',
@@ -678,7 +678,7 @@ function express_permissions_secure_permissions($role) {
     ),
     'access_manager' => array(
       'access administration pages',
-      'access express settings',
+      #'access express settings',
       'access user profiles',
       'access users overview',
       'assign content_editor role',
