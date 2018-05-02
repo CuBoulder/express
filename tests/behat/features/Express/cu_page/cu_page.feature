@@ -16,15 +16,17 @@ I should be able to create, edit, and delete Basic Pages
 And I should see "Lorem ipsum dolor sit amet"
  
  # 2.5 CHANGE AUTHOR OF THE PAGE NODE
-# @javascript
+@javascript
 Scenario: Node functionality - Create Revision and Change Authorship of node
 Given I am logged in as a user with the "developer" role
 And I am on "admin/content"
 And I check "edit-views-bulk-operations-0"
 And I select "Change the author of content" from "edit-operation"
 And I press "Execute"
+And I said for AJAX
 And I select "osr-test-edit-own" from "edit-owner-name"
 And I press "Next"
+And I said for AJAX
  Then I should see "Are you sure you want to perform Change the author of content on the selected items"
  And I press "Confirm"
  Then I should see "Performed Change the author of content on 1 item"
