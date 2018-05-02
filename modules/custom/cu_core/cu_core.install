@@ -15,17 +15,17 @@ function cu_core_install() {
   if ($hosting === 'travis') {
     module_enable(array('travis_hosting'));
   }
+  elseif ($hosting == 'ucb_on_prem_hosting') {
+    module_enable(array('ucb_on_prem_hosting'));
+  }
   elseif ($hosting === 'pantheon') {
     module_enable(array('pantheon_hosting'));
   }
   elseif ($hosting === 'lando' || $hosting === 'valet') {
     module_enable(array('local_hosting'));
   }
-  elseif ($hosting == 'ng_hosting') {
-    module_enable(array('ng_hosting'));
-  }
   else {
-    module_enable(array('ucb_on_prem_hosting'));
+    module_enable(array('ng_hosting'));
   }
 
   theme_enable(array(
