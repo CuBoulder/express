@@ -22,9 +22,9 @@ Examples:
 | administrator         | "Create Frequently Asked Questions" |
 | site_owner            | "Create Frequently Asked Questions" |
 | content_editor        | "Create Frequently Asked Questions" |
-| edit_my_content       | "Access Denied"                     |
+| edit_my_content       | "Access denied"                     |
 | site_editor           | "Create Frequently Asked Questions" |
-| edit_only             | "Access Denied"                     |
+| edit_only             | "Access denied"                     |
 
 Scenario: FAQ Access -  An anonymous user cannot add FAQ content
   When I am on "node/add/faqs"
@@ -48,7 +48,7 @@ And I am on "admin/content"
 And I follow "My FAQs"
 And I follow "Edit"
  # BROKEN AT THIS TIME And fill in "edit-name" with "osr-test-edit-own" 
-  And fill in "Body" with "Lavender Lemon Drops"
+  And fill in "Body" with "Find out more here"
  And I press "Save"
  Then I should see "Frequently Asked Questions My FAQs has been updated."
 
