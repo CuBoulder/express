@@ -44,9 +44,9 @@ Scenario: Node Access -  An anonymous user cannot add Basic Page content
  And I should see "My Page"
 And I should see "Lorem ipsum dolor sit amet"
  
- # 2.5 CHANGE AUTHOR OF THE PAGE NODE
+ # 2.1) CHANGE AUTHOR OF THE PAGE NODE
 @javascript
-Scenario: Node functionality - Create Revision and Change Authorship of node
+Scenario: Node functionality - Change Authorship of node
 Given I am logged in as a user with the "developer" role
 And I am on "admin/content"
 And I check "edit-views-bulk-operations-0"
@@ -58,6 +58,16 @@ And I press "Next"
 Then I should see "Are you sure you want to perform Change the author of content on the selected items"
 And I press "Confirm"
 Then I should see "Performed Change the author of content on 1 item"
+
+# 2.2) CREATE REVISION OF NODE
+Scenario: Node functionality - Create Revision of node
+Given I am logged in as a user with the "developer" role
+And I am on "admin/content"
+And I follow "My Page"
+And fill in "Body" with "A world class university"
+When I press "edit-submit"
+Then I should see "Basic page My Page has been updated"
+And I should see the link "Revisions"
 
 # 3) CHECK EDITING AND DELETING PRIVILEGES ON THE CONTENT JUST MADE
 
