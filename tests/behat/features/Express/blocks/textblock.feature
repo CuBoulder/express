@@ -22,9 +22,9 @@ Examples:
 | administrator         | "Create Text Block block" |
 | site_owner            | "Create Text Block block" |
 | content_editor        | "Create Text Block block" |
-| edit_my_content       | "Access Denied"           |
+| edit_my_content       | "Access denied"           |
 | site_editor           | "Create Text Block block" |
-| edit_only             | "Access Denied"            |
+| edit_only             | "Access denied"            |
 
  Scenario: Block Access: An anonymous user cannot add a Text Block block
   When I am on "block/add/block"
