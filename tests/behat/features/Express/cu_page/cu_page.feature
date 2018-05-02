@@ -7,7 +7,7 @@ I should be able to create, edit, and delete Basic Pages
 # NOTE: THERE IS CURRENTLY NO KNOWN WAY TO PRESS THE INSERT BUTTON; GRAPHICS CAN BE UPLOADED BUT NOT INSERTED
 # CONTINUE TESTING THIS PROBLEM WITH PHOTOINSERT.FEATURE
 
-# 1) CHECK NODE ADD PRIVILEDGES
+# 1) CHECK NODE ADD PRIVILEGES
 # 2) CHECK THAT SIMPLE NODE CAN BE CREATED AND REVISED
 # 3) CHECK EDITING AND DELETING PRIVILEGES ON THE CONTENT JUST MADE
 # 4) CHECK THAT DELETE BUTTON ACTUALLY WORKS
@@ -44,17 +44,20 @@ Scenario: Node Access -  An anonymous user cannot add Basic Page content
  And I should see "My Page"
 And I should see "Lorem ipsum dolor sit amet"
  
- # 2.5 CREATE REVISIONS TO THE NEW NODE
+ # 2.5 CHANGE AUTHOR OF THE PAGE NODE
+@javascript
 Scenario: Node functionality - Create Revision and Change Authorship of node
-Given I am logged in as a user with the "site_owner" role
+Given I am logged in as a user with the "developer" role
 And I am on "admin/content"
-And I follow "My Page"
-And I follow "Edit"
- # BROKEN AT THIS TIME And fill in "edit-name" with "osr-test-edit-own" 
- And fill in "Body" with "Lavender Lemon Drops"
- And I press "Save"
- Then I should see "Basic page My Page has been updated."
- And I should see the link "Revisions"
+And I check "edit-views-bulk-operations-0"
+And I select "Change the author of content" from "edit-operation"
+And I press "Execute"
+Then I should see "The username of the user to which you would like to assign ownership."
+And I select "edit_my_content" from "edit-owner-name"
+And I press "Next"
+Then I should see "Are you sure you want to perform Change the author of content on the selected items"
+And I press "Confirm"
+Then I should see "Performed Change the author of content on 1 item"
 
 # 3) CHECK EDITING AND DELETING PRIVILEGES ON THE CONTENT JUST MADE
 
@@ -94,8 +97,6 @@ Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
 And I press "Cancel edit"
 
-@broken
-#THIS TEST IS BROKEN UNTIL AUTHORSHIP CAN BE ASSIGNED ABOVE
 Scenario: Node Access -  EditMyContent can edit Basic Pages and Persons if owner; cannot delete; can clear page cache
 Given I am logged in as a user with the "edit_my_content" role
 And I am on "admin/content"
