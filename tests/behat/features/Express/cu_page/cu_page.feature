@@ -24,12 +24,11 @@ And I check "edit-views-bulk-operations-0"
 And I select "Change the author of content" from "edit-operation"
 And I press "Execute"
 Then I should see "The username of the user to which you would like to assign ownership."
-And I select "osr-test-edit-own" from "edit-owner-name"
+And I select "edit_my_content" from "edit-owner-name"
 And I press "Next"
 Then I should see "Are you sure you want to perform Change the author of content on the selected items"
 And I press "Confirm"
 Then I should see "Performed Change the author of content on 1 item"
-
 
 
 #THIS TEST IS BROKEN UNTIL AUTHORSHIP CAN BE ASSIGNED ABOVE
