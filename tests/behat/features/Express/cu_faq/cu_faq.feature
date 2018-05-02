@@ -59,11 +59,11 @@ Scenario Outline: Node Access -  Some roles can edit and delete FAQ
 Given I am logged in as a user with the <role> role
 And I am on "admin/content"
 And I follow "My FAQs"
-Then I should see "View"
-And I should see "Edit"
-And I should see "Edit Layout"
-And I should see "Revisions"
-And I should see "Clear Page Cache"
+Then I should see the link "View"
+And I should see the link "Edit"
+And I should see the link "Edit Layout"
+And I should see the link "Revisions"
+And I should see the link "Clear Page Cache"
 When I follow "Edit"
 Then I should see "This document is now locked against simultaneous editing."
 And I should see an "#edit-delete" element
@@ -81,11 +81,11 @@ Scenario: Node Access -  EditOnly can edit and revise but not delete FAQ; can cl
 Given I am logged in as a user with the "edit_only" role
 And I am on "admin/content"
 And I follow "My FAQs"
-Then I should see "View"
-And I should see "Edit"
-And I should not see "Edit Layout"
-And I should see "Revisions"
-And I should see "Clear Page Cache"
+Then I should see the link "View"
+And I should see the link "Edit"
+And I should not see the link "Edit Layout"
+And I should see the link "Revisions"
+And I should see the link "Clear Page Cache"
 When I follow "Edit"
 Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
@@ -95,9 +95,9 @@ Scenario: Node Access -  EditMyContent can not edit FAQs
 Given I am logged in as a user with the "edit_my_content" role
 And I am on "admin/content"
 And I follow "My FAQs"
-Then I should see "View"
-And I should not see "Edit"
-And I should not see "Clear Page Cache"
+Then I should see the link "View"
+And I should not see the link "Edit"
+And I should not see the link "Clear Page Cache"
 
 # 4) CHECK THAT THE DELETE BUTTON ACTUALLY WORKS
 
