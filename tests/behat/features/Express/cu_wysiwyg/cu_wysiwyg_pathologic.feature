@@ -11,4 +11,3 @@ Feature: WYSIWYG Pathologic tests
       And I fill in "Title" with "Pathologic Test"
       And I press "Save"
     Then The "#pathologic-link" element should have "//127.0.0.1:8888/test" in the "href" attribute
-
