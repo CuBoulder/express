@@ -80,7 +80,7 @@ Examples:
 | content_editor  |
 | site_editor |
 
-Scenario: Node Access -  Edit Only can edit and revise but not delete node; can clear page cache
+Scenario: Node Access -  EditOnly can edit and revise but not delete node; can clear page cache
 Given I am logged in as a user with the "edit_only" role
 And I am on "admin/content"
 And I follow "My Page"
@@ -96,7 +96,7 @@ And I press "Cancel edit"
 
 @broken
 #THIS TEST IS BROKEN UNTIL AUTHORSHIP CAN BE ASSIGNED ABOVE
-Scenario: Node Access -  Edit My Content can edit Basic Pages and Persons if owner; cannot delete; can clear page cache
+Scenario: Node Access -  EditMyContent can edit Basic Pages and Persons if owner; cannot delete; can clear page cache
 Given I am logged in as a user with the "edit_my_content" role
 And I am on "admin/content"
 And I follow "My Page"
