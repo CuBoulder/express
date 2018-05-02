@@ -17,7 +17,7 @@ And I should see "Lorem ipsum dolor sit amet"
  
  # 2.5 CHANGE AUTHOR OF THE PAGE NODE
 @javascript
-Scenario: Node functionality - Create Revision and Change Authorship of node
+Scenario Outline: Node functionality - Create Revision and Change Authorship of node
 Given I am logged in as a user with the "developer" role
 And I am on "admin/content"
 And I check "edit-views-bulk-operations-0"
