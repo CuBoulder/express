@@ -22,9 +22,9 @@ Examples:
 | administrator         | "Create Hero Unit block" |
 | site_owner            | "Create Hero Unit block" |
 | content_editor        | "Create Hero Unit block" |
-| edit_my_content       | "Access Denied"              |
+| edit_my_content       | "Access denied"              |
 | site_editor           | "Create Hero Unit block" |
-| edit_only             | "Access Denied"              |
+| edit_only             | "Access denied"              |
 
  Scenario: Block Access: An anonymous user cannot add a Hero Unit block
   When I am on "block/add/hero-unit"
