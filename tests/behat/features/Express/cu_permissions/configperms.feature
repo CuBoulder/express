@@ -9,7 +9,7 @@ Then I should see <message>
 Examples:
 | role             | message |
 | developer        | "Configuration" |
-| administrator    | "Access denied" |
+| administrator    | "Configuration" |
 | site_owner       | "Access denied" |
 | content_editor   | "Access denied" |
 | edit_my_content  | "Access denied" |
