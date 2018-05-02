@@ -2,6 +2,7 @@
   $(document).ready(function(){
     // Normal sliders
     $('.cu-slider').flickity({
+      'imagesLoaded': true,
       'wrapAround': true,
       'adaptiveHeight': true,
       'draggable': false,
@@ -16,6 +17,7 @@
     // Sliders with thumbnails
     $('.cu-slider-has-thumbnails').each(function(){
       $(this).flickity({
+        'imagesLoaded': true,
         'wrapAround': true,
         'adaptiveHeight': true,
         'draggable': false,
@@ -29,6 +31,7 @@
       $('.field-name-field-slider-slide', this).css('width', $width + '%');
       var $controls = $(this).data('slider-controls');
       $(this).flickity({
+        'imagesLoaded': true,
         'asNavFor': '#' + $controls,
         'contain': true,
         'pageDots': false,
