@@ -4,7 +4,6 @@ When I login to a Web Express website
 As an authenticated user
 I should be able to create, edit, and delete Basic Pages
 
-  
 #  CREATE A SIMPLE PAGE NODE
  Scenario: Node Functionality - A very basic Basic Page node can be created 
  Given I am logged in as a user with the "site_owner" role
@@ -22,8 +21,8 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
 And I follow "My Page"
 And I follow "Edit"
- And fill in "Body" with "CU Boulder is a world class university"
-# And I fill in "edit-name" with "osr-test-edit-own" 
+And fill in "Body" with "CU Boulder is a world class university"
+And I fill in "edit-name" with "osr-test-edit-own" 
 And I press "Save"
  Then I should see "Basic page My Page has been updated."
  And I should see the link "Revisions"
