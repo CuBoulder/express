@@ -58,11 +58,11 @@ Scenario Outline: Block Access - SE, SO and above can edit, revise, theme and de
 Given I am logged in as a user with the <role> role
 And I am on "admin/content/blocks"
 And I follow "Text Block Label"
-Then I should see "View"
-And I should see "Edit Block"
-And I should see "Revisions" 
-And I should see "Block Designer"
-And I should see "Delete Block"
+Then I should see the link "View"
+And I should see the link "Edit Block"
+And I should see the link "Revisions" 
+And I should see the link "Block Designer"
+And I should see the link "Delete Block"
 When I follow "Edit Block"
 Then I should see "Edit Text Block: Text Block Label"
 And I should see an "#edit-delete" element
@@ -77,15 +77,15 @@ Examples:
 | site_editor |
 
 
-Scenario: Block Access - The Edit Only role can edit, revise, theme but not delete Text Block content
+Scenario: Block Access - The EditOnly role can edit, revise, theme but not delete Text Block content
 Given I am logged in as a user with the "edit_only" role
 And I am on "admin/content/blocks"
 And I follow "Text Block Label"
-Then I should see "View"
-And I should see "Edit Block"
-And I should see "Revisions"
-And I should see "Block Designer"
-And I should not see "Delete Block"
+Then I should see the link "View"
+And I should see the link "Edit Block"
+And I should see the link "Revisions"
+And I should see the link "Block Designer"
+And I should not see the link "Delete Block"
 When I follow "Edit Block"
 Then I should see "Edit Text Block: Text Block Label"
 And I should not see an "#edit-delete" element
