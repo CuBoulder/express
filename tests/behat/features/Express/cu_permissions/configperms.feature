@@ -1,23 +1,6 @@
 @config @roletest
 Feature: Permissions for Configuration and Settings 
 
-Scenario Outline: Most roles cannot access the Admin/Configuration page
-Given I am logged in as a user with the <role> role
-When I go to "admin/config"
-Then I should see <message>
-
-Examples:
-| role             | message |
-| developer        | "Configuration" |
-| administrator    | "Configuration" |
-| site_owner       | "Access denied" |
-| content_editor   | "Access denied" |
-| edit_my_content  | "Access denied" |
-| site_editor      | "Access denied" |
-| edit_only        | "Access denied" |
-| access_manager   | "Access denied" |
-| configuration_manager | "Access denied" |
-
 Scenario Outline: Most roles cannot access the Admin/Settings page
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings"
