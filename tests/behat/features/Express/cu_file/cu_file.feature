@@ -48,7 +48,7 @@ Examples:
 # NEXT LINE: CHECKING FOR HTTPS://
   And I should not see "http://www.colorado.edu"
  
-#  2.5 CREATE REVISIONS TO THE NODE ABOVE
+#  2.5 CREATE REVISIONS TO THE NEW NODE
 Scenario: Node functionality - Create Revision of File node
 Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
@@ -57,6 +57,7 @@ And I follow "Edit"
  And I fill in "body[und][0][value]" with "A Scenic Photo"
  And I press "Save"
  Then I should see "File My File has been updated."
+  And I should see the link "Revisions"
 
 # 3) TEST EDITING AND DELETING PRIVILEGES ON THE NODE JUST MADE
 
@@ -81,7 +82,7 @@ Examples:
 | content_editor  |
 | site_editor |
 
-Scenario: Node Access -  Edit Only can edit and revise but not delete File; can clear page cache
+Scenario: Node Access -  EditOnly can edit and revise but not delete File; can clear page cache
 Given I am logged in as a user with the "edit_only" role
 And I am on "admin/content"
 And I follow "My File"
@@ -94,7 +95,7 @@ Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
 And I press "Cancel edit"
 
-Scenario: Node Access - Edit My Content can not edit File nodes
+Scenario: Node Access - EditMyContent can not edit File nodes
 Given I am logged in as a user with the "edit_my_content" role
 And I am on "admin/content"
 And I follow "My File"
