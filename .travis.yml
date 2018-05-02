@@ -11,7 +11,7 @@ php:
 branches:
   only:
    # - dev
-   - feature/2065
+   - no/feature/2065
 
 addons:
   # The username and access key are stored in the Travis settings.
