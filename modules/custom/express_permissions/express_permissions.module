@@ -444,6 +444,7 @@ function express_permissions_secure_permissions($role) {
       'edit own page content',
       'edit own person content',
       'preview focal point',
+      'revert revisions',
       'skip CAPTCHA',
       'use seo dashboard',
       'use text format wysiwyg',
