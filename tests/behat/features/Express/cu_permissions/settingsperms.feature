@@ -1,4 +1,4 @@
-@settings @roletest @javascript
+@settings @roletest
 Feature: The Settings page lists the configuration options for all the enabled bundles
 When I am on the admin/settings page
 As a user with the proper role
@@ -16,7 +16,7 @@ Examples:
 | site_owner       | "Settings" |
 | content_editor   | "Settings" |
 | edit_my_content  | "Access denied" |
-| site_editor      | "Settings" |
+# | site_editor      | "Settings" |
 | edit_only        | "Settings" |
 | access_manager   | "Access denied" |
 | configuration_manager | "Settings" |
@@ -36,7 +36,7 @@ Examples:
 | site_owner       | "Site Name" |
 | content_editor   | "Access denied" |
 | edit_my_content  | "Access denied" |
-| site_editor      | "Access denied" |
+# | site_editor      | "Access denied" |
 | edit_only        | "Access denied" |
 | access_manager   | "Access denied" |
 | configuration_manager | "Site Name" |
@@ -53,7 +53,7 @@ Examples:
 | site_owner       | "Site Description" |
 | content_editor   | "Access denied" |
 | edit_my_content  | "Access denied" |
-| site_editor      | "Access denied" |
+# | site_editor      | "Access denied" |
 | edit_only        | "Access denied" |
 | access_manager   | "Access denied" |
 | configuration_manager | "Site Description" |
@@ -70,7 +70,7 @@ Examples:
 | site_owner       | "Contact Information" |
 | content_editor   | "Access denied" |
 | edit_my_content  | "Access denied" |
-| site_editor      | "Access denied" |
+# | site_editor      | "Access denied" |
 | edit_only        | "Access denied" |
 | access_manager   | "Access denied" |
 | configuration_manager | "Contact Information" |
@@ -87,7 +87,7 @@ Examples:
 | site_owner       | "Google Analytics" |
 | content_editor   | "Access denied" |
 | edit_my_content  | "Access denied" |
-| site_editor      | "Access denied" |
+# | site_editor      | "Access denied" |
 | edit_only        | "Access denied" |
 | access_manager   | "Access denied" |
 | configuration_manager | "Google Analytics" |
@@ -104,7 +104,7 @@ Examples:
 | site_owner       | "Configure Bundles" |
 | content_editor   | "Access denied" |
 | edit_my_content  | "Access denied" |
-| site_editor      | "Access denied" |
+# | site_editor      | "Access denied" |
 | edit_only        | "Access denied" |
 | access_manager   | "Access denied" |
 | configuration_manager | "Configure Bundles" |
@@ -124,7 +124,7 @@ Examples:
 | site_owner       | "URL redirects" |
 | content_editor   | "Access denied" |
 | edit_my_content  | "Access denied" |
-| site_editor      | "Access denied" |
+# | site_editor      | "Access denied" |
 | edit_only        | "Access denied" |
 | access_manager   | "Access denied" |
 | configuration_manager | "URL redirects" |
@@ -144,7 +144,7 @@ Examples:
 | site_owner       | "Which Cache to Clear?" |
 | content_editor   | "Which Cache to Clear?" |
 | edit_my_content  | "Access denied" |
-| site_editor      | "Which Cache to Clear?" |
+# | site_editor      | "Which Cache to Clear?" |
 | edit_only        | "Which Cache to Clear?" |
 | access_manager   | "Access denied" |
 | configuration_manager | "Which Cache to Clear?" |
@@ -161,7 +161,7 @@ Examples:
 | site_owner       | "Path To Clear" |
 | content_editor   | "Path To Clear" |
 | edit_my_content  | "Access denied" |
-| site_editor      | "Path To Clear" |
+# | site_editor      | "Path To Clear" |
 | edit_only        | "Path To Clear" |
 | access_manager   | "Access denied" |
 | configuration_manager | "Path To Clear" |
@@ -181,7 +181,7 @@ Examples:
 | site_owner       | "Site Search Settings" |
 | content_editor   | "Access denied" |
 | edit_my_content  | "Access denied" |
-| site_editor      | "Access denied" |
+# | site_editor      | "Access denied" |
 | edit_only        | "Access denied" |
 | access_manager   | "Access denied" |
 | configuration_manager | "Site Search Settings" |
