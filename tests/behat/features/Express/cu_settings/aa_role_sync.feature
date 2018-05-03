@@ -1,8 +1,8 @@
 @settings
 Feature: The Settings page lists the configuration options for all the enabled bundles
-When I am on the admin/settings page
+In order to test the new roles in Web Express
 As a user with the proper role
-I should be able to set the site name, enable bundles and other configurations as defined
+The system should sync/unsync with secure permissions
 
 Scenario: Roles can be assigned their new permissions
 Given I am logged in as a user with the "developer" role
