@@ -1,4 +1,4 @@
-@settings @roletest
+@settings @roletest @javascript
 Feature: The Settings page lists the configuration options for all the enabled bundles
 When I am on the admin/settings page
 As a user with the proper role
