@@ -1,12 +1,7 @@
 <?php
 
 /**
- * @file
  * Webform module tests.
- */
-
-/**
- *
  */
 class WebformTestCase extends DrupalWebTestCase {
   private $_webform_node;
