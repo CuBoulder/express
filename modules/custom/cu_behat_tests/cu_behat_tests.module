@@ -1,0 +1,5 @@
+<?php
+/**
+ * @file
+ * Contains hooks for cu_behat_tests module.
+ */
