@@ -1,4 +1,4 @@
-@settings @roletest
+@perms @roletest
 Feature: The Settings page lists the configuration options for all the enabled bundles
 When I am on the admin/settings page
 As a user with the proper role
@@ -131,7 +131,7 @@ Examples:
 
 # URL MANAGEMENT
 
-Scenario Outline: Only Devs, Admins, SOs and CMs can Create URL Redirects
+Scenario Outline: Devs, Admins, SOs, SEs and CMs can Create URL Redirects
 Given I am logged in as a user with the <role> role
 When I go to "admin/config/search/redirect"
 Then I should see <message>
@@ -143,7 +143,7 @@ Examples:
 | site_owner       | "URL redirects" |
 | content_editor   | "Access denied" |
 | edit_my_content  | "Access denied" |
-| site_editor      | "Access denied" |
+| site_editor      | "URL redirects" |
 | edit_only        | "Access denied" |
 | access_manager   | "Access denied" |
 | configuration_manager | "URL redirects" |
