@@ -64,6 +64,7 @@ Scenario: Node functionality - Create Revision of node
 Given I am logged in as a user with the "developer" role
 And I am on "admin/content"
 And I follow "My Page"
+And I follow "Edit"
 And fill in "Body" with "A world class university"
 When I press "edit-submit"
 Then I should see "Basic page My Page has been updated"
