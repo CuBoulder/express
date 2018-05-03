@@ -1,4 +1,4 @@
-@unsyncroles @roletest
+@unsyncroles
 Feature: Secure permissions Role Sync/Unsync
 The assigned roles should be synced with their new permission access
 
@@ -14,6 +14,7 @@ Then I should see "The configuration options have been saved."
 And I press "edit-submit"
 Then I should see "The configuration options have been saved."
 
+# THIS IS A QUICK TEST TO MAKE SURE THAT THE ABOVE SYNC DID SO
 Scenario: Site Editor can't set site settings
 Given I am logged in as a user with the "site_editor" role
 When I go to "admin/settings/site-configuration/site-name"
