@@ -489,6 +489,7 @@ function express_permissions_secure_permissions($role) {
       'administer nodes',
       'administer redirects',
       'check out documents',
+      'clear path caches',
       'create any block bean',
       'create any feature_callout bean',
       'create any hero_unit bean',
