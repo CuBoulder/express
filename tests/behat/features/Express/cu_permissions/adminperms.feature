@@ -1,4 +1,4 @@
-@cu_permissions @roletest
+@perms @roletest
 Feature: CU Permissions
 
 Scenario Outline: All roles can access Admin Content
