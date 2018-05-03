@@ -216,7 +216,7 @@ h1#site-name, div#site-name { font-size: 18px; margin: 0; padding: 0; line-heigh
 #mobile-menu ul, #mobile-menu li { list-style: none; list-style-image: none; margin: 0; padding: 0; }
 #mobile-menu a { display: block; padding: 10px 20px; }
 
-#mobile-search { padding: 20px 20px; }
+#mobile-search { padding: 20px 20px 0; }
 #mobile-search .cu-search input.form-text { width: 100%; }
 
 #navigation .links li, #navigation .menu li { margin: 0; padding: 0; }

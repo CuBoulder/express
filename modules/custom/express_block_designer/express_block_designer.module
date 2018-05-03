@@ -189,10 +189,6 @@ function express_block_designer_secure_permissions($role) {
       'administer block designer themes',
       'use block designer',
     ),
-    'site_editor' => array(
-      'administer block designer themes',
-      'use block designer',
-    ),
     'site_owner' => array(
       'administer block designer themes',
       'use block designer',
@@ -391,12 +387,6 @@ function express_block_designer_save($configs) {
   else {
     serialize($record);
     $saved = drupal_write_record('express_block_designer', $record);
-  }
-}
-
-function express_block_designer_delete($delta = NULL) {
-  if ($delta) {
-    $query = db_delete('express_block_designer')->condition('block_delta', $delta)->execute();
   }
 }
 

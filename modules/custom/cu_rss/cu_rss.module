@@ -297,9 +297,6 @@ function cu_rss_secure_permissions($role) {
     'developer' => array(
       'administer rss feeds',
     ),
-    'site_editor' => array(
-      'administer rss feeds',
-    ),
     'site_owner' => array(
       'administer rss feeds',
     ),

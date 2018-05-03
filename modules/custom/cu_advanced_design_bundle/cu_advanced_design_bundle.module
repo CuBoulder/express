@@ -33,6 +33,7 @@ function cu_advanced_design_bundle_secure_permissions($role) {
 
     ),
     'site_owner' => array(
+      'administer backstretch',
     ),
   );
 

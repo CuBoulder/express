@@ -753,12 +753,6 @@ div.messages {
 .form-item {
   margin-bottom: 5px;
 }
-.form-item input.error.form-checkbox {
-  & + label {
-    border:2px solid red;
-    padding:3px;
-  }
-}
 .filterable-option {
   padding: 10px;
 }

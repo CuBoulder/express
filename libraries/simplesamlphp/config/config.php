@@ -47,7 +47,6 @@ if (isset($_REQUEST['saml-config-debug']) && $_REQUEST['saml-config-debug']) {
 }
 
 header('Access-Control-Allow-Origin: *');
-
 $db = $databases['saml']['default'];
 
 $config = array(

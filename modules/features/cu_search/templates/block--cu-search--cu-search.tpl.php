@@ -1,21 +1,17 @@
 <?php
-
-/**
- * @file
- * Template for desktop search block.
- */
-
-global $base_path;
-$active = TRUE;
-$options = $block->options;
-$configs = $block->configs;
-$active_option = key($options);
-$active_configs = $configs[$active_option];
+  global $base_path;
+  $active = TRUE;
+  $options = $block->options;
+  $configs = $block->configs;
+  $active_option = key($options);
+  $active_configs = $configs[$active_option];
 ?>
-  <div class="cu-search-box cu-search-box-small animated" role="search">
+  <div class="cu-search-box cu-search-box-small animated">
     <h2 class="element-invisible"><?php print t('Search'); ?></h2>
     <form class="cu-search-form" action="<?php print $active_configs['action']; ?>" method="get">
       <div class="search-form-wrapper">
+
+
         <?php if (count($options) > 1): ?>
           <div class="search-options">
             <?php foreach ($options as $option): ?>

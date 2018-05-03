@@ -76,8 +76,7 @@ h2.secondary-menu-label {
   background-color: $cugold;
   color:#000;
 }
-#main-menu-wrapper ul#main-menu a.home-link,
-#main-menu-wrapper ul#main-menu a.home-link.active {
+#main-menu-wrapper ul#main-menu a#home-link {
   background-color: transparent;
   color:#fff;
 }

@@ -180,31 +180,3 @@ function cu_core_page_alter(&$page) {
 function cu_core_form_menu_edit_item_alter(&$form, &$form_state, $form_id) {
   $form['actions']['#weight'] = 1000;
 }
-
-/**
- * Implements hook_permission().
- */
-function cu_core_permission() {
-  return array(
-    'view express environment indicator' => array(
-      'title' => t('View Express Environment Indicator'),
-    ),
-  );
-}
-
-function cu_core_preprocess_html(&$vars) {
-  if (user_access('view express environment indicator')) {
-    $env = $_SERVER['HTTP_HOST'];
-    switch ($env) {
-      case 'www.colorado.edu':
-        $vars['classes_array'][] = 'environment-indicator-active';
-        $vars['classes_array'][] = 'environment-production';
-        break;
-      case 'www-test.colorado.edu':
-        $vars['classes_array'][] = 'environment-indicator-active';
-        $vars['classes_array'][] = 'environment-test';
-        break;
-    }
-  }
-  drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
-}

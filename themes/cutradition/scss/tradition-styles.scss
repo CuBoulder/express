@@ -91,13 +91,11 @@ body {
   a:hover:after {
     background-color:$cugold !important;
   }
-  a.home-link,
-  a.home-link.active {
+  a#home-link {
     color:#363636;
     background-color: transparent;
   }
-  a.home-link:after,
-  a.home-link.active:after {
+  a#home-link:after {
     background: transparent !important;
   }
 }

@@ -17,24 +17,22 @@ use Behat\Behat\Hook\Scope\AfterStepScope;
 class FeatureContext extends MinkContext
 {
 
-  /*
-   * @AfterScenario
+  /** @AfterScenario
    * @param \Behat\Behat\Hook\Scope\AfterScenarioScope $scope
-
+   */
   public function after(AfterScenarioScope $scope)
   {
     $this->getSession()->visit($this->locatePath('/user/logout'));
-  } */
+  }
 
-  /*
+  /**
    * After every step in a @javascript scenario, we want to wait for AJAX
    * loading to finish. If a test failure, then take a screenshot of failed step.
    *
    * @AfterStep
    *
    * @param \Behat\Behat\Hook\Scope\AfterStepScope $scope
-
-  /*
+   */
   public function afterStep(AfterStepScope $scope)
   {
     if (0 === $scope->getTestResult()->getResultCode()) {
@@ -44,7 +42,7 @@ class FeatureContext extends MinkContext
       }
       $this->iWaitForAjax();
     }
-  } */
+  }
 
   /**
    * Wait for AJAX to finish.
@@ -73,7 +71,7 @@ class FeatureContext extends MinkContext
     $element = $this->getSession()->getPage();
 
     // Logout if logged in.
-    if ($element->hasContent('Who\'s online')) {
+    if ($element->hasContent('Real name:')) {
       $this->getSession()->visit($this->locatePath('/user/logout'));
       $this->getSession()->visit($this->locatePath('/user'));
       $element = $this->getSession()->getPage();
@@ -224,7 +222,7 @@ class FeatureContext extends MinkContext
   public function iWaitForTheElementToAppear($arg1) {
     $this->spinner(function($context, $arg1) {
 
-      $el = $context->getSession()->getPage()->find("css", $arg1);
+      $el = $context->getSession()->getPage()->findById($arg1);
 
       if ($el !== NULL && $el->isVisible()) {
         return true;
@@ -256,7 +254,10 @@ class FeatureContext extends MinkContext
 
     $backtrace = debug_backtrace();
 
-    throw new Exception("Timeout thrown by ". $backtrace[1]['class']. "::". $backtrace[1]['function']. "()\n". $backtrace[1]['file']. ", line ". $backtrace[1]['line']);
+    throw new Exception(
+      "Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n" .
+      $backtrace[1]['file'] . ", line " . $backtrace[1]['line']
+    );
   }
 
   /**
@@ -281,28 +282,6 @@ class FeatureContext extends MinkContext
     }
     if (empty($result)) {
       throw new Exception(sprintf("No link to '%s' on the page %s", $link, $this->getSession()->getCurrentUrl()));
-    }
-  }
-
-  /**
-   * @Then I should not see the link :link
-   *
-   * @param $link
-   *
-   * @throws \Exception
-   */
-  public function assertLinkNotVisible($link)
-  {
-    $element = $this->getSession()->getPage();
-    $result = $element->findLink($link);
-    try {
-      if ($result && $result->isVisible()) {
-        throw new Exception(sprintf("Link to '%s' found on the page %s", $link, $this->getSession()->getCurrentUrl()));
-      }
-    } catch (UnsupportedDriverActionException $e) {
-      // We catch the UnsupportedDriverActionException exception in case
-      // this step is not being performed by a driver that supports javascript.
-      // All other exceptions are valid.
     }
   }
 
@@ -347,13 +326,8 @@ class FeatureContext extends MinkContext
     $field = $this->fixStepArgument($field);
 
     if ($this->getMinkParameter('files_path')) {
-
-      // We can't use realpath() since the tests might be run on a different server.
-      // $fullPath = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$path;
-
-      $fullPath = rtrim($this->getMinkParameter('files_path')).DIRECTORY_SEPARATOR.$path;
+      $fullPath = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$path;
       echo $fullPath;
-
       if (is_file($fullPath)) {
         $path = $fullPath;
       }

@@ -131,9 +131,6 @@ function cu_helpscout_secure_permissions($role) {
       'use helpscout beacon',
       'administer helpscout beacon',
     ),
-    'site_editor' => array(
-      // 'use helpscout beacon',
-    ),
     'site_owner' => array(
       // 'use helpscout beacon',
     ),
