@@ -1,6 +1,7 @@
 @config @roletest
 Feature: Site Settings access
 
+
 Scenario Outline: EMCs and AMs cannot access Admin/Settings page; all others can
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings"
@@ -17,6 +18,8 @@ Examples:
 | edit_only        | "Settings" |
 | access_manager   | "Access denied" |
 | configuration_manager | "Settings" |
+
+# SITE CONFIGURATION 
 
 Scenario Outline: Only Devs, Admins, SOs and CMs can Set the Site Name
 Given I am logged in as a user with the <role> role
@@ -86,7 +89,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Google Analytics" |
 
-Scenario Outline: Only Devs, Admins, SOs and CMs can Configure Bundles
+Scenario Outline: Only Devs, Admins, SOs and CMs can Enable Bundles
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/bundles/list"
 Then I should see <message>
@@ -102,6 +105,9 @@ Examples:
 | edit_only        | "Access denied" |
 | access_manager   | "Access denied" |
 | configuration_manager | "Configure Bundles" |
+
+
+# URL MANAGEMENT
 
 Scenario Outline: Only Devs, Admins, SOs and CMs can Create URL Redirects
 Given I am logged in as a user with the <role> role
@@ -119,6 +125,9 @@ Examples:
 | edit_only        | "Access denied" |
 | access_manager   | "Access denied" |
 | configuration_manager | "URL redirects" |
+
+
+# CACHE
 
 Scenario Outline: EMCs and AMs cannot Cache Clear options; all other roles can
 Given I am logged in as a user with the <role> role
@@ -154,57 +163,8 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Path To Clear" |
 
-Scenario Outline: Only Devs, Admins, SOs and CMs can Set the Feedback Form
-Given I am logged in as a user with the <role> role
-When I go to "admin/settings/forms/feedback"
-Then I should see <message>
 
-Examples:
-| role             | message |
-| developer        | "Feedback Form" |
-| administrator    | ""Feedback Form" |
-| site_owner       | "Feedback Form" |
-| content_editor   | "Access denied" |
-| edit_my_content  | "Access denied" |
-| site_editor      | "Access denied" |
-| edit_only        | "Access denied" |
-| access_manager   | "Access denied" |
-| configuration_manager | ""Feedback Form" |
-
-
-Scenario Outline: Only Devs, Admins, SOs and CMs can Set the Feedback Form
-Given I am logged in as a user with the <role> role
-When I go to "admin/settings/forms/feedback"
-Then I should see <message>
-
-Examples:
-| role             | message |
-| developer        | "Feedback Form" |
-| administrator    | "Feedback Form" |
-| site_owner       | "Feedback Form" |
-| content_editor   | "Access denied" |
-| edit_my_content  | "Access denied" |
-| site_editor      | "Access denied" |
-| edit_only        | "Access denied" |
-| access_manager   | "Access denied" |
-| configuration_manager | "Feedback Form" |
-
-Scenario Outline: Only Devs, Admins, SOs and CMs can enable Social Media Share Settings
-Given I am logged in as a user with the <role> role
-When I go to "admin/settings/social/share"
-Then I should see <message>
-
-Examples:
-| role             | message |
-| developer        | "Social Share Settings" |
-| administrator    | "Social Share Settings" |
-| site_owner       | "Social Share Settings" |
-| content_editor   | "Access denied" |
-| edit_my_content  | "Access denied" |
-| site_editor      | "Access denied" |
-| edit_only        | "Access denied" |
-| access_manager   | "Access denied" |
-| configuration_manager | "Social Share Settings" |
+# SEARCH SETTINGS
 
 Scenario Outline: Only Devs, Admins, SOs and CMs can set Site Search Settings options
 Given I am logged in as a user with the <role> role
