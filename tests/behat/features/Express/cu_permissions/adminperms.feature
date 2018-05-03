@@ -1,7 +1,7 @@
 @cu_permissions @roletest
 Feature: CU Permissions
 
-Scenario Outline: All roles can acccess Admin Content
+Scenario Outline: All roles can access Admin Content
 Given I am logged in as a user with the <role> role
 When I go to "admin/content"
 Then I should not see "Access denied"
@@ -64,7 +64,7 @@ Examples:
 | edit_only           | "Access denied" |
 
   @api @cu_permissions
-  Scenario Outline: An site owner/administrator/content editor user should not be able to access certain admin settings
+  Scenario Outline: An SO, Admin, and CE user should not be able to access certain admin settings
     Given  I am logged in as a user with the <role> role
     When I go to "admin/index"
     Then I should not see "<message>"
