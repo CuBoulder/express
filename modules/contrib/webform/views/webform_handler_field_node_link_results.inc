@@ -1,11 +1,8 @@
 <?php
 
 /**
- * @file
  * Views handler to display a results link for Webform submissions.
- */
-
-/**
+ *
  * Field handler to present a link node edit.
  */
 class webform_handler_field_node_link_results extends views_handler_field_node_link {

@@ -1,19 +1,14 @@
 <?php
 
 /**
- * @file
  * Webform exporter for creating CSV/TSV delimited files.
- */
-
-/**
- *
  */
 class webform_exporter_delimited extends webform_exporter {
   public $line_ending;
   public $delimiter;
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function __construct($options) {
     $this->line_ending = webform_variable_get('webform_csv_line_ending');
@@ -27,9 +22,9 @@ class webform_exporter_delimited extends webform_exporter {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
-  public function add_row(&$file_handle, $data, $row_count) {
+  public function add_row(&$file_handle, array $data, $row_count) {
     foreach ($data as $key => $value) {
       // Escape inner quotes and wrap all contents in new quotes.
       $data[$key] = '"' . str_replace('"', '""', $data[$key]) . '"';
@@ -43,7 +38,7 @@ class webform_exporter_delimited extends webform_exporter {
   }
 
   /**
-   *
+   * {@inheritdoc}
    */
   public function set_headers($filename) {
     parent::set_headers($filename);
