@@ -4,6 +4,8 @@ When I am on the admin/settings page
 As a user with the proper role
 I should be able to set the site name, enable bundles and other configurations as defined
 
+# SITE EDITOR NOT TESTED AT THIS TIME
+
 Scenario Outline: EMCs and AMs cannot access Admin/Settings page; all others can
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings"
