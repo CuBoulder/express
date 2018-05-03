@@ -16,12 +16,6 @@ Then I should see "The configuration options have been saved."
 And I press "edit-submit"
 Then I should see "The configuration options have been saved."
 
-#THIS IS JUST A QUICK TEST TO MAKE SURE THE ABOVE SCENARIO RAN RIGHT
-Scenario: Site Editor can't set site settings
-Given I am logged in as a user with the "site_editor" role
-When I go to "admin/settings/site-configuration/site-name"
-Then I should see "Access denied"
-
 Scenario Outline: EMCs and AMs cannot access Admin/Settings page; all others can
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings"
