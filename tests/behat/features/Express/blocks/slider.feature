@@ -1,4 +1,4 @@
-@blocks @slider @roletest
+@blocks @slider
 Feature: Slider Block
 When I login to a Web Express website
 As an authenticated user
