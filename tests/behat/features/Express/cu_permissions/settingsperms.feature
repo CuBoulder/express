@@ -21,6 +21,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Settings" |
 
+
 # SITE CONFIGURATION 
 
 Scenario Outline: Only Devs, Admins, SOs and CMs can Set the Site Name
