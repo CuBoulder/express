@@ -111,16 +111,16 @@ function cu_ldap_user_login(&$edit, $account) {
  */
 function cu_ldap_cron() {
   // Only need to do this once a month.
-  if (REQUEST_TIME >= strtotime('+1 month', (int) variable_get('cu_ldap_ping_time', strtotime('-1 year')))) {
-    $users = entity_load('user');
-
-    foreach ($users as &$account) {
-      _set_custom_user_fields($account);
-    }
-    // Set time variable on success.
-    variable_set('cu_ldap_ping_time', REQUEST_TIME);
-
-    // Log it in watchdog?
-    watchdog('cron', 'CU_LDAP updated realnames and primary affiliation for all enabled users.');
-  }
+  // if (REQUEST_TIME >= strtotime('+1 month', (int) variable_get('cu_ldap_ping_time', strtotime('-1 year')))) {
+//     $users = entity_load('user');
+//
+//     foreach ($users as &$account) {
+//       _set_custom_user_fields($account);
+//     }
+//     // Set time variable on success.
+//     variable_set('cu_ldap_ping_time', REQUEST_TIME);
+//
+//     // Log it in watchdog?
+//     watchdog('cron', 'CU_LDAP updated realnames and primary affiliation for all enabled users.');
+//   }
 }
