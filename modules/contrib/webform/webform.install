@@ -861,6 +861,10 @@ function webform_update_dependencies() {
   $dependencies['webform'][7320] = array(
     'system' => 7059,
   );
+  // Ensure rules tables and fields exist before trying to use it.
+  $dependencies['webform'][7420] = array(
+    'rules' => 7213,
+  );
   return $dependencies;
 }
 
@@ -1658,8 +1662,9 @@ function webform_update_7403(&$sandbox) {
 }
 
 /**
- * Remove files left over from deleted submissions. Such files are now deleted
- * automatically.
+ * Remove files left over from deleted submissions.
+ *
+ * Such files are now deleted automatically.
  */
 function webform_update_7404() {
   module_load_include('inc', 'webform', 'components/file');
@@ -2044,8 +2049,9 @@ function webform_update_7417() {
 }
 
 /**
- * Upgrade the "extra" column in the e-mail table to be consistent with a new
- * webform installation.
+ * Upgrade the "extra" column in the e-mail table.
+ *
+ * Make the column consistent with a new webform installation.
  *
  * In version 7.x-4.0-rc6 and earlier, the extra field was added with 'not null'
  * FALSE, cause the schema module to report in mismatch. While functionally this

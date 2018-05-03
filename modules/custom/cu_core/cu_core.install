@@ -15,18 +15,16 @@ function cu_core_install() {
   if ($hosting === 'travis') {
     module_enable(array('travis_hosting'));
   }
-
-  if ($hosting === 'pantheon') {
+  elseif ($hosting == 'ucb_on_prem_hosting') {
+    module_enable(array('ucb_on_prem_hosting'));
+  }
+  elseif ($hosting === 'pantheon') {
     module_enable(array('pantheon_hosting'));
   }
-
-  if ($hosting === 'lando' || $hosting === 'valet') {
+  elseif ($hosting === 'lando' || $hosting === 'valet') {
     module_enable(array('local_hosting'));
   }
-
-  // @TODO: If it's not Travis or Pantheon, assume it's NG for now.
-  // Eventually update to deal with ng (2.0) vs. 3.0
-  if ($hosting === FALSE) {
+  else {
     module_enable(array('ng_hosting'));
   }
 
@@ -334,7 +332,7 @@ function cu_core_update_7003() {
     'cu_transition_fit',
   ));
 
-  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, memcache');
+  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish');
 
   // Run on every update
   cu_core_inventory_update('7003');
@@ -354,7 +352,7 @@ function cu_core_update_7004() {
     'cu_shortcuts',
   ));
 
-  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, memcache, entityreference, express_layout, cu_ldap, ldap_authentication, ldap_servers');
+  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, entityreference, express_layout, cu_ldap, ldap_authentication, ldap_servers');
 
   // Remove duplicates in shortcut menu
   $shortcuts = array();
@@ -955,8 +953,6 @@ function cu_core_update_7039() {
   }
 }
 
-
-
 /**
  * Express 2.8.6 Update.
  *
@@ -965,6 +961,21 @@ function cu_core_update_7039() {
 function cu_core_update_7040() {
   cu_core_revert_features();
 }
+
+/*
+* Updates for new infrastructure.
+*/
+function cu_core_update_7041() {
+  module_disable(array(
+    'securepages',
+    'memcache',
+    'ng_hosting'
+   ));
+   drupal_uninstall_modules($module_list = array('securepages','memcache','ng_hosting'), $uninstall_dependents = FALSE);
+   module_enable(array(
+     'ucb_on_prem_hosting'
+   ));
+ }
 
 /**
  * Revert features by passing features in an array.

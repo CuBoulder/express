@@ -2,6 +2,8 @@
 
 /**
  * @file
+ * Submission handling functions.
+ *
  * This file is loaded when handling submissions, either submitting new,
  * editing, or viewing. It also contains all CRUD functions for submissions.
  *
@@ -54,7 +56,7 @@ function webform_submission_data($node, $submitted) {
  * @return object
  *   A new submission object, possibly for preview
  */
-function webform_submission_create($node, $account, $form_state, $is_preview = FALSE, $prototype = NULL) {
+function webform_submission_create($node, $account, array $form_state, $is_preview = FALSE, $prototype = NULL) {
   $data = webform_submission_data($node, $form_state['values']['submitted']);
   if (is_object($prototype)) {
     $submission = clone $prototype;
@@ -89,7 +91,7 @@ function webform_submission_create($node, $account, $form_state, $is_preview = F
  * @param $submission
  *   The webform submission object to be saved into the database.
  *
- * @return
+ * @return int
  *   The existing submission SID.
  */
 function webform_submission_update($node, $submission) {
@@ -139,7 +141,7 @@ function webform_submission_update($node, $submission) {
  * @param $submission
  *   The webform submission object to be saved into the database.
  *
- * @return
+ * @return int
  *   The new submission SID.
  */
 function webform_submission_insert($node, $submission) {
@@ -417,7 +419,6 @@ function webform_submission_delete_form($form, $form_state, $node, $submission) 
   drupal_set_title(webform_submission_title($node, $submission));
 
   // Keep the NID and SID in the same location as the webform_client_form().
-  // This helps mollom identify the same fields when deleting a submission.
   $form['#tree'] = TRUE;
   $form['details']['nid'] = array(
     '#type' => 'value',
@@ -609,7 +610,7 @@ function webform_submission_resend_submit($form, &$form_state) {
  *
  * @throws Exception
  */
-function theme_webform_submission_resend($variables) {
+function theme_webform_submission_resend(array $variables) {
   $form = $variables['form'];
 
   $header = array(t('Send'), t('E-mail to'), t('Subject'));
@@ -724,6 +725,7 @@ function webform_get_submissions($filters = array(), $header = NULL, $pager_coun
  *   Optional. The number of submissions to include in the results.
  *
  * @return QueryExtendableInterface|SelectQueryInterface
+ *   The query object.
  */
 function webform_get_submissions_query($filters = array(), $header = NULL, $pager_count = 0) {
   if (!is_array($filters)) {
@@ -902,8 +904,8 @@ function webform_get_submissions_load($pager_query) {
  *   Optional; NULL for all, truthy for drafts only, falsy for completed only.
  *   The default is completed submissions only.
  *
- * @return
- *   An integer value of the number of submissions.
+ * @return int
+ *   The number of submissions.
  */
 function webform_get_submission_count($nid, $uid = NULL, $is_draft = 0) {
   $counts = &drupal_static(__FUNCTION__);
