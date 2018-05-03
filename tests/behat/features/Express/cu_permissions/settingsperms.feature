@@ -9,13 +9,13 @@ I should be able to set the site name, enable bundles and other configurations a
 Scenario: Roles can be assigned their new permissions
 Given I am logged in as a user with the "developer" role
 And I am on "admin/config/people/secure_permissions"
-And I check "#edit-secure-permissions-sync-roles"
-And I press "#edit-submit"
+And I check "edit-secure-permissions-sync-roles"
+And I press "edit-submit"
 Then I should see "The configuration options have been saved."
 And I uncheck "edit-secure-permissions-sync-roles"
-And I press "#edit-submit"
+And I press "edit-submit"
 Then I should see "The configuration options have been saved."
-And I press "#edit-submit"
+And I press "edit-submit"
 Then I should see "The configuration options have been saved."
 
 Scenario: Site Editor can't set site settings
