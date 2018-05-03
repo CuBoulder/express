@@ -1,7 +1,8 @@
 @unsyncroles @roletest
 Feature: Secure permissions Role Sync/Unsync
+The assigned roles should be synced with their new permission access
 
-Scenario: Roles can be unsynched
+Scenario Outline: Roles can be assigned their new permissions
 Given I am logged in as a user with the "developer" role
 And I am on "admin/config/people/secure_permissions"
 And I check "#edit-secure-permissions-sync-roles"
