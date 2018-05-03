@@ -1,6 +1,8 @@
-@config @roletest
-Feature: Site Settings access
-
+@settings @roletest
+Feature: The Settings page lists the configuration options for all the enabled bundles
+When I am on the admin/settings page
+As a user with the proper role
+I should be able to set the site name, enable bundles and other configurations as defined
 
 Scenario Outline: EMCs and AMs cannot access Admin/Settings page; all others can
 Given I am logged in as a user with the <role> role
