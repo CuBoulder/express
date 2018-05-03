@@ -6,7 +6,7 @@ Should be able to clear the site caches
 
 # ACCESSING THE CLEAR CACHES LANDING PAGE
 @api
-Scenario Outline: Devs, Admins and SOs can access the 'Clear Caches' page where they see four tabs
+Scenario Outline: Devs, Admins, SOs and ConMgrs can access the 'Clear Caches' page where they see four tabs
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/cache/clear"
  Then I should see "Which Cache to Clear?"
