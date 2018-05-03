@@ -35,7 +35,7 @@ install:
   - export HOME
   - export TRAVIS_EVENT_TYPE
   - export BUNDLE_NAME="null"
-  - export EXPRESS_JS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@javascript"
+  - export EXPRESS_JS_BEHAT_TAGS="@run_first"
   - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript"
   - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken"
 
