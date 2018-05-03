@@ -15,7 +15,8 @@ function cu_test_content_gallery_install() {
   $node->uid = 1;
   $count = 0;
   for($i=0; $i < 11; $i++) {
-    $file_path = system_retrieve_file('https://picsum.photos/1500/1000/?random');
+    $file_url = get_redirect_final_target('https://picsum.photos/1500/1000/?random');
+    $file_path = system_retrieve_file($file_url);
 
     $file = (object) array(
       'uid' => $count,
