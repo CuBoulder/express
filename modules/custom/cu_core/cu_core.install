@@ -916,11 +916,20 @@ function cu_core_update_7038() {
 }
 
 /**
- * Express 2.8.5 Update.
+ * Express 2.8.6 Update.
  *
- * Revert all features.  When more than 5 site owners, make all site owners site editors
+ * Revert all features to fix WYSIWYG filter.
  */
-function cu_core_update_7039() {
+function cu_core_update_7040() {
+  cu_core_revert_features();
+}
+
+/**
+ * Express 2.9.0 Update.
+ *
+ * Revert all features.  When more than 3 site owners, make all site owners site editors
+ */
+function cu_core_update_7042() {
   cu_core_revert_features();
 
   // Adding Site Editor role for invites.
@@ -940,8 +949,8 @@ function cu_core_update_7039() {
   $query->condition('ur.rid', $site_owner_role->rid, '=');
   $site_owners = $query->execute()->fetchAll();
 
-  // if there are more than 5 make everyone a site_editor
-  if (count($site_owners) >= 5) {
+  // if there are more than 3 make everyone a site_editor
+  if (count($site_owners) > 3) {
     foreach ($site_owners as $owner) {
       // Grant user the role.
       $query = db_insert('users_roles')->fields(array('uid', 'rid'));
@@ -951,15 +960,6 @@ function cu_core_update_7039() {
     // delete everyone from test
     $query = db_delete('users_roles')->condition('rid', $site_owner_role->rid)->execute();
   }
-}
-
-/**
- * Express 2.8.6 Update.
- *
- * Revert all features to fix WYSIWYG filter.
- */
-function cu_core_update_7040() {
-  cu_core_revert_features();
 }
 
 /**
