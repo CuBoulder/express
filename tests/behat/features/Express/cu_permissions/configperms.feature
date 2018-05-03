@@ -1,7 +1,7 @@
 @config @roletest
 Feature: Permissions for Configuration and Settings 
 
-Scenario Outline: Most roles cannot access the Admin/Settings page
+Scenario Outline: EMCs and AMs cannot access Admin/Settings page; all others can
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings"
 Then I should see <message>
@@ -18,7 +18,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Settings" |
 
-Scenario Outline: Most roles cannot Set the Site Name
+Scenario Outline: Only Devs, Admins, SOs and CMs can Set the Site Name
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/site-configuration/site-name"
 Then I should see <message>
@@ -35,7 +35,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Site Name" |
 
-Scenario Outline: Most roles cannot Set the Site Description
+Scenario Outline: Only Devs, Admins, SOs and CMs can Set the Site Description
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/site-configuration/site-description"
 Then I should see <message>
@@ -52,7 +52,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Site Description" |
 
-Scenario Outline: Most roles cannot Set the Contact Information
+Scenario Outline: Only Devs, Admins, SOs and CMs can Set the Contact Information
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/site-configuration/contact"
 Then I should see <message>
@@ -69,7 +69,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Contact Information" |
 
-Scenario Outline: Most roles cannot Set the Google Analytics ID
+Scenario Outline: Only Devs, Admins, SOs and CMs can Set the Google Analytics ID
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/site-configuration/google-analytics"
 Then I should see <message>
@@ -86,7 +86,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Google Analytics" |
 
-Scenario Outline: Most roles cannot Configure Bundles
+Scenario Outline: Only Devs, Admins, SOs and CMs can Configure Bundles
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/bundles/list"
 Then I should see <message>
@@ -103,7 +103,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Configure Bundles" |
 
-Scenario Outline: Most roles cannot Create URL Redirects
+Scenario Outline: Only Devs, Admins, SOs and CMs can Create URL Redirects
 Given I am logged in as a user with the <role> role
 When I go to "admin/config/search/redirect"
 Then I should see <message>
@@ -120,7 +120,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "URL redirects" |
 
-Scenario Outline: Some roles can see Cache Clear options
+Scenario Outline: EMCs and AMs cannot Cache Clear options; all other roles can
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/cache/clear"
 Then I should see <message>
@@ -137,7 +137,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Which Cache to Clear?" |
 
-Scenario Outline: Some roles can Clear Cache By Page
+Scenario Outline: EMCs and AMs cannot Clear Cache By Page; all other roles can
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/cache/clear/varnish-path"
 Then I should see <message>
