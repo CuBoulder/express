@@ -1,4 +1,4 @@
-@blocks @roletest
+@blocks
 Feature: Text Block Block
 When I login to a Web Express website
 As an authenticated user
