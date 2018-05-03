@@ -962,21 +962,6 @@ function cu_core_update_7040() {
   cu_core_revert_features();
 }
 
-/*
-* Updates for new infrastructure.
-*/
-function cu_core_update_7041() {
-  module_disable(array(
-    'securepages',
-    'memcache',
-    'ng_hosting'
-   ));
-   drupal_uninstall_modules($module_list = array('securepages','memcache','ng_hosting'), $uninstall_dependents = FALSE);
-   module_enable(array(
-     'ucb_on_prem_hosting'
-   ));
- }
-
 /**
  * Revert features by passing features in an array.
  */
