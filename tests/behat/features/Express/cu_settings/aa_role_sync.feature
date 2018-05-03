@@ -1,5 +1,5 @@
 @settings
-Feature: The Settings page lists the configuration options for all the enabled bundles
+Feature: The system can sync/unsync roles with secure permissions
 In order to test the new roles in Web Express
 As a user with the proper role
 The system should sync/unsync with secure permissions
