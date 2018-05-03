@@ -1,4 +1,4 @@
-@file @roletest
+@file
 Feature: File Content Type
 When I login to a Web Express website
 As an authenticated user
