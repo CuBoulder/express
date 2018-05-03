@@ -949,8 +949,8 @@ function cu_core_update_7042() {
   $query->condition('ur.rid', $site_owner_role->rid, '=');
   $site_owners = $query->execute()->fetchAll();
 
-  // if there are more than 3 make everyone a site_editor
-  if (count($site_owners) > 3) {
+  // if there are more than 3 other than osr_test_owner, make everyone a site_editor
+  if (count($site_owners) > 4) {
     foreach ($site_owners as $owner) {
       // Grant user the role.
       $query = db_insert('users_roles')->fields(array('uid', 'rid'));
