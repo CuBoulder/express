@@ -246,7 +246,7 @@ function hook_webform_submission_actions($node, $submission) {
  * @param array $context
  *   Array of context with indices 'nid' and 'uid'.
  */
-function hook_webform_draft_alter(&$sid, $context) {
+function hook_webform_draft_alter(&$sid, array $context) {
   if ($_GET['newdraft']) {
     $sid = NULL;
   }
@@ -298,11 +298,11 @@ function hook_webform_component_load() {
  * automatically add data to the component based on the component form. Using
  * hook_form_alter() will be sufficient in most cases.
  *
- * @see hook_form_alter()
- * @see webform_component_edit_form()
- *
  * @param $component
  *   The Webform component being saved.
+ *
+ * @see hook_form_alter()
+ * @see webform_component_edit_form()
  */
 function hook_webform_component_presave(&$component) {
   $component['extra']['new_option'] = 'foo';
@@ -362,7 +362,7 @@ function hook_webform_component_delete($component) {
  *   - components: The list of analyses for each analysis-enabled component
  *     for the node. Each keyed by its component ID.
  */
-function hook_webform_analysis_alter(&$analysis) {
+function hook_webform_analysis_alter(array &$analysis) {
   $node = $analysis['#node'];
 
   // Add an additional piece of information to every component's analysis:
@@ -395,7 +395,7 @@ function hook_webform_analysis_alter(&$analysis) {
  * @see _webform_analysis_component()
  * @see hook_webform_analysis_alter()
  */
-function hook_webform_analysis_component_data_alter(&$data, $node, $component) {
+function hook_webform_analysis_component_data_alter(array &$data, $node, array $component) {
   if ($component['type'] === 'textfield') {
     // Do not display rows that contain a zero value.
     foreach ($data as $row_number => $row_data) {
@@ -532,7 +532,7 @@ function hook_webform_component_info() {
       // (like a fieldset or tabs). Defaults to FALSE.
       'group' => FALSE,
 
-      // If this component can be used for SPAM analysis, usually with Mollom.
+      // If this component can be used for SPAM analysis.
       'spam_analysis' => FALSE,
 
       // If this component saves a file that can be used as an e-mail
@@ -626,19 +626,14 @@ function hook_webform_submission_access($node, $submission, $op = 'view', $accou
     case 'view':
       return TRUE;
 
-    break;
     case 'edit':
       return FALSE;
 
-    break;
     case 'delete':
       return TRUE;
 
-    break;
     case 'list':
       return TRUE;
-
-    break;
   }
 }
 
@@ -650,8 +645,6 @@ function hook_webform_submission_access($node, $submission, $op = 'view', $accou
  * Access via this hook is in addition (adds permission) to the standard
  * webform access.
  *
- * @see webform_results_access()
- *
  * @param $node
  *   The Webform node to check access on.
  * @param $account
@@ -659,6 +652,8 @@ function hook_webform_submission_access($node, $submission, $op = 'view', $accou
  *
  * @return bool
  *   TRUE or FALSE if the user can access the webform results.
+ *
+ * @see webform_results_access()
  */
 function hook_webform_results_access($node, $account) {
   // Let editors view results of unpublished webforms.
@@ -676,8 +671,6 @@ function hook_webform_results_access($node, $account) {
  * Access via this hook is in addition (adds permission) to the standard
  * webform access (delete all webform submissions).
  *
- * @see webform_results_clear_access()
- *
  * @param object $node
  *   The Webform node to check access on.
  * @param object $account
@@ -685,12 +678,16 @@ function hook_webform_results_access($node, $account) {
  *
  * @return bool
  *   TRUE or FALSE if the user can access the webform results.
+ *
+ * @see webform_results_clear_access()
  */
 function hook_webform_results_clear_access($node, $account) {
   return user_access('my additional access', $account);
 }
 
 /**
+ * Overrides the node_access and user_access permissions.
+ *
  * Overrides the node_access and user_access permission to access and edit
  * webform components, e-mails, conditions, and form settings.
  *
@@ -705,8 +702,6 @@ function hook_webform_results_clear_access($node, $account) {
  * access as this will be the only test. For example, 'return TRUE;' would grant
  * annonymous access to creating webform components, which seldom be desired.
  *
- * @see webform_node_update_access()
- *
  * @param object $node
  *   The Webform node to check access on.
  * @param object $account
@@ -716,6 +711,8 @@ function hook_webform_results_clear_access($node, $account) {
  *   TRUE or FALSE if the user can access the webform results, or NULL if
  *   access should be deferred to other implementations of this hook or
  *   node_access('update') plus user_access('edit webform components').
+ *
+ * @see webform_node_update_access()
  */
 function hook_webform_update_access($node, $account) {
   // Allow anyone who can see webform_editable_by_user nodes and who has
@@ -766,7 +763,7 @@ function _webform_attachments_component($component, $value) {
  *
  * @see webform_node_defaults()
  */
-function hook_webform_node_defaults_alter(&$defaults) {
+function hook_webform_node_defaults_alter(array &$defaults) {
   $defaults['allow_draft'] = '1';
 }
 
@@ -863,17 +860,19 @@ function _webform_defaults_component() {
  * every component type and are not necessary to specify here (although they
  * may be overridden if desired).
  *
- * @param $component
+ * @param array $component
  *   A Webform component array.
+ * @param array $form
+ *   The form array.
+ * @param array $form_state
+ *   The form state array.
  *
  * @return array
  *   An array of form items to be displayed on the edit component page
  */
-function _webform_edit_component($component) {
-  $form = array();
-
+function _webform_edit_component(array $component, array &$form, array &$form_state) {
   // Disabling the description if not wanted.
-  $form['description'] = array();
+  $form['description']['#access'] = FALSE;
 
   // Most options are stored in the "extra" array, which stores any settings
   // unique to a particular component type.
@@ -942,7 +941,7 @@ function _webform_render_component($component, $value = NULL, $filter = TRUE, $s
  *
  * @see _webform_render_component()
  */
-function hook_webform_component_render_alter(&$element, &$component) {
+function hook_webform_component_render_alter(array &$element, array &$component) {
   if ($component['cid'] == 10) {
     $element['#title'] = 'My custom title';
     $element['#default_value'] = 42;
@@ -1003,7 +1002,7 @@ function _webform_display_component($component, $value, $format = 'html', $submi
  *
  * @see _webform_display_component()
  */
-function hook_webform_component_display_alter(&$element, &$component) {
+function hook_webform_component_display_alter(array &$element, array &$component) {
   if ($component['cid'] == 10) {
     $element['#title'] = 'My custom title';
     $element['#default_value'] = 42;
@@ -1026,7 +1025,7 @@ function hook_webform_component_display_alter(&$element, &$component) {
  * @param string $value
  *   The value to be set, as defined in the conditional action.
  */
-function _webform_action_set_component($component, &$element, &$form_state, $value) {
+function _webform_action_set_component(array $component, array &$element, array &$form_state, $value) {
   $element['#value'] = $value;
   form_set_value($element, $value, $form_state);
 }
@@ -1048,7 +1047,7 @@ function _webform_action_set_component($component, &$element, &$form_state, $val
  * @param $value
  *   The POST data associated with the user input.
  *
- * @return
+ * @return array
  *   An array of values to be saved into the database. Note that this should be
  *   a numerically keyed array.
  */
@@ -1312,8 +1311,7 @@ function _webform_csv_data_component($component, $export_options, $value) {
 }
 
 /**
- * Adjusts the view field(s) that are automatically generated for number
- * components.
+ * Fix the view field(s) that are automatically generated for number components.
  *
  * Provides each component the opportunity to adjust how this component is
  * displayed in a view as a field in a view table. For example, a component may
@@ -1329,7 +1327,7 @@ function _webform_csv_data_component($component, $export_options, $value) {
  * @return array
  *   The modified $fields array.
  */
-function _webform_view_field_component($component, $fields) {
+function _webform_view_field_component(array $component, array $fields) {
   foreach ($fields as &$field) {
     $field['webform_datatype'] = 'number';
   }
@@ -1356,7 +1354,7 @@ function _webform_view_field_component($component, $fields) {
  * @param array $args
  *   The arguments that were passed to the view.
  */
-function hook_webform_view_alter($view, $display_id, $args) {
+function hook_webform_view_alter($view, $display_id, array $args) {
   // Don't show component with cid == 4.
   $fields = $view->get_items('field', $display_id);
   foreach ($fields as $id => $field) {
@@ -1373,7 +1371,7 @@ function hook_webform_view_alter($view, $display_id, $args) {
  * @param array &$systems
  *   An array of mail system class names.
  */
-function hook_webform_html_capable_mail_systems_alter(&$systems) {
+function hook_webform_html_capable_mail_systems_alter(array &$systems) {
   if (module_exists('my_module')) {
     $systems[] = 'MyModuleMailSystem';
   }
@@ -1407,7 +1405,7 @@ function hook_webform_exporters() {
  * @param array &$exporters
  *   A list of all available webform exporters.
  */
-function hook_webform_exporters_alter(&$exporters) {
+function hook_webform_exporters_alter(array &$exporters) {
   $exporters['excel']['handler'] = 'customized_excel_exporter';
   $exporters['excel']['file'] = drupal_get_path('module', 'yourmodule') . '/includes/customized_excel_exporter.inc';
 }
