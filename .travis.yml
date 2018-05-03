@@ -30,13 +30,13 @@ cache:
 
 install:
 
-  # Export variables used later on in bash scripts.
+  # Export variables used later on in the bash scripts.
   - cd $TRAVIS_BUILD_DIR && cd ../ && export ROOT_DIR=$(pwd)
   - export HOME
   - export TRAVIS_EVENT_TYPE
   - export BUNDLE_NAME="null"
   - export EXPRESS_JS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@javascript"
-  - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript"
+  - export EXPRESS_HEADLESS_BEHAT_TAGS="@run_first"
   - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken"
 
   # Copy scripts to root.
