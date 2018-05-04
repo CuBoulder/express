@@ -5,7 +5,7 @@ An authenticated user with the proper role
 Should be able to select a published form as the site feedback form
 
 #SOME ROLES CAN SELECT A FEEDBACK FORM AND SET OPTIONS FOR IT
-@api
+@api @javascript
 Scenario Outline: Devs, Admins, SOs and ConMgrs can see all the options for the Feedback Form
  Given I am logged in as a user with the <role> role
  And am on "admin/settings/forms/feedback"
