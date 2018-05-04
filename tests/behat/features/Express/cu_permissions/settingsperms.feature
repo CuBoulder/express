@@ -42,22 +42,7 @@ Examples:
 
 # SITE CONFIGURATION 
 
-Scenario Outline: Only Devs, Admins, SOs and CMs can Set the Site Name
-Given I am logged in as a user with the <role> role
-When I go to "admin/settings/site-configuration/site-name"
-Then I should see <message>
 
-Examples:
-| role             | message |
-| developer        | "Site Name" |
-| administrator    | "Site Name" |
-| site_owner       | "Site Name" |
-| content_editor   | "Access denied" |
-| edit_my_content  | "Access denied" |
-| site_editor      | "Access denied" |
-| edit_only        | "Access denied" |
-| access_manager   | "Access denied" |
-| configuration_manager | "Site Name" |
 
 
 Scenario Outline: Only Devs, Admins, SOs and CMs can Set the Contact Information
