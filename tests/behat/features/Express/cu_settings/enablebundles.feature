@@ -6,7 +6,7 @@ Should be able to access the Bundle List pages
 
 #SOME ROLES CAN ENABLE BUNDLES
 @api
-Scenario Outline: Devs, Admins and SOs can access the Bundle List page and they see three tabs
+Scenario Outline: Devs, Admins, SOs and ConMgrs can access the Bundle List page and they see three tabs
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/bundles/list"
   Then I should see "Configure Bundles"
@@ -18,39 +18,49 @@ Examples:
     | role            | 
     | developer       | 
     | administrator   | 
-    | site_owner      | 
+    | site_owner      |
+    | configuration_manager |
 
 
 # SOME ROLES CAN NOT ENABLE BUNDLES
 @api 
-Scenario Outline: CEs and EMCs should not be able to access the Bundle List page
+Scenario Outline: Most roles should not be able to access the Bundle List page
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/bundles/list"
 Then I should see "Access denied"
 
- Examples:
-    | role            | 
-    | content_editor  | 
-    | edit_my_content  | 
+Examples
+| role |
+| content_editor |
+| edit_my_content  | 
+| site_editor      | 
+| edit_only        | 
+| access_manager   | 
    
  @api 
-Scenario Outline: CEs and EMCs should not be able to access the Bundle Add-on page
+Scenario Outline: Most roles should not be able to access the Bundle Add-on page
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/bundles/list/addon"
 Then I should see "Access denied"
 
- Examples:
-    | role            | 
-    | content_editor  | 
-    | edit_my_content  | 
+Examples
+| role |
+| content_editor |
+| edit_my_content  | 
+| site_editor      | 
+| edit_only        | 
+| access_manager   | 
     
  @api 
-Scenario Outline: CEs and EMCs should not be able to access the Bundle Request page
+Scenario Outline: Most rolesadd add should not be able to access the Bundle Request page
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/bundles/list/request"
 Then I should see "Access denied"
 
- Examples:
-    | role            | 
-    | content_editor  | 
-    | edit_my_content  | 
+Examples
+| role |
+| content_editor |
+| edit_my_content  | 
+| site_editor      | 
+| edit_only        | 
+| access_manager   | 
