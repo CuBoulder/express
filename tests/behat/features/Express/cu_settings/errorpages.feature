@@ -18,7 +18,10 @@ Scenario Outline: Devs, Admins and SOs can access Error Pages; CEs and EMCs cann
     | site_owner      | "Allows you to set the default \"Not Found\" page." |
     | content_editor  | "Access Denied" |
     | edit_my_content | "Access Denied" |
-
+    | site_editor      | "Access denied" |
+    | edit_only        | "Access denied" |
+    | access_manager   | "Access denied" |
+    | configuration_manager | "Allows you to set the default \"Not Found\" page." |
 
 #SETTING THE 404 PAGE 
 # create a basic page; use it for 404 page
@@ -36,7 +39,6 @@ Then I go to "admin/settings/adv-content/error"
  Then I should see "The configuration options have been saved"
  And I go to "missing-page-test"
  Then I should see "404 Page"
-
 
  #SETTING THE 403 PAGE 
 # create a basic page; use it for 403 page
