@@ -59,22 +59,6 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Site Name" |
 
-Scenario Outline: Only Devs, Admins, SOs and CMs can Set the Site Description
-Given I am logged in as a user with the <role> role
-When I go to "admin/settings/site-configuration/site-description"
-Then I should see <message>
-
-Examples:
-| role             | message |
-| developer        | "Site Description" |
-| administrator    | "Site Description" |
-| site_owner       | "Site Description" |
-| content_editor   | "Access denied" |
-| edit_my_content  | "Access denied" |
-| site_editor      | "Access denied" |
-| edit_only        | "Access denied" |
-| access_manager   | "Access denied" |
-| configuration_manager | "Site Description" |
 
 Scenario Outline: Only Devs, Admins, SOs and CMs can Set the Contact Information
 Given I am logged in as a user with the <role> role
