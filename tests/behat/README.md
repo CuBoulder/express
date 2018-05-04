@@ -1,6 +1,6 @@
 ## Writing Tests
 
-Wiriting tests for the Express codebase is [covered in another documentation repository](https://github.com/CuBoulder/express_documentation/blob/master/docs/behat.md).
+Writing tests for the Express codebase is [covered in another documentation repository](https://github.com/CuBoulder/express_documentation/blob/master/docs/behat.md).
 
 ## Local Setup
 
