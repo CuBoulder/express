@@ -45,22 +45,7 @@ Examples:
 
 
 
-Scenario Outline: Only Devs, Admins, SOs and CMs can Set the Contact Information
-Given I am logged in as a user with the <role> role
-When I go to "admin/settings/site-configuration/contact"
-Then I should see <message>
 
-Examples:
-| role             | message |
-| developer        | "Contact Information" |
-| administrator    | "Contact Information" |
-| site_owner       | "Contact Information" |
-| content_editor   | "Access denied" |
-| edit_my_content  | "Access denied" |
-| site_editor      | "Access denied" |
-| edit_only        | "Access denied" |
-| access_manager   | "Access denied" |
-| configuration_manager | "Contact Information" |
 
 Scenario Outline: Only Devs, Admins, SOs and CMs can Set the Google Analytics ID
 Given I am logged in as a user with the <role> role
