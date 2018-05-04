@@ -22,6 +22,8 @@ Examples:
     | developer       | 
     | administrator   | 
     | site_owner      | 
+    | configuration_manager |
+    
     
     
 #SOME ROLES CAN UPDATE AND CHANGE SITE MAP SETTINGS
@@ -41,6 +43,7 @@ Examples:
     | developer       |
     | administrator   |
     | site_owner      |
+    | configuration_manager |
 
 # SOME ROLES CAN NOT ACCESS SITE MAP SETTINGS
 @api 
@@ -51,8 +54,11 @@ Then I should see "Access denied"
 
  Examples:
     | role            | 
-    | content_editor  | 
+    | content_editor |
     | edit_my_content  | 
+    | site_editor      | 
+    | edit_only        | 
+    | access_manager   | 
  
 @api 
 Scenario: An anonymous user should not be able to update the sitemap
