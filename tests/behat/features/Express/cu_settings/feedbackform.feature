@@ -28,7 +28,7 @@ Given I am logged in as a user with the <role> role
 And am on "admin/settings/forms/feedback"
 Then I should see "Access denied"
 
-Examples
+Examples:
 | role |
 | content_editor |
 | edit_my_content  | 
