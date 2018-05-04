@@ -30,9 +30,10 @@ cache:
 
 install:
 
-  # Colors used for highlighting output.
-  - RED='\033[0;31m'
-  - NC='\033[0m'
+#  Supposed to work - Colors used for highlighting output.
+#  - RED='\033[0;31m'
+#  - NC='\033[0m'
+#  - printf "${RED}Running install script...${NC}"
 
   # Export variables used later on in the bash scripts.
   - cd $TRAVIS_BUILD_DIR && cd ../ && export ROOT_DIR=$(pwd)
