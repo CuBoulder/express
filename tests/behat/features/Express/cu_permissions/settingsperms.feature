@@ -22,21 +22,4 @@ Given I am logged in as a user with the "site_editor" role
 When I go to "admin/settings/site-configuration/site-name"
 Then I should see "Access denied"
 
-Scenario Outline: EMCs and AMs cannot access Admin/Settings page; all others can
-Given I am logged in as a user with the <role> role
-When I go to "admin/settings"
-Then I should see <message>
-
-Examples:
-| role             | message |
-| developer        | "Settings" |
-| administrator    | "Settings" |
-| site_owner       | "Settings" |
-| content_editor   | "Settings" |
-| edit_my_content  | "Access denied" |
-| site_editor      | "Settings" |
-| edit_only        | "Settings" |
-| access_manager   | "Access denied" |
-| configuration_manager | "Settings" |
-
 
