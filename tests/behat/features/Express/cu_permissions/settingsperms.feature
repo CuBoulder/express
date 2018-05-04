@@ -80,22 +80,4 @@ Examples:
 | configuration_manager | "Path To Clear" |
 
 
-# SEARCH SETTINGS
-
-Scenario Outline: Only Devs, Admins, SOs and CMs can set Site Search Settings options
-Given I am logged in as a user with the <role> role
-When I go to "admin/settings/search/search-settings"
-Then I should see <message>
-
-Examples:
-| role             | message |
-| developer        | "Site Search Settings" |
-| administrator    | "Site Search Settings" |
-| site_owner       | "Site Search Settings" |
-| content_editor   | "Access denied" |
-| edit_my_content  | "Access denied" |
-| site_editor      | "Access denied" |
-| edit_only        | "Access denied" |
-| access_manager   | "Access denied" |
-| configuration_manager | "Site Search Settings" |
 
