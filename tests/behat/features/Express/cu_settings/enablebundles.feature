@@ -5,62 +5,65 @@ An authenticated user with the proper role
 Should be able to access the Bundle List pages
 
 #SOME ROLES CAN ENABLE BUNDLES
+
+Scenario Outline: Only Devs, Admins, SOs and ConMgrs can Enable Bundles
+Given I am logged in as a user with the <role> role
+When I go to "admin/settings/bundles/list"
+Then I should see <message>
+
+Examples:
+| role             | message |
+| developer        | "Configure Bundles" |
+| administrator    | "Configure Bundles" |
+| site_owner       | "Configure Bundles" |
+| content_editor   | "Access denied" |
+| edit_my_content  | "Access denied" |
+| site_editor      | "Access denied" |
+| edit_only        | "Access denied" |
+| access_manager   | "Access denied" |
+| configuration_manager | "Configure Bundles" |
+
 @api
-Scenario Outline: Devs, Admins, SOs and ConMgrs can access the Bundle List page and they see three tabs
-  Given I am logged in as a user with the <role> role
+Scenario Outline: The Bundle List page displays three tabs
+  Given I am logged in as a user with the "site_owner" role
   And am on "admin/settings/bundles/list"
   Then I should see "Configure Bundles"
   And I should see "Core"
   And I should see "Add-on"
   And I should see "Request"
-    
-Examples:
-    | role            | 
-    | developer       | 
-    | administrator   | 
-    | site_owner      |
-    | configuration_manager |
 
-
-# SOME ROLES CAN NOT ENABLE BUNDLES
 @api 
-Scenario Outline: Most roles should not be able to access the Bundle List page
-Given I am logged in as a user with the <role> role
-And am on "admin/settings/bundles/list"
-Then I should see "Access denied"
-
-Examples
-| role |
-| content_editor |
-| edit_my_content  | 
-| site_editor      | 
-| edit_only        | 
-| access_manager   | 
-   
- @api 
-Scenario Outline: Most roles should not be able to access the Bundle Add-on page
+Scenario Outline: Only Devs, Admins, SOs and ConMgrs can access the Bundle Add-on page
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/bundles/list/addon"
-Then I should see "Access denied"
+Then I should see <message>
 
-Examples
-| role |
-| content_editor |
-| edit_my_content  | 
-| site_editor      | 
-| edit_only        | 
-| access_manager   | 
+Examples:
+| role             | message |
+| developer        | "These are bundles that can be added" |
+| administrator    | "These are bundles that can be added" |
+| site_owner       | "These are bundles that can be added" |
+| content_editor   | "Access denied" |
+| edit_my_content  | "Access denied" |
+| site_editor      | "Access denied" |
+| edit_only        | "Access denied" |
+| access_manager   | "Access denied" |
+| configuration_manager | "These are bundles that can be added" |
     
  @api 
-Scenario Outline: Most rolesadd add should not be able to access the Bundle Request page
+ Scenario Outline: Only Devs, Admins, SOs and ConMgrs can access the Bundle Request page
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/bundles/list/request"
-Then I should see "Access denied"
+Then I should see <message>
 
-Examples
-| role |
-| content_editor |
-| edit_my_content  | 
-| site_editor      | 
-| edit_only        | 
-| access_manager   | 
+Examples:
+| role             | message |
+| developer        | "These are bundles that must be requested"|
+| administrator    | "These are bundles that must be requested"|
+| site_owner       | "These are bundles that must be requested"|
+| content_editor   | "Access denied" |
+| edit_my_content  | "Access denied" |
+| site_editor      | "Access denied" |
+| edit_only        | "Access denied" |
+| access_manager   | "Access denied" |
+| configuration_manager | "These are bundles that must be requested"|
