@@ -9,7 +9,7 @@ When I go to the Admin/Structure page
 As an authenticated user
 I should be able to adjust the structure of my site
   
-@api 
+
 Scenario Outline: Some users see four links
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure"
@@ -26,7 +26,7 @@ Scenario Outline: Some users see four links
   | site_editor |
     
 
-@api
+
 Scenario Outline:  Some users should not be able to access Admin/Structure
   Given I am logged in as a user with the <role> role
   And I am on "admin/structure"
@@ -41,7 +41,7 @@ Scenario Outline:  Some users should not be able to access Admin/Structure
   | form_manager |
   
     
- @api
+
  Scenario: An anonymous user should not be able to access Admin/Structure
    When I am on "admin/structure"
    Then I should see "Access denied"

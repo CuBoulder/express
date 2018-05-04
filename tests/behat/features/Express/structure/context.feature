@@ -4,7 +4,7 @@ In order to exercise control over my regions, pages and blocks
 As an authenticated user
 I should be able to set conditions and reactions with Context
 
-@api
+
 Scenario Outline: An authenticated user should be able to access the form for adding a Context
     Given I am logged in as a user with the <role> role
     When I go to "admin/structure/context"
@@ -24,7 +24,7 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | form_manager | "Access denied" |
     
 
-@api
+
 Scenario Outline: Available Contexts are limited for all but Devs
 Given I am logged in as a user with the <role> role
 When I go to "admin/structure/context"
@@ -43,7 +43,7 @@ Then I should see "homepage"
     | site_editor |
     
     
-@api @context @contextconditions
+@context @contextconditions
 Scenario Outline: A content_editor should see a limited number of context conditions
 Given  I am logged in as a user with the "content_editor" role
 And am on "admin/structure/context/add"
@@ -63,7 +63,7 @@ When I select <condition> from "edit-conditions-selector"
     | "Sitewide context" |
     | "Sitewide public" |
 
-@api @context @contextreactions
+@context @contextreactions
 Scenario Outline: A content_editor should see a limited number of context reactions
 Given  I am logged in as a user with the "content_editor" role
 And am on "admin/structure/context/add"
