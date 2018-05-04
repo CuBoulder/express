@@ -36,7 +36,7 @@ install:
   - echo $EXPRESS_COMMIT_HAS_BUILD
   - EXPRESS_COMMIT_HAS_BUILDS="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '!==build')"
   - echo $EXPRESS_COMMIT_HAS_BUILDS
-  - cd dkdsfkljdfsjkl
+#  - cd dkdsfkljdfsjkl
 
   # Export variables used later on in the bash scripts.
   - cd $TRAVIS_BUILD_DIR && cd ../ && export ROOT_DIR=$(pwd)
