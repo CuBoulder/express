@@ -625,7 +625,7 @@ function express_permissions_secure_permissions($role) {
       'diff view changes',
     ),
     'edit_only' => array(
-      'access administration pages',
+     'access administration pages',
       'access bean overview',
       'access ckeditor link',
       'access content overview',
