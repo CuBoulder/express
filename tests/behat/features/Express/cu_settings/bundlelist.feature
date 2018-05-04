@@ -1,4 +1,4 @@
-@api @settings
+@settings
 Feature: Web Express bundles its features into three types: Core, Add-on and Request
 In order to simplify the features of a site
 An authenticated user with the proper role
