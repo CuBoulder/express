@@ -24,7 +24,7 @@ Examples:
 | configuration_manager | "Configure Bundles" |
 
 @api
-Scenario Outline: The Bundle List page displays three tabs
+Scenario: The Bundle List page displays three tabs
   Given I am logged in as a user with the "site_owner" role
   And am on "admin/settings/bundles/list"
   Then I should see "Configure Bundles"
@@ -51,7 +51,7 @@ Examples:
 | configuration_manager | "These are bundles that can be added" |
     
  @api 
- Scenario Outline: Only Devs, Admins, SOs and ConMgrs can access the Bundle Request page
+Scenario Outline: Only Devs, Admins, SOs and ConMgrs can access the Bundle Request page
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/bundles/list/request"
 Then I should see <message>
