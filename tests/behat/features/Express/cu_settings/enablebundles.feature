@@ -32,7 +32,7 @@ Scenario: The Bundle List page displays three tabs
   And I should see "Add-on"
   And I should see "Request"
 
-@api 
+@api @javascript
 Scenario Outline: Only Devs, Admins, SOs and ConMgrs can access the Bundle Add-on page
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/bundles/list/addon"
@@ -50,7 +50,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "These are bundles that can be added" |
     
- @api 
+ @api @javascript
 Scenario Outline: Only Devs, Admins, SOs and ConMgrs can access the Bundle Request page
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/bundles/list/request"
