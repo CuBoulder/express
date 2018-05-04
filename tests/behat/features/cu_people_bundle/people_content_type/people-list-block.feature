@@ -1,6 +1,6 @@
 Feature: People List Block
 
-@api @people-list-block
+@people-list-block
 Scenario Outline: An authenticated user should be able to access the form for adding a people list block
     Given  I am logged in as a user with the <role> role
     When I go to "block/add/people-list-block"
@@ -13,12 +13,12 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | administrator  | "Access denied" |
     | developer      | "Access denied" |
 
-@api @people-list-block
+@people-list-block
 Scenario: An anonymous user should not be able to access the form for adding person content
   When I am on "block/add/people-list-block"
   Then I should see "Access denied"
 
-@api @people-list-block
+@people-list-block
 Scenario: Content editors can create person nodes
   Given  I am logged in as a user with the "content_editor" role
     And am on "node/add/person"

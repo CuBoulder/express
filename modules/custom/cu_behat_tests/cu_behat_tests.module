@@ -2,5 +2,5 @@
 
 /**
  * @file
- * Intentionally empty
+ * Contains hooks for cu_behat_tests module.
  */

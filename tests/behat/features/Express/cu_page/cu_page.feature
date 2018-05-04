@@ -7,7 +7,7 @@ I should be able to create, edit, and delete page content
 # NOTE: THERE IS CURRENTLY NO KNOWN WAY TO PRESS THE INSERT BUTTON; GRAPHICS CAN BE UPLOADED BUT NOT INSERTED
 # CONTINUE TESTING THIS PROBLEM WITH PHOTOINSERT.FEATURE
 
-@api
+
 Scenario Outline: A user with the proper role should be able to access the form for adding basic page content
   Given I am logged in as a user with the <role> role
   When I go to "node/add/page"
@@ -21,12 +21,12 @@ Scenario Outline: A user with the proper role should be able to access the form 
     | administrator   | "Create Basic page" |
     | developer       | "Create Basic page" |
 
-@api 
+
 Scenario: An anonymous user should not be able to access the form for adding page content
   When I am on "node/add/page"
   Then I should see "Access denied"
   
-@api 
+
 Scenario: A very basic Basic Page node can be created 
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -37,7 +37,7 @@ Scenario: A very basic Basic Page node can be created
  And I should see "My Page"
   And I should see "Lorem ipsum dolor sit amet"
   
-@api
+
 Scenario: A graphic can be uploaded to a Basic Page node
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
@@ -54,7 +54,7 @@ And I press "edit-field-photo-und-0-upload-button"
 And I should see "About Ralphie"
 And I should see "Ralphie the Buffalo is the name of the live mascot of the University of Colorado Buffaloes."
  
-@api 
+
 Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
 Given I am logged in as a user with the "site_owner" role
 When I go to "node/add/page"
@@ -67,7 +67,7 @@ Then I should see "Not In Menu"
 And I follow "Edit"
 Then the checkbox "edit-menu-enabled" should be unchecked
 
-@api 
+
 Scenario Outline: An authenticated user can delete a basic page
   Given I am logged in as a user with the <role> role
   When I go to "node/add/page"

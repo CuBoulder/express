@@ -5,7 +5,7 @@ An authenticated user with the proper role
 Should be able to verify their site
 
 #SOME ROLES CAN ACCESS SEO VERIFICATIONS PAGE
-@api
+
 Scenario Outline: Devs, Admins and SOs can view the RSS feeds
   Given I am logged in as a user with the <role> role
   And am on "admin/config/search/verifications"
@@ -22,7 +22,7 @@ Examples:
 
 
 #SOME ROLES CAN ADD VERIFICATION INFORMATION
-@api @testing_frontpage
+ @testing_frontpage
 Scenario Outline: Devs, Admins and SOs create an RSS feed
   Given I am logged in as a user with the <role> role
   And am on "admin/config/search/verifications/add"
@@ -41,7 +41,7 @@ Examples:
     | site_owner      | 
   
 # SOME ROLES CAN NOT ACCESS SEO VERIFICATIONS PAGE
-@api 
+
 Scenario Outline: CEs and EMCs should not be able to set site name
 Given I am logged in as a user with the <role> role
 And am on "admin/config/search/verifications"
@@ -53,7 +53,7 @@ Then I should see "Access denied"
     | edit_my_content  | 
  
 # SOME ROLES CAN NOT ADD VERIFICATION INFORMATION
-@api 
+
 Scenario Outline: CEs and EMCs should not be able to set site name
 Given I am logged in as a user with the <role> role
 And am on "admin/config/search/verifications/add"
@@ -64,7 +64,7 @@ Then I should see "Access denied"
     | content_editor  | 
     | edit_my_content  | 
     
- @api 
+
 Scenario: An anonymous user should not be able to verify the site
   When I am on "admin/config/search/verifications"
   Then I should see "Access denied"
