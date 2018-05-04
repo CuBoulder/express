@@ -8,7 +8,7 @@ fi
 
 EXPRESS_COMMIT_HAS_BUILD="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '!==build')"
 
-# https://docs.travis-ci.com/user/caching/
+# From https://docs.travis-ci.com/user/caching/
 # Travis takes the cache of the default branch if the PR branch doesn't have one.
 # So, if this is a merge into dev, we need to delete the db export.
 if [  "${TRAVIS_EVENT_TYPE}" == "push" ]; then
