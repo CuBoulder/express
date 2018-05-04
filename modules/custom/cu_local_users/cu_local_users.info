@@ -3,8 +3,3 @@ description = Sets up functionality needed to run the Express BDD test suite.
 core = 7.x
 version = 7.x-1.0
 package = Testing
-
-
-          features/Express/cu_users/invite.feature:15
-          features/Express/install/install.feature:7
-          features/Express/toolbars/toolbars.feature:45
