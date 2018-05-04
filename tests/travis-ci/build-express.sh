@@ -17,7 +17,14 @@ if [  "${TRAVIS_EVENT_TYPE}" == "push" ]; then
 fi
 
 # Build Express if no db export or commit doesn't say "!===build".
-if [ ! -f $HOME/cache/express.sql ] || [ ! "${EXPRESS_COMMIT_HAS_BUILD}" ]; then
+if [ -f $HOME/cache/express.sql ] || [ "${EXPRESS_COMMIT_HAS_BUILD}" ]; then
+
+  # Import db if it is already built.
+  echo Importing Express database...
+  $HOME/.composer/vendor/bin/drush sql-cli < $HOME/cache/express.sql
+  earlyexit
+
+else
 
   # Install site like normal.
   echo Installing Express...
@@ -29,12 +36,6 @@ if [ ! -f $HOME/cache/express.sql ] || [ ! "${EXPRESS_COMMIT_HAS_BUILD}" ]; then
   echo Exporting database...
   $HOME/.composer/vendor/bin/drush sql-dump --result-file=$HOME/cache/express.sql
 
-else
-
-  # Import db if it is already built.
-  echo Importing Express database...
-  $HOME/.composer/vendor/bin/drush sql-cli < $HOME/cache/express.sql
-  earlyexit
 fi
 
 # Check and see if testing core module is enabled.
