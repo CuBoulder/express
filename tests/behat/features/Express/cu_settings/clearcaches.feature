@@ -22,7 +22,7 @@ Examples:
     | configuration_manager |
 
 @api 
-Scenario Outline: CEs and SEs can access the 'Clear Caches' landing page where they see two tabs
+Scenario Outline: Roles that can edit a page can access Clear Cache page where they see two tabs
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/cache/clear"
 Then I should see "Which Cache to Clear?"
@@ -34,18 +34,14 @@ Examples:
 | role |
 | content_editor |
 | site_editor |
+| edit_only |
+| edit_my_content |
 
 @api 
-Scenario Outline: EMCs, EditOnly and AccMgrs cannot access the 'Clear Caches' landing page
-Given I am logged in as a user with the <role> role
+Scenario: AccMgrs cannot access the 'Clear Caches' landing page
+Given I am logged in as a user with the "access_manager" role
 And am on "admin/settings/cache/clear"
 Then I should see "Access denied"
-
-Examples:
-| role |
-| edit_my_content |
-| edit_only |
-| access_manager |
 
 @api 
 Scenario: An anonymous user should not be able to access the 'Clear Caches' landing page
