@@ -7,9 +7,9 @@ Should be able to set unique 404 and 403 pages
 #ACCESSING THE ERROR PAGES
 @api
 Scenario Outline: Devs, Admins, SOs and ConMgrs can access Error Pages; CEs and EMCs cannot
-  Given I am logged in as a user with the <role> role
-  When I go to "admin/settings/adv-content/error"
-  Then I should see <message>
+ Given I am logged in as a user with the <role> role
+ When I go to "admin/settings/adv-content/error"
+ Then I should see <message>
 
  Examples:
     | role            | message |
