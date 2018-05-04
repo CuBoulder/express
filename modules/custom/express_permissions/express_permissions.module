@@ -467,7 +467,7 @@ function express_permissions_secure_permissions($role) {
       'administer blocks',
       'administer checked out documents',
       'administer contexts',
-      'administer express settings',
+      // 'administer express settings',
       'administer menu',
       'administer nodes',
       'administer redirects',
