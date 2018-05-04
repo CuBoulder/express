@@ -28,10 +28,12 @@ Examples:
     | administrator   | 
     | site_owner      | 
     | content_editor  | 
+    | site_editor      | 
+    | configuration_manager |
     
 # SOME ROLES CAN NOT ACCESS RSS FEED SETTINGS
 @api 
-Scenario Outline: EMCs should not be able to view the RSS feeds
+Scenario Outline: EMCs, EditOnly and AcsMgrs should not be able to view the RSS feeds
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/feeds/rss/overview"
 Then I should see "Access denied"
@@ -39,6 +41,8 @@ Then I should see "Access denied"
  Examples:
     | role            | 
     | edit_my_content  | 
+    | edit_only        | 
+    | access_manager   | 
     
 @api 
 Scenario: An anonymous user should not be able to view the RSS feeds
@@ -60,10 +64,12 @@ Examples:
     | administrator   | 
     | site_owner      | 
     | content_editor  | 
+    | site_editor      | 
+    | configuration_manager |
 
 # SOME ROLES CAN NOT ACCESS THE RSS FEED BUILDER
 @api 
-Scenario Outline: EMCs should not be able to access the RSS feed builder page
+Scenario Outline: EMCs, EditOnly and AcsMgrs should not be able to access the RSS feed builder page
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/feeds/rss/add"
 Then I should see "Access denied"
@@ -71,6 +77,8 @@ Then I should see "Access denied"
  Examples:
     | role            | 
     | edit_my_content  | 
+    | edit_only        | 
+    | access_manager   | 
     
 @api 
 Scenario: An anonymous user should not be able to access the RSS feed builder page

@@ -18,8 +18,12 @@ Examples:
     | site_owner      | "Article Published Date Display" |
     | content_editor  | "Access denied" |
     | edit_my_content | "Access denied" |
+    | site_editor      | "Access denied" |
+    | edit_only        | "Access denied" |
+    | access_manager   | "Access denied" |
+    | configuration_manager | "Article Published Date Display" |
     
-@api 
+ @api 
 Scenario: An anonymous user cannot access the Article Settings options
   When I am on "admin/settings/news/article-settings"
   Then I should see "Access denied"
@@ -44,4 +48,5 @@ Examples:
     | developer       | 
     | administrator   | 
     | site_owner      | 
+    | configuration_manager |
 

@@ -20,11 +20,12 @@ Scenario Outline: A user with the appropriate role can access the Settings page 
   And I should see "Feeds"
   And I should see "Search Engine Optimization"
 
-    Examples:
-      | role           |
-      | site_owner     |
-      | administrator  |
-      | developer      |
+Examples:
+ | role            | 
+ | developer       | 
+ | administrator   | 
+ | site_owner      |
+ | configuration_manager |
       
 @api @meonly
 Scenario: Content Editors cannot set Site Configs; they can only Clear Cache

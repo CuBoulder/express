@@ -30,6 +30,7 @@ Examples:
     | developer       | 
     | administrator   | 
     | site_owner      | 
+    | configuration_manager |
     
     
 @api 
@@ -40,8 +41,10 @@ Then I should see "Access denied"
   
  Examples:
     | role            | 
-    | edit_my_content | 
-    | content_editor  | 
+    | edit_my_content  | 
+    | site_editor      | 
+    | edit_only        | 
+    | access_manager   | 
   
  @api 
 Scenario: An anonymous user should not be able to access the Site Settings page

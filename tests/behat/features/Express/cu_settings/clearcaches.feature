@@ -6,7 +6,7 @@ Should be able to clear the site caches
 
 # ACCESSING THE CLEAR CACHES LANDING PAGE
 @api
-Scenario Outline: Devs, Admins and SOs can access the 'Clear Caches' page where they see four tabs
+Scenario Outline: Devs, Admins, SOs and ConMgrs can access the 'Clear Caches' page where they see four tabs
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/cache/clear"
  Then I should see "Which Cache to Clear?"
@@ -18,22 +18,34 @@ Examples:
     | role            | 
     | developer       | 
     | administrator   | 
-    | site_owner      | 
+    | site_owner      |
+    | configuration_manager |
 
 @api 
-Scenario: CEs can access the 'Clear Caches' landing page where they see two tabs
-Given I am logged in as a user with the "content_editor" role
+Scenario Outline: CEs and SEs can access the 'Clear Caches' landing page where they see two tabs
+Given I am logged in as a user with the <role> role
 And am on "admin/settings/cache/clear"
 Then I should see "Which Cache to Clear?"
 And I should see the link "Clear Page by Path"
 And I should not see "Clear Page Full"
 And I should not see "Clear Database Full"
 
+Examples:
+| role |
+| content_editor |
+| site_editor |
+
 @api 
-Scenario: EMCs should not be able to access the 'Clear Caches' landing page
-Given I am logged in as a user with the "edit_my_content" role
+Scenario Outline: EMCs, EditOnly and AccMgrs cannot access the 'Clear Caches' landing page
+Given I am logged in as a user with the <role> role
 And am on "admin/settings/cache/clear"
 Then I should see "Access denied"
+
+Examples:
+| role |
+| edit_my_content |
+| edit_only |
+| access_manager |
 
 @api 
 Scenario: An anonymous user should not be able to access the 'Clear Caches' landing page
@@ -42,7 +54,7 @@ Scenario: An anonymous user should not be able to access the 'Clear Caches' land
 
 # ACCESSING THE CLEAR-PAGE-FULL PAGE
 @api
-Scenario Outline: Devs, Admins and SOs can access the 'Clear Page Full' tag; CEs and EMCs cannot
+Scenario Outline: Devs, Admins, SOs and ConMgrs can access the 'Clear Page Full' tag; CEs and EMCs cannot
   Given I am logged in as a user with the <role> role
   When I go to "admin/settings/cache/clear/varnish-full"
  Then I should see <message>
@@ -54,11 +66,14 @@ Examples:
     | site_owner       | "Repeatedly clearing caches will cause performance problems for you" |
     | content_editor   | "Access denied" |
     | edit_my_content  | "Access denied" |
-
+    | site_editor      | "Access denied" |
+    | edit_only        | "Access denied" |
+    | access_manager   | "Access denied" |
+    | configuration_manager | "Repeatedly clearing caches will cause performance problems for you" |
 
 # ACCESSING THE CLEAR-DATABASE-FULL PAGE
 @api
-Scenario Outline: Devs, Admins and SOs can access the 'Clear Database Full' tag; CEs and EMCs cannot
+Scenario Outline: Devs, Admins, SOs and ConMgrs can access the 'Clear Database Full' tag; CEs and EMCs cannot
   Given I am logged in as a user with the <role> role
   When I go to "admin/settings/cache/clear/drupal-full"
  Then I should see <message>
@@ -70,6 +85,10 @@ Examples:
     | site_owner       | "Repeatedly clearing caches will cause performance problems for you" |
     | content_editor   | "Access denied" |
     | edit_my_content  | "Access denied" |
+    | site_editor      | "Access denied" |
+    | edit_only        | "Access denied" |
+    | access_manager   | "Access denied" |
+    | configuration_manager | "Repeatedly clearing caches will cause performance problems for you" |
 
 
 # NOTE: NO VARNISH ON TRAVIS 
