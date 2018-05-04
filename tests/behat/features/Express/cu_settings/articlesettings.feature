@@ -30,7 +30,7 @@ Scenario: An anonymous user cannot access the Article Settings options
   
 #CHANGING THE SETTINGS HIDES THE PUBLISHED DATE ON ARTICLE
 @api
-Scenario Outline: Changing the Article Settings does hide the publish date on article
+Scenario: Changing the Article Settings does hide the publish date on article
  Given I am logged in as a user with the "site_owner" role
  And am on "admin/settings/news/article-settings"
  When I select "hide" from "date_display"
