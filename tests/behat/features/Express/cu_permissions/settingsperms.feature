@@ -43,26 +43,6 @@ Examples:
 # SITE CONFIGURATION 
 
 
-# URL MANAGEMENT
-
-Scenario Outline: Devs, Admins, SOs, SEs and CMs can Create URL Redirects
-Given I am logged in as a user with the <role> role
-When I go to "admin/config/search/redirect"
-Then I should see <message>
-
-Examples:
-| role             | message |
-| developer        | "URL redirects" |
-| administrator    | "URL redirects" |
-| site_owner       | "URL redirects" |
-| content_editor   | "Access denied" |
-| edit_my_content  | "Access denied" |
-| site_editor      | "URL redirects" |
-| edit_only        | "Access denied" |
-| access_manager   | "Access denied" |
-| configuration_manager | "URL redirects" |
-
-
 # CACHE
 
 Scenario Outline: EMCs and AMs cannot Cache Clear options; all other roles can
