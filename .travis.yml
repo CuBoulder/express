@@ -51,7 +51,7 @@ install:
 
   # Install and build dependencies.
   - echo ----
-  - printf "${RED}Running install script...${NC}
+  - printf "${RED}Running install script...${NC}"
   - $ROOT_DIR/install.sh
   - echo ----
 
