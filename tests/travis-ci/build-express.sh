@@ -6,7 +6,7 @@ else
   cd ${ROOT_DIR}/drupal/profiles/express
 fi
 
-EXPRESS_COMMIT_HAS_IMPORT="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '!==build')"
+EXPRESS_COMMIT_HAS_IMPORT="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '===build')"
 
 # From https://docs.travis-ci.com/user/caching/
 # Travis takes the cache of the default branch if the PR branch doesn't have one.
@@ -17,14 +17,7 @@ if [  "${TRAVIS_EVENT_TYPE}" == "push" ]; then
 fi
 
 # Build Express if no db export or commit doesn't say "!===build".
-if [ -f $HOME/cache/express.sql ] && [ ! "${EXPRESS_COMMIT_HAS_IMPORT}" ]; then
-
-  # Import db if it is already built.
-  echo Importing Express database...
-  $HOME/.composer/vendor/bin/drush sql-cli < $HOME/cache/express.sql
-  earlyexit
-
-else
+if [ ! -f $HOME/cache/express.sql ] || [ "${EXPRESS_COMMIT_HAS_IMPORT}" ]; then
 
   # Install site like normal.
   echo Installing Express...
@@ -35,6 +28,13 @@ else
   # Test runs that fill up the db with nodes can impact other tests.
   echo Exporting database...
   $HOME/.composer/vendor/bin/drush sql-dump --result-file=$HOME/cache/express.sql
+
+else
+
+  # Import db if it is already built.
+  echo Importing Express database...
+  $HOME/.composer/vendor/bin/drush sql-cli < $HOME/cache/express.sql
+  earlyexit
 
 fi
 
