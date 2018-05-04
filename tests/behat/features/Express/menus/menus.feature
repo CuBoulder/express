@@ -4,7 +4,7 @@ When I go to the Admin/Menu page
 As an authenticated user
 I can add and edit the menus on my site
   
-@api 
+
 Scenario Outline: Most users see four installed menu types and two tabs
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/menu"
@@ -23,18 +23,18 @@ Scenario Outline: Most users see four installed menu types and two tabs
   | site_owner      |
   | content_editor  |
     
-@api
+
 Scenario: A EMC should not be able to access the Menu page
   Given I am logged in as a user with the "edit_my_content" role
   When I go to "admin/structure/menu"
   Then I should see "Access denied"
     
- @api
+
  Scenario: An anonymous user should not be able to access the Menu page
    When I go to "admin/structure/menu"
    Then I should see "Access denied"
 
-@api 
+
 # NOTE: THE MENUS PAGE HAS A LINK TO THE BLOCKS ADMINISTRATION PAGE
 # HIDING THE WHOLE TEST FOR NOW, AS IT FAILS IN TRAVIS FOR UNKNOWN REASONS
 # Scenario Outline: Most users cannot access the Drupal System Block Admin page
@@ -50,7 +50,7 @@ Scenario: A EMC should not be able to access the Menu page
 #  | administrator   | "Access denied" |
 #  | developer       | "This page provides a drag-and-drop interface" |  
   
- @api 
+
 Scenario Outline: Authorized users can access the Footer Menu
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/menu/manage/menu-footer-menu"
@@ -64,7 +64,7 @@ Scenario Outline: Authorized users can access the Footer Menu
   | administrator   | "Footer Menu" |
   | developer       | "Footer Menu" |
   
-@api 
+
 Scenario Outline: Authorized users can access the Main Menu
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/menu/manage/main-menu"
@@ -78,7 +78,7 @@ Scenario Outline: Authorized users can access the Main Menu
   | administrator   | "Main Menu" |
   | developer       | "Main Menu" |
   
-@api 
+
 Scenario Outline: Authorized users can access the Mobile Menu
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/menu/manage/menu-mobile-menu"
@@ -92,7 +92,7 @@ Scenario Outline: Authorized users can access the Mobile Menu
   | administrator   | "Mobile Menu" |
   | developer       | "Mobile Menu" |
   
- @api 
+
 Scenario Outline: Authorized users can access the Secondary Menu
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/menu/manage/menu-secondary-menu"
@@ -106,7 +106,7 @@ Scenario Outline: Authorized users can access the Secondary Menu
   | administrator   | "Secondary Menu" |
   | developer       | "Secondary Menu" |
   
-  @api
+
   Scenario Outline: A menu item can be added to a menu
   Given I am logged in as a user with the "site_owner" role
   When I go to <path>
@@ -126,7 +126,7 @@ Scenario Outline: Authorized users can access the Secondary Menu
   | "admin/structure/menu/manage/menu-mobile-menu" |
   | "admin/structure/menu/manage/menu-secondary-menu" |
   
-@api 
+
 Scenario Outline: Authorized users can access the Menu Settings page
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/menu/settings"
@@ -140,7 +140,7 @@ Scenario Outline: Authorized users can access the Menu Settings page
   | administrator   | "Source for the Main links" |
   | developer       | "Source for the Main links" |
   
- @api 
+
 Scenario: The Menu Settings page is properly populated with functionality
   Given I am logged in as a user with the "site_owner" role
   When I go to "admin/structure/menu/settings"

@@ -4,7 +4,7 @@ In order to create vanity URLs or fix broken pages
 An authenticated user with the proper role
 Should be able to create a URL redirect
 
-@api
+
 Scenario Outline: Devs, Admins and SOs can view the URL redirects form
   Given I am logged in as a user with the <role> role
   And am on "admin/config/search/redirect"
@@ -38,7 +38,7 @@ Scenario Outline: Most users cannot access the URL Redirect Settings page
     | content_editor  | "Access denied" |
     | edit_my_content | "Access denied" |
     
-@api
+
 Scenario Outline: Devs, Admins and SOs can create a URL redirect
   Given I am logged in as a user with the <role> role
   When I go to "admin/config/search/redirect/add"
@@ -55,7 +55,7 @@ Examples:
 
 
 # SOME ROLES CAN NOT CREATE A REDIRECT
-@api 
+
 Scenario Outline: CEs and EMCs can not create a URL redirect
 Given I am logged in as a user with the <role> role
 And am on "admin/config/search/redirect"
@@ -66,12 +66,12 @@ Then I should see "Access denied"
     | content_editor  | 
     | edit_my_content  | 
 
-@api 
+
 Scenario: An anonymous user can not create a URL redirect
   When I am on "admin/config/search/redirect"
   Then I should see "Access denied"
 
-@api
+
 Scenario Outline: Devs, Admins and SOs can delete a URL redirect
   Given I am logged in as a user with the <role> role
   When I go to "admin/config/search/redirect/delete"
@@ -86,7 +86,7 @@ Examples:
     | site_owner      | 
 
 # SOME ROLES CAN NOT DELETE A REDIRECT
-@api 
+
 Scenario Outline: CEs and EMCs can not access the 'delete URL redirect' page
 Given I am logged in as a user with the <role> role
 And am on "admin/config/search/redirect/delete"
@@ -97,7 +97,7 @@ Then I should see "Access denied"
     | content_editor  | 
     | edit_my_content  | 
     
-@api 
+
 Scenario: An anonymous user can not access the 'delete URL redirect' page
   When I am on "admin/config/search/redirect/delete"
   Then I should see "Access denied"

@@ -13,7 +13,6 @@ else
 fi
 
 SKIP_EXPRESS_TESTS="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '!==express')"
-echo "Build Express? - ${SKIP_EXPRESS_TESTS}"
 
 # Setting Behat environment variables is now done in behat.travis.yml for simplicity.
 
