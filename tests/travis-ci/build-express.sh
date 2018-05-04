@@ -6,8 +6,7 @@ else
   cd ${ROOT_DIR}/drupal/profiles/express
 fi
 
-EXPRESS_COMMIT_HAS_BUILD="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '===build')"
-echo "Build Express? - ${EXPRESS_COMMIT_HAS_BUILD}"
+EXPRESS_COMMIT_HAS_BUILD="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '!==build')"
 
 # https://docs.travis-ci.com/user/caching/
 # Travis takes the cache of the default branch if the PR branch doesn't have one.
@@ -17,8 +16,8 @@ if [  "${TRAVIS_EVENT_TYPE}" == "push" ]; then
   rm -f $HOME/cache/express.sql
 fi
 
-# Build Express if no db export or commit is "merged into dev".
-if [ ! -f $HOME/cache/express.sql ] || [ "${EXPRESS_COMMIT_HAS_BUILD}" ]; then
+# Build Express if no db export or commit doesn't say "!===build".
+if [ ! -f $HOME/cache/express.sql ] || [ ! "${EXPRESS_COMMIT_HAS_BUILD}" ]; then
 
   # Install site like normal.
   echo Installing Express...

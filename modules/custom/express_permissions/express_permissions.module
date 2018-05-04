@@ -200,6 +200,7 @@ function express_permissions_secure_permissions($role) {
       'access ckeditor link',
       'access content overview',
       'access contextual links',
+      'access express reports',
       'access express settings',
       'access user profiles',
       'administer beans',
@@ -535,6 +536,7 @@ function express_permissions_secure_permissions($role) {
       'access content',
       'access content overview',
       'access contextual links',
+      'access express reports',
       'access express settings',
       'access user profiles',
       'access users overview',
@@ -802,4 +804,22 @@ function express_permissions_get_site_owners() {
      $users['list'] = join(', ', $user_list);
   }
   return $users;
+}
+
+/**
+ * Implements hook_form_formid_alter().
+ *
+ * Remove underscores from roles to make the permissions table display better.
+ */
+function express_permissions_form_user_admin_permissions_alter(&$form, &$form_state) {
+  $roles = $form['role_names'];
+  // Get just the role arrays.
+  $roles = array_intersect_key($roles, array_flip(element_children($roles)));
+  // Replace underscores with spaces.
+  foreach ($roles as $id) {
+    $name = str_replace('_', ' ', $form['role_names'][$id]['#markup']);
+    $form['role_names'][$id]['#markup'] = $name;
+  }
+  // Add some css to make the permissions table headers smaller.
+  drupal_add_css('form#user-admin-permissions #permissions th { font-size:75%; font-weight:bold; } form#user-admin-permissions #permissions .permission-machine-name { font-size:75%; opacity:.75;}', 'inline');
 }

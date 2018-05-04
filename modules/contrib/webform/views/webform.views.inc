@@ -6,7 +6,7 @@
  */
 
 /**
- *
+ * Implements hook_views_data().
  */
 function webform_views_data() {
   // Webform table definitions.
@@ -527,8 +527,6 @@ function webform_views_plugins() {
       ),
     ),
   );
-
-  return $plugins;
 }
 
 /**
@@ -544,8 +542,8 @@ function webform_views_pre_view($view, $display_id, $args) {
       ($node = node_load($args[0])) && isset($node->webform['components'])) {
     // This is a view/display that needs its fields expanded. It contains the
     // webform_all_fields field, has a nid argument to the webform_submission
-    // table that is a valid node.
-    // Retrieve the display's fields and remove any fields after the 'webform_all_fields' field.
+    // table that is a valid node. Retrieve the display's fields and remove any
+    // fields after the 'webform_all_fields' field.
     $fields = $view->get_items('field', $display_id);
     $prototype = $fields[$all_fields_id];
     $field_index = array_flip(array_keys($fields));

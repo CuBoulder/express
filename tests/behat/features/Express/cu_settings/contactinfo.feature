@@ -6,7 +6,7 @@ Should be able to add Contact Information
 
 #SOME ROLES CAN SET THE SITE CONTACT
 # Testing the frontpage affects the cu_campus_map_bundle tests.
-@api @testing_frontpage
+ @testing_frontpage
 Scenario Outline: Devs, Admins and SOs can set the Site Contact
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/site-configuration/contact"
@@ -23,7 +23,7 @@ Examples:
     | site_owner      | "303-123-4567" |
 
 # SOME ROLES CAN NOT SET SITE CONTACT
-@api 
+
 Scenario Outline: CEs and EMCs should not be able to set site name
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/site-configuration/contact"
@@ -34,7 +34,7 @@ Then I should see "Access denied"
     | content_editor  | 
     | edit_my_content  | 
     
-@api 
+
 Scenario: An anonymous user should not be able to set site name
   When I am on "admin/settings/site-configuration/contact"
   Then I should see "Access denied"

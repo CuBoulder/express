@@ -102,7 +102,7 @@ function webform_emails_form($form, $form_state, $node) {
  *
  * @throws Exception
  */
-function theme_webform_emails_form($variables) {
+function theme_webform_emails_form(array $variables) {
   $form = $variables['form'];
   $node = $form['#node'];
 
@@ -392,7 +392,7 @@ function webform_email_edit_form($form, $form_state, $node, $email = array(), $c
     '#default_value' => $email['exclude_empty'],
   );
 
-  // TODO: Allow easy re-use of existing templates.
+  // @todo: Allow easy re-use of existing templates.
   $form['templates']['#tree'] = TRUE;
   $form['templates']['default'] = array(
     '#type' => 'textarea',
@@ -575,7 +575,7 @@ function webform_email_edit_form_submit($form, &$form_state) {
   $form_state['values']['templates']['default'] = str_replace(array("\r", "\n"), array('', "\n"), $form_state['values']['templates']['default']);
 
   // Set the template value.
-  // TODO: Support reuse of templates.
+  // @todo: Support reuse of templates.
   if (strcmp(trim($form_state['values']['templates']['default']), trim($form_state['values']['template'])) == 0) {
     $email['template'] = 'default';
   }
@@ -701,7 +701,7 @@ function webform_email_load($eid, $nid) {
  *   The e-mail identifier for this row's settings on success else false.
  */
 function webform_email_insert($email) {
-  // TODO: This is not race-condition safe. Switch to using transactions?
+  // @todo: This is not race-condition safe. Switch to using transactions?
   if (!isset($email['eid'])) {
     $next_id_query = db_select('webform_emails')->condition('nid', $email['nid']);
     $next_id_query->addExpression('MAX(eid) + 1', 'eid');

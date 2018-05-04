@@ -4,7 +4,7 @@ In order to create a block with a list of nodes
 As an authenticated user
 I should be able to access and use the Content List Block
   
-@api 
+
 Scenario Outline: An authenticated user should be able to access the form for adding a content list block
   Given  I am logged in as a user with the <role> role
   When I go to "block/add/content-list"
@@ -18,12 +18,12 @@ Scenario Outline: An authenticated user should be able to access the form for ad
   | administrator   | "Create Content List block" |
   | developer       | "Create Content List block" |
   
-@api 
+
 Scenario: An anonymous user should not be able to access the form
   Given I go to "block/add/content-list"
   Then I should see "Access denied"
 
-@api
+
 Scenario: An authenticated user should see a number of Sort options
 Given I am logged in as a user with the "site_owner" role
 And am on "block/add/content-list"
@@ -33,7 +33,7 @@ When I select "Date Created" from "edit-field-content-list-sort-und"
 When I select "Date Created Reverse" from "edit-field-content-list-sort-und"
 When I select "Alphabetical" from "edit-field-content-list-sort-und"
     
- @api
+
 Scenario: An authenticated user should see a number of Display options
 Given I am logged in as a user with the "site_owner" role
 And am on "block/add/content-list"
@@ -42,7 +42,7 @@ When I select "Embed" from "edit-field-content-list-display-und"
 When I select "Title" from "edit-field-content-list-display-und"
 When I select "Sidebar" from "edit-field-content-list-display-und"
 
-@api @javascript
+ @javascript
 Scenario: A simple Content List block can be created
 Given I am logged in as a user with the "site_owner" role
 #CREATE A BASIC PAGE TO LOAD INTO THE LIST
