@@ -4,7 +4,7 @@ In order to create vanity URLs or fix broken pages
 An authenticated user with the proper role
 Should be able to create a URL redirect
 
-Scenario Outline: Devs, Admins, SOs, SEs and CMs can Create URL Redirects
+Scenario Outline: Devs, Admins, SOs and ConMgrs can Create URL Redirects
 Given I am logged in as a user with the <role> role
 When I go to "admin/config/search/redirect"
 Then I should see <message>
@@ -21,28 +21,6 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "URL redirects" |
 
-Scenario: An anonymous user can not create a URL redirect
- When I am on "admin/config/search/redirect"
- Then I should see "Access denied"
-    
-@api
-Scenario Outline: Devs, Admins and SOs can create a URL redirect
-  Given I am logged in as a user with the <role> role
-  When I go to "admin/config/search/redirect/add"
-  Then I should see "From" 
-  And I should see "To" 
-  And the "edit-status" checkbox should be checked
-  And I should see "Advanced options"
-    
-Examples:
-    | role            | 
-    | developer       | 
-    | administrator   | 
-    | site_owner      | 
-
-
-
-  
   @api
 Scenario: the URL redirects form is properly populated with functionality
   Given I am logged in as a user with the "site_owner" role
@@ -57,6 +35,57 @@ Scenario: the URL redirects form is properly populated with functionality
   And I should see the link "sort by Type"
   And I should see the link "sort by Count"
   And I should see the link "sort by Last accessed"
+  
+    
+@api
+Scenario Outline: Devs, Admins, SOs and ConMgrs can create a URL redirect
+  Given I am logged in as a user with the <role> role
+  When I go to "admin/config/search/redirect/add"
+  Then I should see "From" 
+  And I should see "To" 
+  And the "edit-status" checkbox should be checked
+  And I should see "Advanced options"
+    
+Examples:
+    | role            | 
+    | developer       | 
+    | administrator   | 
+    | site_owner      | 
+    | configuration_manager |
+    
+    @api
+Scenario Outline: Devs, Admins, SOs and ConMgrs can create a URL redirect
+  Given I am logged in as a user with the <role> role
+  When I go to "admin/config/search/redirect/add"
+  Then I should see "From" 
+  And I should see "To" 
+  And the "edit-status" checkbox should be checked
+  And I should see "Advanced options"
+    
+Examples:
+    | role            | 
+    | developer       | 
+    | administrator   | 
+    | site_owner      | 
+    | configuration_manager |
+    
+    
+
+Scenario Outline: Some roles cannot create a URL redirect
+  Given I am logged in as a user with the <role> role
+  When I go to "admin/config/search/redirect/add"
+  Then I should see "Access denied"
+  
+  Examples
+| role |
+| content_editor |
+| edit_my_content  | 
+| site_editor      | 
+| edit_only        | 
+| access_manager   | 
+
+  
+
 
 @api
 Scenario Outline: Devs, Admins and SOs can delete a URL redirect
@@ -84,12 +113,8 @@ Then I should see "Access denied"
     | content_editor  | 
     | edit_my_content  | 
     
+
 @api 
-Scenario: An anonymous user can not access the 'delete URL redirect' page
-  When I am on "admin/config/search/redirect/delete"
-  Then I should see "Access denied"
-
-
 Scenario Outline: Only Developers can access the URL Redirect Settings page
     Given I am logged in as a user with the <role> role
     When I go to "admin/config/search/redirect/settings"
@@ -108,3 +133,12 @@ Scenario Outline: Only Developers can access the URL Redirect Settings page
     | configuration_manager | "Access denied" |
     
     
+Scenario: An anonymous user can not create, add or delete a URL redirect
+ When I am on "admin/config/search/redirect"
+ Then I should see "Access denied"
+And I go to "admin/config/search/redirect/add"
+  Then I should see "Access denied"
+And I go to "admin/config/search/redirect/delete"
+   Then I should see "Access denied"
+And I go to "admin/config/search/redirect/settings"
+ Then I should see "Access denied"
