@@ -4,7 +4,7 @@ In order to show or hide an article's published date
 An authenticated user with the proper role
 Should be able to set Article Settings options
 
-#SOME ROLES CAN ACCESS THE ARTICLE SETTINGS OPTIONS
+# ARTICLE SETTINGS PERMS ARE PART OF 'ADMINISTER EXPRESS SETTINGS' - SITE EDITORS DON'T GET TO DO THIS.
 @api
 Scenario Outline: A user with the proper role can access the Article Settings options
  Given I am logged in as a user with the <role> role
