@@ -6,7 +6,7 @@ An authenticated user with the proper role
 Should be able to access the Site Search Settings
 
 #SOME ROLES CAN SET THE SITE SEARCH SETTINGS
-@api
+
 Scenario Outline: Devs, Admins and SOs can set the Site Search Settings
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/search/search-settings"
@@ -19,7 +19,7 @@ Examples:
     | site_owner      | 
 
 # SOME ROLES CAN NOT SET THE SITE SEARCH SETTINGS
-@api 
+
 Scenario Outline: CEs and EMCs should not be able to set Site Search Settings
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/search/search-settings"
@@ -30,7 +30,7 @@ Then I should see "Access denied"
     | content_editor  | 
     | edit_my_content  | 
 
-@api 
+
 Scenario: An anonymous user should not be able to set Site Search Settings
  When I am on "admin/settings/search/search-settings"
  Then I should see "Access denied"

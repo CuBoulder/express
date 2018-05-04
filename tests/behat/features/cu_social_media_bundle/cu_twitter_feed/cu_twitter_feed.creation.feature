@@ -1,7 +1,7 @@
 Feature: Facebook Like Creation Feature
   Test creation of Facebook like beans.
 
-  @api @social_media @javascript
+  @social_media @javascript
   Scenario: Create a Twitter Feed Block.
   Given I am logged in as a user with the "content_editor" role
     And I am on "block/add/twitter-block"

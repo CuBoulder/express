@@ -5,7 +5,7 @@ An authenticated user with the proper role
 Should be able to set Article Settings options
 
 #SOME ROLES CAN ACCESS THE ARTICLE SETTINGS OPTIONS
-@api
+
 Scenario Outline: A user with the proper role can access the Article Settings options
  Given I am logged in as a user with the <role> role
  When I go to "admin/settings/news/article-settings"
@@ -19,13 +19,13 @@ Examples:
     | content_editor  | "Access denied" |
     | edit_my_content | "Access denied" |
     
-@api 
+
 Scenario: An anonymous user cannot access the Article Settings options
   When I am on "admin/settings/news/article-settings"
   Then I should see "Access denied"
   
 #CHANGING THE SETTINGS HIDES THE PUBLISHED DATE ON ARTICLE
-@api
+
 Scenario Outline: User can change the Article Settings; aka hide publish date on article
  Given I am logged in as a user with the <role> role
  And am on "admin/settings/news/article-settings"

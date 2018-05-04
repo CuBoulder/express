@@ -4,7 +4,7 @@ In order to create the look of tabbed content
 As an authenticated user
 I should be able to access and use the Expandable Block
   
-@api 
+
 Scenario Outline: An authenticated user should be able to access the form for adding an expandable block
   Given  I am logged in as a user with the <role> role
   When I go to "block/add/expandable"
@@ -18,12 +18,12 @@ Scenario Outline: An authenticated user should be able to access the form for ad
   | administrator   | "Create Expandable block" |
   | developer       | "Create Expandable block" |
   
-@api 
+
 Scenario: An anonymous user should not be able to access the form
   Given I go to "block/add/expandable"
   Then I should see "Access denied"
   
-@api
+
 Scenario: An authenticated user should see a number of display options
 Given I am logged in as a user with the "site_owner" role
 When I go to "block/add/expandable"
@@ -33,7 +33,7 @@ And I select "tabs" from "edit-field-expandable-display-und"
 And I select "tabs-vertical" from "edit-field-expandable-display-und"
 And I select "select" from "edit-field-expandable-display-und"
 
-@api 
+
 Scenario: A simple Expandable block can be created
 Given I am logged in as a user with the "site_owner" role
 And I go to "block/add/expandable"

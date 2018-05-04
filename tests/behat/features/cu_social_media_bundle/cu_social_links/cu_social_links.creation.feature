@@ -1,7 +1,7 @@
 Feature: Social Links Creation Feature
   Test creation of social link beans.
 
-@api @social_media @javascript
+@social_media @javascript
 Scenario: Create a Social Links Block.
 Given  I am logged in as a user with the "content_editor" role
   And I am on "block/add/social-links"
