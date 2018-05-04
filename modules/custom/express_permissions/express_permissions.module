@@ -436,6 +436,7 @@ function express_permissions_secure_permissions($role) {
       'access_google_appliance_content',
       'administer nodes',
       'check out documents',
+      'clear path caches',
       'edit own page content',
       'edit own person content',
       'preview focal point',
