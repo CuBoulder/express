@@ -1,4 +1,4 @@
-@themes
+@theme
 Feature: Block Designer adds unique look to blocks while maintaining the branded theme
 In order to set my site apart from others in the University
 As an authenticated user with the proper role
