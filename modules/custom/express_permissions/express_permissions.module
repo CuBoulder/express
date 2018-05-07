@@ -703,6 +703,7 @@ function express_permissions_secure_permissions($role) {
       'administer redirects',
       'administer express settings',
       'administer express theme picker',
+      'administer rss feeds',
       'administer site search',
       'clear full caches',
       'clear path caches',
