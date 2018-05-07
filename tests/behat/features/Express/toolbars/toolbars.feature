@@ -20,7 +20,11 @@
     | site_owner |
     | content_editor |
     | edit_my_content |
-
+    | site_editor      | 
+    | edit_only        | 
+    | access_manager   | 
+    | configuration_manager |
+    
 
 Scenario Outline: All roles should see a blue toolbar with the same five links
  Given I am logged in as a user with the <role> role
@@ -38,6 +42,10 @@ Examples:
      | site_owner |
      | content_editor |
      | edit_my_content |
+     | site_editor      | 
+     | edit_only        | 
+     | access_manager   | 
+     | configuration_manager |
  
 # CHECKING THE EXPRESS MENU
   Scenario: As a developer I should see the complete Express menu
