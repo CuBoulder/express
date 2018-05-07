@@ -2,7 +2,7 @@
 Feature: User External Invite
 Given I am an administrator
 When I login to a Web Express site
-I should be able to invite users to my site
+I should be able to invite users to my site and manage invitations
 
 #SOME ROLES CAN ACCESS USER PAGE
 
@@ -87,18 +87,34 @@ Examples:
 | configuration_manager | "Access denied" |
 
 
+Scenario: Users landing page is properly populated with fields for finding and sorting users
+Given I am logged in as a user with the "site_owner" role
+When I go to "admin/people"
+Then I should see "Name"
+And I should see an "#edit-combine" element
+And I should see "Role"
+And I should see an "#edit-rid-op" element
+  And I should see "Active"
+  And I should see an "#edit-status" element
+  And I should see an "#edit-submit-cu-people-administration-override-view" element
+   And I should see a "#edit-reset" element
+  And I should see the link "sort by Username"
+  And I should see the link "sort by Active"
+ And I should see the link "sort by Primary Affiliation"
+  And I should see the link "sort by Member for"
+  And I should see the link "sort by Last access"
+     
 Scenario: Invite page has input fields for sending invites.
-    Given I am logged in as a user with the "site_owner" role
-    When I go to "admin/people/invite"
-    Then I should see a "#edit-rid" element
-    And I should see a "#edit-email" element
-    And I should see a "#edit-custom-message" element
+Given I am logged in as a user with the "site_owner" role
+When I go to "admin/people/invite"
+Then I should see a "#edit-rid" element
+And I should see a "#edit-email" element
+And I should see a "#edit-custom-message" element
 
-
- Scenario: A developer can access the user invite configuration form.
-    Given I am logged in as a user with the "developer" role
-    When I go to "admin/config/people/invite"
-    Then I should see "Number of days invites are valid"
-      And I should see "Invitation Accepted Email Template"
+Scenario: A developer can access the user invite configuration form.
+Given I am logged in as a user with the "developer" role
+When I go to "admin/config/people/invite"
+Then I should see "Number of days invites are valid"
+And I should see "Invitation Accepted Email Template"
 
 
