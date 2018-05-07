@@ -104,7 +104,7 @@ And I should see an "#edit-rid-op" element
  And I should see "Active"
   And I should see an "#edit-status" element
   And I should see an "#edit-submit-cu-people-administration-override-view" element
-   And I should see a "#edit-reset" element
+  And I should see a "#edit-reset" element
   And I should see the link "sort by Username"
   And I should see the link "sort by Active"
 # HIDING FOR NOW And I should see the link "sort by Primary Affiliation"
@@ -118,7 +118,6 @@ Then I should see a "#edit-rid" element
 And I should see a "#edit-email" element
 And I should see a "#edit-custom-message" element
 
-@users @justme @javascript
 Scenario: Functionality - Sending an invitation
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/people/invite"
@@ -126,12 +125,10 @@ And I fill in "edit-email" with "newname@example.com"
 And I press "edit-submit"
 Then I should see "Successfully invited new user!"
 
-@users @justme @javascript
 Scenario: Functionality - Cancelling an invitation
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/people/invite/operations"
-# Then I should see "newname@example.com"
-# And I should see a "#edit-select" element
+Then I should see "newname@example.com"
 When I check "edit-table-0" 
 And I press "edit-submit"
 Then I should see "Deleted 1 user invite."
