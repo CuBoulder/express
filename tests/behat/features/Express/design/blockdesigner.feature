@@ -26,17 +26,3 @@ Scenario: An anonymous user should not be able to set site name
   When I am on "admin/theme/block-designer"
   Then I should see "Access denied"
   
-Scenario: Functionality - An Admin level user should see all available themes
-  Given  I am logged in as a user with the "site_owner" role
-    And am on "admin/theme/block-designer"
-  Then I should see "Modern"
-  And I should see "Highlight"
-    And I should see "Ivory"
-    And I should see "Layers"
-    And I should see "Minimal"
-    And I should see "Rise"
-    And I should see "Shadow"
-    And I should see "Simple"
-    And I should see "Spirit"
-    And I should see "Swatch"
-    And I should see "Tradition"
