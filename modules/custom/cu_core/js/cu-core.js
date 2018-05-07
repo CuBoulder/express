@@ -1,6 +1,6 @@
 (function ($) {
   $(document).ready(function(){
-    $('#navbar-bar').prepend('<div class="express-environment-indicator"><span class="express-environment-indicator-label"></span> <a href="#">Update Site Status</a></div>');
+    $('#navbar-bar').prepend('<div class="express-environment-indicator"><span class="express-environment-indicator-label"></span> <a href="' + Drupal.settings.basePath + 'admin/settings/site-status/verify">Migration Status</a></div>');
     
     // Prod New Launched
     $('.environment-production.infrastructure-new.status-launched .express-environment-indicator span').text('Live Site  - New Server Environment');
