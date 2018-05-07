@@ -207,4 +207,5 @@ function cu_core_preprocess_html(&$vars) {
     }
   }
   drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
+  drupal_add_js(drupal_get_path('module', 'cu_core') . '/js/cu-core.js');
 }
