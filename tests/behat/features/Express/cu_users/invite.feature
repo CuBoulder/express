@@ -140,7 +140,7 @@ Then I should see "Successfully invited new user!"
 Scenario: Functionality - Cancelling an invitation
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/people/invite/operations"
-@ Then I should see "newname@example.com"
+# Then I should see "newname@example.com"
 # And I should see a "#edit-select" element
 When I check "edit-table-0" 
 And I press "edit-submit"
