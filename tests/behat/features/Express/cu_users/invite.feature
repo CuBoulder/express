@@ -47,7 +47,28 @@ Examples:
 Scenario: An anonymous user should not be able to Invite Users
   When I am on "admin/people/invite"
   Then I should see "Access denied"
+  
+Scenario Outline: Only Devs, Admins, SOs and AcsMgrs can Manage Invites
+Given I am logged in as a user with the <role> role
+When I go to "admin/people/invite/operations"
+Then I should see <message>
 
+Examples:
+| role             | message |
+| developer        | "No invites available." |
+| administrator    | "No invites available." |
+| site_owner       | "No invites available." |
+| content_editor   | "Access denied" |
+| edit_my_content  | "Access denied" |
+| site_editor      | "Access denied" |
+| edit_only        | "Access denied" |
+| access_manager   | "No invites available." |
+| configuration_manager | "Access denied" |
+
+Scenario: An anonymous user should not be able to Manage Invites
+  When I am on "admin/people/invite/operations"
+  Then I should see "Access denied"
+  
 Scenario Outline: Only Devs can access the Add User page
 Given I am logged in as a user with the <role> role
 When I go to "admin/people/create"
@@ -66,12 +87,13 @@ Examples:
 | configuration_manager | "Access denied" |
 
 
-Scenario: Invite page has correct variables set.
+Scenario: Invite page has input fields for sending invites.
     Given I am logged in as a user with the "site_owner" role
-    When I go to "/admin/people/invite"
-    Then I should not see "Your site is not yet configured to invite users. Contact the site administrator to configure the invite feature."
-      And I should see "Content Editor"
-      And I should see "Site Owner"
+    When I go to "admin/people/invite"
+    Then I should see a "#edit-rid" element
+    And I should see a "#edit-email" element
+    And I should see a "#edit-custom-message" element
+
 
  Scenario: A developer can access the user invite configuration form.
     Given I am logged in as a user with the "developer" role
