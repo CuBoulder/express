@@ -14,7 +14,7 @@ Feature: Authentication tasks
 
   Scenario: Login Error messages - Partial form Username
     Given I am on "user"
-    And I fill in "username" with "My User Name"
+    And I fill in "edit-name" with "My User Name"
     When I press "Log in"
     Then I should see "IdentiKey Password field is required."
     Then I should see "Sorry, unrecognized username or password"
@@ -23,7 +23,7 @@ Feature: Authentication tasks
 
   Scenario: Login Error messages - Partial form Password
     Given I am on "user"
-    And I fill in "password" with "My IdentiKey Password"
+   And I fill in "edit-pass" with "My IdentiKey Password"
     When I press "Log in"
     Then I should see "CU Login Name field is required."
     And I should not see "IdentiKey Password field is required."
@@ -32,8 +32,8 @@ Feature: Authentication tasks
   @login
   Scenario: Login Error messages - Complete form
     Given I am on "user"
-    And I fill in "username" with "My User Name"
-    And I fill in "password" with "My IdentiKey Password"
+   And I fill in "edit-name" with "My User Name"
+    And I fill in "edit-pass" with "My IdentiKey Password"
     When I press "Log in"
     Then I should see "Sorry, unrecognized username or password."
     And I should not see "IdentiKey Password field is required."
