@@ -119,11 +119,30 @@ And I should see a "#edit-email" element
 And I should see a "#edit-custom-message" element
 
 @users @justme
-Scenario: Functionality - Sending an invitation
+Scenario: Functionality - Sending an invitation 1
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/people/invite"
-And I check "edit-rid-20" 
-And I fill in "edit-email" with "myname@example.com"
+# And I check "edit-rid-20" CHECKING THE ID DOESN'T WORK
+And I select "#edit-rid-20" from "rid"
+And I fill in "edit-email" with "newname1@example.com"
+And I press "edit-submit"
+Then I should see "Successfully invited new user!"
+
+@users @justme
+Scenario: Functionality - Sending an invitation 2
+Given I am logged in as a user with the "site_owner" role
+When I go to "admin/people/invite"
+And I select "22" from "rid"
+And I fill in "edit-email" with "newname2@example.com"
+And I press "edit-submit"
+Then I should see "Successfully invited new user!"
+
+@users @justme
+Scenario: Functionality - Sending an invitation 3
+Given I am logged in as a user with the "site_owner" role
+When I go to "admin/people/invite"
+And I select the ".form-radio.last input" element
+And I fill in "edit-email" with "newname3@example.com"
 And I press "edit-submit"
 Then I should see "Successfully invited new user!"
 
