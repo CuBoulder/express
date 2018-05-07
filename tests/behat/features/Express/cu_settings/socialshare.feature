@@ -29,7 +29,7 @@ Scenario: An anonymous user should not be able to access the Social Share page
  Then I should see "Access denied"
   
 # SETTING THE SOCIAL SHARE LINKS
-Scenario: Social Share Links can be set and appear onspecified nodes
+Scenario: Social Share Links can be set and appear on specified nodes
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/page"
   When I fill in "edit-title" with "MySocialPage"
