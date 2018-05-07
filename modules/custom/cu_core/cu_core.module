@@ -213,10 +213,14 @@ function cu_core_preprocess_html(&$vars) {
     //variable_get('atlas_status') == 'available'
     switch ($env) {
       case 'www.colorado.edu':
-        $vars['classes_array'][] = 'environment-production.infrastructure-old.status-launched';
+        $vars['classes_array'][] = 'environment-production';
+        $vars['classes_array'][] = 'infrastructure-old';
+        $vars['classes_array'][] = 'status-launched';
+
         break;
       case 'www-test.colorado.edu':
-        $vars['classes_array'][] = 'environment-test.status-launched';
+        $vars['classes_array'][] = 'environment-test';
+        $vars['classes_array'][] = 'status-launched';
         break;
       case 'www-new.colorado.edu':
         $vars['classes_array'][] = 'environment-production.infrastructure-old.status-launched';
