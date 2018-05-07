@@ -1,4 +1,4 @@
-@theme
+@design
 Feature: The system can sync/unsync roles with secure permissions
 In order to test the new roles in Web Express
 As a user with the proper role
