@@ -193,15 +193,28 @@ function cu_core_permission() {
 }
 
 function cu_core_preprocess_html(&$vars) {
+  /**
+   * Accepted values for displaying indicator (add as classes in classes_array variable:
+   *
+   * Environment:
+   * environment-production/environment-test
+   *
+   * Infrastructure:
+   * infrastructure-new/infrastructure-old
+   *
+   * Site Status:
+   * status-launched/status-staged
+   *
+   * Migration
+   * migrate-ready
+   */
   if (user_access('view express environment indicator')) {
     $env = $_SERVER['HTTP_HOST'];
     switch ($env) {
       case 'www.colorado.edu':
-        $vars['classes_array'][] = 'environment-indicator-active';
         $vars['classes_array'][] = 'environment-production';
         break;
       case 'www-test.colorado.edu':
-        $vars['classes_array'][] = 'environment-indicator-active';
         $vars['classes_array'][] = 'environment-test';
         break;
     }
