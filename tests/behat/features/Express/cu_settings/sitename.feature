@@ -27,7 +27,7 @@ Scenario: An anonymous user should not be able to set site name
  Then I should see "Access denied"
  
 @api @testing_frontpage
-Scenario Outline: When Site Name is populated, it shows up on the homepage
+Scenario: When Site Name is populated, it shows up on the homepage
   Given I am logged in as a user with the "site_owner" role
   And am on "admin/settings/site-configuration/site-name"
   And fill in "edit-site-name-1" with "New Site Title"
