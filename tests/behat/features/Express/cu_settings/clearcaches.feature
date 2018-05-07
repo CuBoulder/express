@@ -5,7 +5,7 @@ An authenticated user with the proper role
 Should be able to clear the site caches
 
 # ACCESSING THE CLEAR CACHES LANDING PAGE
-@api
+
 Scenario Outline: Devs, Admins, SOs and ConMgrs can access the 'Clear Caches' page where they see four tabs
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/cache/clear"
@@ -21,7 +21,7 @@ Examples:
     | site_owner      |
     | configuration_manager |
 
-@api 
+
 Scenario Outline: Roles that can edit a page can access Clear Cache page where they see two tabs
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/cache/clear"
@@ -36,7 +36,6 @@ Examples:
 | site_editor |
 | edit_only |
 
-@api 
 Scenario Outline: EMCs and AccMgrs cannot access the 'Clear Caches' landing page
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/cache/clear"
@@ -53,7 +52,7 @@ Scenario: An anonymous user should not be able to access the 'Clear Caches' land
  Then I should see "Access denied"
 
 # ACCESSING THE CLEAR-PAGE-FULL PAGE
-@api
+
 Scenario Outline: Devs, Admins, SOs and ConMgrs can access the 'Clear Page Full' tag; CEs and EMCs cannot
   Given I am logged in as a user with the <role> role
   When I go to "admin/settings/cache/clear/varnish-full"
@@ -72,7 +71,7 @@ Examples:
     | configuration_manager | "Repeatedly clearing caches will cause performance problems for you" |
 
 # ACCESSING THE CLEAR-DATABASE-FULL PAGE
-@api
+
 Scenario Outline: Devs, Admins, SOs and ConMgrs can access the 'Clear Database Full' tag; CEs and EMCs cannot
   Given I am logged in as a user with the <role> role
   When I go to "admin/settings/cache/clear/drupal-full"
@@ -93,7 +92,7 @@ Examples:
 
 # NOTE: NO VARNISH ON TRAVIS 
 # THE PROPER STATUS MESSAGE IS DISPLAYED WHEN FULL DATABASE CACHE IS CLEARED
-@api @javascript
+@javascript
 Scenario: Clearing Full Page Cache is limited to once per hour 
   Given I am logged in as a user with the "site_owner" role
   When I go to "admin/settings/cache/clear/drupal-full"
@@ -104,7 +103,7 @@ Scenario: Clearing Full Page Cache is limited to once per hour
   
 # NOTE: NO VARNISH ON TRAVIS; NO USE TESTING
 # TESTING THE CLEAR-PAGE-BY-PATH FUNCTIONALITY
-#  @api 
+# 
 #  Scenario Outline: Devs, Admins, SOs and CEs can Clear Page by Path.
 #  Given I am logged in as a user with the <role> role
 #  When I go to "admin/settings/cache/clear/varnish-path"
@@ -123,7 +122,7 @@ Scenario: Clearing Full Page Cache is limited to once per hour
  
 # NOTE: NO VARNISH ON TRAVIS 
 # THE PROPER STATUS MESSAGE IS DISPLAYED WHEN FULL PAGE CACHE IS CLEARED
-#  @api 
+# 
 # Scenario: Clearing Full Page Cache is limited to once per hour 
 #  Given I am logged in as a user with the "site_owner" role
 #  When I go to "admin/settings/cache/clear/varnish-full"
