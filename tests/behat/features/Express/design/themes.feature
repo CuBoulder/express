@@ -1,4 +1,4 @@
-@themes
+@theme
 Feature: Design Themes change the themeing of the site while maintaining the branded look
 In order to set my site apart from others in the University
 As an authenticated user with the proper role
