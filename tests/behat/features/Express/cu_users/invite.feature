@@ -118,7 +118,7 @@ Then I should see a "#edit-rid" element
 And I should see a "#edit-email" element
 And I should see a "#edit-custom-message" element
 
-@users @justme
+@users @justme @javascript
 Scenario: Functionality - Sending an invitation 1
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/people/invite"
@@ -127,7 +127,7 @@ And I fill in "edit-email" with "newname1@example.com"
 And I press "edit-submit"
 Then I should see "Successfully invited new user!"
 
-@users @justme
+@users @justme  @javascript
 Scenario: Functionality - Sending an invitation 2
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/people/invite"
