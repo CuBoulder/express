@@ -210,12 +210,19 @@ function cu_core_preprocess_html(&$vars) {
    */
   if (user_access('view express environment indicator')) {
     $env = $_SERVER['HTTP_HOST'];
+    //variable_get('atlas_status') == 'available'
     switch ($env) {
       case 'www.colorado.edu':
-        $vars['classes_array'][] = 'environment-production';
+        $vars['classes_array'][] = 'environment-production.infrastructure-old.status-launched';
         break;
       case 'www-test.colorado.edu':
-        $vars['classes_array'][] = 'environment-test';
+        $vars['classes_array'][] = 'environment-test.status-launched';
+        break;
+      case 'www-new.colorado.edu':
+        $vars['classes_array'][] = 'environment-production.infrastructure-old.status-launched';
+        break;
+      case 'www-test-new.colorado.edu':
+        $vars['classes_array'][] = 'environment-test.status-launched';
         break;
     }
     drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
