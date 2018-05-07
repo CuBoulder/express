@@ -10,7 +10,8 @@ php:
 
 branches:
   only:
-    - dev
+    # - dev
+    - feature/2276
 
 addons:
   # The username and access key are stored in the Travis settings.
@@ -36,7 +37,8 @@ install:
   - export TRAVIS_EVENT_TYPE
   - export BUNDLE_NAME="null"
   - export EXPRESS_JS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@javascript"
-  - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript"
+  #   - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript"
+  - export EXPRESS_HEADLESS_BEHAT_TAGS="@toolbars"
   - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken"
 
   # Copy scripts to root.
