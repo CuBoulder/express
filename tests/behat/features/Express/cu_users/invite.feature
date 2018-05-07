@@ -92,6 +92,8 @@ When I go to "admin/config/people/invite"
 Then I should see "Number of days invites are valid"
 And I should see "Invitation Accepted Email Template"
 
+# INVITATIONS WORK AS EXPECTED
+
 Scenario: Functionality - Users landing page is properly populated with fields for finding and sorting users
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/people"
@@ -115,6 +117,26 @@ When I go to "admin/people/invite"
 Then I should see a "#edit-rid" element
 And I should see a "#edit-email" element
 And I should see a "#edit-custom-message" element
+
+@users @justme
+Scenario: Functionality - Sending an invitation
+Given I am logged in as a user with the "site_owner" role
+When I go to "admin/people/invite"
+And I check "edit-rid-20" 
+And I fill in "edit-email" with "myname@example.com"
+And I press "edit-submit"
+Then I should see "Successfully invited new user!"
+
+@users @justme
+Scenario: Functionality - Cancelling an invitation
+Given I am logged in as a user with the "site_owner" role
+When I go to "admin/people/invite/operations"
+Then I should see a "#edit-select" element
+And I should see "myname@example.com"
+When I check "edit-table-0" 
+And I press "edit-submit"
+Then I should see "Deleted 1 user invite."
+
 
 
 
