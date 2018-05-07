@@ -23,8 +23,8 @@ Examples:
 
 @api 
 Scenario: An anonymous user should not be able to set site name
-  When I am on "admin/settings/site-configuration/contact"
-  Then I should see "Access denied"
+When I go to "admin/theme"
+Then I should see "Access denied"
   
 
 Scenario: Functionality - An Admin level user should see all available themes
