@@ -313,7 +313,7 @@ function express_settings_site_status_form($form, &$form_state) {
  */
 function express_settings_site_status_form_submit($form, &$form_state) {
 
-   drupal_set_message("This does nothing yet... if that would have been a real button, a site using www-new would be switched over to using www in the next group to roll over", 'warning');
+   drupal_set_message("This does nothing yet... if that would have been a real button, a site using www-new would be switched over to using www in the next group to roll over at 9AM, 11AM, 1PM or 3PM Monday-Friday", 'warning');
 
 }
 
