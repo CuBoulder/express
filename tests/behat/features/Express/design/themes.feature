@@ -26,10 +26,9 @@ Scenario: An anonymous user should not be able to set site name
 When I go to "admin/theme"
 Then I should see "Access denied"
   
-
-Scenario: Functionality - An Admin level user should see all available themes
+Scenario: Functionality - All available themes should be available
   Given  I am logged in as a user with the "site_owner" role
-    And am on "admin/theme"
+  And am on "admin/theme"
   Then I should see "Modern"
   And I should see "Highlight"
     And I should see "Ivory"
@@ -42,10 +41,12 @@ Scenario: Functionality - An Admin level user should see all available themes
     And I should see "Swatch"
     And I should see "Tradition"
 
-
-
-
-
+Scenario: Functionality - An Admin-level user can change the site theme
+  Given  I am logged in as a user with the "site_owner" role
+  And am on "admin/theme"
+ And I click the ".btn-info:last-child" element
+ Then I should see "Active theme has been set."
+   
 Scenario: Access - As a site_owner I should not see jquery theme settings
   Given  I am logged in as a user with the "site_owner" role
     And am on "admin/theme/config/cumodern"
