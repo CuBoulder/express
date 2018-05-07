@@ -35,13 +35,17 @@ Examples:
 | content_editor |
 | site_editor |
 | edit_only |
-| edit_my_content |
 
 @api 
-Scenario: AccMgrs cannot access the 'Clear Caches' landing page
-Given I am logged in as a user with the "access_manager" role
+Scenario Outline: EMCs and AccMgrs cannot access the 'Clear Caches' landing page
+Given I am logged in as a user with the <role> role
 And am on "admin/settings/cache/clear"
 Then I should see "Access denied"
+
+Examples:
+| role |
+| access_manager |
+| edit_my_content |
 
 @api 
 Scenario: An anonymous user should not be able to access the 'Clear Caches' landing page
