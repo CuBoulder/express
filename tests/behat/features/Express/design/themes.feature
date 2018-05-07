@@ -4,7 +4,7 @@ In order to set my site apart from others in the University
 As an authenticated user with the proper role
 I should be able to change the site theme
 
-Scenario Outline: Access - only Devs, Admins, SOs, SEs and ConMgrs can access the Site Theme page
+Scenario Outline: Access - only Devs, Admins, SOs and ConMgrs can access the Site Theme page
 Given I am logged in as a user with the <role> role
 When I go to "admin/theme"
 Then I should see <message>
@@ -16,7 +16,7 @@ Examples:
 | site_owner       | "Choose a theme" |
 | content_editor   | "Access denied" |
 | edit_my_content  | "Access denied" |
-| site_editor      | "Choose a theme" |
+| site_editor      | "Access denied" |
 | edit_only        | "Access denied" |
 | access_manager   | "Access denied" |
 | configuration_manager | "Choose a theme" |
