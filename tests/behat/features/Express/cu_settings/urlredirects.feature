@@ -65,9 +65,10 @@ When I go to "admin/config/search/redirect/add"
 
 @api
 Scenario Outline: Devs, Admins, SOs and ConMgrs can delete a URL redirect
-  Given I am logged in as a user with the <role> role
-  When I go to "admin/config/search/redirect/delete"
-  Then I should see  
+ Given I am logged in as a user with the <role> role
+ When I go to "admin/config/search/redirect/delete"
+Then I should see <message>
+
 Examples:
 | role             | message |
 | developer        | "Your site may contain redirects that have never been accessed" |
