@@ -20,7 +20,6 @@ Examples:
     | administrator   | 
     | site_owner      | 
 
-
 Scenario: CEs can access the 'Clear Caches' landing page where they see two tabs
 Given I am logged in as a user with the "content_editor" role
 And am on "admin/settings/cache/clear"
@@ -29,12 +28,10 @@ And I should see the link "Clear Page by Path"
 And I should not see "Clear Page Full"
 And I should not see "Clear Database Full"
 
-
 Scenario: EMCs should not be able to access the 'Clear Caches' landing page
 Given I am logged in as a user with the "edit_my_content" role
 And am on "admin/settings/cache/clear"
 Then I should see "Access denied"
-
 
 Scenario: An anonymous user should not be able to access the 'Clear Caches' landing page
  When I am on "admin/settings/cache/clear"
