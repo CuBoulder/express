@@ -35,6 +35,11 @@ else
   echo Importing Express database...
   $HOME/.composer/vendor/bin/drush sql-cli < $HOME/cache/express.sql
   earlyexit
+
+  # Run any database updates.
+  echo Running pending database updates...
+  $HOME/.composer/vendor/bin/drush updb -y
+
 fi
 
 # Check and see if testing core module is enabled.
