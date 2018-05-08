@@ -205,6 +205,7 @@ dependencies[] = field_reference_delete
 dependencies[] = express_block_designer
 dependencies[] = express_block_designer_menu
 dependencies[] = erus_lite
+dependencies[] = update
 
 ; ============ FEATURE EXPORTS ============
 dependencies[] = express_linkit_profiles
