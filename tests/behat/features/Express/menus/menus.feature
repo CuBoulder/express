@@ -9,19 +9,50 @@ I can add and edit the menus on my site
 Scenario Outline: A user with the proper role should be able to add and edit menus
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/menu"
-  Then I should see <message>
+  Then I should see "Menus"
+  And I go to "admin/structure/menu/settings"
+  Then I should see "Source for the Main links"
+  And I go to "admin/structure/menu/add"
+  Then I should see "Title"
+  And I go to "admin/structure/menu/manage/main-menu"
+  Then I should see the link "Home"
+  And I go to "admin/structure/menu/manage/menu-mobile-menu"
+  Then I should see "Menu link"
+  And I go to "admin/structure/menu/manage/menu-footer-menu"
+ Then I should see "Menu link"
+  And I go to "admin/structure/menu/manage/menu-secondary-menu"
+  Then I should see "Menu link"
 
 Examples:
-| role                  | message  |
-| developer             | "Menus" |
-| administrator         | "Menus" |
-| site_owner            | "Menus" |
-| site_editor           | "Menus" |
-| content_editor        | "Access denied" |
-| edit_my_content       | "Access denied" |
-| edit_only             | "Access denied" |
-| access_manager        | "Access denied" |
-| configuration_manager | "Access denied" |
+| role                  | 
+| developer             | 
+| administrator         | 
+| site_owner            | 
+| site_editor           | 
+
+Scenario Outline: A user with the proper role should be able to add and edit menus
+  Given I am logged in as a user with the <role> role
+  When I go to "admin/structure/menu"
+  Then I should see "Access denied"
+  And I go to "admin/structure/menu/settings"
+Then I should see "Access denied"
+  And I go to "admin/structure/menu/add"
+  Then I should see "Access denied"
+  And I go to "admin/structure/menu/manage/main-menu"
+  Then I should see "Access denied"
+  And I go to "admin/structure/menu/manage/menu-mobile-menu"
+ Then I should see "Access denied"
+  And I go to "admin/structure/menu/manage/menu-footer-menu"
+ Then I should see "Access denied"
+  And I go to "admin/structure/menu/manage/menu-secondary-menu"
+  Then I should see "Access denied"
+  
+Examples:
+| content_editor        | 
+| edit_my_content       | 
+| edit_only             | 
+| access_manager        | 
+| configuration_manager | 
 
 Scenario: An anonymous user should not be able to access the form for adding page content
   When I am on "admin/structure/menu"
