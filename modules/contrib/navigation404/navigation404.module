@@ -43,3 +43,8 @@ function navigation404_site_404_submit($form, &$form_state) {
     $form_state['values']['site_404'] = NAVIGATION404_PAGE;
   }
 }
+
+function navigation404_menu_alter(&$items) {
+  dpm($page);
+  $items[NAVIGATION404_PAGE]['title'] = t('Anything');
+}
