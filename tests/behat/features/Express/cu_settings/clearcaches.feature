@@ -70,7 +70,6 @@ Examples:
     | configuration_manager | "Repeatedly clearing caches will cause performance problems for you" |
 
 # ACCESSING THE CLEAR-DATABASE-FULL PAGE
-
 Scenario Outline: Devs, Admins, SOs and ConMgrs can access the 'Clear Database Full' tag; CEs and EMCs cannot
   Given I am logged in as a user with the <role> role
   When I go to "admin/settings/cache/clear/drupal-full"
