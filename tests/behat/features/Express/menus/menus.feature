@@ -24,11 +24,11 @@ Scenario Outline: Access - An Admin level user should be able to add and edit al
   Then I should see "Secondary Menu"
 
 Examples:
-| role                  | 
-| developer             | 
-| administrator         | 
-| site_owner            | 
-| site_editor           | 
+| role           | 
+| developer      | 
+| administrator  | 
+| site_owner     | 
+| site_editor    | 
 
 
 Scenario Outline: Access - A user with limited roles cannot add or edit menus
@@ -49,6 +49,7 @@ Scenario Outline: Access - A user with limited roles cannot add or edit menus
   Then I should see "Access denied"
   
 Examples:
+| role                  |  
 | content_editor        | 
 | edit_my_content       | 
 | edit_only             | 
