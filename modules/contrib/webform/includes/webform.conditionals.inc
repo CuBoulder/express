@@ -664,7 +664,7 @@ function _webform_conditional_expand_value_forms($node) {
  *   The rid of the found rule, or -1 if none. Note that NULL is not used as a
  *   semaphore for "not found" because it casts to 0, which is a valid rule id.
  */
-function _webform_conditional_find_end($rules, $origin_rid, $target_delta_level = 0) {
+function _webform_conditional_find_end(array $rules, $origin_rid, $target_delta_level = 0) {
   $rids = array_keys($rules);
   $offset = array_search($origin_rid, $rids);
   $delta_level = 0;
@@ -819,7 +819,7 @@ function webform_conditional_element_remove($form, &$form_state) {
  * @return array
  *   Array of deleted subconditionals. Empty array if none were deleted.
  */
-function webform_delete_empty_subconditionals(&$conditional) {
+function webform_delete_empty_subconditionals(array &$conditional) {
   $deleted = array();
   do {
     $empty_deleted = FALSE;
@@ -901,9 +901,9 @@ function theme_webform_conditional($variables) {
 
       default:
         // Hide labels.
-        $rule['source']['#title_display'] = 'none';
-        $rule['operator']['#title_display'] = 'none';
-        $rule['value']['#title_display'] = 'none';
+        $rule['source']['#title_display'] = 'invisible';
+        $rule['operator']['#title_display'] = 'invisible';
+        $rule['value']['#title_display'] = 'invisible';
 
         $source = '<div class="webform-conditional-source">' . drupal_render($rule['source']) . '</div>';
         $operator = '<div class="webform-conditional-operator">' . drupal_render($rule['operator']) . '</div>';
@@ -926,7 +926,7 @@ function theme_webform_conditional($variables) {
     $output .= '</div>';
 
     if (isset($rule['andor'])) {
-      $rule['andor']['#title_display'] = 'none';
+      $rule['andor']['#title_display'] = 'invisible';
       $output .= '<div class="webform-conditional-andor webform-container-inline">';
       $output .= drupal_render($rule['andor']);
       $output .= '</div>';
@@ -946,10 +946,10 @@ function theme_webform_conditional($variables) {
   // Hide labels.
   foreach (element_children($element['actions']) as $aid) {
     // Hide labels.
-    $element['actions'][$aid]['target']['#title_display'] = 'none';
-    $element['actions'][$aid]['invert']['#title_display'] = 'none';
-    $element['actions'][$aid]['action']['#title_display'] = 'none';
-    $element['actions'][$aid]['argument']['#title_display'] = 'none';
+    $element['actions'][$aid]['target']['#title_display'] = 'invisible';
+    $element['actions'][$aid]['invert']['#title_display'] = 'invisible';
+    $element['actions'][$aid]['action']['#title_display'] = 'invisible';
+    $element['actions'][$aid]['argument']['#title_display'] = 'invisible';
 
     $target = '<div class="webform-conditional-target">' . drupal_render($element['actions'][$aid]['target']) . '</div>';
     $invert = '<div class="webform-conditional-invert">' . drupal_render($element['actions'][$aid]['invert']) . '</div>';
@@ -1273,7 +1273,7 @@ function webform_conditional_form_select($node) {
   webform_component_include('select');
   foreach ($node->webform['components'] as $cid => $component) {
     if (webform_component_property($component['type'], 'conditional_type') == 'select') {
-      // TODO: Use a pluggable mechanism for retrieving select list values.
+      // @todo: Use a pluggable mechanism for retrieving select list values.
       $options = _webform_select_options($component);
       $element = array(
         '#type' => 'select',
@@ -1299,7 +1299,7 @@ function webform_conditional_form_date($node) {
   static $count = 0;
   $element = array(
     '#title' => NULL,
-    '#title_display' => 'none',
+    '#title_display' => 'invisible',
     '#size' => 24,
     '#attributes' => array('placeholder' => t('@format or valid date', array('@format' => webform_date_format('short')))),
     '#type' => 'textfield',
@@ -1315,7 +1315,7 @@ function webform_conditional_form_time($node) {
   static $count = 0;
   $element = array(
     '#title' => NULL,
-    '#title_display' => 'none',
+    '#title_display' => 'invisible',
     '#size' => 24,
     '#attributes' => array('placeholder' => t('HH:MMam or valid time')),
     '#type' => 'textfield',
@@ -1399,7 +1399,7 @@ function webform_conditional_delete($node, $conditional) {
  * @return array
  *   Array of settings to be send to the browser as javascript settings.
  */
-function webform_conditional_prepare_javascript($node, $submission_data, $page_num) {
+function webform_conditional_prepare_javascript($node, array $submission_data, $page_num) {
   $settings = array(
     'ruleGroups' => array(),
     'sourceMap' => array(),
@@ -1747,12 +1747,13 @@ function webform_conditional_value_datetime($input_values) {
  * @param array $options
  *   Associative array where the $a and $b are within the keys.
  *
- * @return integer based upon position of $a and $b in $options
+ * @return int|null
+ *   Based upon position of $a and $b in $options:
  *   -N if $a above (<) $b
  *   0 if $a = $b
  *   +N if $a is below (>) $b
  */
-function webform_compare_select($a, $b, $options) {
+function webform_compare_select($a, $b, array $options) {
   // Select keys that are integer-like strings are numeric indices in PHP.
   // Convert the array keys to an array of strings.
   $options_array = array_map(function ($i) {
@@ -1760,6 +1761,5 @@ function webform_compare_select($a, $b, $options) {
   }, array_keys($options));
   $a_position = array_search($a, $options_array, TRUE);
   $b_position = array_search($b, $options_array, TRUE);
-  return ($a_position === FALSE || $a_position === FALSE) ? NULL : $a_position - $b_position;
-
+  return ($a_position === FALSE || $b_position === FALSE) ? NULL : $a_position - $b_position;
 }

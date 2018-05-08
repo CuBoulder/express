@@ -240,16 +240,15 @@ function theme_webform_email($variables) {
 }
 
 /**
- * A Drupal Form API Validation function. Validates the entered values from
- * email components on the client-side form.
+ * A Drupal Form API Validation function.
+ *
+ * Validates the entered values from email components on the client-side form.
+ * Calls a form_set_error if the e-mail is not valid.
  *
  * @param $form_element
  *   The e-mail form element.
  * @param $form_state
  *   The full form state for the webform.
- *
- * @return
- *   None. Calls a form_set_error if the e-mail is not valid.
  */
 function _webform_validate_email($form_element, &$form_state) {
   $component = $form_element['#webform_component'];
@@ -322,13 +321,15 @@ function _webform_analysis_email($component, $sids = array(), $single = FALSE, $
   $rows[0] = array(t('Left Blank'), ($submissions - $nonblanks));
   $rows[1] = array(t('User entered value'), $nonblanks);
 
-  $other[0] = array(t('Average submission length in words (ex blanks)'), ($nonblanks != 0 ? number_format($wordcount / $nonblanks, 2) : '0'));
+  $other[0] = array(
+    t('Average submission length in words (ex blanks)'),
+    ($nonblanks != 0 ? number_format($wordcount / $nonblanks, 2) : '0'),
+  );
 
   return array(
     'table_rows' => $rows,
     'other_data' => $other,
   );
-
 }
 
 /**

@@ -1,12 +1,7 @@
 <?php
 
 /**
- * @file
  * Webform module submission tests.
- */
-
-/**
- *
  */
 class WebformSubmissionTestCase extends WebformTestCase {
 
@@ -69,10 +64,10 @@ class WebformSubmissionTestCase extends WebformTestCase {
     node_save($node);
 
     // Submit the webform with no data. We should get a message that all the
-    // components are required. (The exceptions are hidden fields, which can't
-    // be made required, and date fields, which default to the current date
-    // when no default value is provided; therefore, we don't expect a message
-    // for those.)
+    // components are required. The exceptions are hidden fields, which can't be
+    // made required, and date fields, which default to the current date when no
+    // default value is provided; therefore, we don't expect a message for
+    // those.
     $this->drupalPost('node/' . $node->nid, array(), 'Submit', array(), array(), 'webform-client-form-' . $node->nid);
     foreach ($node->webform['components'] as $component) {
       if ($component['type'] != 'hidden' && $component['type'] != 'date') {
@@ -124,7 +119,7 @@ class WebformSubmissionTestCase extends WebformTestCase {
   /**
    * Execute the submission test.
    *
-   * @param $value_type
+   * @param string $value_type
    *   The values to be submitted to the webform. Either "sample" or "default".
    */
   public function webformSubmissionExecute($value_type = 'sample') {
@@ -168,9 +163,6 @@ class WebformSubmissionTestCase extends WebformTestCase {
 
   /**
    * Execute a validation check for a single component.
-   *
-   * @param $value_type
-   *   The values to be submitted to the webform. Either "sample" or "default".
    */
   public function webformSubmissionValidateExecute() {
     $path = drupal_get_path('module', 'webform');
@@ -191,7 +183,8 @@ class WebformSubmissionTestCase extends WebformTestCase {
           // Submit our test data.
           $this->drupalPost('node/' . $node->nid, $submission_values, 'Submit', array(), array(), 'webform-client-form-' . $node->nid);
 
-          // Confirm that the validation error occurred and the submission did not save.
+          // Confirm that the validation error occurred and the submission did
+          // not save.
           $this->assertRaw($error_message, t('Validation message properly thrown: "%message".', array('%message' => $error_message)), t('Webform'));
 
           $this->assertFalse(preg_match('/sid=([0-9]+)/', $this->getUrl()), t('Submission not saved.'));

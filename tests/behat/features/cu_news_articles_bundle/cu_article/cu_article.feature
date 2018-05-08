@@ -3,7 +3,7 @@ Feature: Article Content Type
   As an content editor, site owner, administrator or developer
   I should be able to create, edit, and delete page content
 
-  @api
+
   Scenario Outline: An authenticated user should be able to access the form for adding page content
     Given  I am logged in as a user with the <role> role
     When I go to "node/add/article"
@@ -16,12 +16,12 @@ Feature: Article Content Type
     | administrator  | "Access denied" |
     | developer      | "Access denied" |
 
-  @api
+
   Scenario: An anonymous user should not be able to access the form for adding page content
     When I am on "node/add/article"
     Then I should see "Access denied"
 
-  @api @javascript
+  @javascript
   Scenario: An authenticated user should be able to create article node
     Given  I am logged in as a user with the "content_editor" role
       And am on "node/add/article"

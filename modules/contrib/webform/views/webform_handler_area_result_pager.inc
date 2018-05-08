@@ -1,11 +1,8 @@
 <?php
 
 /**
- * @file
  * Definition of views_handler_area_result.
- */
-
-/**
+ *
  * Views area handler to display some configurable result summary.
  *
  * @ingroup views_area_handlers

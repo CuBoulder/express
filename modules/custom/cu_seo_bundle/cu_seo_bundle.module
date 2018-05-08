@@ -45,6 +45,15 @@ function cu_seo_bundle_secure_permissions($role) {
     ),
     'edit_my_content' => array(
     ),
+    'site_editor' => array(
+      'edit meta tags',
+      'administer meta tags',
+      'administer xmlsitemap',
+      'access broken links report',
+      'edit link settings',
+      'administer site verify',
+      'view seo dashboard',
+    ),
     'site_owner' => array(
       'edit meta tags',
       'administer meta tags',
@@ -73,17 +82,17 @@ function cu_seo_bundle_express_help($variables) {
   $variables['admin/config/search/metatags'][] = array(
     'title' => 'Metatag Settings Help',
     'short_title' => 'Metatag Settings Help',
-    'url' => '/node/724',
+    'url' => '/node/1218',
   );
   $variables['admin/config/search/metatags/settings'][] = array(
     'title' => 'Metatag Settings Help',
     'short_title' => 'Metatag Settings Help',
-    'url' => '/node/724',
+    'url' => '/node/1218',
   );
   $variables['admin/config/search/metatags/bulk-revert'][] = array(
     'title' => 'Metatag Settings Help',
     'short_title' => 'Metatag Settings Help',
-    'url' => '/node/724',
+    'url' => '/node/1218',
   );
   $variables['admin/reports/linkchecker'][] = array(
     'title' => 'Link Checker Help',
