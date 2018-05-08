@@ -1,8 +1,31 @@
 @menus
 Feature: Menus control the navigation structure of the site
 When I go to the Admin/Menu page
-As an authenticated user
+As an Admin level user
 I can add and edit the menus on my site
+  
+# The only users who can edit menus are Site Editor and up.
+
+Scenario Outline: A user with the proper role should be able to add and edit menus
+  Given I am logged in as a user with the <role> role
+  When I go to "admin/structure/menu"
+  Then I should see <message>
+
+Examples:
+| role                  | message  |
+| developer             | "Menus" |
+| administrator         | "Menus" |
+| site_owner            | "Menus" |
+| site_editor           | "Menus" |
+| content_editor        | "Access denied" |
+| edit_my_content       | "Access denied" |
+| edit_only             | "Access denied" |
+| access_manager        | "Access denied" |
+| configuration_manager | "Access denied" |
+
+Scenario: An anonymous user should not be able to access the form for adding page content
+  When I am on "admin/structure/menu"
+  Then I should see "Access denied"
   
 
 Scenario Outline: Most users see four installed menu types and two tabs
@@ -22,6 +45,7 @@ Scenario Outline: Most users see four installed menu types and two tabs
   | administrator   |
   | site_owner      |
   | content_editor  |
+ 
     
 
 Scenario: A EMC should not be able to access the Menu page
