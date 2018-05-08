@@ -21,7 +21,6 @@ Examples:
     | site_owner      |
     | configuration_manager |
 
-
 Scenario Outline: Roles that can edit a page can access Clear Cache page where they see two tabs
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/cache/clear"
