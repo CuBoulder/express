@@ -1,4 +1,4 @@
-#WORKS WITH JAVASCRIPT TAG; BREAKS WITHOUT IT
+
 @settings
 Feature: an XML Site Map improves Search Engine results
 In order to communicate the site layout to search engines
@@ -24,10 +24,9 @@ Examples:
     | site_owner      | 
     | configuration_manager |
     
-    
-    
+       
 #SOME ROLES CAN UPDATE AND CHANGE SITE MAP SETTINGS
-@api @javascript
+@api
 Scenario Outline: Devs, Admins and SOs can update the sitemap
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/seo/xmlsitemap"
