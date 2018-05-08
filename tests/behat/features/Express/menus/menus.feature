@@ -70,7 +70,7 @@ And I go to "admin/structure/types"
 Then I should see "Access denied"
   
 Examples:
-| role                  
+| role                  |  
 | administrator         | 
 | site_owner            | 
 | content_editor        | 
