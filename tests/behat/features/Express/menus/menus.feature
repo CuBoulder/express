@@ -14,14 +14,14 @@ Scenario Outline: An Admin level user should be able to add and edit all Express
   Then I should see "Source for the Main links"
   And I go to "admin/structure/menu/add"
   Then I should see "Title"
+    And I go to "admin/structure/menu/manage/menu-footer-menu"
+ Then I should see "Footer Menu"
   And I go to "admin/structure/menu/manage/main-menu"
-  Then I should see the link "Home"
+  Then I should see "Main Menu"
   And I go to "admin/structure/menu/manage/menu-mobile-menu"
-  Then I should see "Menu link"
-  And I go to "admin/structure/menu/manage/menu-footer-menu"
- Then I should see "Menu link"
+  Then I should see "Mobile Menu"
   And I go to "admin/structure/menu/manage/menu-secondary-menu"
-  Then I should see "Menu link"
+  Then I should see "Secondary Menu"
 
 Examples:
 | role                  | 
@@ -59,7 +59,6 @@ Scenario: An anonymous user should not be able to cannot add or edit menus
   When I am on "admin/structure/menu"
   Then I should see "Access denied"
   
-
 Scenario Outline: Most users see four installed menu types and two tabs
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/menu"
@@ -78,72 +77,26 @@ Scenario Outline: Most users see four installed menu types and two tabs
   | site_owner      |
   | content_editor  |
  
-   
-
-
-# NOTE: THE MENUS PAGE HAS A LINK TO THE BLOCKS ADMINISTRATION PAGE
-Scenario Outline: Most users cannot access the Drupal System Block Admin page
+# NOTE: THE MENUS SECTION HAS LINKS TO THE BLOCKS ADMIN PAGE AND CONTENT TYPES ADMIN PAGE
+Scenario Outline: No one (but Devs) can access the Drupal System Block Admin page or Content Types page
 Given I am logged in as a user with the <role> role
 When I go to "admin/structure/block"
-Then I should see <message>
+Then I should see "Access denied"
+And I go to "admin/structure/types"
+Then I should see "Access denied"
   
 Examples:
- | role          | message           |
- | developer             | "Create Node Type" |
-| administrator         | "Create Node Type" |
-| site_owner            | "Create Node Type" |
-| content_editor        | "Create Node Type" |
-| edit_my_content    | "Access denied"   |
-| site_editor           | "Create Node Type" |
-| edit_only             | "Access denied"       |
+| role                  
+| administrator         | 
+| site_owner            | 
+| content_editor        | 
+| edit_my_content       | 
+| site_editor           | 
+| edit_only             | 
+| access_manager        | 
+| configuration_manager | 
 
-
-#  | developer       | "This page provides a drag-and-drop interface" |  
-  
-
-
-
-Scenario Outline: Authorized users can access the Main Menu
-  Given I am logged in as a user with the <role> role
-  When I go to "admin/structure/menu/manage/main-menu"
-  Then I should see <message>
-  
-  Examples:
-  | role            | message         |
-  | edit_my_content | "Access denied" |
-  | content_editor  | "Main Menu" |
-  | site_owner      | "Main Menu" |
-  | administrator   | "Main Menu" |
-  | developer       | "Main Menu" |
-  
-
-Scenario Outline: Authorized users can access the Mobile Menu
-  Given I am logged in as a user with the <role> role
-  When I go to "admin/structure/menu/manage/menu-mobile-menu"
-  Then I should see <message>
-  
-  Examples:
-  | role            | message         |
-  | edit_my_content | "Access denied" |
-  | content_editor  | "Mobile Menu" |
-  | site_owner      | "Mobile Menu" |
-  | administrator   | "Mobile Menu" |
-  | developer       | "Mobile Menu" |
-  
-
-Scenario Outline: Authorized users can access the Secondary Menu
-  Given I am logged in as a user with the <role> role
-  When I go to "admin/structure/menu/manage/menu-secondary-menu"
-  Then I should see <message>
-  
-  Examples:
-  | role            | message         |
-  | edit_my_content | "Access denied" |
-  | content_editor  | "Secondary Menu" |
-  | site_owner      | "Secondary Menu" |
-  | administrator   | "Secondary Menu" |
-  | developer       | "Secondary Menu" |
-  
+ADSDF Sfdsd
 
   Scenario Outline: A menu item can be added to a menu
   Given I am logged in as a user with the "site_owner" role
