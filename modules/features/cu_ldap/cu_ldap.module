@@ -27,8 +27,13 @@ function cu_ldap_form_alter(&$form, &$form_state, $form_id) {
       $form['pass']['#description'] = '';
     case 'user_profile_form':
       $form['account']['name']['#disabled'] = TRUE;
-      $form['field_ldap_display_name']['#disabled'] = TRUE;
-      $form['field_ldap_primary_affiliation']['#disabled'] = TRUE;
+      if (!user_access('access users overview', $account = NULL)) {
+        $form['field_ldap_display_name']['#disabled'] = TRUE;
+        $form['field_ldap_last_name']['#disabled'] = TRUE;
+        $form['field_ldap_primary_affiliation']['#disabled'] = TRUE;
+      } else {
+        drupal_set_message(t('Changes to Display Name, Primary Affiliation, and Last Name fields will be overwritten by LDAP the next time this user logs in.'), 'warning');
+      }
       break;
   }
 }
@@ -67,19 +72,66 @@ function cu_ldap_lookup($identikey) {
 
   return $ldap_entries;
 }
-  /**
- * Implements hook_user_login
- */
-function cu_ldap_user_login(&$edit, $account) {
 
+/**
+ * Custom function for checking accounts to see if realname, primary
+ * affiliation, and last name are populated. If not, this updates it.
+ *
+ * Used by cu_ldap_user_login and cu_ldap_cron as of 2-21-18 OM.
+ */
+function _set_custom_user_fields($account) {
   $ldap = cu_ldap_lookup($account->name);
 
+  // Create our own last name.
+  // If there is a comma, take string before comma and set as last name?
+  $name = $ldap['0'];
+  foreach ($name['cn'] as $last_name) {
+    $hasit = strpos($last_name, ',');
+    $regexit = preg_match('/^(.*?),/', $last_name);
+    if ($hasit && $regexit) {
+      $lastname = explode(',', $last_name);
+      $last_name = $lastname['0'];
+      break;
+    } else {
+      $last_name = '';
+    }
+  }
+
   //Check to see that LDAP is returned a value.  There are no display names for acconts like OSR-TEST-OWNER
-  if (isset($ldap[0]) && ($account->field_ldap_display_name != $ldap[0]['displayname'][0] || $account->field_ldap_primary_affiliation != $ldap[0]['edupersonprimaryaffiliation'][0])) {
+  if (isset($ldap[0]) && ($account->field_ldap_last_name != $last_name || $account->field_ldap_display_name != $ldap[0]['displayname'][0] || $account->field_ldap_primary_affiliation != $ldap[0]['edupersonprimaryaffiliation'][0])) {
+
     // update account fields
     $edit = array();
     $edit['field_ldap_display_name'][LANGUAGE_NONE][0]['value'] = $ldap[0]['displayname'][0];
+    $edit['field_ldap_last_name'][LANGUAGE_NONE][0]['value'] = $last_name;
     $edit['field_ldap_primary_affiliation'][LANGUAGE_NONE][0]['value'] = $ldap[0]['edupersonprimaryaffiliation'][0];
     user_save($account, $edit);
+  }
+}
+
+/**
+ * Implements hook_user_login
+ */
+function cu_ldap_user_login(&$edit, $account) {
+  _set_custom_user_fields($account);
+}
+
+/**
+ * Implements hook_cron().
+ */
+
+function cu_ldap_cron(){
+  // Only need to do this once a month.
+  if (REQUEST_TIME >= strtotime('+1 month', (int) variable_get('cu_ldap_ping_time', strtotime('-1 year')))) {
+    $users = entity_load('user');
+
+    foreach ($users as &$account) {
+      _set_custom_user_fields($account);
+    }
+    // Set time variable on success.
+    variable_set('cu_ldap_ping_time', REQUEST_TIME);
+
+    // Log it in watchdog?
+    watchdog('cron', 'CU_LDAP updated realnames and primary affiliation for all enabled users.');
   }
 }

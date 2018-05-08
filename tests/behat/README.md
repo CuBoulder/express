@@ -1,3 +1,6 @@
+## Writing Tests
+
+Writing tests for the Express codebase is [covered in another documentation repository](https://github.com/CuBoulder/express_documentation/blob/master/docs/behat.md).
 
 ## Local Setup
 
@@ -25,8 +28,8 @@ You can now install an Express site by downloading Drupal, cloning in the Expres
 ROOT=$(pwd)
 
 # Add Drupal.
-drush dl drupal-7.57
-mv drupal-7.57 testing
+drush dl drupal-7.59
+mv drupal-7.59 testing
 
 # Make files folder and copy settings.php file.
 cd ${ROOT}/testing/sites/default
@@ -54,11 +57,11 @@ drush si express --db-url=mysql://root:@127.0.0.1/testing -y
 drush en lando_hosting -y
 
 # Start Drush webserver.
-drush runserver 127.0.0.1:8069
+drush runserver 127.0.0.1:8079
 
 # Or to run the server process in background.
 # I leave it open in another tab to monitor for debugging purposes.
-drush runserver 127.0.0.1:8069 > /dev/null 2>&1 &
+drush runserver 127.0.0.1:8079 > /dev/null 2>&1 &
 ```
 
 When Express installs, environmental variables are used to determine which "core" to install. If no environment other than the Express deployment servers is found, the "ng_hosting" module will be enabled by default. You can export a variable to enable the Pantheon or other hosting setups, but they might not install the modules and configuration you want. 

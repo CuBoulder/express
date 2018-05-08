@@ -21,6 +21,7 @@ function user_external_invite_settings_form() {
       unset($user_roles[$role_id]);
     }
   }
+
   $form['user_external_invite_roles'] = array(
     '#type' => 'select',
     '#title' => t('Roles users can be invited to join'),
@@ -119,12 +120,14 @@ function user_external_invite_settings_form() {
     '#description' => t('Message sent to user being invited confirming the process was completed.'),
   );
 
-  // @TODO: add warning email about expiring invititations.
-  $form['token_help']['content'] = array(
-    '#type' => 'markup',
-    '#token_types' => 'all',
-    '#theme' => 'token_tree',
-  );
+  // @TODO: add warning email about expiring invitations.
+  if (module_exists('token')) {
+    $form['token_help']['content'] = array(
+      '#type' => 'markup',
+      // '#token_types' => 'user_external_invite',
+      '#theme' => 'token_tree',
+    );
+  }
 
   return system_settings_form($form);
 }
