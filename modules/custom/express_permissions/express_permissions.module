@@ -249,7 +249,7 @@ function express_permissions_secure_permissions($role) {
       'execute views_bulk_operations_delete_item',
       'preview focal point',
       'revert revisions',
-      'use bigmenu',
+     //'use bigmenu',
       'use text format wysiwyg',
       'view any hero_unit bean',
       'view any slider bean',
