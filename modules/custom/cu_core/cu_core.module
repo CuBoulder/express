@@ -180,3 +180,66 @@ function cu_core_page_alter(&$page) {
 function cu_core_form_menu_edit_item_alter(&$form, &$form_state, $form_id) {
   $form['actions']['#weight'] = 1000;
 }
+
+/**
+ * Implements hook_permission().
+ */
+function cu_core_permission() {
+  return array(
+    'view express environment indicator' => array(
+      'title' => t('View Express Environment Indicator'),
+    ),
+  );
+}
+
+function cu_core_preprocess_html(&$vars) {
+  /**
+   * Accepted values for displaying indicator (add as classes in classes_array variable:
+   *
+   * Environment:
+   * environment-production/environment-test
+   *
+   * Infrastructure:
+   * infrastructure-new/infrastructure-old
+   *
+   * Site Status:
+   * status-launched/status-staged
+   *
+   * Migration
+   * migrate-ready
+   */
+  if (user_access('view express environment indicator')) {
+    $env = $_SERVER['HTTP_HOST'];
+    //variable_get('atlas_status') == 'available'
+    // @TODO: Need better detection of Valet sites
+    switch ($env) {
+      case 'www.colorado.edu':
+        $vars['classes_array'][] = 'environment-production';
+        $vars['classes_array'][] = 'infrastructure-old';
+        $vars['classes_array'][] = 'status-launched';
+        break;
+      case 'www-test.colorado.edu':
+        $vars['classes_array'][] = 'environment-test';
+        $vars['classes_array'][] = 'infrastructure-new';
+        $vars['classes_array'][] = 'status-launched';
+        break;
+      case 'www-new.colorado.edu':
+        $vars['classes_array'][] = 'environment-production';
+        $vars['classes_array'][] = 'infrastructure-old';
+        $vars['classes_array'][] = 'status-launched';
+        break;
+      case 'www-test-new.colorado.edu':
+        $vars['classes_array'][] = 'environment-test';
+        $vars['classes_array'][] = 'infrastructure-new';
+        $vars['classes_array'][] = 'status-launched';
+        break;
+      case 'express.test':
+        $vars['classes_array'][] = 'environment-production';
+        $vars['classes_array'][] = 'infrastructure-old';
+        $vars['classes_array'][] = 'status-launched';
+        break;
+    }
+    drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
+    drupal_add_js(drupal_get_path('module', 'cu_core') . '/js/cu-core.js');
+  }
+}

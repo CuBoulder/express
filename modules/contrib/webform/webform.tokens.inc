@@ -241,7 +241,7 @@ function webform_tokens($type, $tokens, array $data = array(), array $options = 
         if (strcmp($name, $matched_token) !== 0) {
           // Check if this matches the key plus a modifier.
           $modifier = substr($name, strrpos($name, ':') + 1);
-          // TODO: Allow components to provide additional modifiers per
+          // @todo: Allow components to provide additional modifiers per
           // type, i.e. key, day, hour, minute, etc.
           if (strcmp($name, $matched_token . ':' . $modifier) !== 0 || !in_array($modifier, $available_modifiers)) {
             // No match.
