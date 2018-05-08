@@ -80,7 +80,7 @@ Examples:
 | access_manager        | 
 | configuration_manager | 
 
-Scenario Outline: Functionality -  The Menus landing page is properly populated with links and content
+Scenario: Functionality -  The Menus landing page is properly populated with links and content
   Given I am logged in as a user with the "site_owner" role
   When I go to "admin/structure/menu"
   Then I should see the link "List menus"
