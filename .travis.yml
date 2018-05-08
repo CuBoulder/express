@@ -10,8 +10,8 @@ php:
 
 branches:
   only:
- # - dev
- - feature/2256
+    # - dev
+    - feature/2256
 
 addons:
   # The username and access key are stored in the Travis settings.
@@ -41,8 +41,7 @@ install:
 
   # Behat tags. Allows you to include/exclude tags per bundle as needed.
   - export EXPRESS_JS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@javascript"
- #   - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript"
-  - export EXPRESS_HEADLESS_BEHAT_TAGS="@settings"
+  - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript"
   - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken"
 
   # Copy scripts to root.
