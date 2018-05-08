@@ -88,10 +88,7 @@ Examples:
     | configuration_manager | "Repeatedly clearing caches will cause performance problems for you" |
 
 
-# NOTE: NO VARNISH ON TRAVIS 
-# THE PROPER STATUS MESSAGE IS DISPLAYED WHEN FULL DATABASE CACHE IS CLEARED
-@javascript
-Scenario: Clearing Full Page Cache is limited to once per hour 
+Scenario: The proper status message is displayed when Full Database Cache is cleared
   Given I am logged in as a user with the "site_owner" role
   When I go to "admin/settings/cache/clear/drupal-full"
   And I press "Clear Full Database Cache"
