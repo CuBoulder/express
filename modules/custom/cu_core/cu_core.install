@@ -968,6 +968,14 @@ function cu_core_update_7042() {
   }
 }
 
+/*
+* Updating site and web emails to prepare for new infrastructure smtp configuration
+*/
+function cu_core_update_7043() {
+   variable_set('webform_default_from_address', 'webexpress_noreply@colorado.edu');
+   variable_set('site_mail', 'webexpress_noreply@colorado.edu');
+}
+
 /**
  * Revert features by passing features in an array.
  */
