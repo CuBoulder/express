@@ -1,5 +1,63 @@
-.environment-indicator-active #navbar-bar:before { padding: 5px 10px; width: 100%; display: block; float: none; font-weight: bold; font-size: 10px; text-transform: uppercase; }
+.express-environment-indicator {
+  padding: 0 10px !important;
+  line-height: 30px !important;
+  font-size: 11px !important;
+  overflow: hidden !important;
+}
+.express-environment-indicator span {
+  font-weight: bold !important;
+  font-size: 12px !important;
+}
+.express-environment-indicator a:link,
+.express-environment-indicator a:visited {
+  float: right !important;
+  display: inline-block  !important;
+  text-decoration: none  !important;
+  background: #333  !important;
+  color: #fff  !important;
+  padding: 5px  !important;
+  white-space: nowrap  !important;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.25)  !important;
+  line-height: 10px  !important;
+  margin: 5px 0  !important;
+}
 
-.environment-test #navbar-bar:before { background: #ccc; content: "Test Environment"; color: #000; }
+.environment-production.infrastructure-new.status-launched .express-environment-indicator {
+  background: #222 !important;
+  color: #fff !important;
+}
+.environment-production.infrastructure-new.status-launched .express-environment-indicator a {
+  display: none !important;
+}
 
-.environment-production #navbar-bar:before { background: #111; content: "Production Environment"; color: #fff; }
+.environment-production.infrastructure-new.status-staged .express-environment-indicator {
+  background: #388E3C !important;
+  color: #fff !important;
+}
+.environment-production.infrastructure-new.status-staged .express-environment-indicator a {
+  display: none !important;
+}
+
+.environment-production.infrastructure-new.status-staged.migrate-ready .express-environment-indicator {
+  background: #388E3C !important;
+  color: #fff !important;
+}
+.environment-production.infrastructure-new.status-staged.migrate-ready .express-environment-indicator a {
+  display: inline-block !important;
+}
+
+.environment-production.infrastructure-old.status-staged .express-environment-indicator,
+.environment-production.infrastructure-old.status-launched .express-environment-indicator {
+  background: #FFCA28 !important;
+  color: #111 !important;
+}
+
+.environment-test.status-staged .express-environment-indicator {
+  background: #E53935  !important;
+  color: #fff  !important;
+}
+
+.environment-test.status-launched .express-environment-indicator {
+  background: #7E57C2 !important;
+  color: #fff !important;
+}
