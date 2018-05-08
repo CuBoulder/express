@@ -32,16 +32,18 @@ function _add_users() {
 
   // List needed users.
   $users = array(
-    'developer',
-    'administrator',
-    'content_editor',
-    'site_owner',
-    'edit_my_content',
-    'authenticated user',
-    'site_editor',
-    'edit_only',
     'access_manager',
+    'administrator',
+    'authenticated user',
+    'campaign_manager',
     'configuration_manager',
+    'content_editor',
+    'developer',
+    'edit_my_content',
+    'edit_only',
+    'forms_manager',
+    'site_owner',
+    'site_editor',
   );
 
   // Create users.
