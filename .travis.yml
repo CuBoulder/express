@@ -47,7 +47,7 @@ install:
 
   # Install and build dependencies.
   - echo ----
-  - echo Running install script...
+  - echo "Running install script..."
   - $ROOT_DIR/install.sh
   - echo ----
 
