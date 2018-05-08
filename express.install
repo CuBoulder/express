@@ -177,16 +177,6 @@ function express_update_7003() {
 }
 
 /**
- * Express 2.3.0 update.
- *
- * Enable erus_lite module.
- */
-function express_update_7005() {
-  // Enable module.
-  module_enable(array('erus_lite'));
-}
-
-/**
  * Express 2.9.0 update.
  *
  * Limit Site Owners to 5
@@ -195,3 +185,11 @@ function express_update_7005() {
   variable_set('express_permissions_owner_cap', 5);
 }
 
+/**
+ *
+ * Enable erus_lite module.
+ */
+function express_update_7006() {
+  // Enable module.
+  module_enable(array('update','erus_lite'));
+}
