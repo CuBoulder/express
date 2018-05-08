@@ -5,7 +5,7 @@
       'imagesLoaded': true,
       'wrapAround': true,
       'adaptiveHeight': true,
-      'draggable': false,
+      'draggable': true,
       'autoPlay': 7000,
       arrowShape: {
         x0: 10,
@@ -20,7 +20,7 @@
         'imagesLoaded': true,
         'wrapAround': true,
         'adaptiveHeight': true,
-        'draggable': false,
+        'draggable': true,
         'autoPlay': 7000,
         'pageDots': false,
       });

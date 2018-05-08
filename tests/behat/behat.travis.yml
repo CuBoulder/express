@@ -7,6 +7,9 @@ default:
   formatters:
       pretty: true
   suites:
+    run_first:
+      paths: [ "%paths.base%/features/aaa_run_first" ]
+      contexts: [ FeatureContext ]
     express:
       paths: [ "%paths.base%/features/Express" ]
       contexts: [ FeatureContext ]
