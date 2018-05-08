@@ -31,6 +31,12 @@ fi
 
 # Run bundle tests.
 if [ "${BUNDLE_NAME}" != "null" ]; then
+
+  # Run any database updates.
+  # Express db updates have already been run at this point.
+  echo Running pending database updates...
+  $HOME/.composer/vendor/bin/drush updb -y
+
   echo "Running ${BUNDLE_NAME} bundle tests..."
   ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.bundle.yml --verbose --tags ${BUNDLE_BEHAT_TAGS}
   earlyexit
