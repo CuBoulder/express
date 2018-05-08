@@ -170,6 +170,14 @@ function cu_core_page_alter(&$page) {
       unset($page['help']['system_help']);
     }
   }
+
+  // Fix 404 google analytics tracking
+  global $base_path;
+  $custom_404_page = variable_get('site_404', '');
+  $current_path = arg(0) . '/' . arg(1);
+  if ($custom_404_page === $current_path || arg(0) === 'navigation404') {
+    drupal_set_title(t('404 Not Found'));
+  }
 }
 
 /**
