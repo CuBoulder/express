@@ -16,7 +16,7 @@ Travis should be able to find assets such as files and photos
 # GOUTTE CAN FIND ASSET AT .cupcakes.jpg AND assets/cupcakes.jpg
 # JAVASCRIPT CANNOT FIND ASSET AT ALL
 
-@api 
+
 # cupcakes.jpg 
 Scenario: 1) A graphic can be attached to a page node (Goutte success) (JS fail)
 Given I am logged in as a user with the "site_owner" role
@@ -32,7 +32,7 @@ Then I should see "File information"
 And I should see "cupcakes.jpg"
 And the "edit-field-photo-und-0-alt" field should contain "Lavender frosting"
 
-@api 
+
 # ../cupcakes.jpg
 Scenario: 2) A graphic can be attached to a page node (Goutte fail) (JS fail)
 Given I am logged in as a user with the "site_owner" role
@@ -48,7 +48,7 @@ Then I should see "File information"
 And I should see "cupcakes.jpg"
 And the "edit-field-photo-und-0-alt" field should contain "Lavender and lemony goodness"
 
-@api 
+
 # ../../cupcakes.jpg
 Scenario: 3) A graphic can be attached to a page node (Goutte fail) (JS fail)
 Given I am logged in as a user with the "site_owner" role
@@ -64,7 +64,7 @@ Then I should see "File information"
 And I should see "castle.jpg"
 And the "edit-field-photo-und-0-alt" field should contain "Lemon cakes"
 
-@api 
+
 # ../../../cupcakes.jpg
 Scenario: 4) A graphic can be attached to a page node (Goutte fail) (JS fail)
 Given I am logged in as a user with the "site_owner" role
@@ -80,7 +80,7 @@ Then I should see "File information"
 And I should see "cupcakes.jpg"
 And the "edit-field-photo-und-0-alt" field should contain "piles of frosting"
 
-@api 
+
 # ../../../../cupcakes.jpg
 Scenario: 5) A graphic can be attached to a page node (Goutte fail) (JS fail)
 Given I am logged in as a user with the "site_owner" role
@@ -96,7 +96,7 @@ Then I should see "File information"
 And I should see "cupcakes.jpg"
 And the "edit-field-photo-und-0-alt" field should contain "purple and yellow"
 
-@api 
+
 # assets/cupcakes.jpg
 Scenario: 6) A graphic can be attached to a page node (Goutte success) (JS fail)
 Given I am logged in as a user with the "site_owner" role
@@ -112,7 +112,7 @@ Then I should see "File information"
 And I should see "cupcakes.jpg"
 And the "edit-field-photo-und-0-alt" field should contain "Lavender lemon"
 
-@api 
+
 # ../assets/cupcakes.jpg
 Scenario: 7) A graphic can be attached to a page node (Goutte success) (JS fail)
 Given I am logged in as a user with the "site_owner" role
@@ -128,7 +128,7 @@ Then I should see "File information"
 And I should see "cupcakes.jpg"
 And the "edit-field-photo-und-0-alt" field should contain "delicious little cupcakes"
 
-@api 
+
 # ../../assets/cupcakes.jpg
 Scenario: 8) A graphic can be attached to a page node (Goutte fail) (JS fail)
 Given I am logged in as a user with the "site_owner" role
@@ -144,7 +144,7 @@ Then I should see "File information"
 And I should see "cupcakes.jpg"
 And the "edit-field-photo-und-0-alt" field should contain "candy sprinkles"
 
-@api 
+
 # ../../../assets/cupcakes.jpg
 Scenario: 9) A graphic can be attached to a page node (Goutte fail) (JS fail)
 Given I am logged in as a user with the "site_owner" role
@@ -160,7 +160,7 @@ Then I should see "File information"
 And I should see "cupcakes.jpg"
 And the "edit-field-photo-und-0-alt" field should contain "happy birthday"
 
-@api 
+
 # ../../../../assets/cupcakes.jpg
 Scenario: 10) A graphic can be attached to a page node (Goutte fail) (JS fail)
 Given I am logged in as a user with the "site_owner" role

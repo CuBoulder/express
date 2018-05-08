@@ -4,7 +4,7 @@ Feature: Search Engine Optimization Bundle
   As an authenticated user with the proper role
   I should be able access and edit SEO links and functionality
 
-@api
+
 Scenario Outline: Only Devs can verify that the Google Analytics Settings page has been installed
 Given I am logged in as a user with the <role> role
 When I go to "admin/config/system/googleanalytics"
@@ -19,7 +19,7 @@ Examples:
     | edit_my_content | "Access denied"    |
 
 #CHECK THAT SEO TAB HAS BEEN ACTIVATED ON DASHBOARD
-@api
+
 Scenario Outline: Devs, SOs and CEs are given the SEO tab
 Given I am logged in as a user with the <role> role
 When I go to "admin/dashboard"
@@ -35,7 +35,7 @@ Examples:
     | edit_my_content  | 
     
 # THE SEO TAB HAS BEEN POPULATED WITH SEO FUNCTIONALITY
-@api 
+
 Scenario Outline: Devs, SOs and CEs see the SEO Checklist populated with SEO functionality
 Given I am logged in as a user with the <role> role
 When I go to "admin/dashboard/seo"
@@ -54,13 +54,13 @@ Examples:
     | content_editor  | 
     | edit_my_content  | 
     
-@api 
+
 Scenario: An anonymous user can not access the SEO checklist page
   Given I go to "admin/dashboard/seo"
   Then I should see "Access denied"
     
 #VERIFY ACCESS TO SEO LINK CHECKER
-@api 
+
 Scenario Outline: only Devs, Admins and SEOs can access the SEO Link Checker
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/seo/linkchecker-analyze"
@@ -75,7 +75,7 @@ Examples:
     | edit_my_content | "Access denied" |
     
 #VERIFY THAT LINK CHECKER WORKS
-@api @javascript
+@javascript
 Scenario: the SEO Link Checker should work
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/settings/seo/linkchecker-analyze"
@@ -83,7 +83,7 @@ And I press "edit-linkchecker-analyze"
 Then I should see "blocks have been scanned" 
 
 #VERIFY ACCESS TO GOOGLE ANALYTICS ACCOUNT ID PAGE
-@api 
+
 Scenario Outline: only Devs, Admins and SEOs can access the SEO Link Checker
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/site-configuration/google-analytics"
@@ -98,7 +98,7 @@ Examples:
     | edit_my_content | "Access denied" |
     
 #VERIFY THAT A GOOGLE ANALYTICS NUMBER CAN BE ADDED TO SITE
-@api 
+
 Scenario: A Google Analytics number can be added to site
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/settings/site-configuration/google-analytics"
@@ -108,7 +108,7 @@ Then I should see "The configuration options have been saved"
 And the "edit-ga-account" field should contain "UA-654321-1"
 
 #VERIFY ACCESS TO META TAG DESCRIPTION   
-@api
+
 Scenario Outline: only Devs, Admins and SEOs can access the Site Description setting
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/site-configuration/site-description"
@@ -124,7 +124,7 @@ Examples:
     
  
 #VERIFY THAT ADDING A SITE DESCRIPTION POPULATES THE SITE DESCRIPTION META TAG   
-@api 
+@testing_frontpage
 Scenario: Adding text to site description populates Meta tag "Description" on site homepage
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/settings/site-configuration/site-description"
@@ -134,7 +134,7 @@ And I go to "/"
 Then the response should contain "content=\"My Amazing Site Description\""
 
 # TRAVIS DOES NOT ADD THE META TAG TO A BASIC PAGE; NO IDEA WHY
-@api @broken
+@broken
 Scenario: Enabling SEO Bundle adds Meta Tag functionality to a Basic Page
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"

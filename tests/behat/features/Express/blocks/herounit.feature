@@ -4,7 +4,7 @@ When I login to a Web Express website
 As an authenticated user
 I should be able to create, edit, and delete a hero unit block
 
-@api
+
 Scenario Outline: An authenticated user should be able to access the form for adding a hero unit block
   Given  I am logged in as a user with the <role> role
   When I go to "block/add/hero-unit"
@@ -18,12 +18,12 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | administrator   | "Create Hero Unit block" |
     | developer       | "Create Hero Unit block" |
 
-@api 
+
 Scenario: An anonymous user should not be able to access the form for adding a hero unit block
   When I am on "block/add/hero-unit"
   Then I should see "Access denied"
 
-@api 
+
 Scenario: A basic Hero Unit block can be created
 Given I am logged in as a user with the "site_owner" role
  And I am on "block/add/hero-unit"
@@ -35,7 +35,7 @@ Given I am logged in as a user with the "site_owner" role
  Then I should see "Hero Unit Title"
  And I should see "Learn more about our program"
  
-@api 
+
 Scenario: A link, a graphic and an overlay can be added to Hero Unit block
 Given I am logged in as a user with the "site_owner" role
  And I am on "block/add/hero-unit"

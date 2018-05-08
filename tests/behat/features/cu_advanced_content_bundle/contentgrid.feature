@@ -4,7 +4,7 @@ In order to create interesting layouts of graphics and text
 As an authenticated user
 I should be able to access and use the Content Grid Block
   
-@api 
+
 Scenario Outline: An authenticated user can access the form for adding a content list block
   Given I am logged in as a user with the <role> role
   When I go to "block/add/feature-callout"
@@ -18,12 +18,12 @@ Scenario Outline: An authenticated user can access the form for adding a content
   | administrator   | "Create Content Grid block" |
   | developer       | "Create Content Grid block" |
   
-@api 
+
 Scenario: An anonymous user can not access the form for adding a content list block
   Given I go to "block/add/feature-callout"
   Then I should see "Access denied"
   
-@api 
+
 Scenario: An authenticated user should see a number of Grid Style options
 Given I am logged in as a user with the "site_owner" role
 And am on "block/add/feature-callout"
@@ -37,7 +37,7 @@ And I should see an "#edit-field-callout-style-und-cards" element
 And I should see an "#edit-field-callout-style-und-teaser" element
 And I should see an "#edit-field-callout-style-und-tiles-alt" element
 
-@api
+
 Scenario: An authenticated user should see a number of Column options
 Given I am logged in as a user with the "site_owner" role
 And am on "block/add/feature-callout"
@@ -47,14 +47,14 @@ And I select "4" from "edit-field-callout-columns-und"
 And I select "5" from "edit-field-callout-columns-und"
 And I select "6" from "edit-field-callout-columns-und"
 
-@api
+
 Scenario: An authenticated user should see a number of Image Size options
 Given I am logged in as a user with the "site_owner" role
 And am on "block/add/feature-callout"
 When I select "Wide" from "edit-field-callout-image-size-und"
 When I select "Square" from "edit-field-callout-image-size-und"
 
-@api
+
 Scenario: A simple Content Grid can be created
 Given I am logged in as a user with the "site_owner" role
 And I go to "block/add/feature-callout"

@@ -4,14 +4,15 @@ When I am on the admin/settings page
 As a user with the proper role
 I should be able to set the site name, enable bundles and other configurations as defined
 
-@api 
+
 Scenario Outline: A user with the appropriate role can access the Settings page and its links
   Given  I am logged in as a user with the <role> role
   When I go to "admin/settings"
   Then I should see "Site Configurations"
   And I should see "URL Management"
   And I should see "Cache"
-  And I should see "Forms"
+  # @todo Move to forms bundle tests.
+  # And I should see "Forms"
   And I should see "Social Media"
   And I should see "Search"
   And I should see "News"
@@ -26,7 +27,7 @@ Scenario Outline: A user with the appropriate role can access the Settings page 
       | administrator  |
       | developer      |
       
-@api @meonly
+ @meonly
 Scenario: Content Editors cannot set Site Configs; they can only Clear Cache
 Given  I am logged in as a user with the "content_editor" role
 When I go to "admin/settings"
@@ -43,13 +44,13 @@ And I should not see "URL Management"
  # CONTENT EDITOR CAN ONLY CLEAR CACHE
   And I should see "Cache"
       
-@api 
+
 Scenario: EMCs cannot access the Site Settings page
   Given  I am logged in as a user with the "edit_my_content" role
   When I go to "admin/settings"
   Then I should see "Access denied"
     
-@api 
+
 Scenario: An anonymous user cannot access the Site Settings page
  When I go to "admin/settings"
  Then I should see "Access denied"

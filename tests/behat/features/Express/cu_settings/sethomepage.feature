@@ -1,11 +1,11 @@
-@settings 
+@settings
 Feature: Setting a New Homepage
 In order to create a unique homepage experience
 An authenticated user with the proper role
 Should be able to change the default front page
 
 # ACCESSING THE HOME PAGE SETTINGS
-@api
+
 Scenario Outline: Devs, Admins and SOs can access Home Page settings; CEs and EMCs cannot
   Given I am logged in as a user with the <role> role
   When I go to "admin/settings/adv-content/frontpage"
@@ -22,6 +22,7 @@ Scenario Outline: Devs, Admins and SOs can access Home Page settings; CEs and EM
     
 # SETTING A NEW HOME PAGE
 # create a basic page; use it for the new homepage; then change it back
+@testing_frontpage
 Scenario: A site-owner can create a Basic Page and use it for the new homepage
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
@@ -36,10 +37,11 @@ Then the "edit-site-frontpage" field should contain "home"
 And I fill in "edit-site-frontpage" with "new-home"
 When I press "Save"
 Then I should see "The configuration options have been saved."
-And I go to "/"
+When I go to "/"
 Then I should see "Our special new home page"
 # CHANGE IT BACK TO CLEAR THE TESTS
-And I go to "admin/settings/adv-content/frontpage"
+When I go to "admin/settings/adv-content/frontpage"
+Then the "edit-site-frontpage" field should contain "new-home"
 And I fill in "edit-site-frontpage" with "home"
 When I press "Save"
 Then I should see "The configuration options have been saved."

@@ -2,7 +2,7 @@ Feature: Photo Gallery Creation
   Create different configurations of Photo Galleries.
 
   # @todo This test fails on Travis after upload around wait step.
-  @api @javascript @files @broken
+  @javascript @files @broken
   Scenario: Create a basic photo gallery.
     Given  I am logged in as a user with the "content_editor" role
       And I am on "node/add/photo-gallery"

@@ -5,7 +5,7 @@ An authenticated user with the proper role
 Should be able to view the list of broken links
 
 #SOME ROLES CAN VIEW LIST OF BROKEN LINKS
-@api
+
 Scenario Outline: Devs, Admins and SOs can view broken links
   Given I am logged in as a user with the <role> role
   And am on "admin/reports/linkchecker"
@@ -21,7 +21,7 @@ Examples:
     | site_owner      | 
 
 # SOME ROLES CAN NOT VIEW LIST OF BROKEN LINKS
-@api 
+
 Scenario Outline: CEs and EMCs should not be able to view broken links
 Given I am logged in as a user with the <role> role
 And am on "admin/reports/linkchecker"
@@ -32,7 +32,7 @@ Then I should see "Access denied"
     | content_editor  | 
     | edit_my_content  | 
     
-@api 
+
 Scenario: An anonymous user should not be able to view broken links
   When I am on "admin/reports/linkchecker"
   Then I should see "Access denied"

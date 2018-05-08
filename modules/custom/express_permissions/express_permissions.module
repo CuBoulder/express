@@ -86,6 +86,7 @@ function express_permissions_secure_permissions($role) {
       'administer checked out documents',
       'administer contexts',
       'administer express settings',
+      'administer express site status',
       'administer express theme picker',
       'administer menu',
       'administer nodes',
@@ -200,6 +201,7 @@ function express_permissions_secure_permissions($role) {
       'access ckeditor link',
       'access content overview',
       'access contextual links',
+      'access express reports',
       'access express settings',
       'access user profiles',
       'administer beans',
@@ -294,6 +296,7 @@ function express_permissions_secure_permissions($role) {
       'administer contexts',
       'administer rave alerts',
       'administer express settings',
+      'administer express site status',
       'administer express theme picker',
       'administer features',
       'administer fields',
@@ -535,6 +538,7 @@ function express_permissions_secure_permissions($role) {
       'access content',
       'access content overview',
       'access contextual links',
+      'access express reports',
       'access express settings',
       'access user profiles',
       'access users overview',
@@ -676,6 +680,69 @@ function express_permissions_secure_permissions($role) {
       'view error messages',
       'diff view changes',
     ),
+      'access_manager' => array(
+      'access administration pages',
+      // 'access express settings',
+      'access user profiles',
+      'access users overview',
+      'assign content_editor role',
+      'assign edit_my_content role',
+      'assign site_owner role',
+      'cancel users with role authenticated user',
+      'cancel users with role content_editor',
+      'cancel users with role edit_my_content',
+      'cancel users with role site_owner',
+      'edit users with role authenticated user',
+      'edit users with role content_editor',
+      'edit users with role edit_my_content',
+      'edit users with role site_owner',
+      'invite new user',
+      'view any block bean',
+      'view any hero_unit bean',
+      'view any slider bean',
+      'view any unpublished content',
+      'view bean page',
+      'view bean revisions',
+      'view own unpublished content',
+      'view revisions',
+      'view the administration theme',
+      'view status messages',
+      'view warning messages',
+      'view error messages',
+    ),
+    'configuration_manager' => array(
+      'access administration pages',
+      'access bean overview',
+      'access content',
+      'access content overview',
+      'access express settings',
+      'access user profiles',
+      'access users overview',
+      'administer redirects',
+      'administer express settings',
+      'administer express theme picker',
+      'administer site search',
+      'clear full caches',
+      'clear path caches',
+      'create url aliases',
+      'revert revisions',
+      'use bigmenu',
+      'view any block bean',
+      'view any hero_unit bean',
+      'view any slider bean',
+      'view any unpublished content',
+      'view bean page',
+      'view bean revisions',
+      'view own unpublished content',
+      'view revisions',
+      'view the administration theme',
+      'access navbar',
+      'enable module bundles',
+      'view status messages',
+      'view warning messages',
+      'view error messages',
+      'diff view changes',
+    ),
   );
   if (isset($permissions[$role])) {
     return $permissions[$role];
@@ -802,4 +869,22 @@ function express_permissions_get_site_owners() {
      $users['list'] = join(', ', $user_list);
   }
   return $users;
+}
+
+/**
+ * Implements hook_form_formid_alter().
+ *
+ * Remove underscores from roles to make the permissions table display better.
+ */
+function express_permissions_form_user_admin_permissions_alter(&$form, &$form_state) {
+  $roles = $form['role_names'];
+  // Get just the role arrays.
+  $roles = array_intersect_key($roles, array_flip(element_children($roles)));
+  // Replace underscores with spaces.
+  foreach ($roles as $id) {
+    $name = str_replace('_', ' ', $form['role_names'][$id]['#markup']);
+    $form['role_names'][$id]['#markup'] = $name;
+  }
+  // Add some css to make the permissions table headers smaller.
+  drupal_add_css('form#user-admin-permissions #permissions th { font-size:75%; font-weight:bold; } form#user-admin-permissions #permissions .permission-machine-name { font-size:75%; opacity:.75;}', 'inline');
 }
