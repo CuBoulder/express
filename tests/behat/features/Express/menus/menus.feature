@@ -5,8 +5,17 @@ As an Admin level user
 I can add and edit the menus on my site
   
 # The only users who can edit menus are Site Editor and up.
+feature dmin/structure/menu/manage/features
+footer 
+main
+management  admin/structure/menu/manage/management
+mobile
+navigation admin/structure/menu/manage/navigation
+secondary
+user admin/structure/menu/manage/user-menu
 
-Scenario Outline: A user with the proper role should be able to add and edit menus
+
+Scenario Outline: An Admin level user should be able to add and edit all Express menus
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/menu"
   Then I should see "Menus"
@@ -30,12 +39,13 @@ Examples:
 | site_owner            | 
 | site_editor           | 
 
-Scenario Outline: A user with the proper role should be able to add and edit menus
+
+Scenario Outline: A user with limited roles cannot add or edit menus
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/menu"
   Then I should see "Access denied"
   And I go to "admin/structure/menu/settings"
-Then I should see "Access denied"
+ Then I should see "Access denied"
   And I go to "admin/structure/menu/add"
   Then I should see "Access denied"
   And I go to "admin/structure/menu/manage/main-menu"
@@ -54,7 +64,7 @@ Examples:
 | access_manager        | 
 | configuration_manager | 
 
-Scenario: An anonymous user should not be able to access the form for adding page content
+Scenario: An anonymous user should not be able to acannot add or edit menus
   When I am on "admin/structure/menu"
   Then I should see "Access denied"
   
