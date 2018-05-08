@@ -5,15 +5,6 @@ As an Admin level user
 I can add and edit the menus on my site
   
 # The only users who can edit menus are Site Editor and up.
-feature dmin/structure/menu/manage/features
-footer 
-main
-management  admin/structure/menu/manage/management
-mobile
-navigation admin/structure/menu/manage/navigation
-secondary
-user admin/structure/menu/manage/user-menu
-
 
 Scenario Outline: An Admin level user should be able to add and edit all Express menus
   Given I am logged in as a user with the <role> role
@@ -64,7 +55,7 @@ Examples:
 | access_manager        | 
 | configuration_manager | 
 
-Scenario: An anonymous user should not be able to acannot add or edit menus
+Scenario: An anonymous user should not be able to cannot add or edit menus
   When I am on "admin/structure/menu"
   Then I should see "Access denied"
   
@@ -87,48 +78,30 @@ Scenario Outline: Most users see four installed menu types and two tabs
   | site_owner      |
   | content_editor  |
  
-    
-
-Scenario: A EMC should not be able to access the Menu page
-  Given I am logged in as a user with the "edit_my_content" role
-  When I go to "admin/structure/menu"
-  Then I should see "Access denied"
-    
-
- Scenario: An anonymous user should not be able to access the Menu page
-   When I go to "admin/structure/menu"
-   Then I should see "Access denied"
+   
 
 
 # NOTE: THE MENUS PAGE HAS A LINK TO THE BLOCKS ADMINISTRATION PAGE
-# HIDING THE WHOLE TEST FOR NOW, AS IT FAILS IN TRAVIS FOR UNKNOWN REASONS
-# Scenario Outline: Most users cannot access the Drupal System Block Admin page
-#  Given I am logged in as a user with the <role> role
-#  When I go to "admin/structure/block"
-#  Then I should see <message>
+Scenario Outline: Most users cannot access the Drupal System Block Admin page
+Given I am logged in as a user with the <role> role
+When I go to "admin/structure/block"
+Then I should see <message>
   
-#  Examples:
-#  | role            | message         |
-#  | edit_my_content | "Access denied" |
-#  | content_editor  | "Access denied" |
-#  | site_owner      | "Access denied" |
-#  | administrator   | "Access denied" |
+Examples:
+ | role          | message           |
+ | developer             | "Create Node Type" |
+| administrator         | "Create Node Type" |
+| site_owner            | "Create Node Type" |
+| content_editor        | "Create Node Type" |
+| edit_my_content    | "Access denied"   |
+| site_editor           | "Create Node Type" |
+| edit_only             | "Access denied"       |
+
+
 #  | developer       | "This page provides a drag-and-drop interface" |  
   
 
-Scenario Outline: Authorized users can access the Footer Menu
-  Given I am logged in as a user with the <role> role
-  When I go to "admin/structure/menu/manage/menu-footer-menu"
-  Then I should see <message>
-  
-  Examples:
-  | role            | message         |
-  | edit_my_content | "Access denied" |
-  | content_editor  | "Footer Menu" |
-  | site_owner      | "Footer Menu" |
-  | administrator   | "Footer Menu" |
-  | developer       | "Footer Menu" |
-  
+
 
 Scenario Outline: Authorized users can access the Main Menu
   Given I am logged in as a user with the <role> role
