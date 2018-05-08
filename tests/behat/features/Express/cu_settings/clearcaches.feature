@@ -128,5 +128,3 @@ Scenario: Clearing Full Page Cache is limited to once per hour
 #  And I press "edit-clear-varnish-cache"
 #  Then I should see "The whole Page Cache was recently cleared"
 #  And the "#edit-clear-varnish-cache" element should have "disabled" in the "disabled" attribute
-
-
