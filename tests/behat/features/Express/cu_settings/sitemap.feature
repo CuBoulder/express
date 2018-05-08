@@ -27,8 +27,8 @@ Examples:
        
 #SOME ROLES CAN UPDATE AND CHANGE SITE MAP SETTINGS
 @api
-Scenario Outline: Devs, Admins and SOs can update the sitemap
-  Given I am logged in as a user with the <role> role
+Scenario: Functionality - The sitemap can be rebuilt
+  Given I am logged in as a user with the "site_owner" role
   And am on "admin/settings/seo/xmlsitemap"
   And I press "Update Sitemap"
   And I wait for the ".messages.status" element to appear
@@ -36,13 +36,6 @@ Scenario Outline: Devs, Admins and SOs can update the sitemap
   And I press "Add Menus"
   And I wait for the ".messages.status" element to appear
   Then I should see "Menu options have been updated for sitemap"
-
-Examples:
-    | role            |
-    | developer       |
-    | administrator   |
-    | site_owner      |
-    | configuration_manager |
 
 # SOME ROLES CAN NOT ACCESS SITE MAP SETTINGS
 @api 
