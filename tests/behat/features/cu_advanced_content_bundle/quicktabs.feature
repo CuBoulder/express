@@ -6,7 +6,7 @@ In order to transfer my content from QuickTabs to Expandable Block
 As an authenticated user
 I should be able to access the QuickTabs page but not add more of them
   
-@api 
+
 Scenario Outline: An user with the appropriate role can access QuickTabs page but not add any
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/quicktabs"
@@ -21,12 +21,12 @@ Scenario Outline: An user with the appropriate role can access QuickTabs page bu
   | administrator   | "Each Quicktabs instance has a corresponding block" |
   | developer       | "Each Quicktabs instance has a corresponding block" |
   
-@api 
+
 Scenario: An anonymous user should not be able to access QuickTabs page
   Given I go to "admin/structure/quicktabs"
   Then I should see "Access denied"
   
-@api 
+
 # NOTE: THE QUICKTABS PAGE HAS A LINK TO THE BLOCKS ADMINISTRATION PAGE
 #HIDING THE WHOLE TEST FOR NOW, AS IT FAILS IN TRAVIS FOR UNKNOWN REASONS
 # Scenario Outline: Most users cannot access the Drupal System Block Admin page

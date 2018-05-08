@@ -14,7 +14,7 @@ I should be able to upload and place a photo
 # THERE IS CURRENTLY NO KNOWN WAY TO PRESS THE INSERT BUTTON. 
 
 #THIS TEST UPLOADS A GRAPHIC; SAVES, THEN VERIFIES THAT IT HAS BEEN UPLOADED AND THAT WE ARE ON CORRECT PAGE; NO INSERT; CHECKS FOR ALT TEXT
-@api 
+
 Scenario: A graphic can be uploaded by saving the page
  Given I am logged in as a user with the "site_owner" role
  And I am on "node/add/page"
@@ -29,7 +29,7 @@ Scenario: A graphic can be uploaded by saving the page
  And I should see "File information"
  And I should see "Click and drag the crosshair to target the most important portion of the image"
  And I should see "castle.jpg"
- And the "edit-menu-link-title" element should have "Castles" in the "value" element
+ And the "edit-menu-link-title" element should have "Castles" in the "value"
  And I should see "Insert"
  And I press "edit-submit"
  Then I should be on "/castles"
@@ -38,7 +38,7 @@ Scenario: A graphic can be uploaded by saving the page
  #NEXT LINE SHOWS THAT IMAGE WAS NOT INSERTED INTO BODY
  And the response should not contain "alt=\"A ruined castle in the fog\""
   
-@api @javascript
+ @javascript
 #TEST TWO: THIS TEST UPLOADS A GRAPHIC USING THE 'UPLOAD' BUTTON; CHECKs FOR INSERT ELEMENT
 Scenario: A graphic can be uploaded and inserted into a page; checking for an insert element with javascript
   Given I am logged in as a user with the "site_owner" role
@@ -68,7 +68,7 @@ And I should see an "Insert" element
    #NEXT LINE SHOWS THAT IMAGE WAS INDEED INSERTED INTO BODY
 And the response should contain "alt=\"Lavender and lemony goodness\""
   
-@api @javascript
+ @javascript
 #TEST THREE: UPLOAD BY SAVING; clicking 'INSERT' element
 Scenario: Upload a graphic by saving, then come back and insert it
   Given I am logged in as a user with the "site_owner" role
@@ -96,7 +96,7 @@ When I click the "Insert" element
  And the response should contain "alt=\"Pink clouds, blue mountains\""
   
   
-@api 
+
 #TEST FOUR: UPLOAD BY CLICKING UPLOAD; following INSERT
 Scenario: Inserting a different size graphic than the default
   Given I am logged in as a user with the "site_owner" role

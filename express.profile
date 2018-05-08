@@ -199,6 +199,37 @@ function express_menu_alter(&$items) {
   //@TODO: move to express_settings?
   // tried but didn't work.  Not sure why, but out of time.
   $items['admin/people']['title'] = 'Users';
+  // Expose reports to SO/CE's
+  $items['admin/reports']['access arguments'] = array('access express reports');
+  $items['admin/reports/status']['access arguments'] = array('access express reports');
+}
+
+function express_permission(){
+  return array(
+    'access express reports' => array(
+      'title' => t('Access Express Reports'),
+      'description' => t('View site reports.'),
+    ),
+  );
+}
+
+function express_secure_permissions($role) {
+
+  $permissions = array(
+    'content_editor' => array(
+      'access express reports',
+    ),
+    'developer' => array(
+      'access express reports',
+    ),
+    'site_owner' => array(
+      'access express reports',
+    ),
+  );
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
 }
 
 /**
