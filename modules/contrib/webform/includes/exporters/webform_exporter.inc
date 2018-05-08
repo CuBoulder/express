@@ -1,12 +1,7 @@
 <?php
 
 /**
- * @file
  * Base class defining the common methods available to exporters.
- */
-
-/**
- *
  */
 class webform_exporter {
   public $options = array();
@@ -24,8 +19,9 @@ class webform_exporter {
   }
 
   /**
-   * Determines whether a cell is eligible for word-wrapping based upon
-   * position in file and the contents of cell.
+   * Determines whether a cell is eligible for word-wrapping.
+   *
+   * This is based upon position in file and the contents of cell.
    *
    * Return true when the global word-wrapping option is enabled and the cell
    * is anything other than the first column in either of the first two rows.
@@ -57,13 +53,13 @@ class webform_exporter {
    * @param int $row_count
    *   The current number of rows in the export file.
    */
-  public function add_row(&$file_handle, $data, $row_count) {
+  public function add_row(&$file_handle, array $data, $row_count) {
   }
 
   /**
    * Provide headers to the page when an export file is being downloaded.
    *
-   * @param $filename
+   * @param string $filename
    *   The name of the file being downloaded, for example, export.xls.
    */
   public function set_headers($filename) {
@@ -86,6 +82,8 @@ class webform_exporter {
    *
    * @param $file_handle
    *   A PHP file handle to the export file.
+   * @param int $row_count
+   * @param int $col_count
    */
   public function eof(&$file_handle, $row_count, $col_count) {
   }

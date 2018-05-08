@@ -136,6 +136,8 @@ function express_install() {
   );
   variable_set('locale_custom_strings_en', $locale_custom_strings_en);
 
+  variable_set('express_permissions_owner_cap', 5);
+
   // Update the menu router information.
   menu_rebuild();
   // revert features to ensure they are all installed
@@ -183,3 +185,13 @@ function express_update_7005() {
   // Enable module.
   module_enable(array('erus_lite'));
 }
+
+/**
+ * Express 2.9.0 update.
+ *
+ * Limit Site Owners to 5
+ */
+function express_update_7005() {
+  variable_set('express_permissions_owner_cap', 5);
+}
+

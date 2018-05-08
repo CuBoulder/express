@@ -12,17 +12,19 @@ function cu_core_install() {
 
   $hosting = express_check_known_hosts();
 
-  if ($hosting == 'travis') {
+  if ($hosting === 'travis') {
     module_enable(array('travis_hosting'));
   }
-
-  if ($hosting == 'pantheon') {
+  elseif ($hosting == 'ucb_on_prem_hosting') {
+    module_enable(array('ucb_on_prem_hosting'));
+  }
+  elseif ($hosting === 'pantheon') {
     module_enable(array('pantheon_hosting'));
   }
-
-  // @TODO: If it's not Travis or Pantheon, assume it's NG for now.
-  // Eventually update to deal with ng (2.0) vs. 3.0
-  if ($hosting == FALSE) {
+  elseif ($hosting === 'lando' || $hosting === 'valet') {
+    module_enable(array('local_hosting'));
+  }
+  else {
     module_enable(array('ng_hosting'));
   }
 
@@ -161,12 +163,14 @@ function _set_external_invite_variables() {
   }
 
   $site_owner_role = user_role_load_by_name('site_owner');
-  $content_editor_role = user_role_load_by_name('content_editor');
+  $site_editor_role = user_role_load_by_name('site_editor');
+  //$content_editor_role = user_role_load_by_name('content_editor');
   $edit_my_content_role = user_role_load_by_name('edit_my_content');
 
   variable_set('user_external_invite_roles', array(
     $site_owner_role->rid,
-    $content_editor_role->rid,
+    $site_editor_role->rid,
+    //$content_editor_role->rid,
     $edit_my_content_role->rid,
   ));
   variable_set('user_external_invite_days_valid_for', 5);
@@ -222,6 +226,9 @@ You can use the Web Central website as your main resource for step-by-step tutor
 The Web Express Team
 http://www.colorado.edu/webcentral
 websupport@colorado.edu');
+
+  // Remove after 2.9.0
+  variable_set('secure_permissions_sync_roles', TRUE);
 }
 
 /**
@@ -328,7 +335,7 @@ function cu_core_update_7003() {
     'cu_transition_fit',
   ));
 
-  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, memcache');
+  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish');
 
   // Run on every update
   cu_core_inventory_update('7003');
@@ -348,7 +355,7 @@ function cu_core_update_7004() {
     'cu_shortcuts',
   ));
 
-  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, memcache, entityreference, express_layout, cu_ldap, ldap_authentication, ldap_servers');
+  variable_set('profile_module_manager_ignore', 'secure_permissions, express_permissions, cu_users, cu_core, cu_help, cu_inventory, cu_inventory_stats, express_final, cu_custom_logo, varnish, entityreference, express_layout, cu_ldap, ldap_authentication, ldap_servers');
 
   // Remove duplicates in shortcut menu
   $shortcuts = array();
@@ -912,12 +919,61 @@ function cu_core_update_7038() {
 }
 
 /**
- * Express 2.8.5 Update.
+ * Express 2.8.6 Update.
  *
- * Revert all features.
+ * Revert all features to fix WYSIWYG filter.
  */
-function cu_core_update_7039() {
+function cu_core_update_7040() {
   cu_core_revert_features();
+}
+
+/**
+ * Express 2.9.0 Update.
+ *
+ * Revert all features.  When more than 3 site owners, make all site owners site editors
+ */
+function cu_core_update_7042() {
+  cu_core_revert_features();
+
+  //Set SO/SE role sync variable for existing sites
+  variable_set('secure_permissions_sync_roles', TRUE);
+
+  // Adding Site Editor role for invites.
+  $site_owner_role = user_role_load_by_name('site_owner');
+  $site_editor_role = user_role_load_by_name('site_editor');
+  $edit_my_content_role = user_role_load_by_name('edit_my_content');
+
+  variable_set('user_external_invite_roles', array(
+    $site_owner_role->rid,
+    $site_editor_role->rid,
+    $edit_my_content_role->rid,
+  ));
+
+  // Get all the uids of the site owners.
+  $query = db_select('users_roles', 'ur');
+  $query->fields('ur', array('uid', 'rid'));
+  $query->condition('ur.rid', $site_owner_role->rid, '=');
+  $site_owners = $query->execute()->fetchAll();
+
+  // if there are more than 3 other than osr_test_owner, make everyone a site_editor
+  if (count($site_owners) > 4) {
+    foreach ($site_owners as $owner) {
+      // Grant user the role.
+      $query = db_insert('users_roles')->fields(array('uid', 'rid'));
+      $query->values(array('uid' => $owner->uid, 'rid' => $site_editor_role->rid));
+      $query->execute();
+    }
+    // delete everyone from test
+    $query = db_delete('users_roles')->condition('rid', $site_owner_role->rid)->execute();
+  }
+}
+
+/*
+* Updating site and web emails to prepare for new infrastructure smtp configuration
+*/
+function cu_core_update_7043() {
+   variable_set('webform_default_from_address', 'webexpress_noreply@colorado.edu');
+   variable_set('site_mail', 'webexpress_noreply@colorado.edu');
 }
 
 /**

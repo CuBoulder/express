@@ -1,12 +1,7 @@
 <?php
 
 /**
- * @file
  * Views handler to filter webforms by open or closed status.
- */
-
-/**
- *
  */
 class webform_handler_filter_webform_status extends views_handler_filter_boolean_operator {
 

@@ -31,7 +31,6 @@ files[] = views/webform_handler_filter_webform_status.inc
 files[] = views/webform_handler_numeric_data.inc
 files[] = views/webform_handler_relationship_submission_data.inc
 files[] = views/webform_plugin_row_submission_view.inc
-files[] = views/webform.views.inc
 
 files[] = tests/WebformComponentsTestCase.test
 files[] = tests/WebformConditionalsTestCase.test
@@ -40,9 +39,8 @@ files[] = tests/WebformPermissionsTestCase.test
 files[] = tests/WebformSubmissionTestCase.test
 files[] = tests/WebformTestCase.test
 
-; Information added by Drupal.org packaging script on 2017-10-06
-version = "7.x-4.16"
+; Information added by Drupal.org packaging script on 2018-04-24
+version = "7.x-4.17"
 core = "7.x"
 project = "webform"
-datestamp = "1507320560"
-
+datestamp = "1524581893"
