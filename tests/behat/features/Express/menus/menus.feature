@@ -4,9 +4,9 @@ When I go to the Admin/Menu page
 As an Admin level user
 I can add and edit the menus on my site
   
-# The only users who can edit menus are Site Editor and up.
+# The only users who can add or edit menus are Site Editor and up.
 
-Scenario Outline: An Admin level user should be able to add and edit all Express menus
+Scenario Outline: Access - An Admin level user should be able to add and edit all Express menus
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/menu"
   Then I should see "Menus"
@@ -31,7 +31,7 @@ Examples:
 | site_editor           | 
 
 
-Scenario Outline: A user with limited roles cannot add or edit menus
+Scenario Outline: Access - A user with limited roles cannot add or edit menus
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure/menu"
   Then I should see "Access denied"
@@ -55,30 +55,13 @@ Examples:
 | access_manager        | 
 | configuration_manager | 
 
-Scenario: An anonymous user should not be able to cannot add or edit menus
+Scenario: Access - An anonymous user should not be able to cannot add or edit menus
   When I am on "admin/structure/menu"
   Then I should see "Access denied"
   
-Scenario Outline: Most users see four installed menu types and two tabs
-  Given I am logged in as a user with the <role> role
-  When I go to "admin/structure/menu"
-  Then I should see the link "List menus"
-  And I should see the link "Settings"
-  And I should see the link "Add menu"
-  And I should see "Footer Menu"
-  And I should see "Main menu"
-  And I should see "Mobile Menu"
-  And I should see "Secondary Menu"
-
-  Examples:
-  | role            | 
-  | developer   |
-  | administrator   |
-  | site_owner      |
-  | content_editor  |
- 
 # NOTE: THE MENUS SECTION HAS LINKS TO THE BLOCKS ADMIN PAGE AND CONTENT TYPES ADMIN PAGE
-Scenario Outline: No one (but Devs) can access the Drupal System Block Admin page or Content Types page
+# WHICH ARE OFF LIMITS TO ALL BUT DEVELOPERS
+Scenario Outline: Access - No one (but Devs) can access the Drupal System Block Admin page or Content Types page
 Given I am logged in as a user with the <role> role
 When I go to "admin/structure/block"
 Then I should see "Access denied"
@@ -96,9 +79,27 @@ Examples:
 | access_manager        | 
 | configuration_manager | 
 
-ADSDF Sfdsd
-
-  Scenario Outline: A menu item can be added to a menu
+Scenario Outline: Functionality -  The Menus landing page is properly populated with links and content
+  Given I am logged in as a user with the "site_owner" role
+  When I go to "admin/structure/menu"
+  Then I should see the link "List menus"
+  And I should see the link "Settings"
+  And I should see the link "Add menu"
+  And I should see "Footer Menu"
+  And I should see "Main menu"
+  And I should see "Mobile Menu"
+  And I should see "Secondary Menu"
+  
+  Scenario: Functionality - The Menu Settings page is properly populated with functionality
+  Given I am logged in as a user with the "site_owner" role
+  When I go to "admin/structure/menu/settings"
+  Then I should see "Source for the Main links"
+  And I should see "Source for the Secondary links"
+  And I should see "Secondary Menu Label"
+  And I should see "Source for the mobile links"
+  And I should see "Source for the footer links"
+  
+  Scenario Outline: Functionality - A menu item can be added to all menus
   Given I am logged in as a user with the "site_owner" role
   When I go to <path>
   And I fill in "edit-additem-title" with "Academics"
@@ -116,29 +117,3 @@ ADSDF Sfdsd
   | "admin/structure/menu/manage/main-menu" |
   | "admin/structure/menu/manage/menu-mobile-menu" |
   | "admin/structure/menu/manage/menu-secondary-menu" |
-  
-
-Scenario Outline: Authorized users can access the Menu Settings page
-  Given I am logged in as a user with the <role> role
-  When I go to "admin/structure/menu/settings"
-  Then I should see <message>
-  
-  Examples:
-  | role            | message         |
-  | edit_my_content | "Access denied" |
-  | content_editor  | "Source for the Main links" |
-  | site_owner      | "Source for the Main links" |
-  | administrator   | "Source for the Main links" |
-  | developer       | "Source for the Main links" |
-  
-
-Scenario: The Menu Settings page is properly populated with functionality
-  Given I am logged in as a user with the "site_owner" role
-  When I go to "admin/structure/menu/settings"
-  Then I should see "Source for the Main links"
-  And I should see "Source for the Secondary links"
-  And I should see "Secondary Menu Label"
-  And I should see "Source for the mobile links"
-  And I should see "Source for the footer links"
-  
-  
