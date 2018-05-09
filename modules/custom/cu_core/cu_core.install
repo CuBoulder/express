@@ -984,17 +984,6 @@ function cu_core_update_7041() {
 }
 
 /**
- * Increase weight of cu_core module.
- */
-function cu_core_update_7042() {
-  // Set the weight high to run last hooks after other modules.
-  db_update('system')
-    ->fields(array('weight' => 999))
-    ->condition('name', 'cu_core', '=')
-    ->execute();
-}
-
-/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
