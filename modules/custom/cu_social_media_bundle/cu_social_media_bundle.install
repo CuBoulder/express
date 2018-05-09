@@ -46,10 +46,3 @@ function cu_social_media_bundle_update_7001() {
 function cu_social_media_bundle_update_7002() {
   module_enable(array('metatag_twitter_cards', 'metatag_opengraph'));
 }
-
-/**
- * Add edit_only and site_editor role permissions.
- */
-function cu_social_media_bundle_update_7003() {
-  secure_permissions_rebuild();
-}
