@@ -37,7 +37,7 @@ Scenario Outline:  Some users should not be able to access Admin/Structure
   | access_manager        | "You do not have any administrative items." |
 # TO BE ADDED  | form_manager          |
   
-  Scenario: An anonymous user should not be able to access Admin/Structure
-   When I am on "admin/structure"
-   Then I should see "Access denied"
+Scenario: An anonymous user should not be able to access Admin/Structure
+  When I am on "admin/structure"
+  Then I should see "Access denied"
     
