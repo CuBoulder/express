@@ -41,7 +41,7 @@ Then I should see "homepage"
     | site_editor |
     
 @context @contextconditions
-Scenario: Context should be properly populated
+Scenario: Context Conditions drop-down should be properly populated
 Given  I am logged in as a user with the "site_owner" role
 And am on "admin/structure/context/add"
 When I select "Context (any)" from "edit-conditions-selector"
@@ -57,7 +57,7 @@ And I select "Sitewide context" from "edit-conditions-selector"
 And I select "Sitewide public" from "edit-conditions-selector"
 
 @context @contextreactions
-Scenario Outline: A content_editor should see a limited number of context reactions
+Scenario: Context Reactions drop-down should be properly populated
 Given  I am logged in as a user with the "site_owner" role
 And am on "admin/structure/context/add"
 When I select "Backstretch" from "edit-reactions-selector"
