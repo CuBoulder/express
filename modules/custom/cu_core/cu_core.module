@@ -170,14 +170,6 @@ function cu_core_page_alter(&$page) {
       unset($page['help']['system_help']);
     }
   }
-
-  // Fix 404 google analytics tracking
-  global $base_path;
-  $custom_404_page = variable_get('site_404', '');
-  $current_path = arg(0) . '/' . arg(1);
-  if ($custom_404_page === $current_path || arg(0) === 'navigation404') {
-    drupal_set_title(t('404 Not Found'));
-  }
 }
 
 /**
@@ -215,4 +207,8 @@ function cu_core_preprocess_html(&$vars) {
     }
   }
   drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
+
+  if (variable_get('site_404', '') === current_path()) {
+    $vars['head_title'] = implode(' | ', array('Page not found', variable_get('site_name'), t('University of Colorado Boulder')));
+  }
 }
