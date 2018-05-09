@@ -112,14 +112,26 @@ function atlas_statistics_atlas_statistics() {
   $statistics_data['users']['username']['site_owner'] = $usernames_site_owner;
   $statistics_data['users']['username']['content_editor'] = $usernames_content_editor;
   $statistics_data['users']['username']['edit_my_content'] = $usernames_edit_my_content;
+  $statistics_data['users']['username']['site_editor'] = $usernames_site_editor;
+  $statistics_data['users']['username']['access_manager'] = $usernames_access_manager;
+  $statistics_data['users']['username']['campaign_manager'] = $usernames_campaign_manager;
+  $statistics_data['users']['username']['forms_manager'] = $usernames_forms_manager;
 
   $statistics_data['users']['email_address']['site_owner'] = $useremails_site_owner;
   $statistics_data['users']['email_address']['content_editor'] = $useremails_content_editor;
   $statistics_data['users']['email_address']['edit_my_content'] = $useremails_edit_my_content;
-  
+  $statistics_data['users']['email_address']['site_editor'] = $useremails_site_editor;
+  $statistics_data['users']['email_address']['access_manager'] = $useremails_access_manager;
+  $statistics_data['users']['email_address']['campaign_manager'] = $useremails_campaign_manager;
+  $statistics_data['users']['email_address']['forms_manager'] = $useremails_forms_manager;
+
   $statistics_data['users']['counts']['site_owner'] = count($usernames_site_owner);
   $statistics_data['users']['counts']['content_editor'] = count($usernames_content_editor);
   $statistics_data['users']['counts']['edit_my_content'] = count($usernames_edit_my_content);
+  $statistics_data['users']['counts']['site_editor'] = count($usernames_site_editor);
+  $statistics_data['users']['counts']['access_manager'] = count($usernames_access_manager);
+  $statistics_data['users']['counts']['campaign_manager'] = count($usernames_campaign_manager);
+  $statistics_data['users']['counts']['forms_manager'] = count($usernames_forms_manager);
 
   // Add report of overridden features if the module is enabled and there are
   // overridden features.
