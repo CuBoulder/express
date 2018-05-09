@@ -977,6 +977,14 @@ function cu_core_update_7043() {
 }
 
 /**
+ * Express 2.9.0 Update - Disable express_status and enable cu_status.
+ */
+function cu_core_update_7046() {
+  module_enable(array('cu_status'));
+  module_disable(array('express_status'));
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
