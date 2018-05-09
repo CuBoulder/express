@@ -108,7 +108,7 @@ Examples:
       | developer |
       | administrator |
       | site_owner |
-      | content_editor |
+   #   | content_editor | HIDE TILL PERMS CAN BE WORKED OUT
 
 
   Scenario: An edit_my_content user should see a very limited Shortcuts menu
