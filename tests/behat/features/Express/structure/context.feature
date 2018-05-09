@@ -20,7 +20,7 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | site_editor     | "Context allows you to manage contextual conditions" |
     | edit_only       | "Access denied" |
     | access_manager  | "Access denied" |
-    | form_manager    | "Access denied" |
+  #  | form_manager    | "Access denied" | HIDE FOR NOW
     
 
 Scenario Outline: Available Contexts are limited for all but Devs
