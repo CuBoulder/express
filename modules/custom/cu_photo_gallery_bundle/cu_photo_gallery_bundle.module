@@ -31,10 +31,6 @@ function cu_photo_gallery_bundle_secure_permissions($role) {
       'edit any photo_gallery content',
       'edit own photo_gallery content',
     ),
-    'edit_only' => array(
-      'delete own photo_gallery content',
-      'edit own photo_gallery content',
-    ),
     'developer' => array(
       'create photo_gallery content',
       'delete any photo_gallery content',
@@ -42,7 +38,12 @@ function cu_photo_gallery_bundle_secure_permissions($role) {
       'edit any photo_gallery content',
       'edit own photo_gallery content',
     ),
-    'edit_my_content' => array(),
+    'edit_my_content' => array(
+      'edit own photo_gallery content',
+    ),
+    'edit_only' => array(
+      'edit own photo_gallery content',
+    ),
     'site_editor' => array(
       'create photo_gallery content',
       'delete any photo_gallery content',
