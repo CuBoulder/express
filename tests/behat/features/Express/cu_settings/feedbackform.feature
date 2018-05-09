@@ -6,13 +6,14 @@ An authenticated user with the proper role
 Should be able to select a published form as the site feedback form
 
 #SOME ROLES CAN SELECT A FEEDBACK FORM AND SET OPTIONS FOR IT
-Scenario Outline: Devs, Admins and SOs can see all the options for the Feedback Form
-  Given I am logged in as a user with the <role> role
-  And am on "admin/settings/forms/feedback"
-  # Then I should see "Available Webforms"
-  And I should see "Feedback Button Label"
-  And I should see "Feedback Button Color"
-  And I should see "Feedback Form Presentation"
+@api @javascript
+Scenario Outline: Devs, Admins, SOs and ConMgrs can see all the options for the Feedback Form
+ Given I am logged in as a user with the <role> role
+ And am on "admin/settings/forms/feedback"
+ Then I should see "Available Webforms"
+ And I should see "Feedback Button Label"
+ And I should see "Feedback Button Color"
+ And I should see "Feedback Form Presentation"
     
 Examples:
     | role            | 
@@ -20,19 +21,23 @@ Examples:
     | administrator   | 
     | site_owner      | 
 
-# SOME ROLES CAN NOT SELECT A FEEDBACK FORM
 
-Scenario Outline: CEs and EMCs should not be able to access feedback form settings
+# SOME ROLES CAN NOT SELECT A FEEDBACK FORM
+@api 
+Scenario Outline: Most roles cannot access feedback form settings
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/forms/feedback"
 Then I should see "Access denied"
 
- Examples:
-    | role            | 
-    | content_editor  | 
-    | edit_my_content  | 
+Examples:
+| role |
+| content_editor |
+| edit_my_content  | 
+| site_editor      | 
+| edit_only        | 
+| access_manager   | 
 
-
+@api 
 Scenario: An anonymous user should not be able to access feedback form settings
-  When I am on "admin/settings/forms/feedback"
-  Then I should see "Access denied"
+ When I am on "admin/settings/forms/feedback"
+Then I should see "Access denied"
