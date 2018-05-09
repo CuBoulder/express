@@ -27,7 +27,7 @@ Scenario Outline: Some users see four links
 Scenario Outline:  Some users should not be able to access Admin/Structure
   Given I am logged in as a user with the <role> role
   And I am on "admin/structure"
-  Then I should see "You do not have any administrative items."
+  Then I should see <message>
   
   Examples:
   | role                  | message         |
