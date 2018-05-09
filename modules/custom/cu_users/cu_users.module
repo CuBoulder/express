@@ -216,6 +216,10 @@ function cu_users_user_update(&$edit, $account, $category) {
     '%roles' => implode(',', $account->roles),
   );
 
+  $account->path['pathauto'] = 'skip';
+
+//  ddl($account, 'user account');
+
   watchdog('cu_user_logs', 'User account saved. UID: %uid name: %name mail: %mail created: %created roles: %roles', $user_vars);
 
   // If the user is coming from Fedauth, then we need to start the request over again.
@@ -229,11 +233,30 @@ function cu_users_user_update(&$edit, $account, $category) {
 }
 
 /**
+ * Implements hook_pathauto_pattern_alter().
+ *
+ * @param string $pattern
+ *   Current Pathauto pattern to examine.
+ * @param array $context
+ *   An associative array of additional options. See API hook docblock.
+ */
+function cu_users_pathauto_pattern_alter(String &$pattern, array $context) {
+  // If the pattern is for user aliases then make the pattern empty so that no
+  // user aliases are ever created.
+  if ($pattern === 'users/[user:name]') {
+    $pattern = '';
+  }
+}
+
+/**
  * Implements hook_user_insert().
  *
  * Save a message to the log when a user is inserted containing the new info.
  */
 function cu_users_user_insert(&$edit, $account, $category) {
+
+//  ddl($account, 'user account');
+  $account->path['pathauto'] = 'skip';
 
   $user_vars = array(
     '%uid' => $account->uid,
