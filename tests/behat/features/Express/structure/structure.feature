@@ -4,12 +4,11 @@
 # SEE ADVANCED CONTENT FOR QUICKTABS TESTS
 
 @structure
-Feature: Structure section with links to context, manus, etc
+Feature: Structure section with links to context, menus, etc
 When I go to the Admin/Structure page
 As an authenticated user
 I should be able to adjust the structure of my site
   
-
 Scenario Outline: Some users see four links
   Given I am logged in as a user with the <role> role
   When I go to "admin/structure"
@@ -22,27 +21,23 @@ Scenario Outline: Some users see four links
   | role            | 
   | administrator   |
   | site_owner      |
-  | content_editor  |
-  | site_editor |
+  | site_editor     |
+ # IN FLUX | content_editor  | 
     
-
-
 Scenario Outline:  Some users should not be able to access Admin/Structure
   Given I am logged in as a user with the <role> role
   And I am on "admin/structure"
-  Then I should see "Access denied"
+  Then I should see "You do not have any administrative items."
   
   Examples:
-  | role            | 
-  | edit_my_content   |
-  | configuration_manager |
-  | edit_only |
-  | access_manager |
-  | form_manager |
+  | role                  | message         |
+  | edit_my_content       | "Access denied" |
+  | configuration_manager | "You do not have any administrative items." |
+  | edit_only             | "You do not have any administrative items." |
+  | access_manager        | "You do not have any administrative items." |
+# TO BE ADDED  | form_manager          |
   
-    
-
- Scenario: An anonymous user should not be able to access Admin/Structure
+  Scenario: An anonymous user should not be able to access Admin/Structure
    When I am on "admin/structure"
    Then I should see "Access denied"
     
