@@ -294,7 +294,7 @@ function cu_rss_secure_permissions($role) {
     'edit_my_content' => array(),
 
     'edit_only' => array(),
-    
+
     'content_editor' => array(
       'administer rss feeds',
     ),
