@@ -23,7 +23,6 @@ Examples:
     | administrator   | 
     | site_owner      | 
     | configuration_manager |
-    
        
 #SOME ROLES CAN UPDATE AND CHANGE SITE MAP SETTINGS
 @api @broken
