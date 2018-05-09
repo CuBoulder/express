@@ -302,6 +302,18 @@ function express_settings_site_status_form($form, &$form_state) {
   //@TODO: Add logic to patch site
   //@TODO: Change name of button
 
+  $html = '<strong>This form is only for testing the workflow.  No changes are made to the sites status.</strong>';
+  $html .= '<p>If you have found an issue with your site, please contact websupport@colorado.edu.</p>';
+  $html .= '<p><i class="fa fa-check" aria-hidden="true"></i> Key pages are rending properly.</p>';
+  $html .= '<p><i class="fa fa-check" aria-hidden="true"></i> Complex layouts or custom functionality are working properly.</p>';
+  $html .= '<p><i class="fa fa-check" aria-hidden="true"></i> Webforms submissions are routing properly.</p>';
+  $html .= '<p>Confirming this site queue a change from www-new to www in the next migration group to roll over.  Roll overs happen at 9AM, 11AM, 1PM and 3PM Monday through Friday.</p>';
+
+  $form['mymarkup'] = array(
+    '#type' => 'markup',
+    '#markup' => $html,
+  );
+
   // Let system_settings_form_submit run first to variable_set vars.
   $form = system_settings_form($form);
   $form['#submit'][] = 'express_settings_site_status_form_submit';
@@ -313,7 +325,7 @@ function express_settings_site_status_form($form, &$form_state) {
  */
 function express_settings_site_status_form_submit($form, &$form_state) {
 
-   drupal_set_message("This does nothing yet... if that would have been a real button, a site using www-new would be switched over to using www in the next group to roll over at 9AM, 11AM, 1PM or 3PM Monday-Friday", 'warning');
+   drupal_set_message("Still doing nothing.", 'warning');
 
 }
 

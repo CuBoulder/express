@@ -32,6 +32,16 @@ fi
 # Run bundle tests.
 if [ "${BUNDLE_NAME}" != "null" ]; then
 
+  # Enable bundle.
+  cd $ROOT_DIR/drupal
+  echo Enabling bundle module...
+  $HOME/.composer/vendor/bin/drush en $BUNDLE_NAME -y
+
+  # Enable any additional modules used during test runs.
+  echo Enabling additional testings modules...
+  $HOME/.composer/vendor/bin/drush en $ADD_MODULES -y
+  $HOME/.composer/vendor/bin/drush cc all
+
   # Run any database updates.
   # Express db updates have already been run at this point.
   echo Running pending database updates...

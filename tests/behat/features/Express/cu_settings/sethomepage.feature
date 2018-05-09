@@ -5,8 +5,8 @@ An authenticated user with the proper role
 Should be able to change the default front page
 
 # ACCESSING THE HOME PAGE SETTINGS
-
-Scenario Outline: Devs, Admins and SOs can access Home Page settings; CEs and EMCs cannot
+@api
+Scenario Outline: Devs, Admins, SOs and ConMgrs can access Home Page settings; CEs and EMCs cannot
   Given I am logged in as a user with the <role> role
   When I go to "admin/settings/adv-content/frontpage"
   Then I should see <message>
@@ -18,6 +18,10 @@ Scenario Outline: Devs, Admins and SOs can access Home Page settings; CEs and EM
     | site_owner      | "Default front page" |
     | content_editor  | "Access Denied" |
     | edit_my_content | "Access Denied" |
+    | site_editor      | "Access denied" |
+    | edit_only        | "Access denied" |
+    | access_manager   | "Access denied" |
+    | configuration_manager | "Default front page" |
     
     
 # SETTING A NEW HOME PAGE
@@ -37,11 +41,10 @@ Then the "edit-site-frontpage" field should contain "home"
 And I fill in "edit-site-frontpage" with "new-home"
 When I press "Save"
 Then I should see "The configuration options have been saved."
-When I go to "/"
+And I go to "/"
 Then I should see "Our special new home page"
 # CHANGE IT BACK TO CLEAR THE TESTS
-When I go to "admin/settings/adv-content/frontpage"
-Then the "edit-site-frontpage" field should contain "new-home"
+And I go to "admin/settings/adv-content/frontpage"
 And I fill in "edit-site-frontpage" with "home"
 When I press "Save"
 Then I should see "The configuration options have been saved."
