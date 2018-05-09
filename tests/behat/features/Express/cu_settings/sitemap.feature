@@ -26,7 +26,7 @@ Examples:
     
        
 #SOME ROLES CAN UPDATE AND CHANGE SITE MAP SETTINGS
-@api
+@api @broken
 Scenario: Functionality - The sitemap can be rebuilt
   Given I am logged in as a user with the "site_owner" role
   And am on "admin/settings/seo/xmlsitemap"
