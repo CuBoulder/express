@@ -163,7 +163,7 @@ function express_permissions_secure_permissions($role) {
       'enable module bundles',
       'view status messages',
       'view warning messages',
-      'view error messages', // currently only the perms below diff with site owner role
+      'view error messages', # Currently only the perms below diff with site owner role
       'administer cache settings',
       'configure profile module manager',
       'view unused beans',
