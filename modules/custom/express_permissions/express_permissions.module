@@ -162,7 +162,7 @@ function express_permissions_secure_permissions($role) {
       'enable module bundles',
       'view status messages',
       'view warning messages',
-      'view error messages', // currently only the perms below diff with site owner role
+      'view error messages', # currently only the perms below diff with site owner role
       'administer cache settings',
       'configure profile module manager',
       'view unused beans',
@@ -463,7 +463,7 @@ function express_permissions_secure_permissions($role) {
       'access contextual links',
       'access express settings',
       'access user profiles',
-      // 'access users overview',
+      # 'access users overview',
       'administer beans',
       'administer blocks',
       'administer checked out documents',
@@ -632,7 +632,7 @@ function express_permissions_secure_permissions($role) {
       'access contextual links',
       'access express settings',
       'access navbar',
-      'administer nodes', // this is needed to access content overview page
+      'administer nodes', # this is needed to access content overview page
       'check out documents',
       'clear path caches',
       'create url aliases',
@@ -698,7 +698,7 @@ function express_permissions_secure_permissions($role) {
       'access content overview',
       'access express settings',
       'access user profiles',
-      // 'access users overview',
+      # 'access users overview',
       'administer cu share',
       'administer redirects',
       'administer express settings',
