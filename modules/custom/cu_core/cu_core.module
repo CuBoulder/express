@@ -246,6 +246,6 @@ function cu_core_preprocess_html(&$vars) {
   drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
 
   if (variable_get('site_404', '') === current_path()) {
-    $vars['head_title'] = implode(' | ', array('Page not found', variable_get('site_name'), t('University of Colorado Boulder')));
+    $vars['head_title'] = implode(' | ', array(t('Page not found'), variable_get('site_name'), t('University of Colorado Boulder')));
   }
 }
