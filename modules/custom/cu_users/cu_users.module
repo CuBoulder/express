@@ -236,7 +236,7 @@ function cu_users_user_update(&$edit, $account, $category) {
  * @param array $context
  *   An associative array of additional options. See API hook docblock.
  */
-function cu_users_pathauto_pattern_alter(String &$pattern, array $context) {
+function cu_users_pathauto_pattern_alter(string &$pattern, array $context) {
   // If the pattern is for user aliases then make the pattern empty so that no
   // user aliases are ever created.
   if ($pattern === 'users/[user:name]') {
