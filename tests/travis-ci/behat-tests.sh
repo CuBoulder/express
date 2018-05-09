@@ -19,7 +19,7 @@ SKIP_EXPRESS_TESTS="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}
 # Run Behat Express tests when in a bundle repo if commit flag is set.
 if [ ! "${SKIP_EXPRESS_TESTS}" ]; then
 
-  echo "Running Express headless tests..."
+ echo "Running Express headless tests..."
   ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags ${EXPRESS_HEADLESS_BEHAT_TAGS}
   earlyexit
 

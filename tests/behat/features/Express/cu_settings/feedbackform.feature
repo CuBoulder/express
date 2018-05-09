@@ -20,6 +20,7 @@ Examples:
     | developer       | 
     | administrator   | 
     | site_owner      | 
+    | configuration_manager |
 
 
 # SOME ROLES CAN NOT SELECT A FEEDBACK FORM
