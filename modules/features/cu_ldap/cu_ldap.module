@@ -74,9 +74,12 @@ function cu_ldap_lookup($identikey) {
 }
 
 /**
- * Implements hook_user_login
+ * Custom function for checking accounts to see if realname, primary
+ * affiliation, and last name are populated. If not, this updates it.
+ *
+ * Used by cu_ldap_user_login and cu_ldap_cron as of 2-21-18 OM.
  */
-function cu_ldap_user_login(&$edit, $account) {
+function _set_custom_user_fields($account) {
   $ldap = cu_ldap_lookup($account->name);
 
   // Create our own last name.
@@ -107,20 +110,28 @@ function cu_ldap_user_login(&$edit, $account) {
 }
 
 /**
+ * Implements hook_user_login
+ */
+function cu_ldap_user_login(&$edit, $account) {
+  _set_custom_user_fields($account);
+}
+
+/**
  * Implements hook_cron().
  */
-function cu_ldap_cron() {
+
+function cu_ldap_cron(){
   // Only need to do this once a month.
-  // if (REQUEST_TIME >= strtotime('+1 month', (int) variable_get('cu_ldap_ping_time', strtotime('-1 year')))) {
-//     $users = entity_load('user');
-//
-//     foreach ($users as &$account) {
-//       _set_custom_user_fields($account);
-//     }
-//     // Set time variable on success.
-//     variable_set('cu_ldap_ping_time', REQUEST_TIME);
-//
-//     // Log it in watchdog?
-//     watchdog('cron', 'CU_LDAP updated realnames and primary affiliation for all enabled users.');
-//   }
+  if (REQUEST_TIME >= strtotime('+1 month', (int) variable_get('cu_ldap_ping_time', strtotime('-1 year')))) {
+    $users = entity_load('user');
+
+    foreach ($users as &$account) {
+      _set_custom_user_fields($account);
+    }
+    // Set time variable on success.
+    variable_set('cu_ldap_ping_time', REQUEST_TIME);
+
+    // Log it in watchdog?
+    watchdog('cron', 'CU_LDAP updated realnames and primary affiliation for all enabled users.');
+  }
 }

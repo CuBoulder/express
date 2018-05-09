@@ -22,9 +22,6 @@ default:
     advanced_layout:
       paths: [ "%paths.base%/features/cu_advanced_layout_bundle" ]
       contexts: [ FeatureContext ]
-    forms:
-      paths: [ "%paths.base%/features/cu_forms_bundle" ]
-      contexts: [ FeatureContext ]
     news_articles:
       paths: [ "%paths.base%/features/cu_news_articles_bundle" ]
       contexts: [ FeatureContext ]

@@ -18,10 +18,11 @@ Then I should see <message>
     | site_owner      | "Choose the order and which social media links to display" |
     | content_editor  | "Access Denied" |
     | edit_my_content | "Access Denied" |
-  #  | site_editor     | "Access denied" | (has access for some reason)
+ #  | site_editor     | "Access denied" | (has access for some reason)
     | edit_only        | "Access denied" |
     | access_manager   | "Access denied" |
-    | configuration_manager | "Choose the order and which social media links to display" |
+ #  | configuration_manager | "Choose the order and which social media links to display" | 
+
 
 @api 
 Scenario: An anonymous user should not be able to access the Social Share page
