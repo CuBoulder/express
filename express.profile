@@ -216,13 +216,10 @@ function express_permission(){
 function express_secure_permissions($role) {
 
   $permissions = array(
-    'content_editor' => array(
+    'administrator' => array(
       'access express reports',
     ),
     'developer' => array(
-      'access express reports',
-    ),
-    'site_owner' => array(
       'access express reports',
     ),
   );
