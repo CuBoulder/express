@@ -87,7 +87,7 @@ Examples:
     | access_manager   | "Access denied" |
     | configuration_manager | "Repeatedly clearing caches will cause performance problems for you" |
 
-
+@broken
 Scenario: The proper status message is displayed when Full Database Cache is cleared
   Given I am logged in as a user with the "site_owner" role
   When I go to "admin/settings/cache/clear/drupal-full"
