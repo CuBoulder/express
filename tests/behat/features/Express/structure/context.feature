@@ -43,7 +43,7 @@ Then I should see "homepage"
 
 @context @contextconditions
 Scenario Outline: Context should be properly populated
-Given  I am logged in as a user with the "site_editor" role
+Given  I am logged in as a user with the "site_owner" role
 And am on "admin/structure/context/add"
 When I select <condition> from "edit-conditions-selector"
 
@@ -63,7 +63,7 @@ When I select <condition> from "edit-conditions-selector"
 
 @context @contextreactions
 Scenario Outline: A content_editor should see a limited number of context reactions
-Given  I am logged in as a user with the "site_editor" role
+Given  I am logged in as a user with the "site_owner" role
 And am on "admin/structure/context/add"
 Then I select <reaction> from "edit-reactions-selector"
 
