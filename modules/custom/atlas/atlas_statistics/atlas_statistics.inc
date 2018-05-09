@@ -62,7 +62,7 @@ function atlas_statistics_atlas_statistics() {
     if ($user->name) {
       $usernames[] = $user->name;
       if (in_array('site_owner', $user->roles)) {
-        $usernames_site_contact[] = $user->name;
+        $usernames_site_owner[] = $user->name;
       }
       if (in_array('content_editor', $user->roles)) {
         $usernames_content_editor[] = $user->name;
@@ -70,11 +70,23 @@ function atlas_statistics_atlas_statistics() {
       if (in_array('edit_my_content', $user->roles)) {
         $usernames_edit_my_content[] = $user->name;
       }
+      if (in_array('site_editor', $user->roles)) {
+        $usernames_site_editor[] = $user->name;
+      }
+      if (in_array('access_manager', $user->roles)) {
+        $usernames_access_manager[] = $user->name;
+      }
+      if (in_array('campaign_manager', $user->roles)) {
+        $usernames_campaign_manager[] = $user->name;
+      }
+      if (in_array('forms_manager', $user->roles)) {
+        $usernames_forms_manager[] = $user->name;
+      }
     }
     if ($user->mail) {
       $useremails[] = $user->mail;
       if (in_array('site_owner', $user->roles)) {
-        $useremails_site_contact[] = $user->mail;
+        $useremails_site_owner[] = $user->mail;
       }
       if (in_array('content_editor', $user->roles)) {
         $useremails_content_editor[] = $user->mail;
@@ -82,18 +94,30 @@ function atlas_statistics_atlas_statistics() {
       if (in_array('edit_my_content', $user->roles)) {
         $useremails_edit_my_content[] = $user->mail;
       }
+      if (in_array('site_editor', $user->roles)) {
+        $useremails_site_editor[] = $user->name;
+      }
+      if (in_array('access_manager', $user->roles)) {
+        $useremails_access_manager[] = $user->name;
+      }
+      if (in_array('campaign_manager', $user->roles)) {
+        $useremails_campaign_manager[] = $user->name;
+      }
+      if (in_array('forms_manager', $user->roles)) {
+        $useremails_forms_manager[] = $user->name;
+      }
     }
   }
 
-  $statistics_data['users']['username']['site_contact'] = $usernames_site_contact;
+  $statistics_data['users']['username']['site_owner'] = $usernames_site_owner;
   $statistics_data['users']['username']['content_editor'] = $usernames_content_editor;
   $statistics_data['users']['username']['edit_my_content'] = $usernames_edit_my_content;
 
-  $statistics_data['users']['email_address']['site_contact'] = $useremails_site_contact;
+  $statistics_data['users']['email_address']['site_owner'] = $useremails_site_owner;
   $statistics_data['users']['email_address']['content_editor'] = $useremails_content_editor;
   $statistics_data['users']['email_address']['edit_my_content'] = $useremails_edit_my_content;
   
-  $statistics_data['users']['counts']['site_contact'] = count($usernames_site_contact);
+  $statistics_data['users']['counts']['site_owner'] = count($usernames_site_owner);
   $statistics_data['users']['counts']['content_editor'] = count($usernames_content_editor);
   $statistics_data['users']['counts']['edit_my_content'] = count($usernames_edit_my_content);
 
