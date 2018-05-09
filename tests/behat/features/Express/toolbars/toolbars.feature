@@ -6,7 +6,6 @@
   As an authenticated user
   I should see the correct toolbar menus and shortcuts.
   
-
  Scenario Outline: All roles should see the blue and white toolbars
   Given I am logged in as a user with the <role> role
   When I go to "/"
@@ -22,8 +21,6 @@
     | edit_my_content |
     | site_editor      | 
     | edit_only        | 
-    | access_manager   | 
-    | configuration_manager |
     
 
 Scenario Outline: All roles should see a blue toolbar with the same five links
@@ -44,8 +41,7 @@ Examples:
      | edit_my_content |
      | site_editor      | 
      | edit_only        | 
-     | access_manager   | 
-     | configuration_manager |
+
  
 # CHECKING THE EXPRESS MENU
   Scenario: As a developer I should see the complete Express menu
