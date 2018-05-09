@@ -20,8 +20,8 @@ SKIP_EXPRESS_TESTS="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}
 if [ ! "${SKIP_EXPRESS_TESTS}" ]; then
 
  echo "Running Express headless tests..."
-  ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags ${EXPRESS_HEADLESS_BEHAT_TAGS}
-  earlyexit
+
+  ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags ${EXPRESS_HEADLESS_BEHAT_TAGS}
 
   # Run JS Behat tests if merged into dev.
   ${ROOT_DIR}/drupal/profiles/express/tests/travis-ci/run-js-tests.sh

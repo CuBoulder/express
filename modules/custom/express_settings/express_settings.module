@@ -16,6 +16,10 @@ function express_settings_permission() {
       'title' => 'Administer Express Settings',
       'description' => 'Configure settings in admin/settings',
     ),
+    'administer express site status' => array(
+      'title' => 'Administer Express Site Status',
+      'description' => 'Configure settings in admin/settings',
+    ),
     'administer redirect settings' => array(
       'title' => 'Administer Redirect Settings',
       'description' => 'Overrides some permissions of the Redirect contrib project to expose specific settings to users',
@@ -47,6 +51,27 @@ function express_settings_menu() {
     'weight' => 8,
   );
 
+  // DEFINES SITE STATUS SECTION.
+  $items['admin/settings/site-status'] = array(
+    'title' => 'Site Status',
+    'description' => '',
+    'position' => 'left',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer express site status'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+    'weight' => -99,
+  );
+  $items['admin/settings/site-status/verify'] = array(
+    'title' => 'Verify Migration',
+    'description' => 'Confirm that this site has migrated successfully',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('express_settings_site_status_form'),
+    'access arguments' => array('administer express site status'),
+    'weight' => -50,
+  );
+
   // DEFINES SITE CONFIGURATION SECTION.
   $items['admin/settings/site-configuration'] = array(
     'title' => 'Site Configurations',
@@ -56,7 +81,7 @@ function express_settings_menu() {
     'access arguments' => array('administer express settings'),
     'file' => 'system.admin.inc',
     'file path' => drupal_get_path('module', 'system'),
-    'weight' => -99,
+    'weight' => -95,
   );
   $items['admin/settings/site-configuration/site-name'] = array(
     'title' => 'Site Name',
@@ -266,6 +291,42 @@ function express_settings_navbar() {
   );
 
   return $items;
+}
+
+/**
+ * Page callback for admin/site-configuration/site-status.
+ */
+function express_settings_site_status_form($form, &$form_state) {
+  $form = array();
+
+  //@TODO: Add logic to patch site
+  //@TODO: Change name of button
+
+  $html = '<strong>This form is only for testing the workflow.  No changes are made to the sites status.</strong>';
+  $html .= '<p>If you have found an issue with your site, please contact websupport@colorado.edu.</p>';
+  $html .= '<p><i class="fa fa-check" aria-hidden="true"></i> Key pages are rending properly.</p>';
+  $html .= '<p><i class="fa fa-check" aria-hidden="true"></i> Complex layouts or custom functionality are working properly.</p>';
+  $html .= '<p><i class="fa fa-check" aria-hidden="true"></i> Webforms submissions are routing properly.</p>';
+  $html .= '<p>Confirming this site queue a change from www-new to www in the next migration group to roll over.  Roll overs happen at 9AM, 11AM, 1PM and 3PM Monday through Friday.</p>';
+
+  $form['mymarkup'] = array(
+    '#type' => 'markup',
+    '#markup' => $html,
+  );
+
+  // Let system_settings_form_submit run first to variable_set vars.
+  $form = system_settings_form($form);
+  $form['#submit'][] = 'express_settings_site_status_form_submit';
+  return $form;
+}
+
+/**
+ * Submit handler for express_settings_site_name_form.
+ */
+function express_settings_site_status_form_submit($form, &$form_state) {
+
+   drupal_set_message("Still doing nothing.", 'warning');
+
 }
 
 /**

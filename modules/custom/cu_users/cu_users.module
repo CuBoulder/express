@@ -229,12 +229,27 @@ function cu_users_user_update(&$edit, $account, $category) {
 }
 
 /**
+ * Implements hook_pathauto_pattern_alter().
+ *
+ * @param string $pattern
+ *   Current Pathauto pattern to examine.
+ * @param array $context
+ *   An associative array of additional options. See API hook docblock.
+ */
+function cu_users_pathauto_pattern_alter(string &$pattern, array $context) {
+  // If the pattern is for user aliases then make the pattern empty so that no
+  // user aliases are ever created.
+  if ($pattern === 'users/[user:name]') {
+    $pattern = '';
+  }
+}
+
+/**
  * Implements hook_user_insert().
  *
  * Save a message to the log when a user is inserted containing the new info.
  */
 function cu_users_user_insert(&$edit, $account, $category) {
-
   $user_vars = array(
     '%uid' => $account->uid,
     '%name' => $account->name,
