@@ -4,7 +4,6 @@ In order to exercise control over my regions, pages and blocks
 As an authenticated user
 I should be able to set conditions and reactions with Context
 
-
 Scenario Outline: An authenticated user should be able to access the form for adding a Context
     Given I am logged in as a user with the <role> role
     When I go to "admin/structure/context"
@@ -18,12 +17,11 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | administrator   | "Context allows you to manage contextual conditions" |
     | developer       | "Context allows you to manage contextual conditions" |
     | configuration_manager | "Access denied" |
-    | site_editor | "Context allows you to manage contextual conditions" |
-    | edit_only | "Access denied" |
-    | access_manager | "Access denied" |
-    | form_manager | "Access denied" |
+    | site_editor     | "Context allows you to manage contextual conditions" |
+    | edit_only       | "Access denied" |
+    | access_manager  | "Access denied" |
+    | form_manager    | "Access denied" |
     
-
 
 Scenario Outline: Available Contexts are limited for all but Devs
 Given I am logged in as a user with the <role> role
@@ -42,10 +40,10 @@ Then I should see "homepage"
     | administrator   |
     | site_editor |
     
-    
+
 @context @contextconditions
-Scenario Outline: A content_editor should see a limited number of context conditions
-Given  I am logged in as a user with the "content_editor" role
+Scenario Outline: Context should be properly populated
+Given  I am logged in as a user with the "site_editor" role
 And am on "admin/structure/context/add"
 When I select <condition> from "edit-conditions-selector"
 
@@ -65,7 +63,7 @@ When I select <condition> from "edit-conditions-selector"
 
 @context @contextreactions
 Scenario Outline: A content_editor should see a limited number of context reactions
-Given  I am logged in as a user with the "content_editor" role
+Given  I am logged in as a user with the "site_editor" role
 And am on "admin/structure/context/add"
 Then I select <reaction> from "edit-reactions-selector"
 
