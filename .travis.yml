@@ -30,19 +30,15 @@ cache:
 
 install:
 
-  - ls -al
-  - git log
-  - EXPRESS_COMMIT_HAS_BUILD="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '!==build')"
-  - echo $EXPRESS_COMMIT_HAS_BUILD
-  - EXPRESS_COMMIT_HAS_BUILDS="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '!==build')"
-  - echo $EXPRESS_COMMIT_HAS_BUILDS
-  - cd dkdsfkljdfsjkl
-
   # Export variables used later on in the bash scripts.
   - cd $TRAVIS_BUILD_DIR && cd ../ && export ROOT_DIR=$(pwd)
   - export HOME
   - export TRAVIS_EVENT_TYPE
+
+  # Name of bundle used as a placeholder in scripts.
   - export BUNDLE_NAME="null"
+
+  # Behat tags. Allows you to include/exclude tags per bundle as needed.
   - export EXPRESS_JS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@javascript"
   - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript"
   - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken"
@@ -55,7 +51,7 @@ install:
 
   # Install and build dependencies.
   - echo ----
-  - echo Running install script...
+  - echo "Running install script..."
   - $ROOT_DIR/install.sh
   - echo ----
 
