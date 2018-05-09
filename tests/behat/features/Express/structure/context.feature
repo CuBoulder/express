@@ -1,4 +1,4 @@
-@structure @javascript
+@structure 
 Feature: Context
 In order to exercise control over my regions, pages and blocks 
 As an authenticated user
@@ -22,7 +22,6 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | access_manager  | "Access denied" |
   #  | form_manager    | "Access denied" | HIDE FOR NOW
     
-
 Scenario Outline: Available Contexts are limited for all but Devs
 Given I am logged in as a user with the <role> role
 When I go to "admin/structure/context"
