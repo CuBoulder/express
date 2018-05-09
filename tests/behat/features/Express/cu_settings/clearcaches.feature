@@ -21,7 +21,6 @@ Examples:
     | site_owner      |
     | configuration_manager |
 
-
 Scenario Outline: Roles that can edit a page can access Clear Cache page where they see two tabs
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/cache/clear"
@@ -71,7 +70,6 @@ Examples:
     | configuration_manager | "Repeatedly clearing caches will cause performance problems for you" |
 
 # ACCESSING THE CLEAR-DATABASE-FULL PAGE
-
 Scenario Outline: Devs, Admins, SOs and ConMgrs can access the 'Clear Database Full' tag; CEs and EMCs cannot
   Given I am logged in as a user with the <role> role
   When I go to "admin/settings/cache/clear/drupal-full"
@@ -89,11 +87,8 @@ Examples:
     | access_manager   | "Access denied" |
     | configuration_manager | "Repeatedly clearing caches will cause performance problems for you" |
 
-
-# NOTE: NO VARNISH ON TRAVIS 
-# THE PROPER STATUS MESSAGE IS DISPLAYED WHEN FULL DATABASE CACHE IS CLEARED
-@javascript
-Scenario: Clearing Full Page Cache is limited to once per hour 
+@broken
+Scenario: The proper status message is displayed when Full Database Cache is cleared
   Given I am logged in as a user with the "site_owner" role
   When I go to "admin/settings/cache/clear/drupal-full"
   And I press "Clear Full Database Cache"
@@ -129,4 +124,3 @@ Scenario: Clearing Full Page Cache is limited to once per hour
 #  And I press "edit-clear-varnish-cache"
 #  Then I should see "The whole Page Cache was recently cleared"
 #  And the "#edit-clear-varnish-cache" element should have "disabled" in the "disabled" attribute
-
