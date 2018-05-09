@@ -1027,14 +1027,14 @@ function user_pathauto($op) {
  * Implements hook_user_insert().
  */
 function pathauto_user_insert(&$edit, $account, $category) {
-  pathauto_user_update_alias($account, 'insert');
+  //pathauto_user_update_alias($account, 'insert');
 }
 
 /**
  * Implements hook_user_update().
  */
 function pathauto_user_update(&$edit, $account, $category) {
-  pathauto_user_update_alias($account, 'update');
+  //pathauto_user_update_alias($account, 'update');
 }
 
 /**
