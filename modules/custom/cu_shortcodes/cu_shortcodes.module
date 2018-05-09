@@ -761,8 +761,7 @@ function cu_shortcodes_imagecaption_tips($format, $long) {
  * Invisible Shortcode.
  */
 function cu_shortcodes_invisible($attrs, $content = NULL) {
-  extract(shortcode_attrs(array(
-      ), $attrs));
+  extract(shortcode_attrs(array(), $attrs));
   $tag = 'div';
   return '<span class="element-invisible shortcode-invisible"> ' . $content . '</span>';
 }
