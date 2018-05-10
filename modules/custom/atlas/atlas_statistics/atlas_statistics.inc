@@ -95,6 +95,29 @@ function atlas_statistics_atlas_statistics() {
     $statistics_data['webforms'] = $webform_stats;
   }
 
+  // Get role ids to search for in query.
+  $role_ids = [];
+  $user_roles = [
+    'access_manager',
+    'campaign_manager',
+    'configuration_manager',
+    'content_editor',
+    'edit_my_content',
+    'form_manager',
+    'site_editor',
+    'site_owner',
+  ];
+  foreach ($user_roles as $val) {
+    $temp_role = user_role_load_by_name($val);
+    if (isset($temp_role->rid)) {
+      $role_ids[] = $temp_role->rid;
+    }
+  }
+
+  // Add last login of any user.
+  $last_login = db_query('SELECT MAX(login) FROM users INNER JOIN users_roles ON users.uid=users_roles.uid WHERE rid IN (:roles) AND login > 1', [':roles' => $role_ids])->fetchCol('login');
+  $statistics_data['days_since_last_login'] = is_array($last_login) && is_numeric($last_login[0]) ? floor((time() - $last_login[0]) / (60*60*24)) : '-1';
+
   return $statistics_data;
 }
 
