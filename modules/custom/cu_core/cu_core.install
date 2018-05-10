@@ -985,6 +985,27 @@ function cu_core_update_7046() {
 }
 
 /**
+ * Remove unnecessary web express team SO's from sites
+ */
+function cu_core_update_7047() {
+  cu_core_revert_features();
+
+  // Adding Site Editor role for invites.
+  $site_owner_role = user_role_load_by_name('site_owner');
+
+  $users_to_remove = ['brokaw', 'linebarg', 'wetu1300', 'mortone'];
+  
+  foreach ($users_to_remove as $web_team_user) {
+    $web_team_user_id = user_load_by_name($web_team_user)->uid;
+    $users_to_remove[$web_team_user] = $web_team_user_id;
+  }
+
+  foreach($users_to_remove as $web_owner){
+      $query = db_delete('users_roles')->condition('uid', $users_to_remove[$web_owner])->condition('rid', $site_owner_role->rid)->execute();
+  }
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
