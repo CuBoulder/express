@@ -30,30 +30,52 @@ cache:
 
 install:
 
-  # Export variables used later on in bash scripts.
+  # Export variables used later on in the bash scripts.
   - cd $TRAVIS_BUILD_DIR && cd ../ && export ROOT_DIR=$(pwd)
   - export HOME
   - export TRAVIS_EVENT_TYPE
+
+  # Name of bundle used as a placeholder in scripts.
   - export BUNDLE_NAME="null"
 
+  # Behat tags. Allows you to include/exclude tags per bundle as needed.
+  - export EXPRESS_JS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@javascript"
+  - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript"
+  - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken"
+
+  # Copy scripts to root.
+  - cp -R ${ROOT_DIR}/express/tests/travis-ci/* ${ROOT_DIR}
+
   # Pulls in any helper functions used later in scripts.
-  - source $ROOT_DIR/express/tests/travis-ci/helper-functions.sh
+  - source $ROOT_DIR/helper-functions.sh
 
   # Install and build dependencies.
-  - $ROOT_DIR/express/tests/travis-ci/install.sh
+  - echo ----
+  - echo "Running install script..."
+  - $ROOT_DIR/install.sh
+  - echo ----
 
 before_script:
 
   # Setup config for PHP/MySQL, settings.php, and install database.
-  - $ROOT_DIR/drupal/profiles/express/tests/travis-ci/setup-config.sh
+  - echo ----
+  - echo Running setup script...
+  - $ROOT_DIR/setup-config.sh
+  - echo ----
 
   # Perform the site install after removing Xdebug since it seems faster.
-  - $ROOT_DIR/drupal/profiles/express/tests/travis-ci/build-express.sh
+  - echo ----
+  - echo Running build script...
+  - $ROOT_DIR/build-express.sh
+  - echo ----
 
 script:
 
   # Run Behat tests.
-  - $ROOT_DIR/drupal/profiles/express/tests/travis-ci/behat-tests.sh
+  - echo ----
+  - echo Running Behat tests...
+  - $ROOT_DIR/behat-tests.sh
+  - echo ----
 
 notifications:
   slack:
