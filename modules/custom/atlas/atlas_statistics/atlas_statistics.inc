@@ -55,13 +55,14 @@ function atlas_statistics_atlas_statistics() {
   // List users.
   $users = entity_load('user');
   $user_roles = [
-    'site_owner',
-    'content_editor',
-    'edit_my_content',
-    'site_editor',
     'access_manager',
     'campaign_manager',
-    'forms_manager',
+    'configuration_manager',
+    'content_editor',
+    'edit_my_content',
+    'form_manager',
+    'site_editor',
+    'site_owner',
   ];
   foreach ($users as $user_id => $user) {
     // Make sure username and email exist before putting them in the array.
