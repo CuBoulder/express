@@ -54,48 +54,29 @@ function atlas_statistics_atlas_statistics() {
 
   // List users.
   $users = entity_load('user');
-  $usernames = array();
-  $useremails = array();
+  $user_roles = [
+    'access_manager',
+    'campaign_manager',
+    'configuration_manager',
+    'content_editor',
+    'edit_my_content',
+    'form_manager',
+    'site_editor',
+    'site_owner',
+  ];
   foreach ($users as $user_id => $user) {
     // Make sure username and email exist before putting them in the array.
     // Removes user 0 (aka Anonymous).
-    if ($user->name) {
-      $usernames[] = $user->name;
-      if (in_array('site_owner', $user->roles)) {
-        $usernames_site_contact[] = $user->name;
-      }
-      if (in_array('content_editor', $user->roles)) {
-        $usernames_content_editor[] = $user->name;
-      }
-      if (in_array('edit_my_content', $user->roles)) {
-        $usernames_edit_my_content[] = $user->name;
-      }
-    }
-    if ($user->mail) {
-      $useremails[] = $user->mail;
-      if (in_array('site_owner', $user->roles)) {
-        $useremails_site_contact[] = $user->mail;
-      }
-      if (in_array('content_editor', $user->roles)) {
-        $useremails_content_editor[] = $user->mail;
-      }
-      if (in_array('edit_my_content', $user->roles)) {
-        $useremails_edit_my_content[] = $user->mail;
+    if ($user->name && $user->mail) {
+      foreach ($user_roles as $role) {
+        if (in_array($role, $user->roles, FALSE)) {
+          $statistics_data['users']['username'][$role][] = $user->name;
+          $statistics_data['users']['email_address'][$role][] = $user->mail;
+          $statistics_data['users']['counts'][$role]++;
+        }
       }
     }
   }
-
-  $statistics_data['users']['username']['site_contact'] = $usernames_site_contact;
-  $statistics_data['users']['username']['content_editor'] = $usernames_content_editor;
-  $statistics_data['users']['username']['edit_my_content'] = $usernames_edit_my_content;
-
-  $statistics_data['users']['email_address']['site_contact'] = $useremails_site_contact;
-  $statistics_data['users']['email_address']['content_editor'] = $useremails_content_editor;
-  $statistics_data['users']['email_address']['edit_my_content'] = $useremails_edit_my_content;
-  
-  $statistics_data['users']['counts']['site_contact'] = count($usernames_site_contact);
-  $statistics_data['users']['counts']['content_editor'] = count($usernames_content_editor);
-  $statistics_data['users']['counts']['edit_my_content'] = count($usernames_edit_my_content);
 
   // Add report of overridden features if the module is enabled and there are
   // overridden features.
