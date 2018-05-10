@@ -27,7 +27,7 @@ Scenario Outline: Some users see four links
 Scenario Outline:  Some users should not be able to access Admin/Structure
   Given I am logged in as a user with the <role> role
   And I am on "admin/structure"
-  Then I should see "You do not have any administrative items."
+  Then I should see <message>
   
   Examples:
   | role                  | message         |
@@ -37,7 +37,7 @@ Scenario Outline:  Some users should not be able to access Admin/Structure
   | access_manager        | "You do not have any administrative items." |
 # TO BE ADDED  | form_manager          |
   
-  Scenario: An anonymous user should not be able to access Admin/Structure
-   When I am on "admin/structure"
-   Then I should see "Access denied"
+Scenario: An anonymous user should not be able to access Admin/Structure
+  When I am on "admin/structure"
+  Then I should see "Access denied"
     
