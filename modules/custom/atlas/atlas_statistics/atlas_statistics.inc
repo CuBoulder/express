@@ -69,9 +69,9 @@ function atlas_statistics_atlas_statistics() {
     if ($user->name && $user->mail) {
       foreach ($user_roles as $role) {
         if (in_array($role, $user->roles, FALSE)) {
-          $statistics_data['users']['username'][$role] = $user->name;
-          $statistics_data['users']['email_address'][$role] = $user->mail;
-          $statistics_data['users']['counts'][$role] ? $statistics_data['users']['counts'][$role]++ : $statistics_data['users']['counts'][$role] = 0;
+          $statistics_data['users']['username'][$role][] = $user->name;
+          $statistics_data['users']['email_address'][$role][] = $user->mail;
+          $statistics_data['users']['counts'][$role]++;
         }
       }
     }
