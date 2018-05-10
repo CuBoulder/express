@@ -50,7 +50,6 @@ function express_permissions_secure_permissions_roles() {
     'administrator',
     'developer',
     'content_editor',
-    'content_editor',
     'access_manager',
     'configuration_manager',
   );
