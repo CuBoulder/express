@@ -164,13 +164,13 @@ function _set_external_invite_variables() {
 
   $site_owner_role = user_role_load_by_name('site_owner');
   $site_editor_role = user_role_load_by_name('site_editor');
-  //$content_editor_role = user_role_load_by_name('content_editor');
+  $content_editor_role = user_role_load_by_name('content_editor');
   $edit_my_content_role = user_role_load_by_name('edit_my_content');
 
   variable_set('user_external_invite_roles', array(
     $site_owner_role->rid,
     $site_editor_role->rid,
-    //$content_editor_role->rid,
+    $content_editor_role->rid,
     $edit_my_content_role->rid,
   ));
   variable_set('user_external_invite_days_valid_for', 5);
