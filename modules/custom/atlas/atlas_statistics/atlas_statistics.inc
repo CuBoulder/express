@@ -97,6 +97,16 @@ function atlas_statistics_atlas_statistics() {
 
   // Get role ids to search for in query.
   $role_ids = [];
+  $user_roles = [
+    'access_manager',
+    'campaign_manager',
+    'configuration_manager',
+    'content_editor',
+    'edit_my_content',
+    'form_manager',
+    'site_editor',
+    'site_owner',
+  ];
   foreach ($user_roles as $val) {
     $temp_role = user_role_load_by_name($val);
     if (isset($temp_role->rid)) {
