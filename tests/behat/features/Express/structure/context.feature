@@ -1,4 +1,4 @@
-@structure @javascript
+@structure 
 Feature: Context
 In order to exercise control over my regions, pages and blocks 
 As an authenticated user
@@ -22,7 +22,6 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | access_manager  | "Access denied" |
   #  | form_manager    | "Access denied" | HIDE FOR NOW
     
-
 Scenario Outline: Available Contexts are limited for all but Devs
 Given I am logged in as a user with the <role> role
 When I go to "admin/structure/context"
@@ -40,39 +39,31 @@ Then I should see "homepage"
     | administrator   |
     | site_editor |
     
-
 @context @contextconditions
-Scenario Outline: Context should be properly populated
+Scenario: Context Conditions drop-down should be properly populated
 Given  I am logged in as a user with the "site_owner" role
 And am on "admin/structure/context/add"
-When I select <condition> from "edit-conditions-selector"
-
-  Examples:
-    | condition |
-    | "Context (any)" |
-    | "Context (all)" |
-    | "Default context" |
-    | "Layout" |
-    | "Menu" |
-    | "Node type" |
-    | "Taxonomy" |
-    | "Path" |
-    | "Query string" |
-    | "Sitewide context" |
-    | "Sitewide public" |
+When I select "Context (any)" from "edit-conditions-selector"
+And I select "Context (all)" from "edit-conditions-selector"
+And I select "Default context" from "edit-conditions-selector"
+And I select "Layout" from "edit-conditions-selector"
+And I select "Menu" from "edit-conditions-selector"
+And I select "Node type" from "edit-conditions-selector"
+And I select "Taxonomy" from "edit-conditions-selector"
+And I select "Path" from "edit-conditions-selector"
+And I select "Query string" from "edit-conditions-selector"
+And I select "Sitewide context" from "edit-conditions-selector"
+And I select "Sitewide public" from "edit-conditions-selector"
 
 @context @contextreactions
-Scenario Outline: A content_editor should see a limited number of context reactions
+Scenario: Context Reactions drop-down should be properly populated
 Given  I am logged in as a user with the "site_owner" role
 And am on "admin/structure/context/add"
-Then I select <reaction> from "edit-reactions-selector"
+When I select "Backstretch" from "edit-reactions-selector"
+And I select "Blocks" from "edit-reactions-selector"
+And I select "Breadcrumb" from "edit-reactions-selector"
+And I select "Columns Override" from "edit-reactions-selector"
+And I select "Menu" from "edit-reactions-selector"
+And I select "Regions" from "edit-reactions-selector"
+And I select "Page Title Image" from "edit-reactions-selector"
 
-  Examples:
-    | reaction |
-    | "Backstretch" |
-    | "Blocks" |
-    | "Breadcrumb" |
-    | "Columns Override" |
-    | "Menu" |
-    | "Regions" |
-    | "Page Title Image" |
