@@ -197,6 +197,13 @@ function cu_rss_block_secure_permissions($role) {
       'edit any rss bean',
       'view any rss bean',
     ),
+    'edit_my_content' => array(
+      'view any rss bean',
+    ),
+    'edit_only' => array(
+      'edit any rss bean',
+      'view any rss bean',
+    ),
     'developer' => array(
       'create any rss bean',
       'delete any rss bean',

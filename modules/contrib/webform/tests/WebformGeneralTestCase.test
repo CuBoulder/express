@@ -1,12 +1,7 @@
 <?php
 
 /**
- * @file
  * Test general functionality of Webform.
- */
-
-/**
- *
  */
 class WebformGeneralTestCase extends WebformTestCase {
 
@@ -85,7 +80,13 @@ class WebformGeneralTestCase extends WebformTestCase {
   }
 
   /**
+   * Determine whether a Webform record exists for a given nid.
+   *
+   * @param int $nid
+   *   The node ID.
+   *
    * @return bool
+   *   Whether or not the Webform record exists.
    */
   public function webformRecordExists($nid) {
     return (bool) db_query("SELECT nid FROM {webform} WHERE nid = :nid", array(':nid' => $nid))->fetchField();

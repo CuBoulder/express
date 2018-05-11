@@ -122,7 +122,8 @@ function cu_slider_preprocess_entity(&$vars) {
     $style = cu_slider_style_map($cu_slider_style);
     $style = str_replace(' ', '_', strtolower($style));
     $vars['theme_hook_suggestions'][] = 'bean__slider__' . $style;
-    //dpm($vars);
+    // Add slider ui if there is more than 1 slide.
+    $vars['slider_ui'] = count($vars['content']['field_slider_slide']['#items']) > 1 ? 'cu-slider-ui' : FALSE;
   }
   // Only preprocess slider field collections.
   if ($entity_type == 'field_collection_item' && $bundle == 'field_slider_slide') {

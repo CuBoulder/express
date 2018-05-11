@@ -1,7 +1,7 @@
 Feature: Facebook Activity Block Creation
   Tests creation of Facebook Activity Blocks.
 
-  @api @social_media
+  @social_media
   Scenario: Create an Facebook Activity Block.
   Given  I am logged in as a user with the "content_editor" role
   And I am on "block/add/facebook-activity"
