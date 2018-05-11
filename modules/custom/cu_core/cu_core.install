@@ -949,6 +949,14 @@ function cu_core_update_7042() {
     $edit_my_content_role->rid,
   ));
 
+  // Remove staff users from site_owner role before calculating if there > 3.
+  $express_team_members = ['brokaw', 'linebarg', 'wetu1300', 'mortone'];
+
+  foreach ($express_team_members as $team_member) {
+    // Load the team member objecy by user name, grab the uid, see if if has the site owner role id and delete.
+    db_delete('users_roles')->condition('uid', user_load_by_name($team_member)->uid)->condition('rid', $site_owner_role->rid)->execute();
+  }
+
   // Get all the uids of the site owners.
   $query = db_select('users_roles', 'ur');
   $query->fields('ur', array('uid', 'rid'));
