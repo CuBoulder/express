@@ -931,3 +931,20 @@ function express_permissions_form_user_admin_permissions_alter(&$form, &$form_st
   // Add some css to make the permissions table headers smaller.
   drupal_add_css('form#user-admin-permissions #permissions th { font-size:75%; font-weight:bold; } form#user-admin-permissions #permissions .permission-machine-name { font-size:75%; opacity:.75;}', 'inline');
 }
+
+/**
+ * Implements hook_form_formid_alter().
+ *
+ * Remove hidden roles from the UI.
+ */
+function express_permissions_form_views_exposed_form_alter(&$form, &$form_state) {
+   $hidden_roles_array = array('edit_only', 'access_manager', 'configuration_manager', 'administrator', 'developer');
+   if (isset($form['rid']['#options'])) {
+     foreach ($form['rid']['#options'] as $id => $option) {
+       if (in_array($option, $hidden_roles_array)) {
+         unset($form['rid']['#options'][$id]);
+       }
+     }
+   }
+}
+
