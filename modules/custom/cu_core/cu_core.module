@@ -209,7 +209,7 @@ function cu_core_preprocess_html(&$vars) {
    * migrate-ready
    */
   global $user;
-  if ($_SERVER['HTTP_HOST'] == 'www-test-new.colorado.edu' && $user->uid) {
+  if ($_SERVER['HTTP_HOST'] === 'www-test-new.colorado.edu' && $user->uid) {
     $vars['classes_array'][] = 'environment-test';
     $vars['classes_array'][] = 'infrastructure-new';
     $vars['classes_array'][] = 'status-launched';
@@ -221,33 +221,30 @@ function cu_core_preprocess_html(&$vars) {
     $env = $_SERVER['HTTP_HOST'];
     //variable_get('atlas_status') == 'available'
     // @TODO: Need better detection of Valet sites
+    drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
     switch ($env) {
       case 'www.colorado.edu':
         $vars['classes_array'][] = 'environment-production';
         $vars['classes_array'][] = 'infrastructure-old';
         $vars['classes_array'][] = 'status-launched';
-        drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
         drupal_add_js(drupal_get_path('module', 'cu_core') . '/js/cu-core.js');
         break;
       case 'www-test.colorado.edu':
         $vars['classes_array'][] = 'environment-test';
         $vars['classes_array'][] = 'infrastructure-new';
         $vars['classes_array'][] = 'status-launched';
-        drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
         drupal_add_js(drupal_get_path('module', 'cu_core') . '/js/cu-core.js');
         break;
       case 'www-new.colorado.edu':
         $vars['classes_array'][] = 'environment-production';
         $vars['classes_array'][] = 'infrastructure-old';
         $vars['classes_array'][] = 'status-launched';
-        drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
         drupal_add_js(drupal_get_path('module', 'cu_core') . '/js/cu-core.js');
         break;
       case 'express.test':
         $vars['classes_array'][] = 'environment-test';
         $vars['classes_array'][] = 'infrastructure-new';
         $vars['classes_array'][] = 'status-launched';
-        drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
         drupal_add_js(drupal_get_path('module', 'cu_core') . '/js/cu-core-no-migrate.js');
         break;
     }
