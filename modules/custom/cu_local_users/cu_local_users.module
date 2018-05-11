@@ -23,6 +23,11 @@ function cu_local_users_form_user_login_alter(&$form, &$form_state) {
 function cu_local_users_help($path, $arg) {
   switch ($path) {
     case 'admin/people/invite':
-      return '<p>' . t("Any CU-Boulder employee, student, or sponsored vendor with an IdentiKey can be granted access to the website administration area. To add new users, select a role and add the users' colorado.edu email address. You can send multiple invites by separating email addresses with a comma (i.e. jane.doe@colorado.edu, joe.smith@colorado.edu). Once submitted an email will be sent inviting the users.") . '</p><p>' . t("<strong>Content Editors</strong> can create content, create and place blocks, and administer menus.") . '</p><p>' . t('<strong>Edit My Content</strong> users can only edit content they have authored.') . '</p><p>' . t("<strong>Site Owners</strong> can do everything a content editor can do plus add new site users, edit the site name, set the site homepage, configure the site theme, and create contexts.") . '</p><br/>';
+      return '<p>' . t("Any CU-Boulder employee, student, or sponsored vendor with an IdentiKey can be granted access to the website administration area. To add new users, select a role and add the users' colorado.edu email address. You can send multiple invites by separating email addresses with a comma (i.e. jane.doe@colorado.edu, joe.smith@colorado.edu). Once submitted an email will be sent inviting the users.") .
+        '</p><p>' . t("<strong>Content Editor:</strong> This role is for basic users who need to edit existing content. All their revisions are stored in the revisions log.") .
+        '</p><p>' . t('<strong>Edit My Content:</strong> Minimal access to admin UI.') .
+        '</p><p>' . t("<strong>Site Editor:</strong> This role is for site communicators who need to add new content pages, blocks and edits layouts.") .
+        '</p><p>' . t("<strong>Site Owner:</strong> Limited to 3 people. Site owners are responsible for managing a site's users, configuration and content and ensuring that any user added to a role adheres to the university's policies as thy relate to that role (ie. Form Owners adhere to data collection policies).") .
+        '</p><br/>';
   }
 }
