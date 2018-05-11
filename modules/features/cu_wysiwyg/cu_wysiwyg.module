@@ -19,6 +19,7 @@ function cu_wysiwyg_wysiwyg_editor_settings_alter(&$settings, $context) {
  * Saves Pathologic based on each site's site ID.
  *
  * @return string
+ *   A list of pathologic paths for the current site.
  */
 function _create_cu_pathologic_paths() {
   $cu_sid = variable_get('cu_sid', FALSE);
@@ -46,11 +47,12 @@ function _create_cu_pathologic_paths() {
  * Prevent feature from being overridden due to additional shortcodes enabled via external bundles.
  *
  * @return array
+ *   An array of shortcode settings required by the Features module.
  */
 function _cu_wysiwyg_shortcode_settings() {
 
   // Get enabled shortcodes and turn them into the array Features expects.
-  $enabled_shortcodes = array_map(function($val) {
+  $enabled_shortcodes = array_map(function () {
     return 1;
   }, array_flip(array_keys(shortcode_list_all_enabled('wysiwyg'))));
 
