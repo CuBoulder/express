@@ -27,7 +27,7 @@ function cu_rss_block_form_bean_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Implements hook_inline_entity_form_entity_form_alter().
  * Add validation to make sure url returns XML.
- */
+*/
 function cu_rss_block_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
 
   if ($entity_form['#entity']->type == 'rss') {
