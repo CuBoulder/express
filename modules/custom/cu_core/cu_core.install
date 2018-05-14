@@ -180,8 +180,8 @@ function _set_external_invite_variables() {
     $site_editor_role->rid,
     $content_editor_role->rid,
     $edit_my_content_role->rid,
-    $access_manager_role->rid,
-    $configuration_manager_role->rid,
+    //$access_manager_role->rid,
+    //$configuration_manager_role->rid,
   ));
   variable_set('user_external_invite_days_valid_for', 5);
 
