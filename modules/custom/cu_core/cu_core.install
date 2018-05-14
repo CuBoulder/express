@@ -171,17 +171,11 @@ function _set_external_invite_variables() {
   $content_editor_role = user_role_load_by_name('content_editor');
   $edit_my_content_role = user_role_load_by_name('edit_my_content');
 
-  // Add-on roles.
-  $access_manager_role = user_role_load_by_name('access_manager');
-  $configuration_manager_role = user_role_load_by_name('configuration_manager');
-
   variable_set('user_external_invite_roles', array(
     $site_owner_role->rid,
     $site_editor_role->rid,
     $content_editor_role->rid,
     $edit_my_content_role->rid,
-    //$access_manager_role->rid,
-    //$configuration_manager_role->rid,
   ));
   variable_set('user_external_invite_days_valid_for', 5);
 
