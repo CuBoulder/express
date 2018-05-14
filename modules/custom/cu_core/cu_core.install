@@ -173,7 +173,7 @@ function _set_external_invite_variables() {
 
   // Add-on roles.
   $access_manager_role = user_role_load_by_name('access_manager');
-  $form_manager_role = user_role_load_by_name('form_manager');
+  $configuration_manager_role = user_role_load_by_name('configuration_manager');
 
   variable_set('user_external_invite_roles', array(
     $site_owner_role->rid,
@@ -181,7 +181,7 @@ function _set_external_invite_variables() {
     $content_editor_role->rid,
     $edit_my_content_role->rid,
     $access_manager_role->rid,
-    $form_manager_role->rid,
+    $configuration_manager_role->rid,
   ));
   variable_set('user_external_invite_days_valid_for', 5);
 
