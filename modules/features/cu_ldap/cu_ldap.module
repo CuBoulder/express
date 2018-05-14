@@ -84,7 +84,7 @@ function _set_custom_user_fields($account) {
 
   // Create our own last name.
   // If there is a comma, take string before comma and set as last name?
-  $name = $ldap['0'];
+  $name = $ldap['0'] ?? ['cn' => []];
   foreach ($name['cn'] as $last_name) {
     $hasit = strpos($last_name, ',');
     $regexit = preg_match('/^(.*?),/', $last_name);
