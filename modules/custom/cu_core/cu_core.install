@@ -134,6 +134,9 @@ The block System help was assigned to the invalid region help and has been disab
   watchdog('express', 'attempted to disable uid 1');
 
   variable_set('profile_module_manager_bundle_ignore', array('cu_newsletter_bundle' => 'cu_newsletter_bundle'));
+
+  // Remove after 2.9.0
+  variable_set('secure_permissions_sync_roles', TRUE);
 }
 
 /**
@@ -162,16 +165,23 @@ function _set_external_invite_variables() {
     db_add_field('user_external_invite', 'id', $spec, array('primary key' => array('id')));
   }
 
+  // Core roles.
   $site_owner_role = user_role_load_by_name('site_owner');
   $site_editor_role = user_role_load_by_name('site_editor');
   $content_editor_role = user_role_load_by_name('content_editor');
   $edit_my_content_role = user_role_load_by_name('edit_my_content');
+
+  // Add-on roles.
+  $access_manager_role = user_role_load_by_name('access_manager');
+  $form_manager_role = user_role_load_by_name('form_manager');
 
   variable_set('user_external_invite_roles', array(
     $site_owner_role->rid,
     $site_editor_role->rid,
     $content_editor_role->rid,
     $edit_my_content_role->rid,
+    $access_manager_role->rid,
+    $form_manager_role->rid,
   ));
   variable_set('user_external_invite_days_valid_for', 5);
 
@@ -227,8 +237,6 @@ The Web Express Team
 http://www.colorado.edu/webcentral
 websupport@colorado.edu');
 
-  // Remove after 2.9.0
-  variable_set('secure_permissions_sync_roles', TRUE);
 }
 
 /**
