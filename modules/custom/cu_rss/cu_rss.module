@@ -28,22 +28,22 @@ function cu_rss_entity_info() {
     // 'controller class' => 'EntityAPIController ',
     // 'controller class' => 'EntityAPIControllerExportable',
     'controller class' => 'EntityAPIController',
-     // The information below is used to extend the EntityDefaultUIController
+    // The information below is used to extend the EntityDefaultUIController
 
-     'module' => 'cu_rss',
-     // Access callback to determine permisisons.
-     'access callback' => 'cu_tracking_pixel_access_callback',
-     // Tell FieldAPI that fields can be attached to our video entity
-     'fieldable' => FALSE,
-     'bundles' => array(
-        'rss_feed' => array(
-          'label' => t('RSS Feed'),
-          'admin' => array(
-            'path' => 'admin/rss-feed',
-            'access arguments' => array('administer rss feeds'),
-          ),
+    'module' => 'cu_rss',
+    // Access callback to determine permisisons.
+    'access callback' => 'cu_tracking_pixel_access_callback',
+    // Tell FieldAPI that fields can be attached to our video entity
+    'fieldable' => FALSE,
+    'bundles' => array(
+      'rss_feed' => array(
+        'label' => t('RSS Feed'),
+        'admin' => array(
+          'path' => 'admin/rss-feed',
+          'access arguments' => array('administer rss feeds'),
         ),
       ),
+    ),
   );
   return $info;
 }
@@ -231,10 +231,10 @@ function cu_rss_default_feed() {
 }
 
 /**
-* Implements hook_views_api().
-*
-* Enabling using templates inside module
-*/
+ * Implements hook_views_api().
+ *
+ * Enabling using templates inside module
+ */
 function cu_rss_views_api() {
   return array(
     'api' => 3,
@@ -292,10 +292,12 @@ function cu_rss_secure_permissions($role) {
       'administer rss feeds',
     ),
     'edit_my_content' => array(),
+
+    'edit_only' => array(),
+
     'content_editor' => array(
       'administer rss feeds',
     ),
-    'edit_only' => array(),
     'developer' => array(
       'administer rss feeds',
     ),
