@@ -232,7 +232,7 @@ function cu_users_user_presave(&$edit, $account, $category) {
   }
 
   // Loop through roles being saved on user and reduce them to the highest permissioned role.
-  $temp_roles = $edit['roles'];
+  $temp_roles = $edit['roles'] ?? [];
   $conflicting_roles = FALSE;
   $remaining_core_roles = [];
   foreach ($temp_roles as $val) {
