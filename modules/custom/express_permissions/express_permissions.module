@@ -553,6 +553,7 @@ function express_permissions_secure_permissions($role) {
       'assign content_editor role',
       'assign edit_my_content role',
       'assign site_owner role',
+      'assign site_editor role',
       'cancel users with role authenticated user',
       'cancel users with role content_editor',
       'cancel users with role edit_my_content',
