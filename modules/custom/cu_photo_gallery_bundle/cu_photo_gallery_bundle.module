@@ -42,7 +42,7 @@ function cu_photo_gallery_bundle_secure_permissions($role) {
       'edit own photo_gallery content',
     ),
     'edit_only' => array(
-      'edit own photo_gallery content',
+      'edit any photo_gallery content',
     ),
     'site_editor' => array(
       'create photo_gallery content',
