@@ -57,7 +57,8 @@ function _cu_wysiwyg_shortcode_settings() {
     return 1;
   }, array_flip(array_keys(shortcode_list_all_enabled('wysiwyg'))));
 
-  // These shortcodes were left as "0" or disabled in the original export.
+  // These shortcodes are the initial ones included in the Feature export.
+  // Each time the cu_wysiwyg feature is exported, the list of enabled shortcodes should be updated.
   return array_merge($enabled_shortcodes, [
     'give' => 1,
     'anchors' => 1,
