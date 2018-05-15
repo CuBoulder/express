@@ -133,7 +133,10 @@ The block System help was assigned to the invalid region help and has been disab
 
   watchdog('express', 'attempted to disable uid 1');
 
-  variable_set('profile_module_manager_bundle_ignore', array('cu_newsletter_bundle' => 'cu_newsletter_bundle'));
+  variable_get('express_permissions_owner_cap', 3);
+
+  // Remove after 2.9.0
+  variable_set('secure_permissions_sync_roles', TRUE);
 }
 
 /**
@@ -162,6 +165,7 @@ function _set_external_invite_variables() {
     db_add_field('user_external_invite', 'id', $spec, array('primary key' => array('id')));
   }
 
+  // Core roles.
   $site_owner_role = user_role_load_by_name('site_owner');
   $site_editor_role = user_role_load_by_name('site_editor');
   $content_editor_role = user_role_load_by_name('content_editor');
@@ -227,8 +231,6 @@ The Web Express Team
 http://www.colorado.edu/webcentral
 websupport@colorado.edu');
 
-  // Remove after 2.9.0
-  variable_set('secure_permissions_sync_roles', TRUE);
 }
 
 /**
@@ -937,6 +939,7 @@ function cu_core_update_7042() {
 
   //Set SO/SE role sync variable for existing sites
   variable_set('secure_permissions_sync_roles', TRUE);
+  secure_permissions_rebuild();
 
   // Adding Site Editor role for invites.
   $site_owner_role = user_role_load_by_name('site_owner');

@@ -365,3 +365,12 @@ function cu_users_update_7027() {
     ->condition('source', db_like('users/') . '%', 'LIKE')
     ->execute();
 }
+
+/**
+ * Re-add invite roles for 2.9.0 additions.
+ */
+function cu_users_update_7028() {
+
+  module_load_install('cu_core');
+  _set_external_invite_variables();
+}
