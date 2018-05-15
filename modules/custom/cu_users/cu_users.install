@@ -8,7 +8,7 @@
 function cu_users_install() {
   // High module weight in order to come after every module that we declare
   // permissions for.
-  db_query("UPDATE {system} SET weight = 98 WHERE name = 'cu_users'");
+  db_query("UPDATE {system} SET weight = 99 WHERE name = 'cu_users'");
 
   $developer_role = user_role_load_by_name('developer');
   $administrator_role = user_role_load_by_name('administrator');
@@ -373,4 +373,13 @@ function cu_users_update_7028() {
 
   module_load_install('cu_core');
   _set_external_invite_variables();
+}
+
+/**
+ * Increase module weight so that cu_users_pathauto_pattern_alter() happens in the correct order.
+ */
+function cu_users_update_7029() {
+  // High module weight in order to come after every module that we declare
+  // permissions for.
+  db_query("UPDATE {system} SET weight = 99 WHERE name = 'cu_users'");
 }
