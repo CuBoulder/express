@@ -830,7 +830,6 @@ function express_permissions_form_user_profile_form_alter(&$form, &$form_state) 
     $new_role_options[$rid] = $new_role_name;
 
   }
-
   $form['account']['roles']['#options'] = $new_role_options;
 }
 
@@ -841,7 +840,7 @@ function express_permissions_form_user_profile_form_alter(&$form, &$form_state) 
  */
 function express_permissions_site_owner_cap(&$form, &$form_state) {
   // Limit of how many of the role we should allow.
-  $limit = intval(variable_get('express_permissions_owner_cap', 5));
+  $limit = intval(variable_get('express_permissions_owner_cap', 3));
 
   // Get Roles of user being edited.
   $current_roles = $form_state['user']->roles;
@@ -923,6 +922,7 @@ function express_permissions_get_site_owners() {
  * Remove underscores from roles to make the permissions table display better.
  */
 function express_permissions_form_user_admin_permissions_alter(&$form, &$form_state) {
+
   $roles = $form['role_names'];
   // Get just the role arrays.
   $roles = array_intersect_key($roles, array_flip(element_children($roles)));
@@ -936,7 +936,8 @@ function express_permissions_form_user_admin_permissions_alter(&$form, &$form_st
   }
 
   // Add some css to make the permissions table headers smaller.
-  drupal_add_css('form#user-admin-permissions #permissions th { font-size:75%; font-weight:bold; } form#user-admin-permissions #permissions .permission-machine-name { font-size:75%; opacity:.75;}', 'inline');
+  // @TODO: fix to work with sticky header
+  //drupal_add_css('form#user-admin-permissions #permissions th { font-size:75%; font-weight:bold; } form#user-admin-permissions #permissions .permission-machine-name { font-size:75%; opacity:.75;}', 'inline');
 }
 
 /**
