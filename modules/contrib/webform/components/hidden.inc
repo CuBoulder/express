@@ -118,7 +118,7 @@ function _webform_display_hidden($component, $value, $format = 'html', $submissi
 }
 
 /**
- *
+ * Theme callback.
  */
 function theme_webform_display_hidden($variables) {
   $element = $variables['element'];

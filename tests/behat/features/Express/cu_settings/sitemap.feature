@@ -1,4 +1,4 @@
-#WORKS WITH JAVASCRIPT TAG; BREAKS WITHOUT IT
+
 @settings
 Feature: an XML Site Map improves Search Engine results
 In order to communicate the site layout to search engines
@@ -22,12 +22,12 @@ Examples:
     | developer       | 
     | administrator   | 
     | site_owner      | 
-    
-    
+    | configuration_manager |
+       
 #SOME ROLES CAN UPDATE AND CHANGE SITE MAP SETTINGS
-@api @javascript
-Scenario Outline: Devs, Admins and SOs can update the sitemap
-  Given I am logged in as a user with the <role> role
+@api @broken
+Scenario: Functionality - The sitemap can be rebuilt
+  Given I am logged in as a user with the "site_owner" role
   And am on "admin/settings/seo/xmlsitemap"
   And I press "Update Sitemap"
   And I wait for the ".messages.status" element to appear
@@ -35,12 +35,6 @@ Scenario Outline: Devs, Admins and SOs can update the sitemap
   And I press "Add Menus"
   And I wait for the ".messages.status" element to appear
   Then I should see "Menu options have been updated for sitemap"
-
-Examples:
-    | role            |
-    | developer       |
-    | administrator   |
-    | site_owner      |
 
 # SOME ROLES CAN NOT ACCESS SITE MAP SETTINGS
 @api 
@@ -51,8 +45,11 @@ Then I should see "Access denied"
 
  Examples:
     | role            | 
-    | content_editor  | 
+    | content_editor |
     | edit_my_content  | 
+    | site_editor      | 
+    | edit_only        | 
+    | access_manager   | 
  
 @api 
 Scenario: An anonymous user should not be able to update the sitemap

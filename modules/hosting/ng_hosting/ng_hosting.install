@@ -9,9 +9,6 @@
  * Implements hook_install().
  */
 function ng_hosting_install() {
-  variable_set('session_cookie_lifetime_type', 'time');
-  variable_set('session_cookie_lifetime_multiplier', 3600);
-  variable_set('session_cookie_lifetime_amount', 26);
 }
 
 
@@ -20,4 +17,14 @@ function ng_hosting_install() {
  */
 function ng_hosting_update_7001() {
   // NO LONGER ENABLE SESSION COOKIE LIFETIME
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function ng_hosting_uninstall() {
+  variable_del('session_cookie_lifetime_type');
+  variable_del('session_cookie_lifetime_multiplier');
+  variable_del('session_cookie_lifetime_amount');
+
 }

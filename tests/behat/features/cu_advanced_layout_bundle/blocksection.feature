@@ -4,7 +4,7 @@ In order to place a block on a background graphic
 As an authenticated user
 I should be able to access and use the Block Section Block
   
-@api 
+
 Scenario Outline: An authenticated user should be able to access the form for adding a block section block
     Given I am logged in as a user with the <role> role
     When I go to "block/add/block-section"
@@ -18,12 +18,12 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     | administrator   | "Create Block Section block" |
     | developer       | "Create Block Section block" |
 
-@api 
+
 Scenario: An anonymous user should not be able to access the form
   Given I go to "block/add/block-section"
   Then I should see "Access denied"
 
-@api 
+
 Scenario: An authenticated user should see a number of Background Effect choices
 Given  I am logged in as a user with the "site_owner" role
 And am on "block/add/block-section"
