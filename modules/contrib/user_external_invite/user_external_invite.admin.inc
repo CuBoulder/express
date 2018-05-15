@@ -12,10 +12,10 @@ function user_external_invite_settings_form() {
   $form = array();
   $form['#validate'][] = 'user_external_invite_settings_form_validate';
 
-  // Define roles that users can have.
+  // Define roles that users can be invited to.
+  // Always exclude anonymous and authenticated roles.
   $user_roles = user_roles();
-  $roles = array();
-  $excluded_roles = module_invoke_all('user_external_invite_excluded_roles', $roles);
+  $excluded_roles = module_invoke_all('user_external_invite_excluded_roles', [1, 2]);
   foreach ($excluded_roles as $role_id) {
     if (isset($user_roles[$role_id])) {
       unset($user_roles[$role_id]);
@@ -161,7 +161,7 @@ function user_external_invite_form($form, &$form_state) {
   drupal_set_title(t('Invite New User'));
 
   $role_options = array();
-  $rids = variable_get('user_external_invite_roles', NULL);
+  $rids = variable_get('user_external_invite_roles', []);
 
   if (empty($rids)) {
     drupal_set_message(t('Your site is not yet configured to invite users. Contact the site administrator to configure the invite feature.'), 'status');

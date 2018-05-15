@@ -553,6 +553,7 @@ function express_permissions_secure_permissions($role) {
       'assign content_editor role',
       'assign edit_my_content role',
       'assign site_owner role',
+      'assign site_editor role',
       'cancel users with role authenticated user',
       'cancel users with role content_editor',
       'cancel users with role edit_my_content',
@@ -926,11 +927,15 @@ function express_permissions_form_user_admin_permissions_alter(&$form, &$form_st
   $roles = $form['role_names'];
   // Get just the role arrays.
   $roles = array_intersect_key($roles, array_flip(element_children($roles)));
+  // Get the role id to modify form array
+  $roles_keys = array_keys($roles);
+
   // Replace underscores with spaces.
-  foreach ($roles as $id) {
+  foreach ($roles_keys as $id) {
     $name = str_replace('_', ' ', $form['role_names'][$id]['#markup']);
     $form['role_names'][$id]['#markup'] = $name;
   }
+
   // Add some css to make the permissions table headers smaller.
   drupal_add_css('form#user-admin-permissions #permissions th { font-size:75%; font-weight:bold; } form#user-admin-permissions #permissions .permission-machine-name { font-size:75%; opacity:.75;}', 'inline');
 }
