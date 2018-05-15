@@ -77,10 +77,10 @@ function cu_users_help($path, $arg) {
   switch ($path) {
     case 'admin/people/invite':
       return '<p>' . t("Any CU-Boulder employee, student, or sponsored vendor with an IdentiKey can be granted access to the website administration area. To add new users, select a role and add the users' colorado.edu email address. You can send multiple invites by separating email addresses with a comma (i.e. jane.doe@colorado.edu, joe.smith@colorado.edu). Once submitted an email will be sent inviting the users.") .
-        '</p><p>' . t("<strong>Content Editor:</strong> This role is for basic users who need to edit existing content. All their revisions are stored in the revisions log.") .
-        '</p><p>' . t('<strong>Edit My Content:</strong> Minimal access to admin UI.') .
-        '</p><p>' . t("<strong>Site Editor:</strong> This role is for site communicators who need to add new content pages, blocks and edits layouts.") .
-        '</p><p>' . t("<strong>Site Owner:</strong> Limited to 3 people. Site owners are responsible for managing a site's users, configuration and content and ensuring that any user added to a role adheres to the university's policies as thy relate to that role (ie. Form Owners adhere to data collection policies).") .
+        '</p><p>' . t("<strong>Site Owner:</strong> Main authority/contact for the website. All site access permissions. Limited to 3 people. Held responsible for the website adhering to university policies.") .
+        '</p><p>' . t("<strong>Site Editor:</strong> Main site builder. Full access to website content and layout tools. Trusted user responsible for the day-to-day maintenance and building of the website. Can receive elevated add-on roles.") .
+        '</p><p>' . t("<strong>Content Editor:</strong> Edit only access. A basic role limited to content edits/updates for existing content. Can’t delete or add content, blocks or layouts.") .
+        '</p><p>' . t('<strong>Edit My Content:</strong> Page specific access. A basic role limited to content edits/updates for specific pages. Can receive limited add-on roles.') .
         '</p><br/>';
   }
 }
