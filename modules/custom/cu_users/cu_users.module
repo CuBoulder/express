@@ -365,7 +365,8 @@ function cu_users_form_validate(&$form, &$form_state) {
 
   $limit = (int) variable_get('express_permissions_owner_cap', 5);
   if ($final_site_owner_count >= $limit) {
-    form_set_error('email', t("You can only assign {$limit} users as a Site Owner."));
+    $users_in_role = express_permissions_get_site_owners();
+    form_set_error('email', t("You can only assign {$limit} users as a Site Owner. Please check the current list of Site Owners and resend updated invites."));
   }
 
 //
