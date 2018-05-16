@@ -46,14 +46,17 @@ function webform_drush_command() {
 }
 
 /**
- * Exports a webform via drush, useful for large data dumps that would otherwise
- * time out due to memory consumption.
+ * Exports a webform via drush.
+ *
+ * This is useful for large data dumps that would otherwise time out due to
+ * memory consumption.
  *
  * @param bool|int $nid
  *   Node ID of the webform that we want to export.
  *
- * @return
- *   The value returned from drush_set_error().
+ * @return false|null
+ *   The value returned from drush_set_error() or NULL if that function is not
+ *   called.
  */
 function drush_webform_export($nid = FALSE) {
   if (!$nid) {
@@ -165,8 +168,10 @@ function drush_webform_export($nid = FALSE) {
 }
 
 /**
- * Clears a webform via drush, useful for webforms with many submissions that
- * would otherwise fail due to time out due or memory consumption.
+ * Clears a webform via drush.
+ *
+ * This is useful for webforms with many submissions that would otherwise fail
+ * due to time out due or memory consumption.
  *
  * @param int $nid
  *   Node ID of the webform to clear.

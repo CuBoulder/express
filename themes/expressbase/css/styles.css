@@ -254,7 +254,7 @@ img.custom-logo { width: 100%; height: auto; display: block; }
 #mobile-menu ul, #mobile-menu li { list-style: none; list-style-image: none; margin: 0; padding: 0; }
 #mobile-menu a { display: block; padding: 10px 20px; }
 
-#mobile-search { padding: 20px 20px 0; }
+#mobile-search { padding: 20px 20px; }
 #mobile-search .cu-search input.form-text { width: 100%; }
 
 #navigation .links li, #navigation .menu li { margin: 0; padding: 0; }

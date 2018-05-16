@@ -1,6 +1,6 @@
 Feature: WYSIWYG Pathologic tests
 
-  @api @wysiwyg @javascript @broken
+  @wysiwyg @javascript @broken
   # @todo Need to setup Pathologic link in testing module install.
   Scenario: Pathologic should change URLs
     Given  I am logged in as a user with the "content_editor" role
@@ -11,4 +11,3 @@ Feature: WYSIWYG Pathologic tests
       And I fill in "Title" with "Pathologic Test"
       And I press "Save"
     Then The "#pathologic-link" element should have "//127.0.0.1:8888/test" in the "href" attribute
-

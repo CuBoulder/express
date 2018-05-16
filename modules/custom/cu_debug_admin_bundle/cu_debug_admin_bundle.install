@@ -54,6 +54,5 @@ function _cu_debug_admin_bundle_disable_modules() {
 
   return array(
     'varnish',
-    'memcache',
   );
 }

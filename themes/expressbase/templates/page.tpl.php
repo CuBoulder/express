@@ -10,11 +10,7 @@
     <?php print render($page['branding']); ?>
     <div id="search" tabindex="-1">
       <div class="element-max-width search-wrapper">
-        <?php
-          if (!empty($page['search_box'])) {
-            print render($page['search_box']);
-          }
-        ?>
+        <?php print render($search_desktop); ?>
       </div>
     </div>
     <div id="header-wrapper" class="section-wrapper header-wrapper">
@@ -60,8 +56,8 @@
       <div id="mobile-navigation">
         <div id="mobile-search">
           <?php
-            if (!empty($page['search_box'])) {
-              print render($page['search_box']);
+            if (!empty($search_mobile)) {
+              print render($search_mobile);
             }
           ?>
         </div>

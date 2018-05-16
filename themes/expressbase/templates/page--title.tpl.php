@@ -9,11 +9,7 @@
     <?php endif; ?>
     <div id="search" tabindex="-1">
       <div class="element-max-width search-wrapper">
-        <?php
-          if (!empty($page['search_box'])) {
-            print render($page['search_box']);
-          }
-        ?>
+        <?php print render($search_desktop); ?>
       </div>
     </div>
     <div id="header-wrapper" class="section-wrapper header-wrapper">
@@ -24,7 +20,20 @@
             <button id="toggle" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-menu" aria-label="Navigation"><span class="mobile-menu-text">Menu </span><i class="fa fa-reorder fa-fw"></i></button>
           </div>
         </div>
-        
+
+        <div id="header-content" class="col-lg-4 col-md-4 col-sm-12 col-xs-12 clearfix">
+          <?php
+          $options = variable_get('cu_search_options', array('this' => 'this'));
+          foreach ($options as $key => $option) {
+            if (!$option) {
+              unset($options[$key]);
+            }
+          }
+            if (!empty($options) && !empty($search_desktop)):
+          ?>
+            <a href="#search" class="search-toggle"><i class="fa fa-search"></i><span class="element-invisible">Search</span></a>
+          <?php endif; ?>
+        </div>
       </header>
     </div>
     <div id="navigation-wrapper" class="navigation-wrapper">
@@ -51,8 +60,8 @@
       <div id="mobile-navigation">
         <div id="mobile-search">
           <?php
-            if (!empty($page['search_box'])) {
-              print render($page['search_box']);
+            if (!empty($search_mobile)) {
+              print render($search_mobile);
             }
           ?>
         </div>

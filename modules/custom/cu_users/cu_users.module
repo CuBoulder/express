@@ -23,7 +23,8 @@ function cu_users_get_users($type = 'all') {
     'jafu6031' => 'James.W.Fuller@Colorado.EDU',
     'alfi2595' => 'alexander.finnarn@colorado.edu',
     'owmo7772' => 'owen.morrill@colorado.edu',
-    'jeor0980' => 'Jesus.OrtizTovar@colorado.edu'
+    'jeor0980' => 'Jesus.OrtizTovar@colorado.edu',
+    'osr-test-sis' => 'osr-test-sis@colorado.edu'
   );
 
   $user_array['administrator'] = array(
@@ -75,7 +76,12 @@ function cu_users_check_user($username) {
 function cu_users_help($path, $arg) {
   switch ($path) {
     case 'admin/people/invite':
-      return '<p>' . t("Any CU-Boulder employee, student, or sponsored vendor with an IdentiKey can be granted access to the website administration area. To add new users, select a role and add the users' colorado.edu email address. You can send multiple invites by separating email addresses with a comma (i.e. jane.doe@colorado.edu, joe.smith@colorado.edu). Once submitted an email will be sent inviting the users.") . '</p><p>' . t("<strong>Content Editors</strong> can create content, create and place blocks, and administer menus.") . '</p><p>' . t('<strong>Edit My Content</strong> users can only edit content they have authored.') . '</p><p>' . t("<strong>Site Owners</strong> can do everything a content editor can do plus add new site users, edit the site name, set the site homepage, configure the site theme, and create contexts.") . '</p><br/>';
+      return '<p>' . t("Any CU-Boulder employee, student, or sponsored vendor with an IdentiKey can be granted access to the website administration area. To add new users, select a role and add the users' colorado.edu email address. You can send multiple invites by separating email addresses with a comma (i.e. jane.doe@colorado.edu, joe.smith@colorado.edu). Once submitted an email will be sent inviting the users.") .
+        '</p><p>' . t("<strong>Content Editor:</strong> This role is for basic users who need to edit existing content. All their revisions are stored in the revisions log.") .
+        '</p><p>' . t('<strong>Edit My Content:</strong> Minimal access to admin UI.') .
+        '</p><p>' . t("<strong>Site Editor:</strong> This role is for site communicators who need to add new content pages, blocks and edits layouts.") .
+        '</p><p>' . t("<strong>Site Owner:</strong> Limited to 3 people. Site owners are responsible for managing a site's users, configuration and content and ensuring that any user added to a role adheres to the university's policies as thy relate to that role (ie. Form Owners adhere to data collection policies).") .
+        '</p><br/>';
   }
 }
 
@@ -202,12 +208,65 @@ function cu_users_form_user_cancel_confirm_form_alter(&$form, &$form_state) {
 }
 
 /**
+ * Implements hook_user_presave().
+ */
+function cu_users_user_presave(&$edit, $account, $category) {
+
+  // Need to get the role IDs to compare later.
+  // The roles are ordered from lowest to highest permission level.
+  $core_role_ids = [];
+  $core_roles = [
+    'edit_my_content',
+    'edit_only',
+    'content_editor',
+    'site_editor',
+    'site_owner',
+    'administrator',
+    'developer'
+  ];
+  foreach ($core_roles as $val) {
+    $temp_role = user_role_load_by_name($val);
+    if (isset($temp_role->rid)) {
+      $core_role_ids[$temp_role->rid] = $temp_role->name;
+    }
+  }
+
+  // Loop through roles being saved on user and reduce them to the highest permissioned role.
+  $temp_roles = $edit['roles'] ?? [];
+  $conflicting_roles = FALSE;
+  $remaining_core_roles = [];
+  foreach ($temp_roles as $val) {
+    // Authenticated users key is 2 but value is TRUE. All roles will have role ID 2, a.k.a authenticated user.
+    if ($val !== TRUE && array_key_exists($val, $core_role_ids)) {
+
+      // Filter the roles being saved to make sure the user always has one left.
+      $remaining_core_roles = array_filter($edit['roles'], function ($val2) use ($core_role_ids) {
+        return array_key_exists($val2, $core_role_ids);
+      });
+
+      // Remove all but the last core user role.
+      if (count($remaining_core_roles) === 1) {
+        break;
+      }
+      // We only reach this point if two core roles are selected.
+      $conflicting_roles = TRUE;
+      unset($edit['roles'][$val]);
+    }
+  }
+
+  // If conflicting roles, send a message to the user about what happened.
+  if ($conflicting_roles) {
+    $role_id = array_shift($remaining_core_roles);
+    drupal_set_message("Only one Express core role can be assigned to a user. The highest role of \"$core_role_ids[$role_id]\" was saved for $account->name.", 'error');
+  }
+}
+
+/**
  * Implements hook_user_update().
  *
  * Save a message to the log when a user is updated containing the updated info.
  */
 function cu_users_user_update(&$edit, $account, $category) {
-
   $user_vars = array(
     '%uid' => $account->uid,
     '%name' => $account->name,
@@ -217,6 +276,31 @@ function cu_users_user_update(&$edit, $account, $category) {
   );
 
   watchdog('cu_user_logs', 'User account saved. UID: %uid name: %name mail: %mail created: %created roles: %roles', $user_vars);
+
+  // If the user is coming from Fedauth, then we need to start the request over again.
+  // When the session is destroyed on logout, the next request sends back user info in the session,
+  // but it is only used on the next request.
+  // Without redirecting the user, they will get an access denied.
+  if (strpos($_SERVER['HTTP_REFERER'], 'https://fedauth.colorado.edu') === 0) {
+    // Go to current request with new session information.
+    drupal_goto($_GET['q']);
+  }
+}
+
+/**
+ * Implements hook_pathauto_pattern_alter().
+ *
+ * @param string $pattern
+ *   Current Pathauto pattern to examine.
+ * @param array $context
+ *   An associative array of additional options. See API hook docblock.
+ */
+function cu_users_pathauto_pattern_alter(string &$pattern, array $context) {
+  // If the pattern is for user aliases then make the pattern empty so that no
+  // user aliases are ever created.
+  if ($pattern === 'users/[user:name]') {
+    $pattern = '';
+  }
 }
 
 /**
@@ -225,7 +309,6 @@ function cu_users_user_update(&$edit, $account, $category) {
  * Save a message to the log when a user is inserted containing the new info.
  */
 function cu_users_user_insert(&$edit, $account, $category) {
-
   $user_vars = array(
     '%uid' => $account->uid,
     '%name' => $account->name,
@@ -235,4 +318,64 @@ function cu_users_user_insert(&$edit, $account, $category) {
   );
 
   watchdog('cu_user_logs', 'User account created. UID: %uid name: %name mail: %mail created: %created roles: %roles', $user_vars);
+}
+
+/**
+ * Lookup LDAP user via email (from cu_ldap.module).
+ */
+function cu_users_ldap_email_lookup($email) {
+  // @TODO: replace hardcoded values with configuration from LDAP settings
+
+  // Load the user's entry in LDAP.
+  $link_identifier = ldap_connect('directory.colorado.edu');
+  $base_dn = "dc=colorado,dc=edu";
+  $filter = "mail=" . $email;
+  $result_identifier = ldap_search($link_identifier, $base_dn, $filter);
+  $ldap_entries = ldap_get_entries($link_identifier, $result_identifier);
+
+  return $ldap_entries;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form_state) {
+  $form['#submit'][] = 'cu_users_override_external_invite_submit';
+}
+
+/**
+ * Custom submit handler for external invite override.
+ */
+function cu_users_override_external_invite_submit(&$form, &$form_state) {
+  $email_values = strtolower($form_state['values']['email']);
+  $emails = preg_split("/[\r\n,\s]+/", $email_values, -1, PREG_SPLIT_NO_EMPTY);
+
+  $rid = $form_state['values']['rid'];
+
+  if (!empty($emails)) {
+    foreach ($emails as $email) {
+      $output = cu_users_ldap_email_lookup($email);
+      $parts = explode("@", $output[0]['cuedupersonemailhome'][0]);
+      $username = $parts[0];
+      $ldap_mail_return = strtolower($output[0]['mail'][0]);
+
+      if (!empty($output) && !empty($ldap_mail_return) && $email == $ldap_mail_return) {
+        $new_user = array(
+          'name' => $username,
+          'pass' => $username . strrev($username),
+          'mail' => $email,
+          'timezone' => 'America/Denver',
+          'status' => 1,
+          'init' => $email,
+          'roles' => array(
+            DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+            $rid => 'n/a',
+          ),
+        );
+
+        // The first parameter is sent blank so a new user is created.
+        user_save('', $new_user);
+      }
+    }
+  }
 }
