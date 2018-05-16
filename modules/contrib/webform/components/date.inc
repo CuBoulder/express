@@ -224,7 +224,7 @@ function webform_expand_date($element) {
     unset($element['#value']);
   }
 
-  // Set defaults according to existing #default_value (set by Form API)
+  // Set defaults according to existing #default_value (set by Form API).
   if (isset($element['#default_value']['month']) || isset($element['#default_value']['day']) || isset($element['#default_value']['year'])) {
     $default_values = array(
       'month' => $element['#default_value']['month'],

@@ -387,12 +387,21 @@ function secure_permissions_secure_permissions_roles() {
  * to do so.
  */
 function secure_permissions_form_user_admin_permissions_alter(&$form, $form_state) {
+  foreach (element_children($form['permission']) as $permission) {
+    //Show permission machine names, skip permission group headers
+    if (gettype($permission) == "integer") {
+      continue;
+    }
+    $form['permission'][$permission]['#markup'] .= ' <div class="permission-machine-name">'.$permission.'</div>';
+  }
+
   if (!secure_permissions_variable('secure_permissions_disable_forms')) {
     return;
   }
   foreach (element_children($form['checkboxes']) as $key) {
     $form['checkboxes'][$key]['#disabled'] = TRUE;
   }
+
   drupal_set_message(t('Editing of permissions is not permitted through the user interface. The table below shows the active permissions for the site.'));
   unset($form['actions']);
   unset($form['#submit']);

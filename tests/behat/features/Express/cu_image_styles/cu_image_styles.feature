@@ -1,7 +1,7 @@
 Feature: CU Image Styles
   As a developer I should see the proper dimensions for image styles.
 
-@api @image-styles
+@image-styles
 Scenario Outline: Image styles should be the correct dimensions
   Given  I am logged in as a user with the "developer" role
   When I go to "admin/config/media/image-styles/edit/<style>"

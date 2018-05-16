@@ -231,8 +231,6 @@ projects[views_accordion][version] = "1.0-rc2"
 
 projects[views_slideshow][version] = "3.0"
 
-projects[webform][version] = "4.5"
-
 projects[wysiwyg][version] = "2.2+23-dev"
 
 projects[wysiwyg_filter][version] = "1.6-rc2"

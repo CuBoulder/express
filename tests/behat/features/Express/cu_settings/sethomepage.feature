@@ -1,4 +1,4 @@
-@settings 
+@settings
 Feature: Setting a New Homepage
 In order to create a unique homepage experience
 An authenticated user with the proper role
@@ -6,7 +6,7 @@ Should be able to change the default front page
 
 # ACCESSING THE HOME PAGE SETTINGS
 @api
-Scenario Outline: Devs, Admins and SOs can access Home Page settings; CEs and EMCs cannot
+Scenario Outline: Devs, Admins, SOs and ConMgrs can access Home Page settings; CEs and EMCs cannot
   Given I am logged in as a user with the <role> role
   When I go to "admin/settings/adv-content/frontpage"
   Then I should see <message>
@@ -18,10 +18,15 @@ Scenario Outline: Devs, Admins and SOs can access Home Page settings; CEs and EM
     | site_owner      | "Default front page" |
     | content_editor  | "Access Denied" |
     | edit_my_content | "Access Denied" |
+    | site_editor      | "Access denied" |
+    | edit_only        | "Access denied" |
+    | access_manager   | "Access denied" |
+    | configuration_manager | "Default front page" |
     
     
 # SETTING A NEW HOME PAGE
 # create a basic page; use it for the new homepage; then change it back
+@testing_frontpage
 Scenario: A site-owner can create a Basic Page and use it for the new homepage
 Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/page"
