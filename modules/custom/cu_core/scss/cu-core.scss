@@ -1,3 +1,4 @@
+#navbar-administration #navbar-bar .express-environment-indicator,
 .express-environment-indicator {
   padding:0 10px;
   line-height:30px;
@@ -13,7 +14,7 @@
     display:inline-block;
     text-decoration:none;
     background:#333;
-    color:#fff;
+    color:#fff !important;
     padding:5px;
     white-space:nowrap;
     box-shadow:0 0 5px rgba(0,0,0,.25);
@@ -23,9 +24,13 @@
 }
 // Prod New Launched
 .environment-production.infrastructure-new.status-launched {
+  #navbar-administration #navbar-bar .express-environment-indicator,
   .express-environment-indicator {
     background:#222;
     color:#fff;
+    * {
+      color: inherit;
+    }
     a {
       display:none;
     }
@@ -33,9 +38,13 @@
 }
 // Prod New Staged
 .environment-production.infrastructure-new.status-staged {
+  #navbar-administration #navbar-bar .express-environment-indicator,
   .express-environment-indicator {
     background:#388E3C;
     color:#fff;
+    * {
+      color: inherit;
+    }
     a {
       display:none;
     }
@@ -43,9 +52,13 @@
 }
 // Prod New Migrate Ready
 .environment-production.infrastructure-new.status-staged.migrate-ready {
+  #navbar-administration #navbar-bar .express-environment-indicator,
   .express-environment-indicator {
     background:#388E3C;
     color:#fff;
+    * {
+      color: inherit;
+    }
     a {
       display:inline-block;
     }
@@ -53,23 +66,36 @@
 }
 // Prod Old Staged, Prod Old Launched
 .environment-production.infrastructure-old.status-staged,
-.environment-production.infrastructure-old.status-launched{
+.environment-production.infrastructure-old.status-launched {
+  #navbar-administration #navbar-bar .express-environment-indicator,
   .express-environment-indicator {
     background:#FFCA28;
     color:#111;
+    * {
+      color: inherit;
+    }
   }
 }
 // Test Staged
 .environment-test.status-staged {
+  #navbar-administration #navbar-bar .express-environment-indicator,
   .express-environment-indicator {
+
     background:#E53935;
     color:#fff;
+    * {
+      color: inherit;
+    }
   }
 }
 // Test Launched
 .environment-test.status-launched {
+  #navbar-administration #navbar-bar .express-environment-indicator,
   .express-environment-indicator {
     background:#7E57C2;
     color:#fff;
+    * {
+      color: inherit;
+    }
   }
 }
