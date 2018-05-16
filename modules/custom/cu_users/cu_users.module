@@ -339,10 +339,10 @@ function cu_users_ldap_email_lookup($email) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-//function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form_state) {
-//  $form['#validate'][] = 'cu_users_form_validate';
-//  $form['#submit'][] = 'cu_users_override_external_invite_submit';
-//}
+function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form_state) {
+  $form['#validate'][] = 'cu_users_form_validate';
+  // $form['#submit'][] = 'cu_users_override_external_invite_submit';
+}
 
 /**
  * Validation handler for invite_form.
@@ -350,50 +350,64 @@ function cu_users_ldap_email_lookup($email) {
  * Ensures email addresses are in valid format.
  */
 function cu_users_form_validate(&$form, &$form_state) {
+
   $email_value = $form_state['values']['email'];
   // Split on , or line break.
   $emails = preg_split("/[\r\n,\s]+/", $email_value, -1, PREG_SPLIT_NO_EMPTY);
 
-  // Get emails from all users.
-  $email_list_query = db_query('SELECT mail FROM {users}')->fetchCol();
-  $email_list = [];
-  foreach ($email_list_query as $key => $item) {
-    $item = strtolower($item);
-    $email_list[$key] = $item;
-  }
-  
-  // Get all usernames from users.
-  $username_list_query = db_query('SELECT name FROM {users}')->fetchCol();
-  $username_list = [];
-  foreach ($username_list_query as $key => $item) {
-    $item = strtolower($item);
-    $username_list[$key] = $item;
+  $site_owner_role = user_role_load_by_name('site_owner');
+  $site_owner_count = db_query('SELECT COUNT(uid) FROM {users_roles} WHERE rid = :rid', [':rid' => $site_owner_role->rid])->fetchCol();
+
+  $final_site_owner_count = $site_owner_count[0];
+  if ($form_state["values"]["rid"] == $site_owner_role->rid) {
+    $final_site_owner_count = count($emails) + $site_owner_count[0];
   }
 
-  $error = FALSE;
-  foreach ($emails as $mail) {
-    $parts = explode("@", $mail);
-    $email_id = $parts[0];
-    if (!valid_email_address($mail)) {
-      $error = TRUE;
-      form_set_error('email', t('Incorrect email address (%mail). No invites were sent.', array('%mail' => $mail)));
-    } else if (in_array(strtolower($mail), $email_list)) {
-      $error = TRUE;
-      form_set_error('email', t('This email address is already associated with an account (%mail). No invites were sent.', array('%mail' => $mail)));
-    } else if (in_array($email_id, $username_list)) {
-      $error = TRUE;
-      form_set_error('email', t('This user is already associated with an account (%mail). No invites were sent.', array('%mail' => $mail)));
-    }
-    else {
-      $load = _user_external_invite_load_invite($mail);
-      if (isset($load['mail'])) {
-        form_set_error('email', t('Email address (%mail) has already been invited. No invites were sent.', array('%mail' => $mail)));
-      }
-    }
+  if ( $final_site_owner_count >= 3) {
+    form_set_error('email', t('You can only assign three users as a Site Owner.', array('%num' => $final_site_owner_count)));
   }
-  if (!$error) {
-    $form_state['values']['parsed_mails'] = $emails;
-  }
+
+//
+//  // Get emails from all users.
+//  $email_list_query = db_query('SELECT mail FROM {users}')->fetchCol();
+//  $email_list = [];
+//  foreach ($email_list_query as $key => $item) {
+//    $item = strtolower($item);
+//    $email_list[$key] = $item;
+//  }
+//
+//  // Get all usernames from users.
+//  $username_list_query = db_query('SELECT name FROM {users}')->fetchCol();
+//  $username_list = [];
+//  foreach ($username_list_query as $key => $item) {
+//    $item = strtolower($item);
+//    $username_list[$key] = $item;
+//  }
+//
+//  $error = FALSE;
+//  foreach ($emails as $mail) {
+//    $parts = explode("@", $mail);
+//    $email_id = $parts[0];
+//    if (!valid_email_address($mail)) {
+//      $error = TRUE;
+//      form_set_error('email', t('Incorrect email address (%mail). No invites were sent.', array('%mail' => $mail)));
+//    } else if (in_array(strtolower($mail), $email_list)) {
+//      $error = TRUE;
+//      form_set_error('email', t('This email address is already associated with an account (%mail). No invites were sent.', array('%mail' => $mail)));
+//    } else if (in_array($email_id, $username_list)) {
+//      $error = TRUE;
+//      form_set_error('email', t('This user is already associated with an account (%mail). No invites were sent.', array('%mail' => $mail)));
+//    }
+//    else {
+//      $load = _user_external_invite_load_invite($mail);
+//      if (isset($load['mail'])) {
+//        form_set_error('email', t('Email address (%mail) has already been invited. No invites were sent.', array('%mail' => $mail)));
+//      }
+//    }
+//  }
+//  if (!$error) {
+//    $form_state['values']['parsed_mails'] = $emails;
+//  }
 }
 
 /**
@@ -430,5 +444,22 @@ function cu_users_override_external_invite_submit(&$form, &$form_state) {
         user_save('', $new_user);
       }
     }
+  }
+}
+
+/**
+ * Implements hook_user_external_invite_pre_grant_invite().
+ *
+ * @param $account
+ * @param $grant_rid
+ *
+ * @return string
+ */
+function cu_users_user_external_invite_pre_grant_invite($account, $grant_rid) {
+  $site_owner_role = user_role_load_by_name('site_owner');
+  $site_owner_count = db_query('SELECT COUNT(uid) FROM {users_roles} WHERE rid = :rid', [':rid' => $site_owner_role->rid])->fetchCol();
+
+  if ( $site_owner_count[0] >= 3) {
+    return 'You can only assign three users as a Site Owner. You were not granted a new role.';
   }
 }
