@@ -354,20 +354,14 @@ function cu_users_form_validate(&$form, &$form_state) {
   // Split on , or line break.
   $emails = preg_split("/[\r\n,\s]+/", $email_value, -1, PREG_SPLIT_NO_EMPTY);
 
-  // Get emails from all users.
-  $email_list_query = db_query('SELECT mail FROM {users}')->fetchCol();
-  $email_list = [];
-  foreach ($email_list_query as $key => $item) {
-    $item = strtolower($item);
-    $email_list[$key] = $item;
-  }
-  
-  // Get all usernames from users.
-  $username_list_query = db_query('SELECT name FROM {users}')->fetchCol();
+  // Get emails and usernames from users.
+  $user_list_query = db_query('SELECT * FROM {users}')->fetchAll();
   $username_list = [];
-  foreach ($username_list_query as $key => $item) {
-    $item = strtolower($item);
-    $username_list[$key] = $item;
+  foreach ($user_list_query as $key => $item) {
+    $name = strtolower($item->name);
+    $mail = strtolower($item->mail);
+    $username_list[$key] = $name;
+    $email_list[$key] = $mail;
   }
 
   $error = FALSE;
