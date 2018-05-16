@@ -1,11 +1,8 @@
 <?php
 
 /**
- * @file
  * Definition of webform_handler_filter_submission_data.
- */
-
-/**
+ *
  * Extended version of the string filter handler specialized for Webform values.
  *
  * @ingroup views_filter_handlers
@@ -13,9 +10,11 @@
 class webform_handler_filter_submission_data extends views_handler_filter_string {
 
   /**
-   * This kind of construct makes it relatively easy for a child class
-   * to add or remove functionality by overriding this function and
-   * adding/removing items from this array.
+   * Add to the list of operators.
+   *
+   * This kind of construct makes it relatively easy for a child class to add or
+   * remove functionality by overriding this function and adding/removing items
+   * from this array.
    */
   public function operators() {
     $operators = parent::operators();
@@ -82,7 +81,7 @@ class webform_handler_filter_submission_data extends views_handler_filter_string
    * Provide a simple textfield for equality.
    */
   public function value_form(&$form, &$form_state) {
-    // TODO: Adjust the exposed filter form based on component form.
+    // @todo: Adjust the exposed filter form based on component form.
     return parent::value_form($form, $form_state);
   }
 

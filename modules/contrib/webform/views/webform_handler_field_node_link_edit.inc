@@ -1,11 +1,8 @@
 <?php
 
 /**
- * @file
  * Views handler to display an edit link for Webform configuration.
- */
-
-/**
+ *
  * Field handler to present a link node edit.
  */
 class webform_handler_field_node_link_edit extends views_handler_field_node_link {
