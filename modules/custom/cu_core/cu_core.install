@@ -133,7 +133,7 @@ The block System help was assigned to the invalid region help and has been disab
 
   watchdog('express', 'attempted to disable uid 1');
 
-  variable_set('express_permissions_owner_cap', 3);
+  variable_set('express_permissions_owner_cap', 4);
 
   // Remove after 2.9.0
   variable_set('secure_permissions_sync_roles', TRUE);
