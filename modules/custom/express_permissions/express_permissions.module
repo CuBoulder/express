@@ -902,8 +902,9 @@ function express_permissions_get_site_owners() {
   $query->condition('ur.rid', $rid, '=');
   $users['count'] = $query->countQuery()->execute()->fetchField();
 
+  $limit = (int) variable_get('express_permissions_owner_cap', 4);
   // try to avoid loading user objects
-  if ($users['count'] > 5) {
+  if ($users['count'] >= $limit) {
       $results = $query->execute()->fetchCol();
       $site_owners = user_load_multiple($results);
       $user_list = array();
