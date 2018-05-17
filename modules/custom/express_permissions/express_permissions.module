@@ -851,13 +851,7 @@ function express_permissions_get_site_owners() {
       $results = $query->execute()->fetchCol();
       $site_owners = user_load_multiple($results);
       $user_list = array();
-      dpm($site_owners);
       foreach ($site_owners as $site_owner) {
-        // Check if osr-test-owner is in user array and exclude it from final user list.
-        if (strcasecmp($site_owner->mail, 'osr-test-owner@colorado.edu') == 0) {
-          continue;
-        }
-
         $user_list[] = !empty($site_owner->realname) ? $site_owner->realname : $site_owner->mail;
       }
      $users['list'] = join(', ', $user_list);
