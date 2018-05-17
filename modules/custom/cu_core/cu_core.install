@@ -976,6 +976,12 @@ function cu_core_update_7042() {
     }
     // delete everyone from test
     $query = db_delete('users_roles')->condition('rid', $site_owner_role->rid)->execute();
+
+    // add osr-test-owner back to so role
+    $osr_test_owner = user_load_by_name('osr-test-owner');
+    $query = db_insert('users_roles')->fields(array('uid', 'rid'));
+    $query->values(array('uid' => $osr_test_owner->uid, 'rid' => $site_owner_role->rid));
+    $query->execute();
   }
 }
 
