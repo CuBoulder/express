@@ -1,11 +1,8 @@
 <?php
 
 /**
- * @file
  * Views handler to filter submissions by draft state.
- */
-
-/**
+ *
  * Filter by submission status.
  */
 class webform_handler_filter_is_draft extends views_handler_filter_in_operator {

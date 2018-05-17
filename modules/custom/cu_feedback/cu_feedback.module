@@ -78,13 +78,6 @@ function cu_feedback_menu() {
     'access arguments' => array('administer express settings'),
   );
 
-  $items['node/ajax/%'] = array(
-    'page callback' => 'cu_feedback_get_webform',
-    'page arguments' => array(2),
-    'access arguments' => array('access content'),
-    'delivery callback' => 'cu_feedback_ajax_callback',
-  );
-
   return $items;
 }
 
@@ -143,23 +136,6 @@ function cu_feedback_settings_submit($form_id, &$form_state) {
 }
 
 /**
- * Load webform to be embeded
- * page callback for node/ajax/%
- */
-function cu_feedback_get_webform($nid) {
-  $form_node = node_load($nid);
-  return render(node_view($form_node, 'full'));
-}
-
-/**
- * print embeded webform
- * delivery callback for node/ajax/%
- */
-function cu_feedback_ajax_callback($result) {
-  print $result;
-}
-
-/**
  * Preprocess theme variables for a specific theme hook.
  *
  * This hook allows modules to preprocess theme variables for a specific theme
@@ -172,46 +148,35 @@ function cu_feedback_ajax_callback($result) {
  *   The variables array (modify in place).
  */
 function cu_feedback_preprocess_html(&$variables) {
-  global $base_url;
   $config = variable_get('cu_feedback_config');
-  $nid = isset($config['cu_feedback_path']) ? $config['cu_feedback_path'] : '';
-  $label = isset($config['cu_feedback_label']) ? $config['cu_feedback_label'] : 'Contact Us';
-  $color = isset($config['cu_feedback_color']) ? $config['cu_feedback_color'] : 'blue';
-  $embed = isset($config['cu_feedback_embed']) ? $config['cu_feedback_embed'] : 'embed';
-  if (!path_is_admin(current_path())) {
-    if ($form_node = node_load($nid)) {
-      drupal_add_js('misc/ajax.js');
-      $path = 'node/' . $nid;
-      $link_class[] = 'cu-feedback-link';
-      $link_class[] = 'cu-feedback-link-' . $color;
-      $link_class[] = $embed == 'embed' ? 'cu-feedback-link-embed' : '';
-      if ($embed) {
-        $link = l('<i class="fa fa-chevron-up"></i> ' . check_plain($label), $path, array('html' => TRUE, 'attributes' => array('class' => $link_class, 'onclick' => 'cu_feedback_ajax_load()')));
-      } else {
-        $link = l('<i class="fa fa-chevron-up"></i> ' . check_plain($label), $path, array('html' => TRUE, 'attributes' => array('class' => $link_class)));
-      }
-      $variables['page']['page_bottom']['cu_feedback']['#markup'] = '<div id="cu-feedback">' . $link;
-      if ($embed) {
-        $variables['page']['page_bottom']['cu_feedback']['#markup'] .= '
-        <div id="cu-feedback-content"></div>
-        <script>
-          function cu_feedback_ajax_load() {
-            jQuery("#cu-feedback-content").load("' . $base_url . '/node/ajax/' . $nid . '");
-          }
-        </script>';
-      }
-      $variables['page']['page_bottom']['cu_feedback']['#markup'] .= '</div>';
-      $variables['classes_array'][] = 'has-feedback-form';
-    }
-  }
-}
+  $nid = $config['cu_feedback_path'] ?? '';
 
-/**
- * Implements hook_page_alter().
- */
-function cu_feedback_page_alter(&$page) {
-  drupal_add_css(drupal_get_path('module', 'cu_feedback') . '/css/cu_feedback.css');
-  drupal_add_js(drupal_get_path('module', 'cu_feedback') . '/js/cu_feedback.js');
+  if (node_load($nid) && !path_is_admin(current_path())) {
+    drupal_add_css(drupal_get_path('module', 'cu_feedback') . '/css/cu_feedback.css');
+    drupal_add_js(drupal_get_path('module', 'cu_feedback') . '/js/cu_feedback.js');
+
+    $label = $config['cu_feedback_label'] ?? 'Contact Us';
+    $color = $config['cu_feedback_color'] ?? 'blue';
+    $embed = $config['cu_feedback_embed'] ?? 'embed';
+
+    $path = 'node/' . $nid;
+    $link_class[] = 'cu-feedback-link';
+    $link_class[] = 'cu-feedback-link-' . $color;
+    $link_class[] = $embed === 'embed' ? 'cu-feedback-link-embed' : '';
+    if ($embed) {
+      $link = l('<i class="fa fa-chevron-up"></i> ' . check_plain($label), $path, array('html' => TRUE, 'attributes' => array('class' => $link_class, 'onclick' => 'cu_feedback_ajax_load()')));
+    } else {
+      $link = l('<i class="fa fa-chevron-up"></i> ' . check_plain($label), $path, array('html' => TRUE, 'attributes' => array('class' => $link_class)));
+    }
+    $variables['page']['page_bottom']['cu_feedback']['#markup'] = '<div id="cu-feedback">' . $link;
+    if ($embed) {
+      $node_content = node_view(node_load($nid));
+      $form_content = drupal_render($node_content);
+      $variables['page']['page_bottom']['cu_feedback']['#markup'] .= "<div id=\"cu-feedback-content\">{$form_content}</div>";
+    }
+    $variables['page']['page_bottom']['cu_feedback']['#markup'] .= '</div>';
+    $variables['classes_array'][] = 'has-feedback-form';
+  }
 }
 
 /**

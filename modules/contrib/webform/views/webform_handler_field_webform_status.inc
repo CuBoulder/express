@@ -1,12 +1,7 @@
 <?php
 
 /**
- * @file
  * Views handler to display the open or closed status of a webform.
- */
-
-/**
- *
  */
 class webform_handler_field_webform_status extends views_handler_field_boolean {
 
