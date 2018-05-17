@@ -1,0 +1,6 @@
+@import 'material/sass-material-colors';
+
+.my-cool-element1 {
+  color: material-color('cyan', '400');
+  background: material-color('blue-grey', '600');
+}
