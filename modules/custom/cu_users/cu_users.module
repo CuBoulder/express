@@ -360,21 +360,25 @@ function cu_users_override_external_invite_submit(&$form, &$form_state) {
       $ldap_mail_return = strtolower($output[0]['mail'][0]);
 
       if (!empty($output) && !empty($ldap_mail_return) && $email == $ldap_mail_return) {
-        $new_user = array(
-          'name' => $username,
-          'pass' => $username . strrev($username),
-          'mail' => $email,
-          'timezone' => 'America/Denver',
-          'status' => 1,
-          'init' => $email,
-          'roles' => array(
-            DRUPAL_AUTHENTICATED_RID => 'authenticated user',
-            $rid => 'n/a',
-          ),
-        );
+        // Check to see if the user already exists before trying to create them
+        $account = user_load_by_name($username);
+        if (!$account->uid) {
+          $new_user = array(
+            'name' => $username,
+            'pass' => $username . strrev($username),
+            'mail' => $email,
+            'timezone' => 'America/Denver',
+            'status' => 1,
+            'init' => $email,
+            'roles' => array(
+              DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+              $rid => 'n/a',
+            ),
+          );
 
-        // The first parameter is sent blank so a new user is created.
-        user_save('', $new_user);
+          // The first parameter is sent blank so a new user is created.
+          user_save('', $new_user);
+        }
       }
     }
   }
