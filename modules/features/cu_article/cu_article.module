@@ -814,7 +814,7 @@ function cu_article_preprocess_node(&$vars) {
       // Add bylines terms to author meta section
       $vars['author_meta']['byline'] = '<span class="author-meta-name author-meta-item">By ' . join(', ', $bylines) . '</span>';
     }
-    $vars['more_link'] = l($vars['content']['links']['node']['#links']['node-readmore']['title'], $vars['content']['links']['node']['#links']['node-readmore']['href'], array('attributes' => array('class' => array('more-link', 'summary-more-link')),
+    $vars['more_link'] = l($vars['content']['links']['node']['#links']['node-readmore']['title'], $vars['content']['links']['node']['#links']['node-readmore']['href'], array('attributes' => array('aria-hidden' => 'true', 'class' => array('more-link', 'summary-more-link')),
     'html' => TRUE));
   }
   if ($vars['node']->type == 'article_list_page') {
