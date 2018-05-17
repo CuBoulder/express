@@ -868,22 +868,20 @@ function express_permissions_form_user_external_invite_form_alter(&$form, &$form
 
 function express_permissions_invite_site_owner_cap(&$form, &$form_state) {
   // Limit of how many of the role we should allow.
-  $limit = intval(variable_get('express_permissions_owner_cap', 5));
+  $limit = (int) variable_get('express_permissions_owner_cap', 4);
 
   // Get Role ID.
   $role = user_role_load_by_name('site_owner');
-
   if ($form_state['values']['rid'] == $role->rid) {
     $email_value = $form_state['values']['email'];
     // Split on , or line break.
     $emails = preg_split("/[\r\n,\s]+/", $email_value, -1, PREG_SPLIT_NO_EMPTY);
     $email_count = count($emails);
     $users_in_role = express_permissions_get_site_owners();
-    if (($users_in_role['count'] + $email_count > $limit)) {
-      form_set_error("", "You have exceeded the allowed limit for Temporary Site Owners. To grant this role you must first remove it from someone else. Current Site Owners include: " .  $users_in_role['list']);
+    if (($users_in_role['count'] + $email_count) >= $limit) {
+      form_set_error("", "You have exceeded the allowed limit for Site Owners. To grant this role you must first remove it from someone else. Current Site Owners include: " .  $users_in_role['list']);
     }
   }
-
 }
 
 /**
