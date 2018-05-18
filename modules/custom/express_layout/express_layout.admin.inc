@@ -9,6 +9,8 @@ function express_layout_form($form, &$form_state, $op = 'edit', $express_layout 
   // Set title of page
   drupal_set_title('Edit Layout');
 
+  $query = db_select('user_external_invite', 'ext')->fields('ext')->execute()->fetchAll();
+
   $form = array();
 
   // Add region layout diagram
