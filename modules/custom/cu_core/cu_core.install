@@ -133,7 +133,7 @@ The block System help was assigned to the invalid region help and has been disab
 
   watchdog('express', 'attempted to disable uid 1');
 
-  variable_get('express_permissions_owner_cap', 3);
+  variable_set('express_permissions_owner_cap', 4);
 
   // Remove after 2.9.0
   variable_set('secure_permissions_sync_roles', TRUE);
@@ -944,13 +944,6 @@ function cu_core_update_7042() {
   // Adding Site Editor role for invites.
   $site_owner_role = user_role_load_by_name('site_owner');
   $site_editor_role = user_role_load_by_name('site_editor');
-  $edit_my_content_role = user_role_load_by_name('edit_my_content');
-
-  variable_set('user_external_invite_roles', array(
-    $site_owner_role->rid,
-    $site_editor_role->rid,
-    $edit_my_content_role->rid,
-  ));
 
   // Remove staff users from site_owner role before calculating if there > 3.
   $express_team_members = ['brokaw', 'linebarg', 'wetu1300', 'mortone'];
@@ -976,6 +969,12 @@ function cu_core_update_7042() {
     }
     // delete everyone from test
     $query = db_delete('users_roles')->condition('rid', $site_owner_role->rid)->execute();
+
+    // add osr-test-owner back to so role
+    $osr_test_owner = user_load_by_name('osr-test-owner');
+    $query = db_insert('users_roles')->fields(array('uid', 'rid'));
+    $query->values(array('uid' => $osr_test_owner->uid, 'rid' => $site_owner_role->rid));
+    $query->execute();
   }
 }
 
