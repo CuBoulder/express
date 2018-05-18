@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 
-EXPRESS_COMMIT_HAS_BUILD="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '===build')"
-echo "Build Express? - ${EXPRESS_COMMIT_HAS_BUILD}"
+if [ "${BUNDLE_NAME}" != "null" ]; then
+  cd ${ROOT_DIR}/drupal/sites/all/modules/${BUNDLE_NAME}
+else
+  cd ${ROOT_DIR}/drupal/profiles/express
+fi
+
+EXPRESS_COMMIT_HAS_BUILD="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '==build')"
 
 # https://docs.travis-ci.com/user/caching/
 # Travis takes the cache of the default branch if the PR branch doesn't have one.
@@ -11,20 +16,37 @@ if [  "${TRAVIS_EVENT_TYPE}" == "push" ]; then
   rm -f $HOME/cache/express.sql
 fi
 
-# Build Express if no db export or commit is "merged into dev".
+# Build Express if no db export or commit doesn't say "!===build".
 if [ ! -f $HOME/cache/express.sql ] || [ "${EXPRESS_COMMIT_HAS_BUILD}" ]; then
 
   # Install site like normal.
   echo Installing Express...
-  drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
+  $HOME/.composer/vendor/bin/drush si express --db-url=mysql://root:@127.0.0.1/drupal --account-name=admin --account-pass=admin --site-mail=admin@example.com --site-name="Express" --yes
+  earlyexit
 
   # Export db so it can be imported after every suite run.
   # Test runs that fill up the db with nodes can impact other tests.
   echo Exporting database...
-  drush sql-dump --result-file=$HOME/cache/express.sql
+  $HOME/.composer/vendor/bin/drush sql-dump --result-file=$HOME/cache/express.sql
+
 else
 
   # Import db if it is already built.
   echo Importing Express database...
-  drush sql-cli < $HOME/cache/express.sql
+  $HOME/.composer/vendor/bin/drush sql-cli < $HOME/cache/express.sql
+  earlyexit
+
+  # Run any database updates.
+  echo Running pending database updates...
+  $HOME/.composer/vendor/bin/drush updb -y
+
 fi
+
+# Check and see if testing core module is enabled.
+$HOME/.composer/vendor/bin/drush pm-info travis_hosting
+$HOME/.composer/vendor/bin/drush pm-info ng_hosting
+$HOME/.composer/vendor/bin/drush pm-info cu_core
+$HOME/.composer/vendor/bin/drush pm-info cu_ldap
+$HOME/.composer/vendor/bin/drush pm-info cu_local_users
+
+exit 0

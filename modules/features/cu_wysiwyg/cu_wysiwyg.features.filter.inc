@@ -257,6 +257,7 @@ sup,',
       'shortcode' => array(
         'weight' => -47,
         'status' => 1,
+<<<<<<< HEAD
         'settings' => array(
           'give' => 1,
           'anchors' => 1,
@@ -285,6 +286,9 @@ sup,',
           'tweet' => 0,
           'soundcloud' => 1,
         ),
+=======
+        'settings' => _cu_wysiwyg_shortcode_settings(),
+>>>>>>> dev
       ),
       'ckeditor_link_filter' => array(
         'weight' => -45,

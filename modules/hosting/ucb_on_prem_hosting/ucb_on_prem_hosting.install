@@ -1,0 +1,13 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for ucb_on_prem_hosting module.
+ */
+function ucb_on_prem_hosting_install() {
+  module_disable(array(
+    'memcache',
+    'ng_hosting'
+  ));
+  drupal_uninstall_modules($module_list = array('memcache','ng_hosting'), $uninstall_dependents = FALSE);
+}

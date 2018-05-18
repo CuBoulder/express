@@ -12,15 +12,16 @@ function user_external_invite_settings_form() {
   $form = array();
   $form['#validate'][] = 'user_external_invite_settings_form_validate';
 
-  // Define roles that users can have.
+  // Define roles that users can be invited to.
+  // Always exclude anonymous and authenticated roles.
   $user_roles = user_roles();
-  $roles = array();
-  $excluded_roles = module_invoke_all('user_external_invite_excluded_roles', $roles);
+  $excluded_roles = module_invoke_all('user_external_invite_excluded_roles', [1, 2]);
   foreach ($excluded_roles as $role_id) {
     if (isset($user_roles[$role_id])) {
       unset($user_roles[$role_id]);
     }
   }
+
   $form['user_external_invite_roles'] = array(
     '#type' => 'select',
     '#title' => t('Roles users can be invited to join'),
@@ -119,12 +120,14 @@ function user_external_invite_settings_form() {
     '#description' => t('Message sent to user being invited confirming the process was completed.'),
   );
 
-  // @TODO: add warning email about expiring invititations.
-  $form['token_help']['content'] = array(
-    '#type' => 'markup',
-    '#token_types' => 'all',
-    '#theme' => 'token_tree',
-  );
+  // @TODO: add warning email about expiring invitations.
+  if (module_exists('token')) {
+    $form['token_help']['content'] = array(
+      '#type' => 'markup',
+      // '#token_types' => 'user_external_invite',
+      '#theme' => 'token_tree',
+    );
+  }
 
   return system_settings_form($form);
 }
@@ -158,7 +161,7 @@ function user_external_invite_form($form, &$form_state) {
   drupal_set_title(t('Invite New User'));
 
   $role_options = array();
-  $rids = variable_get('user_external_invite_roles', NULL);
+  $rids = variable_get('user_external_invite_roles', []);
 
   if (empty($rids)) {
     drupal_set_message(t('Your site is not yet configured to invite users. Contact the site administrator to configure the invite feature.'), 'status');

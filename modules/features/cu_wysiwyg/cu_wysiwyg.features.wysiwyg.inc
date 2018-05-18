@@ -86,6 +86,7 @@ function cu_wysiwyg_wysiwyg_default_profiles() {
       'language' => 'en',
       'toolbarLocation' => 'top',
       'resize_enabled' => 1,
+      'simple_source_formatting' => 1,
       'default_toolbar_grouping' => 1,
       'simple_source_formatting' => 0,
       'acf_mode' => 0,
