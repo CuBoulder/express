@@ -386,7 +386,7 @@ function _user_external_invite_calculate_hash($rid, $email, $expire) {
 }
 
 /**
- * Returns from address used to send mailing.  1527366626
+ * Returns from address used to send mailing.
  *
  * @param int $uid
  *   User ID being invited.
