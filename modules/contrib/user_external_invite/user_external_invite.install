@@ -35,8 +35,7 @@ function user_external_invite_schema() {
         'description' => 'Additional roles to be granted',
         'type' => 'varchar',
         'length' => 254,
-        'not null' => TRUE,
-        'default' => 'none',
+        'default' => NULL,
       ),
       'expire' => array(
         'description' => 'Valid until unix timestamp',
@@ -171,8 +170,7 @@ function user_external_invite_update_7003() {
       'description' => 'Additional roles to be granted',
       'type' => 'varchar',
       'length' => 254,
-      'not null' => TRUE,
-      'default' => 'none',
+      'default' => NULL,
     );
     db_add_field('user_external_invite', 'addon_rids', $spec);
   }
