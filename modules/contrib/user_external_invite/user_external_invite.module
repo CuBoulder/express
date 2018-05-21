@@ -117,22 +117,17 @@ function user_external_invite_pending_invites_form($form, &$form_state) {
     'status' => t('Status'),
   );
 
-  $rids = variable_get('user_external_invite_roles', []);
-  if (!empty($rids)) {
-    foreach ($rids as $rid) {
-      $roles[$rid] = _user_external_invite_role_name_from_rid($rid);
-    }
-  }
   $pending = _user_external_invite_pending_invites(NULL, $headers);
   $rows = array();
 
   while ($r = $pending->fetchObject()) {
     $inviter = user_load($r->uid);
+    $addon_roles = array_map(function($val) { return _user_external_invite_role_name_from_rid($val); }, unserialize($r->addon_rids));
     $rows[] = array(
       'id' => $r->id,
       'mail' => $r->mail,
-      'core_role' => $roles[$r->core_rid],
-      'addon_roles' => $roles[$r->addon_rids] ?? 'N/A',
+      'core_role' => _user_external_invite_role_name_from_rid($r->core_rid),
+      'addon_roles' => implode(', ', $addon_roles),
       'expire' => format_date($r->expire, 'short'),
       'inviter' => $inviter->mail,
       'status' => $r->status,
@@ -753,8 +748,12 @@ function user_external_invite_token_info() {
     'description' => t('Returns the link with query string for this invite'),
   );
   $info['invite_core_role'] = array(
-    'name' => t('Invitation Role'),
-    'description' => t('Returns the Role for the invite'),
+    'name' => t('Invitation Core Role'),
+    'description' => t('Returns the core role for the invite'),
+  );
+  $info['invite_addon_roles'] = array(
+    'name' => t('Invitation Addon Roles'),
+    'description' => t('Returns the addon roles for the invite'),
   );
   $info['invited_email'] = array(
     'name' => t('Email of Invite'),
@@ -793,6 +792,12 @@ function user_external_invite_tokens($type, $tokens, array $data = array(), arra
         case 'invite_core_role':
           $name = _user_external_invite_role_name_from_rid($data['ext-invite']->core_rid);
           $replacements[$original] = $name;
+          break;
+
+        case 'invite_addon_roles':
+          $addon_rids = !empty(unserialize($data['ext-invite']->addon_rids)) ? unserialize($data['ext-invite']->addon_rids) : [];
+          $addon_role_names = array_map(function($val) { return _user_external_invite_role_name_from_rid($val); }, $addon_rids);
+          $replacements[$original] = implode(', ', $addon_role_names);
           break;
 
         case 'invite_link':
