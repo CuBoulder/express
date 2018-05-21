@@ -599,7 +599,8 @@ function user_external_invite_grant_invite($key, $mail, $account) {
       return;
     }
 
-    $roles_to_add = array_merge([$invite['core_rid']], unserialize($invite['addon_rids']));
+    $addon_rids = $invite['addon_rids'] ? unserialize($invite['addon_rids']) : [];
+    $roles_to_add = array_merge([$invite['core_rid']], $addon_rids);
     foreach ($roles_to_add as $rid) {
       db_insert('users_roles')
         ->fields(array(
