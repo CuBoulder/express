@@ -127,7 +127,7 @@ function user_external_invite_pending_invites_form($form, &$form_state) {
       'id' => $r->id,
       'mail' => $r->mail,
       'core_role' => _user_external_invite_role_name_from_rid($r->core_rid),
-      'addon_roles' => implode(', ', $addon_roles),
+      'addon_roles' => implode(', ', $addon_roles) ?? 'N/A',
       'expire' => format_date($r->expire, 'short'),
       'inviter' => $inviter->mail,
       'status' => $r->status,
