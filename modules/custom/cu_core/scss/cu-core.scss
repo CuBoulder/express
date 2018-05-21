@@ -1,0 +1,75 @@
+.express-environment-indicator {
+  padding:0 10px;
+  line-height:30px;
+  font-size:11px;
+  overflow:hidden;
+  span {
+    font-weight:bold;
+    font-size:12px;
+  }
+  a:link,
+  a:visited {
+    float:right;
+    display:inline-block;
+    text-decoration:none;
+    background:#333;
+    color:#fff;
+    padding:5px;
+    white-space:nowrap;
+    box-shadow:0 0 5px rgba(0,0,0,.25);
+    line-height:10px;
+    margin:5px 0;
+  }
+}
+// Prod New Launched
+.environment-production.infrastructure-new.status-launched {
+  .express-environment-indicator {
+    background:#222;
+    color:#fff;
+    a {
+      display:none;
+    }
+  }
+}
+// Prod New Staged
+.environment-production.infrastructure-new.status-staged {
+  .express-environment-indicator {
+    background:#388E3C;
+    color:#fff;
+    a {
+      display:none;
+    }
+  }
+}
+// Prod New Migrate Ready
+.environment-production.infrastructure-new.status-staged.migrate-ready {
+  .express-environment-indicator {
+    background:#388E3C;
+    color:#fff;
+    a {
+      display:inline-block;
+    }
+  }
+}
+// Prod Old Staged, Prod Old Launched
+.environment-production.infrastructure-old.status-staged,
+.environment-production.infrastructure-old.status-launched{
+  .express-environment-indicator {
+    background:#FFCA28;
+    color:#111;
+  }
+}
+// Test Staged
+.environment-test.status-staged {
+  .express-environment-indicator {
+    background:#E53935;
+    color:#fff;
+  }
+}
+// Test Launched
+.environment-test.status-launched {
+  .express-environment-indicator {
+    background:#7E57C2;
+    color:#fff;
+  }
+}

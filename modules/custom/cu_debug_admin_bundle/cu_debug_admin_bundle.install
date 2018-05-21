@@ -47,7 +47,6 @@ function _cu_debug_admin_bundle_enable_modules() {
     'search_krumo',
     'ds_ui',
     'views_ui',
-    'diff',
   );
 }
 
@@ -55,6 +54,5 @@ function _cu_debug_admin_bundle_disable_modules() {
 
   return array(
     'varnish',
-    'memcache',
   );
 }

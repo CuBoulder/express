@@ -1,11 +1,8 @@
 <?php
 
 /**
- * @file
  * Contains the submission view row style plugin.
- */
-
-/**
+ *
  * Plugin which performs a webform_submission_render on the resulting object.
  *
  * Most of the code on this object is in the theme function.
@@ -13,15 +10,27 @@
  * @ingroup views_row_plugins
  */
 class webform_views_plugin_row_submission_view extends views_plugin_row {
-  // Basic properties that let the row style follow relationships.
+
+  /**
+   * Basic properties that let the row style follow relationships.
+   *
+   * @var string
+   */
   public $base_table = 'webform_submissions';
   public $base_field = 'sid';
 
-  // Stores the nodes loaded with pre_render.
+  /**
+   * Stores the nodes loaded with pre_render.
+   *
+   * @var array
+   */
   private $submissions = array();
   private $nodes = array();
 
-  function option_definition() {
+  /**
+   *
+   */
+  public function option_definition() {
     $options = parent::option_definition();
 
     $options['format'] = array('default' => 'html');
@@ -29,7 +38,10 @@ class webform_views_plugin_row_submission_view extends views_plugin_row {
     return $options;
   }
 
-  function options_form(&$form, &$form_state) {
+  /**
+   *
+   */
+  public function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
 
     $options = $this->options_form_summary_options();
@@ -44,19 +56,25 @@ class webform_views_plugin_row_submission_view extends views_plugin_row {
   /**
    * Return the main options, which are shown in the summary title.
    */
-  function options_form_summary_options() {
+  public function options_form_summary_options() {
     return array(
       'html' => t('HTML'),
       'text' => t('Plain text'),
     );
   }
 
-  function summary_title() {
+  /**
+   *
+   */
+  public function summary_title() {
     $options = $this->options_form_summary_options();
     return check_plain($options[$this->options['format']]);
   }
 
-  function pre_render($values) {
+  /**
+   *
+   */
+  public function pre_render($values) {
     $sids = array();
     foreach ($values as $row) {
       $sids[] = $row->{$this->field_alias};
@@ -72,7 +90,10 @@ class webform_views_plugin_row_submission_view extends views_plugin_row {
     $this->nodes = $nids ? node_load_multiple($nids) : array();
   }
 
-  function render($row) {
+  /**
+   *
+   */
+  public function render($row) {
     if (isset($this->submissions[$row->{$this->field_alias}])) {
       $submission = $this->submissions[$row->{$this->field_alias}];
       $node = $this->nodes[$submission->nid];
@@ -92,4 +113,5 @@ class webform_views_plugin_row_submission_view extends views_plugin_row {
       return $format == 'html' ? $render : nl2br(check_plain($render));
     }
   }
+
 }
