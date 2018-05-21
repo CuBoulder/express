@@ -107,18 +107,17 @@ function user_external_invite_operations_page() {
  * Build table showing pending invites.
  */
 function user_external_invite_pending_invites_form($form, &$form_state) {
-  $form = array();
-
   $headers = array(
     'id' => t('ID'),
     'mail' => t('Email'),
-    'role' => t('Role'),
+    'core_role' => t('Core Role'),
+    'addon_roles' => t('Addon Roles'),
     'expire' => t('Expires'),
     'inviter' => t('Inviter'),
     'status' => t('Status'),
   );
 
-  $rids = variable_get('user_external_invite_roles', NULL);
+  $rids = variable_get('user_external_invite_roles', []);
   if (!empty($rids)) {
     foreach ($rids as $rid) {
       $roles[$rid] = _user_external_invite_role_name_from_rid($rid);
@@ -132,7 +131,8 @@ function user_external_invite_pending_invites_form($form, &$form_state) {
     $rows[] = array(
       'id' => $r->id,
       'mail' => $r->mail,
-      'role' => $roles[$r->rid],
+      'core_role' => $roles[$r->core_rid],
+      'addon_roles' => $roles[$r->addon_rids] ?? 'N/A',
       'expire' => format_date($r->expire, 'short'),
       'inviter' => $inviter->mail,
       'status' => $r->status,
@@ -260,7 +260,7 @@ function user_external_invite_resend_invites($ids = array(), $message = '') {
   $resend = TRUE;
   foreach ($results as $result) {
     $message = !empty($message) ? $message : $result->message;
-    _user_external_invite_add_invite($result->rid, array($result->mail), $result->uid, $message, $resend);
+    _user_external_invite_add_invite($result->core_rid, unserialize($result->addon_rids), array($result->mail), $result->uid, $message, $resend);
   }
 }
 
@@ -307,18 +307,16 @@ function _user_external_invite_pending_invites(string $mail = NULL, $headers) {
 /**
  * Adds invite to database and sends email.
  */
-function _user_external_invite_add_invite($rid, $emails, $uid, $message = NULL, $resend = FALSE) {
-  $now = REQUEST_TIME;
-  $days = variable_get('user_external_invite_days_valid_for', 5);
-  // Expire in X days.
-  $expire = $now + ($days * 24 * 60 * 60);
+function _user_external_invite_add_invite($core_rid, $addon_rids = array(), $emails = array(), $uid, $message = NULL, $resend = FALSE) {
+  // Expire the invite in X days.
+  $expire = REQUEST_TIME + (variable_get('user_external_invite_days_valid_for', 5) * 24 * 60 * 60);
   // All invites start out as pending.
   $status = 'Pending';
 
   // Add or update invite in db.
   foreach ($emails as $mail) {
     // Check and see if invite is supposed to be resent rather than added.
-    if ($resend == TRUE) {
+    if ($resend === TRUE) {
       db_update('user_external_invite')
         ->fields(array(
           'expire' => $expire,
@@ -329,29 +327,40 @@ function _user_external_invite_add_invite($rid, $emails, $uid, $message = NULL, 
         ->execute();
     }
     else {
-      db_insert('user_external_invite')
-        ->fields(array(
-          'mail' => $mail,
-          'rid' => $rid,
-          'expire' => $expire,
-          'status' => $status,
-          'uid' => $uid,
-          'message' => $message,
-        ))
-        ->execute();
+      $fields = array(
+        'mail' => $mail,
+        'core_rid' => $core_rid,
+        'expire' => $expire,
+        'status' => $status,
+        'uid' => $uid,
+        'message' => $message,
+      );
+
+      if (!empty($addon_rids)) {
+        $fields['addon_rids'] = serialize($addon_rids);
+      }
+
+      try {
+        db_insert('user_external_invite')
+          ->fields($fields)
+          ->execute();
+      } catch (Exception $e) {
+        watchdog('user_external_invite', $e->getMessage());
+      }
     }
 
     // Now send the email.
-    _user_external_invite_send_invite($rid, $mail, $expire, $uid);
+    _user_external_invite_send_invite($core_rid, $addon_rids, $mail, $expire, $uid);
   }
+
   // After all emails are sent, send confirmation to submitter.
   global $user;
   $site_name = _user_external_invite_site_name();
   $from = _user_external_invite_from_email();
   $params = array(
     'subject' => t('Access request for the !site_name website', array('!site_name' => $site_name)),
-    'rid' => $rid,
-    'role_name' => _user_external_invite_role_name_from_rid($rid),
+    'rid' => $core_rid,
+    'role_name' => _user_external_invite_role_name_from_rid($core_rid),
     'body' => token_replace(variable_get('user_external_invite_confirmation_template'), array('ext-invite' => _user_external_invite_load_entity($emails[0]))),
     'site_name' => $site_name,
   );
@@ -363,21 +372,21 @@ function _user_external_invite_add_invite($rid, $emails, $uid, $message = NULL, 
 /**
  * Sends email with special token-login link.
  */
-function _user_external_invite_send_invite($rid, $email, $expire, $uid) {
-  $hash = _user_external_invite_calculate_hash($rid, $email, $expire);
-  _user_external_invite_send_invite_mail($rid, $email, $expire, $hash, $uid);
+function _user_external_invite_send_invite($core_rid, $addon_rids, $email, $expire, $uid) {
+  $hash = _user_external_invite_calculate_hash($core_rid, $email, $expire);
+  _user_external_invite_send_invite_mail($core_rid, $addon_rids, $email, $expire, $hash, $uid);
 }
 
 /**
  * Calculates the token based on $rid, $email, and $expire.
  */
 function _user_external_invite_calculate_hash($rid, $email, $expire) {
-  $hash = drupal_hmac_base64('user_rid:' . $rid . ',user_mail:' . $email, drupal_get_hash_salt() . $email . $expire);
+  $hash = drupal_hmac_base64('user_rid:' . (int) $rid . ',user_mail:' . $email, drupal_get_hash_salt() . $email . (int) $expire);
   return $hash;
 }
 
 /**
- * Returns from address used to send mailing.
+ * Returns from address used to send mailing.  1527366626
  *
  * @param int $uid
  *   User ID being invited.
@@ -422,7 +431,7 @@ function _user_external_invite_site_name() {
 /**
  * Sends invitation email with token login link.
  */
-function _user_external_invite_send_invite_mail($rid, $mail, $expire, $hash, $uid) {
+function _user_external_invite_send_invite_mail($core_rid, $addon_rids, $mail, $expire, $hash, $uid) {
   $from = _user_external_invite_from_email();
   $link = url('user-external/accept-invite', array(
     'query' => array(
@@ -431,12 +440,16 @@ function _user_external_invite_send_invite_mail($rid, $mail, $expire, $hash, $ui
     ),
     'absolute' => TRUE,
   ));
-  $role_name = _user_external_invite_role_name_from_rid($rid);
+  $core_role_name = _user_external_invite_role_name_from_rid($core_rid);
+  $addon_role_names = array_map(function($val) {
+    _user_external_invite_role_name_from_rid($val);
+  }, $addon_rids);
   $site_name = _user_external_invite_site_name();
   $params = array(
     'token' => $hash,
-    'rid' => $rid,
-    'role_name' => $role_name,
+    'rid' => $core_rid,
+    'core_role_name' => $core_role_name,
+    'addon_role_names' => implode(',', $addon_role_names),
     'expire' => $expire,
     'link' => $link,
     'uid' => $uid,
@@ -453,12 +466,15 @@ function _user_external_invite_send_invite_mail($rid, $mail, $expire, $hash, $ui
 /**
  * Sends accepted invitation email with login link and extra help.
  */
-function _user_external_invite_send_invite_accepted_mail($rid, $mail) {
+function _user_external_invite_send_invite_accepted_mail($core_rid, $mail) {
   $from = _user_external_invite_from_email();
   $link = url('user/login', array(
     'absolute' => TRUE,
   ));
-  $role_name = _user_external_invite_role_name_from_rid($rid);
+  $core_role_name = _user_external_invite_role_name_from_rid($core_rid);
+  $addon_role_names = array_map(function($val) {
+    _user_external_invite_role_name_from_rid($val);
+  }, $addon_rids);
   $site_name = _user_external_invite_site_name();
   $params = array(
     'rid' => $rid,
@@ -565,11 +581,15 @@ function user_external_invite_accept_invite() {
  * Grants role, sends emails, and removes invite from db.
  */
 function user_external_invite_grant_invite($key, $mail, $account) {
+  // Load the invite to send email to inviter.
+  $invite = _user_external_invite_load_invite($mail);
+
+  // Check to see if the invite is valid by hash.
   $grant_rid = _user_external_invite_dehash($key, $mail);
 
   // Allow for other actions and checks before a role is granted to a user.
   // If any hook returns a message, then the role will not be granted.
-  $error_messages = module_invoke_all('user_external_invite_pre_grant_invite', $account, $grant_rid);
+  $error_messages = module_invoke_all('user_external_invite_pre_grant_invite', $account, $invite['core_rid']);
 
   if ($grant_rid && !$error_messages) {
     // Set message to user that role was granted.
@@ -579,26 +599,26 @@ function user_external_invite_grant_invite($key, $mail, $account) {
     // Used in the invite is not always = to LDAP, they could already be
     // In the role.
     global $user;
-    $role = user_role_load($grant_rid);
+    $role = user_role_load($invite['core_rid']);
     if (in_array($role->name, $user->roles)) {
       return;
     }
 
-    db_insert('users_roles')
-      ->fields(array(
-        'uid' => $account->uid,
-        'rid' => $grant_rid,
-      ))
-      ->execute();
+    $roles_to_add = array_merge([$invite['core_rid']], unserialize($invite['addon_rids']));
+    foreach ($roles_to_add as $rid) {
+      db_insert('users_roles')
+        ->fields(array(
+          'uid' => $account->uid,
+          'rid' => $rid,
+        ))
+        ->execute();
+    }
 
     // Send acceptance email.
-    _user_external_invite_send_invite_accepted_mail($grant_rid, $account->mail);
-
-    // Load the invite to send email to inviter.
-    $invite = _user_external_invite_load_invite($mail);
+    _user_external_invite_send_invite_accepted_mail($invite['core_rid'], $account->mail);
 
     // Send email to inviter.
-    _user_external_invite_send_inviter_confirmation($invite['uid'], $invite['mail'], $invite['rid']);
+    _user_external_invite_send_inviter_confirmation($invite['uid'], $invite['mail'], $invite['core_rid']);
 
     // Once granted, change status of invite in database.
     _user_external_invite_change_invite_status($mail, 'Granted');
@@ -697,11 +717,8 @@ function _user_external_invite_dehash($key, $mail) {
     // @todo: need a better error here.
     return FALSE;
   }
-  $expected_hash = _user_external_invite_calculate_hash($result['rid'], $result['mail'], $result['expire']);
-  if ($key == $expected_hash) {
-    return $result['rid'];
-  }
-  return FALSE;
+  $expected_hash = _user_external_invite_calculate_hash($result['core_rid'], $result['mail'], $result['expire']);
+  return $key === $expected_hash;
 }
 
 /**
@@ -735,7 +752,7 @@ function user_external_invite_token_info() {
     'name' => t('Invitation Link'),
     'description' => t('Returns the link with query string for this invite'),
   );
-  $info['invite_role'] = array(
+  $info['invite_core_role'] = array(
     'name' => t('Invitation Role'),
     'description' => t('Returns the Role for the invite'),
   );
@@ -769,20 +786,17 @@ function user_external_invite_token_info() {
 function user_external_invite_tokens($type, $tokens, array $data = array(), array $options = array()) {
 
   $replacements = array();
-  if ($type == 'user_external_invite') {
+  if ($type === 'user_external_invite') {
 
     foreach ($tokens as $name => $original) {
       switch ($name) {
-        case 'invite_role':
-          $name = _user_external_invite_role_name_from_rid($data['ext-invite']->rid);
+        case 'invite_core_role':
+          $name = _user_external_invite_role_name_from_rid($data['ext-invite']->core_rid);
           $replacements[$original] = $name;
           break;
 
-      }
-
-      switch ($name) {
         case 'invite_link':
-          $hash = _user_external_invite_calculate_hash($data['ext-invite']->rid, $data['ext-invite']->mail, $data['ext-invite']->expire);
+          $hash = _user_external_invite_calculate_hash($data['ext-invite']->core_rid, $data['ext-invite']->mail, $data['ext-invite']->expire);
           $link = url('user-external/accept-invite', array(
             'query' => array(
               'key' => $hash,
