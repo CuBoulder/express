@@ -1007,6 +1007,13 @@ function cu_core_update_7046() {
 }
 
 /**
+ * Reset user_external_invite variables.
+ */
+function cu_core_update_7047() {
+  _set_external_invite_variables();
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
