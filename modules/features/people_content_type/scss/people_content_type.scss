@@ -304,13 +304,37 @@ ul.field-name-field-person-website li {
   padding:0;
   overflow: hidden;
 }
-ul.field-name-field-person-website li:before {
-  content: '\f14c ';
-  font-family: 'FontAwesome';
-  float: left;
-  color:#aaa;
-  margin-right: 5px;
-  text-align: center;
+ul.field-name-field-person-website li a {
+  &:before {
+    content: '\f14c ';
+    font-family: 'FontAwesome';
+    float: left;
+    color:#aaa;
+    margin-right: 5px;
+    text-align: center;
+    width: 1.28571429em;
+  }
+
+  &[href*="facebook.com"]:before {
+    content: '\f230';
+  }
+  &[href*="linkedin.com"]:before {
+    content: '\f08c';
+  }
+  &[href*="twitter.com"]:before {
+    content: '\f099';
+  }
+  &[href*="youtube.com"]:before {
+    content: '\f167';
+  }
+  &[href*=".jpg"]:before,
+  &[href*=".png"]:before,
+  &[href*=".gif"]:before {
+    content: '\f03e';
+  }
+  &[href*="fileicon=pdf"]:before {
+    content: '\f1c1';
+  }
 }
 .person-view-mode-teaser-contact,
 .person-view-mode-embed-contact {
