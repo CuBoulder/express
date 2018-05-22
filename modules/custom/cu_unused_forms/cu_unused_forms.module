@@ -25,16 +25,37 @@ function cu_unused_forms_permission() {
 }
 
 function cu_unused_forms_list() {
+  global $base_url;
   $output = '';
   $forms_count_query = db_query('SELECT * FROM webform');
-  $forms_submissions_count_query = db_query('SELECT * FROM webform');
+  $forms_submissions_query = db_query('SELECT * FROM webform_submissions');
 
   $forms_count = $forms_count_query->fetchAll();
-  $forms_submissions_count = $forms_submissions_count_query->fetchAll();
+  $forms_submissions = $forms_submissions_query->fetchAll();
 
-  $output .= t('Your site currently has ') . count($forms_count) . t(' form(s).');
+  $output .= '<h2>' . t('Your site currently has ') . count($forms_count) . t(' form(s).') . '</h2>';
 
-  dpm($forms_count);
-  dpm($forms_submissions_count);
+  foreach ($forms_count as $form) {
+    $nids[] = $form->nid;
+  }
+  foreach ($forms_submissions as $sub) {
+    $sub_nids[] = $sub->nid;
+  }
+
+  $no_subs = array_diff($nids, $sub_nids);
+
+  $output .= '<hr><h3>Webform nodes with no submissions</h3>';
+  if (count($no_subs) > 0) {
+    $output .= '<ul>';
+
+    foreach ($no_subs as $node) {
+      $output .= '<li><a href="' . $base_url . '/node/' . $node . '">Node ' . $node . '</a></li>';
+    }
+
+    $output .= '</ul>';
+  } else {
+    $output .= '<p>No results found.</p>';
+  }
+
   return $output;
 }
