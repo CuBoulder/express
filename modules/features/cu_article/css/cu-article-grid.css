@@ -1,6 +1,8 @@
 .article-view-mode-grid { margin-bottom: 20px; }
 .article-view-mode-grid img { width: 100%; height: auto; max-width: 100%; display: block; margin-bottom: 10px; }
 
+.article-grid > .row { display: flex; flex-direction: row; flex-wrap: wrap; }
+
 .article-grid-summary-display .article-grid-article-title { font-weight: 600; }
 
 .article-view-mode-grid h3 { margin: 5px 0; padding: 0; font-size: 100%; }
