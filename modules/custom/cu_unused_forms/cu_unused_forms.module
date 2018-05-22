@@ -1,0 +1,40 @@
+<?php
+
+
+function cu_unused_forms_menu() {
+  $items = array();
+  $items['admin/reports/forms/unused'] = array(
+    'title' => 'Unused Forms',
+    'description' => 'A list of Forms that are not being displayed on this site.',
+    'page callback' => 'cu_unused_forms_list',
+    'access arguments' => array('view bean page'),
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function cu_unused_forms_permission() {
+  return array(
+    'view unused forms' => array(
+      'title' => 'View Unused forms',
+      'description' => 'View a list of unused/unreferenced forms.',
+    ),
+  );
+}
+
+function cu_unused_forms_list() {
+  $output = '';
+  $forms_count_query = db_query('SELECT * FROM webform');
+  $forms_submissions_count_query = db_query('SELECT * FROM webform');
+
+  $forms_count = $forms_count_query->fetchAll();
+  $forms_submissions_count = $forms_submissions_count_query->fetchAll();
+
+  $output .= t('Your site currently has ') . count($forms_count) . t(' form(s).');
+
+  dpm($forms_count);
+  dpm($forms_submissions_count);
+  return $output;
+}
