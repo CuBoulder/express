@@ -163,7 +163,7 @@ function curl_github_info($hash, $name) {
       // Shave it for later.
       variable_set('github_info', $github_info);
     } else {
-      $output = 'For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a>';
+      $output = 'For information on this and other bundles that require a request, visit <a href="https://www.colorado.edu/webcentral/web-express-features/bundles-features/request-add-bundles">Webcentral\'s page about bundle requests.</a>';
     }
   } else {
     $output = $github_info[$name];
