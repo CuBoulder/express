@@ -175,13 +175,17 @@ function user_external_invite_form($form, &$form_state) {
 
     $core_role_options = [];
     foreach ($core_rids as $val) {
-      $core_role_options[$val] = _user_external_invite_role_name_from_rid($val);
+      if ($val) {
+        $core_role_options[$val] = _user_external_invite_role_name_from_rid($val);
+      }
     }
 
     $addon_rids = variable_get('user_external_invite_addon_roles', []);
     $addon_role_options = [];
     foreach ($addon_rids as $val) {
-      $addon_role_options[$val] = _user_external_invite_role_name_from_rid($val);
+      if ($val) {
+        $addon_role_options[$val] = _user_external_invite_role_name_from_rid($val);
+      }
     }
 
     asort($core_role_options);
@@ -194,13 +198,16 @@ function user_external_invite_form($form, &$form_state) {
       '#default_value' => variable_get('user_external_invite_default_role', key($core_role_options)),
       '#required' => TRUE,
     );
-    $form['addon_rids'] = array(
-      '#type' => 'checkboxes',
-      '#title' => t('Add-on Roles'),
-//      '#description' => t('Users with permission to send invites will be able to invite users to join a site with any of these roles. GRANT WITH CAUTION!'),
-      '#options' => $addon_role_options,
-//      '#default_value' => variable_get('user_external_invite_addon_roles', NULL),
-    );
+
+    // Hide Add-on roles if none selected.
+    if ($addon_role_options) {
+      $form['addon_rids'] = array(
+        '#type' => 'checkboxes',
+        '#title' => t('Add-on Roles'),
+        '#options' => $addon_role_options,
+      );
+    }
+
     $form['email'] = array(
       '#title' => t('Email addresses'),
       '#type' => 'textarea',

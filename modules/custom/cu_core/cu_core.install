@@ -178,6 +178,9 @@ function _set_external_invite_variables() {
     $edit_my_content_role->rid,
   ));
 
+  // Set Content Editor as the default role to invite.
+  variable_set('user_external_invite_default_role', $content_editor_role->rid);
+
   // Set addon invite roles.
   $addon_roles_array = [];
   $access_manager_role = user_role_load_by_name('access_manager');
@@ -198,9 +201,6 @@ function _set_external_invite_variables() {
   }
 
   variable_set('user_external_invite_addon_roles', $addon_roles_array);
-
-
-
 
   variable_set('user_external_invite_days_valid_for', 5);
 
