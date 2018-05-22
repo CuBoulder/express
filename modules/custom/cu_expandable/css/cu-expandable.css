@@ -15,7 +15,7 @@
 
 .expandable .expandable-accordion-heading { font-size: 110%; border-bottom: 1px solid #e7e7e7; margin-bottom: -1px; }
 .expandable .expandable-accordion-heading a:link, .expandable .expandable-accordion-heading a:visited { color: #202020; font-weight: normal; padding: 10px 0; display: block; }
-.expandable .expandable-accordion-heading a:before { content: '\f0fe'; font-family: FontAwesome; margin-right: 10px; color: #007BC8; }
+.expandable .expandable-accordion-heading a:before { content: '\f0fe'; font-family: FontAwesome; margin-right: 10px; color: #0277BD; }
 .expandable .expandable-accordion-heading a.is-active:before { content: '\f146'; }
 .expandable .expandable-tabcontent { padding: 20px; border: 1px solid #e7e7e7; margin-bottom: 10px; }
 .expandable .expandable-tabcontent > *:last-child { margin-bottom: 0; }
