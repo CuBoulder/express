@@ -77,10 +77,10 @@ function cu_users_help($path, $arg) {
   switch ($path) {
     case 'admin/people/invite':
       return '<p>' . t("Any CU-Boulder employee, student, or sponsored vendor with an IdentiKey can be granted access to the website administration area. To add new users, select a role and add the users' colorado.edu email address. You can send multiple invites by separating email addresses with a comma (i.e. jane.doe@colorado.edu, joe.smith@colorado.edu). Once submitted an email will be sent inviting the users.") .
-        '</p><p>' . t("<strong>Content Editor:</strong> This role is for basic users who need to edit existing content. All their revisions are stored in the revisions log.") .
-        '</p><p>' . t('<strong>Edit My Content:</strong> Minimal access to admin UI.') .
-        '</p><p>' . t("<strong>Site Editor:</strong> This role is for site communicators who need to add new content pages, blocks and edits layouts.") .
-        '</p><p>' . t("<strong>Site Owner:</strong> Limited to 3 people. Site owners are responsible for managing a site's users, configuration and content and ensuring that any user added to a role adheres to the university's policies as thy relate to that role (ie. Form Owners adhere to data collection policies).") .
+        '</p><p>' . t("<strong>Site Owner:</strong> Main authority/contact for the website. All site access permissions. Limited to 3 people. Held responsible for the website adhering to university policies.") .
+        '</p><p>' . t("<strong>Site Editor:</strong> Main site builder. Full access to website content and layout tools. Trusted user responsible for the day-to-day maintenance and building of the website. Can receive elevated add-on roles.") .
+        '</p><p>' . t("<strong>Content Editor:</strong> Edit only access. A basic role limited to content edits/updates for existing content. Can’t delete or add content, blocks or layouts.") .
+        '</p><p>' . t('<strong>Edit My Content:</strong> Page specific access. A basic role limited to content edits/updates for specific pages. Can receive limited add-on roles.') .
         '</p><br/>';
   }
 }
@@ -340,8 +340,61 @@ function cu_users_ldap_email_lookup($email) {
  * Implements hook_form_FORM_ID_alter().
  */
 function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form_state) {
+//  $form['#validate'][] = 'cu_users_form_validate';
+//  $form['#submit'][] = 'cu_users_override_external_invite_submit';
   $form['#validate'][] = 'cu_users_override_external_invite_validate';
-  $form['#submit'][] = 'cu_users_override_external_invite_submit';
+}
+
+/**
+ * Validation handler for invite_form.
+ *
+ * Ensures email addresses are in valid format.
+ */
+function cu_users_form_validate(&$form, &$form_state) {
+  $email_value = $form_state['values']['email'];
+  // Split on , or line break.
+  $emails = preg_split("/[\r\n,\s]+/", $email_value, -1, PREG_SPLIT_NO_EMPTY);
+
+  // Get emails from all users.
+  $email_list_query = db_query('SELECT mail FROM {users}')->fetchCol();
+  $email_list = [];
+  foreach ($email_list_query as $key => $item) {
+    $item = strtolower($item);
+    $email_list[$key] = $item;
+  }
+  
+  // Get all usernames from users.
+  $username_list_query = db_query('SELECT name FROM {users}')->fetchCol();
+  $username_list = [];
+  foreach ($username_list_query as $key => $item) {
+    $item = strtolower($item);
+    $username_list[$key] = $item;
+  }
+
+  $error = FALSE;
+  foreach ($emails as $mail) {
+    $parts = explode("@", $mail);
+    $email_id = $parts[0];
+    if (!valid_email_address($mail)) {
+      $error = TRUE;
+      form_set_error('email', t('Incorrect email address (%mail). No invites were sent.', array('%mail' => $mail)));
+    } else if (in_array(strtolower($mail), $email_list)) {
+      $error = TRUE;
+      form_set_error('email', t('This email address is already associated with an account (%mail). No invites were sent.', array('%mail' => $mail)));
+    } else if (in_array($email_id, $username_list)) {
+      $error = TRUE;
+      form_set_error('email', t('This user is already associated with an account (%mail). No invites were sent.', array('%mail' => $mail)));
+    }
+    else {
+      $load = _user_external_invite_load_invite($mail);
+      if (isset($load['mail'])) {
+        form_set_error('email', t('Email address (%mail) has already been invited. No invites were sent.', array('%mail' => $mail)));
+      }
+    }
+  }
+  if (!$error) {
+    $form_state['values']['parsed_mails'] = $emails;
+  }
 }
 
 
@@ -386,21 +439,25 @@ function cu_users_override_external_invite_submit(&$form, &$form_state) {
       $ldap_mail_return = strtolower($output[0]['mail'][0]);
 
       if (!empty($output) && !empty($ldap_mail_return) && $email == $ldap_mail_return) {
-        $new_user = array(
-          'name' => $username,
-          'pass' => $username . strrev($username),
-          'mail' => $email,
-          'timezone' => 'America/Denver',
-          'status' => 1,
-          'init' => $email,
-          'roles' => array(
-            DRUPAL_AUTHENTICATED_RID => 'authenticated user',
-            $rid => 'n/a',
-          ),
-        );
+        // Check to see if the user already exists before trying to create them
+        $account = user_load_by_name($username);
+        if (!$account->uid) {
+          $new_user = array(
+            'name' => $username,
+            'pass' => $username . strrev($username),
+            'mail' => $email,
+            'timezone' => 'America/Denver',
+            'status' => 1,
+            'init' => $email,
+            'roles' => array(
+              DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+              $rid => 'n/a',
+            ),
+          );
 
-        // The first parameter is sent blank so a new user is created.
-        user_save('', $new_user);
+          // The first parameter is sent blank so a new user is created.
+          user_save('', $new_user);
+        }
       }
     }
   }
