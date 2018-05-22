@@ -278,7 +278,7 @@ function cu_profile_module_manager_request_page() {
   $output = array(
     'description' => array(
       '#type' => 'markup',
-      '#markup' => '<p>These are bundles that must be requested from <a href="http://colorado.edu/webcentral">Webcentral</a> by site owners. Once you add the bundle,
+      '#markup' => '<p>These are bundles that must be requested from <a href="https://www.colorado.edu/webcentral/web-express-features/bundles-features/request-add-bundles">Webcentral</a> by site owners. Once you add the bundle,
                     you will receive an email when it has finished downloading. Once downloaded, the bundle will
                     be available to enable on this page.</p>',
     ),
