@@ -111,7 +111,7 @@ function user_external_invite_pending_invites_form($form, &$form_state) {
     'id' => t('ID'),
     'mail' => t('Email'),
     'core_role' => t('Core Role'),
-    'addon_roles' => t('Addon Roles'),
+    'addon_roles' => t('Add-on Roles'),
     'expire' => t('Expires'),
     'inviter' => t('Inviter'),
     'status' => t('Status'),
@@ -753,8 +753,8 @@ function user_external_invite_token_info() {
     'description' => t('Returns the core role for the invite'),
   );
   $info['invite_addon_roles'] = array(
-    'name' => t('Invitation Addon Roles'),
-    'description' => t('Returns the addon roles for the invite'),
+    'name' => t('Invitation Add-on Roles'),
+    'description' => t('Returns the add-on roles for the invite'),
   );
   $info['invited_email'] = array(
     'name' => t('Email of Invite'),

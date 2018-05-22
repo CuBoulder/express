@@ -340,7 +340,33 @@ function cu_users_ldap_email_lookup($email) {
  * Implements hook_form_FORM_ID_alter().
  */
 function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form_state) {
+  $form['#validate'][] = 'cu_users_override_external_invite_validate';
   $form['#submit'][] = 'cu_users_override_external_invite_submit';
+}
+
+
+function cu_users_override_external_invite_validate(&$form, &$form_state) {
+  $foo = 'bar';
+
+
+  $site_editor_selected = FALSE;
+  foreach ($form["core_rid"]["#options"] as $key => $option) {
+    if ($option === 'Site Editor' && (int) $form_state["values"]["core_rid"] === $key) {
+      $site_editor_selected = TRUE;
+      break;
+    }
+  }
+
+  $addon_rids_selected = FALSE;
+  foreach ($form["addon_rids"]["#options"] as $key => $option) {
+    if (($option === 'Access Manager' || $option === 'Configuration Manager') && in_array($key, $form_state["values"]["addon_rids"])) {
+      $addon_rids_selected = TRUE;
+    }
+  }
+
+  if (!$site_editor_selected && $addon_rids_selected) {
+    form_set_error('addon_rids', t('The Access Manager and Configuration Manager Add-on roles can only be granted when inviting a Site Editor.'));
+  }
 }
 
 /**

@@ -32,7 +32,7 @@ function user_external_invite_settings_form() {
 
   $form['user_external_invite_addon_roles'] = array(
     '#type' => 'checkboxes',
-    '#title' => t('Addon Roles users can be invited to join'),
+    '#title' => t('Add-on Roles users can be invited to join'),
     '#description' => t('Users with permission to send invites will be able to invite users to join a site with any of these roles. GRANT WITH CAUTION!'),
     '#options' => $user_roles,
     '#default_value' => variable_get('user_external_invite_addon_roles', NULL),
@@ -196,7 +196,7 @@ function user_external_invite_form($form, &$form_state) {
     );
     $form['addon_rids'] = array(
       '#type' => 'checkboxes',
-      '#title' => t('Addon Roles'),
+      '#title' => t('Add-on Roles'),
 //      '#description' => t('Users with permission to send invites will be able to invite users to join a site with any of these roles. GRANT WITH CAUTION!'),
       '#options' => $addon_role_options,
 //      '#default_value' => variable_get('user_external_invite_addon_roles', NULL),
