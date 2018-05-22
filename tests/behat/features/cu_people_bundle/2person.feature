@@ -43,7 +43,7 @@ Feature: Person Content Type
   Scenario: Footer, Main Menu, and Secondary Menus should be available when creating a Person
     Given I am logged in as a user with the "content_editor" role
     And I am on "node/add/person"
-    And I check "edit-menu-enabled"
+    And I check "Provide a menu link"
     Then I select "<Footer Menu>" from "edit-menu-parent"
     And I select "<Main menu>" from "edit-menu-parent"
     And I select "<Secondary Menu>" from "edit-menu-parent"
