@@ -1,4 +1,4 @@
-@page @api @core
+@page @core
 Feature: Basic Page Content Type
 When I login to a Web Express website
 As an authenticated user
@@ -15,7 +15,14 @@ I should be able to create, edit, and delete Basic Pages
 
   Scenario: A site_owner can assign an author on node/%/edit
     Given I am logged in as a user with the "site_owner" role
-    And I am on "node/1/edit"
+    And I am on "node/add/page"
+    And I fill in "Title" with "edit_my_content Page"
+    And I fill in "Body" with "edit_my_content page content"
+    And I fill in "Authored by" with "edit_my_content"
+    And I uncheck "Generate automatic URL alias"
+    And I fill in "URL alias" with "edit-my-content-page"
+    When I press "Save"
+    Then I should see "edit_my_content Page"
 
 
   # 1) CHECK NODE ADD PRIVILEGES
@@ -115,11 +122,10 @@ I should be able to create, edit, and delete Basic Pages
     And I should not see an "#edit-delete" element
     And I press "Cancel edit"
 
-  @broken
+  # Page assigned to edit_my_content role is assigned on cu_page.feature:17
   Scenario: Node Access -  EditMyContent can edit Basic Pages and Persons if owner; cannot delete; can clear page cache
     Given I am logged in as a user with the "edit_my_content" role
-    And I am on "admin/content"
-    And I follow "My Page"
+    And I am on "edit-my-content-page"
     Then I should see the link "View"
     And I should see the link "Edit"
     And I should not see the link "Edit Layout"
