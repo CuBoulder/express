@@ -45,6 +45,7 @@ function express_settings_menu() {
   // IN ADMIN, BUT NOT ADMIN/CONFIG
   $items['admin/settings'] = array(
     'title' => 'Settings',
+    'description' => 'Change site settings.',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'express_settings_management_page',
     'access arguments' => array('access express settings'),
@@ -261,7 +262,7 @@ function express_settings_page_alter(&$page) {
 }
 
 /**
- * Implements hook_navbar_alter().
+ * Implements hook_().
  */
 function express_settings_navbar_alter(&$items) {
   $items['administration']['#title'] = t('Express');
@@ -282,7 +283,7 @@ function express_settings_navbar() {
       '#href' => 'user/logout',
       '#options' => array(
         'attributes' => array(
-          'title' => t('Log out'),
+          'title' => t('Log out and return to homepage'),
           'class' => array('navbar-icon', 'navbar-icon-logout'),
         ),
       ),
