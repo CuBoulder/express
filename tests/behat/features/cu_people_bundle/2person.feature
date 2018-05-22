@@ -58,7 +58,7 @@ Feature: Person Content Type
     And I select "<Secondary Menu>" from "edit-menu-parent"
     And I press "Save"
     Given I resize the window to a "mobile" resolution.
-    # DOESN'T LIKE THIS LINE When I click the ".mobile-menu-toggle a" element
+    # DOESN'T LIKE THIS LINE When I click the ".mobile-menu-toggle a" element.
     Then I should see "John Doe"
     And I resize the window to "desktop" resolution.
 
