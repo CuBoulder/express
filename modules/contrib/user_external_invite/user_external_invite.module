@@ -898,7 +898,7 @@ function user_external_invite_form_alter(&$form, &$form_state) {
   // Only alter the roles and permissions forms.
   if ($form['#form_id'] == 'user_admin_permissions' || $form['#form_id'] == 'user_admin_roles') {
     // Check to see if any invites are pending and what role ids are associated with them.
-    if ($role_ids = db_query('SELECT rid FROM {user_external_invite} WHERE status = :status', array(':status' => 'Pending'))->fetchCol()) {
+    if ($role_ids = db_query('SELECT core_rid FROM {user_external_invite} WHERE status = :status', array(':status' => 'Pending'))->fetchCol()) {
       // Print out role names to attach to warning message.
       $role_names = array_map(function($a) {return _user_external_invite_role_name_from_rid($a);}, $role_ids);
       drupal_set_message(
