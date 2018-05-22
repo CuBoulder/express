@@ -64,7 +64,7 @@ I should be able to create, edit, and delete Basic Pages
     And I press "Confirm"
     Then I should see "Performed Change the author of content on 1 item"
 
-  # @todo write test for this...
+  # @todo write test for this.
   # Scenario: Node functionality - Change Authorship of node on on node/%/edit
 
   # 2.2) CREATE REVISION OF NODE
