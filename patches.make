@@ -42,6 +42,9 @@ projects[ldap_servers][patch][] = "https://www.drupal.org/files/issues/2929976-l
 ; @see https://github.com/CuBoulder/express/issues/1120
 projects[quicktabs][patch][] = "https://www.drupal.org/files/issues/alpha-blocks-2883516-7-2.patch"
 
+; @see https://github.com/cuboulder/express/issues/1465
+projects[navbar][patch][] = "https://www.drupal.org/files/issues/enable-title-attr-toggle-orientation-2842205-2.patch"
+
 ; @see https://cuboulder.atlassian.net/browse/FIT-2466
 ; They altered our patch, pray they don't alter it further.
 ; http://cgit.drupalcode.org/views_slideshow/tree/contrib/views_slideshow_cycle/views_slideshow_cycle.install?h=7.x-3.8
