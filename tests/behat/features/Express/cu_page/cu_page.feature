@@ -129,12 +129,16 @@ I should be able to create, edit, and delete Basic Pages
     Then I should see the link "View"
     And I should see the link "Edit"
     And I should not see the link "Edit Layout"
-    And I should see the link "Revisions"
     And I should not see the link "Clear Page Cache"
     When I follow "Edit"
-    Then I should see "This document is now locked against simultaneous editing."
-    And I should not see an "#edit-delete" element
-    And I press "Cancel edit"
+    # @todo move this to a locked document test or remove as a duplicate.
+    # Then I should see "This document is now locked against simultaneous editing."
+    Then I should not see an "#edit-delete" element
+    When I fill in "Body" with "changing content..."
+    And I press "Save"
+    Then I should see "changing content..."
+    When I follow "Edit"
+    Then I should see the link "Revisions"
 
   # 4) CHECK THAT DELETE BUTTON ACTUALLY WORKS
   Scenario: Verify that the Delete button actually works
