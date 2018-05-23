@@ -21,7 +21,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Block Designer Themes give you a quick and easy way" |
 
-@api 
+
 Scenario: Access - An anonymous user should not be able to set site name
   When I am on "admin/theme/block-designer"
   Then I should see "Access denied"

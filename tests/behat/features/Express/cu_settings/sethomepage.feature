@@ -5,7 +5,7 @@ An authenticated user with the proper role
 Should be able to change the default front page
 
 # ACCESSING THE HOME PAGE SETTINGS
-@api
+
 Scenario Outline: Devs, Admins, SOs and ConMgrs can access Home Page settings; CEs and EMCs cannot
   Given I am logged in as a user with the <role> role
   When I go to "admin/settings/adv-content/frontpage"
