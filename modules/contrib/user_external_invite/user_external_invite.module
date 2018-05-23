@@ -557,7 +557,16 @@ function user_external_invite_accept_invite() {
       // Need to check if the user is the one who is supposed to be invited.
       // Without doing this, the role is granted potentially to a non-existent user.
       global $user;
-      user_external_invite_grant_invite($_GET['key'], $_GET['mail'], $user);
+
+      // We're checking the email here since the user might not be created when invited.
+      if ($user->mail !== $_GET['mail']) {
+        drupal_set_message(t('The email ":email" does not match the current user ":username". The invite role was not granted. ', array(':email' => $_GET['mail'], ':username' => $user->name)), 'error');
+      } else {
+        // Grant the invite if it is for the logged in user.
+        user_external_invite_grant_invite($_GET['key'], $_GET['mail'], $user);
+      }
+
+      // Always redirect to the user page regardless.
       drupal_goto('user');
     }
     else {
