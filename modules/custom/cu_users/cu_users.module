@@ -46,8 +46,25 @@ function cu_users_get_users($type = 'all') {
   $user_array['edit_my_content'] = array(
     'osr-test-edit-own' => 'osr-test-edit-own@colorado.edu',
   );
+  
+    $user_array['site_editor'] = array(
+    'osr-test-site-editor' => 'osr-test-site-editor@colorado.edu',
+  );
+ 
+    $user_array['edit_only'] = array(
+    'osr-test-edit-only' => 'osr-test-edit-only@colorado.edu',
+  );
+  
+    $user_array['access_manager'] = array(
+    'osr-test-access-mgr' => 'osr-test-access-mgr@colorado.edu',
+  );
+  
+    $user_array['configuration_manager'] = array(
+    'osr-test-config-mgr' => 'osr-test-config-mgr@colorado.edu',
+  );
+  
 
-  $user_array['all'] = array_merge($user_array['developer'], $user_array['administrator'], $user_array['site_owner'], $user_array['content_editor'], $user_array['edit_my_content']);
+  $user_array['all'] = array_merge($user_array['developer'], $user_array['administrator'], $user_array['site_owner'], $user_array['content_editor'], $user_array['edit_my_content'], $user_array['site_editor'], $user_array['edit_only'], $user_array['access_manager'], $user_array['configuration_manager']);
 
   return $user_array[$type];
 }
