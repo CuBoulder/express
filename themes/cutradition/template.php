@@ -30,10 +30,12 @@ function cutradition_preprocess_page(&$vars) {
   $vars['theme_hook_suggestions'][] = 'page__title';
 }
 
-function cutradition_breadcrumb($vars) {
+function cutradition_breadcrumb1($vars) {
   global $theme_key;
   $breadcrumb = $vars['breadcrumb'];
-
+  if (count($breadcrumb) < 2) {
+    $breadcrumb = array();
+  }
   if (!empty($breadcrumb) && theme_get_setting('use_breadcrumbs', $theme_key)) {
     // Replace the Home breadcrumb with a Home icon
     //$breadcrumb[0] = str_replace('Home','<i class="fa fa-home"></i> <span class="home-breadcrumb element-invisible">Home</span>',$breadcrumb[0]);
