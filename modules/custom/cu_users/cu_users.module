@@ -404,7 +404,7 @@ function cu_users_form_validate(&$form, &$form_state) {
 }
 
 /**
- * Adds a validation check so that the Access Manager and Configuration Manager Add-on roles can only be granted when inviting a Site Editor.
+ * Add a validation check so that the Access Manager and Configuration Manager Add-on roles can only be granted when inviting a Site Editor.
  *
  * @param $form
  * @param $form_state
