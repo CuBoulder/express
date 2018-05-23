@@ -5,7 +5,7 @@ An authenticated user with the proper role
 Should be able to change the labels of the People Filters
 
 #SOME ROLES CAN CHANGE THE PEOPLE FILTER LABELS
-@api
+
 Scenario Outline: Devs, Admins and SOs can change the People Filter Labels
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/people/settings"
@@ -34,7 +34,7 @@ Scenario: When People Filter labels are set (above), they appear on the Person n
   And I should see "Filter 3/Class"
 
 # SOME ROLES CAN NOT CHANGE THE PEOPLE FILTER LABELS
-@api 
+
 Scenario Outline: Most roles can not be access the People Filter Labels
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/people/settings"
@@ -48,7 +48,7 @@ Examples:
 | edit_only        | 
 | access_manager   | 
     
-@api 
+
 Scenario: An anonymous user should not be able to  access the People Filter Labels
   When I am on "admin/settings/people/settings"
   Then I should see "Access denied"

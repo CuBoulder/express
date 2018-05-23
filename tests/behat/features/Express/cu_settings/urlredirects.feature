@@ -21,7 +21,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "URL redirects" |
 
-  @api
+
 Scenario: the URL redirects form is properly populated with functionality
   Given I am logged in as a user with the "site_owner" role
   And am on "admin/config/search/redirect"
@@ -36,7 +36,7 @@ Scenario: the URL redirects form is properly populated with functionality
   And I should see the link "sort by Count"
   And I should see the link "sort by Last accessed"
   
-@api
+
 Scenario Outline: Devs, Admins, SOs and ConMgrs can create a URL redirect
   Given I am logged in as a user with the <role> role
   When I go to "admin/config/search/redirect/add"
@@ -54,7 +54,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Enter an internal Drupal path or path alias" |
     
- @api
+
 Scenario: the Add URL Redirect page is properly populated with functionality
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/config/search/redirect/add"
@@ -63,7 +63,7 @@ When I go to "admin/config/search/redirect/add"
   And the "edit-status" checkbox should be checked
   And I should see "Advanced options"
 
-@api
+
 Scenario Outline: Devs, Admins, SOs and ConMgrs can delete a URL redirect
  Given I am logged in as a user with the <role> role
  When I go to "admin/config/search/redirect/delete"
@@ -82,7 +82,7 @@ Examples:
 | configuration_manager | "Your site may contain redirects that have never been accessed" |
 
 
-@api 
+
 Scenario Outline: Only Developers can access the URL Redirect Settings page
     Given I am logged in as a user with the <role> role
     When I go to "admin/config/search/redirect/settings"
