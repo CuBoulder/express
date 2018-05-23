@@ -173,8 +173,7 @@ function cu_users_update_7017() {
 }
 
 /**
- * Set role weight by increasing permissions so site_owner and admin are easier
- * to compare
+ * Set role weight by increasing permissions so site_owner and admin are easier to compare.
  */
 function cu_users_update_7018() {
 
@@ -197,8 +196,7 @@ function cu_users_update_7018() {
 }
 
 /**
- * Breaking module up into 3; renaming cu_users_invite table to
- * user_external_invite
+ * Breaking module up into 3; renaming cu_users_invite table to user_external_invite.
  */
 function cu_users_update_7019() {
   if (db_table_exists('cu_users_invite')) {
