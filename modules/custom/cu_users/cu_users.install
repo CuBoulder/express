@@ -26,7 +26,7 @@ function cu_users_install() {
     $administrator_role->rid => cu_users_get_users('administrator'),
     $site_owner_role->rid => cu_users_get_users('site_owner'),
     $content_editor_role->rid => cu_users_get_users('content_editor'),
-     $edit_own_role->rid => cu_users_get_users('edit_my_content'),
+    $edit_own_role->rid => cu_users_get_users('edit_my_content'),
     $site_editor_role->rid => cu_users_get_users('site_editor'),
     $edit_only_role->rid => cu_users_get_users('edit_only'),
     $configuration_manager_role->rid => cu_users_get_users('configuration_manager'),
@@ -75,7 +75,10 @@ function cu_users_update_7011() {
     // Grant administrator role to drupalcs.
     $administrator_role = user_role_load_by_name('administrator');
     $query = db_insert('users_roles')->fields(array('uid', 'rid'));
-    $query->values(array('uid' => $account->uid, 'rid' => $administrator_role->rid));
+    $query->values(array(
+      'uid' => $account->uid,
+      'rid' => $administrator_role->rid,
+    ));
     $query->execute();
   }
 
@@ -99,7 +102,10 @@ function cu_users_update_7011() {
   // If no developer role, grant developer role to sniderc's account.
   if (empty($result)) {
     $query = db_insert('users_roles')->fields(array('uid', 'rid'));
-    $query->values(array('uid' => $sniderc_account->uid, 'rid' => $developer_role->rid));
+    $query->values(array(
+      'uid' => $sniderc_account->uid,
+      'rid' => $developer_role->rid,
+    ));
     $query->execute();
   }
 }
@@ -134,7 +140,10 @@ function cu_users_update_7016() {
 
     $developer_role = user_role_load_by_name('developer');
     $query = db_insert('users_roles')->fields(array('uid', 'rid'));
-    $query->values(array('uid' => $account->uid, 'rid' => $developer_role->rid));
+    $query->values(array(
+      'uid' => $account->uid,
+      'rid' => $developer_role->rid,
+    ));
     $query->execute();
   }
 }
@@ -155,13 +164,17 @@ function cu_users_update_7017() {
 
     $developer_role = user_role_load_by_name('developer');
     $query = db_insert('users_roles')->fields(array('uid', 'rid'));
-    $query->values(array('uid' => $account->uid, 'rid' => $developer_role->rid));
+    $query->values(array(
+      'uid' => $account->uid,
+      'rid' => $developer_role->rid,
+    ));
     $query->execute();
   }
 }
 
 /**
- * Set role weight by increasing permissions so site_owner and admin are easier to compare
+ * Set role weight by increasing permissions so site_owner and admin are easier
+ * to compare
  */
 function cu_users_update_7018() {
 
@@ -184,7 +197,8 @@ function cu_users_update_7018() {
 }
 
 /**
- * Breaking module up into 3; renaming cu_users_invite table to user_external_invite
+ * Breaking module up into 3; renaming cu_users_invite table to
+ * user_external_invite
  */
 function cu_users_update_7019() {
   if (db_table_exists('cu_users_invite')) {
@@ -221,12 +235,12 @@ function cu_users_update_7020() {
 /**
  * Remove Erin Corson and Matt Tucker as a users
  */
- function cu_users_update_7021() {
-   $erin = user_load_by_name('erco7194');
-   user_cancel(array(), $erin->uid, 'user_cancel_reassign');
-   $matt = user_load_by_name('matu4291');
-   user_cancel(array(), $matt->uid, 'user_cancel_reassign');
- }
+function cu_users_update_7021() {
+  $erin = user_load_by_name('erco7194');
+  user_cancel(array(), $erin->uid, 'user_cancel_reassign');
+  $matt = user_load_by_name('matu4291');
+  user_cancel(array(), $matt->uid, 'user_cancel_reassign');
+}
 
 /**
  * Add Alex Finnarn as a developer.
@@ -244,7 +258,10 @@ function cu_users_update_7022() {
 
     $developer_role = user_role_load_by_name('developer');
     $query = db_insert('users_roles')->fields(array('uid', 'rid'));
-    $query->values(array('uid' => $account->uid, 'rid' => $developer_role->rid));
+    $query->values(array(
+      'uid' => $account->uid,
+      'rid' => $developer_role->rid,
+    ));
     $query->execute();
   }
 }
@@ -269,7 +286,7 @@ function cu_users_update_7023() {
     $query->execute();
   }
 
-   // If content-editor user does not exist.
+  // If content-editor user does not exist.
   $new_account = user_load_by_name('osr-test-content');
   if (!isset($new_account->uid)) {
     // Create new content-editor user.
@@ -281,11 +298,14 @@ function cu_users_update_7023() {
 
     $content_editor_role = user_role_load_by_name('content_editor');
     $query = db_insert('users_roles')->fields(array('uid', 'rid'));
-    $query->values(array('uid' => $account->uid, 'rid' => $content_editor_role->rid));
+    $query->values(array(
+      'uid' => $account->uid,
+      'rid' => $content_editor_role->rid,
+    ));
     $query->execute();
   }
 
-   // If site-owner user does not exist.
+  // If site-owner user does not exist.
   $new_account = user_load_by_name('osr-test-owner');
   if (!isset($new_account->uid)) {
     // Create new site-owner user.
@@ -297,29 +317,32 @@ function cu_users_update_7023() {
 
     $site_owner_role = user_role_load_by_name('site_owner');
     $query = db_insert('users_roles')->fields(array('uid', 'rid'));
-    $query->values(array('uid' => $account->uid, 'rid' => $site_owner_role->rid));
+    $query->values(array(
+      'uid' => $account->uid,
+      'rid' => $site_owner_role->rid,
+    ));
     $query->execute();
   }
 }
 
 /**
-* Add Owen Morrill as a developer.
-*/
+ * Add Owen Morrill as a developer.
+ */
 function cu_users_update_7024() {
- // If owmo7772 user does not exist.
- $account = user_load_by_name('owmo7772');
- if (!isset($account->uid)) {
-   // Create new user.
-   $account = new stdClass();
-   $account->name = 'owmo7772';
-   $account->mail = 'owen.morrill@colorado.edu';
-   $account->status = 1;
-   $account = user_save($account);
- }
- $developer_role = user_role_load_by_name('developer');
- $query = db_insert('users_roles')->fields(array('uid', 'rid'));
- $query->values(array('uid' => $account->uid, 'rid' => $developer_role->rid));
- $query->execute();
+  // If owmo7772 user does not exist.
+  $account = user_load_by_name('owmo7772');
+  if (!isset($account->uid)) {
+    // Create new user.
+    $account = new stdClass();
+    $account->name = 'owmo7772';
+    $account->mail = 'owen.morrill@colorado.edu';
+    $account->status = 1;
+    $account = user_save($account);
+  }
+  $developer_role = user_role_load_by_name('developer');
+  $query = db_insert('users_roles')->fields(array('uid', 'rid'));
+  $query->values(array('uid' => $account->uid, 'rid' => $developer_role->rid));
+  $query->execute();
 }
 
 /**
@@ -356,7 +379,10 @@ function cu_users_update_7026() {
 
     $developer_role = user_role_load_by_name('developer');
     $query = db_insert('users_roles')->fields(array('uid', 'rid'));
-    $query->values(array('uid' => $account->uid, 'rid' => $developer_role->rid));
+    $query->values(array(
+      'uid' => $account->uid,
+      'rid' => $developer_role->rid,
+    ));
     $query->execute();
   }
 }
@@ -384,7 +410,8 @@ function cu_users_update_7028() {
 }
 
 /**
- * Increase module weight so that cu_users_pathauto_pattern_alter() happens in the correct order.
+ * Increase module weight so that cu_users_pathauto_pattern_alter() happens in
+ * the correct order.
  */
 function cu_users_update_7029() {
   // High module weight in order to come after every module that we declare
@@ -408,11 +435,14 @@ function cu_users_update_7030() {
 
     $site_editor_role = user_role_load_by_name('site_editor');
     $query = db_insert('users_roles')->fields(array('uid', 'rid'));
-    $query->values(array('uid' => $account->uid, 'rid' => $site_editor_role->rid));
+    $query->values(array(
+      'uid' => $account->uid,
+      'rid' => $site_editor_role->rid,
+    ));
     $query->execute();
   }
 
-   // If edit-only user does not exist.
+  // If edit-only user does not exist.
   $new_account = user_load_by_name('osr-test-edit-only');
   if (!isset($new_account->uid)) {
     // Create new edit-only user.
@@ -424,11 +454,14 @@ function cu_users_update_7030() {
 
     $edit_only_role = user_role_load_by_name('edit_only');
     $query = db_insert('users_roles')->fields(array('uid', 'rid'));
-    $query->values(array('uid' => $account->uid, 'rid' => $edit_only_role->rid));
+    $query->values(array(
+      'uid' => $account->uid,
+      'rid' => $edit_only_role->rid,
+    ));
     $query->execute();
   }
 
-   // If access-mgr user does not exist.
+  // If access-mgr user does not exist.
   $new_account = user_load_by_name('osr-test-access-mgr');
   if (!isset($new_account->uid)) {
     // Create new access-mgr user.
@@ -440,7 +473,10 @@ function cu_users_update_7030() {
 
     $access_manager_role = user_role_load_by_name('access_manager');
     $query = db_insert('users_roles')->fields(array('uid', 'rid'));
-    $query->values(array('uid' => $account->uid, 'rid' => $access_manager_role->rid));
+    $query->values(array(
+      'uid' => $account->uid,
+      'rid' => $access_manager_role->rid,
+    ));
     $query->execute();
   }
 
@@ -456,8 +492,10 @@ function cu_users_update_7030() {
 
     $configuration_manager_role = user_role_load_by_name('configuration_manager');
     $query = db_insert('users_roles')->fields(array('uid', 'rid'));
-    $query->values(array('uid' => $account->uid, 'rid' => $configuration_manager_role->rid));
+    $query->values(array(
+      'uid' => $account->uid,
+      'rid' => $configuration_manager_role->rid,
+    ));
     $query->execute();
   }
 }
-
