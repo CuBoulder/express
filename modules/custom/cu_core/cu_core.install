@@ -134,35 +134,12 @@ The block System help was assigned to the invalid region help and has been disab
   watchdog('express', 'attempted to disable uid 1');
 
   variable_set('express_permissions_owner_cap', 4);
-
 }
 
 /**
  * Set default variables for user_external_invite.
  */
 function _set_external_invite_variables() {
-
-  if (db_table_exists('user_external_invite') && !db_field_exists('user_external_invite', 'message')) {
-    $spec = array(
-      'type' => 'text',
-      'description' => "Custom message included with invite",
-      'not null' => FALSE,
-    );
-    db_add_field('user_external_invite', 'message', $spec);
-  }
-
-  // Add id and drop mail as primary key.
-  if (db_table_exists('user_external_invite') && !db_field_exists('user_external_invite', 'id')) {
-    db_drop_primary_key('user_external_invite');
-    $spec = array(
-      'type' => 'serial',
-      'description' => 'Primary key of the Project entity',
-      'unsigned' => TRUE,
-      'not null' => TRUE,
-    );
-    db_add_field('user_external_invite', 'id', $spec, array('primary key' => array('id')));
-  }
-
   // Set core invite roles.
   $site_owner_role = user_role_load_by_name('site_owner');
   $site_editor_role = user_role_load_by_name('site_editor');
@@ -199,7 +176,6 @@ function _set_external_invite_variables() {
   }
 
   variable_set('user_external_invite_addon_roles', $addon_roles_array);
-
   variable_set('user_external_invite_days_valid_for', 5);
 
   variable_set('user_external_invite_invite_template', '[user_external_invite:invite_custom]
@@ -253,7 +229,6 @@ You can use the Web Central website as your main resource for step-by-step tutor
 The Web Express Team
 http://www.colorado.edu/webcentral
 websupport@colorado.edu');
-
 }
 
 /**
