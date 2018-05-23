@@ -26,6 +26,7 @@ function cu_users_install() {
     $administrator_role->rid => cu_users_get_users('administrator'),
     $site_owner_role->rid => cu_users_get_users('site_owner'),
     $content_editor_role->rid => cu_users_get_users('content_editor'),
+     $edit_own_role->rid => cu_users_get_users('edit_my_content'),
     $site_editor_role->rid => cu_users_get_users('site_editor'),
     $edit_only_role->rid => cu_users_get_users('edit_only'),
     $configuration_manager_role->rid => cu_users_get_users('configuration_manager'),
