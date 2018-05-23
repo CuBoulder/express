@@ -543,7 +543,8 @@ strong { font-weight: 600; }
 
 .exbd-heading-style-supersize-bold > .block-inner > .exbd-block-title > .block-title { font-weight: 900; }
 
-.breadcrumb { font-size: 85%; }
+.breadcrumbs { font-size: 85%; }
+.breadcrumbs .breadcrumb:after { content: '\f105'; font-family: FontAwesome; padding: 0 5px; color: inherit; }
 
 em { font-style: italic; }
 

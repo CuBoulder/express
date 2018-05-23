@@ -454,8 +454,14 @@ h3.supersize,
   font-weight: 900;
 }
 // Breadcumbs
-.breadcrumb {
+.breadcrumbs {
   font-size: 85%;
+  .breadcrumb:after {
+    content: '\f105';
+    font-family: FontAwesome;
+    padding: 0 5px;
+    color: inherit;
+  }
 }
 
 // Emphasis

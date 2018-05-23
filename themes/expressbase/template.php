@@ -305,6 +305,18 @@ function expressbase_image_style(&$vars) {
  */
 function expressbase_breadcrumb($vars = NULL) {
   $breadcrumb = !empty($vars['breadcrumb']) ? $vars['breadcrumb'] : drupal_get_breadcrumb();
+  // Clear breadcrumbs if they are at the top level.
+  if (count($breadcrumb) < 2) {
+    $breadcrumb = array();
+  }
+  else {
+    $breadcrumb = array_map(
+       function ($el) {
+          return "<span class=\"breadcrumb\">{$el}</span>";
+       },
+       $breadcrumb
+    );
+  }
   $theme = variable_get('theme_default','');
   if (!empty($breadcrumb) && theme_get_setting('use_breadcrumbs', $theme)) {
     // Replace the Home breadcrumb with a Home icon
@@ -314,7 +326,7 @@ function expressbase_breadcrumb($vars = NULL) {
     // Provide a navigational heading to give context for breadcrumb links to
     // screen-reader users. Make the heading invisible with .element-invisible.
     $output = '<h2 class="element-invisible">' . t('Breadcrumb') . '</h2>';
-    $output .= '<div class="breadcrumb">' . implode(' <i class="fa fa-angle-right"></i> ', $breadcrumb) . '</div>';
+    $output .= '<div class="breadcrumbs">' . implode('', $breadcrumb) . '</div>';
     return $output;
   }
 }
