@@ -9,6 +9,9 @@ body {
 #page {
   position: relative;
 }
+#navigation-wrapper {
+  z-index: 10;
+}
 .banner-dark {
   #secondary-menu-wrapper {
     background-color: #333;
