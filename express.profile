@@ -199,6 +199,7 @@ function express_menu_alter(&$items) {
   //@TODO: move to express_settings?
   // tried but didn't work.  Not sure why, but out of time.
   $items['admin/people']['title'] = 'Users';
+  $items['admin/people']['description'] = 'Review users and roles.';
   // Expose reports to SO/CE's
   $items['admin/reports']['access arguments'] = array('access express reports');
   $items['admin/reports/status']['access arguments'] = array('access express reports');

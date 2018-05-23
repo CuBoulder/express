@@ -239,13 +239,11 @@ function secure_permissions_build_permissions() {
   $permissions = array_keys(module_invoke_all('permission'));
   // Now set permissions per role, using our hook.
   $permissions_rebuilt = FALSE;
-
   foreach ($roles as $rid => $role) {
     $perms = array();
     $new_permissions = module_invoke_all('secure_permissions', $role);
     // Change dynamically created permission values.
     $new_permissions = secure_permissions_dynamic_permissions($new_permissions);
-
     foreach ($permissions as $perm) {
       $perms[$perm] = FALSE;
       if (in_array($perm, $new_permissions)) {
@@ -253,33 +251,8 @@ function secure_permissions_build_permissions() {
         $permissions_rebuilt = TRUE;
       }
     }
-
-    // TEMP = don't reset site_editors when we get to that rid
-    switch ($role) {
-    case 'site_editor':
-        $site_editor_rid = $rid;
-        if (!variable_get('secure_permissions_sync_roles', TRUE)) {
-          user_role_change_permissions($rid, $perms);
-        }
-        break;
-    case 'site_owner':
-        $site_owner_perms = $perms;
-        user_role_change_permissions($rid, $perms);
-        break;
-    default:
-       user_role_change_permissions($rid, $perms);
-    }
-
+    user_role_change_permissions($rid, $perms);
   }
-
-  // TEMP - We can't be sure of the rid order on new vs. old sites.
-  // Site Editor might be before or after content editor.
-  // So we loop through and process site_editor at the end
-
-  if (variable_get('secure_permissions_sync_roles', TRUE) && isset($site_editor_rid)) {
-    user_role_change_permissions($site_editor_rid, $site_owner_perms);
-  }
-
   return $permissions_rebuilt;
 }
 
@@ -387,21 +360,12 @@ function secure_permissions_secure_permissions_roles() {
  * to do so.
  */
 function secure_permissions_form_user_admin_permissions_alter(&$form, $form_state) {
-  foreach (element_children($form['permission']) as $permission) {
-    //Show permission machine names, skip permission group headers
-    if (gettype($permission) == "integer") {
-      continue;
-    }
-    $form['permission'][$permission]['#markup'] .= ' <div class="permission-machine-name">'.$permission.'</div>';
-  }
-
   if (!secure_permissions_variable('secure_permissions_disable_forms')) {
     return;
   }
   foreach (element_children($form['checkboxes']) as $key) {
     $form['checkboxes'][$key]['#disabled'] = TRUE;
   }
-
   drupal_set_message(t('Editing of permissions is not permitted through the user interface. The table below shows the active permissions for the site.'));
   unset($form['actions']);
   unset($form['#submit']);
@@ -524,8 +488,8 @@ EOT;
 EOT;
   $output .= 'function secure_permissions_data_secure_permissions($role) {';
   $output .= "\n  \$permissions = array(\n";
-
-
+  
+  
   foreach ($roles as $rid => $role) {
     $output .= "    '$role' => array(\n";
     $permissions = user_role_permissions(array($rid => $role));
@@ -563,7 +527,7 @@ EOT;
 function secure_permissions_form() {
   $form = array();
   $items = array();
-
+  
   // Check which modules run our hook,
   $modules = module_implements('secure_permissions');
   $files = system_rebuild_module_data();
@@ -580,18 +544,6 @@ function secure_permissions_form() {
   $form['help'] = array(
     '#markup' => t('The following modules implement secure permissions: !list !extra', array('!list' => $module_list, '!extra' => $extra)),
   );
-
-  $form['temp_express'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Temporary Express Customiztion'),
-  );
-  $form['temp_express']['secure_permissions_sync_roles'] = array(
-    '#type' => 'checkbox',
-    '#default_value' => variable_get('secure_permissions_sync_roles'),
-    '#title' => t('Synchronize Site Owner and Site Editor Permissions'),
-    '#description' => t('This overrides any role specific arrays. IMPORTANT! Secure Permissions need to be rebuilt AFTER this is saved.'),
-  );
-
   $form['user_interface'] = array(
     '#type' => 'fieldset',
     '#title' => t('User interface settings'),
@@ -637,10 +589,10 @@ function secure_permissions_form() {
     '#title' => t('Reload default permissions on rebuild'),
     '#description' => t('Sets the default Drupal permissions for anonymous and authenticated users.'),
   );
-
+  
   $collapsed = (variable_get('secure_permissions_ignore_in_export')) ? FALSE : TRUE;
 
-
+  
   $form['advanced_export'] = array(
     '#type' => 'fieldset',
     '#title' => t('Advanced export settings'),
