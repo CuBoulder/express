@@ -4,7 +4,7 @@ Feature: People List Block
   As an authenticated user
   I should be able to create a People List block
 
-  @api
+
   Scenario Outline: An authenticated user can access the form for adding a people list block
     Given I am logged in as a user with the <role> role
     When I go to "block/add/people-list-block"
@@ -22,12 +22,12 @@ Feature: People List Block
       | edit_only             | "Access denied"                  |
       | access_manager        | "Access denied"                  |
 
-  @api
+
   Scenario: An anonymous user cannot access the form for adding a people list block
     When I am on "block/add/people-list-block"
     Then I should see "Access denied"
 
-  @api
+
   Scenario Outline: A simple People List Block offers several display views
     Given I am logged in as a user with the "content_editor" role
     And am on "block/add/people-list-block"
@@ -40,7 +40,7 @@ Feature: People List Block
       | "sidebar" |
       | "title"   |
 
-  @api @javascript
+   @javascript
   Scenario: The People List Block has been populated with Filters
     Given I am logged in as a user with the "site_owner" role
     And am on "block/add/people-list-block"
@@ -54,7 +54,7 @@ Feature: People List Block
     And I should see "Design"
     And I should see "Law"
 
-  @api
+
   Scenario: A simple People List Block can be created
     Given I am logged in as a user with the "content_editor" role
     And am on "block/add/people-list-block"
@@ -68,7 +68,7 @@ Feature: People List Block
     And I should see "Deshawn StaffGeoMariDes"
     And I should see "Kendall StaffTechHoneyLaw"
 
-  @api
+
   Scenario: The People List Block can filter out persons
     Given I am logged in as a user with the "site_owner" role
     And am on "block/add/people-list-block"

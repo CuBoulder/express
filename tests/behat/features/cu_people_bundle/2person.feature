@@ -62,7 +62,7 @@ Feature: Person Content Type
     Then I should see "John Doe"
     And I resize the window to "desktop" resolution.
 
-  @api
+
   Scenario: Person nodes can accept more than one filter value per filter
     Given  I am logged in as a user with the "content_editor" role
     And am on "node/add/person"

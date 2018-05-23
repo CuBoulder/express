@@ -1,6 +1,6 @@
 # SEE ARTICLES FOR TAXONOMY PERMISSION TESTS
 
-@api @people
+ @people
 Feature: People Taxonomy and Filters
 In order to group and filter my people
 As an authenticated user

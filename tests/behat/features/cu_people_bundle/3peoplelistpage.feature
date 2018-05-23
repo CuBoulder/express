@@ -1,10 +1,9 @@
-@api @people
+ @people
 Feature: People List Page Content Type
   In order to display a directory list of Person nodes
   As an authenticated user
   I should be able to create, edit, and delete People List Page content
 
-  @api @current
   Scenario Outline: An authenticated user should be able to access the form for adding people list page content
     Given  I am logged in as a user with the <role> role
     When I go to "node/add/people-list-page"
@@ -22,12 +21,12 @@ Feature: People List Page Content Type
       | edit_only             | "Access denied"           |
       | access_manager        | "Access denied"           |
 
-  @api
+
   Scenario: An anonymous user should not be able to access the form for adding people list page content
     When I am on "node/add/people-list-page"
     Then I should see "Access denied"
 
-  @api
+
   Scenario: The Provide Menu Link box should be checked on node creation but remain unchecked if unchecked.
     Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/people-list-page"
@@ -38,7 +37,7 @@ Feature: People List Page Content Type
     And I follow "Edit"
     Then the checkbox "edit-menu-enabled" should be unchecked
 
-  @api @javascript
+   @javascript
   Scenario: The People List Page provides several display/format types
     Given I am logged in as a user with the "site_owner" role
     And am on "node/add/people-list-page"
@@ -79,7 +78,7 @@ Feature: People List Page Content Type
     When I press "Save"
     Then I should see "Person Alejandro FacGeoHoneyLaw has been created."
 
-  @api
+
   Scenario: Create Person 3 - Kendall Hull StaffTechHoneyLaw
     Given I am logged in as a user with the "content_editor" role
     And am on "node/add/person"
@@ -95,7 +94,7 @@ Feature: People List Page Content Type
     When I press "Save"
     Then I should see "Person Kendall StaffTechHoneyLaw has been created."
 
-  @api
+
   Scenario: Create Person 4 - Abdullah Lang FacTechMariDes
     Given I am logged in as a user with the "content_editor" role
     And am on "node/add/person"
@@ -111,7 +110,7 @@ Feature: People List Page Content Type
     When I press "Save"
     Then I should see "Person Abdullah FacTechMariDes has been created."
 
-  @api @javascript
+   @javascript
   Scenario: Adding taxonomy terms to Persons populates the the People List Page filters
     Given I am logged in as a user with the "site_owner" role
     And am on "node/add/people-list-page"
@@ -125,7 +124,7 @@ Feature: People List Page Content Type
     And I should see "Design"
     And I should see "Law"
 
-  @api
+
   Scenario: A People List Page filters persons correctly
     Given I am logged in as a user with the "site_owner" role
     And am on "node/add/people-list-page"
@@ -139,7 +138,7 @@ Feature: People List Page Content Type
     And I should not see "Kendall StaffTechHoneyLaw"
     And I should not see "Deshawn StaffGeoMariDes"
 
-  @api
+
   Scenario: A People List Page can group people by chosen filter
     Given I am logged in as a user with the "site_owner" role
     And am on "node/add/people-list-page"
@@ -153,7 +152,7 @@ Feature: People List Page Content Type
     And I should see "Law"
     And I should see "Alejandro FacGeoHoneyLaw"
 
-  @api
+
   Scenario: A People List Page can display all the chosen filters
     Given I am logged in as a user with the "site_owner" role
     And am on "node/add/people-list-page"

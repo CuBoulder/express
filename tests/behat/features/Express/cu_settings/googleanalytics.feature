@@ -23,12 +23,12 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Google Analytics" |
 
-@api 
+
 Scenario: An anonymous user should not be able to set the Google Analytics Account ID
   When I am on "admin/settings/site-configuration/google-analytics"
   Then I should see "Access denied"
   
-@api
+
 Scenario: When Google Analytics ID is populated, it shows up on SEO dashboard
   Given I am logged in as a user with the "site_owner" role
   And am on "admin/settings/site-configuration/google-analytics"
@@ -38,7 +38,7 @@ Scenario: When Google Analytics ID is populated, it shows up on SEO dashboard
   And I go to "admin/dashboard/seo"
   Then I should see "You have a custom google analytics account assigned to your website."
   
-@api
+
 Scenario Outline: Most roles cannot access the Google Analytics General Settings page
 Given I am logged in as a user with the <role> role
 And am on "admin/config/system/googleanalytics"
