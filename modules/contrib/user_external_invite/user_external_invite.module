@@ -554,6 +554,8 @@ function user_external_invite_mail($key, &$message, $params) {
 function user_external_invite_accept_invite() {
   if (isset($_GET['key']) && isset($_GET['mail'])) {
     if (user_is_logged_in()) {
+      // Need to check if the user is the one who is supposed to be invited.
+      // Without doing this, the role is granted potentially to a non-existent user.
       global $user;
       user_external_invite_grant_invite($_GET['key'], $_GET['mail'], $user);
       drupal_goto('user');
