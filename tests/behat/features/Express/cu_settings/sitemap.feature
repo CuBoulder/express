@@ -6,7 +6,7 @@ An authenticated user with the proper role
 Should be able to update the Web Express XML site map
 
 #SOME ROLES CAN ACCESS SITE MAP SETTINGS
-@api
+
 Scenario Outline: Devs, Admins and SOs can access the sitemap page
   Given I am logged in as a user with the <role> role
   And am on "admin/settings/seo/xmlsitemap"
@@ -25,7 +25,7 @@ Examples:
     | configuration_manager |
        
 #SOME ROLES CAN UPDATE AND CHANGE SITE MAP SETTINGS
-@api @broken
+ @broken
 Scenario: Functionality - The sitemap can be rebuilt
   Given I am logged in as a user with the "site_owner" role
   And am on "admin/settings/seo/xmlsitemap"
@@ -37,7 +37,7 @@ Scenario: Functionality - The sitemap can be rebuilt
   Then I should see "Menu options have been updated for sitemap"
 
 # SOME ROLES CAN NOT ACCESS SITE MAP SETTINGS
-@api 
+
 Scenario Outline: CEs and EMCs should not be able to update the sitemap
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/seo/xmlsitemap"
@@ -51,7 +51,7 @@ Then I should see "Access denied"
     | edit_only        | 
     | access_manager   | 
  
-@api 
+
 Scenario: An anonymous user should not be able to update the sitemap
   When I am on "admin/settings/seo/xmlsitemap"
   Then I should see "Access denied"

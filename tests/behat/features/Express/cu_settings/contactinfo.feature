@@ -23,13 +23,13 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Contact Information" |
 
-@api 
+
 Scenario: An anonymous user should not be able to set site name
   When I am on "admin/settings/site-configuration/contact"
   Then I should see "Access denied"
 
 # Testing the frontpage affects the cu_campus_map_bundle tests.
-@api @testing_frontpage
+ @testing_frontpage
 Scenario: When Contact Information is populated, it shows up in the footer region
   Given I am logged in as a user with the "site_owner" role
   And am on "admin/settings/site-configuration/contact"
