@@ -414,7 +414,7 @@ function cu_users_update_7030() {
    // If edit-only user does not exist.
   $new_account = user_load_by_name('osr-test-edit-only');
   if (!isset($new_account->uid)) {
-    // Create new content-editor user.
+    // Create new edit-only user.
     $account = new stdClass();
     $account->name = 'osr-test-edit-only';
     $account->mail = 'osr-test-edit-only@colorado.edu';
@@ -427,10 +427,10 @@ function cu_users_update_7030() {
     $query->execute();
   }
 
-   // If access manager user does not exist.
+   // If access-mgr user does not exist.
   $new_account = user_load_by_name('osr-test-access-mgr');
   if (!isset($new_account->uid)) {
-    // Create new site-owner user.
+    // Create new access-mgr user.
     $account = new stdClass();
     $account->name = 'osr-test-access-mgr';
     $account->mail = 'osr-test-access-mgr@colorado.edu';
@@ -446,7 +446,7 @@ function cu_users_update_7030() {
   // If configuration-manager user does not exist.
   $new_account = user_load_by_name('osr-test-config-mgr');
   if (!isset($new_account->uid)) {
-    // Create new site-owner user.
+    // Create new configuration-manager user.
     $account = new stdClass();
     $account->name = 'osr-test-config-mgr';
     $account->mail = 'osr-test-config-mgr@colorado.edu';
