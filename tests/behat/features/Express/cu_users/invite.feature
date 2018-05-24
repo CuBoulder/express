@@ -93,7 +93,7 @@ Then I should see "Number of days invites are valid"
 And I should see "Invitation Accepted Email Template"
 
 # INVITATIONS WORK AS EXPECTED
-
+@javascript
 Scenario: Functionality - Users landing page is properly populated with fields for finding and sorting users
 Given I am logged in as a user with the "site_owner" role
 When I go to "admin/people"
