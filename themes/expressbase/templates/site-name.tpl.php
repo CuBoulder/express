@@ -13,7 +13,8 @@
 ?>
 <?php if (!empty($custom_logo)):?>
   <<?php print $site_name_tag; ?> class="site-name">
-    <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" class="" rel="home"><span><?php print $custom_logo['black']->markup; ?></span></a>
+    <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" class="custom-logo-black" rel="home"><span><?php print $custom_logo['black']->markup; ?></span></a>
+    <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" class="custom-logo-white" rel="home"><span><?php print $custom_logo['white']->markup; ?></span></a>
   </<?php print $site_name_tag; ?>>
 <?php else: ?>
 

@@ -4,7 +4,7 @@
   $logo = $base_url . '/' . drupal_get_path('theme', 'expressbase') . '/images/cu-boulder-logo-text-' . $color . '.svg';
 
 ?>
-<div class="brand-bar">
+<div class="brand-bar brand-color-<?php print $color; ?>">
   <div class="element-max-width-padding">
     <div class="brand-bar-container">
       <div class="brand-logo">
