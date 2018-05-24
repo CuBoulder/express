@@ -343,7 +343,7 @@ function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form
   // Set additional roles to only show if site editor is selected.
   $form['addon_rids']['#states'] = [
     'visible' => [
-      ':input[name="core_rid"]' => ['value' => $site_editor_role = user_role_load_by_name('site_editor')->rid],
+      ':input[name="core_rid"]' => ['value' => user_role_load_by_name('site_editor')->rid],
     ],
   ];
 
