@@ -78,7 +78,9 @@ function cu_advanced_content_bundle_error_form($form, &$form_state) {
  * Validation handler for the error pages form.
  *
  * @param array $form
+ *   Generated form.
  * @param array $form_state
+ *   Form state with user submitted values.
  */
 function cu_advanced_content_bundle_404_validate($form, &$form_state) {
   // Check for empty 404 submission.
