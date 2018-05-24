@@ -56,7 +56,7 @@ Feature: Error Pages
     Then I should see "The configuration options have been saved"
     And I go to "admin/config/development/maintenance"
     Then I should see "Secret Page"
-    # NEXT WE TURN THAT OFF SO FURTHER TESTS RETURN THE DEFAULT 403 PAGE
+    # NEXT WE TURN THAT OFF SO FURTHER TESTS RETURN THE DEFAULT 403 PAGE.
     Then I go to "admin/settings/adv-content/error"
     And fill in "edit-site-403" with ""
     And I press "Save"
