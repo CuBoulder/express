@@ -125,8 +125,8 @@
         ?>
       <?php else: ?>
         <div id="page-title-wrapper" class="page-title-wrapper section-wrapper <?php if (isset($title_hidden)) { print 'element-invisible'; } ?>">
+          <a id="main-content"></a>
           <div class="page-title-inner element-max-width-padding">
-            <a id="main-content"></a>
             <h1 id="page-title"><?php print drupal_get_title(); ?></h1>
             <?php print $breadcrumb; ?>
           </div>

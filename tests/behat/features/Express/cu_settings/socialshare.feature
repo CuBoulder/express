@@ -5,7 +5,7 @@ An authenticated user with the proper role
 Should be able to set Social Share options
 
 #ACCESSING THE SOCIAL SHARE PAGE
-@api
+
 Scenario Outline: Devs, Admins and SOs can access the Social Share page; CEs and EMCs cannot
  Given I am logged in as a user with the <role> role
  When I go to "admin/settings/social/share"
@@ -18,12 +18,13 @@ Then I should see <message>
     | site_owner      | "Choose the order and which social media links to display" |
     | content_editor  | "Access Denied" |
     | edit_my_content | "Access Denied" |
-  #  | site_editor     | "Access denied" | (has access for some reason)
+ #  | site_editor     | "Access denied" | (has access for some reason)
     | edit_only        | "Access denied" |
     | access_manager   | "Access denied" |
-  #  | configuration_manager | "Choose the order and which social media links to display" | 
+ #  | configuration_manager | "Choose the order and which social media links to display" | 
 
-@api 
+
+
 Scenario: An anonymous user should not be able to access the Social Share page
  When I am on "admin/settings/social/share"
  Then I should see "Access denied"

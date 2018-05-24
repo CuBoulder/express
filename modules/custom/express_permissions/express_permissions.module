@@ -50,7 +50,6 @@ function express_permissions_secure_permissions_roles() {
     'administrator',
     'developer',
     'content_editor',
-    'content_editor',
     'access_manager',
     'configuration_manager',
   );
@@ -82,7 +81,7 @@ function express_permissions_secure_permissions($role) {
       'access users overview',
       'access_google_appliance_content',
       'administer beans',
-      'administer blocks',
+     // 'administer blocks',
       'administer checked out documents',
       'administer contexts',
       'administer express settings',
@@ -94,11 +93,19 @@ function express_permissions_secure_permissions($role) {
       'administer redirects',
       'assign content_editor role',
       'assign edit_my_content role',
+      'assign site_editor role',
       'assign site_owner role',
+      'assign edit_only role',
+      'assign access_manager role',
+      'assign configuration_manager role',
       'cancel users with role authenticated user',
       'cancel users with role content_editor',
       'cancel users with role edit_my_content',
       'cancel users with role site_owner',
+      'cancel users with role site_editor',
+      'cancel users with role edit_only',
+      'cancel users with role access_manager',
+      'cancel users with role configuration_manager',
       'check out documents',
       'clear full caches',
       'clear path caches',
@@ -134,6 +141,7 @@ function express_permissions_secure_permissions($role) {
       'edit users with role authenticated user',
       'edit users with role content_editor',
       'edit users with role edit_my_content',
+      'edit users with role site_editor',
       'edit users with role site_owner',
       'execute node_assign_owner_action',
       'execute node_make_sticky_action',
@@ -163,7 +171,7 @@ function express_permissions_secure_permissions($role) {
       'enable module bundles',
       'view status messages',
       'view warning messages',
-      'view error messages', # currently only the perms below diff with site owner role
+      'view error messages',
       'administer cache settings',
       'configure profile module manager',
       'view unused beans',
@@ -201,7 +209,6 @@ function express_permissions_secure_permissions($role) {
       'access ckeditor link',
       'access content overview',
       'access contextual links',
-      'access express reports',
       'access express settings',
       'access user profiles',
       'administer beans',
@@ -250,7 +257,7 @@ function express_permissions_secure_permissions($role) {
       'execute views_bulk_operations_delete_item',
       'preview focal point',
       'revert revisions',
-      'use bigmenu',
+     //'use bigmenu',
       'use text format wysiwyg',
       'view any hero_unit bean',
       'view any slider bean',
@@ -334,12 +341,7 @@ function express_permissions_secure_permissions($role) {
       'administer views',
       'administer_google_appliance',
       'admin_display_suite',
-      'assign administrator role',
       'assign all roles',
-      'assign content_editor role',
-      'assign developer role',
-      'assign edit_my_content role',
-      'assign site_owner role',
       'block IP addresses',
       'bypass follow form validation',
       'cancel account',
@@ -465,12 +467,10 @@ function express_permissions_secure_permissions($role) {
       'access contextual links',
       'access express settings',
       'access user profiles',
-      'access users overview',
       'administer beans',
-      'administer blocks',
+     // 'administer blocks',
       'administer checked out documents',
       'administer contexts',
-      # 'administer express settings',
       'administer menu',
       'administer nodes',
       'administer redirects',
@@ -540,12 +540,11 @@ function express_permissions_secure_permissions($role) {
       'access content',
       'access content overview',
       'access contextual links',
-      'access express reports',
       'access express settings',
       'access user profiles',
       'access users overview',
       'administer beans',
-      'administer blocks',
+     // 'administer blocks',
       'administer checked out documents',
       'administer contexts',
       'administer express settings',
@@ -557,10 +556,18 @@ function express_permissions_secure_permissions($role) {
       'assign content_editor role',
       'assign edit_my_content role',
       'assign site_owner role',
+      'assign site_editor role',
+      'assign edit_only role',
+      'assign access_manager role',
+      'assign configuration_manager role',
       'cancel users with role authenticated user',
       'cancel users with role content_editor',
       'cancel users with role edit_my_content',
+      'cancel users with role site_editor',
       'cancel users with role site_owner',
+      'cancel users with role edit_only',
+      'cancel users with role access_manager',
+      'cancel users with role configuration_manager',
       'check out documents',
       'clear full caches',
       'clear path caches',
@@ -596,6 +603,7 @@ function express_permissions_secure_permissions($role) {
       'edit users with role authenticated user',
       'edit users with role content_editor',
       'edit users with role edit_my_content',
+      'edit users with role site_editor',
       'edit users with role site_owner',
       'execute node_assign_owner_action',
       'execute node_make_sticky_action',
@@ -609,6 +617,7 @@ function express_permissions_secure_permissions($role) {
       'invite new user',
       'preview focal point',
       'revert revisions',
+      'use block designer',
       'use bigmenu',
       'use text format wysiwyg',
       'view any block bean',
@@ -635,7 +644,7 @@ function express_permissions_secure_permissions($role) {
       'access contextual links',
       'access express settings',
       'access navbar',
-      'administer nodes', # this is needed to access content overview page
+      'administer nodes',
       'check out documents',
       'clear path caches',
       'create url aliases',
@@ -666,16 +675,23 @@ function express_permissions_secure_permissions($role) {
     ),
     'access_manager' => array(
       'access administration pages',
-      # 'access express settings',
       'access user profiles',
       'access users overview',
       'assign content_editor role',
       'assign edit_my_content role',
+      'assign site_editor role',
       'assign site_owner role',
+      'assign edit_only role',
+      'assign access_manager role',
+      'assign configuration_manager role',
       'cancel users with role authenticated user',
       'cancel users with role content_editor',
       'cancel users with role edit_my_content',
       'cancel users with role site_owner',
+      'cancel users with role site_editor',
+      'cancel users with role edit_only',
+      'cancel users with role access_manager',
+      'cancel users with role configuration_manager',
       'edit users with role authenticated user',
       'edit users with role content_editor',
       'edit users with role edit_my_content',
@@ -700,76 +716,12 @@ function express_permissions_secure_permissions($role) {
       'access content',
       'access content overview',
       'access express settings',
-      'access user profiles',
-      'access users overview',
+      'administer block designer themes',
       'administer cu share',
       'administer redirects',
       'administer express settings',
       'administer express theme picker',
       'administer rss feeds',
-      'administer site search',
-      'clear full caches',
-      'clear path caches',
-      'create url aliases',
-      'revert revisions',
-      'use bigmenu',
-      'view any block bean',
-      'view any hero_unit bean',
-      'view any slider bean',
-      'view any unpublished content',
-      'view bean page',
-      'view bean revisions',
-      'view own unpublished content',
-      'view revisions',
-      'view the administration theme',
-      'access navbar',
-      'enable module bundles',
-      'view status messages',
-      'view warning messages',
-      'view error messages',
-      'diff view changes',
-    ),
-      'access_manager' => array(
-      'access administration pages',
-      // 'access express settings',
-      'access user profiles',
-      'access users overview',
-      'assign content_editor role',
-      'assign edit_my_content role',
-      'assign site_owner role',
-      'cancel users with role authenticated user',
-      'cancel users with role content_editor',
-      'cancel users with role edit_my_content',
-      'cancel users with role site_owner',
-      'edit users with role authenticated user',
-      'edit users with role content_editor',
-      'edit users with role edit_my_content',
-      'edit users with role site_owner',
-      'invite new user',
-      'view any block bean',
-      'view any hero_unit bean',
-      'view any slider bean',
-      'view any unpublished content',
-      'view bean page',
-      'view bean revisions',
-      'view own unpublished content',
-      'view revisions',
-      'view the administration theme',
-      'view status messages',
-      'view warning messages',
-      'view error messages',
-    ),
-    'configuration_manager' => array(
-      'access administration pages',
-      'access bean overview',
-      'access content',
-      'access content overview',
-      'access express settings',
-      'access user profiles',
-      'access users overview',
-      'administer redirects',
-      'administer express settings',
-      'administer express theme picker',
       'administer site search',
       'clear full caches',
       'clear path caches',
@@ -821,19 +773,14 @@ function express_permissions_form_user_profile_form_alter(&$form, &$form_state) 
       }
     }
     if ($role_name == 'access_manager') {
-      if (in_array('developer', $user->roles) || in_array('administrator', $user->roles)) {
-        $new_role_name =  '<i>' . $new_role_name . ' (hidden from site owners until 2.9.1)</i>';
-      }
+      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
     }
     if ($role_name == 'configuration_manager') {
-      if (in_array('developer', $user->roles) || in_array('administrator', $user->roles)) {
-        $new_role_name =  '<i>' . $new_role_name . ' (hidden from site owners until 2.9.1)</i>';
-      }
+      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
     }
     $new_role_options[$rid] = $new_role_name;
 
   }
-
   $form['account']['roles']['#options'] = $new_role_options;
 }
 
@@ -844,7 +791,7 @@ function express_permissions_form_user_profile_form_alter(&$form, &$form_state) 
  */
 function express_permissions_site_owner_cap(&$form, &$form_state) {
   // Limit of how many of the role we should allow.
-  $limit = intval(variable_get('express_permissions_owner_cap', 5));
+  $limit = (int) variable_get('express_permissions_owner_cap', 4);
 
   // Get Roles of user being edited.
   $current_roles = $form_state['user']->roles;
@@ -857,7 +804,7 @@ function express_permissions_site_owner_cap(&$form, &$form_state) {
   if (in_array($role->rid, $form_state['values']['roles'], TRUE) && !isset($current_roles[$role->rid])) {
     $users_in_role = express_permissions_get_site_owners();
     // If adding the role to this user would be over the limit, set an error.
-    if ($users_in_role['count'] > $limit) {
+    if ($users_in_role['count'] >= $limit) {
 
       form_set_error("roles][$rid", "You have exceeded the allowed limit for Temporary Site Owners. To grant the role to this user you must first remove it from someone else. Current Site Owners include: " . $users_in_role['list']);
     }
@@ -871,22 +818,20 @@ function express_permissions_form_user_external_invite_form_alter(&$form, &$form
 
 function express_permissions_invite_site_owner_cap(&$form, &$form_state) {
   // Limit of how many of the role we should allow.
-  $limit = intval(variable_get('express_permissions_owner_cap', 5));
+  $limit = (int) variable_get('express_permissions_owner_cap', 4);
 
   // Get Role ID.
   $role = user_role_load_by_name('site_owner');
-
   if ($form_state['values']['rid'] == $role->rid) {
     $email_value = $form_state['values']['email'];
     // Split on , or line break.
     $emails = preg_split("/[\r\n,\s]+/", $email_value, -1, PREG_SPLIT_NO_EMPTY);
     $email_count = count($emails);
     $users_in_role = express_permissions_get_site_owners();
-    if (($users_in_role['count'] + $email_count > $limit)) {
-      form_set_error("", "You have exceeded the allowed limit for Temporary Site Owners. To grant this role you must first remove it from someone else. Current Site Owners include: " .  $users_in_role['list']);
+    if (($users_in_role['count'] + $email_count) >= $limit) {
+      form_set_error("", "You have exceeded the allowed limit for Site Owners. To grant this role you must first remove it from someone else. Current Site Owners include: " .  $users_in_role['list']);
     }
   }
-
 }
 
 /**
@@ -907,8 +852,9 @@ function express_permissions_get_site_owners() {
   $query->condition('ur.rid', $rid, '=');
   $users['count'] = $query->countQuery()->execute()->fetchField();
 
+  $limit = (int) variable_get('express_permissions_owner_cap', 4);
   // try to avoid loading user objects
-  if ($users['count'] > 5) {
+  if ($users['count'] >= $limit) {
       $results = $query->execute()->fetchCol();
       $site_owners = user_load_multiple($results);
       $user_list = array();
@@ -926,14 +872,20 @@ function express_permissions_get_site_owners() {
  * Remove underscores from roles to make the permissions table display better.
  */
 function express_permissions_form_user_admin_permissions_alter(&$form, &$form_state) {
+
   $roles = $form['role_names'];
   // Get just the role arrays.
   $roles = array_intersect_key($roles, array_flip(element_children($roles)));
+  // Get the role id to modify form array
+  $roles_keys = array_keys($roles);
+
   // Replace underscores with spaces.
-  foreach ($roles as $id) {
+  foreach ($roles_keys as $id) {
     $name = str_replace('_', ' ', $form['role_names'][$id]['#markup']);
     $form['role_names'][$id]['#markup'] = $name;
   }
+
   // Add some css to make the permissions table headers smaller.
-  drupal_add_css('form#user-admin-permissions #permissions th { font-size:75%; font-weight:bold; } form#user-admin-permissions #permissions .permission-machine-name { font-size:75%; opacity:.75;}', 'inline');
+  // @TODO: fix to work with sticky header
+  drupal_add_css(drupal_get_path('module','express_permissions') . '/css/express-permissions.css');
 }

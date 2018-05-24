@@ -4,7 +4,7 @@ Feature: Error Pages
   An authenticated user with the proper role
   Should be able to set unique 404 and 403 pages
 
-  #ACCESSING THE ERROR PAGES
+  # ACCESSING THE ERROR PAGES
   Scenario Outline: Devs, Admins, SOs and ConMgrs can access Error Pages; CEs and EMCs cannot
     Given I am logged in as a user with the <role> role
     When I go to "admin/settings/adv-content/error"
@@ -22,7 +22,7 @@ Feature: Error Pages
       | access_manager        | "Access denied"                                     |
       | configuration_manager | "Allows you to set the default \"Not Found\" page." |
 
-  #SETTING THE 404 PAGE
+  # SETTING THE 404 PAGE
   # create a basic page; use it for 404 page
   Scenario: A site-owner can create a Basic Page and use it for the 404 page
     Given I am logged in as a user with the "site_owner" role
@@ -40,7 +40,7 @@ Feature: Error Pages
     Then I should see "404 Page"
 
 
- #SETTING THE 403 PAGE 
+ # SETTING THE 403 PAGE
  # create a basic page; use it for 403 page
   Scenario: A site-owner can create a Basic Page and use it for the 403 page
     Given I am logged in as a user with the "site_owner" role
@@ -56,7 +56,7 @@ Feature: Error Pages
     Then I should see "The configuration options have been saved"
     And I go to "admin/config/development/maintenance"
     Then I should see "Secret Page"
-  # NEXT WE TURN THAT OFF SO FURTHER TESTS RETURN THE DEFAULT 403 PAGE
+    # NEXT WE TURN THAT OFF SO FURTHER TESTS RETURN THE DEFAULT 403 PAGE
     Then I go to "admin/settings/adv-content/error"
     And fill in "edit-site-403" with ""
     And I press "Save"
