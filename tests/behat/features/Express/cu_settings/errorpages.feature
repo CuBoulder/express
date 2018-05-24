@@ -42,6 +42,7 @@ Feature: Error Pages
 
  # SETTING THE 403 PAGE
  # create a basic page; use it for 403 page
+  @current
   Scenario: A site-owner can create a Basic Page and use it for the 403 page
     Given I am logged in as a user with the "site_owner" role
     And I am on "node/add/page"
@@ -52,12 +53,12 @@ Feature: Error Pages
     Then the url should match "secret-page"
     Then I go to "admin/settings/adv-content/error"
     And fill in "edit-site-403" with "secret-page"
-    When I press "Save"
+    When I press "Submit"
     Then I should see "The configuration options have been saved"
     And I go to "admin/config/development/maintenance"
     Then I should see "Secret Page"
     # NEXT WE TURN THAT OFF SO FURTHER TESTS RETURN THE DEFAULT 403 PAGE.
     Then I go to "admin/settings/adv-content/error"
     And fill in "edit-site-403" with ""
-    And I press "Save"
+    And I press "Submit"
     Then I should see "The configuration options have been saved"
