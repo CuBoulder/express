@@ -340,6 +340,13 @@ function cu_users_ldap_email_lookup($email) {
  * Implements hook_form_FORM_ID_alter().
  */
 function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form_state) {
+  // Set additional roles to only show if site editor is selected.
+  $form['addon_rids']['#states'] = [
+    'visible' => [
+      ':input[name="core_rid"]' => ['value' => $site_editor_role = user_role_load_by_name('site_editor')->rid],
+    ],
+  ];
+
   // $form['#validate'][] = 'cu_users_form_validate';
   // $form['#submit'][] = 'cu_users_override_external_invite_submit';
   $form['#validate'][] = 'cu_users_override_external_invite_validate';
@@ -404,7 +411,8 @@ function cu_users_form_validate(&$form, &$form_state) {
 }
 
 /**
- * Add a validation check so that the Access Manager and Configuration Manager Add-on roles can only be granted when inviting a Site Editor.
+ * Add a validation check so that the Access Manager and Configuration Manager
+ * Add-on roles can only be granted when inviting a Site Editor.
  *
  * @param $form
  * @param $form_state
