@@ -29,7 +29,6 @@ function cu_users_get_users($type = 'all') {
 
   $user_array['administrator'] = array(
     'brokaw' => 'Annie.Brokaw@Colorado.EDU',
-    'leslie' => 'jon.leslie@Colorado.EDU',
     'linebarg' => 'joanna.bertrand@Colorado.EDU',
     'wetu1300' => 'wendy.turnbull@Colorado.EDU',
     'mortone' => 'Emily.Kellagher@Colorado.EDU',
