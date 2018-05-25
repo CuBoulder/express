@@ -20,7 +20,7 @@ I should be able to invite users to my site and manage invitations
       | site_editor           | "Access denied" |
       | edit_only             | "Access denied" |
       | access_manager        | "Users"         |
-      | configuration_manager | "Users"         |
+      | configuration_manager | "Access denied" |
 
   Scenario: Access - An anonymous user should not be able to view Users page
     When I am on "admin/people"
