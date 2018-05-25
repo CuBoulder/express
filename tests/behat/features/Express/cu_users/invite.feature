@@ -95,8 +95,6 @@ I should be able to invite users to my site and manage invitations
   Scenario: Functionality - Users landing page is properly populated with fields for finding and sorting users
     Given I am logged in as a user with the "site_owner" role
     When I go to "admin/people"
-    Then I go to "/"
-    Then I go to "admin/people"
     Then I should see "Name"
     And I should see an "#edit-combine" element
     And I should see "Role"
