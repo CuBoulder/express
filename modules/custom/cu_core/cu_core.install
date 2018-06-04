@@ -134,52 +134,53 @@ The block System help was assigned to the invalid region help and has been disab
   watchdog('express', 'attempted to disable uid 1');
 
   variable_set('express_permissions_owner_cap', 4);
-
 }
 
 /**
  * Set default variables for user_external_invite.
  */
 function _set_external_invite_variables() {
-
-  if (db_table_exists('user_external_invite') && !db_field_exists('user_external_invite', 'message')) {
-    $spec = array(
-      'type' => 'text',
-      'description' => "Custom message included with invite",
-      'not null' => FALSE,
-    );
-    db_add_field('user_external_invite', 'message', $spec);
-  }
-
-  // Add id and drop mail as primary key.
-  if (db_table_exists('user_external_invite') && !db_field_exists('user_external_invite', 'id')) {
-    db_drop_primary_key('user_external_invite');
-    $spec = array(
-      'type' => 'serial',
-      'description' => 'Primary key of the Project entity',
-      'unsigned' => TRUE,
-      'not null' => TRUE,
-    );
-    db_add_field('user_external_invite', 'id', $spec, array('primary key' => array('id')));
-  }
-
-  // Core roles.
+  // Set core invite roles.
   $site_owner_role = user_role_load_by_name('site_owner');
   $site_editor_role = user_role_load_by_name('site_editor');
   $content_editor_role = user_role_load_by_name('content_editor');
   $edit_my_content_role = user_role_load_by_name('edit_my_content');
 
-  variable_set('user_external_invite_roles', array(
+  variable_set('user_external_invite_core_roles', array(
     $site_owner_role->rid,
     $site_editor_role->rid,
     $content_editor_role->rid,
     $edit_my_content_role->rid,
   ));
+
+  // Set Content Editor as the default role to invite.
+  variable_set('user_external_invite_default_role', $content_editor_role->rid);
+
+  // Set addon invite roles.
+  $addon_roles_array = [];
+  $access_manager_role = user_role_load_by_name('access_manager');
+  $addon_roles_array[] = $access_manager_role->rid;
+  $configuration_manager_role = user_role_load_by_name('configuration_manager');
+  $addon_roles_array[] = $configuration_manager_role->rid;
+
+  // Set form_manager role if it exists.
+  if (module_exists('cu_forms_bundle')) {
+    $form_manager_role = user_role_load_by_name('form_manager');
+    $addon_roles_array[] = $form_manager_role->rid;
+  }
+
+  // Set campaign_manager role if it exists.
+  if (module_exists('cu_digital_campaign_bundle')) {
+    $campaign_manager_role = user_role_load_by_name('campaign_manager');
+    $addon_roles_array[] = $campaign_manager_role->rid;
+  }
+
+  variable_set('user_external_invite_addon_roles', $addon_roles_array);
   variable_set('user_external_invite_days_valid_for', 5);
 
   variable_set('user_external_invite_invite_template', '[user_external_invite:invite_custom]
 
-You have been invited to join the [site:name] Web Express website as an editor with [user_external_invite:invite_role] access privileges.
+You have been invited to join the [site:name] Web Express website as a user with "[user_external_invite:invite_core_role], [user_external_invite:invite_addon_roles]" access privileges.
 
 To accept this invitation:
 1) Go to [user_external_invite:invite_link]
@@ -192,7 +193,7 @@ The Web Express Team
 http://www.colorado.edu/webcentral
 websupport@colorado.edu');
 
-  variable_set('user_external_invite_confirmation_template', 'We have received your request to grant [user_external_invite:invite_role] access to the following users:
+  variable_set('user_external_invite_confirmation_template', 'We have received your request to grant "[user_external_invite:invite_core_role], [user_external_invite:invite_addon_roles]" access to the following users:
 
 [user_external_invite:invited_emails]
 
@@ -205,7 +206,7 @@ The Web Express Team
 http://www.colorado.edu/webcentral
 websupport@colorado.edu');
 
-  variable_set('user_external_invite_accepted_template', 'We are confirming [user_external_invite:invited_email] now has [user_external_invite:invite_role] access to the [site:name], [site:url], website.
+  variable_set('user_external_invite_accepted_template', 'We are confirming [user_external_invite:invited_email] now has "[user_external_invite:invite_core_role], [user_external_invite:invite_addon_roles]" access to the [site:name], [site:url], website.
 
 Web Central:
 You can use the Web Central website as your main resource for step-by-step tutorials, information on training sessions, and requesting help. http://www.colorado.edu/webcentral
@@ -215,7 +216,7 @@ The Web Express Team
 http://www.colorado.edu/webcentral
 websupport@colorado.edu');
 
-  variable_set('user_external_invite_accepted_confirmation_template', 'You have successfully joined the [site:name] Web Express website as an editor with [user_external_invite:invite_role] access privileges.
+  variable_set('user_external_invite_accepted_confirmation_template', 'You have successfully joined the [site:name] Web Express website as a user with "[user_external_invite:invite_core_role], [user_external_invite:invite_addon_roles]" access privileges.
 
 To access and edit this site:
 1) Go to [site:login-url]
@@ -228,7 +229,6 @@ You can use the Web Central website as your main resource for step-by-step tutor
 The Web Express Team
 http://www.colorado.edu/webcentral
 websupport@colorado.edu');
-
 }
 
 /**
@@ -990,6 +990,13 @@ function cu_core_update_7043() {
 function cu_core_update_7046() {
   module_enable(array('cu_status'));
   module_disable(array('express_status'));
+}
+
+/**
+ * Reset user_external_invite variables.
+ */
+function cu_core_update_7047() {
+  _set_external_invite_variables();
 }
 
 /**

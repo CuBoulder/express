@@ -889,3 +889,25 @@ function express_permissions_form_user_admin_permissions_alter(&$form, &$form_st
   // @TODO: fix to work with sticky header
   drupal_add_css(drupal_get_path('module','express_permissions') . '/css/express-permissions.css');
 }
+
+/**
+ * Implements hook_form_formid_alter().
+ *
+ * Remove hidden roles from the UI.
+ */
+function express_permissions_form_views_exposed_form_alter(&$form, &$form_state) {
+  $hidden_roles_array = array(
+    'edit_only',
+    'access_manager',
+    'configuration_manager',
+    'administrator',
+    'developer',
+  );
+  if (isset($form['rid']['#options'])) {
+    foreach ($form['rid']['#options'] as $id => $option) {
+      if (in_array($option, $hidden_roles_array)) {
+        unset($form['rid']['#options'][$id]);
+      }
+    }
+  }
+}
