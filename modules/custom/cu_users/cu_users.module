@@ -24,7 +24,7 @@ function cu_users_get_users($type = 'all') {
     'alfi2595' => 'alexander.finnarn@colorado.edu',
     'owmo7772' => 'owen.morrill@colorado.edu',
     'jeor0980' => 'Jesus.OrtizTovar@colorado.edu',
-    'osr-test-sis' => 'osr-test-sis@colorado.edu'
+    'osr-test-sis' => 'osr-test-sis@colorado.edu',
   );
 
   $user_array['administrator'] = array(
@@ -221,8 +221,6 @@ function cu_users_user_presave(&$edit, $account, $category) {
     'content_editor',
     'site_editor',
     'site_owner',
-    'administrator',
-    'developer'
   ];
   foreach ($core_roles as $val) {
     $temp_role = user_role_load_by_name($val);
@@ -339,10 +337,18 @@ function cu_users_ldap_email_lookup($email) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-//function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form_state) {
-//  $form['#validate'][] = 'cu_users_form_validate';
-//  $form['#submit'][] = 'cu_users_override_external_invite_submit';
-//}
+function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form_state) {
+  // Set additional roles to only show if site editor is selected.
+  $form['addon_rids']['#states'] = [
+    'visible' => [
+      ':input[name="core_rid"]' => ['value' => user_role_load_by_name('site_editor')->rid],
+    ],
+  ];
+
+  // $form['#validate'][] = 'cu_users_form_validate';
+  // $form['#submit'][] = 'cu_users_override_external_invite_submit';
+  $form['#validate'][] = 'cu_users_override_external_invite_validate';
+}
 
 /**
  * Validation handler for invite_form.
@@ -361,7 +367,7 @@ function cu_users_form_validate(&$form, &$form_state) {
     $item = strtolower($item);
     $email_list[$key] = $item;
   }
-  
+
   // Get all usernames from users.
   $username_list_query = db_query('SELECT name FROM {users}')->fetchCol();
   $username_list = [];
@@ -377,22 +383,57 @@ function cu_users_form_validate(&$form, &$form_state) {
     if (!valid_email_address($mail)) {
       $error = TRUE;
       form_set_error('email', t('Incorrect email address (%mail). No invites were sent.', array('%mail' => $mail)));
-    } else if (in_array(strtolower($mail), $email_list)) {
-      $error = TRUE;
-      form_set_error('email', t('This email address is already associated with an account (%mail). No invites were sent.', array('%mail' => $mail)));
-    } else if (in_array($email_id, $username_list)) {
-      $error = TRUE;
-      form_set_error('email', t('This user is already associated with an account (%mail). No invites were sent.', array('%mail' => $mail)));
     }
     else {
-      $load = _user_external_invite_load_invite($mail);
-      if (isset($load['mail'])) {
-        form_set_error('email', t('Email address (%mail) has already been invited. No invites were sent.', array('%mail' => $mail)));
+      if (in_array(strtolower($mail), $email_list)) {
+        $error = TRUE;
+        form_set_error('email', t('This email address is already associated with an account (%mail). No invites were sent.', array('%mail' => $mail)));
+      }
+      else {
+        if (in_array($email_id, $username_list)) {
+          $error = TRUE;
+          form_set_error('email', t('This user is already associated with an account (%mail). No invites were sent.', array('%mail' => $mail)));
+        }
+        else {
+          $load = _user_external_invite_load_invite($mail);
+          if (isset($load['mail'])) {
+            form_set_error('email', t('Email address (%mail) has already been invited. No invites were sent.', array('%mail' => $mail)));
+          }
+        }
       }
     }
   }
   if (!$error) {
     $form_state['values']['parsed_mails'] = $emails;
+  }
+}
+
+/**
+ * Add-on roles can only be granted when inviting a Site Editor.
+ *
+ * @param array $form
+ *   Generated form.
+ * @param array $form_state
+ *   State of the form with user input.
+ */
+function cu_users_override_external_invite_validate(&$form, &$form_state) {
+  $site_editor_selected = FALSE;
+  foreach ($form['core_rid']['#options'] as $key => $option) {
+    if ($option === 'Site Editor' && (int) $form_state['values']['core_rid'] === $key) {
+      $site_editor_selected = TRUE;
+      break;
+    }
+  }
+
+  $addon_rids_selected = FALSE;
+  foreach ($form['addon_rids']['#options'] as $key => $option) {
+    if (($option === 'Access Manager' || $option === 'Configuration Manager') && in_array($key, $form_state['values']['addon_rids'])) {
+      $addon_rids_selected = TRUE;
+    }
+  }
+
+  if (!$site_editor_selected && $addon_rids_selected) {
+    form_set_error('addon_rids', t('The Access Manager and Configuration Manager Add-on roles can only be granted when inviting a Site Editor.'));
   }
 }
 

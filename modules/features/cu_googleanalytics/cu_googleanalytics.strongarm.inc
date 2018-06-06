@@ -121,16 +121,12 @@ function cu_googleanalytics_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'googleanalytics_pages';
   $strongarm->value = 'admin
-
 admin/*
-
 batch
-
 node/add*
-
 node/*/*
-
-user/*/*';
+user/*/*
+user-external/*';
   $export['googleanalytics_pages'] = $strongarm;
 
   $strongarm = new stdClass();
@@ -147,11 +143,16 @@ user/*/*';
   $strongarm->value = array(
     1 => 0,
     2 => 0,
+    3 => 0,
+    8 => 0,
+    9 => 0,
+    5 => 0,
     6 => 0,
+    10 => 0,
+    11 => 0,
     4 => 0,
     7 => 0,
-    3 => 0,
-    5 => 0,
+    12 => 0,
   );
   $export['googleanalytics_roles'] = $strongarm;
 
