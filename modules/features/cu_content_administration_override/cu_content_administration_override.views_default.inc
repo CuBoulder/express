@@ -235,6 +235,10 @@ function cu_content_administration_override_views_default_views() {
   $handler->display->display_options['filters']['type']['id'] = 'type';
   $handler->display->display_options['filters']['type']['table'] = 'node';
   $handler->display->display_options['filters']['type']['field'] = 'type';
+  $handler->display->display_options['filters']['type']['operator'] = 'not in';
+  $handler->display->display_options['filters']['type']['value'] = array(
+    'webform' => 'webform',
+  );
   $handler->display->display_options['filters']['type']['group'] = 0;
   $handler->display->display_options['filters']['type']['exposed'] = TRUE;
   $handler->display->display_options['filters']['type']['expose']['operator_id'] = 'type_op';
@@ -246,9 +250,15 @@ function cu_content_administration_override_views_default_views() {
     2 => '2',
     1 => 0,
     3 => 0,
-    4 => 0,
+    8 => 0,
+    9 => 0,
     5 => 0,
     6 => 0,
+    10 => 0,
+    11 => 0,
+    4 => 0,
+    7 => 0,
+    12 => 0,
   );
   /* Filter criterion: Content: Promoted to front page */
   $handler->display->display_options['filters']['promote']['id'] = 'promote';
@@ -322,6 +332,7 @@ function cu_content_administration_override_views_default_views() {
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
   $handler->display->display_options['menu']['context_only_inline'] = 0;
+
   $export['cu_content_administration_override_view'] = $view;
 
   return $export;
