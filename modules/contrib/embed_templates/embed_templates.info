@@ -1,0 +1,14 @@
+name = Embed Templates
+description = Provide a custom entity for allowing users to enter sanitized values that are inserted in embed templates, e.g. tracking pixels and third-party forms.
+core = 7.x
+package = Embed Templates
+dependencies[] = entity
+
+files[] = tests/et_test.test
+
+; Information added by Drupal.org packaging script on 2017-10-10
+version = "7.x-1.0-beta4"
+core = "7.x"
+project = "embed_templates"
+datestamp = "1507662246"
+

@@ -1,0 +1,66 @@
+<?php
+
+/**
+ * @file
+ * Installation and schema hooks for the embed_templates module.
+ */
+
+/**
+ * Implements hook_schema().
+ *
+ * @return array
+ *   An array of schemas to be added to the database.
+ */
+function embed_templates_schema() {
+  $schema = array();
+
+  $schema['embed_templates'] = array(
+    'description' => 'The base table for the embed entity.',
+    'fields' => array(
+      'id' => array(
+        'description' => 'Primary key of the embed entity.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'name' => array(
+        'description' => 'Human readable name of the embed.',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
+      'renderer' => array(
+        'description' => 'What to use to render the template.',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
+      'type' => array(
+        'description' => 'Pre-defined type of embed.',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
+      'path' => array(
+        'description' => 'Path to place the embed.',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
+      'status' => array(
+        'description' => 'Published status of the embed.',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+      ),
+      'data' => array(
+        'description' => 'Custom options for embed.',
+        'type' => 'blob',
+        'not null' => TRUE,
+        'size' => 'big',
+      ),
+    ),
+    'primary key' => array('id'),
+  );
+  return $schema;
+}
