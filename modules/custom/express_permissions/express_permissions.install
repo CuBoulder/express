@@ -142,3 +142,11 @@ function express_permissions_update_7003() {
   user_role_save($role);
 }
 
+/**
+ * Reset role weight by increasing permissions
+ */
+function express_permissions_update_7004() {
+  $role = user_role_load_by_name('edit_my_content');
+  user_role_grant_permissions($role->rid, array('access user profiles'));
+}
+
