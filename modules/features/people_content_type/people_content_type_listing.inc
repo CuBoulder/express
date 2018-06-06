@@ -140,7 +140,6 @@ function _people_content_type_listing($view_mode, $type, $department, $filter_1,
     $output = node_view_multiple($nodes, $view_mode);
     // Add fisrt and last classes for grid mode
     if ($view_mode =='grid') {
-      dpm($output);
     }
     if ($view_mode == 'table') {
       // Build an array which can be themed as a table
