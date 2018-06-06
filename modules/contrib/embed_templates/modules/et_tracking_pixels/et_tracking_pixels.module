@@ -65,7 +65,7 @@ function et_tp_get_position_element($data = array()) {
     'bottom' => 'Bottom',
   );
   return array(
-    '#title' => t('Location'),
+    '#title' => t('Position'),
     '#type' => 'select',
     '#options' => $position_options,
     '#description' => t('Choose where on the page the embed is placed. Look at the embed code instructions to determine where it should be placed.'),
@@ -87,6 +87,8 @@ function et_tp_get_position_element($data = array()) {
  */
 function et_tp_facebook_form(&$form, &$form_state, $id = NULL, $data = array()) {
 
+  $size = variable_get('et_form_field_size', 128);
+
   $form['options'] = array(
     '#type' => 'fieldset',
     '#title' => t('Embed Data'),
@@ -99,6 +101,7 @@ function et_tp_facebook_form(&$form, &$form_state, $id = NULL, $data = array()) 
     '#type' => 'textfield',
     '#default_value' => !empty($data['account_id']) ? $data['account_id'] : '',
     '#required' => TRUE,
+    '#size' => $size,
   );
 
   $form['options']['action'] = array(
@@ -106,6 +109,7 @@ function et_tp_facebook_form(&$form, &$form_state, $id = NULL, $data = array()) 
     '#description' => t('An optional activity being tracked. "Pageview" is already added to the code.'),
     '#type' => 'textfield',
     '#default_value' => !empty($data['action']) ? $data['action'] : '',
+    '#size' => $size,
   );
 
   $form['options']['position'] = et_tp_get_position_element($data);
@@ -125,6 +129,8 @@ function et_tp_facebook_form(&$form, &$form_state, $id = NULL, $data = array()) 
  */
 function et_tp_doubleclick_form(&$form, &$form_state, $id = NULL, $data = array()) {
 
+  $size = variable_get('et_form_field_size', 128);
+
   $form['options'] = array(
     '#type' => 'fieldset',
     '#title' => t('Embed Data'),
@@ -137,6 +143,7 @@ function et_tp_doubleclick_form(&$form, &$form_state, $id = NULL, $data = array(
     '#type' => 'textfield',
     '#default_value' => !empty($data['account_id']) ? $data['account_id'] : '',
     '#required' => TRUE,
+    '#size' => $size,
   );
 
   $form['options']['activity'] = array(
@@ -144,6 +151,7 @@ function et_tp_doubleclick_form(&$form, &$form_state, $id = NULL, $data = array(
     '#description' => t('Activity name of this tag.'),
     '#type' => 'textfield',
     '#default_value' => !empty($data['activity']) ? $data['activity'] : '',
+    '#size' => $size,
   );
 
   $form['options']['creation'] = array(
@@ -151,13 +159,31 @@ function et_tp_doubleclick_form(&$form, &$form_state, $id = NULL, $data = array(
     '#description' => t('Creation date of this campaign.'),
     '#type' => 'textfield',
     '#default_value' => !empty($data['creation']) ? $data['creation'] : '',
+    '#size' => $size,
   );
 
-  $form['options']['url'] = array(
-    '#title' => t('URL'),
+  $form['options']['page_location'] = array(
+    '#title' => t('Page Location'),
     '#description' => t('URL where tracking pixel will be added.'),
     '#type' => 'textfield',
-    '#default_value' => !empty($data['url']) ? $data['url'] : '',
+    '#default_value' => !empty($data['page_location']) ? $data['page_location'] : '',
+    '#size' => $size,
+  );
+
+  $form['options']['type'] = array(
+    '#title' => t('Type'),
+    '#description' => t('Type of campaign.'),
+    '#type' => 'textfield',
+    '#default_value' => !empty($data['type']) ? $data['type'] : '',
+    '#size' => $size,
+  );
+
+  $form['options']['category'] = array(
+    '#title' => t('Category'),
+    '#description' => t('Category of campaign.'),
+    '#type' => 'textfield',
+    '#default_value' => !empty($data['category']) ? $data['category'] : '',
+    '#size' => $size,
   );
 
   $form['options']['position'] = et_tp_get_position_element($data);
@@ -177,6 +203,8 @@ function et_tp_doubleclick_form(&$form, &$form_state, $id = NULL, $data = array(
  */
 function et_tp_twitter_form(&$form, &$form_state, $id = NULL, $data = array()) {
 
+  $size = variable_get('et_form_field_size', 128);
+
   $form['options'] = array(
     '#type' => 'fieldset',
     '#title' => t('Embed Data'),
@@ -189,6 +217,7 @@ function et_tp_twitter_form(&$form, &$form_state, $id = NULL, $data = array()) {
     '#type' => 'textfield',
     '#default_value' => !empty($data['account_id']) ? $data['account_id'] : '',
     '#required' => TRUE,
+    '#size' => $size,
   );
 
   $form['options']['activity'] = array(
@@ -196,6 +225,7 @@ function et_tp_twitter_form(&$form, &$form_state, $id = NULL, $data = array()) {
     '#description' => t('Activity name of this tag.'),
     '#type' => 'textfield',
     '#default_value' => !empty($data['action']) ? $data['action'] : '',
+    '#size' => $size,
   );
 
   $form['options']['position'] = et_tp_get_position_element($data);

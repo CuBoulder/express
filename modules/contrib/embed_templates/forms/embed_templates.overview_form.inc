@@ -34,19 +34,41 @@ function embed_templates_overview_form($form, &$form_state) {
   // Set title since it doesn't stick.
   drupal_set_title('Embeds');
 
+  // Add table for listing embed codes.
+  // Table alias is "tp".
+  $headers = array(
+    'id' => array('data' => t('ID'), 'field' => 'tp.id'),
+    'name' => array('data' => t('Name'), 'field' => 'tp.name'),
+    'type' => array('data' => t('Type'), 'field' => 'tp.type'),
+    'author' => array('data' => t('Author'), 'field' => 'tp.author'),
+    'renderer' => array('data' => t('Renderer'), 'field' => 'tp.renderer'),
+    'path' => array('data' => t('Path'), 'field' => 'tp.path'),
+    'status' => array(
+      'data' => t('Status'), 
+      'field' => 'tp.status',
+    ),
+    'updated' => array('data' => t('Updated'), 'field' => 'tp.updated', 'sort' => 'desc'),
+    'edit' => array('data' => t('Edit')),
+  );
+
   // If search has been performed, then return embeds from the search.
   if (isset($form_state['storage']['search_embeds'])) {
-    $embed_templates = $form_state['storage']['search_embeds'];
+    $embed_ids = array_map(function ($value) {
+      return $value->id;
+    }, $form_state['storage']['search_embeds']);
+
+    $embed_templates = embed_templates_get_embeds(array('id' => $embed_ids), $headers);
   }
   else {
-    // Get existing embed codes.
-    $embed_templates = embed_templates_get_embeds();
+    // Get existing embed codes with no conditions and a sortable header.
+    $embed_templates = embed_templates_get_embeds(array(), $headers);
   }
 
   // Build table only if embed codes exist.
   if (!empty($embed_templates)) {
     // Place embed codes in $form_state for submission processing.
     $form_state['embed_templates'] = $embed_templates;
+    $form_state['table_headers'] = $headers;
 
     // Add search form.
     $form = embed_templates_search_form($form, $form_state);
@@ -81,7 +103,7 @@ function embed_templates_search_form($form, $form_state) {
   // Search by embed name.
   $form['search']['name'] = array(
     '#title' => t('Embed Name'),
-    '#description' => t('Search for embed entity by name.'),
+    '#description' => t('Search for embed by name.'),
     '#type' => 'textfield',
     '#default_value' => isset($form_state['storage']['search_name']) ? $form_state['storage']['search_name'] : '',
   );
@@ -89,9 +111,17 @@ function embed_templates_search_form($form, $form_state) {
   // Search by path.
   $form['search']['path'] = array(
     '#title' => t('Embed Path'),
-    '#description' => t('Search for embed entity by path alias.'),
+    '#description' => t('Search for embeds by path alias.'),
     '#type' => 'textfield',
     '#default_value' => isset($form_state['storage']['search_path']) ? $form_state['storage']['search_path'] : '',
+  );
+
+  // Search by author.
+  $form['search']['author'] = array(
+    '#title' => t('Embed Author'),
+    '#description' => t('Search for embeds by the last user who updated the embed.'),
+    '#type' => 'textfield',
+    '#default_value' => isset($form_state['storage']['search_author']) ? $form_state['storage']['search_author'] : '',
   );
 
   // Search by renderer.
@@ -107,7 +137,7 @@ function embed_templates_search_form($form, $form_state) {
 
   $form['search']['renderer'] = array(
     '#title' => t('Embed Renderer'),
-    '#description' => t('Search for embed entity by renderer.'),
+    '#description' => t('Search for embeds by renderer.'),
     '#type' => 'select',
     '#options' => $renderer_options,
     '#default_value' => isset($form_state['storage']['search_renderer']) ? $form_state['storage']['search_renderer'] : '',
@@ -124,7 +154,7 @@ function embed_templates_search_form($form, $form_state) {
 
   $form['search']['type'] = array(
     '#title' => t('Embed Type'),
-    '#description' => t('Search for embed entity by type.'),
+    '#description' => t('Search for embeds by type.'),
     '#type' => 'select',
     '#options' => $types_options,
     '#default_value' => isset($form_state['storage']['search_type']) ? $form_state['storage']['search_type'] : '',
@@ -133,7 +163,7 @@ function embed_templates_search_form($form, $form_state) {
   // Search by status.
   $form['search']['status'] = array(
     '#title' => t('Embed Status'),
-    '#description' => t('Search for embed entity by status.'),
+    '#description' => t('Search for embeds by status.'),
     '#type' => 'select',
     '#options' => array(
       'any' => '-Any-',
@@ -205,37 +235,32 @@ function embed_templates_search_form($form, $form_state) {
  *   Fully built table of embeds for overview page.
  */
 function embed_templates_embeds_table($form, $form_state) {
-  // Add table for listing embed codes.
-  $headers = array(
-    'id' => t('ID'),
-    'name' => t('Name'),
-    'renderer' => t('Renderer'),
-    'type' => t('Type'),
-    'path' => t('Path'),
-    'status' => t('Status'),
-    'edit' => t('Edit'),
-  );
 
   $rows = array();
   foreach ($form_state['embed_templates'] as $result) {
     $status = ucwords($result->status);
     $edit_link = l(t('Edit'), 'admin/content/embeds/' . $result->type . '/' . $result->id . '/edit');
-    $path_link = $result->path == 'N/A' ? 'N/A' : l(drupal_get_path_alias($result->path), $result->path);
+    $path_link = $result->path === 'N/A' ? 'N/A' : l(drupal_get_path_alias($result->path), $result->path);
+
+    $author = user_load_by_name($result->author);
+    $author_link = isset($author->name) ? "<a title=\"{$author->name}\" href=\"/users/{$author->name}\">{$author->name}</a>" : "N/A";
 
     $rows[] = array(
       'id' => $result->id,
       'name' => $result->name,
-      'renderer' => $result->renderer,
       'type' => $result->type,
+      'author' => $author_link,
+      'renderer' => $result->renderer,
       'path' => $path_link,
       'status' => $status,
+      'updated' => format_date($result->updated, 'short'),
       'edit' => $edit_link,
     );
   }
 
   $form['table'] = array(
     '#type' => 'tableselect',
-    '#header' => $headers,
+    '#header' => $form_state['table_headers'],
     '#options' => $rows,
     '#suffix' => empty($rows) ? 'No embed codes have been created.' : '',
     '#weight' => 10,
@@ -267,9 +292,10 @@ function embed_templates_overview_form_submit(&$form, &$form_state) {
   $renderer = !empty($form_state['values']['renderer']) ? $form_state['values']['renderer'] : NULL;
   $type = !empty($form_state['values']['type']) ? $form_state['values']['type'] : NULL;
   $status = !empty($form_state['values']['status']) ? $form_state['values']['status'] : NULL;
+  $author = !empty($form_state['values']['author']) ? $form_state['values']['author'] : NULL;
 
   // If input for search, then pass to search function.
-  if ($form_state['values']['op'] == 'Search') {
+  if ($form_state['values']['op'] === 'Search') {
 
     $options = array(
       'name' => $name,
@@ -277,6 +303,7 @@ function embed_templates_overview_form_submit(&$form, &$form_state) {
       'renderer' => $renderer,
       'type' => $type,
       'status' => $status,
+      'author' => $author,
     );
 
     // Betting on !empty() working for NULL values in array.
@@ -386,6 +413,11 @@ function embed_templates_form_search(&$form_state, $options = array()) {
   if ($options['name'] != NULL) {
     $or = db_or();
     $or->condition('tp.name', '%' . db_like($options['name']) . '%', 'LIKE');
+  }
+
+  if ($options['author'] != NULL) {
+    $or = db_or();
+    $or->condition('tp.author', '%' . db_like($options['author']) . '%', 'LIKE');
   }
 
   // Search by path.

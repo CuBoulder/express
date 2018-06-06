@@ -2,6 +2,7 @@
 user_external_invite 7.x-1.x-dev
 ==================
 
+Issue #2969308 by afinnarn: Update DoubleClick and Add Author and Updated Fields
 Issue #2896317 by afinnarn: Embed Template Beans Do Not Update
 Issue #2895736 by afinnarn: $output in et_add_page() is an array and not a string
 Issue #2895398 by afinnarn: Don't Log 404 In Page Top/Bottom

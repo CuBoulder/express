@@ -241,18 +241,26 @@ function embed_templates_theme($existing, $type, $theme, $path) {
  * @return array
  *   A list of all embeds with correct headers for table display.
  */
-function embed_templates_get_embeds($options = array()) {
-  $query = db_select('embed_templates', 'tp');
+function embed_templates_get_embeds($conditions = array(), $sortable_header = NULL) {
+
+  // If headers sent in, then add sortable.
+  if ($sortable_header) {
+    $query = db_select('embed_templates', 'tp')->extend('TableSort');
+    $query->orderByHeader($sortable_header);
+  }
+  else {
+    $query = db_select('embed_templates', 'tp');
+  }
+
   $query->fields('tp');
 
   // Loop through options array and add conditions.
   // Conditions have to match the db columns.
-  foreach ($options as $key => $option) {
-    $query->condition($key, $option, 'IN');
+  foreach ($conditions as $key => $condition) {
+    $query->condition($key, $condition, 'IN');
   }
 
-  $results = $query->execute()->fetchAllAssoc('id');
-  return $results;
+  return $query->execute()->fetchAllAssoc('id');
 }
 
 /**

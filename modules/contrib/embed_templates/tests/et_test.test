@@ -241,7 +241,9 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
     $edit['account_id'] = '123456';
     $edit['activity'] = 'PageAction';
     $edit['creation'] = '10/21/1999';
-    $edit['url'] = 'http://www.example.com';
+    $edit['page_location'] = 'http://www.example.com';
+    $edit['type'] = 'type_one';
+    $edit['category'] = 'category_one';
     $edit['status'] = 'published';
     $this->drupalPost('admin/content/embeds/add/doubleclick', $edit, t('Save'));
 
@@ -250,7 +252,7 @@ class EmbedTemplatesTrackingPixelTestCase extends DrupalWebTestCase {
 
     // Assert tracking pixel code is rendered.
     // Need to use raw since code is not visible.
-    $this->assertRaw('<iframe src="https://123456.fls.doubleclick.net/activityi;src=123456', "DoubleClick ID found.");
+    $this->assertRaw('<iframe src="https://123456.fls.doubleclick.net/activityi;src=123456;type=type_one;cat=category_one;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;ord=\' + a + \'?" width="1" height="1" frameborder="0" style="display:none"', "DoubleClick iframe found.");
     $this->assertRaw("Activity name of this tag: PageAction", "DoubleClick activity found.");
 
     // Unpublish pixel.

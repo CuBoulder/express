@@ -35,6 +35,7 @@ function embed_templates_form($form, &$form_state, $embed_templates_id = NULL) {
   $data = array();
   $embed_templates = NULL;
   $id = NULL;
+  $size = variable_get('et_form_field_size', 128);
 
   // Load embed if it exists.
   if ($embed_templates_id != NULL && $embed_templates = entity_load_single('embed_templates', $embed_templates_id)) {
@@ -73,6 +74,7 @@ function embed_templates_form($form, &$form_state, $embed_templates_id = NULL) {
     '#type' => 'textfield',
     '#default_value' => $label,
     '#required' => TRUE,
+    '#size' => $size,
   );
 
   // Search field for existing paths.
@@ -82,6 +84,7 @@ function embed_templates_form($form, &$form_state, $embed_templates_id = NULL) {
     '#type' => 'textfield',
     '#autocomplete_path' => 'titles/autocomplete',
     '#default_value' => $path,
+    '#size' => $size,
   );
 
   // Get all status options.
@@ -237,11 +240,16 @@ function embed_templates_form_submit(&$form, &$form_state) {
     // Account for embed with no paths. Used for Context and Beans.
     $path = !empty($form_state['values']['path']) ? $form_state['values']['path'] : 'N/A';
 
+    // Need user for embed overview page.
+    global $user;
+
     // If editing an embed, add data to existing embed object.
     // Otherwise, make a new embed entity.
     if (isset($form_state['embed_templates']->id)) {
       $embed_templates = $form_state['embed_templates'];
       $embed_templates->name = $form_state['values']['label'];
+      $embed_templates->author = $user->name  ?: 'N/A';
+      $embed_templates->updated = REQUEST_TIME;
       $embed_templates->path = $path;
       $embed_templates->type = $type;
       $embed_templates->renderer = $renderer;
@@ -251,6 +259,8 @@ function embed_templates_form_submit(&$form, &$form_state) {
     else {
       $values = array(
         'name' => $form_state['values']['label'],
+        'author' => $user->name ?: 'N/A',
+        'updated' => REQUEST_TIME,
         'path' => $path,
         'type' => $type,
         'renderer' => $renderer,
