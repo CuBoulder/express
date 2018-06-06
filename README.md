@@ -6,6 +6,15 @@ This is a customized installation profile of the [Drupal content management syst
 
 In addition to the Express install profile, Express sites add functionality by enabling bundles using Profile Module Manager. Actively maintained bundles include:
 
-* Alumni Class Notes [![Build Status](https://travis-ci.org/CuBoulder/cu_alumni_class_notes_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/cu_alumni_class_notes_bundle)
-* Campus News [![Build Status](https://travis-ci.org/CuBoulder/cu_campus_news_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/cu_campus_news_bundle)
-* Content Sequence [![Build Status](https://travis-ci.org/CuBoulder/cu_content_sequence_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/cu_content_sequence_bundle)
+* [![Build Status](https://travis-ci.org/CuBoulder/cu_alumni_class_notes_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/cu_alumni_class_notes_bundle) [Alumni Class Notes Bundle](https://github.com/CuBoulder/cu_alumni_class_notes_bundle)
+* [![Build Status](https://travis-ci.org/CuBoulder/cu_campus_news_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/cu_campus_news_bundle) [Campus News Bundle](https://github.com/CuBoulder/cu_campus_news_bundle)
+* [![Build Status](https://travis-ci.org/CuBoulder/cu_content_sequence_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/cu_content_sequence_bundle) [Content Sequence Bundle](https://github.com/CuBoulder/cu_content_sequence_bundle)
+* [![Build Status](https://travis-ci.org/CuBoulder/cu_countdown_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/cu_countdown_bundle) [Countdown Bundle](https://github.com/CuBoulder/cu_countdown_bundle)
+* [![Build Status](https://travis-ci.org/CuBoulder/cu_demo_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/cu_demo_bundle) [Demo Bundle](https://github.com/CuBoulder/cu_demo_bundle)
+* [![Build Status](https://travis-ci.org/CuBoulder/cu_digital_campaign_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/cu_digital_campaign_bundle) [Digital Campaign Bundle](https://github.com/CuBoulder/cu_digital_campaign_bundle)
+* Forms Bundle
+* [![Build Status](https://travis-ci.org/CuBoulder/cu_livechat_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/cu_livechat_bundle) [Live Chat Bundle](https://github.com/CuBoulder/cu_livechat_bundle)
+* [![Build Status](https://travis-ci.org/CuBoulder/cu_newsletter_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/cu_newsletter_bundle) [Newsletter Bundle](https://github.com/CuBoulder/cu_newsletter_bundle)
+* [![Build Status](https://travis-ci.org/CuBoulder/cu_publications_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/cu_publications_bundle) [Publications Bundle](https://github.com/CuBoulder/cu_publications_bundle)
+* [![Build Status](https://travis-ci.org/CuBoulder/cu_section_page_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/cu_section_page_bundle) [Section Page Bundle](https://github.com/CuBoulder/cu_section_page_bundle)
+* [![Build Status](https://travis-ci.org/CuBoulder/express_localist_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/express_localist_bundle) [Localist Bundle](https://github.com/CuBoulder/express_localist_bundle)
