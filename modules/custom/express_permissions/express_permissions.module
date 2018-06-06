@@ -436,6 +436,7 @@ function express_permissions_secure_permissions($role) {
     ),
     'edit_my_content' => array(
       'access ckeditor link',
+      'access user profiles',
       'access content overview',
       'access_google_appliance_content',
       'administer nodes',
