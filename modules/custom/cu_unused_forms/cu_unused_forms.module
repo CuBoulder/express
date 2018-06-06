@@ -1,0 +1,104 @@
+<?php
+
+/**
+ * @file
+ *
+ * Show unused and disabled forms for the site.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function cu_unused_forms_menu() {
+  $items = array();
+  $items['admin/reports/forms/unused'] = array(
+    'title' => 'Unused Forms',
+    'description' => 'A list of Forms that are not being displayed on this site.',
+    'page callback' => 'cu_unused_forms_list',
+    'access arguments' => array('view bean page'),
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function cu_unused_forms_permission() {
+  return array(
+    'view unused forms' => array(
+      'title' => 'View Unused forms',
+      'description' => 'View a list of unused/unreferenced forms.',
+    ),
+  );
+}
+
+/**
+ * Page callback for /admin/reports/forms/unused.
+ */
+function cu_unused_forms_list() {
+  global $base_url;
+  $output = [];
+
+  // There are two separate queries because we need to compare nids between the two separate tables.
+  // We need nids and submissions AND status of both.
+  $forms_count_query = db_query('SELECT * FROM webform');
+  $forms_submissions_query = db_query('SELECT * FROM webform_submissions');
+
+  $forms_count = $forms_count_query->fetchAll();
+  $forms_submissions = $forms_submissions_query->fetchAll();
+
+  // Return all form nids (webform) to $form_nids.
+  foreach ($forms_count as $form) {
+    $form_nids[] = $form->nid;
+  }
+
+  $output['all_forms_title']['#markup'] = '<h3>' . count($form_nids) . t(' disabled form(s)') . '</h3>';
+  // Load all the webform nids to use later on.
+  $nodes = node_load_multiple($form_nids);
+
+  // If the form's node record is set to disabled, return them under the disabled section.
+  foreach ($nodes as $node) {
+    if ($node->webform['status'] == 0) {
+      $output['all_forms'][$node->nid]['#markup'] = '<li><a href="' . $base_url . '/node/' . $node->nid . '">' . $node->title . '</a></li>';
+    }
+  }
+
+  // Return all submission nids (webform_submissions) to $sub_nids.
+  foreach ($forms_submissions as $sub) {
+    $sub_nids[] = $sub->nid;
+  }
+
+  // If there are submissions, tell us which nids don't have them.
+  // Else, return all the forms because nothing has been submitted.
+  if (count($sub_nids) > 0) {
+    $no_subs = array_diff($form_nids, $sub_nids);
+  }
+  else {
+    $no_subs = $form_nids;
+  }
+
+  // This could be helpful at some point, right?
+  variable_set('cu_unused_forms_count', count($no_subs));
+
+  $output['top_title']['#markup'] = '<br><h3>' . count($no_subs) . t(' unused form(s)') . '</h3>';
+
+  // If there are forms without submissions, return them under the unused forms section.
+  if (count($no_subs) > 0) {
+    foreach ($no_subs as $no_sub_node) {
+      $nids[] = $no_sub_node;
+    }
+
+    // Load all the webform nids to use later on.
+    $nodes = node_load_multiple($nids);
+    foreach ($nodes as $node) {
+      if ($node->webform['status'] == 0) {
+        $output['content'][$node->nid]['#markup'] = '<li><a href="' . $base_url . '/node/' . $node->nid . '">' . $node->title . '</a></li>';
+      }
+    }
+  }
+  else {
+    $output['content']['#markup'] = '<p>No results found.</p>';
+  }
+
+  return $output;
+}
