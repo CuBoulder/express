@@ -50,3 +50,7 @@ projects[views_slideshow][patch][] = "https://www.drupal.org/files/issues/drush-
 ; @see https://cuboulder.atlassian.net/browse/FIT-1934
 ; This is currently in the dev branch waiting for 3.5 release.
 projects[video_filter][patch][] = https://www.drupal.org/files/issues/video_filter-aspect-ratio-2749297-2-D7.patch
+
+; @see https://github.com/CuBoulder/express/issues/2498
+; Without this, varnish won't clear on save
+projects[varnish][patch][] = https://www.drupal.org/files/issues/varnish-2944565-issue.patch
