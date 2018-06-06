@@ -31,4 +31,3 @@ features[variable][] = googleanalytics_trackoutbound
 features[variable][] = googleanalytics_trackoutboundaspageview
 features[variable][] = googleanalytics_visibility_pages
 features[variable][] = googleanalytics_visibility_roles
-required = 1
