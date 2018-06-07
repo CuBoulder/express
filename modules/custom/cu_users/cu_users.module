@@ -76,12 +76,7 @@ function cu_users_check_user($username) {
 function cu_users_help($path, $arg) {
   switch ($path) {
     case 'admin/people/invite':
-      return '<p>' . t("Any CU-Boulder employee, student, or sponsored vendor with an IdentiKey can be granted access to the website administration area. To add new users, select a role and add the users' colorado.edu email address. You can send multiple invites by separating email addresses with a comma (i.e. jane.doe@colorado.edu, joe.smith@colorado.edu). Once submitted an email will be sent inviting the users.") .
-        '</p><p>' . t("<strong>Site Owner:</strong> Main authority/contact for the website. All site access permissions. Limited to 3 people. Held responsible for the website adhering to university policies.") .
-        '</p><p>' . t("<strong>Site Editor:</strong> Main site builder. Full access to website content and layout tools. Trusted user responsible for the day-to-day maintenance and building of the website. Can receive elevated add-on roles.") .
-        '</p><p>' . t("<strong>Content Editor:</strong> Edit only access. A basic role limited to content edits/updates for existing content. Can’t delete or add content, blocks or layouts.") .
-        '</p><p>' . t('<strong>Edit My Content:</strong> Page specific access. A basic role limited to content edits/updates for specific pages. Can receive limited add-on roles.') .
-        '</p><br/>';
+      return '<p>' . t("Any CU-Boulder employee, student, or sponsored vendor with an IdentiKey can be granted access to the website administration area. To add new users, select a role and add the users' colorado.edu email address. You can send multiple invites by separating email addresses with a comma (i.e. jane.doe@colorado.edu, joe.smith@colorado.edu). Once submitted an email will be sent inviting the users.");
   }
 }
 
@@ -105,7 +100,27 @@ function cu_users_permission() {
       'restrict access' => TRUE,
       'description' => 'Access admin/configuration',
     ),
+    'access extended role assignment' => array(
+      'title' => 'Access Extended Role Assignment',
+      'restrict access' => TRUE,
+      'description' => 'Gives user full access to assigning user roles',
+    ),
   );
+}
+
+function cu_users_secure_permissions($role) {
+  $permissions = array(
+    'administrator' => array(
+      'access extended role assignment',
+    ),
+    'developer' => array(
+      'access extended role assignment',
+    ),
+  );
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
 }
 
 /**
@@ -338,17 +353,206 @@ function cu_users_ldap_email_lookup($email) {
  * Implements hook_form_FORM_ID_alter().
  */
 function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form_state) {
-  // Set additional roles to only show if site editor is selected.
-  $form['addon_rids']['#states'] = [
-    'visible' => [
-      ':input[name="core_rid"]' => ['value' => user_role_load_by_name('site_editor')->rid],
-    ],
-  ];
 
-  // $form['#validate'][] = 'cu_users_form_validate';
-  // $form['#submit'][] = 'cu_users_override_external_invite_submit';
-  $form['#validate'][] = 'cu_users_override_external_invite_validate';
+  // Theme role fields
+  $form['core_rid']['#theme'] = 'express_roles';
+  $form['addon_rids']['#theme'] = 'express_roles';
+
+  // Add javascript validation
+  $rids = cu_users_elevated_roles();
+  drupal_add_js(array('elevatedRoles' => $rids), 'setting');
+  drupal_add_js(drupal_get_path('module', 'cu_users') . '/js/cu-users-invite.js');
+
+  // $form['#validate'][] = 'cu_users_override_external_invite_validate';
 }
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+
+
+  $core_rids = variable_get('user_external_invite_core_roles', []);
+  if (empty($core_rids)) {
+    drupal_set_message(t('Your site is not yet configured to invite users. Contact the site administrator to configure the invite feature.'), 'status');
+  }
+  else {
+
+    $core_role_options = [];
+    foreach ($core_rids as $val) {
+      if ($val) {
+        $core_role_options[$val] = _user_external_invite_role_name_from_rid($val);
+      }
+    }
+
+    $addon_rids = variable_get('user_external_invite_addon_roles', []);
+    $addon_role_options = [];
+    foreach ($addon_rids as $val) {
+      if ($val) {
+        $addon_role_options[$val] = _user_external_invite_role_name_from_rid($val);
+      }
+    }
+
+    asort($core_role_options);
+    asort($addon_role_options);
+
+
+    if (!user_access('access extended role assignment')) {
+
+      unset($form['account']['roles']);
+      $form['save_role_types'] = array(
+        '#type' => 'hidden',
+        '#value' => 1,
+      );
+
+      // Get saved roles and intersect with core role options.
+      $saved_core = array_intersect_key($core_role_options, $form['#user']->roles);
+      $form['account']['core_roles'] = array(
+        '#title' => 'Core Role',
+        '#type' => 'radios',
+        '#options' => $core_role_options,
+        '#theme' => 'express_roles',
+        '#default_value' => key($saved_core),
+      );
+
+      // Get saved roles and intersect with addon role options.
+      $saved_addon = array_intersect_key($addon_role_options, $form['#user']->roles);
+      $form['account']['addon_roles'] = array(
+        '#title' => 'Add-on Roles',
+        '#type' => 'checkboxes',
+        '#options' => $addon_role_options,
+        '#theme' => 'express_roles',
+        '#default_value' => array_keys($saved_addon),
+      );
+      $form['#submit'][] = 'cu_users_save_user_roles';
+
+      // Add javascript validation.
+      $rids = cu_users_elevated_roles();
+      drupal_add_js(array('elevatedRoles' => $rids), 'setting');
+      drupal_add_js(drupal_get_path('module', 'cu_users') . '/js/cu-users.js');
+    }
+  }
+}
+
+/**
+ * Submit function for cu_users_form_user_profile_form_alter().
+ */
+function cu_users_save_user_roles(&$form, &$form_state) {
+  if (!empty($form_state['values']['save_role_types'])) {
+
+    // Get the submitted values from the role types.
+    $core_roles = !empty($form_state['values']['core_roles']) ? $form_state['values']['core_roles'] : NULL;
+    $addon_roles = $form_state['values']['addon_roles'];
+
+    // Addon roles accept multiple values so it's already an array.
+    $roles = !empty($addon_roles) ? $addon_roles : array();
+    // Add submitted core roles
+    if ($core_roles) {
+      $roles[] = $core_roles;
+    }
+    // Put the submitted role values into the format Drupal wants.
+    $saved_roles = array();
+    foreach($roles as $rid) {
+      $saved_roles[$rid] = $rid;
+    }
+    // Add role values to the user object and save.
+    $user = $form['#user'];
+    $user->roles = $saved_roles;
+    user_save($user);
+  }
+}
+
+/**
+ * Implementes hook_theme().
+ */
+function cu_users_theme() {
+  return array(
+      'express_roles' => array(
+        'render element' => 'form',
+        'function' => 'cu_user_express_roles',
+      ),
+  );
+}
+
+/**
+ * Theme function for role checkbox and radio field output.
+ */
+function cu_user_express_roles($element) {
+  $output = array();
+  foreach ($element['form']['#options'] as $key => $option) {
+    $output[$key] = $element['form'][$key];
+    $output[$key]['#prefix'] = '<div class="cu-role-wrapper">';
+    if (cu_user_role_descriptions($option)) {
+      $output[$key]['#suffix'] = '<div class="cu-role-description">' . cu_user_role_descriptions($option) . '</div></div>';
+    }
+    else {
+      $output[$key]['#suffix'] = '</div>';
+    }
+    $type = $element['form']['#title'];
+    $description = cu_user_role_type_descriptions($type);
+    $output['#prefix'] = '<div class="role-type-description">' . $description . '</div><div class="cu-roles-wrapper">';
+    $output['#suffix'] = '</div>';
+  }
+  return render($output);
+}
+
+/**
+ * Provides role type descriptions.
+ */
+function cu_user_role_type_descriptions($type) {
+  $descriptions = array(
+    'Core Role' => 'Description for core roles goes here.',
+    'Add-on Roles' => 'Description for core roles goes here.',
+  );
+  if (!empty($descriptions[$type])) {
+    return $descriptions[$type];
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
+ * Provides role descriptions.
+ */
+function cu_user_role_descriptions($role) {
+  $descriptions = array(
+    'Site Owner' => 'Main authority/contact for the website. All site access permissions. Limited to 3 people. Held responsible for the website adhering to university policies.',
+    'Site Editor' => 'Main site builder. Full access to website content and layout tools. Trusted user responsible for the day-to-day maintenance and building of the website. Can receive elevated add-on roles.',
+    'Content Editor' => 'Edit only access. A basic role limited to content edits/updates for existing content. Can’t delete or add content, blocks or layouts.',
+    'Edit My Content' => 'Page specific access. A basic role limited to content edits/updates for specific pages. Can receive limited add-on roles.',
+    'Access Manager' => 'Description goes here.',
+    'Configuration Manager' => 'Description goes here.',
+    'Form Manager' => 'Description goes here.',
+  );
+
+  if (!empty($descriptions[$role])) {
+    return $descriptions[$role];
+  }
+  else {
+    return FALSE;
+  }
+}
+
+
+/**
+ * Returns role ids for elevated roles.
+ */
+function cu_users_elevated_roles() {
+  $elevated_roles = array(
+    'site_owner',
+    'access_manager',
+    'configuration_manager',
+  );
+  $elevated_rids = array();
+  foreach ($elevated_roles as $role) {
+    $elevated_rids[] = array_search($role, user_roles());
+  }
+
+  return $elevated_rids;
+}
+
+
 
 /**
  * Validation handler for invite_form.
