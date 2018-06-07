@@ -998,6 +998,12 @@ function cu_core_update_7046() {
 function cu_core_update_7047() {
   _set_external_invite_variables();
 }
+/**
+ * Resvert Features.
+ */
+function cu_core_update_7048() {
+  cu_core_revert_features();
+}
 
 /**
  * Revert features by passing features in an array.
