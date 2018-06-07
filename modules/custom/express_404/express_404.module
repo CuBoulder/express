@@ -1,0 +1,34 @@
+<?php
+
+function express_404_menu() {
+  $items['admin/reports/notfound'] = array(
+    'title' => 'Top 404s',
+    'description' => 'This page displays the top 404s for your site via Google Analytics Reports.',
+    'page callback' => 'express_404_page',
+    'access callback' => TRUE,
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_views_api().
+ */
+function express_404_views_api() {
+  return array(
+    'api' => "3.0",
+  );
+}
+
+function express_404_page() {
+  $output = '';
+
+  $google_api = variable_get('google_analytics_reports_api_client_id');
+
+  if (isset($google_api)) {
+    $output = views_embed_view('404_pages', $display_id = 'block');
+  } else {
+    $output = t('No Google Analytics Reports API Client ID detected, you must <a href="@url" target="_blank">authorize</a> your reports API.', array('@url' => url('admin/config/system/google-analytics-reports-api')));
+  }
+
+  return $output;
+}
