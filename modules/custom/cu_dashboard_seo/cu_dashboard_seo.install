@@ -6,3 +6,12 @@ function cu_dashboard_seo_install() {
     variable_set('cu_seo_checklist_google_analytics', 1);
   }
 }
+
+/**
+ * CU Dashboard SEO secure permissions update
+ *
+ * Rebuild perms for google analytic reports.
+ */
+function cu_dashboard_seo_update_7001() {
+  secure_permissions_rebuild();
+}

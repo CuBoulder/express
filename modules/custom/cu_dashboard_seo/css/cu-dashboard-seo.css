@@ -17,3 +17,11 @@
 .seo-checklist-item p:last-child {
   margin-bottom: 0;
 }
+
+.express-dashboard-widget-content {
+  margin: 3px 0 12px 0;
+}
+
+.express-dashboard-widget-container {
+  margin-top: 3%;
+}
