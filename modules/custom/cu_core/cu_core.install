@@ -1014,7 +1014,7 @@ function cu_core_update_7048() {
 /**
  * Increase weight of cu_core module.
  */
-function cu_core_update_7048() {
+function cu_core_update_7049() {
   // Set the weight high to run last hooks after other modules.
   db_update('system')
     ->fields(array('weight' => 999))
