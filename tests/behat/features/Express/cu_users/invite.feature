@@ -2,7 +2,7 @@
 Feature: User External Invite
 Given I am an administrator
 When I login to a Web Express site
-I should be able to invite users to my site and manage invitations
+I should be able to invite users to my site and manage invitations.
 
   Scenario Outline: Express roles have correct permissions to access user creation and invite pages.
     Given I am logged in as a user with the <role> role
