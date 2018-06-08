@@ -307,7 +307,6 @@ function express_permissions_secure_permissions($role) {
       'administer fieldgroups',
       'administer filters',
       'administer fitvids',
-      'administer flexslider',
       'administer google analytics',
       'administer honeypot',
       'administer image styles',

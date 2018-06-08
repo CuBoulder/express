@@ -15,7 +15,6 @@ dependencies[] = express_field_bases
 dependencies[] = features
 dependencies[] = fences
 dependencies[] = field_group
-dependencies[] = flexslider
 dependencies[] = image
 dependencies[] = link
 dependencies[] = list
