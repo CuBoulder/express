@@ -10,7 +10,6 @@ dependencies[] = cu_article_slider
 dependencies[] = cu_related_articles
 dependencies[] = cu_view_modes
 dependencies[] = ds
-dependencies[] = eva
 dependencies[] = express_field_bases
 dependencies[] = features
 dependencies[] = fences
