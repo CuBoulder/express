@@ -97,7 +97,6 @@ I should be able to invite users to my site and manage invitations.
     And I fill in "Email addresses" with "ex@ample.com"
     And I fill in "Custom message" with "Howdy!"
     And I press "Send Invites"
-    Then I should see "The Access Manager and Configuration Manager Add-on roles can only be granted when inviting a Site Editor."
     # The form is already loaded with previous values.
       And I check the "Site Editor" radio button
     And I press "Send Invites"
