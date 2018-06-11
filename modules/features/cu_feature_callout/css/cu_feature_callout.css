@@ -15,7 +15,7 @@
 .content-grid-style-cards .content-grid-item1 { margin-bottom: 40px; display: flex; justify-content: stretch; flex-direction: column; flex-grow: 1; }
 .content-grid-style-cards .content-grid-item-inner { height: 100%; background: #fff; -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); transition: -webkit-box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease; transition: -moz-box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease; transition: box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease; }
 .content-grid-style-cards .content-grid-item-inner .content-grid-content { padding: 20px; color: #202020; }
-.content-grid-style-cards .content-grid-item-inner .content-grid-content a:link, .content-grid-style-cards .content-grid-item-inner .content-grid-content a:visited { color: #007BC8; }
+.content-grid-style-cards .content-grid-item-inner .content-grid-content a:link, .content-grid-style-cards .content-grid-item-inner .content-grid-content a:visited { color: #0277BD; }
 .content-grid-style-cards .content-grid-item-inner .content-grid-content > *:last-child { margin-bottom: 0; }
 .content-grid-style-cards .content-grid-item-inner:hover { -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.25); -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.25); box-shadow: 0 0 20px rgba(0, 0, 0, 0.25); }
 
@@ -78,7 +78,7 @@
 .content-grid-style-overlay .content-grid-image .content-grid-title-wrapper { position: absolute; bottom: 0; left: 0; right: 0; background-color: rgba(0, 0, 0, 0.65); color: #fff; }
 .content-grid-style-overlay .content-grid-image .content-grid-title-wrapper h2, .content-grid-style-overlay .content-grid-image .content-grid-title-wrapper h3 { font-size: 100%; margin: 0; }
 .content-grid-style-overlay .content-grid-image .content-grid-title-wrapper a, .content-grid-style-overlay .content-grid-image .content-grid-title-wrapper span { display: block; padding: 20px; color: #fff; position: relative; }
-.content-grid-style-overlay .content-grid-image .content-grid-title-wrapper a:after { content: " "; height: 1px; position: absolute; bottom: 0; left: 0; right: 0; z-index: 1; border-bottom: 4px solid #007BC8; }
+.content-grid-style-overlay .content-grid-image .content-grid-title-wrapper a:after { content: " "; height: 1px; position: absolute; bottom: 0; left: 0; right: 0; z-index: 1; border-bottom: 4px solid #0277BD; }
 .content-grid-style-overlay .content-grid-content { padding-top: 10px; display: none; }
 
 .content-grid-style-overlay1 .content-grid-item { position: relative; display: flex; flex-direction: row; overflow: hidden; }
