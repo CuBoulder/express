@@ -97,7 +97,4 @@ I should be able to invite users to my site and manage invitations.
     And I fill in "Email addresses" with "ex@ample.com"
     And I fill in "Custom message" with "Howdy!"
     And I press "Send Invites"
-    # The form is already loaded with previous values.
-      And I check the "Site Editor" radio button
-    And I press "Send Invites"
     Then I should see "Successfully invited new user!"
