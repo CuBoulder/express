@@ -76,7 +76,14 @@ function cu_users_check_user($username) {
 function cu_users_help($path, $arg) {
   switch ($path) {
     case 'admin/people/invite':
-      return '<p>' . t("Any CU-Boulder employee, student, or sponsored vendor with an IdentiKey can be granted access to the website administration area. To add new users, select a role and add the users' colorado.edu email address. You can send multiple invites by separating email addresses with a comma (i.e. jane.doe@colorado.edu, joe.smith@colorado.edu). Once submitted an email will be sent inviting the users.");
+      return '<p>Any CU Boulder employee, student or sponsored vendor with an IdentiKey can be granted access to the website administration area. To add a site user:</p>
+<ol class="numbered-list">
+  <li>Select a Core Role.</li>
+  <li>Consider an optional add-on role for elevated permissions (can be added later via modify site user access).</li>
+  <li>Add the individual user’s email address (i.e., jane.smith@colorado.edu or janesmith@gmail.com). We recommend avoiding the use of group or department accounts. </li>
+  <li>Provide a custom message to the person (optional).</li>
+  <li>Click Send Invites at the bottom of the page.</li>
+  </ol>';
   }
 }
 
@@ -358,10 +365,19 @@ function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form
   $form['core_rid']['#theme'] = 'express_roles';
   $form['addon_rids']['#theme'] = 'express_roles';
 
+  // Custom order of core roles.
+  $order = array('Edit My Content', 'Content Editor', 'Site Editor', 'Site Owner');
+
+  usort($form['core_rid']['#options'], function ($a, $b) use ($order) {
+    $pos_a = array_search($a, $order);
+    $pos_b = array_search($b, $order);
+    return $pos_a - $pos_b;
+  });
+
   // Add javascript validation
-  $rids = cu_users_elevated_roles();
-  drupal_add_js(array('elevatedRoles' => $rids), 'setting');
-  drupal_add_js(drupal_get_path('module', 'cu_users') . '/js/cu-users-invite.js');
+  //$rids = cu_users_elevated_roles();
+  //drupal_add_js(array('elevatedRoles' => $rids), 'setting');
+  //drupal_add_js(drupal_get_path('module', 'cu_users') . '/js/cu-users-invite.js');
 
   // $form['#validate'][] = 'cu_users_override_external_invite_validate';
 }
@@ -378,28 +394,45 @@ function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
   }
   else {
 
-    $core_role_options = [];
-    foreach ($core_rids as $val) {
-      if ($val) {
-        $core_role_options[$val] = _user_external_invite_role_name_from_rid($val);
-      }
-    }
-
-    $addon_rids = variable_get('user_external_invite_addon_roles', []);
-    $addon_role_options = [];
-    foreach ($addon_rids as $val) {
-      if ($val) {
-        $addon_role_options[$val] = _user_external_invite_role_name_from_rid($val);
-      }
-    }
-
-    asort($core_role_options);
-    asort($addon_role_options);
-
 
     if (!user_access('access extended role assignment')) {
 
-      unset($form['account']['roles']);
+      $core_role_options = [];
+      foreach ($core_rids as $val) {
+        if ($val) {
+          $core_role_options[$val] = _user_external_invite_role_name_from_rid($val);
+        }
+      }
+
+      $addon_rids = variable_get('user_external_invite_addon_roles', []);
+      $addon_role_options = [];
+      foreach ($addon_rids as $val) {
+        if ($val) {
+          $addon_role_options[$val] = _user_external_invite_role_name_from_rid($val);
+        }
+      }
+
+      asort($core_role_options);
+      asort($addon_role_options);
+
+      // Custom order of core roles
+      $order = array('Edit My Content', 'Content Editor', 'Site Editor', 'Site Owner');
+
+      usort($core_role_options, function ($a, $b) use ($order) {
+        $pos_a = array_search($a, $order);
+        $pos_b = array_search($b, $order);
+        return $pos_a - $pos_b;
+      });
+
+      // Roles is default role field
+      if (!empty($form['account']['roles'])) {
+        unset($form['account']['roles']);
+      }
+      // Role Change is added from role delegation
+      if (!empty($form['account']['roles_change'])) {
+        unset($form['account']['roles_change']);
+      }
+
       $form['save_role_types'] = array(
         '#type' => 'hidden',
         '#value' => 1,
@@ -427,9 +460,10 @@ function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
       $form['#submit'][] = 'cu_users_save_user_roles';
 
       // Add javascript validation.
-      $rids = cu_users_elevated_roles();
-      drupal_add_js(array('elevatedRoles' => $rids), 'setting');
-      drupal_add_js(drupal_get_path('module', 'cu_users') . '/js/cu-users.js');
+      // Removing the js popup for now.
+      // $rids = cu_users_elevated_roles();
+      // drupal_add_js(array('elevatedRoles' => $rids), 'setting');
+      // drupal_add_js(drupal_get_path('module', 'cu_users') . '/js/cu-users.js');
     }
   }
 }
@@ -501,8 +535,8 @@ function cu_user_express_roles($element) {
  */
 function cu_user_role_type_descriptions($type) {
   $descriptions = array(
-    'Core Role' => 'Description for core roles goes here.',
-    'Add-on Roles' => 'Description for core roles goes here.',
+    'Core Role' => 'There are four core roles available that range from minimal to full site access. Review the descriptions for details on the level of access for each role.',
+    'Add-on Roles' => 'Through add-on roles, Site Owners have the ability to elevate a trusted site user’s access and delegate certain responsibilities. Review the descriptions for details on additional level access available. ',
   );
   if (!empty($descriptions[$type])) {
     return $descriptions[$type];
@@ -521,9 +555,38 @@ function cu_user_role_descriptions($role) {
     'Site Editor' => 'Main site builder. Full access to website content and layout tools. Trusted user responsible for the day-to-day maintenance and building of the website. Can receive elevated add-on roles.',
     'Content Editor' => 'Edit only access. A basic role limited to content edits/updates for existing content. Can’t delete or add content, blocks or layouts.',
     'Edit My Content' => 'Page specific access. A basic role limited to content edits/updates for specific pages. Can receive limited add-on roles.',
-    'Access Manager' => 'Description goes here.',
-    'Configuration Manager' => 'Description goes here.',
-    'Form Manager' => 'Description goes here.',
+    'Access Manager' => 'Can assign up to three site users to help manage users and roles on a site. This role will grant access to:
+    <ul class="bullet-list">
+      <li>Invite users</li>
+      <li>Manage access roles</li>
+      <li>Delete or block users</li>
+    </ul>
+    ',
+    'Configuration Manager' => 'Can assign up to three site users to help manage Site Configurations. This role will grant access to:
+    <ul class="bullet-list">
+      <li>Site name/description settings</li>
+      <li>Theme settings</li>
+      <li>Google Analytics settings</li>
+      <li>Enable bundles settings</li>
+      <li>Site launch approval</li>
+    </ul>',
+    'Form Manager' => 'This role is tied to the Forms Bundle. Site Owners can assign a site user as a Form Manager to create and maintain forms. This role can:
+    <ul class="bullet-list">
+      <li>Create new forms</li>
+      <li>Manage forms they create/author</li>
+      <li>See form submissions for forms they create/author</li>
+      <li>Edit/delete forms they manage</li>
+      <li>Add site users to view submissions for forms they create/author</li>
+      <li>Add site users as co-editors for forms they create/author</li>
+    </ul>
+    Note: Form managers may not edit forms authored by other form managers on the site. Site Owners have access to all forms.',
+    'Campaign Manager' => 'This role is tied to the Digital Campaign Bundle. Site Owners can assign site users to place and manage tracking pixels or other embeds for a site. This role can:
+    <ul class="bullet-list">
+      <li>Add an Embed item</li>
+      <li>Edit an Embed item</li>
+      <li>Manage Embeds from the Embeds Overview Page</li>
+    </ul>
+    Note: If you want a user to only be able to manage tracking pixels or other embeds and not any content, invite them to Edit Own without making them the author of any content.',
   );
 
   if (!empty($descriptions[$role])) {
