@@ -77,6 +77,7 @@ I should be able to invite users to my site and manage invitations.
     Given I am logged in as a user with the "site_owner" role
     When I go to "admin/people/invite"
     And I fill in "edit-email" with "newname@example.com"
+    And I check the "Content Editor" radio button
     And I press "edit-submit"
     Then I should see "Successfully invited new user!"
 
