@@ -23,6 +23,9 @@ function cu_inactive_users_permission() {
   );
 }
 
+/**
+ * Implements hook_secure_permissions().
+ */
 function cu_inactive_users_secure_permissions($role) {
   $permissions = array(
     'administrator' => array(
@@ -37,10 +40,17 @@ function cu_inactive_users_secure_permissions($role) {
   }
 }
 
+/**
+ * Callback function for admin/reports/inactive-users
+ */
 function cu_inactive_users_report($uids) {
   $output = array();
   if ($uids) {
     $uids = explode(' ', $uids);
+    if (!empty($uids)) {
+      $link = l('View this report on all site users', 'admin/reports/inactive-users');
+      $output['subset']['#markup'] = "<p>This report is being run on a subset of users. $link.</p>";
+    }
   }
 
   // Put this into a list we can output.
@@ -50,8 +60,19 @@ function cu_inactive_users_report($uids) {
   foreach ($inactive_users as $inactive_user) {
     $list[$inactive_user->uid] = !empty($inactive_user->realname) ? l($inactive_user->realname, 'user/' . $inactive_user->uid) : l($inactive_user->name, 'user/' . $inactive_user->uid);
   }
-  $output['description']['#markup'] = '<p>The users listed below are not authors of any content, blocks or webform submissions and have made no edits to any content or blocks.</p>';
-  $output['list']['#markup'] = theme('item_list', array('items' => $list, 'attributes' => array('class' => array('bullet-list'))));
+  $output['inactive']['#prefix'] = '<h2>Inactive Users</h2>';
+  $output['inactive']['description']['#markup'] = '<p>The users listed below are not authors of any content, blocks or webform submissions and have made no edits to any content or blocks.</p>';
+  $output['inactive']['list']['#markup'] = theme('item_list', array('items' => $list, 'attributes' => array('class' => array('bullet-list'))));
+
+  $list = array();
+  $no_role_users = cu_inactive_users_missing_role_get($uids);
+
+  foreach ($no_role_users as $no_role_user) {
+    $list[$no_role_user->uid] = !empty($no_role_user->realname) ? l($no_role_user->realname, 'user/' . $no_role_user->uid) : l($no_role_user->name, 'user/' . $no_role_user->uid);
+  }
+  $output['missing_role']['#prefix'] = '<h2>Users Without a Role</h2>';
+  $output['missing_role']['description']['#markup'] = '<p>The users listed below have no roles assigned to them.</p>';
+  $output['missing_role']['list']['#markup'] = theme('item_list', array('items' => $list, 'attributes' => array('class' => array('bullet-list'))));
 
   return $output;
 }
@@ -117,4 +138,31 @@ function cu_inactive_users_get($user_list = array()) {
   $inactive_users = array_intersect_key($users, $inactive_user_ids);
 
   return $inactive_users;
+}
+
+function cu_inactive_users_missing_role_get($user_list = array()) {
+  // Load users.
+  if (!empty($user_list)) {
+    $users = entity_load('user', $user_list);
+  }
+  else {
+    $users = entity_load('user');
+    // Remove user 0,1;
+    unset($users[0]);
+    unset($users[1]);
+  }
+
+  // Get uids with a role
+  $query = db_select('users_roles', 'ur')
+  ->fields('ur', array('uid'))
+  ->distinct()
+  ->execute()
+  ->fetchCol();
+
+  // Reformat for easier comparison
+  $users_with_role = array_fill_keys($query, '1');
+
+  // Get users that don't have a role
+  $users_without_role = array_diff_key($users, $users_with_role);
+  return $users_without_role;
 }
