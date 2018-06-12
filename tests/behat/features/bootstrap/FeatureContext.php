@@ -13,9 +13,7 @@ use Behat\Behat\Hook\Scope\AfterStepScope;
  * @file
  * The main Behat context.
  */
-
-class FeatureContext extends MinkContext
-{
+class FeatureContext extends MinkContext {
 
   /*
    * @AfterScenario
@@ -47,6 +45,11 @@ class FeatureContext extends MinkContext
   } */
 
 
+  /**
+   * Output captured from Drush command.
+   *
+   * @var string
+   */
   private $drushOutput;
 
   /**
@@ -55,7 +58,8 @@ class FeatureContext extends MinkContext
    * @Given I wait for AJAX
    */
   public function iWaitForAjax() {
-    $this->getSession()->wait(2000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
+    $this->getSession()
+      ->wait(2000, 'typeof jQuery !== "undefined" && jQuery.active === 0 && document.readyState === "complete"');
   }
 
   /**
@@ -69,8 +73,7 @@ class FeatureContext extends MinkContext
    * @throws \Behat\Mink\Exception\ElementNotFoundException
    * @throws \Exception
    */
-  public function assertAuthenticatedByRole($role)
-  {
+  public function assertAuthenticatedByRole($role) {
     // Go to user login page.
     $this->getSession()->visit($this->locatePath('/user'));
     $element = $this->getSession()->getPage();
@@ -175,8 +178,8 @@ class FeatureContext extends MinkContext
       $filters = filter_list_format($format->format);
       // Build the $format->filters array...
       $format->filters = array();
-      foreach($filters as $name => $filter) {
-        foreach($filter as $k => $v) {
+      foreach ($filters as $name => $filter) {
+        foreach ($filter as $k => $v) {
           $format->filters[$name][$k] = $v;
         }
       }
@@ -226,15 +229,15 @@ class FeatureContext extends MinkContext
    *   The CSS selector you are waiting to appear.
    */
   public function iWaitForTheElementToAppear($arg1) {
-    $this->spinner(function($context, $arg1) {
+    $this->spinner(function ($context, $arg1) {
 
       $el = $context->getSession()->getPage()->find("css", $arg1);
 
       if ($el !== NULL && $el->isVisible()) {
-        return true;
+        return TRUE;
       }
 
-      return false;
+      return FALSE;
     }, $arg1);
   }
 
@@ -255,7 +258,7 @@ class FeatureContext extends MinkContext
     for ($i = 0; $i < $wait; $i++) {
       try {
         if ($lambda($this, $element)) {
-          return true;
+          return TRUE;
         }
       } catch (Exception $e) {
         // do nothing
@@ -265,7 +268,7 @@ class FeatureContext extends MinkContext
 
     $backtrace = debug_backtrace();
 
-    throw new Exception("Timeout thrown by ". $backtrace[1]['class']. "::". $backtrace[1]['function']. "()\n". $backtrace[1]['file']. ", line ". $backtrace[1]['line']);
+    throw new Exception("Timeout thrown by " . $backtrace[1]['class'] . "::" . $backtrace[1]['function'] . "()\n" . $backtrace[1]['file'] . ", line " . $backtrace[1]['line']);
   }
 
   /**
@@ -275,13 +278,13 @@ class FeatureContext extends MinkContext
    *
    * @throws \Exception
    */
-  public function assertLinkVisible($link)
-  {
+  public function assertLinkVisible($link) {
     $element = $this->getSession()->getPage();
     $result = $element->findLink($link);
     try {
       if ($result && !$result->isVisible()) {
-        throw new Exception(sprintf("No link to '%s' on the page %s", $link, $this->getSession()->getCurrentUrl()));
+        throw new Exception(sprintf("No link to '%s' on the page %s", $link, $this->getSession()
+          ->getCurrentUrl()));
       }
     } catch (UnsupportedDriverActionException $e) {
       // We catch the UnsupportedDriverActionException exception in case
@@ -289,7 +292,8 @@ class FeatureContext extends MinkContext
       // All other exceptions are valid.
     }
     if (empty($result)) {
-      throw new Exception(sprintf("No link to '%s' on the page %s", $link, $this->getSession()->getCurrentUrl()));
+      throw new Exception(sprintf("No link to '%s' on the page %s", $link, $this->getSession()
+        ->getCurrentUrl()));
     }
   }
 
@@ -300,13 +304,13 @@ class FeatureContext extends MinkContext
    *
    * @throws \Exception
    */
-  public function assertLinkNotVisible($link)
-  {
+  public function assertLinkNotVisible($link) {
     $element = $this->getSession()->getPage();
     $result = $element->findLink($link);
     try {
       if ($result && $result->isVisible()) {
-        throw new Exception(sprintf("Link to '%s' found on the page %s", $link, $this->getSession()->getCurrentUrl()));
+        throw new Exception(sprintf("Link to '%s' found on the page %s", $link, $this->getSession()
+          ->getCurrentUrl()));
       }
     } catch (UnsupportedDriverActionException $e) {
       // We catch the UnsupportedDriverActionException exception in case
@@ -324,8 +328,7 @@ class FeatureContext extends MinkContext
    *
    * @throws \Exception
    */
-  public function theElementShouldHaveInTheAttribute($element, $text, $attribute)
-  {
+  public function theElementShouldHaveInTheAttribute($element, $text, $attribute) {
     $session = $this->getSession();
     $page = $session->getPage();
 
@@ -351,8 +354,7 @@ class FeatureContext extends MinkContext
   /**
    * @When I attach the file :path to the :field field
    */
-  public function iAttachTheFileToTheField($path, $field)
-  {
+  public function iAttachTheFileToTheField($path, $field) {
     $field = $this->fixStepArgument($field);
 
     if ($this->getMinkParameter('files_path')) {
@@ -360,7 +362,7 @@ class FeatureContext extends MinkContext
       // We can't use realpath() since the tests might be run on a different server.
       // $fullPath = rtrim(realpath($this->getMinkParameter('files_path')), DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR.$path;
 
-      $fullPath = rtrim($this->getMinkParameter('files_path')).DIRECTORY_SEPARATOR.$path;
+      $fullPath = rtrim($this->getMinkParameter('files_path')) . DIRECTORY_SEPARATOR . $path;
       echo $fullPath;
 
       if (is_file($fullPath)) {
@@ -376,12 +378,12 @@ class FeatureContext extends MinkContext
   }
 
   /**
-   * Pauses the scenario until the user presses a key. Useful when debugging a scenario.
+   * Pauses the scenario until the user presses a key. Useful when debugging a
+   * scenario.
    *
    * @Then (I )break
    */
-  public function iPutABreakpoint()
-  {
+  public function iPutABreakpoint() {
     fwrite(STDOUT, "\033[s \033[93m[Breakpoint] Press \033[1;93m[RETURN]\033[0;93m to continue, or 'q' to quit...\033[0m");
     do {
       $line = trim(fgets(STDIN, 1024));
@@ -402,22 +404,23 @@ class FeatureContext extends MinkContext
           fwrite(STDOUT, sprintf("\nInvalid entry '%s'.  Please enter 'y', 'q', or the enter key.\n", $line));
           break;
       }
-    } while (true);
+    } while (TRUE);
     fwrite(STDOUT, "\033[u");
   }
 
   /**
    * @Given /^I switch to the iframe "([^"]*)"$/
    */
-  public function iSwitchToIframe($arg1 = null) {
-      $this->getSession()->switchToIFrame($arg1);
+  public function iSwitchToIframe($arg1 = NULL) {
+    $this->getSession()->switchToIFrame($arg1);
   }
 
   /**
    * @When /^I check the "([^"]*)" radio button$/
+   *
+   * @throws \Exception
    */
-  public function iCheckTheRadioButton($labelText)
-  {
+  public function iCheckTheRadioButton($labelText) {
     $page = $this->getSession()->getPage();
     $radioButton = $page->find('named', ['radio', $labelText]);
     if ($radioButton) {
@@ -435,8 +438,7 @@ class FeatureContext extends MinkContext
    *
    * @throws \Exception
    */
-  public function iRunTheDrushCommand($arg1, $arg2)
-  {
+  public function iRunTheDrushCommand($arg1, $arg2) {
     try {
       // The drush command uses aliases to more easily target a site.
       // Without using aliases, you have to "cd" into the site directory.
@@ -446,21 +448,39 @@ class FeatureContext extends MinkContext
       print_r($this->drushOutput);
 
     } catch (Exception $exception) {
-      throw new Exception($exception->getMessage());
+      throw new \Exception($exception->getMessage());
+    }
+  }
+
+  /**
+   * @Given I run the :arg1 drush eval command at :arg2
+   *
+   * @throws \Exception
+   */
+  public function iRunTheDrushEvalCommand($arg1, $arg2)
+  {
+    try {
+      // The drush command uses aliases to more easily target a site.
+      // Without using aliases, you have to "cd" into the site directory.
+      $this->drushOutput = shell_exec("drush @$arg2 eval '$arg1'");
+
+      // Print the output of the command so it is in the logs.
+      print_r($this->drushOutput);
+
+    } catch (Exception $exception) {
+      throw new \Exception($exception->getMessage());
     }
   }
 
   /**
    * @Then the drush output should contain :arg1
+   *
+   * @throws \Exception
    */
-  public function theDrushOutputShouldContain($arg1)
-  {
-    try {
-
-    } catch (Exception $exception) {
-      throw new Exception($exception->getMessage());
+  public function theDrushOutputShouldContain($arg1) {
+    // Make a generic check for a string, 
+    if (strpos($this->drushOutput, $arg1) === FALSE) {
+      throw new \Exception("Text of '{$arg1}' not found in current command Drush output.");
     }
   }
-
-
 }

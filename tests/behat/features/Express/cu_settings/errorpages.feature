@@ -42,7 +42,6 @@ Feature: Error Pages
 
  # SETTING THE 403 PAGE
  # create a basic page; use it for 403 page
-  @current
   Scenario: A site-owner can create a Basic Page and use it for the 403 page
     Given I am logged in as a user with the "site_owner" role
     And I am on "node/add/page"
