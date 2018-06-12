@@ -12,6 +12,7 @@ include_once 'cu_social_links.features.inc';
 function cu_social_links_page_alter(&$page) {
   // Add the css file to the page.
   drupal_add_css(drupal_get_path('module', 'cu_social_links') . '/css/social_links.css');
+  drupal_add_js(drupal_get_path('module', 'cu_social_links') . '/js/cu_social_links.js');
 }
 
 /**
