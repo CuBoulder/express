@@ -1005,10 +1005,11 @@ function cu_core_update_7047() {
   _set_external_invite_variables();
 }
 /**
- * Resvert Features.
+ * Revert Features.
  */
 function cu_core_update_7048() {
   cu_core_revert_features();
+  secure_permissions_rebuild();
 }
 
 /**
