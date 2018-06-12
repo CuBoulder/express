@@ -46,6 +46,9 @@ class FeatureContext extends MinkContext
     }
   } */
 
+
+  private $drushOutput;
+
   /**
    * Wait for AJAX to finish.
    *
@@ -426,4 +429,25 @@ class FeatureContext extends MinkContext
 
     throw new \Exception("Radio button with label {$labelText} not found");
   }
+
+  /**
+   * @Given I run the :arg1 drush command at :arg2
+   *
+   * @throws \Exception
+   */
+  public function iRunTheDrushCommand($arg1, $arg2)
+  {
+    try {
+      // The drush command uses aliases to more easily target a site.
+      // Without using aliases, you have to "cd" into the site directory.
+      $this->drushOutput = shell_exec("drush @$arg2 $arg1");
+
+      // Print the output of the command so it is in the logs.
+      print_r($this->drushOutput);
+
+    } catch (Exception $exception) {
+      throw new Exception($exception->getMessage());
+    }
+  }
+
 }
