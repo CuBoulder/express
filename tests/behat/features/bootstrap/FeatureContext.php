@@ -450,4 +450,17 @@ class FeatureContext extends MinkContext
     }
   }
 
+  /**
+   * @Then the drush output should contain :arg1
+   */
+  public function theDrushOutputShouldContain($arg1)
+  {
+    try {
+
+    } catch (Exception $exception) {
+      throw new Exception($exception->getMessage());
+    }
+  }
+
+
 }
