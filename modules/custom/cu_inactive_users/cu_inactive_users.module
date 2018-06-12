@@ -1,0 +1,119 @@
+<?php
+
+function cu_inactive_users_menu() {
+  $items = array();
+  $items['admin/reports/inactive-users'] = array(
+    'page callback' => 'cu_inactive_users_report',
+    'access arguments' => array('view inactive users'),
+    'title' => 'Inactive Users',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function cu_inactive_users_permission() {
+  return array(
+    'view inactive users' => array(
+      'title' => 'View Inactive Users Report',
+      'description' => 'View a list of inactive users.',
+    ),
+  );
+}
+
+function cu_inactive_users_secure_permissions($role) {
+  $permissions = array(
+    'administrator' => array(
+      'view inactive users',
+    ),
+    'developer' => array(
+      'view inactive users',
+    ),
+  );
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
+
+function cu_inactive_users_report() {
+  $output = array();
+
+
+  // Put this into a list we can output.
+  $list = array();
+
+  $inactive_users = cu_inactive_users_get();
+
+  foreach ($inactive_users as $inactive_user) {
+    $list[$inactive_user->uid] = !empty($inactive_user->realname) ? l($inactive_user->realname, 'user/' . $inactive_user->uid) : l($inactive_user->name, 'user/' . $inactive_user->uid);
+  }
+  $output['description']['#markup'] = '<p>The users listed below are not authors of any content, blocks or webform submissions and have made no edits to any content or blocks.</p>';
+  $output['list']['#markup'] = theme('item_list', array('items' => $list, 'attributes' => array('class' => array('bullet-list'))));
+  //dpm($users);
+  //dpm($users_uids);
+  return $output;
+}
+
+function cu_inactive_users_inactive_users(&$vars) {
+  $vars['bean'] = array('table' => 'bean', 'column' => 'uid');
+  $vars['bean_revision'] = array('table' => 'bean_revision', 'column' => 'uid');
+  $vars['node'] = array('table' => 'node', 'column' => 'uid');
+  $vars['node_revision'] = array('table' => 'node_revision', 'column' => 'uid');
+
+  return $vars;
+}
+
+/**
+ * Get inactive users.
+ *
+ * $user_list = array of user ids array(1,2,3,4);
+ */
+function cu_inactive_users_get($user_list = NULL) {
+  $tables = array();
+
+  // Get implementations of hook_inactive_users().
+  $hooks = module_invoke_all('inactive_users', $vars = NULL);
+
+  //$tables[] = array('bean', 'bean_revision', 'node', 'node_revision');
+  $uids = array();
+
+  // Query tables for user/author ids.
+  foreach ($hooks as $table) {
+    $query = db_select($table['table'], 't')
+    ->fields('t', array($table['column']))
+    ->distinct()
+    ->execute()
+    ->fetchCol();
+
+    $uids = array_merge($uids, $query);
+
+  }
+  // Remove duplicate ids.
+  $uids = array_unique($uids);
+
+  // Load users.
+  $users = entity_load('user');
+  // Remove user 0,1;
+  unset($users[0]);
+  unset($users[1]);
+
+  if ($user_list) {
+    $user_list = array_fill_keys($user_list, '1');
+    $users = array_intersect_key($users, $user_list);
+  }
+
+  // Get uids as keys for comparison.
+  $users_uids = array_keys($users);
+
+  // Get the difference between users as uids.
+  // Result is users that do not have edits/submissions/etc.
+  $inactive_user_ids = array_diff($users_uids, $uids);
+  // Make this array easier to compare with the $users array.
+  $inactive_user_ids = array_fill_keys($inactive_user_ids, '1');
+
+  // Get the intersect of inactive ids and all users.
+  $inactive_users = array_intersect_key($users, $inactive_user_ids);
+
+  return $inactive_users;
+}
