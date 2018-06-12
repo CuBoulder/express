@@ -4,6 +4,7 @@ function cu_inactive_users_menu() {
   $items = array();
   $items['admin/reports/inactive-users'] = array(
     'page callback' => 'cu_inactive_users_report',
+    'page arguments' => array(3),
     'access arguments' => array('view inactive users'),
     'title' => 'Inactive Users',
   );
@@ -36,22 +37,22 @@ function cu_inactive_users_secure_permissions($role) {
   }
 }
 
-function cu_inactive_users_report() {
+function cu_inactive_users_report($uids) {
   $output = array();
-
+  if ($uids) {
+    $uids = explode(' ', $uids);
+  }
 
   // Put this into a list we can output.
   $list = array();
-
-  $inactive_users = cu_inactive_users_get();
+  $inactive_users = cu_inactive_users_get($uids);
 
   foreach ($inactive_users as $inactive_user) {
     $list[$inactive_user->uid] = !empty($inactive_user->realname) ? l($inactive_user->realname, 'user/' . $inactive_user->uid) : l($inactive_user->name, 'user/' . $inactive_user->uid);
   }
   $output['description']['#markup'] = '<p>The users listed below are not authors of any content, blocks or webform submissions and have made no edits to any content or blocks.</p>';
   $output['list']['#markup'] = theme('item_list', array('items' => $list, 'attributes' => array('class' => array('bullet-list'))));
-  //dpm($users);
-  //dpm($users_uids);
+
   return $output;
 }
 
@@ -69,7 +70,7 @@ function cu_inactive_users_inactive_users(&$vars) {
  *
  * $user_list = array of user ids array(1,2,3,4);
  */
-function cu_inactive_users_get($user_list = NULL) {
+function cu_inactive_users_get($user_list = array()) {
   $tables = array();
 
   // Get implementations of hook_inactive_users().
@@ -93,14 +94,14 @@ function cu_inactive_users_get($user_list = NULL) {
   $uids = array_unique($uids);
 
   // Load users.
-  $users = entity_load('user');
-  // Remove user 0,1;
-  unset($users[0]);
-  unset($users[1]);
-
-  if ($user_list) {
-    $user_list = array_fill_keys($user_list, '1');
-    $users = array_intersect_key($users, $user_list);
+  if (!empty($user_list)) {
+    $users = entity_load('user', $user_list);
+  }
+  else {
+    $users = entity_load('user');
+    // Remove user 0,1;
+    unset($users[0]);
+    unset($users[1]);
   }
 
   // Get uids as keys for comparison.
