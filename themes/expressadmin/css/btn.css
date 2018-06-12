@@ -18,7 +18,9 @@
 
 .btn-default .badge { color: #fff; background-color: #333; }
 
+
 .btn-primary { color: #fff; background-color: #0277BD; border-color: #01578b; }
+
 
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary { color: #fff; background-color: #01578b; border-color: #014771; }
 
@@ -38,7 +40,9 @@
 
 .btn-success .badge { color: #5cb85c; background-color: #fff; }
 
+
 .btn-info { color: #fff; background-color: #0277BD; border-color: #01578b; }
+
 
 .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.active, .open > .dropdown-toggle.btn-info { color: #fff; border-color: #01578b; border-color: #014771; }
 

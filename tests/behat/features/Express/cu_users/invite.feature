@@ -77,6 +77,7 @@ I should be able to invite users to my site and manage invitations.
     Given I am logged in as a user with the "site_owner" role
     When I go to "admin/people/invite"
     And I fill in "edit-email" with "newname@example.com"
+    And I check the "Content Editor" radio button
     And I press "edit-submit"
     Then I should see "Successfully invited new user!"
 
@@ -95,9 +96,5 @@ I should be able to invite users to my site and manage invitations.
     And I check "Access Manager"
     And I fill in "Email addresses" with "ex@ample.com"
     And I fill in "Custom message" with "Howdy!"
-    And I press "Send Invites"
-    Then I should see "The Access Manager and Configuration Manager Add-on roles can only be granted when inviting a Site Editor."
-    # The form is already loaded with previous values.
-      And I check the "Site Editor" radio button
     And I press "Send Invites"
     Then I should see "Successfully invited new user!"
