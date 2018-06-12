@@ -930,6 +930,22 @@ function express_permissions_form_views_exposed_form_alter(&$form, &$form_state)
  *
  */
 function express_permissions_user_role_insert() {
+  express_permissions_order_roles()
+}
+
+/**
+ * Implements hook_user_role_delete().
+ *
+ */
+function express_permissions_user_role_delete() {
+  express_permissions_order_roles()
+}
+
+/**
+ * Resave the core roles in order of lowest permission level to highest
+ *
+ */
+function express_permissions_order_roles() {
   //set starting weight after anonymous user and authenticated user roles
   $weight = 2;
   $ordered_roles = array('edit_my_content', 'edit_only', 'content_editor', 'site_editor', 'site_owner', 'administrator','developer','access_manager','configuration_manager');
@@ -942,6 +958,6 @@ function express_permissions_user_role_insert() {
       $weight++;
     }
   }
-  // This results in Addon Roles at the end in alphabetical order
+  // This pushes any additional to the end of the list
 }
 
