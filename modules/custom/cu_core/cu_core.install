@@ -1024,6 +1024,15 @@ function cu_core_update_7049() {
 }
 
 /**
+ * Enable cu_inactive_users module.
+ */
+function cu_core_update_7050() {
+  module_enable(array(
+    'cu_inactive_users'
+  ));
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
