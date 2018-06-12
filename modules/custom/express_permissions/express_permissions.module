@@ -930,7 +930,7 @@ function express_permissions_form_views_exposed_form_alter(&$form, &$form_state)
  *
  */
 function express_permissions_user_role_insert() {
-  express_permissions_order_roles()
+  express_permissions_order_roles();
 }
 
 /**
@@ -938,7 +938,7 @@ function express_permissions_user_role_insert() {
  *
  */
 function express_permissions_user_role_delete() {
-  express_permissions_order_roles()
+  express_permissions_order_roles();
 }
 
 /**
