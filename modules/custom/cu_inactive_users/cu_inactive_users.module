@@ -320,12 +320,12 @@ function cu_inactive_users_stale_logins($time = '33696000', $user_list = array()
 
   $query = db_select('users', 'u');
   $query->fields('u', array('uid','login'));
-  $query->condition('login', $since, '>');
+  $query->condition('u.login', $since, '>');
   $query->distinct();
-  $query->execute()->fetchCol();
+  $results = $query->execute()->fetchCol();
 
   // Reformat for easier comparison
-  $stale_users = array_fill_keys($query, '1');
+  $stale_users = array_fill_keys($results, '1');
 
   // Get users that don't have a role
   $stale_users = array_diff_key($users, $stale_users);
