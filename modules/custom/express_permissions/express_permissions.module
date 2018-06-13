@@ -924,3 +924,51 @@ function express_permissions_form_views_exposed_form_alter(&$form, &$form_state)
     }
   }
 }
+
+/**
+ * Implements hook_user_role_insert().
+ *
+ */
+function express_permissions_user_role_insert() {
+  express_permissions_order_roles();
+}
+
+/**
+ * Implements hook_user_role_delete().
+ *
+ */
+function express_permissions_user_role_delete() {
+  express_permissions_order_roles();
+}
+
+/**
+ * Resave the core roles in order of lowest permission level to highest
+ *
+ */
+function express_permissions_order_roles() {
+  //set starting weight after anonymous user and authenticated user roles
+  $weight = 1;
+  $ordered_core_roles = array('anonymous user','authenticated user','edit_my_content', 'edit_only', 'content_editor', 'site_editor', 'site_owner', 'administrator','developer','access_manager','configuration_manager');
+  $all_roles = user_roles();
+  $addon_roles = array_diff($all_roles,$ordered_core_roles);
+  asort($addon_roles);
+
+  // Force core roles to be weighted by increasing permissions.
+  foreach ($ordered_core_roles as $role_name) {
+    if ($role = user_role_load_by_name($role_name)) {
+      $role->weight = $weight;
+      user_role_save($role);
+      $weight++;
+    }
+  }
+  // Weight remaining roles in alphabetical order at the end of the core roles
+  foreach ($addon_roles as $role_name) {
+    if ($role = user_role_load_by_name($role_name)) {
+      $role->weight = $weight;
+      user_role_save($role);
+      $weight++;
+    }
+  }
+
+}
+
