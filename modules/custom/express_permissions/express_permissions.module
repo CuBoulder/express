@@ -946,7 +946,6 @@ function express_permissions_user_role_delete() {
  *
  */
 function express_permissions_order_roles() {
-  //set starting weight after anonymous user and authenticated user roles
   $weight = 1;
   $ordered_core_roles = array('anonymous user','authenticated user','edit_my_content', 'edit_only', 'content_editor', 'site_editor', 'site_owner', 'administrator','developer','access_manager','configuration_manager');
   $all_roles = user_roles();
