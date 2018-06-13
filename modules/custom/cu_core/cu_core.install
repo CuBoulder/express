@@ -153,10 +153,10 @@ function _set_external_invite_variables() {
   $edit_my_content_role = user_role_load_by_name('edit_my_content');
 
   variable_set('user_external_invite_core_roles', array(
-    $site_owner_role->rid,
-    $site_editor_role->rid,
-    $content_editor_role->rid,
     $edit_my_content_role->rid,
+    $content_editor_role->rid,
+    $site_editor_role->rid,
+    $site_owner_role->rid,
   ));
 
   // Set Content Editor as the default role to invite.
