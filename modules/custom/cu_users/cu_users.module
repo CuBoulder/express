@@ -364,15 +364,7 @@ function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form
   // Theme role fields
   $form['core_rid']['#theme'] = 'express_roles';
   $form['addon_rids']['#theme'] = 'express_roles';
-
-  // Custom order of core roles.
-  $order = array('Edit My Content', 'Content Editor', 'Site Editor', 'Site Owner');
-
-  usort($form['core_rid']['#options'], function ($a, $b) use ($order) {
-    $pos_a = array_search($a, $order);
-    $pos_b = array_search($b, $order);
-    return $pos_a - $pos_b;
-  });
+  asort($form['addon_rids']['#options']);
 
   // Add javascript validation
   //$rids = cu_users_elevated_roles();
@@ -412,17 +404,9 @@ function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
         }
       }
 
-      asort($core_role_options);
       asort($addon_role_options);
 
-      // Custom order of core roles
-      $order = array('Edit My Content', 'Content Editor', 'Site Editor', 'Site Owner');
 
-      usort($core_role_options, function ($a, $b) use ($order) {
-        $pos_a = array_search($a, $order);
-        $pos_b = array_search($b, $order);
-        return $pos_a - $pos_b;
-      });
 
       // Roles is default role field
       if (!empty($form['account']['roles'])) {
