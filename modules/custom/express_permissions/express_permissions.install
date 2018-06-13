@@ -19,9 +19,9 @@ function express_permissions_install() {
 }
 
 /**
- * Reset role weight by increasing permissions
+ * Reset role weight by increasing permissions then any additional roles
  */
-//function express_permissions_update_7004() {
-  // Intentionally left empty as this hook may have already been run
-//}
+function express_permissions_update_7005() {
+  express_permissions_order_roles();
+}
 

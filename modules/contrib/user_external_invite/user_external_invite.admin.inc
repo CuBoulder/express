@@ -188,9 +188,6 @@ function user_external_invite_form($form, &$form_state) {
       }
     }
 
-    asort($core_role_options);
-    asort($addon_role_options);
-
     $form['core_rid'] = array(
       '#title' => t('Core Role'),
       '#type' => 'radios',
@@ -227,9 +224,9 @@ function user_external_invite_form($form, &$form_state) {
       '#type' => 'submit',
       '#value' => t('Send Invites'),
     );
-    return $form;  
+    return $form;
   }
-  
+
 }
 
 /**
