@@ -110,18 +110,35 @@ function cu_inactive_users_report_access($uids = NULL) {
   $since = $now - $time;
   $since = date('F j, Y', $since);
 
+  // Add some links to allow user to filter by date.
   $time_filters = array();
+  $time_options = array(
+    '7 Days' => (60*60*24*7),
+    '30 Days' => (60*60*24*30),
+    '90 Days' => (60*60*24*90),
+    '1 Year' => (60*60*24*365),
+  );
   $path = current_path();
+  global $base_url;
+  // If a time is already set, add a default/reset link.
   if ($_GET['time']) {
-    $time_filters[] = l('Default (60 Days)', $path);
+    $time_filters[] = "<a href=\"$base_url/$path\">Default (60 Days)</a>";
   }
-  $time_filters[] = l('7 Days', $path, array('query' => array('time' => (60*60*24*7))));
-  $time_filters[] = l('30 Days', $path, array('query' => array('time' => (60*60*24*30))));
-  $time_filters[] = l('90 Days', $path, array('query' => array('time' => (60*60*24*90))));
-  $time_filters[] = l('1 Year', $path, array('query' => array('time' => (60*60*24*365))));
+  // Loop through time filter options.
+  foreach ($time_options as $label => $interval) {
+    if ($_GET['time'] == $interval) {
+      $class = 'active-time-filter';
+    }
+    else {
+      $class = '';
+    }
+    $time_filters[] = "<a href=\"$base_url/$path?time=$interval\" class=\"$class\">$label</a>";
+  }
 
   $output['stale_users']['#prefix'] = '<h2>Have not logged in recently</h2>';
   $output['stale_users']['description']['#markup'] = "<p>The users listed below have not logged in since $since.</p>";
+  $output['stale_users']['filters']['#prefix'] = '<div class="inactive-time-filter">Use the links below to change the date checked.';
+  $output['stale_users']['filters']['#suffix'] = '</div>';
   $output['stale_users']['filters']['#markup'] = theme('item_list', array('items' => $time_filters, 'attributes' => array('class' => array('inactive-users-time-filters'))));
   $output['stale_users']['list']['#markup'] = theme('item_list', array('items' => $list, 'attributes' => array('class' => array('bullet-list'))));
 
