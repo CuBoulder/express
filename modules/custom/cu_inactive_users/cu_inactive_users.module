@@ -36,6 +36,14 @@ function cu_inactive_users_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 20,
   );
+  $items['admin/reports/inactive-users/remove'] = array(
+    'page callback' => 'cu_inactive_users_report_remove',
+    'page arguments' => array(4),
+    'access arguments' => array('view delete candidate users'),
+    'title' => 'Can be removed',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1000,
+  );
   return $items;
 }
 
@@ -47,6 +55,10 @@ function cu_inactive_users_permission() {
     'view inactive users' => array(
       'title' => 'View Inactive Users Report',
       'description' => 'View a list of inactive users.',
+    ),
+    'view delete candidate users' => array(
+      'title' => 'View Candidates for Deletion',
+      'description' => 'View a list of users that can probably be removed.',
     ),
   );
 }
@@ -61,6 +73,7 @@ function cu_inactive_users_secure_permissions($role) {
     ),
     'developer' => array(
       'view inactive users',
+      'view delete candidate users',
     ),
   );
   if (isset($permissions[$role])) {
@@ -374,4 +387,32 @@ function _cu_inactive_users_format_roles($roles) {
   $roles = str_replace('_', ' ', $roles);
   $roles = ucwords($roles);
   return $roles;
+}
+
+function cu_inactive_users_report_remove($uids = NULL) {
+  $output = array();
+  $list = array();
+  $results = cu_inactive_users_report_remove_process();
+  foreach ($results as $result) {
+    $name = !empty($result->realname) ? l($result->realname, 'user/' . $result->uid . '/edit') : l($result->name, 'user/' . $result->uid . '/edit');
+    $key = strip_tags($name);
+    $list[$key] = $name;
+  }
+  ksort($list);
+  $output['missing_role']['#prefix'] = '<h2>Can Probably Be Removed</h2>';
+  $output['missing_role']['description']['#markup'] = '<p>The users listed below have no roles assigned to them, have not authored or edited any content, and have not logged in recently.</p>';
+  $output['missing_role']['list']['#markup'] = theme('item_list', array('items' => $list, 'attributes' => array('class' => array('bullet-list'))));
+
+  return $output;
+}
+
+function cu_inactive_users_report_remove_process() {
+  $time = 60*60*24*395;
+  $list = array();
+  $list['stale'] = cu_inactive_users_stale_logins($time, $uids);
+  $list['role'] = cu_inactive_users_missing_role_get($uids);
+  $list['edits'] = cu_inactive_users_noedits($uids);
+  $results = array_intersect_key($list['stale'], $list['role'], $list['edits']);
+
+  return $results;
 }
