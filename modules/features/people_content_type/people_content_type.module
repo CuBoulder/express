@@ -160,7 +160,9 @@ function people_content_type_preprocess_node(&$vars) {
 
     case 'person':
       // Make phone into a link
-      $vars['content']['field_person_phone'][0]['#markup'] = l($vars['content']['field_person_phone']['#items'][0]['value'], 'tel:' . $vars['content']['field_person_phone']['#items'][0]['value']);
+      if (!empty($vars['content']['field_person_phone'])) {
+        $vars['content']['field_person_phone'][0]['#markup'] = l($vars['content']['field_person_phone']['#items'][0]['value'], 'tel:' . $vars['content']['field_person_phone']['#items'][0]['value']);
+      }
       // prepare job titles for output
       $job_titles = array();
       if (!empty($vars['field_person_title'])) {
