@@ -71,6 +71,8 @@ Examples:
     | developer       | "Analyze your site content for links" |
     | administrator   | "Analyze your site content for links" |
     | site_owner      | "Analyze your site content for links" |
+    | site_editor     | "Analyze your site content for links" |
+    | edit_only       | "Analyze your site content for links" |
     | content_editor  | "Analyze your site content for links" |
     | edit_my_content | "Analyze your site content for links" |
     
