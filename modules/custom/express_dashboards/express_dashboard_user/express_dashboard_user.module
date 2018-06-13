@@ -65,6 +65,23 @@ function express_dashboard_user_content() {
     }
   }
 
+  // Begin working on Webcentral dashboard.
+  $output['left']['widgets']['my_sites']['title'] = 'My Sites';
+  $output['left']['widgets']['my_sites']['content']['#markup'] = _user_sites_from_atlas($user);
+
+  // Display real name if available.
+  $output['left']['widgets']['user']['title'] = function_exists('realname_load') ? realname_load($user) : $user->name;
+  $output['left']['widgets']['user']['content']['#markup'] = theme('express_dashboard_user_profile', (array) $vars);
+
+  // Other Stuff
+  $output['right']['widgets']['other_stuff']['title'] = 'Important Links';
+  $output['right']['widgets']['other_stuff']['content']['#markup'] = _other_stuff_db_widget();
+
+  // Newsfeed widget
+  $express_newsfeed = module_invoke('express_status', 'block_view', 'express_status');
+  $output['right']['widgets']['newsfeed']['title'] = 'Webcentral News';
+  $output['right']['widgets']['newsfeed']['content']['#markup'] = ''; //$express_newsfeed['content'];
+
   // Add status.
   $express_status = module_invoke('cu_status', 'block_view', 'cu_status');
   $output['right']['widgets']['status']['title'] = 'System Status';
@@ -72,11 +89,92 @@ function express_dashboard_user_content() {
 
   // Add who's online block content to user tab of dashboard.
   $users_online = module_invoke('user', 'block_view', 'online');
-  $output['left']['widgets']['online']['title'] = 'Who\'s online';
-  $output['left']['widgets']['online']['content']['#markup'] = $users_online['content'];
-  // Display real name if available.
-  $output['left']['widgets']['user']['title'] = function_exists('realname_load') ? realname_load($user) : $user->name;
-  $output['left']['widgets']['user']['content']['#markup'] = theme('express_dashboard_user_profile', (array) $vars);
+  $output['right']['widgets']['online']['title'] = 'Who\'s online';
+  $output['right']['widgets']['online']['content']['#markup'] = $users_online['content'];
+
+  return $output;
+}
+
+function _search_sites_form($form, &$form_state) {
+
+  $form['submit_button'] = array(
+    '#type' => 'submit',
+    '#value' => t('Click Here!'),
+  );
+
+  return $form;
+}
+
+function _other_stuff_db_widget() {
+  $output = '';
+
+  $output .= '<a href="https://www.colorado.edu/atoz/letter/a">Directory</a><br>';
+  $output .= '<a href="https://calendar.colorado.edu/">Calender</a><br>';
+  $output .= '<a href="https://google.com/">????</a><br>';
+
+  return $output;
+}
+
+/**
+ * Callback for My Sites widget on express_dashboard_user_content.
+ */
+function _user_sites_from_atlas(&$user) {
+  global $base_url;
+
+  $output = '';
+  switch ($base_url) {
+    case 'https://www-dev.colorado.edu':
+      $env = 'https://osr-atlas01.int.colorado.edu';
+      break;
+
+    case 'https://www-test.colorado.edu':
+      $env = 'https://osr-atlas02.int.colorado.edu';
+      break;
+
+    case 'https://www.colorado.edu':
+      $env = 'https://osr-atlas03.int.colorado.edu';
+      break;
+
+    default:
+      $env = 'https://osr-atlas03.int.colorado.edu';
+  }
+
+  $query = '';
+  $user_roles = array(
+    'content_editor',
+    'edit_my_content',
+    'site_contact',
+  );
+  foreach ($user_roles as $role_name) {
+    $link = $env . '/atlas/statistics?where={"users.username.' . $role_name . '":"' . $user->name . '"}';
+    $query .= '<a href="' . $link . '" target="_blank">' . $role_name . '</a><br><br>';
+    $http_output[] = drupal_http_request($link);
+  }
+
+  foreach ($http_output as $data) {
+    $json_info = json_decode($data->data);
+    if (isset($json_info->_items)) {
+      foreach ($json_info->_items as $site) {
+        $link = $env . '/atlas/sites/' . $site->site;
+        $atlas_sites[] = $link;
+      }
+    } else {
+      $atlas_sites = array();
+      break;
+
+    }
+  }
+
+  // Now get Atlas data for the sites so we can retrieve a path.
+  // https://youtu.be/2UbtcmjfKa8?t=3m41s
+  foreach ($atlas_sites as $site) {
+    $atlas_sites_output = drupal_http_request($site);
+    $json_info = json_decode($atlas_sites_output->data);
+    $link_builder = $base_url . '/' . $json_info->path;
+    $login = $link_builder . '/user';
+
+    $output .= '<div class="atlas-user-sites"><h3>' . $json_info->path . '</h3><a href="' . $link_builder . '" target="_blank">Visit</a><a href="' . $login . '" target="_blank">Login</a></div>';
+  }
 
   return $output;
 }
