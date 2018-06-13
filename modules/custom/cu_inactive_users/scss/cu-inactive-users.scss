@@ -1,0 +1,21 @@
+.item-list ul.inactive-users-time-filters {
+  &,
+  & > li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  margin:0 -5px 20px;
+  & > li {
+    display: inline-block;
+    padding:0 5px;
+    a {
+      display: inline-block;
+      padding:10px;
+      border:1px solid #e7e7e7;
+      color:#555;
+      font-size:75%;
+      line-height: 1;
+    }
+  }
+}

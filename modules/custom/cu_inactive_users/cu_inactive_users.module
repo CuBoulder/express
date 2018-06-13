@@ -90,7 +90,7 @@ function cu_inactive_users_report_access($uids = NULL) {
   $list = array();
 
   // Set the default time we want to check access for.
-  $time = isset($_GET['time']) ? check_plain($_GET['time']) : 60*60*24*30*13;
+  $time = isset($_GET['time']) ? check_plain($_GET['time']) : 60*60*24*60;
 
   // Run query
   $stale_users = cu_inactive_users_stale_logins($time, $uids);
@@ -110,8 +110,19 @@ function cu_inactive_users_report_access($uids = NULL) {
   $since = $now - $time;
   $since = date('F j, Y', $since);
 
+  $time_filters = array();
+  $path = current_path();
+  if ($_GET['time']) {
+    $time_filters[] = l('Default (60 Days)', $path);
+  }
+  $time_filters[] = l('7 Days', $path, array('query' => array('time' => (60*60*24*7))));
+  $time_filters[] = l('30 Days', $path, array('query' => array('time' => (60*60*24*30))));
+  $time_filters[] = l('90 Days', $path, array('query' => array('time' => (60*60*24*90))));
+  $time_filters[] = l('1 Year', $path, array('query' => array('time' => (60*60*24*365))));
+
   $output['stale_users']['#prefix'] = '<h2>Have not logged in recently</h2>';
   $output['stale_users']['description']['#markup'] = "<p>The users listed below have not logged in since $since.</p>";
+  $output['stale_users']['filters']['#markup'] = theme('item_list', array('items' => $time_filters, 'attributes' => array('class' => array('inactive-users-time-filters'))));
   $output['stale_users']['list']['#markup'] = theme('item_list', array('items' => $list, 'attributes' => array('class' => array('bullet-list'))));
 
   return $output;
