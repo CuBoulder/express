@@ -21,7 +21,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Choose a theme" |
 
-@api 
+
 Scenario: An anonymous user should not be able to set site name
 When I go to "admin/theme"
 Then I should see "Access denied"

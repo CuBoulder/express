@@ -4,7 +4,7 @@ When I am on the admin/settings page
 As a user with the proper role
 I should be able to set the site name, enable bundles and other configurations as defined
 
-@api 
+
 Scenario Outline: A user with the appropriate role can access the Settings page
  Given I am logged in as a user with the <role> role
 When I go to "admin/settings"
@@ -22,7 +22,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Settings" |
     
-@api 
+
 Scenario: An anonymous user cannot access the Site Settings page
  When I go to "admin/settings"
  Then I should see "Access denied"

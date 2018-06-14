@@ -111,7 +111,7 @@ And I am on "/"
 # 5) TEST MORE COMPLEX BLOCK CREATION
 
 # NOTE THAT THE INSERT BUTTON IS IMPOSSIBLE TO TARGET AT THIS TIME
-@api
+
 Scenario: A graphic can be uploaded to a Text Block
   Given I am logged in as a user with the "site_owner" role
   And I am on "block/add/block"

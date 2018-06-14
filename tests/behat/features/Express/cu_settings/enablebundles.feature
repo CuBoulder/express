@@ -23,7 +23,7 @@ Examples:
 | access_manager   | "Access denied" |
 | configuration_manager | "Configure Bundles" |
 
-@api
+
 Scenario: The Bundle List page displays three tabs
   Given I am logged in as a user with the "site_owner" role
   And am on "admin/settings/bundles/list"
@@ -33,7 +33,7 @@ Scenario: The Bundle List page displays three tabs
   And I should see "Request"
 
 # THE FOLLOWING TEST WHITESCREENS FOR DEVELOPERS IN TEST ENVIRONMENT; TAGGING AS BROKEN FOR NOW 
-@api @broken
+ @broken
 Scenario Outline: Only Devs, Admins, SOs and ConMgrs can access the Bundle Add-on page
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/bundles/list/addon"
@@ -52,7 +52,7 @@ Examples:
 | configuration_manager | "These are bundles that can be added" |
     
 # THE FOLLOWING TEST WHITESCREENS FOR DEVELOPERS IN TEST ENVIRONMENT; TAGGING AS BROKEN FOR NOW 
-@api @broken
+ @broken
 Scenario Outline: Only Devs, Admins, SOs and ConMgrs can access the Bundle Request page
 Given I am logged in as a user with the <role> role
 And am on "admin/settings/bundles/list/request"

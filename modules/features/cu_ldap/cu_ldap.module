@@ -105,8 +105,11 @@ function _set_custom_user_fields($account) {
     $edit['field_ldap_display_name'][LANGUAGE_NONE][0]['value'] = $ldap[0]['displayname'][0];
     $edit['field_ldap_last_name'][LANGUAGE_NONE][0]['value'] = $last_name;
     $edit['field_ldap_primary_affiliation'][LANGUAGE_NONE][0]['value'] = $ldap[0]['edupersonprimaryaffiliation'][0];
-    user_save($account, $edit);
   }
+  if ($edit['field_ldap_display_name'][LANGUAGE_NONE][0]['value'] == '') {
+    $edit['field_ldap_display_name'][LANGUAGE_NONE][0]['value'] = $account->name;
+  }
+  user_save($account, $edit);
 }
 
 /**

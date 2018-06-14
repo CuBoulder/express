@@ -45,7 +45,7 @@ Examples:
 | access_manager |
 | edit_my_content |
 
-@api 
+
 Scenario: An anonymous user should not be able to access the 'Clear Caches' landing page
  When I am on "admin/settings/cache/clear"
  Then I should see "Access denied"

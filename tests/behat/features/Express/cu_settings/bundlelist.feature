@@ -33,7 +33,7 @@ Examples:
     | configuration_manager |
     
     
-@api 
+
 Scenario Outline: Users with a restricted role cannot access the Site Settings page
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/bundles/list"
@@ -46,7 +46,7 @@ Then I should see "Access denied"
     | edit_only        | 
     | access_manager   | 
   
- @api 
+
 Scenario: An anonymous user should not be able to access the Site Settings page
  When I go to "admin/settings/bundles/list"
  Then I should see "Access denied"

@@ -91,6 +91,7 @@ function express_permissions_secure_permissions($role) {
       'administer nodes',
       'administer people settings',
       'administer redirects',
+      'administer xmlsitemap',
       'assign content_editor role',
       'assign edit_my_content role',
       'assign site_editor role',
@@ -139,10 +140,14 @@ function express_permissions_secure_permissions($role) {
       'edit own file content',
       'edit own page content',
       'edit users with role authenticated user',
+      'edit users with role authenticated user',
       'edit users with role content_editor',
       'edit users with role edit_my_content',
-      'edit users with role site_editor',
       'edit users with role site_owner',
+      'edit users with role site_editor',
+      'edit users with role edit_only',
+      'edit users with role access_manager',
+      'edit users with role configuration_manager',
       'execute node_assign_owner_action',
       'execute node_make_sticky_action',
       'execute node_make_unsticky_action',
@@ -213,7 +218,7 @@ function express_permissions_secure_permissions($role) {
       'access user profiles',
       'administer beans',
       'administer contexts',
-     // 'administer menu',
+      'administer menu',
       'administer nodes',
       'check out documents',
       'clear path caches',
@@ -311,7 +316,6 @@ function express_permissions_secure_permissions($role) {
       'administer fieldgroups',
       'administer filters',
       'administer fitvids',
-      'administer flexslider',
       'administer google analytics',
       'administer honeypot',
       'administer image styles',
@@ -339,6 +343,7 @@ function express_permissions_secure_permissions($role) {
       'administer users',
       'administer video styles',
       'administer views',
+      'administer xmlsitemap',
       'administer_google_appliance',
       'admin_display_suite',
       'assign all roles',
@@ -436,6 +441,7 @@ function express_permissions_secure_permissions($role) {
     ),
     'edit_my_content' => array(
       'access ckeditor link',
+      'access user profiles',
       'access content overview',
       'access_google_appliance_content',
       'administer nodes',
@@ -603,8 +609,11 @@ function express_permissions_secure_permissions($role) {
       'edit users with role authenticated user',
       'edit users with role content_editor',
       'edit users with role edit_my_content',
-      'edit users with role site_editor',
       'edit users with role site_owner',
+      'edit users with role site_editor',
+      'edit users with role edit_only',
+      'edit users with role access_manager',
+      'edit users with role configuration_manager',
       'execute node_assign_owner_action',
       'execute node_make_sticky_action',
       'execute node_make_unsticky_action',
@@ -696,6 +705,10 @@ function express_permissions_secure_permissions($role) {
       'edit users with role content_editor',
       'edit users with role edit_my_content',
       'edit users with role site_owner',
+      'edit users with role site_editor',
+      'edit users with role edit_only',
+      'edit users with role access_manager',
+      'edit users with role configuration_manager',
       'invite new user',
       'view any block bean',
       'view any hero_unit bean',
@@ -889,3 +902,72 @@ function express_permissions_form_user_admin_permissions_alter(&$form, &$form_st
   // @TODO: fix to work with sticky header
   drupal_add_css(drupal_get_path('module','express_permissions') . '/css/express-permissions.css');
 }
+
+/**
+ * Implements hook_form_formid_alter().
+ *
+ * Remove hidden roles from the UI.
+ */
+function express_permissions_form_views_exposed_form_alter(&$form, &$form_state) {
+  $hidden_roles_array = array(
+    'edit_only',
+    'access_manager',
+    'configuration_manager',
+    'administrator',
+    'developer',
+  );
+  if (isset($form['rid']['#options'])) {
+    foreach ($form['rid']['#options'] as $id => $option) {
+      if (in_array($option, $hidden_roles_array)) {
+        unset($form['rid']['#options'][$id]);
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_user_role_insert().
+ *
+ */
+function express_permissions_user_role_insert() {
+  express_permissions_order_roles();
+}
+
+/**
+ * Implements hook_user_role_delete().
+ *
+ */
+function express_permissions_user_role_delete() {
+  express_permissions_order_roles();
+}
+
+/**
+ * Resave the core roles in order of lowest permission level to highest
+ *
+ */
+function express_permissions_order_roles() {
+  $weight = 1;
+  $ordered_core_roles = array('anonymous user','authenticated user','edit_my_content', 'edit_only', 'content_editor', 'site_editor', 'site_owner', 'administrator','developer','access_manager','configuration_manager');
+  $all_roles = user_roles();
+  $addon_roles = array_diff($all_roles,$ordered_core_roles);
+  asort($addon_roles);
+
+  // Force core roles to be weighted by increasing permissions.
+  foreach ($ordered_core_roles as $role_name) {
+    if ($role = user_role_load_by_name($role_name)) {
+      $role->weight = $weight;
+      user_role_save($role);
+      $weight++;
+    }
+  }
+  // Weight remaining roles in alphabetical order at the end of the core roles
+  foreach ($addon_roles as $role_name) {
+    if ($role = user_role_load_by_name($role_name)) {
+      $role->weight = $weight;
+      user_role_save($role);
+      $weight++;
+    }
+  }
+
+}
+
