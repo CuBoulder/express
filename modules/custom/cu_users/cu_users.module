@@ -698,21 +698,6 @@ function cu_users_override_external_invite_submit(&$form, &$form_state) {
   $email_values = strtolower($form_state['values']['email']);
   $emails = preg_split("/[\r\n,\s]+/", $email_values, -1, PREG_SPLIT_NO_EMPTY);
 
-  $core_rid = $form_state['values']['core_rid'];
-  $addon_rids = $form_state['values']['addon_rids'];
-
-  $rids = array(
-    DRUPAL_AUTHENTICATED_RID => 'authenticated user',
-    $core_rid => 'N/A',
-  );
-
-  if (isset($addon_rids)) {
-    foreach ($addon_rids as $rid) {
-      $addon = array($rid => 'N/A');
-      $rids = $rids + $addon;
-    }
-  }
-
   if (!empty($emails)) {
     foreach ($emails as $email) {
       $output = cu_users_ldap_email_lookup($email);
@@ -731,7 +716,9 @@ function cu_users_override_external_invite_submit(&$form, &$form_state) {
             'timezone' => 'America/Denver',
             'status' => 1,
             'init' => $email,
-            'roles' => $rids,
+            'roles' => array(
+              DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+            ),
           );
 
           // The first parameter is sent blank so a new user is created.
