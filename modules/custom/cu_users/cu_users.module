@@ -749,7 +749,3 @@ function cu_users_username_alter(&$name, $account) {
     $name = $name . ' (Web Express Team)';
   }
 }
-
-function cu_users_mail_alter(&$message) {
-  $message['send'] = FALSE;
-}
