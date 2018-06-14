@@ -8,8 +8,6 @@
  * Implements hook_views_default_views().
  */
 function cu_people_administration_override_views_default_views() {
-  $export = array();
-
   $view = new view();
   $view->name = 'cu_people_administration_override_view';
   $view->description = 'Emulates the Drupal user administration page.';
@@ -193,6 +191,10 @@ function cu_people_administration_override_views_default_views() {
   $handler->display->display_options['fields']['edit_node']['table'] = 'users';
   $handler->display->display_options['fields']['edit_node']['field'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['label'] = 'Operations';
+  /* Sort criterion: User: Last Name (field_ldap_last_name) */
+  $handler->display->display_options['sorts']['field_ldap_last_name_value']['id'] = 'field_ldap_last_name_value';
+  $handler->display->display_options['sorts']['field_ldap_last_name_value']['table'] = 'field_data_field_ldap_last_name';
+  $handler->display->display_options['sorts']['field_ldap_last_name_value']['field'] = 'field_ldap_last_name_value';
   /* Filter criterion: Global: Combine fields filter */
   $handler->display->display_options['filters']['combine']['id'] = 'combine';
   $handler->display->display_options['filters']['combine']['table'] = 'views';
