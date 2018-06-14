@@ -235,7 +235,7 @@ function cu_core_preprocess_html(&$vars) {
         $vars['classes_array'][] = 'status-launched';
         drupal_add_js(drupal_get_path('module', 'cu_core') . '/js/cu-core.js');
         break;
-      case 'www-new.colorado.edu':
+      case 'www-prod-new.colorado.edu':
         $vars['classes_array'][] = 'environment-production';
         $vars['classes_array'][] = 'infrastructure-old';
         $vars['classes_array'][] = 'status-launched';
