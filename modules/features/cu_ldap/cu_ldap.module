@@ -74,15 +74,17 @@ function cu_ldap_lookup($identikey) {
 }
 
 /**
- * Implements hook_user_login
+ * Custom function for checking accounts to see if realname, primary
+ * affiliation, and last name are populated. If not, this updates it.
+ *
+ * Used by cu_ldap_user_login and cu_ldap_cron as of 2-21-18 OM.
  */
-function cu_ldap_user_login(&$edit, $account) {
-
+function _set_custom_user_fields($account) {
   $ldap = cu_ldap_lookup($account->name);
 
   // Create our own last name.
   // If there is a comma, take string before comma and set as last name?
-  $name = $ldap['0'];
+  $name = $ldap['0'] ?? ['cn' => []];
   foreach ($name['cn'] as $last_name) {
     $hasit = strpos($last_name, ',');
     $regexit = preg_match('/^(.*?),/', $last_name);
@@ -103,6 +105,36 @@ function cu_ldap_user_login(&$edit, $account) {
     $edit['field_ldap_display_name'][LANGUAGE_NONE][0]['value'] = $ldap[0]['displayname'][0];
     $edit['field_ldap_last_name'][LANGUAGE_NONE][0]['value'] = $last_name;
     $edit['field_ldap_primary_affiliation'][LANGUAGE_NONE][0]['value'] = $ldap[0]['edupersonprimaryaffiliation'][0];
-    user_save($account, $edit);
+  }
+  if ($edit['field_ldap_display_name'][LANGUAGE_NONE][0]['value'] == '') {
+    $edit['field_ldap_display_name'][LANGUAGE_NONE][0]['value'] = t('No full name available');
+  }
+  user_save($account, $edit);
+}
+
+/**
+ * Implements hook_user_login
+ */
+function cu_ldap_user_login(&$edit, $account) {
+  _set_custom_user_fields($account);
+}
+
+/**
+ * Implements hook_cron().
+ */
+
+function cu_ldap_cron(){
+  // Only need to do this once a month.
+  if (REQUEST_TIME >= strtotime('+1 month', (int) variable_get('cu_ldap_ping_time', strtotime('-1 year')))) {
+    $users = entity_load('user');
+
+    foreach ($users as &$account) {
+      _set_custom_user_fields($account);
+    }
+    // Set time variable on success.
+    variable_set('cu_ldap_ping_time', REQUEST_TIME);
+
+    // Log it in watchdog?
+    watchdog('cron', 'CU_LDAP updated realnames and primary affiliation for all enabled users.');
   }
 }

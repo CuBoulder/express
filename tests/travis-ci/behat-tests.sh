@@ -13,7 +13,6 @@ else
 fi
 
 SKIP_EXPRESS_TESTS="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}' | grep '!==express')"
-echo "Build Express? - ${SKIP_EXPRESS_TESTS}"
 
 # Setting Behat environment variables is now done in behat.travis.yml for simplicity.
 
@@ -32,6 +31,22 @@ fi
 
 # Run bundle tests.
 if [ "${BUNDLE_NAME}" != "null" ]; then
+
+  # Enable bundle.
+  cd $ROOT_DIR/drupal
+  echo Enabling bundle module...
+  $HOME/.composer/vendor/bin/drush en $BUNDLE_NAME -y
+
+  # Enable any additional modules used during test runs.
+  echo Enabling additional testings modules...
+  $HOME/.composer/vendor/bin/drush en $ADD_MODULES -y
+  $HOME/.composer/vendor/bin/drush cc all
+
+  # Run any database updates.
+  # Express db updates have already been run at this point.
+  echo Running pending database updates...
+  $HOME/.composer/vendor/bin/drush updb -y
+
   echo "Running ${BUNDLE_NAME} bundle tests..."
   ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.bundle.yml --verbose --tags ${BUNDLE_BEHAT_TAGS}
   earlyexit
