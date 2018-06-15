@@ -94,10 +94,10 @@ header .site-name-wrapper { flex-grow: 1; font-size: 20px; }
 .site-name { font-weight: 900; padding: 0; margin: 0; line-height: 1.1; }
 
 .affiliation { text-transform: uppercase; font-size: 50%; padding-top: 5px; font-weight: bold; }
-.banner-black #header-wrapper .affiliation a:link, .banner-black #header-wrapper .affiliation a:visited { color: #aaa; }
-.banner-dark #header-wrapper .affiliation a:link, .banner-dark #header-wrapper .affiliation a:visited { color: #9b9b9b; }
-.banner-white #header-wrapper .affiliation a:link, .banner-white #header-wrapper .affiliation a:visited { color: #757575; }
-.banner-light #header-wrapper .affiliation a:link, .banner-light #header-wrapper .affiliation a:visited { color: #6e6e6e; }
+.banner-black #header-wrapper .affiliation, .banner-black #header-wrapper .affiliation a:link, .banner-black #header-wrapper .affiliation a:visited { color: #aaa; }
+.banner-dark #header-wrapper .affiliation, .banner-dark #header-wrapper .affiliation a:link, .banner-dark #header-wrapper .affiliation a:visited { color: #9b9b9b; }
+.banner-white #header-wrapper .affiliation, .banner-white #header-wrapper .affiliation a:link, .banner-white #header-wrapper .affiliation a:visited { color: #757575; }
+.banner-light #header-wrapper .affiliation, .banner-light #header-wrapper .affiliation a:link, .banner-light #header-wrapper .affiliation a:visited { color: #6e6e6e; }
 
 .site-name-inner { padding-right: 40px; }
 

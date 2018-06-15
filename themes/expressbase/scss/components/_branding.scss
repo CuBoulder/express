@@ -250,18 +250,22 @@ header {
 
   padding-top:5px;
   font-weight: bold;
+  .banner-black #header-wrapper &,
   .banner-black #header-wrapper & a:link,
   .banner-black #header-wrapper & a:visited {
     color:#aaa;
   }
+  .banner-dark #header-wrapper &,
   .banner-dark #header-wrapper & a:link,
   .banner-dark #header-wrapper & a:visited {
     color:#9b9b9b;
   }
+  .banner-white #header-wrapper &,
   .banner-white #header-wrapper & a:link,
   .banner-white #header-wrapper & a:visited {
     color:#757575;
   }
+  .banner-light #header-wrapper &,
   .banner-light #header-wrapper & a:link,
   .banner-light #header-wrapper & a:visited {
     color:#6e6e6e;
