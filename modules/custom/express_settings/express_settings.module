@@ -210,6 +210,25 @@ function express_settings_menu() {
     'weight' => 999,
   );
 
+  // Menu Settings
+  $items['admin/settings/menus'] = array(
+    'title' => 'Menus',
+    'position' => 'right',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer menu'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+  $items['admin/settings/menus/configure'] = array(
+    'title' => 'Configure Menus',
+    'description' => 'Configure and edit site menus',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('admin/structure/menu'),
+    'access arguments' => array('administer menu'),
+    'weight' => 1,
+  );
+
   return $items;
 }
 
