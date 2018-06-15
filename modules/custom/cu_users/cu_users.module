@@ -379,7 +379,7 @@ function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form
  */
 function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
 
-
+  dpm($form);
   $core_rids = variable_get('user_external_invite_core_roles', []);
   if (empty($core_rids)) {
     drupal_set_message(t('Your site is not yet configured to invite users. Contact the site administrator to configure the invite feature.'), 'status');
@@ -387,7 +387,7 @@ function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
   else {
 
 
-    if (!user_access('access extended role assignment')) {
+    if (!user_access('access extended role assignment') && user_access('access users overview')) {
 
       $core_role_options = [];
       foreach ($core_rids as $val) {
@@ -410,10 +410,18 @@ function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
 
       // Roles is default role field
       if (!empty($form['account']['roles'])) {
+        $core_role_options = array_intersect_key($core_role_options, $form['account']['roles']['#options']);
+
+        $addon_role_options = array_intersect_key($addon_role_options, $form['account']['roles']['#options']);
+
         unset($form['account']['roles']);
       }
       // Role Change is added from role delegation
       if (!empty($form['account']['roles_change'])) {
+        $core_role_options = array_intersect_key($core_role_options, $form['account']['roles_change']['#options']);
+
+        $addon_role_options = array_intersect_key($addon_role_options, $form['account']['roles_change']['#options']);
+
         unset($form['account']['roles_change']);
       }
 
