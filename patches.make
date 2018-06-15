@@ -54,4 +54,5 @@ projects[views_slideshow][patch][] = "https://www.drupal.org/files/issues/drush-
 ; This is currently in the dev branch waiting for 3.5 release.
 projects[video_filter][patch][] = https://www.drupal.org/files/issues/video_filter-aspect-ratio-2749297-2-D7.patch
 
+; @see https://github.com/cuboulder/express/issues/2563
 projects[linkchecker][patch][] = "https://www.drupal.org/files/issues/linkchecker_change-access-check-return-values_2923219_3.patch"
