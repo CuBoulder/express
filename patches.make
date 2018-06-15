@@ -1,3 +1,5 @@
+api = 2
+core = 7.x
 
 projects[context][patch][] = "https://www.drupal.org/files/issues/context-2130655-update-block-info-3.patch"
 
