@@ -24,6 +24,9 @@ body.layout-boxed {
   margin:0 auto;
   @include rgbashadow(0,0,20px,#000,.15);
 }
+.brand-bar {
+  background-color: #f2f2f2;
+}
 #navigation-wrapper {
   background-color: #fff;
 }
