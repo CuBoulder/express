@@ -791,6 +791,12 @@ function express_permissions_form_user_profile_form_alter(&$form, &$form_state) 
     if ($role_name == 'configuration_manager') {
       $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
     }
+    if ($role_name == 'campaign_manager') {
+      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
+    }
+    if ($role_name == 'form_manager') {
+      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
+    }
     $new_role_options[$rid] = $new_role_name;
 
   }
