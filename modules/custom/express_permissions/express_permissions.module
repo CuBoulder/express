@@ -855,14 +855,37 @@ function express_permissions_invite_site_owner_cap(&$form, &$form_state) {
 
   // Get Role ID.
   $role = user_role_load_by_name('site_owner');
-  if ($form_state['values']['rid'] == $role->rid) {
+  $config_managers = user_role_load_by_name('configuration_manager');
+  $access_managers = user_role_load_by_name('access_manager');
+
+  if ($form_state['values']['core_rid'] == $role->rid) {
     $email_value = $form_state['values']['email'];
     // Split on , or line break.
     $emails = preg_split("/[\r\n,\s]+/", $email_value, -1, PREG_SPLIT_NO_EMPTY);
     $email_count = count($emails);
-    $users_in_role = express_permissions_get_site_owners();
+    $users_in_role = express_permissions_get_site_owners('site_owner');
     if (($users_in_role['count'] + $email_count) >= $limit) {
       form_set_error("", "You have exceeded the allowed limit for Site Owners. To grant this role you must first remove it from someone else. Current Site Owners include: " .  $users_in_role['list']);
+    }
+  }
+  if ($form_state['values']['addon_rids'][$config_managers->rid] === $config_managers->rid) {
+    $email_value = $form_state['values']['email'];
+    // Split on , or line break.
+    $emails = preg_split("/[\r\n,\s]+/", $email_value, -1, PREG_SPLIT_NO_EMPTY);
+    $email_count = count($emails);
+    $config_managers_role = express_permissions_get_site_owners('configuration_manager');
+    if (($config_managers_role['count'] + $email_count) >= $limit) {
+      form_set_error("", "You have exceeded the allowed limit for Configuration Managers. To grant this role you must first remove it from someone else. Current Configuration Managers include: " .  $config_managers_role['list']);
+    }
+  }
+  if ($form_state['values']['addon_rids'][$access_managers->rid] === $access_managers->rid) {
+    $email_value = $form_state['values']['email'];
+    // Split on , or line break.
+    $emails = preg_split("/[\r\n,\s]+/", $email_value, -1, PREG_SPLIT_NO_EMPTY);
+    $email_count = count($emails);
+    $access_managers_role = express_permissions_get_site_owners('access_manager');
+    if (($access_managers_role['count'] + $email_count) >= $limit) {
+      form_set_error("", "You have exceeded the allowed limit for Access Managers. To grant this role you must first remove it from someone else. Current Access Managers include: " .  $access_managers_role['list']);
     }
   }
 }
@@ -872,10 +895,10 @@ function express_permissions_invite_site_owner_cap(&$form, &$form_state) {
  *
  * Returns arary with count and list values
  */
-function express_permissions_get_site_owners($role) {
+function express_permissions_get_site_owners($role_name) {
   $users = array();
 // Get Role ID.
-  $role = user_role_load_by_name($role);
+  $role = user_role_load_by_name($role_name);
   $rid = $role->rid;
 
   // Get current number of people with the role.
