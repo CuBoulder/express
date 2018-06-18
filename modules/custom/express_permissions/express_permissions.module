@@ -81,7 +81,7 @@ function express_permissions_secure_permissions($role) {
       'access users overview',
       'access_google_appliance_content',
       'administer beans',
-     // 'administer blocks',
+      // 'administer blocks',
       'administer checked out documents',
       'administer contexts',
       'administer express settings',
@@ -262,7 +262,7 @@ function express_permissions_secure_permissions($role) {
       'execute views_bulk_operations_delete_item',
       'preview focal point',
       'revert revisions',
-     //'use bigmenu',
+      //'use bigmenu',
       'use text format wysiwyg',
       'view any hero_unit bean',
       'view any slider bean',
@@ -474,7 +474,7 @@ function express_permissions_secure_permissions($role) {
       'access express settings',
       'access user profiles',
       'administer beans',
-     // 'administer blocks',
+      // 'administer blocks',
       'administer checked out documents',
       'administer contexts',
       'administer menu',
@@ -550,7 +550,7 @@ function express_permissions_secure_permissions($role) {
       'access user profiles',
       'access users overview',
       'administer beans',
-     // 'administer blocks',
+      // 'administer blocks',
       'administer checked out documents',
       'administer contexts',
       'administer express settings',
@@ -646,7 +646,7 @@ function express_permissions_secure_permissions($role) {
       'diff view changes',
     ),
     'edit_only' => array(
-     'access administration pages',
+      'access administration pages',
       'access bean overview',
       'access ckeditor link',
       'access content overview',
@@ -791,12 +791,6 @@ function express_permissions_form_user_profile_form_alter(&$form, &$form_state) 
     if ($role_name == 'configuration_manager') {
       $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
     }
-    if ($role_name == 'campaign_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    if ($role_name == 'form_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
     $new_role_options[$rid] = $new_role_name;
 
   }
@@ -820,15 +814,13 @@ function express_permissions_site_owner_cap(&$form, &$form_state) {
 
   // Check to see if the user already has the role.
   // We should only run the validation of the role is being added.
-  if (in_array($role->rid, $form_state['values']['roles'], TRUE) && !isset($current_roles[$role->rid])) {
+  if ((in_array($role->rid, $form_state['values']['roles'], TRUE) || $form_state['values']['core_roles'] === $role->rid) && !isset($current_roles[$role->rid])) {
     $users_in_role = express_permissions_get_site_owners();
     // If adding the role to this user would be over the limit, set an error.
     if ($users_in_role['count'] >= $limit) {
-
-      form_set_error("roles][$rid", "You have exceeded the allowed limit for Temporary Site Owners. To grant the role to this user you must first remove it from someone else. Current Site Owners include: " . $users_in_role['list']);
+      form_set_error("", "You have exceeded the allowed limit for Temporary Site Owners. To grant the role to this user you must first remove it from someone else. Current Site Owners include: " . $users_in_role['list']);
     }
   }
-
 }
 
 function express_permissions_form_user_external_invite_form_alter(&$form, &$form_state) {
@@ -874,13 +866,13 @@ function express_permissions_get_site_owners() {
   $limit = (int) variable_get('express_permissions_owner_cap', 4);
   // try to avoid loading user objects
   if ($users['count'] >= $limit) {
-      $results = $query->execute()->fetchCol();
-      $site_owners = user_load_multiple($results);
-      $user_list = array();
-      foreach ($site_owners as $site_owner) {
-        $user_list[] = !empty($site_owner->realname) ? $site_owner->realname : $site_owner->mail;
-      }
-     $users['list'] = join(', ', $user_list);
+    $results = $query->execute()->fetchCol();
+    $site_owners = user_load_multiple($results);
+    $user_list = array();
+    foreach ($site_owners as $site_owner) {
+      $user_list[] = !empty($site_owner->realname) ? $site_owner->realname : $site_owner->mail;
+    }
+    $users['list'] = join(', ', $user_list);
   }
   return $users;
 }
