@@ -25,3 +25,9 @@ function express_permissions_update_7005() {
   express_permissions_order_roles();
 }
 
+/**
+ * Reset role weight by increasing permissions then any additional roles
+ */
+function express_permissions_update_7006() {
+  variable_set('express_permissions_owner_cap', 4);
+}
