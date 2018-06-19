@@ -10,7 +10,7 @@ php:
 
 branches:
   only:
-    - dev
+   - dev
 
 addons:
   # The username and access key are stored in the Travis settings.
@@ -30,11 +30,15 @@ cache:
 
 install:
 
-  # Export variables used later on in bash scripts.
+  # Export variables used later on in the bash scripts.
   - cd $TRAVIS_BUILD_DIR && cd ../ && export ROOT_DIR=$(pwd)
   - export HOME
   - export TRAVIS_EVENT_TYPE
+
+  # Name of bundle used as a placeholder in scripts.
   - export BUNDLE_NAME="null"
+
+  # Behat tags. Allows you to include/exclude tags per bundle as needed.
   - export EXPRESS_JS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@javascript"
   - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript"
   - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken"
@@ -46,20 +50,32 @@ install:
   - source $ROOT_DIR/helper-functions.sh
 
   # Install and build dependencies.
+  - echo ----
+  - echo "Running install script..."
   - $ROOT_DIR/install.sh
+  - echo ----
 
 before_script:
 
   # Setup config for PHP/MySQL, settings.php, and install database.
+  - echo ----
+  - echo Running setup script...
   - $ROOT_DIR/setup-config.sh
+  - echo ----
 
   # Perform the site install after removing Xdebug since it seems faster.
+  - echo ----
+  - echo Running build script...
   - $ROOT_DIR/build-express.sh
+  - echo ----
 
 script:
 
   # Run Behat tests.
+  - echo ----
+  - echo Running Behat tests...
   - $ROOT_DIR/behat-tests.sh
+  - echo ----
 
 notifications:
   slack:

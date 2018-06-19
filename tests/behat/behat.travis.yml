@@ -7,6 +7,9 @@ default:
   formatters:
       pretty: true
   suites:
+    run_first:
+      paths: [ "%paths.base%/features/aaa_run_first" ]
+      contexts: [ FeatureContext ]
     express:
       paths: [ "%paths.base%/features/Express" ]
       contexts: [ FeatureContext ]
@@ -18,9 +21,6 @@ default:
       contexts: [ FeatureContext ]
     advanced_layout:
       paths: [ "%paths.base%/features/cu_advanced_layout_bundle" ]
-      contexts: [ FeatureContext ]
-    forms:
-      paths: [ "%paths.base%/features/cu_forms_bundle" ]
       contexts: [ FeatureContext ]
     news_articles:
       paths: [ "%paths.base%/features/cu_news_articles_bundle" ]

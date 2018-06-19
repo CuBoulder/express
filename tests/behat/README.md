@@ -1,6 +1,6 @@
 ## Writing Tests
 
-Wiriting tests for the Express codebase is [covered in another documentation repository](https://github.com/CuBoulder/express_documentation/blob/master/docs/behat.md).
+Writing tests for the Express codebase is [covered in another documentation repository](https://github.com/CuBoulder/express_documentation/blob/master/docs/behat.md).
 
 ## Local Setup
 
@@ -28,8 +28,8 @@ You can now install an Express site by downloading Drupal, cloning in the Expres
 ROOT=$(pwd)
 
 # Add Drupal.
-drush dl drupal-7.57
-mv drupal-7.57 testing
+drush dl drupal-7.59
+mv drupal-7.59 testing
 
 # Make files folder and copy settings.php file.
 cd ${ROOT}/testing/sites/default
@@ -47,26 +47,36 @@ mysql -u root -p
 > CREATE DATABASE testing;
 > exit
 
+# Express uses environmental variables to choose which hosting module to enable.
+# Add 'export LANDO_ENV="yes"' to your shell configuration file usually ~/.bash_profile on a Mac.
+vim ~/.bash_profile
+source ~/.bash_profile
+
 # Install site. Need to use your db credentials created when installing MySQL.
 drush si express --db-url=mysql://root:@127.0.0.1/testing -y
 
 # Depending on your environment, you might not have a hosting module installed.
-# lando_hosting adds users needed for a test run and turns on neccessary bundles. 
-# It is the most appropriate hosting module to enable after install, but a local_hosting
-# module will be merged into the dev branch soon.
-drush en lando_hosting -y
+# local_hosting adds users needed for a test run but does not turn on all bundles. 
+# It is the most appropriate hosting module to enable after install.
+drush pm-info local_hosting
+
+# ng_hosting is what is enabled on production and should be disabled locally.
+drush pm-info ng_hosting
+
+# There is a specific bundle that prepares an Express site for a Behat test run.
+drush en cu_behat_tests -y
 
 # Start Drush webserver.
-drush runserver 127.0.0.1:8069
+drush runserver 127.0.0.1:8079
 
 # Or to run the server process in background.
 # I leave it open in another tab to monitor for debugging purposes.
-drush runserver 127.0.0.1:8069 > /dev/null 2>&1 &
+drush runserver 127.0.0.1:8079 > /dev/null 2>&1 &
 ```
 
 When Express installs, environmental variables are used to determine which "core" to install. If no environment other than the Express deployment servers is found, the "ng_hosting" module will be enabled by default. You can export a variable to enable the Pantheon or other hosting setups, but they might not install the modules and configuration you want. 
 
-It is likely that the hosting modules will be modified to take in local environments and some shared VM solution. For now, you will have "ng_hosting" installed by default. You should be able to login to your account via LDAP, but if not, then use Drush.
+It is likely that the hosting modules will be modified to take in local environments and some shared VM solution. For now, you can use different environmental variables for each Express environment you'd want to install. For example, you could use `$_SERVER['WWWNG_ENV'] = TRUE;` in your `settings.php` file to enable "ng_hosting" like is done on production. In that case, you should be able to login to your account via LDAP, but if not, then use Drush.
 
 ```bash
 drush uli my-username
@@ -76,12 +86,14 @@ drush uublk 1
 drush uli 1
 ```
 
-Once logged in, make sure that LDAP is in mixed mode by going to "admin/config/people/ldap/authentication" and selecting "Mixed mode. Drupal authentication is tried first. On failure, LDAP authentication is performed."
+Once logged in, if using "ng_hosting", make sure that LDAP is in mixed mode by going to "admin/config/people/ldap/authentication" and selecting "Mixed mode. Drupal authentication is tried first. On failure, LDAP authentication is performed." By doing so you can create local users for tests.
+
+If using "local_hosting" users with the same username and password will be created for each role. You can then login via the users, e.g. "developer:developer" for username:password, to your Express site.
 
 Next, the Behat dependencies need to be installed before you can run any tests.  
 
 ```bash
-cd site-path/profiles/express/tests/behat
+cd <site-path>/profiles/express/tests/behat
 composer install
 ```
 
@@ -96,39 +108,15 @@ cd sauce-connect-directory
 ./bin/sc -u username -k access-key
 ```
 
-The Behat test suite configuration also wants to know the Sauce Labs authorization keys, and while you can pass in configuration to the behat executable per test run, it is much simpler and easy to modify the behat.local.yml file, if it doesn't match your local environment for paths and URLs.
-
-```yaml
-#...more config
-
-extensions:
-    Behat\MinkExtension:
-      base_url: "http://127.0.0.1:8069"
-      files_path: "%paths.base%/assets"
-      javascript_session: sauce
-      sessions:
-        default:
-          goutte:
-            guzzle_parameters:
-                verify: false
-        sauce:
-          sauce_labs:
-            # Enter your Sauce Labs credentials.
-            username: ""
-            access_key: ""
-            
-#...more config
-```
-
 Now you should be able to run the test suite with the following command.
 
 ```bash
 cd site-path/profiles/express/tests/behat
-./bin/behat --config behat.local.yml --verbose --tags '~@exclude_all_bundles&&~broken'
+./bin/behat --config behat.local.yml --stop-on-failure --strict --verbose --tags '~@exclude_all_bundles&&~@broken'
 ```
 
 ## Fixing Broken Tests
 
-The `--verbose` tag should spit out as much information as possible about a failed test run. You will oftentimes see the stacktrace around the failed test and should be able to investigate the files and line numbers given. 
+The `--verbose` tag should spit out as much information as possible about a failed test run. You will oftentimes see the stacktrace around the failed test and should be able to investigate the files and line numbers given. For more guidance on debugging, you can read: https://github.com/CuBoulder/express_documentation/blob/master/docs/behat.md
 
 For JavaScript tests, Sauce Labs records the test run so you can go back and actually replay the steps to see what happened. You can also watch the test run as it happens on Sauce Labs to see the output of JavaScript tests in real-time. You will need to have a Sauce Labs account to view the results. Ask a team member if you need access.

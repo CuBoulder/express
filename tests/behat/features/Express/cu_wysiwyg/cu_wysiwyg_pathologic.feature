@@ -1,6 +1,6 @@
 Feature: WYSIWYG Pathologic tests
 
-  @api @wysiwyg @javascript @broken
+  @wysiwyg @javascript @broken
   # @todo Need to setup Pathologic link in testing module install.
   Scenario: Pathologic should change URLs
     Given  I am logged in as a user with the "content_editor" role
