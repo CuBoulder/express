@@ -826,7 +826,7 @@ function express_permissions_site_owner_cap(&$form, &$form_state) {
     $users_in_role = express_permissions_get_site_owners('site_owner');
     // If adding the role to this user would be over the limit, set an error.
     if ($users_in_role['count'] >= $limit) {
-      form_set_error("", "You have exceeded the allowed limit for Temporary Site Owners. To grant the role to this user you must first remove it from someone else. Current Site Owners include: " . $users_in_role['list']);
+      form_set_error("", "You have exceeded the allowed limit for Site Owners. To grant the role to this user you must first remove it from someone else. Current Site Owners include: " . $users_in_role['list']);
     }
   }
 
