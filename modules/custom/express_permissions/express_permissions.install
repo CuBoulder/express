@@ -26,8 +26,8 @@ function express_permissions_update_7005() {
 }
 
 /**
- * Reset role weight by increasing permissions then any additional roles
+ * Remove the owner cap variable as we're using a constant.
  */
 function express_permissions_update_7006() {
-  variable_set('express_permissions_owner_cap', 4);
+  variable_del('express_permissions_owner_cap');
 }
