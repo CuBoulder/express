@@ -26,8 +26,8 @@ function express_permissions_update_7005() {
 }
 
 /**
- * Remove the owner cap variable as we're using a constant.
+ * Set variable to 4 for 2.9.1 update.
  */
 function express_permissions_update_7006() {
-  variable_del('express_permissions_owner_cap');
+  variable_set('express_permissions_owner_cap', 4);
 }
