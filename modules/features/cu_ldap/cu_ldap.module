@@ -96,23 +96,17 @@ function _set_custom_user_fields($account) {
       $last_name = '';
     }
   }
+  $display_name = $ldap[0]['displayname'][0];
+  $affiliation = $ldap[0]['edupersonprimaryaffiliation'][0];
 
-  //Check to see that LDAP is returned a value.  There are no display names for acconts like OSR-TEST-OWNER
-  if (isset($ldap[0]) && ($account->field_ldap_last_name != $last_name || $account->field_ldap_display_name != $ldap[0]['displayname'][0] || $account->field_ldap_primary_affiliation != $ldap[0]['edupersonprimaryaffiliation'][0])) {
+  //Check to see that LDAP is returned a value.  There are no display names for accounts like OSR-TEST-OWNER
+  if (isset($ldap[0]) && ($account->field_ldap_last_name != $last_name || $account->field_ldap_display_name != $display_name || $account->field_ldap_primary_affiliation != $ldap[0]['edupersonprimaryaffiliation'][0])) {
 
     // update account fields
     $edit = array();
-    $edit['field_ldap_display_name'][LANGUAGE_NONE][0]['value'] = $ldap[0]['displayname'][0];
+    $edit['field_ldap_display_name'][LANGUAGE_NONE][0]['value'] = $display_name;
     $edit['field_ldap_last_name'][LANGUAGE_NONE][0]['value'] = $last_name;
-    $edit['field_ldap_primary_affiliation'][LANGUAGE_NONE][0]['value'] = $ldap[0]['edupersonprimaryaffiliation'][0];
-
-    if ($edit['field_ldap_display_name'][LANGUAGE_NONE][0]['value'] == '' && $account->uid !== 0) {
-      $edit['field_ldap_display_name'][LANGUAGE_NONE][0]['value'] = $account->name;
-    }
-    else if ($edit['field_ldap_display_name'][LANGUAGE_NONE][0]['value'] == '' && $account->uid == 0) {
-      $edit['field_ldap_display_name'][LANGUAGE_NONE][0]['value'] = t('Anonymous');
-    }
-
+    $edit['field_ldap_primary_affiliation'][LANGUAGE_NONE][0]['value'] = $affiliation;
     user_save($account, $edit);
   }
 }
@@ -127,7 +121,6 @@ function cu_ldap_user_login(&$edit, $account) {
 /**
  * Implements hook_cron().
  */
-
 function cu_ldap_cron() {
   // Only need to do this once a month.
   $last_cron_run = variable_get('cu_ldap_ping_time');
