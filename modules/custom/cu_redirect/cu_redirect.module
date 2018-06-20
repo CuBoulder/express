@@ -20,37 +20,13 @@ function cu_redirect_menu() {
   return $items;
 }
 
-/**
- * Implements hook_secure_permissions().
- *
- * Adding permissions for webcentral
- */
-function cu_redirect_secure_permissions($role) {
-  $permissions = array(
-    'anonymous user' => array(
-
-    ),
-    'authenticated user' => array(
-
-    ),
-    'administrator' => array(
-      'administer matchredirect',
-    ),
-    'content_editor' => array(),
-    'developer' => array(
-      'administer matchredirect',
-    ),
-    'edit_my_content' => array(
-
-    ),
-    'site_owner' => array(
-      'administer matchredirect',
+function cu_redirect_permission() {
+  return array(
+    'view redirects' => array(
+      'title' => t('view redirects'),
+      'description' => t('View redirects.'),
     ),
   );
-
-  if (isset($permissions[$role])) {
-    return $permissions[$role];
-  }
 }
 
 /**
@@ -278,5 +254,21 @@ function cu_redirect_menu_alter(&$items) {
   $items['admin/config/search/redirect/wildcards']['title'] = t('Wildcards');
   $items['admin/config/search/redirect/wildcards']['type'] = MENU_LOCAL_TASK;
   $items['admin/config/search/redirect/wildcards']['weight'] = 12;
+  $items['admin/config/search/redirect/wildcards']['access arguments'] = array('view redirects');
   //unset($items['admin/config/search/match_redirect']);
+}
+
+function cu_redirect_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  $dev = user_role_load_by_name('developer');
+  $admin = user_role_load_by_name('administrator');
+
+  if (!user_has_role($dev->rid) && !user_has_role($admin->rid)) {
+    $redirects_count = $form['redirects'];
+    foreach ($redirects_count as $key => $redirect) {
+      $form['redirects'][$key]['operations']['#type'] = 'hidden';
+    }
+    $form['actions']['#type'] = 'hidden';
+  }
+  dpm($user);
 }
