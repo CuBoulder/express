@@ -61,7 +61,7 @@ Scenario: An anonymous user can not access the SEO checklist page
     
 #VERIFY ACCESS TO SEO LINK CHECKER
 
-Scenario Outline: only Devs, Admins and SEOs can access the SEO Link Checker
+Scenario Outline: All roles can access the SEO Link Checker
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/seo/linkchecker-analyze"
 Then I should see <message>
@@ -71,8 +71,8 @@ Examples:
     | developer       | "Analyze your site content for links" |
     | administrator   | "Analyze your site content for links" |
     | site_owner      | "Analyze your site content for links" |
-    | content_editor  | "Access denied" |
-    | edit_my_content | "Access denied" |
+    | content_editor  | "Analyze your site content for links" |
+    | edit_my_content | "Analyze your site content for links" |
     
 #VERIFY THAT LINK CHECKER WORKS
 @javascript
