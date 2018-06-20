@@ -8,6 +8,8 @@
  * Implements hook_views_default_views().
  */
 function cu_content_administration_override_views_default_views() {
+  $export = array();
+
   $view = new view();
   $view->name = 'cu_content_administration_override_view';
   $view->description = 'Emulates the Drupal content administration page.';
@@ -177,6 +179,14 @@ function cu_content_administration_override_views_default_views() {
       'postpone_processing' => 0,
     ),
   );
+  /* Field: User: Name */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'users';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['relationship'] = 'uid';
+  $handler->display->display_options['fields']['name']['label'] = '';
+  $handler->display->display_options['fields']['name']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
   /* Field: Content: Title */
   $handler->display->display_options['fields']['title']['id'] = 'title';
   $handler->display->display_options['fields']['title']['table'] = 'node';
