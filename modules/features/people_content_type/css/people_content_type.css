@@ -136,7 +136,7 @@ ul.field-name-field-person-website li a[href*="fileicon=pdf"]:before { content: 
 
 @media (max-width: 480px) { .person-view-mode-teaser-contact .person-contact-info-item { display: block; font-size: 85%; }
   .person-view-mode-teaser-contact .person-contact-separator { display: none; } }
-.people-list-wrapper-grid { margin: 0 -20px; }
+.people-list-wrapper-grid { margin: 0 -20px; display: flex; flex-direction: row; flex-wrap: wrap; }
 
 /*
 .grid-person { width: 30.66%; float:left; margin-right:4%; margin-bottom: 20px;
