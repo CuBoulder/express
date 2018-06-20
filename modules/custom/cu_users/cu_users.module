@@ -359,7 +359,7 @@ function cu_users_ldap_email_lookup($email) {
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form_state) {
+function cu_users_form_user_external_invite_form_alter(&$form, &$form_state, $form_id) {
 
   // Theme role fields
   $form['core_rid']['#theme'] = 'express_roles';
@@ -372,6 +372,9 @@ function cu_users_form_user_external_invite_form_alter(&$form, &$form_id, &$form
   //drupal_add_js(drupal_get_path('module', 'cu_users') . '/js/cu-users-invite.js');
 
   // $form['#validate'][] = 'cu_users_override_external_invite_validate';
+
+  // https://github.com/CuBoulder/express/issues/2562
+  $form['#submit'][] = 'cu_users_override_external_invite_submit';
 }
 
 /**
@@ -702,8 +705,6 @@ function cu_users_override_external_invite_submit(&$form, &$form_state) {
   $email_values = strtolower($form_state['values']['email']);
   $emails = preg_split("/[\r\n,\s]+/", $email_values, -1, PREG_SPLIT_NO_EMPTY);
 
-  $rid = $form_state['values']['rid'];
-
   if (!empty($emails)) {
     foreach ($emails as $email) {
       $output = cu_users_ldap_email_lookup($email);
@@ -714,7 +715,7 @@ function cu_users_override_external_invite_submit(&$form, &$form_state) {
       if (!empty($output) && !empty($ldap_mail_return) && $email == $ldap_mail_return) {
         // Check to see if the user already exists before trying to create them
         $account = user_load_by_name($username);
-        if (!$account->uid) {
+        if (isset($account)) {
           $new_user = array(
             'name' => $username,
             'pass' => $username . strrev($username),
@@ -724,12 +725,12 @@ function cu_users_override_external_invite_submit(&$form, &$form_state) {
             'init' => $email,
             'roles' => array(
               DRUPAL_AUTHENTICATED_RID => 'authenticated user',
-              $rid => 'n/a',
             ),
           );
 
           // The first parameter is sent blank so a new user is created.
           user_save('', $new_user);
+          watchdog('cu_users', 'Invite created an account for %user', array('%user' => $username));
         }
       }
     }
