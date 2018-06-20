@@ -8,6 +8,8 @@
  * Implements hook_views_default_views().
  */
 function cu_people_administration_override_views_default_views() {
+  $export = array();
+
   $view = new view();
   $view->name = 'cu_people_administration_override_view';
   $view->description = 'Emulates the Drupal user administration page.';
@@ -103,6 +105,13 @@ function cu_people_administration_override_views_default_views() {
       'empty_column' => 0,
     ),
   );
+  /* Field: User: Name */
+  $handler->display->display_options['fields']['name']['id'] = 'name';
+  $handler->display->display_options['fields']['name']['table'] = 'users';
+  $handler->display->display_options['fields']['name']['field'] = 'name';
+  $handler->display->display_options['fields']['name']['label'] = '';
+  $handler->display->display_options['fields']['name']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['name']['element_label_colon'] = FALSE;
   /* Field: User: E-mail */
   $handler->display->display_options['fields']['mail']['id'] = 'mail';
   $handler->display->display_options['fields']['mail']['table'] = 'users';
@@ -145,12 +154,14 @@ function cu_people_administration_override_views_default_views() {
   $handler->display->display_options['fields']['realname']['field'] = 'realname';
   $handler->display->display_options['fields']['realname']['label'] = 'Username';
   $handler->display->display_options['fields']['realname']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['realname']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['realname']['alter']['text'] = 'aaa';
+  $handler->display->display_options['fields']['realname']['hide_alter_empty'] = FALSE;
   /* Field: User: Last Name */
   $handler->display->display_options['fields']['field_ldap_last_name']['id'] = 'field_ldap_last_name';
   $handler->display->display_options['fields']['field_ldap_last_name']['table'] = 'field_data_field_ldap_last_name';
   $handler->display->display_options['fields']['field_ldap_last_name']['field'] = 'field_ldap_last_name';
   $handler->display->display_options['fields']['field_ldap_last_name']['label'] = 'Username';
-  $handler->display->display_options['fields']['field_ldap_last_name']['alter']['alter_text'] = TRUE;
   $handler->display->display_options['fields']['field_ldap_last_name']['alter']['text'] = '[realname] ';
   $handler->display->display_options['fields']['field_ldap_last_name']['element_type'] = '0';
   $handler->display->display_options['fields']['field_ldap_last_name']['element_label_colon'] = FALSE;
@@ -278,7 +289,6 @@ function cu_people_administration_override_views_default_views() {
   $handler->display->display_options['tab_options']['title'] = 'Users';
   $handler->display->display_options['tab_options']['weight'] = '0';
   $handler->display->display_options['tab_options']['name'] = 'management';
-
   $export['cu_people_administration_override_view'] = $view;
 
   return $export;
