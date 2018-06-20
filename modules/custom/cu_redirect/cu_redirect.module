@@ -270,5 +270,4 @@ function cu_redirect_form_alter(&$form, &$form_state, $form_id) {
     }
     $form['actions']['#type'] = 'hidden';
   }
-  dpm($user);
 }
