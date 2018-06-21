@@ -72,7 +72,7 @@ function cu_core_install() {
   variable_set('express_help_base_url', 'http://www.colorado.edu/webcentral');
 
   // Set message for when enabling of bundles is turned off.
-  variable_set('profile_module_manager_disable_enabling', 0);
+  variable_set('profile_module_manager_disable_enabling_atlas_bundles', 0);
   variable_set('profile_module_manager_disable_enabling_text', 'Due to unexpectedly high load on the servers, the option to enable bundles has temporarily been disabled.  Please check back tomorrow.');
   variable_set('rave_alerts_rss_url', 'http://www.getrave.com/rss/cuboulder/channel1');
   variable_set('rave_alerts_check_enable', 1);

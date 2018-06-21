@@ -181,7 +181,7 @@ function cu_profile_module_manager_addon_page() {
   /* Variables and whatnot--no form elements. */
   global $base_path;
 
-  if (variable_get('profile_module_manager_disable_enabling', 0) == 1) {
+  if (variable_get('profile_module_manager_disable_enabling_atlas_bundles', 0) == 1) {
     $output = '<p>' . variable_get('profile_module_manager_disable_enabling_text', 'The ability to enable bundles has been turned off.') . '</p>';
     return $output;
   }
@@ -267,7 +267,7 @@ function cu_profile_module_manager_request_page() {
   /* Variables and whatnot--no form elements. */
   global $base_path;
 
-  if (variable_get('profile_module_manager_disable_enabling', 0) == 1) {
+  if (variable_get('profile_module_manager_disable_enabling_atlas_bundles', 0) == 1) {
     $output = '<p>' . variable_get('profile_module_manager_disable_enabling_text', 'The ability to enable bundles has been turned off.') . '</p>';
     return $output;
   }
@@ -353,7 +353,7 @@ function cu_profile_module_manager_beta_page() {
   /* Variables and whatnot--no form elements. */
   global $base_path;
 
-  if (variable_get('profile_module_manager_disable_enabling', 0) == 1) {
+  if (variable_get('profile_module_manager_disable_enabling_atlas_bundles', 0) == 1) {
     $output = '<p>' . variable_get('profile_module_manager_disable_enabling_text', 'The ability to enable bundles has been turned off.') . '</p>';
     return $output;
   }
