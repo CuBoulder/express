@@ -20,7 +20,6 @@ function cu_test_content_gallery_install() {
 
     $file = (object) array(
       'uid' => $count,
-      'filename' => "test".$i.".jpg",
       'uri' => $file_path,
       'filemime' => file_get_mimetype($file_path),
       'status' => 1,
