@@ -457,6 +457,7 @@ function express_permissions_secure_permissions($role) {
       'view any hero_unit bean',
       'view any quicktab bean',
       'view any slider bean',
+      'view own unpublished content',
       'view the administration theme',
       'access navbar',
       'view status messages',
@@ -1013,4 +1014,3 @@ function express_permissions_order_roles() {
   }
 
 }
-
