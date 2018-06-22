@@ -232,6 +232,13 @@ function cu_shortcodes_shortcode_info() {
     'tips callback' => 'cu_shortcodes_imagecaption_tips',
     'default settings' => array(),
   );
+  $shortcodes['invisible'] = array(
+    'title' => t('Invisible'),
+    'description' => t('Hide content in an accessible way'),
+    'process callback' => 'cu_shortcodes_invisible',
+    'tips callback' => 'cu_shortcodes_invisible_tips',
+    'default settings' => array(),
+  );
   $shortcodes['map'] = array(
     'title' => t('Map'),
     'description' => t('Insert a Campus or Google Map'),
@@ -477,7 +484,7 @@ function cu_shortcodes_callout($attrs, $content = NULL) {
   $classes[] = 'clearfix';
 
   $classes = join(' ', $classes);
-  $output = '<div class="' . $classes . '">' . $content . '</div>';
+  $output = '<div class="' . $classes . '"><div class="feature-layout-callout-inner element-max-width-padding">' . $content . '</div></div>';
   return $output;
 }
 /**
@@ -751,6 +758,23 @@ function cu_shortcodes_imagecaption_tips($format, $long) {
 }
 
 /**
+ * Invisible Shortcode.
+ */
+function cu_shortcodes_invisible($attrs, $content = NULL) {
+  extract(shortcode_attrs(array(), $attrs));
+  $tag = 'div';
+  return '<span class="element-invisible shortcode-invisible"> ' . $content . '</span>';
+}
+
+/**
+ * Invisible Tips.
+ */
+function cu_shortcodes_invisible_tips($format, $long) {
+  $output = 'Some of this content [invisible]is invisble[/invisible]';
+  return $output;
+}
+
+/**
  * Map shortcode.
  */
 function cu_shortcodes_map($attrs, $content = NULL) {
@@ -780,7 +804,7 @@ function cu_shortcodes_map($attrs, $content = NULL) {
     }
     // Build the map url
     $mapurl = cu_shortcodes_join_url($url, FALSE);
-    $map = '<div class="map-embed-wrapper"><iframe width="100%" class="campus-map-embed ' . $size . '" src="' . $mapurl . '"></iframe></div><a href="' . $mapurl . '" class="map-link">View Larger Map</a>';
+    $map = '<iframe width="100%" class="' . $size . '" src="' . $mapurl . '"></iframe><br /><a href="' . $mapurl . '" class="map-link">View Larger Map</a>';
   }
   else {
     $map = '';

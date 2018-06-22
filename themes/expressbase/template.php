@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Template functions for the express base theme.
+ */
+
+/**
  * Implements hook_css_alter().
  *
  * Remove jquery UI styles, alter stylesheet type for better printing.
@@ -265,6 +270,14 @@ function expressbase_preprocess_page(&$vars) {
     $vars['title_image_title_class'] = 'element-max-width-padding';
     $vars['title_image_width'] = 'title-image-full-width';
   }
+
+  // Load search blocks.
+  $block = block_load('cu_search', 'cu_search');
+  $vars['search_desktop'] = _block_get_renderable_array(_block_render_blocks(array($block)));
+
+  $block = block_load('cu_search', 'cu_search_mobile');
+  $vars['search_mobile'] = _block_get_renderable_array(_block_render_blocks(array($block)));
+
 }
 
 /**
@@ -403,7 +416,6 @@ function expressbase_preprocess_region(&$vars) {
  * Implements hook_preprocess_block).
  */
 function expressbase_preprocess_block(&$vars) {
-
   // Add class for block titles
   $vars['title_attributes_array']['class'][] = 'block-title';
   $vars['classes_array'][] = !empty($vars['block']->subject) ? 'has-block-title'
@@ -502,7 +514,16 @@ function expressbase_menu_link(array $vars) {
  */
 function expressbase_links__system_main_menu($vars) {
   $classes = join(' ',$vars['attributes']['class']);
-  $html = '  <ul class="' . $classes . '" id="' . $vars['attributes']['id'] . '">';
+
+  // Build menu heading.
+  if ( !empty($vars['heading']) && !empty($vars['heading']['text']) && !empty($vars['heading']['level'])  && !empty($vars['heading']['class'])) {
+    $nav_heading = '<' . $vars['heading']['level'] . ' class="' . join(' ', $vars['heading']['class']) . '">' . $vars['heading']['text'] . '</' . $vars['heading']['level'] . '>';
+  }
+  else {
+    $nav_heading = '';
+  }
+
+  $html = $nav_heading . '  <ul class="' . $classes . '" id="' . $vars['attributes']['id'] . '">';
 
   // Add first and last classes to first and last list items
   reset($vars['links']);
@@ -540,10 +561,13 @@ function expressbase_links__system_main_menu($vars) {
 function expressbase_links__system_secondary_menu($vars) {
   // Prepare label - set by more_menus.module
   $classes = join(' ',$vars['attributes']['class']);
+
+  $label = variable_get('secondary_menu_label', NULL) ? '<h2 class="inline secondary-menu-label">' . variable_get('secondary_menu_label') . '</h2>': '<h2 class="element-invisible">Secondary Menu</h2>';
+
   $html = '  <ul class="' . $classes . '">';
-  $label = variable_get('secondary_menu_label') ? '<h2 class="inline secondary-menu-label">' . variable_get('secondary_menu_label') . '</h2>': '';
+
   if (theme_get_setting('use_action_menu') && !isset($vars['mobile'])) {
-    $html = '  <ul id="action-menu" class="' . $classes . '">';
+    $html = '<h2 class="element-invisible">Secondary Menu</h2> <ul id="action-menu" class="' . $classes . '">';
   } else {
     $html = $label . '  <ul class="' . $classes . '">';
   }
@@ -583,7 +607,16 @@ function expressbase_links__system_secondary_menu($vars) {
  */
 function expressbase_links__footer_menu($vars) {
   $classes = join(' ',$vars['attributes']['class']);
-  $html = '<ul id="footer-menu-links" class="' . $classes . '">';
+
+  // Build menu heading.
+  if ( !empty($vars['heading']) && !empty($vars['heading']['text']) && !empty($vars['heading']['level'])  && !empty($vars['heading']['class'])) {
+    $nav_heading = '<' . $vars['heading']['level'] . ' class="' . join(' ', $vars['heading']['class']) . '">' . $vars['heading']['text'] . '</' . $vars['heading']['level'] . '>';
+  }
+  else {
+    $nav_heading = '';
+  }
+
+  $html = $nav_heading . ' <ul id="footer-menu-links" class="' . $classes . '">';
 
   // Add first and last classes to first and last list items
   reset($vars['links']);
@@ -666,7 +699,7 @@ function expressbase_home_icon(&$vars, $menu) {
       if($vars[$menu][$key]['href'] == '<front>') {
         $vars[$menu][$key]['html'] = TRUE;
         $vars[$menu][$key]['title'] = '<i class="fa fa-home"></i><span class="element-invisible">Home</span>';
-        $vars[$menu][$key]['attributes']['id'] = 'home-link';
+        $vars[$menu][$key]['attributes']['class'][] = 'home-link';
       }
     }
   }

@@ -381,7 +381,7 @@ function cu_feature_callout_field_default_field_instances() {
       'title_value' => '',
       'url' => 'optional',
       'user_register_form' => FALSE,
-      'validate_url' => 0,
+      'validate_url' => 1,
     ),
     'widget' => array(
       'active' => 0,
@@ -395,7 +395,7 @@ function cu_feature_callout_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Cells');
-  t('Choose to display the grid item title below the image, or overlay the title on the image. Overlay setting requires columns to be set to at least 2.');
+  t('Choose a style of grid. Some style options, such as feature, may not display all grid cells.');
   t('Columns');
   t('Image');
   t('Image Size');

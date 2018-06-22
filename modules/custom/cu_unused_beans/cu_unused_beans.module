@@ -3,12 +3,11 @@
 
 function cu_unused_beans_menu() {
   $items = array();
-  $items['admin/content/blocks/unused'] = array(
+  $items['admin/reports/blocks/unused'] = array(
     'title' => 'Unused Blocks',
+    'description' => 'A list of blocks that are not being displayed on this site.',
     'page callback' => 'cu_unused_beans_list',
     'access arguments' => array('view bean page'),
-    'type' => MENU_LOCAL_ACTION,
-    'weight' => 999,
   );
   return $items;
 }
@@ -88,7 +87,7 @@ function cu_unused_beans_list() {
       }
       $output['list']['#markup'] = '<ul class="bullet-list">' . $output['list']['#markup'] . '</ul>';
 
-      $output['description2']['#markup'] = '<p></p><p><em>Blocks listed above are not included in entity references or enabled contexts. Delete at your own risk.</em></p>';
+      $output['description2']['#markup'] = '<p></p><p><em>Blocks listed above are not inlcuded in entity references or enabled contexts. Delete at your own risk.</em></p>';
     }
   }
 
@@ -100,7 +99,7 @@ function cu_unused_beans_list() {
     foreach ($hooks as $component => $hook) {
       $components .= '<li>' . $component . '</li>';
     }
-    $output['hooks']['#markup'] = '<p>The following references and contexts were reviewed to determine this list.</p><ul class="bullet-list">' . $components . '</ul>';
+    $output['hooks']['#markup'] = '<p>The following components were used to determine this list:</p><ul class="bullet-list">' . $components . '</ul>';
   }
 
 

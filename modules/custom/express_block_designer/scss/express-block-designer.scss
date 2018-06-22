@@ -77,16 +77,14 @@ ul.tabs--primary li a.block-designer:before {
   }
   // Heading alignment
   &.exbd-heading-align-centered > .block-inner > .exbd-block-title {
+    text-align: center;
+    & .exbd-block-icon {
 
-    & .exbd-block-title-text,
-    &  .block-title {
-      display: block;
-      text-align: center;
-      justify-content: center;
     }
 
   }
   // Icons Positions
+  &.exbd-icon-position-inline > .block-inner > .exbd-block-title > .block-title
   &.exbd-icon-position-default > .block-inner > .exbd-block-title > .block-title {
     display: flex;
     flex-direction: row;
@@ -132,12 +130,24 @@ ul.tabs--primary li a.block-designer:before {
       //font-size: 250%;
     }
     & > .block-inner > .exbd-block-title {
-      font-size: 150%;
+      font-size: 110%;
+      @media screen and (min-width:768px) {
+        font-size: 125%;
+      }
+      @media screen and (min-width:960px) {
+        font-size: 150%;
+      }
     }
   }
   &.exbd-font-scale-content-increase {
     & > .block-inner > .content {
-      font-size: 150%;
+      font-size: 110%;
+      @media screen and (min-width:768px) {
+        font-size: 125%;
+      }
+      @media screen and (min-width:960px) {
+        font-size: 150%;
+      }
     }
   }
   &.exbd-font-scale-title-decrease {

@@ -1,8 +1,5 @@
 <?php
 
-// Ensure secure pages is enabled.
-//$conf['securepages_enable'] = TRUE;
-
 // Never allow updating modules through UI.
 $conf['allow_authorize_operations'] = FALSE;
 
@@ -67,8 +64,6 @@ $conf['blocked_ips'] = array();
 
 //$base_url = 'http://express.local/' . $path;
 
-# Need to do this to until we can properly support SSL.
-$conf['securepages_enable'] = FALSE;
 $conf['ldap_servers_require_ssl_for_credentails'] = '0';
 
 $databases = array(
@@ -110,3 +105,8 @@ $conf['metatag_enable_file'] = 0;
 $conf['metatag_enable_bean'] = 0;
 $conf['metatag_enable_user'] = 0;
 $conf['metatag_enable_taxonomy_term'] = 0;
+
+
+// Gets rid of the error on the status report page.
+// To check if this is an actual problem, see if the Update module checks work.
+$conf['drupal_http_request_fails'] = FALSE;

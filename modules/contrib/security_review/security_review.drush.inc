@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * Drush commands for Security Review module.
@@ -31,19 +32,7 @@ function security_review_drush_command() {
       'secrev --store' => 'Run the checklist, store, and output the results',
       'secrev --lastrun' => 'Output the stored results from the last run of the checklist'
     ),
-    'outputformat' => array(
-      'default' => 'table',
-      'pipe-format' => 'csv',
-      'fields-default' => array('message', 'status'),
-      'field-labels' => array(
-        'message' => 'Message',
-        'status' => 'Status',
-        'findings' => 'Findings',
-      ),
-      'output-data-type' => 'format-table',
-    ),
   );
-
   $items['password-check-setup'] = array(
     'callback' => 'security_review_drush_hash_setup',
     'aliases' => array('passset'),
@@ -101,7 +90,6 @@ function security_review_drush() {
     $show_results = FALSE;
   }
 
-  $output = array();
   if (!$lastrun) {
     if (!empty($specific_checks)) {
       // Get specified checks.
@@ -160,36 +148,30 @@ function security_review_drush() {
     if ($store) {
       security_review_store_results($checklist_results);
     }
-    // Compile results.
+    // Print results.
     foreach ($checklist_results as $module => $checks) {
       foreach ($checks as $check_name => $check) {
-        if ($result = _security_review_drush_format_result($check, $short_titles, $show_results)) {
-          $output[$module . '-' . $check_name] = $result;
-        }
+        _security_review_drush_print_result($check, $short_titles, $show_results);
       }
     }
   }
   elseif ($lastrun) {
     // Retrieve results from last run of the checklist.
     $results = security_review_get_stored_results();
-    // Compile results.
+    // Print results.
     if (!empty($results)) {
       foreach ($results as $result) {
         if (isset($checklist[$result['namespace']][$result['reviewcheck']])) {
           $check = array_merge($result, $checklist[$result['namespace']][$result['reviewcheck']]);
-          if ($result = _security_review_drush_format_result($check, $short_titles, $show_results)) {
-            $output[$check['namespace'] . '-' . $check['reviewcheck']] = $result;
-          }
+          _security_review_drush_print_result($check, $short_titles, $show_results);
         }
       }
     }
   }
-
-  return $output;
 }
 
 /**
- * Helper function to format Security Review results.
+ * Helper function to print Security Review results using drush_log().
  *
  * @param array $check
  *   Check array with keys 'title', 'success', 'failure', 'result'
@@ -198,11 +180,9 @@ function security_review_drush() {
  *   message.
  * @param boolean $show_results
  *   Whether to print failed check results.
- *
- * @return array|NULL
- *   An array with the security review check's result, or NULL if no result.
+ * @return NULL
  */
-function _security_review_drush_format_result($check, $short_titles = FALSE, $show_results = FALSE) {
+function _security_review_drush_print_result($check, $short_titles = FALSE, $show_results = FALSE) {
   if (is_null($check['result'])) {
     // Do nothing if result is NULL.
     return;
@@ -211,26 +191,22 @@ function _security_review_drush_format_result($check, $short_titles = FALSE, $sh
     $element = $short_titles ? 'title' : 'success';
     $message = $check[$element];
     $status = 'success';
-    $findings = $check['value'];
   }
   else {
     $element = $short_titles ? 'title' : 'failure';
     $message = $check[$element];
-    $findings = $check['value'];
-    if ($show_results && !empty($findings)) {
-      $message .= "\n";
-      foreach (_security_review_drush_findings_output($check) as $item) {
-        $message .= "\t" . $item . "\n";
+    if ($show_results) {
+      $results = _security_review_drush_findings_output($check);
+      if (!empty($results)) {
+        $message .= "\n";
+        foreach ($results as $item) {
+          $message .= "\t" . $item . "\n";
+        }
       }
     }
     $status = 'error';
   }
-
-  return array(
-    'message' => $message,
-    'status' => $status,
-    'findings' => $findings,
-  );
+  drush_log($message, $status);
 }
 
 function _security_review_drush_findings_output($check) {
@@ -312,32 +288,5 @@ function security_review_drush_hash_setup() {
   }
   else {
     drush_die('File not found');
-  }
-}
-
-/**
- * Implements hook_drush_command_alter().
- */
-function security_review_drush_command_alter(&$command) {
-  // Adds security_review checks to existing security report.
-  if ($command['command'] == 'audit_security') {
-    $security_review_checks = array(
-      'FilePerms',
-      'InputFormats',
-      'Field',
-      'ErrorReporting',
-      'PrivateFiles',
-      'UploadExtensions',
-      'AdminPermissions',
-      'ExecutablePhp',
-      'BaseUrlSet',
-      'TemporaryFiles',
-    );
-    foreach ($security_review_checks as $name) {
-      $command['checks'][] = array(
-        'name' => $name,
-        'location' => __DIR__ . '/security_review.site_audit.inc',
-      );
-    }
   }
 }

@@ -83,6 +83,7 @@ h2, h3, h4, h5, h6 {
   padding: 10px 20px;
   background-color: $blue;
   background-color: #555;
+  background: #545454;
   color:#fff;
   margin: 0;
 }
@@ -243,7 +244,7 @@ ul.action-links li a {
   margin-right: 15px;
 }
 ul.action-links a:before {
-  content: "\f0fe";
+  content: "\f0a9";
   padding-right:5px;
   font-family: FontAwesome;
 }
@@ -753,6 +754,12 @@ div.messages {
 .form-item {
   margin-bottom: 5px;
 }
+.form-item input.error.form-checkbox {
+  & + label {
+    border:2px solid red;
+    padding:3px;
+  }
+}
 .filterable-option {
   padding: 10px;
 }
@@ -916,7 +923,8 @@ td.ctools-export-ui-operations {
   }
   /* Checkboxes */
   @media screen and (min-width: 480px) {
-    &.form-checkboxes  {
+    &.form-checkboxes,
+    &.form-radios  {
       -webkit-column-count: 2;
       -moz-column-count: 2;
       column-count: 2;
@@ -926,7 +934,8 @@ td.ctools-export-ui-operations {
     }
   }
   @media screen and (min-width: 768px) {
-    &.form-checkboxes  {
+    &.form-checkboxes,
+    &.form-radios  {
       -webkit-column-count: 3;
       -moz-column-count: 3;
       column-count: 3;
@@ -936,7 +945,8 @@ td.ctools-export-ui-operations {
     }
   }
   @media screen and (min-width: 960px) {
-    &.form-checkboxes  {
+    &.form-checkboxes,
+    &.form-radios  {
       -webkit-column-count: 4;
       -moz-column-count: 4;
       column-count: 4;
@@ -946,7 +956,8 @@ td.ctools-export-ui-operations {
     }
   }
   @media screen and (min-width: 1200px) {
-    &.form-checkboxes  {
+    &.form-checkboxes,
+    &.form-radios  {
       -webkit-column-count: 5;
       -moz-column-count: 5;
       column-count: 5;
@@ -970,6 +981,21 @@ ul.bullet-list {
   padding-left: 1.5em;
   > li {
     list-style: disc;
+  }
+
+  ul {
+    list-style: circle;
+    padding-left: 1.5em;
+    > li {
+      list-style: circle;
+    }
+  }
+}
+ol.numbered-list {
+  list-style-type:decimal;
+  padding-left: 1.5em;
+  > li {
+    list-style-type:decimal;
   }
 
   ul {
@@ -1024,16 +1050,22 @@ ul.bullet-list {
   flex-wrap: wrap;
   margin:0 -20px;
   margin-bottom: 20px;
+
   .express-card,
   .express-column {
     padding:0 20px;
     margin-bottom: 20px;
-
+    @media screen and (min-width:768px) {
+      & {
+        margin-bottom: 40px;
+      }
+    }
   }
   .express-card {
     display: flex;
     align-items: stretch;
     .content {
+      width:100%;
       padding:20px;
       border:1px solid #e7e7e7;
       & > *:last-child {
