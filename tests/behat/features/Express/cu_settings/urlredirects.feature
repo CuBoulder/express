@@ -18,7 +18,7 @@ Examples:
 | site_editor      | "Redirects" |
 | edit_only        | "Access denied" |
 | access_manager   | "Access denied" |
-| configuration_manager | "URL redirects" |
+| configuration_manager | "Redirects" |
 
 
 Scenario: the URL redirects form is properly populated with functionality
