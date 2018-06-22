@@ -11,12 +11,11 @@ Then I should see <message>
 
 Examples:
 | role             | message |
-| developer        | "URL redirects" |
-| administrator    | "URL redirects" |
-| site_owner       | "URL redirects" |
+| administrator    | "Redirects" |
+| site_owner       | "Redirects" |
 | content_editor   | "Access denied" |
 | edit_my_content  | "Access denied" |
-| site_editor      | "URL redirects" |
+| site_editor      | "Redirects" |
 | edit_only        | "Access denied" |
 | access_manager   | "Access denied" |
 | configuration_manager | "URL redirects" |
