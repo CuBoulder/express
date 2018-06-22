@@ -94,7 +94,7 @@ Scenario Outline: Only Developers can access the URL Redirect Settings page
     | site_owner      | "Access denied" |
     | content_editor  | "Access denied" |
     | edit_my_content  | "Access denied" |
-    | site_editor      | "URL redirects" |
+    | site_editor      | "Redirects" |
     | edit_only        | "Access denied" |
     | access_manager   | "Access denied" |
     | configuration_manager | "Access denied" |

@@ -259,7 +259,6 @@ function cu_redirect_menu_alter(&$items) {
 }
 
 function cu_redirect_form_match_redirect_list_form_alter(&$form, &$form_state, $form_id) {
-  global $user;
   $dev = user_role_load_by_name('developer');
   $admin = user_role_load_by_name('administrator');
 
