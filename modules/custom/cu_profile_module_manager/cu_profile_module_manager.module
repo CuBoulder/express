@@ -64,11 +64,15 @@ function cu_profile_module_manager_menu() {
 function cu_profile_module_manager_atlas_request_form($form, &$form_state) {
   $form = array();
   preg_match('/^[a-zA-Z0-9_]*/', arg(5), $module);
-  $package = _get_code_options($type = 'module', $name = $module[0]);
+  $asset_id = arg(5);
+  
+  $query = 'where={"meta.code_type":"module","_id":"' . $asset_id . '"}';
+  $packages = atlas_api_request('code', $query);
+  $package = _get_code_options($type = 'module', $name = NULL, $id = $asset_id);
 
   $form['atlas_asset'] = array(
     '#title' => t('Atlas asset being requested.'),
-    '#markup' => t('Are you sure you want to add this bundle? <br><strong>') . arg(5) . '</strong>',
+    '#markup' => t('Are you sure you want to add this bundle? <br><strong>') . $packages['_items'][0]['meta']['label'] . '</strong>',
   );
   $form['atlas_package_to_add'] = array(
     '#type' => 'hidden',
@@ -139,7 +143,7 @@ function cu_profile_module_manager_atlas_request_submit($form, &$form_state) {
 /**
  * @param $hash
  * @param $name
- * @return mixed|string
+ * @return string
  */
 function curl_github_info($hash, $name) {
   if (variable_get('github_info')) {
@@ -173,15 +177,81 @@ function curl_github_info($hash, $name) {
 }
 
 /**
+ * This builds out the bundle cards from atlas and inserts the github description if available.
+ *
+ * @param $package
+ * @param $bundle_group
+ * @return array|NULL
+ */
+function _prepare_atlas_output($package, $bundle_group) {
+  global $base_path;
+  $output = array();
+  $atlas_id = variable_get('atlas_id', NULL);
+
+  $site_array = atlas_api_request('sites', $atlas_id);
+
+  if (isset($site_array['code']['package'])) {
+    $packages_array = $site_array['code']['package'];
+  } else {
+    $packages_array = array();
+  }
+
+  $package_items = array();
+  // Build no duplicates version of package items.
+  $name = $package['meta']['name'];
+  $package_items[$name] = $package;
+
+  // Make current versions trump other versions
+  if ($package['meta']['is_current']) {
+    $name = $package['meta']['name'];
+    $package_items[$name] = $package;
+  }
+
+  $name = (isset($package['meta']['name']) ? $package['meta']['name'] : '');
+  $label = (isset($package['meta']['label']) ? $package['meta']['label'] : '');
+  $id = (isset($package['_id']) ? $package['_id'] : '');
+  $hash = (isset($package['commit_hash']) ? $package['commit_hash'] : '');
+
+  $tags = array();
+  if (!empty($package['meta']['tag'])) {
+    foreach ($package['meta']['tag'] as $tag) {
+      $tags[] = $tag;
+    }
+  }
+
+  $enabled = module_exists($name) ? 1 : 0;
+
+  $response = curl_github_info($hash, $name);
+
+  if (in_array($id, $packages_array) && $enabled == TRUE) {
+    $atlas_output = '<div class="bundle-enable atlas-add-bundle bundle-ready"><h2>' . $label . '</h2><br><p>' . $response . '</p><br><span class="pmm-actions btn btn-info" disabled ><i class="fa fa-check-circle"></i> Ready to use</span></div>';
+  } elseif (in_array($id, $packages_array) && $enabled == FALSE) {
+    $atlas_output = '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>' . $response . '</p><p>Version: ' . $package['meta']['version'] . '</p><br><a href="' . $base_path . 'admin/settings/bundles/list/confirm/' . $name . '" id="' . $id . '" class="pmm-actions btn btn-info"><i class="fa fa-plus-circle"></i> Enable</a></div>';
+  } elseif (!in_array($id, $packages_array)) {
+    $atlas_output = '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>' . $response . '</p><p>Version: ' . $package['meta']['version'] . '</p><br><a href="' . $base_path . 'admin/settings/bundles/list/atlas/' . $package['_id'] . '/confirm" id="' . $id . '" class="pmm-actions btn btn-primary"><i class="fa fa-plus-circle"></i> Add bundle</a></div>';
+  } else {
+    return NULL;
+  }
+
+  if (isset($atlas_output) && isset($tag) && isset($label) && isset($name) && in_array($bundle_group, $tags)) {
+    $output[] = array(
+      'atlas_item' => array(
+        '#type' => 'markup',
+        '#markup' => $atlas_output,
+      ),
+    );
+  }
+  return $output;
+}
+
+/**
  * Addon bundle page.
  *
  * @return array
  */
 function cu_profile_module_manager_addon_page() {
   /* Variables and whatnot--no form elements. */
-  global $base_path;
-
-  $atlas_id = variable_get('atlas_id', NULL);
+  $bundle_group = 'addon_bundles';
 
   drupal_add_css(drupal_get_path('module', 'cu_profile_module_manager') . '/css/cu-profile-module-manager.css', array('group' => CSS_DEFAULT));
 
@@ -197,18 +267,7 @@ function cu_profile_module_manager_addon_page() {
     ),
   );
 
-  $site_array = atlas_api_request('sites', $atlas_id);
-  if (isset($site_array['code']['package'])) {
-    $packages_array = $site_array['code']['package'];
-  } else {
-    $packages_array = array();
-  }
-
   foreach ($packages['_items'] as $package) {
-    $name = (isset($package['meta']['name']) ? $package['meta']['name'] : '');
-    $label = (isset($package['meta']['label']) ? $package['meta']['label'] : '');
-    $id = (isset($package['_id']) ? $package['_id'] : '');
-    $hash = (isset($package['commit_hash']) ? $package['commit_hash'] : '');
 
     $tags = array();
     if (!empty($package['meta']['tag'])) {
@@ -217,38 +276,8 @@ function cu_profile_module_manager_addon_page() {
       }
     }
 
-    $enabled = module_exists($name) ? 1 : 0;
-
-    if (isset($tag) && isset($label) && isset($name) && in_array('addon_bundles', $tags) && !in_array($id, $packages_array)) {
-      $response = curl_github_info($hash, $name);
-      $output[] = array(
-        'atlas_item' => array(
-          '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>' . $response . '</p><br><a href="' . $base_path . 'admin/settings/bundles/list/atlas/' . $name . '/confirm" id="' . $id . '" class="pmm-actions btn btn-primary"><i class="fa fa-plus-circle"></i> Add bundle</a></div>',
-        ),
-      );
-    }
-
-    if (isset($tag) && isset($label) && isset($name) && in_array('addon_bundles', $tags) && in_array($id, $packages_array) && $enabled == FALSE) {
-      // Is NOT enabled.
-      $response = curl_github_info($hash, $name);
-      $output[] = array(
-        'atlas_item' => array(
-          '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>' . $response . '</p><br><a href="' . $base_path . 'admin/settings/bundles/list/confirm/' . $name . '" id="' . $id . '" class="pmm-actions btn btn-info"><i class="fa fa-plus-circle"></i> Enable</a></div>',
-        ),
-      );
-    }
-
-    if (isset($tag) && isset($label) && isset($name) && in_array('addon_bundles', $tags) && in_array($id, $packages_array) && $enabled == TRUE) {
-      // Is enabled.
-      $response = curl_github_info($hash, $name);
-      $output[] = array(
-        'atlas_item' => array(
-          '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle bundle-ready"><h2>' . $label . '</h2><br><p>' . $response . '</p><br><span class="pmm-actions btn btn-info" disabled ><i class="fa fa-check-circle"></i> Ready to use</span></div>',
-        ),
-      );
+    if (isset($tag) && $tag == $bundle_group) {
+      $output[] = _prepare_atlas_output($package, $bundle_group);
     }
   }
   return $output;
@@ -260,15 +289,7 @@ function cu_profile_module_manager_addon_page() {
  */
 function cu_profile_module_manager_request_page() {
   /* Variables and whatnot--no form elements. */
-  global $base_path;
-
-  $atlas_id = variable_get('atlas_id', NULL);
-  $site_array = atlas_api_request('sites', $atlas_id);
-  if (isset($site_array['code']['package'])) {
-    $packages_array = $site_array['code']['package'];
-  } else {
-    $packages_array = array();
-  }
+  $bundle_group = 'request_bundles';
 
   drupal_add_css(drupal_get_path('module', 'cu_profile_module_manager') . '/css/cu-profile-module-manager.css', array('group' => CSS_DEFAULT));
 
@@ -285,10 +306,6 @@ function cu_profile_module_manager_request_page() {
   );
 
   foreach ($packages['_items'] as $package) {
-    $name = (isset($package['meta']['name']) ? $package['meta']['name'] : '');
-    $label = (isset($package['meta']['label']) ? $package['meta']['label'] : '');
-    $id = (isset($package['_id']) ? $package['_id'] : '');
-    $hash = (isset($package['commit_hash']) ? $package['commit_hash'] : '');
 
     $tags = array();
     if (!empty($package['meta']['tag'])) {
@@ -297,38 +314,8 @@ function cu_profile_module_manager_request_page() {
       }
     }
 
-    $enabled = module_exists($name) ? 1 : 0;
-
-    if (isset($tag) && isset($label) && isset($name) && in_array('request_bundles', $tags) && !in_array($id, $packages_array)) {
-      $response = curl_github_info($hash, $name);
-      $output[] = array(
-        'atlas_item' => array(
-          '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>' . $response . '</p><br><span id="' . $id . '" class="pmm-actions btn btn-primary" disabled ><i class="fa fa-plus-circle"></i> Requires prior approval</span></div>',
-        ),
-      );
-    }
-
-    if (isset($tag) && isset($label) && isset($name) && in_array('request_bundles', $tags) && in_array($id, $packages_array) && $enabled == FALSE) {
-      // Is NOT enabled.
-      $response = curl_github_info($hash, $name);
-      $output[] = array(
-        'atlas_item' => array(
-          '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>' . $response . '</p><br><a href="' . $base_path . 'admin/settings/bundles/list/confirm/' . $name . '" id="' . $id . '" class="pmm-actions btn btn-info"><i class="fa fa-plus-circle"></i> Enable</a></div>',
-        ),
-      );
-    }
-
-    if (isset($tag) && isset($label) && isset($name) && in_array('request_bundles', $tags) && in_array($id, $packages_array) && $enabled == TRUE) {
-      // Is enabled.
-      $response = curl_github_info($hash, $name);
-      $output[] = array(
-        'atlas_item' => array(
-          '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle bundle-ready"><h2>' . $label . '</h2><br><p>' . $response . '</p><br><span class="pmm-actions btn btn-info" disabled ><i class="fa fa-check-circle"></i> Ready to use</span></div>',
-        ),
-      );
+    if (isset($tag) && $tag == $bundle_group) {
+      $output[] = _prepare_atlas_output($package, $bundle_group);
     }
   }
   return $output;
@@ -341,15 +328,7 @@ function cu_profile_module_manager_request_page() {
  */
 function cu_profile_module_manager_beta_page() {
   /* Variables and whatnot--no form elements. */
-  global $base_path;
-
-  $atlas_id = variable_get('atlas_id', NULL);
-  $site_array = atlas_api_request('sites', $atlas_id);
-  if (isset($site_array['code']['package'])) {
-    $packages_array = $site_array['code']['package'];
-  } else {
-    $packages_array = array();
-  }
+  $bundle_group = 'beta_bundles';
 
   drupal_add_css(drupal_get_path('module', 'cu_profile_module_manager') . '/css/cu-profile-module-manager.css', array('group' => CSS_DEFAULT));
 
@@ -364,10 +343,6 @@ function cu_profile_module_manager_beta_page() {
   );
 
   foreach ($packages['_items'] as $package) {
-    $name = (isset($package['meta']['name']) ? $package['meta']['name'] : '');
-    $label = (isset($package['meta']['label']) ? $package['meta']['label'] : '');
-    $id = (isset($package['_id']) ? $package['_id'] : '');
-    $hash = (isset($package['commit_hash']) ? $package['commit_hash'] : '');
 
     $tags = array();
     if (!empty($package['meta']['tag'])) {
@@ -376,38 +351,8 @@ function cu_profile_module_manager_beta_page() {
       }
     }
 
-    $enabled = module_exists($name) ? 1 : 0;
-
-    if (!empty($tag) && isset($label) && isset($name) && in_array('beta_bundles', $tags) && !in_array($id, $packages_array)) {
-      $response = curl_github_info($hash, $name);
-      $output[] = array(
-        'atlas_item' => array(
-          '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>' . $response . '</p><br><a href="' . $base_path . 'admin/settings/bundles/list/atlas/' . $name . '/confirm" id="' . $id . '" class="pmm-actions btn btn-primary"><i class="fa fa-plus-circle"></i> Add bundle</a></div>',
-        ),
-      );
-    }
-
-    if (isset($tag) && isset($label) && isset($name) && in_array('beta_bundles', $tags) && in_array($id, $packages_array) && $enabled == FALSE) {
-      // Is NOT enabled.
-      $response = curl_github_info($hash, $name);
-      $output[] = array(
-        'atlas_item' => array(
-          '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>' . $response . '</p><br><a href="' . $base_path . 'admin/settings/bundles/list/confirm/' . $name . '" id="' . $id . '" class="pmm-actions btn btn-info"><i class="fa fa-plus-circle"></i> Enable</a></div>',
-        ),
-      );
-    }
-
-    if (isset($tag) && isset($label) && isset($name) && in_array('beta_bundles', $tags) && in_array($id, $packages_array) && $enabled == TRUE) {
-      // Is enabled.
-      $response = curl_github_info($hash, $name);
-      $output[] = array(
-        'atlas_item' => array(
-          '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle bundle-ready"><h2>' . $label . '</h2><br><p>' . $response . '</p><br><span class="pmm-actions btn btn-info" disabled ><i class="fa fa-check-circle"></i> Ready to use</span></div>',
-        ),
-      );
+    if (isset($tag) && $tag == $bundle_group) {
+      $output[] = _prepare_atlas_output($package, $bundle_group);
     }
   }
   return $output;

@@ -497,7 +497,7 @@ function atlas_api_request($resource, $query = NULL, $method = 'GET', $data = NU
  * @return array option list
  *   Form ready list of options with '_id' field as the key.
  */
-function _get_code_options($type = NULL, $name = NULL) {
+function _get_code_options($type = NULL, $name = NULL, $id = NULL) {
 
   if ($name && $type) {
     if ($type == 'packages') {
@@ -506,6 +506,9 @@ function _get_code_options($type = NULL, $name = NULL) {
     else {
       $query = 'where={"meta.name":"' . $name . '","meta.code_type":"' . $type . '"}';
     }
+  }
+  elseif ($id) {
+    $query = 'where={"_id":"' . $id . '"}';
   }
   elseif ($type) {
     if ($type == 'packages') {
