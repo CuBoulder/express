@@ -235,9 +235,9 @@ function cu_core_preprocess_html(&$vars) {
         $vars['classes_array'][] = 'status-launched';
         drupal_add_js(drupal_get_path('module', 'cu_core') . '/js/cu-core.js');
         break;
-      case 'www-new.colorado.edu':
+      case 'www-prod-new.colorado.edu':
         $vars['classes_array'][] = 'environment-production';
-        $vars['classes_array'][] = 'infrastructure-old';
+        $vars['classes_array'][] = 'infrastructure-new';
         $vars['classes_array'][] = 'status-launched';
         drupal_add_js(drupal_get_path('module', 'cu_core') . '/js/cu-core.js');
         break;
@@ -259,4 +259,72 @@ function cu_core_preprocess_html(&$vars) {
       t('University of Colorado Boulder'),
     ));
   }
+}
+
+function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state, $form_id) {
+
+  // The affiliation options are CU Boulder specific.
+  // Altering the form to include pre-selected options + custom.
+  $form['affiliation'] = array(
+    '#type' => 'fieldset',
+    '#title' => 'Affiliation',
+  );
+  $affiliations = cu_core_site_affiliation_options();
+  $options = array();
+  foreach ($affiliations as $value => $label) {
+    $options[$value] = $label['label'];
+  }
+  $options['custom'] = 'Custom';
+  $form['cu_site_affiliation_options'] = array(
+    '#type' => 'select',
+    '#options' => $options,
+    '#empty_option' => '- None -',
+    '#description' => 'Display a site affiliation message.',
+    '#default_value' => variable_get('cu_site_affiliation_options', ''),
+  );
+  $form['affiliation']['express_site_affiliation'] = $form['express_site_affiliation'];
+  $form['affiliation']['#weight'] = 1;
+  unset($form['express_site_affiliation']);
+
+
+
+  // Only show custom field if select custom is chosen.
+  $form['affiliation']['#states'] = array(
+    'visible' => array(
+      'select[name="cu_site_affiliation_options"]' => array(
+        'value' => 'custom',
+      ),
+    ),
+  );
+  $form['affiliation']['#description'] = 'The affiliation area can be used to show unit hierarchy or approved co-branded entity partnerships. Limited to a single parent unit or approved partner affiliation. All co-brand partnerships must be approved by the Brand Identity Standards Board. No taglines, promotional copy or other text may be used.';
+
+  // Custom Logos don't have affiliations
+  if (variable_get('custom_white_logo', NULL) || variable_get('custom_black_logo', NULL)) {
+    $form['affiliation']['#access'] = FALSE;
+    $form['cu_site_affiliation_options']['#access'] = FALSE;
+  }
+}
+
+function cu_core_site_affiliation_options($option = NULL) {
+  $options['student_affairs'] = array(
+    'url' => 'https://www.colorado.edu/studentaffairs',
+    'label' => 'A Division of Student Affairs',
+  );
+  $options['arts_and_sciences'] = array(
+    'url' => 'https://www.colorado.edu/artsandsciences',
+    'label' => 'College of Arts and Sciences',
+  );
+  $options['engineering'] = array(
+    'url' => 'https://www.colorado.edu/engineering',
+    'label' => 'College of Engineering and Applied Science',
+  );
+  $options['education'] = array(
+    'url' => 'https://www.colorado.edu/education',
+    'label' => 'School of Education',
+  );
+
+  if ($option) {
+    return $options[$option];
+  }
+  return $options;
 }
