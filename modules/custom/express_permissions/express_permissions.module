@@ -457,6 +457,7 @@ function express_permissions_secure_permissions($role) {
       'view any hero_unit bean',
       'view any quicktab bean',
       'view any slider bean',
+      'view own unpublished content',
       'view the administration theme',
       'access navbar',
       'view status messages',
@@ -956,8 +957,6 @@ function express_permissions_form_user_admin_permissions_alter(&$form, &$form_st
 function express_permissions_form_views_exposed_form_alter(&$form, &$form_state) {
   $hidden_roles_array = array(
     'edit_only',
-    'access_manager',
-    'configuration_manager',
     'administrator',
     'developer',
   );
@@ -1015,4 +1014,3 @@ function express_permissions_order_roles() {
   }
 
 }
-

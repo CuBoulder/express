@@ -53,7 +53,7 @@ I should be able to invite users to my site and manage invitations.
     And I should see an "#edit-status" element
     And I should see an "#edit-submit-cu-people-administration-override-view" element
     And I should see a "#edit-reset" element
-    And I should see the link "sort by Username"
+    # And I should see the link "sort by Username"
     And I should see the link "sort by Active"
     # HIDING FOR NOW And I should see the link "sort by Primary Affiliation"
     And I should see the link "sort by Member for"
