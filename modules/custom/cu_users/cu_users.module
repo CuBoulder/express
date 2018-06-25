@@ -487,6 +487,23 @@ function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
       $form['account']['roles_change']['#access'] = FALSE;
     }
   }
+  // Change cancel account button label to delete account
+  $form['actions']['cancel']['#value'] = 'Delete account';
+
+  // Add validate function to remove roles when user is blocked.
+  // Using validate rather than submit because this module weight is so high.
+  $form['#validate'][] = 'cu_users_form_user_profile_form_validate';
+}
+
+/**
+ * Validation function for cu_users_form_user_profile_form_alter().
+ *
+ * Remove roles if account getting blocked.
+ */
+function cu_users_form_user_profile_form_validate($form, &$form_state) {
+  if ($form_state['values']['status'] == '0') {
+    $form_state['values']['roles'] = array();
+  }
 }
 
 /**
