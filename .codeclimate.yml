@@ -19,8 +19,9 @@ ratings:
   - "modules/custom"
   - "modules/features"
 exclude_paths:
-- "**.scss"
 - "libraries/"
-- "tests/"
 - "modules/contrib/"
+- "tests/"
+- "themes/"
+- "**.scss"
 - "**.tpl.php"
