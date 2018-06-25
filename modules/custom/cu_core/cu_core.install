@@ -73,7 +73,7 @@ function cu_core_install() {
 
   // Set message for when enabling of bundles is turned off.
   variable_set('profile_module_manager_disable_enabling_atlas_bundles', 0);
-  variable_set('profile_module_manager_disable_enabling_text', 'Due to unexpectedly high load on the servers, the option to enable bundles has temporarily been disabled.  Please check back tomorrow.');
+  variable_set('profile_module_manager_disable_enabling_text', 'Bundles are not available at this time. Contact websupport@colorado.edu for questions regarding this.');
   variable_set('rave_alerts_rss_url', 'http://www.getrave.com/rss/cuboulder/channel1');
   variable_set('rave_alerts_check_enable', 1);
   variable_set('rave_alerts_network_fail_message', 'Network Failure: Please go directly to http://alerts.colorado.edu for more information.');
