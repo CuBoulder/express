@@ -2,28 +2,30 @@
 
 function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $collection = NULL) {
 
-
-
-  $output = array();
-  $types = array('addon_bundles', 'request_bundles', 'beta_bundles', 'admin_bundles');
+  $output = [];
+  // @todo make this into a variable or constant.
+  $types = [
+    'addon_bundles',
+    'request_bundles',
+    'beta_bundles',
+    'admin_bundles',
+  ];
 
   // Get bundles that are available.
-  $bundles = profile_module_manager_get_bundles($status = 'all');
+  $core_bundles = profile_module_manager_get_bundles($status = 'all');
 
   // Get addon bundles (code that is not part of the profile).
   $atlas_id = variable_get('atlas_id', NULL);
   if ($atlas_id) {
-    $query = 'where={"meta.code_type":"module"}';
-    $addon_bundles = atlas_api_request('code', $query);
-    // TODO
-    // Format this array to be the same as $bundles and merge them together.
+    $addon_bundles = cu_profile_module_manager_get_addon_bundles();
   }
 
+  $bundles = array_merge($core_bundles, $addon_bundles);
 
   // Filter bundles.
   // Check for enabled/disabled.
   foreach ($bundles as $key => $bundle) {
-    if($enabled) {
+    if ($enabled) {
       if (!module_exists($key)) {
         unset($bundles[$key]);
       }
@@ -35,7 +37,7 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
     }
   }
 
-  $output['bundles'] = array();
+  $output['bundles'] = [];
   $output['bundles']['#prefix'] = '<div class="express-cards">';
   $output['bundles']['#suffix'] = '</div>';
 
@@ -47,8 +49,8 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
   if ($set) {
     $set = cu_profile_module_manager_sets($set);
   }
-  if($highlight) {
-    $set = explode(',',$highlight);
+  if ($highlight) {
+    $set = explode(',', $highlight);
   }
 
 
@@ -61,7 +63,7 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
     $type = !empty($info['bundle_group']) ? $info['bundle_group'] : NULL;
 
     // Build variables array for theming.
-    $variables = array();
+    $variables = [];
 
     $name = isset($info['name']) ? $info['name'] : $key;
     $name_lc = strtolower($name);
@@ -120,8 +122,8 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
  * Array values should be lower case bundle names.
  */
 function cu_profile_module_manager_sets($set = NULL) {
-  $sets = array();
-  $sets['blog'] = array('news and articles', 'social media', 'advanced content');
+  $sets = [];
+  $sets['blog'] = ['news and articles', 'social media', 'advanced content'];
 
 
   if ($set) {
@@ -137,31 +139,31 @@ function cu_profile_module_manager_sets($set = NULL) {
  * This emails the request to a support email account for follow up.
  */
 function cu_profile_module_manager_request_bundle_form($form, &$form_state, $name) {
-  $form = array();
+  $form = [];
   $name = check_plain($name);
-  $form['confirmation'] = array(
+  $form['confirmation'] = [
     '#type' => 'markup',
     '#markup' => "<p>Are you sure you want to request the $name bundle be added to your site?</p>",
-  );
-  $form['bundle'] = array(
+  ];
+  $form['bundle'] = [
     '#type' => 'hidden',
     '#value' => $name,
-  );
-  $form['submit'] = array(
+  ];
+  $form['submit'] = [
     '#type' => 'submit',
     '#value' => 'Request Bundle',
-    '#submit' => array(
+    '#submit' => [
       'cu_profile_module_manger_send_request',
-      'cu_profile_module_manager_request_bundle_form_submit'
-    ),
-  );
+      'cu_profile_module_manager_request_bundle_form_submit',
+    ],
+  ];
 
 
-  $form['cancel'] = array(
+  $form['cancel'] = [
     '#type' => 'submit',
     '#value' => 'Cancel',
-    '#submit' => array('cu_profile_module_manager_request_bundle_form_cancel')
-  );
+    '#submit' => ['cu_profile_module_manager_request_bundle_form_cancel'],
+  ];
 
   return $form;
 }
