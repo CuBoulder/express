@@ -36,6 +36,14 @@ function cu_inactive_users_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 20,
   );
+  $items['admin/reports/inactive-users/remove'] = array(
+    'page callback' => 'cu_inactive_users_report_remove',
+    'page arguments' => array(4),
+    'access arguments' => array('view delete candidate users'),
+    'title' => 'Can be removed',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1000,
+  );
   return $items;
 }
 
@@ -47,6 +55,10 @@ function cu_inactive_users_permission() {
     'view inactive users' => array(
       'title' => 'View Inactive Users Report',
       'description' => 'View a list of inactive users.',
+    ),
+    'view delete candidate users' => array(
+      'title' => 'View Candidates for Deletion',
+      'description' => 'View a list of users that can probably be removed.',
     ),
   );
 }
@@ -61,6 +73,7 @@ function cu_inactive_users_secure_permissions($role) {
     ),
     'developer' => array(
       'view inactive users',
+      'view delete candidate users',
     ),
   );
   if (isset($permissions[$role])) {
@@ -235,7 +248,7 @@ function cu_inactive_users_report_roles($uids = NULL) {
  *
  * Tell inactive users to check node and bean tables + revisions.
  */
-function cu_inactive_users_inactive_users(&$vars) {
+function cu_inactive_users_inactive_users($vars) {
   $vars['bean'] = array('table' => 'bean', 'column' => 'uid');
   $vars['bean_revision'] = array('table' => 'bean_revision', 'column' => 'uid');
   $vars['node'] = array('table' => 'node', 'column' => 'uid');
@@ -374,4 +387,93 @@ function _cu_inactive_users_format_roles($roles) {
   $roles = str_replace('_', ' ', $roles);
   $roles = ucwords($roles);
   return $roles;
+}
+
+function cu_inactive_users_report_remove($uids = NULL) {
+  cu_inactive_users_delete_dev_accounts();
+  $output = array();
+  $list = array();
+  $results = cu_inactive_users_report_remove_process($uids);
+  foreach ($results as $result) {
+    $name = !empty($result->realname) ? l($result->realname, 'user/' . $result->uid . '/edit') : l($result->name, 'user/' . $result->uid . '/edit');
+    $key = strip_tags($name);
+    $list[$key] = $name;
+  }
+  ksort($list);
+  $output['missing_role']['#prefix'] = '<h2>Can Probably Be Removed</h2>';
+  $output['missing_role']['description']['#markup'] = '<p>The users listed below have no roles assigned to them, have not authored or edited any content, and have not logged in recently.</p>';
+  $output['missing_role']['list']['#markup'] = theme('item_list', array('items' => $list, 'attributes' => array('class' => array('bullet-list'))));
+
+  return $output;
+}
+
+function cu_inactive_users_report_remove_process($uids) {
+  $time = 60*60*24*395;
+  $lists = array();
+  $lists['stale'] = cu_inactive_users_stale_logins($time, $uids);
+  $lists['role'] = cu_inactive_users_missing_role_get($uids);
+  $lists['edits'] = cu_inactive_users_noedits($uids);
+  //$results = array_intersect_key($list['stale'], $list['role'], $list['edits']);
+
+  $results = array();
+  foreach ($lists as $list) {
+    if (!empty($list)) {
+      if (empty($results)) {
+        $results = $list;
+      }
+      else {
+        $results = array_intersect_key($results, $list);
+      }
+    }
+  }
+  return $results;
+}
+
+function cu_inactive_users_delete_dev_accounts() {
+
+  // Store uids for roles and test users.
+  $uids = array(
+    'roles' => array(),
+    'users' => array(),
+  );
+
+  // Get uids for developer type roles.
+  $roles = variable_get('cu_inactive_users_dev_roles', array('administrator', 'developer'));
+  $rids = array();
+  foreach ($roles as $role) {
+    $role = user_role_load_by_name($role);
+    $rids[] = $role->rid;
+  }
+  $query = db_select('users_roles', 'ur');
+  $query->fields('ur', array('uid'));
+  $query->condition('rid', $rids, 'in');
+  $uids['roles']  = $query->execute()->fetchCol();
+
+  // Gut uids for test users.
+  $users = variable_get('cu_inactive_users_dev_users', array('osr-test-sis', 'osr-test-owner', 'osr-test-content', 'osr-test-edit-own'));
+  $query = db_select('users', 'ur');
+  $query->fields('ur', array('uid', 'name'));
+  $query->condition('name', $users, 'in');
+  $uids['users']  = $query->execute()->fetchCol();
+
+  // Combine uid lists.
+  $uid_list = array_merge($uids['roles'], $uids['users']);
+  // See if uids have no edits or revisions.
+  $users = cu_inactive_users_noedits($uid_list);
+
+  // Loop and delete users.
+  // Log names deleted.
+  $names = array();
+  foreach ($users as $user) {
+    $names[] = $user->name;
+    user_delete($ser->uid);
+  }
+  watchdog('cu_inactive_uers', 'Deleting Dev/Test users %users', array('%users' => join(', ', $names)), WATCHDOG_NOTICE);
+}
+
+/**
+ * Implements hook_cron().
+ */
+function cu_inactive_users_cron() {
+  cu_inactive_users_delete_dev_accounts();
 }
