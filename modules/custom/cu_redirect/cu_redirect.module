@@ -237,3 +237,14 @@ function cu_redirect_redirect_insert($redirect) {
     '!redirect' => $redirect->redirect ? l($redirect->redirect, $redirect->redirect) : l('<front>', '<front>')
   )));
 }
+
+
+/**
+ * Implements hook_node_validate().
+ */
+function cu_redirect_node_validate($node, $form, &$form_state) {
+  // Warn users if they input a Absolute URL in the URL alias field.
+  ddl($node, 'node');
+  ddl($form_state, 'form_state');
+  ddl($form, 'form');
+}
