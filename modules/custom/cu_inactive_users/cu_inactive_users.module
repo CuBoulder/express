@@ -466,7 +466,7 @@ function cu_inactive_users_delete_dev_accounts() {
   $names = array();
   foreach ($users as $user) {
     $names[] = $user->name;
-    user_delete($ser->uid);
+    user_delete($user->uid);
   }
   watchdog('cu_inactive_uers', 'Deleting Dev/Test users %users', array('%users' => join(', ', $names)), WATCHDOG_NOTICE);
 }
@@ -475,5 +475,7 @@ function cu_inactive_users_delete_dev_accounts() {
  * Implements hook_cron().
  */
 function cu_inactive_users_cron() {
-  cu_inactive_users_delete_dev_accounts();
+  if (variable_get('cu_inactive_users_auto_delete', 1)) {
+    cu_inactive_users_delete_dev_accounts();
+  }
 }
