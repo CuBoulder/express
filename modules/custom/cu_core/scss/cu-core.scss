@@ -21,6 +21,9 @@
     line-height:10px;
     margin:5px 0;
   }
+  &.indicator-disabled {
+    display: none !important;
+  }
 }
 // Prod New Launched
 .environment-production.infrastructure-new.status-launched {
@@ -46,7 +49,7 @@
       color: inherit;
     }
     a {
-      display:none;
+      display:inline-block;
     }
   }
 }
