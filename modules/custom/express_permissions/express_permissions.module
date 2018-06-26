@@ -218,7 +218,6 @@ function express_permissions_secure_permissions($role) {
       'access user profiles',
       'administer beans',
       'administer contexts',
-      'administer menu',
       'administer nodes',
       'check out documents',
       'clear path caches',
