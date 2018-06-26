@@ -461,14 +461,16 @@ function cu_inactive_users_delete_dev_accounts() {
   // See if uids have no edits or revisions.
   $users = cu_inactive_users_noedits($uid_list);
 
-  // Loop and delete users.
-  // Log names deleted.
-  $names = array();
-  foreach ($users as $user) {
-    $names[] = $user->name;
-    user_delete($user->uid);
+  if (!empty($users)) {
+    // Loop and delete users.
+    // Log names deleted.
+    $names = array();
+    foreach ($users as $user) {
+      $names[] = $user->name;
+      user_delete($user->uid);
+    }
+    watchdog('cu_inactive_uers', 'Deleting Dev/Test users %users', array('%users' => join(', ', $names)), WATCHDOG_NOTICE);
   }
-  watchdog('cu_inactive_uers', 'Deleting Dev/Test users %users', array('%users' => join(', ', $names)), WATCHDOG_NOTICE);
 }
 
 /**
