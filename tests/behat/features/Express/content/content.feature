@@ -59,8 +59,6 @@
      And I should see an "#edit-title" element
       And I should see "Node: Type"
        And I should see an "#edit-type" element
-      And I should see "Promoted"
-      And I should see an "#edit-promote" element
       And I should see "Published"
       And I should see an "#edit-status" element
       And I should see "Author"
