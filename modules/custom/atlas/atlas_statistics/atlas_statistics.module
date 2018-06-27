@@ -29,7 +29,7 @@ function atlas_statistics_cron() {
         $atlas_id = variable_get('atlas_id', NULL);
         $site_array = atlas_api_request('sites', $atlas_id);
         $statistics_id = $site_array['statistics'];
-        $pool = $site_array['pool-varnish-new'];
+        $pool = $site_array['pool'];
         $statistics_array = atlas_api_request('statistics', $statistics_id);
 
         module_load_include('inc', 'atlas_statistics');
