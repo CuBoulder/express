@@ -39,6 +39,7 @@
     </p>
   <?php endif; ?>
   <?php print $page_top; ?>
+  <?php $page = _cu_site_path_fix_compare($page); ?>
   <?php print $page; ?>
   <?php print $page_bottom; ?>
 </body>
