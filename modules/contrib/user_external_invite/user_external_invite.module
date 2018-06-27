@@ -470,21 +470,18 @@ function _user_external_invite_send_invite_mail($core_rid, $addon_rids = array()
 /**
  * Sends accepted invitation email with login link and extra help.
  */
-function _user_external_invite_send_invite_accepted_mail($core_rid, $addon_rids, $mail) {
-  $from = _user_external_invite_from_email();
-  $link = url('user/login', array(
-    'absolute' => TRUE,
-  ));
+function _user_external_invite_send_invite_accepted_mail($core_rid, $addon_rids, $inviter_uid, $user_mail) {
+  // Login link moved to a "site:login-url" token.
+  $from = _user_external_invite_from_email($inviter_uid);
   $core_role_name = _user_external_invite_role_name_from_rid($core_rid);
   $site_name = _user_external_invite_site_name();
   $params = array(
     'rid' => $core_rid,
     'core_role_name' => $core_role_name,
-    'link' => $link,
     'site_name' => $site_name,
     'subject' => t('Access confirmation for the !site_name website', array('!site_name' => $site_name)),
     'body' => token_replace(variable_get('user_external_invite_accepted_confirmation_template'),
-      array('ext-invite' => _user_external_invite_load_entity($mail))),
+      array('ext-invite' => _user_external_invite_load_entity($user_mail))),
   );
 
   if (!empty($addon_rids)) {
@@ -494,7 +491,7 @@ function _user_external_invite_send_invite_accepted_mail($core_rid, $addon_rids,
     $params['addon_role_names'] = implode(',', $addon_names);
   }
 
-  drupal_mail('user_external_invite', 'user_external_invite_accepted', $mail, language_default(), $params, $from, TRUE);
+  drupal_mail('user_external_invite', 'user_external_invite_accepted', $user_mail, language_default(), $params, $from, TRUE);
 }
 
 /**
@@ -509,6 +506,7 @@ function _user_external_invite_send_invite_accepted_mail($core_rid, $addon_rids,
  */
 function _user_external_invite_send_inviter_confirmation($core_rid, $addon_rids, $inviter_uid, $user_mail) {
   $from = _user_external_invite_from_email($inviter_uid);
+  $inviter = user_load($inviter_uid);
   $core_role_name = _user_external_invite_role_name_from_rid($core_rid);
   $site_name = _user_external_invite_site_name();
   $params = array(
@@ -528,9 +526,7 @@ function _user_external_invite_send_inviter_confirmation($core_rid, $addon_rids,
     $params['addon_role_names'] = implode(',', $addon_names);
   }
 
-  ddl($from, 'from email');
-  ddl($user_mail, 'user email');
-  drupal_mail('user_external_invite', 'user_external_invite_confirmation', $user_mail, language_default(),
+  drupal_mail('user_external_invite', 'user_external_invite_confirmation', $inviter->mail, language_default(),
     $params, $from, TRUE);
 }
 
@@ -645,7 +641,7 @@ function user_external_invite_grant_invite($key, $mail, $account) {
     }
 
     // Send acceptance email.
-    _user_external_invite_send_invite_accepted_mail($invite['core_rid'], $addon_rids, $account->mail);
+    _user_external_invite_send_invite_accepted_mail($invite['core_rid'], $addon_rids, $invite['uid'], $invite['mail']);
 
     // Send email to inviter.
     _user_external_invite_send_inviter_confirmation($invite['core_rid'], $addon_rids, $invite['uid'], $invite['mail']);
