@@ -471,7 +471,7 @@ function _user_external_invite_send_invite_mail($core_rid, $addon_rids = array()
  * Sends accepted invitation email with login link and extra help.
  */
 function _user_external_invite_send_invite_accepted_mail($core_rid, $addon_rids, $inviter_uid, $user_mail) {
-  // Login link moved to a "site:login-url" token.
+  // Login link moved to a "[site:login-url]" token.
   $from = _user_external_invite_from_email($inviter_uid);
   $core_role_name = _user_external_invite_role_name_from_rid($core_rid);
   $site_name = _user_external_invite_site_name();
