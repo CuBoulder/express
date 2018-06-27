@@ -6,4 +6,4 @@ version = 7.x-1.0
 
 dependencies[] = atlas
 dependencies[] = atlas_statistics
-dependencies[] = cu_users
+dependencies[] = user_external_invite
