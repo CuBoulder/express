@@ -137,7 +137,7 @@ function cu_bean_override_view_views_default_views() {
   $handler->display->display_options['fields']['changed']['table'] = 'bean_revision';
   $handler->display->display_options['fields']['changed']['field'] = 'changed';
   $handler->display->display_options['fields']['changed']['label'] = 'Updated Date';
-  $handler->display->display_options['fields']['changed']['date_format'] = 'short';
+  $handler->display->display_options['fields']['changed']['date_format'] = 'cu_short_date_time';
   $handler->display->display_options['fields']['changed']['second_date_format'] = 'cu_long_date';
   /* Field: Block: Contextual / Operation links */
   $handler->display->display_options['fields']['operations']['id'] = 'operations';
