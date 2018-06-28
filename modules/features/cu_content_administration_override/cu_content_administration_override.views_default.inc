@@ -230,7 +230,8 @@ function cu_content_administration_override_views_default_views() {
   $handler->display->display_options['fields']['changed']['id'] = 'changed';
   $handler->display->display_options['fields']['changed']['table'] = 'node';
   $handler->display->display_options['fields']['changed']['field'] = 'changed';
-  $handler->display->display_options['fields']['changed']['date_format'] = 'short';
+  $handler->display->display_options['fields']['changed']['date_format'] = 'cu_short_date_time';
+  $handler->display->display_options['fields']['changed']['second_date_format'] = 'cu_long_date';
   /* Field: Content: Edit link */
   $handler->display->display_options['fields']['edit_node']['id'] = 'edit_node';
   $handler->display->display_options['fields']['edit_node']['table'] = 'views_entity_node';
@@ -249,17 +250,22 @@ function cu_content_administration_override_views_default_views() {
   $handler->display->display_options['filters']['title']['group'] = 0;
   $handler->display->display_options['filters']['title']['exposed'] = TRUE;
   $handler->display->display_options['filters']['title']['expose']['operator_id'] = 'title_op';
-  $handler->display->display_options['filters']['title']['expose']['label'] = 'Title contains';
+  $handler->display->display_options['filters']['title']['expose']['label'] = 'Title';
   $handler->display->display_options['filters']['title']['expose']['operator'] = 'title_op';
   $handler->display->display_options['filters']['title']['expose']['identifier'] = 'title';
   $handler->display->display_options['filters']['title']['expose']['remember'] = TRUE;
   $handler->display->display_options['filters']['title']['expose']['remember_roles'] = array(
     2 => '2',
     1 => 0,
-    3 => 0,
-    4 => 0,
-    5 => 0,
+    8 => 0,
+    9 => 0,
     6 => 0,
+    10 => 0,
+    11 => 0,
+    4 => 0,
+    7 => 0,
+    3 => 0,
+    5 => 0,
   );
   /* Filter criterion: Content: Type */
   $handler->display->display_options['filters']['type']['id'] = 'type';
@@ -268,37 +274,22 @@ function cu_content_administration_override_views_default_views() {
   $handler->display->display_options['filters']['type']['group'] = 0;
   $handler->display->display_options['filters']['type']['exposed'] = TRUE;
   $handler->display->display_options['filters']['type']['expose']['operator_id'] = 'type_op';
-  $handler->display->display_options['filters']['type']['expose']['label'] = 'Node: Type';
+  $handler->display->display_options['filters']['type']['expose']['label'] = 'Type';
   $handler->display->display_options['filters']['type']['expose']['operator'] = 'type_op';
   $handler->display->display_options['filters']['type']['expose']['identifier'] = 'type';
   $handler->display->display_options['filters']['type']['expose']['remember'] = TRUE;
   $handler->display->display_options['filters']['type']['expose']['remember_roles'] = array(
     2 => '2',
     1 => 0,
-    3 => 0,
-    4 => 0,
-    5 => 0,
+    8 => 0,
+    9 => 0,
     6 => 0,
-  );
-  /* Filter criterion: Content: Promoted to front page */
-  $handler->display->display_options['filters']['promote']['id'] = 'promote';
-  $handler->display->display_options['filters']['promote']['table'] = 'node';
-  $handler->display->display_options['filters']['promote']['field'] = 'promote';
-  $handler->display->display_options['filters']['promote']['value'] = 'All';
-  $handler->display->display_options['filters']['promote']['group'] = 0;
-  $handler->display->display_options['filters']['promote']['exposed'] = TRUE;
-  $handler->display->display_options['filters']['promote']['expose']['operator_id'] = '';
-  $handler->display->display_options['filters']['promote']['expose']['label'] = 'Promoted';
-  $handler->display->display_options['filters']['promote']['expose']['operator'] = 'promote_op';
-  $handler->display->display_options['filters']['promote']['expose']['identifier'] = 'promote';
-  $handler->display->display_options['filters']['promote']['expose']['remember'] = TRUE;
-  $handler->display->display_options['filters']['promote']['expose']['remember_roles'] = array(
-    2 => '2',
-    1 => 0,
-    3 => 0,
+    10 => 0,
+    11 => 0,
     4 => 0,
+    7 => 0,
+    3 => 0,
     5 => 0,
-    6 => 0,
   );
   /* Filter criterion: Content: Published */
   $handler->display->display_options['filters']['status']['id'] = 'status';

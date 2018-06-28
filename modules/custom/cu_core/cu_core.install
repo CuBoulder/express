@@ -141,6 +141,7 @@ The block System help was assigned to the invalid region help and has been disab
   watchdog('express', 'attempted to disable uid 1');
 
   variable_set('express_permissions_owner_cap', 4);
+
 }
 
 /**
@@ -1005,6 +1006,7 @@ function cu_core_update_7046() {
 function cu_core_update_7047() {
   _set_external_invite_variables();
 }
+
 /**
  * Revert Features.
  */
@@ -1031,6 +1033,13 @@ function cu_core_update_7050() {
   module_enable(array(
     'cu_inactive_users'
   ));
+}
+
+/**
+ * Revert Features.
+ */
+function cu_core_update_7051() {
+  cu_core_revert_features();
 }
 
 /**
