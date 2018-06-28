@@ -123,10 +123,8 @@ function cu_ldap_user_login(&$edit, $account) {
  */
 function cu_ldap_cron() {
   // Only need to do this once a month.
-  $last_cron_run = variable_get('cu_ldap_ping_time');
-  if (!isset($last_cron_run)) {
-    variable_set('cu_ldap_ping_time', 0);
-  }
+  $last_cron_run = variable_get('cu_ldap_ping_time', 0);
+
   if (REQUEST_TIME > strtotime('+1 month', (int) variable_get('cu_ldap_ping_time', strtotime('-1 year')))) {
     $users = entity_load('user');
 
