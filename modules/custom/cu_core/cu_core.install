@@ -142,7 +142,6 @@ The block System help was assigned to the invalid region help and has been disab
 
   variable_set('express_permissions_owner_cap', 4);
 
-  variable_set('date_default_timezone', 'America/Denver');
 }
 
 /**
@@ -1033,14 +1032,6 @@ function cu_core_update_7050() {
   module_enable(array(
     'cu_inactive_users'
   ));
-}
-
-
-/**
- * Set timezone due to server change
- */
-function cu_core_update_7051() {
-  variable_set('date_default_timezone', 'America/Denver');
 }
 
 /**

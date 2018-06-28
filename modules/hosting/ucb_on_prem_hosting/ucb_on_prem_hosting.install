@@ -25,4 +25,13 @@ function ucb_on_prem_hosting_install() {
   variable_set('smtp_username', 'webexpress_noreply');
   variable_set('smtp_debugging', 2);
   variable_set('smtp_deliver', 1);
+  variable_set('date_default_timezone', 'America/Denver');
+}
+
+
+/**
+ * Set timezone due to server change
+ */
+function ucb_on_prem_hosting_7001() {
+  variable_set('date_default_timezone', 'America/Denver');
 }
