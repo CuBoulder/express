@@ -934,3 +934,15 @@ function expressbase_pager($variables) {
     return render($pager);
   }
 }
+
+function _cu_site_path_fix_compare($page) {
+  if (variable_get('express_replace_staging_path', 1)) {
+    $cu_sid = variable_get('cu_sid', FALSE);
+    $cu_path = variable_get('cu_path', FALSE);
+    if ($cu_sid && $cu_path) {
+      $page = str_ireplace($cu_sid, $cu_path, $page);
+      return $page;
+    }
+  }
+  return $page;
+}

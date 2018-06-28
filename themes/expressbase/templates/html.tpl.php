@@ -38,8 +38,11 @@
       <a href="#<?php print $skip_link_anchor; ?>" class="element-invisible element-focusable"><?php print $skip_link_text; ?></a>
     </p>
   <?php endif; ?>
+  <?php $page_top = _cu_site_path_fix_compare($page_top); ?>
   <?php print $page_top; ?>
+  <?php $page = _cu_site_path_fix_compare($page); ?>
   <?php print $page; ?>
+  <?php $page_bottom = _cu_site_path_fix_compare($page_bottom); ?>
   <?php print $page_bottom; ?>
 </body>
 </html>
