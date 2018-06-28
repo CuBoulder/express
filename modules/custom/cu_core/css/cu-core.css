@@ -22,3 +22,5 @@
 
 .environment-test.status-launched #navbar-administration #navbar-bar .express-environment-indicator, .environment-test.status-launched .express-environment-indicator { background: #7E57C2; color: #fff; }
 .environment-test.status-launched #navbar-administration #navbar-bar .express-environment-indicator *, .environment-test.status-launched .express-environment-indicator * { color: inherit; }
+
+.url-textfield { display: none !important; }

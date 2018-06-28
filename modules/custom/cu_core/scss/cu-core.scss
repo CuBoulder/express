@@ -99,3 +99,10 @@
     }
   }
 }
+
+// Honeypot css
+// $honeypot_element_name = variable_get('honeypot_element_name', 'url');
+// If we ever change this variable we need to update this class name.
+.url-textfield {
+  display: none !important;
+}
