@@ -32,6 +32,6 @@ function ucb_on_prem_hosting_install() {
 /**
  * Set timezone due to server change
  */
-function ucb_on_prem_hosting_7001() {
+function ucb_on_prem_hosting_update_7001() {
   variable_set('date_default_timezone', 'America/Denver');
 }
