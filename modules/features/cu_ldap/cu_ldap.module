@@ -129,7 +129,7 @@ function cu_ldap_cron() {
     $users = entity_load('user');
 
     foreach ($users as &$account) {
-      if ($account->uid !== 0 || $account->uid !== 1) {
+      if ($account->uid > 1) {
         _set_custom_user_fields($account);
       }
     }
