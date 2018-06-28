@@ -20,7 +20,9 @@ ratings:
   - "modules/features"
 exclude_paths:
 - "**.scss"
-- "libraries/"
-- "tests/"
-- "modules/contrib/"
 - "**.tpl.php"
+- "libraries/"
+- "modules/contrib/"
+- "tests/"
+- "themes/"
+
