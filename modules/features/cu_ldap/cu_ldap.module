@@ -56,16 +56,16 @@ function cu_ldap_user_insert(&$edit, $account, $category) {
  *
  * A valid LDAP entry being one of a current employee or graduate student.
  *
- * @param string of valid identikey
+ * @param string $identikey A valid Identikey.
  *
- * @return array or FALSE
+ * @return array|boolean An array of LDAP entries or FALSE if none are found.
  */
 function cu_ldap_lookup($identikey) {
   //@TODO: replace hadcoded values with configuration from LDAP settings
   $ldap_export = cu_ldap_default_ldap_servers();
   $ldap_entries = FALSE;
 
-  // Attempt to connect
+  // Attempt to connect.
   if ($ldap_export['directory']->name) {
     // Load the user's entry in LDAP.
     $link_identifier = ldap_connect($ldap_export['directory']->name);
@@ -83,15 +83,18 @@ function cu_ldap_lookup($identikey) {
  * affiliation, and last name are populated. If not, this updates it.
  *
  * Used by cu_ldap_user_login and cu_ldap_cron as of 2-21-18 OM.
+ *
+ * @param object $account A user account to set fields on.
  */
 function _set_custom_user_fields($account) {
   $ldap = cu_ldap_lookup($account->name);
 
-  // if we can't connect to LDAP, don't try to update anything
+  // If we can't connect to LDAP, don't try to update anything.
   if (!$ldap) {
     return;
   }
 
+  $last_name = '';
   if (isset($ldap['0'])) {
     // Create our own last name.
     // If there is a comma, take string before comma and set as last name?
@@ -103,12 +106,12 @@ function _set_custom_user_fields($account) {
         $lastname = explode(',', $last_name);
         $last_name = $lastname['0'];
         break;
-      } else {
-        $last_name = '';
       }
+
+      $last_name = '';
     }
-    $display_name = isset($ldap[0]['displayname'][0]) ? $ldap[0]['displayname'][0] : NULL;
-    $affiliation = isset($ldap[0]['edupersonprimaryaffiliation'][0]) ? $ldap[0]['edupersonprimaryaffiliation'][0] : NULL;
+    $display_name = $ldap[0]['displayname'][0] ?? NULL;
+    $affiliation = $ldap[0]['edupersonprimaryaffiliation'][0] ?? NULL;
 
   } else {
     $last_name = $account->name;
@@ -117,14 +120,19 @@ function _set_custom_user_fields($account) {
   }
 
   //Check to see that LDAP is returned a value.  There are no display names for accounts like OSR-TEST-OWNER
-  if ($account->field_ldap_last_name != $last_name || $account->field_ldap_display_name != $display_name || $account->field_ldap_primary_affiliation != $affiliation) {
+  if ($account->field_ldap_last_name !== $last_name || $account->field_ldap_display_name !== $display_name || $account->field_ldap_primary_affiliation !== $affiliation) {
 
     // update account fields
     $edit = array();
     $edit['field_ldap_display_name'][LANGUAGE_NONE][0]['value'] = $display_name;
     $edit['field_ldap_last_name'][LANGUAGE_NONE][0]['value'] = $last_name;
     $edit['field_ldap_primary_affiliation'][LANGUAGE_NONE][0]['value'] = $affiliation;
-    user_save($account, $edit);
+
+    try {
+      user_save($account, $edit);
+    } catch (Exception $exception) {
+      watchdog('cu_ldap', $exception->getMessage(), WATCHDOG_ERROR);
+    }
   }
 }
 
@@ -150,6 +158,8 @@ function cu_ldap_cron() {
         _set_custom_user_fields($account);
       }
     }
+    unset($account);
+
     // Set time variable on success.
     variable_set('cu_ldap_ping_time', REQUEST_TIME);
 
