@@ -249,9 +249,10 @@ function express_content_edit_lock_user_login(&$edit, $account) {
     $devs = cu_users_get_users('developer');
     $dev_lock = variable_get('lock_user_dev');
 
-    if (!array_key_exists($account->name, $devs) && ($dev_lock === TRUE)) {
+    if (!array_key_exists($account->name, $devs) && ($dev_lock == 1)) {
+      module_load_include('pages.inc', 'user');
+      user_logout_current_user();
       watchdog('express_content_edit_lock', t('Site is locked: lock_user_dev'), array($account), WATCHDOG_NOTICE, NULL);
-      user_logout();
     }
   }
 }
@@ -263,7 +264,7 @@ function express_content_edit_lock_user_login(&$edit, $account) {
  */
 function express_content_edit_lock_form_user_login_alter($form, &$form_state) {
   $dev_lock = variable_get('lock_user_dev');
-  if ($dev_lock === TRUE) {
+  if ($dev_lock == 1) {
     drupal_set_message(t('You will not be able to login to this site. It has been locked. Please contact the Web Support team. <a href="http://www.colorado.edu/webcentral/">@link_text</a>',
       array(
         '@link_text' => 'Visit Webcentral',
