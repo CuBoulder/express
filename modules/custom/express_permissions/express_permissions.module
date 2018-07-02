@@ -818,31 +818,31 @@ function express_permissions_site_owner_cap(&$form, &$form_state) {
   $current_roles = $form_state['user']->roles;
 
   // Get Role ID.
-  $role = user_role_load_by_name('site_owner');
+  $site_owner_role = user_role_load_by_name('site_owner');
   $config_managers = user_role_load_by_name('configuration_manager');
   $access_managers = user_role_load_by_name('access_manager');
 
   // Check to see if the user already has the role.
   // We should only run the validation of the role is being added.
-  if ((in_array($role->rid, $form_state['values']['roles'], TRUE) || $form_state['values']['core_roles'] === $role->rid) && !isset($current_roles[$role->rid])) {
-    $users_in_role = express_permissions_get_site_owners('site_owner');
+  if (!isset($current_roles[$site_owner_role->rid]) && in_array($site_owner_role->rid, $form_state['values']['roles'], TRUE)) {
+    $current_site_owners = express_permissions_get_site_owners('site_owner');
     // If adding the role to this user would be over the limit, set an error.
-    if ($users_in_role['count'] >= $limit) {
-      form_set_error("", "You have exceeded the allowed limit for Site Owners. To grant the role to this user you must first remove it from someone else. Current Site Owners include: " . $users_in_role['list']);
+    if ($current_site_owners['count'] >= $limit) {
+      form_set_error('roles', 'You have exceeded the allowed limit for Site Owners. To grant the role to this user you must first remove it from someone else. Current Site Owners include: ' . $current_site_owners['list']);
     }
   }
 
-  if ((in_array($config_managers->rid, $form_state['values']['roles'], TRUE) || $form_state['values']['addon_roles'][$config_managers->rid] === $config_managers->rid) && !isset($current_roles[$config_managers->rid])) {
-    $config_managers_role = express_permissions_get_site_owners('configuration_manager');
-    if ($config_managers_role['count'] >= $addon_limit) {
-      form_set_error("", "You have exceeded the allowed limit for Configuration Managers. To grant the role to this user you must first remove it from someone else. Current Configuration Managers include: " . $config_managers_role['list']);
+  if (!isset($current_roles[$config_managers->rid]) && in_array($config_managers->rid, $form_state['values']['roles'], TRUE)) {
+    $current_config_managers = express_permissions_get_site_owners('configuration_manager');
+    if ($current_config_managers['count'] >= $addon_limit) {
+      form_set_error('roles', 'You have exceeded the allowed limit for Configuration Managers. To grant the role to this user you must first remove it from someone else. Current Configuration Managers include: ' . $current_config_managers['list']);
     }
   }
 
-  if ((in_array($access_managers->rid, $form_state['values']['roles'], TRUE) || $form_state['values']['addon_roles'][$access_managers->rid] === $access_managers->rid) && !isset($current_roles[$access_managers->rid])) {
-    $access_managers_role = express_permissions_get_site_owners('access_manager');
-    if ($access_managers_role['count'] >= $addon_limit) {
-      form_set_error("", "You have exceeded the allowed limit for Access Managers. To grant the role to this user you must first remove it from someone else. Current Access Managers include: " . $access_managers_role['list']);
+  if (!isset($current_roles[$access_managers->rid]) && in_array($access_managers->rid, $form_state['values']['roles'], TRUE)) {
+    $current_access_managers = express_permissions_get_site_owners('access_manager');
+    if ($current_access_managers['count'] >= $addon_limit) {
+      form_set_error('roles', 'You have exceeded the allowed limit for Access Managers. To grant the role to this user you must first remove it from someone else. Current Access Managers include: ' . $current_access_managers['list']);
     }
   }
 }
