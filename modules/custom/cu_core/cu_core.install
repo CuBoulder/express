@@ -141,6 +141,7 @@ The block System help was assigned to the invalid region help and has been disab
   watchdog('express', 'attempted to disable uid 1');
 
   variable_set('express_permissions_owner_cap', 4);
+
 }
 
 /**
@@ -187,7 +188,7 @@ function _set_external_invite_variables() {
 
   variable_set('user_external_invite_invite_template', '[user_external_invite:invite_custom]
 
-You have been invited to join the [site:name] Web Express website as a user with "[user_external_invite:invite_core_role], [user_external_invite:invite_addon_roles]" access privileges.
+You have been invited to join the [site:name] Web Express website as a user with "[user_external_invite:invite_core_role][user_external_invite:invite_addon_roles]" access privileges.
 
 To accept this invitation:
 1) Go to [user_external_invite:invite_link]
@@ -200,7 +201,7 @@ The Web Express Team
 http://www.colorado.edu/webcentral
 websupport@colorado.edu');
 
-  variable_set('user_external_invite_confirmation_template', 'We have received your request to grant "[user_external_invite:invite_core_role], [user_external_invite:invite_addon_roles]" access to the following users:
+  variable_set('user_external_invite_confirmation_template', 'We have received your request to grant "[user_external_invite:invite_core_role][user_external_invite:invite_addon_roles]" access to the following users:
 
 [user_external_invite:invited_emails]
 
@@ -213,7 +214,7 @@ The Web Express Team
 http://www.colorado.edu/webcentral
 websupport@colorado.edu');
 
-  variable_set('user_external_invite_accepted_template', 'We are confirming [user_external_invite:invited_email] now has "[user_external_invite:invite_core_role], [user_external_invite:invite_addon_roles]" access to the [site:name], [site:url], website.
+  variable_set('user_external_invite_accepted_template', 'We are confirming [user_external_invite:invited_email] now has "[user_external_invite:invite_core_role][user_external_invite:invite_addon_roles]" access to the [site:name], [site:url], website.
 
 Web Central:
 You can use the Web Central website as your main resource for step-by-step tutorials, information on training sessions, and requesting help. http://www.colorado.edu/webcentral
@@ -223,7 +224,7 @@ The Web Express Team
 http://www.colorado.edu/webcentral
 websupport@colorado.edu');
 
-  variable_set('user_external_invite_accepted_confirmation_template', 'You have successfully joined the [site:name] Web Express website as a user with "[user_external_invite:invite_core_role], [user_external_invite:invite_addon_roles]" access privileges.
+  variable_set('user_external_invite_accepted_confirmation_template', 'You have successfully joined the [site:name] Web Express website as a user with "[user_external_invite:invite_core_role][user_external_invite:invite_addon_roles]" access privileges.
 
 To access and edit this site:
 1) Go to [site:login-url]
@@ -1005,6 +1006,7 @@ function cu_core_update_7046() {
 function cu_core_update_7047() {
   _set_external_invite_variables();
 }
+
 /**
  * Revert Features.
  */
@@ -1031,6 +1033,13 @@ function cu_core_update_7050() {
   module_enable(array(
     'cu_inactive_users'
   ));
+}
+
+/**
+ * Revert Features.
+ */
+function cu_core_update_7051() {
+  cu_core_revert_features();
 }
 
 /**
