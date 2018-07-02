@@ -707,11 +707,16 @@ function cu_users_override_external_invite_submit(&$form, &$form_state) {
   if (!empty($emails)) {
     foreach ($emails as $email) {
       $output = cu_users_ldap_email_lookup($email);
-      $parts = explode("@", $output[0]['cuedupersonemailhome'][0]);
-      $username = $parts[0];
-      $ldap_mail_return = strtolower($output[0]['mail'][0]);
+      $ldap_mail_return = '';
 
-      if (!empty($output) && !empty($ldap_mail_return) && $email == $ldap_mail_return) {
+      // $output can be an array with $output['count'] as the only key.
+      if (isset($output[0])) {
+        $parts = explode("@", $output[0]['cuedupersonemailhome'][0]);
+        $username = $parts[0];
+        $ldap_mail_return = strtolower($output[0]['mail'][0]);
+      }
+
+      if (!empty($output) && !empty($ldap_mail_return) && $email === $ldap_mail_return) {
         // Check to see if the user already exists before trying to create them
         $account = user_load_by_name($username);
         if (isset($account)) {
@@ -727,9 +732,13 @@ function cu_users_override_external_invite_submit(&$form, &$form_state) {
             ),
           );
 
-          // The first parameter is sent blank so a new user is created.
-          user_save('', $new_user);
-          watchdog('cu_users', 'Invite created an account for %user', array('%user' => $username));
+          try {
+            // The first parameter is sent blank so a new user is created.
+            user_save('', $new_user);
+            watchdog('cu_users', 'Invite created an account for %user', array('%user' => $username));
+          } catch (Exception $exception) {
+            watchdog('cu_users', $exception->getMessage(), WATCHDOG_ERROR);
+          }
         }
       }
     }

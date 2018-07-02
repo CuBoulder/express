@@ -383,3 +383,19 @@ function cu_users_update_7029() {
   // permissions for.
   db_query("UPDATE {system} SET weight = 99 WHERE name = 'cu_users'");
 }
+
+/**
+ * Correct invite email templates for addon role code changes.
+ */
+function cu_users_update_7030() {
+  module_load_install('cu_core');
+  _set_external_invite_variables();
+}
+
+/**
+ * Correct invite email templates for login link.
+ */
+function cu_users_update_7031() {
+  module_load_install('cu_core');
+  _set_external_invite_variables();
+}

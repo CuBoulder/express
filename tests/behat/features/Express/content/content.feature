@@ -55,9 +55,9 @@
   Scenario Outline: All authenticated users should see the additional fields for finding and sorting content
     Given I am logged in as a user with the <role> role
     When I go to "admin/content"
-    Then I should see "Title contains"
+    Then I should see "Title"
      And I should see an "#edit-title" element
-      And I should see "Node: Type"
+      And I should see "Type"
        And I should see an "#edit-type" element
       And I should see "Published"
       And I should see an "#edit-status" element
