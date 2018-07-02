@@ -110,10 +110,11 @@ Feature: URL redirects
 
 
   Scenario: An absolute path cannot be entered on a node form for the alias field.
-   Given I am logged in as a user with the "site_owner" role
-    When I go to "node/add/page"
-    And I fill in "Title" with "Path Alias Page"
-    And I uncheck "edit-path-pathauto"
-    And I fill in "edit-path-alias" with "https://www.colorado.edu/mysite/important"
-    And I press "Save" 
-    Then I should see "Please enter page name only in the URL alias field."
+  Given I am logged in as a user with the "site_owner" role
+ When I go to "node/add/page"
+  And I fill in "Title" with "Path Alias Page"
+  And I uncheck "Generate automatic URL alias" 
+ And I fill in "URL alias" with "https://www.colorado.edu/mysite/important"
+  And I press "Save" 
+  Then I should see "Please enter page name only in the URL alias field."
+  
