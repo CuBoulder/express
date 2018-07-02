@@ -778,6 +778,10 @@ function user_external_invite_token_info() {
     'name' => t('Invitation Link'),
     'description' => t('Returns the link with query string for this invite'),
   );
+  $info['invite_login_link'] = array(
+    'name' => t('Invitation Login Link'),
+    'description' => t('Returns the link where users go to login'),
+  );
   $info['invite_core_role'] = array(
     'name' => t('Invitation Core Role'),
     'description' => t('Returns the core role for the invite'),
@@ -813,7 +817,7 @@ function user_external_invite_token_info() {
 /**
  * Implements hook_tokens().
  */
-function user_external_invite_tokens($type, $tokens, array $data = array(), array $options = array()) {
+function user_external_invite_tokens($type, $tokens, $data = array(), $options = array()) {
 
   $replacements = array();
   if ($type === 'user_external_invite') {
@@ -835,6 +839,12 @@ function user_external_invite_tokens($type, $tokens, array $data = array(), arra
           $replacements[$original] = $addon_role_names;
           break;
 
+        case 'invite_login_link':
+          global $base_url;
+          $uri = variable_get('user_external_invite_login_link', 'user');
+          $replacements[$original] = "$base_url/$uri";
+          break;
+
         case 'invite_link':
           $hash = _user_external_invite_calculate_hash($data['ext-invite']->core_rid, $data['ext-invite']->mail, $data['ext-invite']->expire);
           $link = url('user-external/accept-invite', array(
@@ -846,6 +856,7 @@ function user_external_invite_tokens($type, $tokens, array $data = array(), arra
           ));
           $replacements[$original] = $link;
           break;
+
 
         case 'invited_email':
           $replacements[$original] = $data['ext-invite']->mail;
