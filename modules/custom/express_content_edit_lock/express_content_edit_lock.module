@@ -252,7 +252,6 @@ function express_content_edit_lock_user_login(&$edit, $account) {
     if (!array_key_exists($account->name, $devs) && ($dev_lock == 1)) {
       module_load_include('pages.inc', 'user');
       user_logout_current_user();
-      watchdog('express_content_edit_lock', t('Site is locked: lock_user_dev'), WATCHDOG_NOTICE, NULL);
     }
   }
 }
