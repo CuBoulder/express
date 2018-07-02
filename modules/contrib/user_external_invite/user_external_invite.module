@@ -817,7 +817,7 @@ function user_external_invite_token_info() {
 /**
  * Implements hook_tokens().
  */
-function user_external_invite_tokens($type, $tokens, $data = array(), $options = array()) {
+function user_external_invite_tokens($type, $tokens, array $data = array(), array $options = array()) {
 
   $replacements = array();
   if ($type === 'user_external_invite') {
@@ -856,7 +856,6 @@ function user_external_invite_tokens($type, $tokens, $data = array(), $options =
           ));
           $replacements[$original] = $link;
           break;
-
 
         case 'invited_email':
           $replacements[$original] = $data['ext-invite']->mail;
