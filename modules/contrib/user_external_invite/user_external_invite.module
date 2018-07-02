@@ -778,6 +778,10 @@ function user_external_invite_token_info() {
     'name' => t('Invitation Link'),
     'description' => t('Returns the link with query string for this invite'),
   );
+  $info['invite_login_link'] = array(
+    'name' => t('Invitation Login Link'),
+    'description' => t('Returns the link where users go to login'),
+  );
   $info['invite_core_role'] = array(
     'name' => t('Invitation Core Role'),
     'description' => t('Returns the core role for the invite'),
@@ -833,6 +837,12 @@ function user_external_invite_tokens($type, $tokens, array $data = array(), arra
            $addon_role_names = ', '. implode(', ', $addon_roles);
           }
           $replacements[$original] = $addon_role_names;
+          break;
+
+        case 'invite_login_link':
+          global $base_url;
+          $uri = variable_get('user_external_invite_login_link', 'user');
+          $replacements[$original] = "$base_url/$uri";
           break;
 
         case 'invite_link':
