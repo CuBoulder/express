@@ -211,6 +211,15 @@ function cu_redirect_redirect_presave($redirect) {
   }
 }
 
+/**
+ * Implements hook_form_FORMID_alter().
+ *
+ * Adds the curret site path as a prefix when creating a URL alias
+ */
+function cu_redirect_form_node_form_alter(&$form, $form_state)
+{
+  $form['path']['alias']['#field_prefix'] = $GLOBALS['base_url'] . '/' . (variable_get('clean_url', 0) ? '' : '?q=');
+}
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -221,6 +230,8 @@ function cu_redirect_form_redirect_edit_form_alter(&$form, &$form_state, $form_i
   if (!empty($form['advanced']['status_code'])) {
     unset($form['advanced']['status_code']['#options'][300]);
   }
+
+
 }
 
 /**
