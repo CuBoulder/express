@@ -5,6 +5,7 @@
  */
 function cu_redirect_install() {
   cu_redirect_add_redirect('index.html', '<front>');
+  db_query("UPDATE {system} SET weight = 1 WHERE name = 'cu_redirect'");
 }
 
 /**
