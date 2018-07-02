@@ -28,7 +28,7 @@ function express_content_edit_lock_menu() {
  * Implements hook_form() and builds out lock users options on admin/dashboard/lock.
  */
 function express_content_edit_lock_admin_form($form, &$form_state) {
-  $users_list = implode(',', variable_get('lock_allow_users'));
+  $users_list = implode(',', variable_get('lock_allow_users'), array());
 
   /**
    * Implements custom function to get role by name.
@@ -142,7 +142,7 @@ function express_content_edit_lock_secure_permissions($role) {
  */
 function _lock_allow_users_check($username) {
   $output = FALSE;
-  $allowed_users = variable_get('lock_allow_users');
+  $allowed_users = variable_get('lock_allow_users', array());
 
   if (in_array($username, $allowed_users)) {
     $output = TRUE;
@@ -202,8 +202,8 @@ function express_content_edit_lock_form_alter(&$form, &$form_state, $form_id) {
  * If the lock message is set, show it to people.
  */
 function express_content_edit_lock_page_alter(&$page) {
-  if (_lock_by_role_check() && variable_get('lock_leave_message')) {
-    drupal_set_message(t(variable_get('lock_leave_message')), 'warning');
+  if (_lock_by_role_check() && variable_get('lock_leave_message', '')) {
+    drupal_set_message(t(variable_get('lock_leave_message', '')), 'warning');
   }
 }
 
@@ -224,7 +224,7 @@ function express_content_edit_lock_menu_alter(&$items) {
  * Redirect away from bundle enable while site is locked for that user.
  */
 function express_content_edit_lock_redirect() {
-  drupal_set_message(t(variable_get('lock_leave_message')), 'warning');
+  drupal_set_message(t(variable_get('lock_leave_message', '')), 'warning');
   return '';
 }
 
@@ -247,11 +247,10 @@ function _express_content_edit_lock_recursive(&$element) {
 function express_content_edit_lock_user_login(&$edit, $account) {
   if (module_exists('cu_users')) {
     $devs = cu_users_get_users('developer');
-    $dev_lock = variable_get('lock_user_dev');
+    $dev_lock = variable_get('lock_user_dev', FALSE);
 
     if (!array_key_exists($account->name, $devs) && ($dev_lock == 1)) {
-      module_load_include('pages.inc', 'user');
-      user_logout_current_user();
+      user_logout();
     }
   }
 }
@@ -262,7 +261,7 @@ function express_content_edit_lock_user_login(&$edit, $account) {
  * Prevents non-developers from logging in.
  */
 function express_content_edit_lock_form_user_login_alter($form, &$form_state) {
-  $dev_lock = variable_get('lock_user_dev');
+  $dev_lock = variable_get('lock_user_dev', FALSE);
   if ($dev_lock == 1) {
     drupal_set_message(t('You will not be able to login to this site. It has been locked. Please contact the Web Support team. <a href="http://www.colorado.edu/webcentral/">@link_text</a>',
       array(
