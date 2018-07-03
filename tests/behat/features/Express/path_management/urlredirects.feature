@@ -115,5 +115,5 @@ Feature: URL redirects
     And I uncheck "Generate automatic URL alias"
     And I fill in "URL alias" with "https://www.colorado.edu/mysite/important"
     And I press "Save"
-    Then I should see "Please enter page name only in the URL alias field. Do not include the site name."
+    Then I should see "Enter a custom path by which this content can be accessed. Do not enter the full url."
 
