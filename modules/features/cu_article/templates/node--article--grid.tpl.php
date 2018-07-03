@@ -11,5 +11,7 @@
 <?php endif; ?>
 <div class="article-grid-summary">
   <?php print render($content['body']); ?>
-  <p><?php print $more_link; ?></p>
+  <?php if (isset($more_link)): ?>
+    <p><?php print $more_link; ?></p>
+  <?php endif; ?>
 </div>

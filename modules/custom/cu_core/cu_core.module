@@ -224,20 +224,30 @@ function cu_core_preprocess_html(&$vars) {
     drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
     switch ($env) {
       case 'www.colorado.edu':
-        $vars['classes_array'][] = 'environment-production';
-        $vars['classes_array'][] = 'infrastructure-old';
-        $vars['classes_array'][] = 'status-launched';
-        drupal_add_js(drupal_get_path('module', 'cu_core') . '/js/cu-core.js');
+        if ($_ENV['OSR_ENV'] == 'master') {
+          $vars['classes_array'][] = 'indicator-disabled';
+        }
+        else {
+          $vars['classes_array'][] = 'environment-production';
+          $vars['classes_array'][] = 'infrastructure-old';
+          $vars['classes_array'][] = 'status-launched';
+          drupal_add_js(drupal_get_path('module', 'cu_core') . '/js/cu-core.js');
+        }
         break;
       case 'www-test.colorado.edu':
-        $vars['classes_array'][] = 'environment-test';
-        $vars['classes_array'][] = 'infrastructure-new';
-        $vars['classes_array'][] = 'status-launched';
-        drupal_add_js(drupal_get_path('module', 'cu_core') . '/js/cu-core.js');
+        if ($_ENV['OSR_ENV'] == 'test') {
+          $vars['classes_array'][] = 'indicator-disabled';
+        }
+        else {
+          $vars['classes_array'][] = 'environment-test';
+          $vars['classes_array'][] = 'infrastructure-new';
+          $vars['classes_array'][] = 'status-launched';
+          drupal_add_js(drupal_get_path('module', 'cu_core') . '/js/cu-core.js');
+        }
         break;
-      case 'www-new.colorado.edu':
+      case 'www-prod-new.colorado.edu':
         $vars['classes_array'][] = 'environment-production';
-        $vars['classes_array'][] = 'infrastructure-old';
+        $vars['classes_array'][] = 'infrastructure-new';
         $vars['classes_array'][] = 'status-launched';
         drupal_add_js(drupal_get_path('module', 'cu_core') . '/js/cu-core.js');
         break;
@@ -248,5 +258,15 @@ function cu_core_preprocess_html(&$vars) {
         drupal_add_js(drupal_get_path('module', 'cu_core') . '/js/cu-core-no-migrate.js');
         break;
     }
+  }
+
+  drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
+
+  if (variable_get('site_404', '') === current_path()) {
+    $vars['head_title'] = implode(' | ', array(
+      t('Page not found'),
+      variable_get('site_name'),
+      t('University of Colorado Boulder'),
+    ));
   }
 }

@@ -171,11 +171,6 @@ dependencies[] = menu_firstchild
 ; ============ BLOCK ============
 dependencies[] = cu_block
 
-; ============ FLEXSLIDER ============
-dependencies[] = flexslider
-dependencies[] = flexslider_views
-dependencies[] = flexslider_views_slideshow
-
 ; ============ OTHER ============
 dependencies[] = context_accordion
 dependencies[] = navigation404

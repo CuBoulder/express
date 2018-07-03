@@ -1,7 +1,6 @@
-# FOR MORE TESTS OF WEB EXPRESS STRUCTURE: 
+# FOR MORE TESTS OF WEB EXPRESS STRUCTURE:
 # SEE ARTICLES FOR TAXONOMY TESTS
 # SEE MENUS FOR MENUS TESTS
-# SEE ADVANCED CONTENT FOR QUICKTABS TESTS
 
 @structure
 Feature: Structure section with links to context, menus, etc
@@ -14,7 +13,6 @@ I should be able to adjust the structure of my site
     When I go to "admin/structure"
     Then I should see the link "Context"
     And I should see the link "Menus"
-    And I should see the link "Quicktabs"
     And I should see the link "Taxonomy"
 
     Examples:
@@ -39,4 +37,3 @@ I should be able to adjust the structure of my site
   Scenario: An anonymous user should not be able to access Admin/Structure
     When I am on "admin/structure"
     Then I should see "Access denied"
-    
