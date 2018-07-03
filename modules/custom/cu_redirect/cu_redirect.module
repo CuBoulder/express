@@ -256,7 +256,7 @@ function cu_redirect_redirect_insert($redirect) {
  */
 function cu_redirect_node_validate($node, $form, &$form_state) {
     $path_info = $form_state['values']['path'] ?? NULL;
-    $validation_error_message = "Please enter page name only in the URL alias field. Do not include the site name.";
+    $validation_error_message = "Enter a custom path by which this content can be accessed. Do not enter the full url.";
     
     if (isset($path_info['alias']) && !empty($path_info['alias'])) {
         if (strpos($path_info['alias'], '://') !== FALSE) {
