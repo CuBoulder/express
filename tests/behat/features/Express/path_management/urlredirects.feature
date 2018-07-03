@@ -117,3 +117,11 @@ Feature: URL redirects
     And I press "Save"
     Then I should see "Enter a custom path by which this content can be accessed. Do not enter the full url."
 
+  Scenario: A site owner can delete all unaccessed redirects.
+    Given I am logged in as a user with the "site_owner" role
+    When I go to "admin/config/search/redirect/delete"
+    Then I should see "Your site may contain redirects that have never been accessed. Continue to delete all unaccessed redirects."
+    When I press "Continue"
+    Then I should see "Are you sure you want to delete all unaccessed redirects? This action cannot be undone"
+    When I press "Delete"
+    Then I should see "There are no redirects that were never accessed. No redirects have been removed."
