@@ -48,3 +48,18 @@ function cu_linkchecker_analyze_form_submit($form, $form_state) {
   variable_set('cu_linkchecker_status', 1);
   drupal_set_message('The site\'s content has been analyzed for links and the links have been added to the link checker queue.');
 }
+
+function cu_linkchecker_cron() {
+  $last_run = variable_get('cu_linkchecker_enabled_on_all_content_types', REQUEST_TIME);
+
+  if (!isset($last_run) || ($last_run < (REQUEST_TIME - 60*60*24*30))) {
+    $content_types = node_type_get_types();
+
+    foreach (array_keys($content_types) as $type) {
+      variable_set('linkchecker_scan_node_' . $type, 1);
+    }
+    watchdog('cu_linkchecker', 'Linkchecker has been enabled on all current content types.');
+
+    variable_set('cu_linkchecker_enabled_on_all_content_types', REQUEST_TIME);
+  }
+}

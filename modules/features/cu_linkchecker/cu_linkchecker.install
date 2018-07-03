@@ -23,4 +23,6 @@ function cu_linkchecker_update_7001() {
   foreach (array_keys($content_types) as $type) {
     variable_set('linkchecker_scan_node_' . $type, 1);
   }
+
+  watchdog('cu_linkchcker', 'Linkchecker has been enabled on all current content types.');
 }
