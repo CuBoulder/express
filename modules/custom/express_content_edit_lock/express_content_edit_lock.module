@@ -250,6 +250,7 @@ function express_content_edit_lock_user_login(&$edit, $account) {
     $dev_lock = variable_get('lock_user_dev', FALSE);
 
     if (!array_key_exists($account->name, $devs) && ($dev_lock == 1)) {
+      watchdog('express_content_edit_lock', ':name has tried to login to the site while it is locked.', array(':name' => $account->name));
       user_logout();
     }
   }
@@ -267,6 +268,6 @@ function express_content_edit_lock_form_user_login_alter($form, &$form_state) {
       array(
         '@link_text' => 'Visit Webcentral',
       )
-    ), 'warning');
+    ), 'error');
   }
 }
