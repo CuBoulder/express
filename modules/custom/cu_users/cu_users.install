@@ -417,7 +417,8 @@ function cu_users_update_7029() {
   db_query("UPDATE {system} SET weight = 99 WHERE name = 'cu_users'");
 }
 
-* Correct invite email templates for addon role code changes.
+/** 
+ * Correct invite email templates for addon role code changes.
  */
 function cu_users_update_7030() {
   module_load_install('cu_core');
