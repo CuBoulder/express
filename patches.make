@@ -57,3 +57,6 @@ projects[video_filter][patch][] = https://www.drupal.org/files/issues/video_filt
 ; @see https://github.com/CuBoulder/express/issues/2498
 ; Without this, varnish won't clear on save
 projects[varnish][patch][] = https://www.drupal.org/files/issues/varnish-2944565-issue.patch
+
+; @see https://github.com/CuBoulder/express/issues/1679
+projects[video_filter][patch][] = https://www.drupal.org/files/issues/video_filter-2763737-8.patch
