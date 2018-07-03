@@ -211,6 +211,15 @@ function cu_redirect_redirect_presave($redirect) {
   }
 }
 
+/**
+ * Implements hook_form_FORMID_alter().
+ *
+ * Adds the curret site path as a prefix when creating a URL alias
+ */
+function cu_redirect_form_node_form_alter(&$form, $form_state)
+{
+  $form['path']['alias']['#field_prefix'] = $GLOBALS['base_url'] . '/' . (variable_get('clean_url', 0) ? '' : '?q=');
+}
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -221,6 +230,8 @@ function cu_redirect_form_redirect_edit_form_alter(&$form, &$form_state, $form_i
   if (!empty($form['advanced']['status_code'])) {
     unset($form['advanced']['status_code']['#options'][300]);
   }
+
+
 }
 
 /**
@@ -236,4 +247,29 @@ function cu_redirect_redirect_insert($redirect) {
     '!source' => l($redirect->source, $redirect->source),
     '!redirect' => $redirect->redirect ? l($redirect->redirect, $redirect->redirect) : l('<front>', '<front>')
   )));
+}
+
+/**
+ * Implements hook_node_validate().
+ *
+ * Prevent users from entering absolute paths on node forms.
+ */
+function cu_redirect_node_validate($node, $form, &$form_state) {
+    $path_info = $form_state['values']['path'] ?? NULL;
+    $validation_error_message = "Enter a custom path by which this content can be accessed. Do not enter the full url.";
+    
+    if (isset($path_info['alias']) && !empty($path_info['alias'])) {
+        if (strpos($path_info['alias'], '://') !== FALSE) {
+            form_set_error('path', $validation_error_message);
+        }
+
+        $parsed_path = parse_url($path_info['alias']);
+
+        // Look for periods in URLs before a slash.
+        // if ((int)strpos($parsed_path['path'], '.') < (int)strpos($parsed_path['path'], '/')) {
+        // Looking only for periods might be good enough for now?
+        if ((int)strpos($parsed_path['path'], '.')) {
+            form_set_error('path', $validation_error_message);
+        }
+    }
 }
