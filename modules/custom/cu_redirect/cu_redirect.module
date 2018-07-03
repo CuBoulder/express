@@ -280,7 +280,7 @@ function cu_redirect_form_match_redirect_list_form_alter(&$form, &$form_state, $
   $admin = user_role_load_by_name('administrator');
 
   if (!user_has_role($dev->rid) && !user_has_role($admin->rid)) {
-    $redirects_count = $form['redirects'];
+    $redirects_count = $form['redirects'] ?? [];
     foreach ($redirects_count as $key => $redirect) {
       $form['redirects'][$key]['operations']['#type'] = 'hidden';
     }
