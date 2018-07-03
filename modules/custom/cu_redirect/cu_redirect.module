@@ -134,7 +134,7 @@ function cu_redirect_unaccessed_links_submit($form, &$form_state) {
  */
 function cu_redirect_delete_form($form, &$form_state) {
   if (isset($form_state['values']['submit']) && empty($form_state['values']['confirm'])) {
-    return cu_redirect_delete_form_confirm();
+    return cu_redirect_delete_form_confirm($form, $form_state);
   }
   $form['description'] = array(
     '#markup' => '<p>Your site may contain redirects that have never been accessed. Continue to delete all unaccessed redirects.</p>',
