@@ -948,16 +948,20 @@ function cu_article_preprocess_node(&$vars) {
     foreach ($nodes as $key => $node) {
       $nodes[$key]->heading_tag['#tag'] = 'h2';
     }
-    $output['articles'] = node_view_multiple($nodes, 'teaser');
-    $output['articles']['#weight'] = 99;
-    $output['pager'] = array(
-      '#theme' => 'pager',
-      '#tags' => array(),
-      '#weight' => 100.
-    );
-    $output['exposed_filter'] = drupal_get_form('cu_article_list_filter_form');
-    $output['exposed_filter']['#weight'] = 95;
-    $vars['content'] = array_merge($vars['content'], $output);
+    // Add articles, filter form & pager.
+    if (!empty($nodes)) {
+      $output['articles'] = array();
+      $output['articles'] = node_view_multiple($nodes, 'teaser');
+      $output['articles']['#weight'] = 99;
+      $output['pager'] = array(
+        '#theme' => 'pager',
+        '#tags' => array(),
+        '#weight' => 100.
+      );
+      $output['exposed_filter'] = drupal_get_form('cu_article_list_filter_form');
+      $output['exposed_filter']['#weight'] = 95;
+      $vars['content'] = array_merge($vars['content'], $output);
+    }
   }
 }
 
