@@ -751,3 +751,21 @@ function cu_users_username_alter(&$name, $account) {
     $name = $name . ' (Web Express Team)';
   }
 }
+
+
+/**
+ * Sets site to mixed mode authentication or returns NULL for error.
+ *
+ * @return boolean Whether setting the variable failed or succeeded.
+ */
+function cu_users_set_ldap_mixed_mode() {
+  if ($ldap_auth_settings = variable_get('ldap_authentication_conf', NULL)) {
+    // 1 is mixed mode, 2 is only LDAP.
+    $ldap_auth_settings['authenticationMode'] = 1;
+    variable_set('ldap_authentication_conf', $ldap_auth_settings);
+    return TRUE;
+  }
+
+  watchdog('cu_users', 'Cannot set site to mixed mode.', array(), WATCHDOG_ERROR);
+  return FALSE;
+}

@@ -9,6 +9,9 @@
  * Implements hook_install().
  */
 function travis_hosting_install() {
+  // Change LDAP config to mixed mode.
+  cu_users_set_ldap_mixed_mode();
+
   // Setting performance logging variables.
   variable_set('performance_detail', 1);
   variable_set('performance_nodrush', 1);

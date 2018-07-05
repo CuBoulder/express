@@ -9,6 +9,11 @@
  * Implements hook_install().
  */
 function local_hosting_install() {
+
+  // Change LDAP config to mixed mode.
+  cu_users_set_ldap_mixed_mode();
+
+  // Add a local settings file to the site.
   $module_path = DRUPAL_ROOT . '/' . drupal_get_path('module', 'local_hosting');
   $settings_file_path = DRUPAL_ROOT . '/sites/default/';
   $file_content = '
