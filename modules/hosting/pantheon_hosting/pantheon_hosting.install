@@ -6,8 +6,9 @@
  */
 
 /**
- * Implemenets hook_enable().
+ * Implemenets hook_install().
  */
-function pantheon_hosting_enable() {
-
+function pantheon_hosting_install() {
+  // Change LDAP config to mixed mode.
+  cu_users_set_ldap_mixed_mode();
 }

@@ -10,9 +10,6 @@
  */
 function cu_behat_tests_install() {
 
-  // Change LDAP config.
-  cu_users_set_ldap_mixed_mode();
-
   // @todo Actually add test content.
   // Add testing content.
   // _cu_behat_tests_add_content();
