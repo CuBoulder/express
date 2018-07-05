@@ -1,4 +1,4 @@
-@users @javascript
+@users @invite
 Feature: User External Invite
 Given I am an administrator
 When I login to a Web Express site

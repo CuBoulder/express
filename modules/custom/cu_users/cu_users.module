@@ -16,6 +16,7 @@
  */
 function cu_users_get_users($type = 'all') {
 
+  // $user_array['users']['crafts']['role'] = 'developer' 
   $user_array['developer'] = array(
     'crafts' => 'Kevin.Crafts@Colorado.EDU',
     'sniderc' => 'Catherine.Snider@Colorado.EDU',
@@ -62,10 +63,23 @@ function cu_users_get_users($type = 'all') {
     'osr-test-config-mgr' => 'osr-test-config-mgr@colorado.edu',
   );
 
+  $user_array['roles'] = array();
+
+  foreach ($user_array as $key => $user) {
+    foreach ($user as $name => $email) {
+      $user_array['roles'][$name] = $key;
+    }
+  }
+
   $user_array['all'] = array_merge($user_array['developer'], $user_array['administrator'], $user_array['site_owner'], $user_array['content_editor'], $user_array['edit_my_content'], $user_array['site_editor'], $user_array['edit_only'], $user_array['access_manager'], $user_array['configuration_manager']
   );
 
   return $user_array[$type];
+}
+
+function cu_users_get_user_role($user) {
+  $user_list = cu_users_get_users('roles');
+  return $user_list[$user];
 }
 
 /**
@@ -770,36 +784,23 @@ function cu_users_username_alter(&$name, $account) {
  * Implements hook_user_login().
  */
 function cu_users_user_login(&$edit, $account){
-  // dpm($edit['input']['name']);
-  // Grab username submitted in login form
-  $user_name = $edit['input']['name'];
+  // Grab username
+  $user_name = $account->name;
   // Grab list of all users in web express team
   $all = cu_users_get_users($type = 'all');
-  // dpm($all);
-
   // Check that user that logged in in web express team list
   if (array_key_exists($user_name, $all)) {
-    // If so try to load user?
-    $new_account = user_load_by_name($user_name);
-    // If user has no user id
-    if (!isset($new_account->uid)) 
-    {
-    // Create new user.
-      $account = new stdClass();
-      $account->name = $user_name;
-      $account->mail = $all[$user_name];
-      $account->status = 1;
-      $account = user_save($account);
+    dpm('user in web express team');
 
-      // Load the role the user name should have
-      $role = user_role_load_by_name($user_name);
+    // Grab role name string that user should have
+    $account_role = cu_users_get_user_role($user_name);
+    // Grab role name id
+    $account_role_object_id = user_role_load_by_name($account_role)->rid;
 
-      // Add user in the database?
-      $query = db_insert('users_roles')->fields(array('uid', 'rid'));
-      $query->values(array(
-        'uid' => $account->uid,
-        'rid' => $role->rid,
-      ));
+    // See if user has role that us defined in code
+    if (!array_key_exists($account_role_object_id, $account->roles)) {
+      $account->roles += array($account_role_object_id => $account_role);
+      user_save($account);
     }
   }
 }
