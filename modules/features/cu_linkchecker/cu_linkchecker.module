@@ -55,6 +55,8 @@ function cu_linkchecker_analyze_form_submit($form, $form_state) {
  * Enable linkchecking when new content types are added.
  */
 function cu_linkchecker_node_type_insert($info) {
-  variable_set('linkchecker_scan_node_' . $info->type, 1);
+  if ($info->type !== 'video' && $info->type !== 'file') {
+    variable_set('linkchecker_scan_node_' . $info->type, 1);
+  }
   watchdog('cu_linkchecker', 'Linkchecker has been enabled on the :type content type.', array(':type' => $info->type));
 }
