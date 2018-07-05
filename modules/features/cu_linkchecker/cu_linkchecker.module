@@ -50,22 +50,11 @@ function cu_linkchecker_analyze_form_submit($form, $form_state) {
 }
 
 /**
- * Implements hook_cron().
+ * Implements hook_node_type_insert().
  *
- * Every 30 days, check to see if new content types have been enabled.
- * If so, enable linkchecker on them.
+ * Enable linkchecking when new content types are added.
  */
-function cu_linkchecker_cron() {
-  $last_run = variable_get('cu_linkchecker_enabled_on_all_content_types', NULL);
-
-  if ($last_run < (REQUEST_TIME - 60*60*24*30)) {
-    $content_types = node_type_get_types();
-
-    foreach (array_keys($content_types) as $type) {
-      variable_set('linkchecker_scan_node_' . $type, 1);
-    }
-    watchdog('cu_linkchecker', 'Linkchecker has been enabled on all current content types.');
-
-    variable_set('cu_linkchecker_enabled_on_all_content_types', REQUEST_TIME);
-  }
+function cu_linkchecker_node_type_insert($info) {
+  variable_set('linkchecker_scan_node_' . $info->type, 1);
+  watchdog('cu_linkchecker', 'Linkchecker has been enabled on the :type content type.', array(':type' => $info->type));
 }
