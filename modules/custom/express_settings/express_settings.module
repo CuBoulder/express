@@ -132,7 +132,7 @@ function express_settings_menu() {
     'weight' => 1,
   );
   $items['admin/settings/url-management/redirects'] = array(
-    'title' => 'URL Redirects',
+    'title' => 'Redirects',
     'description' => 'Redirect users from one URL to another',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_goto',

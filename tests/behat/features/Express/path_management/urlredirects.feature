@@ -11,15 +11,15 @@ Feature: URL redirects
 
     Examples:
       | role                  | message         |
-      | developer             | "URL redirects" |
-      | administrator         | "URL redirects" |
-      | site_owner            | "URL redirects" |
+      | developer             | "Redirects"     |
+      | administrator         | "Redirects"     |
+      | site_owner            | "Redirects"    |
       | content_editor        | "Access denied" |
       | edit_my_content       | "Access denied" |
-      | site_editor           | "URL redirects" |
+      | site_editor           | "Redirects"     |
       | edit_only             | "Access denied" |
       | access_manager        | "Access denied" |
-      | configuration_manager | "URL redirects" |
+      | configuration_manager | "Redirects"     |
 
   Scenario: the URL redirects form is properly populated with functionality
     Given I am logged in as a user with the "site_owner" role
@@ -93,7 +93,7 @@ Feature: URL redirects
       | site_owner            | "Access denied"                                    |
       | content_editor        | "Access denied"                                    |
       | edit_my_content       | "Access denied"                                    |
-      | site_editor           | "URL redirects"                                    |
+      | site_editor           | "Redirects"                                        |
       | edit_only             | "Access denied"                                    |
       | access_manager        | "Access denied"                                    |
       | configuration_manager | "Access denied"                                    |
@@ -117,3 +117,70 @@ Feature: URL redirects
     And I press "Save"
     Then I should see "Enter a custom path by which this content can be accessed. Do not enter the full url."
 
+  Scenario Outline: Only a developer should be able to add math redirects.
+    Given I am logged in as a user with the <role> role
+    When I go to "admin/config/search/match_redirect/add"
+    Then I should see <message>
+
+    Examples:
+      | role                  | message                                                                                                    |
+      | developer             | "By default if a pattern matches and there is content for that target url then it will not be redirected." |
+      | administrator         | "By default if a pattern matches and there is content for that target url then it will not be redirected." |
+      | site_owner            | "Access denied"                                                                                            |
+      | content_editor        | "Access denied"                                                                                            |
+      | edit_my_content       | "Access denied"                                                                                            |
+      | site_editor           | "Access denied"                                                                                            |
+      | edit_only             | "Access denied"                                                                                            |
+      | access_manager        | "Access denied"                                                                                            |
+      | configuration_manager | "Access denied"                                                                                            |
+
+  Scenario: A developer should be able to add and edit match redirects.
+    Given I am logged in as a user with the "developer" role
+    When I go to "node/add/page"
+    And I fill in "Title" with "Fruity Tooty"
+    And I fill in "Body" with "Fruity Tooty Body text."
+    And I press "Save"
+    Then I should see "Basic page Fruity Tooty has been created."
+    When I go to "node/add/page"
+    And I fill in "Title" with "Veggie Tooty"
+    And I fill in "Body" with "Veggie Tooty Body text."
+    And I press "Save"
+    Then I should see "Basic page Veggie Tooty has been created."
+    When I go to "admin/config/search/match_redirect/add"
+    Then I should see "By default if a pattern matches and there is content for that target url then it will not be redirected."
+    When I fill in "Pattern" with "fruity*"
+    And I fill in "Target" with "veggie-tooty"
+    And I select "301" from "status_code"
+    And I press "Save"
+    Then I should see "Redirect saved."
+    When I go to "fruity-tooty"
+    # User sees page since "Allow content to be redirected?" isn't checked.
+    Then I should see "Fruity Tooty Body text."
+    When I go to "admin/config/search/redirect/wildcards"
+    And I follow "Edit"
+    Then I should see "Edit match redirect"
+    When I check "Allow content to be redirected?"
+    And I press "Save"
+    Then I should see "Redirect saved."
+    And I should see "Edit"
+    And I should see "Delete"
+    # User gets redirected even though content is there.
+    When I go to "fruity-tooty"
+    Then I should see "Veggie Tooty Body text."
+
+  Scenario Outline: Less privileged users should not be able to edit match redirects.
+    Given I am logged in as a user with the <role> role
+    When I go to "admin/config/search/match_redirect/add"
+    Then I should see <message>
+
+    Examples:
+      | role                  | message         |
+      | developer             | "Edit"          |
+      | administrator         | "Edit"          |
+      | site_owner            | "Access denied" |
+      | content_editor        | "Access denied" |
+      | edit_my_content       | "Access denied" |
+      | site_editor           | "Access denied" |
+      | edit_only             | "Access denied" |
+      | access_manager        | "Access denied" |
+      | configuration_manager | "Access denied" |

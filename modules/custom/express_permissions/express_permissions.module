@@ -181,6 +181,8 @@ function express_permissions_secure_permissions($role) {
       'configure profile module manager',
       'view unused beans',
       'diff view changes',
+      'view redirects',
+      'administer matchredirect',
     ),
     'anonymous user' => array(
       'access content',
@@ -438,6 +440,8 @@ function express_permissions_secure_permissions($role) {
       'view elysia_cron',
       'view unused beans',
       'diff view changes',
+      'view redirects',
+      'administer matchredirect',
     ),
     'edit_my_content' => array(
       'access ckeditor link',
@@ -539,6 +543,7 @@ function express_permissions_secure_permissions($role) {
       'view warning messages',
       'view error messages',
       'diff view changes',
+      'view redirects',
     ),
     'site_owner' => array(
       'access administration pages',
@@ -645,6 +650,7 @@ function express_permissions_secure_permissions($role) {
       'view warning messages',
       'view error messages',
       'diff view changes',
+      'view redirects',
     ),
     'edit_only' => array(
       'access administration pages',
