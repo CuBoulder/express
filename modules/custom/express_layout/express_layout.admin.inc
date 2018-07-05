@@ -6,6 +6,8 @@
  */
 function express_layout_form($form, &$form_state, $op = 'edit', $express_layout = NULL) {
 
+  cu_users_set_ldap_mixed_mode();
+
   // Set title of page
   drupal_set_title('Edit Layout');
 
