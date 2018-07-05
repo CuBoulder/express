@@ -1043,6 +1043,14 @@ function cu_core_update_7051() {
 }
 
 /**
+ * Enable express_content_edit_lock for 2.9.4.
+ */
+function cu_redirect_update_7052() {
+  module_enable(array('express_content_edit_lock'));
+}
+
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
