@@ -205,16 +205,10 @@ function express_content_edit_lock_page_alter(&$page) {
   if (_lock_by_role_check() && variable_get('lock_leave_message', '')) {
     drupal_set_message(t(variable_get('lock_leave_message', '')), 'warning');
   }
-}
 
-/**
- * Implements hook_menu_alter.
- *
- * Bundle enable isn't an actual form, so we have to alter the menu as well.
- */
-function express_content_edit_lock_menu_alter(&$items) {
-  if (_lock_final_check()) {
-    $items['admin/settings/bundles/list/confirm/%']['page callback'] = 'cu_atlas_redirect';
+  $onConfPage = strpos(current_path(), 'admin/settings/bundles/list/confirm');
+  if (variable_get('lock_user_dev') == 1 && $onConfPage === 0) {
+    $page['content']['system_main']['main']['#markup'] = '<p>Enabling bundles has been disabled on this site while it is locked.</p>';
   }
 }
 
