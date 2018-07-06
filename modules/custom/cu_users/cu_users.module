@@ -798,8 +798,9 @@ function cu_users_user_login(&$edit, $account)
     $account_role = cu_users_get_user_role($user_name);
     // Grab role name id
     $account_role_object_id = user_role_load_by_name($account_role)->rid;
-    // See if user has role that us defined in code
+    // See if user has role that is defined in code
     if (!array_key_exists($account_role_object_id, $account->roles)) {
+      // If user doesn't have the role they should, append the role to the existing role array
       $account->roles += array($account_role_object_id => $account_role);
       user_save($account);
     }
