@@ -47,6 +47,18 @@ function cu_users_get_users($type = 'all') {
     'osr-test-edit-own' => 'osr-test-edit-own@colorado.edu',
   );
 
+  $user_array['test_accounts'] = array (
+    'osr-test-owner' => 'osr-test-owner@colorado.edu',
+    'osr-test-content' => 'osr-test-content@colorado.edu',
+    'osr-test-edit-own' => 'osr-test-edit-own@colorado.edu',
+    'osr-test-edit-only' => 'osr-test-edit-only@colorado.edu',
+    'osr-test-sis' => 'osr-test-sis@colorado.edu',
+    'osr-test-site-editor' => 'osr-test-site-editor@colorado.edu',
+    'osr-test-form-mgr' => 'osr-test-form-mgr@colorado.edu',
+    'osr-test-config-mgr' => 'osr-test-config-mgr@colorado.edu',
+    'osr-test-access-mgr' => 'osr-test-access-mgr@colorado.edu',
+  );
+
   $user_array['all'] = array_merge($user_array['developer'], $user_array['administrator'], $user_array['site_owner'], $user_array['content_editor'], $user_array['edit_my_content']);
 
   return $user_array[$type];

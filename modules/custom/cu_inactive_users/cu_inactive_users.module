@@ -134,12 +134,12 @@ function cu_inactive_users_report_access($uids = NULL) {
   $path = current_path();
   global $base_url;
   // If a time is already set, add a default/reset link.
-  if ($_GET['time']) {
+  if ($time) {
     $time_filters[] = "<a href=\"$base_url/$path\">Default (60 Days)</a>";
   }
   // Loop through time filter options.
   foreach ($time_options as $label => $interval) {
-    if ($_GET['time'] == $interval) {
+    if ($time == $interval) {
       $class = 'active-time-filter';
     }
     else {
@@ -450,7 +450,7 @@ function cu_inactive_users_delete_dev_accounts() {
   $uids['roles']  = $query->execute()->fetchCol();
 
   // Gut uids for test users.
-  $users = variable_get('cu_inactive_users_dev_users', array('osr-test-sis', 'osr-test-owner', 'osr-test-content', 'osr-test-edit-own'));
+  $users = variable_get('cu_inactive_users_dev_users', array_keys(cu_users_get_users('test_accounts')));
   $query = db_select('users', 'ur');
   $query->fields('ur', array('uid', 'name'));
   $query->condition('name', $users, 'in');
@@ -466,8 +466,14 @@ function cu_inactive_users_delete_dev_accounts() {
     // Log names deleted.
     $names = array();
     foreach ($users as $user) {
-      $names[] = $user->name;
-      user_delete($user->uid);
+      try {
+        $names[] = $user->name;
+        user_delete($user->uid);
+        //if something goes wrong throw exception
+      } 
+      catch (user_delete_exception $e) {
+        echo 'Message: ' . $e->getMessage();
+      }
     }
     watchdog('cu_inactive_uers', 'Deleting Dev/Test users %users', array('%users' => join(', ', $names)), WATCHDOG_NOTICE);
   }
