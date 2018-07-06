@@ -1047,6 +1047,8 @@ function cu_core_update_7051() {
  */
 function cu_redirect_update_7052() {
   module_enable(array('express_content_edit_lock'));
+  cu_core_revert_features();
+  secure_permissions_rebuild();
 }
 
 
