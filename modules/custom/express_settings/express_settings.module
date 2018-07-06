@@ -345,16 +345,16 @@ function express_settings_site_status_form($form, &$form_state) {
  * Submit handler for express_settings_site_name_form.
  */
 function express_settings_site_status_form_submit($form, &$form_state) {
+  global $user;
+  $atlas_id = variable_get('atlas_id', NULL);
+  $site_array = atlas_api_request('sites', $atlas_id);
+  $site_array['verification.verification_status'] = 'approved';
+  $site_array['verification.verification_user'] = $user->name;
+  atlas_api_request('sites', $atlas_id, 'PUT', $site_array);
 
-   $atlas_id = variable_get('atlas_id', NULL);
-   $site_array = atlas_api_request('sites', $atlas_id);
-   $site_array['verification.verification_status'] = 'approved';
+  //@TODO Calculate routing change time.
 
-   atlas_api_request('sites', $atlas_id, 'PUT', $site_array);
-
-   //@TODO Calculate routing change time.
-
-   drupal_set_message("Migration Approved", 'status');
+  drupal_set_message("Migration Approved", 'status');
 
 }
 
