@@ -278,6 +278,7 @@ function express_permissions_secure_permissions($role) {
       'view warning messages',
       'view error messages',
       'diff view changes',
+      'view express environment indicator',
     ),
     'developer' => array(
       'access administration pages',
@@ -544,6 +545,7 @@ function express_permissions_secure_permissions($role) {
       'view error messages',
       'diff view changes',
       'view redirects',
+      'view express environment indicator',
     ),
     'site_owner' => array(
       'access administration pages',
@@ -651,6 +653,7 @@ function express_permissions_secure_permissions($role) {
       'view error messages',
       'diff view changes',
       'view redirects',
+      'view express environment indicator',
     ),
     'edit_only' => array(
       'access administration pages',
