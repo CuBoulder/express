@@ -352,7 +352,7 @@ function express_settings_site_status_form_submit($form, &$form_state) {
   $site_array = atlas_api_request('sites', $atlas_id);
   $site_array['verification.verification_status'] = 'approved';
   $site_array['verification.verification_user'] = $user->name;
-  atlas_api_request('sites', $atlas_id, 'PUT', $site_array);
+  atlas_api_request('sites', $atlas_id, 'PATCH', $site_array);
 
   //@TODO Calculate routing change time.
 
