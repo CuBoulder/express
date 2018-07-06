@@ -320,8 +320,8 @@ function express_settings_site_status_page() {
   $html .= '<input type="hidden" id="contact_email" name="contact_email" value="' . $user->mail . '">';
   $html .= '<input type="submit" value="Report a Problem" class="form-submit btn btn-danger" />';
   $html .= '</form></div>';
-
-  $html .= drupal_render(drupal_get_form('express_settings_site_status_form'));
+  $form = drupal_get_form('express_settings_site_status_form');
+  $html .= drupal_render($form);
 
   return $html;
 
@@ -490,64 +490,65 @@ function express_settings_google_analytics_form_submit($form, &$form_state) {
 }
 
 function express_settings_js_alter(&$javascript) {
+
+  // Find the JS code for GA as well as the index so we can replace it later.
+  $ga_js_code_index = NULL;
+  $js_code = array_filter($javascript, function ($val, $index) use(&$ga_js_code_index) {
+    if (is_string($val['data']) && strpos($val['data'], 'ga("create",')) {
+      $ga_js_code_index = $index;
+      return TRUE;
+    }
+    return FALSE;
+  }, ARRAY_FILTER_USE_BOTH);
+  $js_code = explode(';', array_shift($js_code)['data']);
+
+  // Initialize arrays so that it can be used in array_filter().
+  $ga_create_snippets = [];
+  $everything_else = [];
+
+  $ga_create_snippets = array_filter($js_code, function ($val) {
+    return strpos($val, 'ga("create",') === 0;
+  });
+  $ga_set_snippets = array_filter($js_code, function ($val) {
+    return strpos($val, 'ga("set",') === 0;
+  });
+
+  $everything_else = array_filter($js_code, function ($val) {
+    return strpos($val, 'ga("create",') !== 0 && strpos($val, 'ga("set",') !== 0;
+  });
+
+  // Find index of the first ga("set") metric.
+  $first_send_index = array_search('ga("send", "pageview")', $everything_else, FALSE);
+
+  // Split the array so that the create snippets can be inserted.
+  $first_part = [];
+  $last_part = [];
+  foreach ($everything_else as $key => $item) {
+    if ($key < $first_send_index) {
+      $first_part[] = $item;
+    } else {
+      $last_part[] = $item;
+    }
+  }
+
+  // Duplicate ga("set") for custom trackers.
+  $custom_set_snippets = [];
+  foreach ($ga_set_snippets as $snippet) {
+    $count = 0;
+    foreach ($ga_create_snippets as $create) {
+      if ($count === count($ga_create_snippets) - 1) {
+        continue;
+      }
+      $end_of_string = stristr($snippet, 'set');
+      $custom_set_snippets[] = 'ga("customTracker'. $count. '.'. $end_of_string;
+      $count++;
+    }
+  }
+
+  // Merge the JS snippets in order.
+  $final_js = array_merge($first_part, $ga_create_snippets, $ga_set_snippets, $custom_set_snippets, $last_part);
+
   if (isset($javascript[$ga_js_code_index])) {
-    // Find the JS code for GA as well as the index so we can replace it later.
-    $ga_js_code_index = NULL;
-    $js_code = array_filter($javascript, function ($val, $index) use(&$ga_js_code_index) {
-      if (is_string($val['data']) && strpos($val['data'], 'ga("create",')) {
-        $ga_js_code_index = $index;
-        return TRUE;
-      }
-      return FALSE;
-    }, ARRAY_FILTER_USE_BOTH);
-    $js_code = explode(';', array_shift($js_code)['data']);
-
-    // Initialize arrays so that it can be used in array_filter().
-    $ga_create_snippets = [];
-    $everything_else = [];
-
-    $ga_create_snippets = array_filter($js_code, function ($val) {
-      return strpos($val, 'ga("create",') === 0;
-    });
-    $ga_set_snippets = array_filter($js_code, function ($val) {
-      return strpos($val, 'ga("set",') === 0;
-    });
-
-    $everything_else = array_filter($js_code, function ($val) {
-      return strpos($val, 'ga("create",') !== 0 && strpos($val, 'ga("set",') !== 0;
-    });
-
-    // Find index of the first ga("set") metric.
-    $first_send_index = array_search('ga("send", "pageview")', $everything_else, FALSE);
-
-    // Split the array so that the create snippets can be inserted.
-    $first_part = [];
-    $last_part = [];
-    foreach ($everything_else as $key => $item) {
-      if ($key < $first_send_index) {
-        $first_part[] = $item;
-      } else {
-        $last_part[] = $item;
-      }
-    }
-
-    // Duplicate ga("set") for custom trackers.
-    $custom_set_snippets = [];
-    foreach ($ga_set_snippets as $snippet) {
-      $count = 0;
-      foreach ($ga_create_snippets as $create) {
-        if ($count === count($ga_create_snippets) - 1) {
-          continue;
-        }
-        $end_of_string = stristr($snippet, 'set');
-        $custom_set_snippets[] = 'ga("customTracker'. $count. '.'. $end_of_string;
-        $count++;
-      }
-    }
-
-    // Merge the JS snippets in order.
-    $final_js = array_merge($first_part, $ga_create_snippets, $ga_set_snippets, $custom_set_snippets, $last_part);
-
     $javascript[$ga_js_code_index]['data'] = implode(';', $final_js);
   }
 }
