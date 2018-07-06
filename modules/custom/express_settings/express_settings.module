@@ -314,10 +314,12 @@ function express_settings_navbar() {
 
 function express_settings_site_status_page() {
   global $base_url;
-  $html = '<form action="mailto:websupport@colorado.edu" method="GET">';
-  $html .= '<input type="hidden" id="subject" name="subject" value="Migration Issue with ' . $base_url . '">';
+  global $user;
+  $html = '<div style="float:left"><form action="https://www.colorado.edu/webcentral/support/report-problem" method="GET">';
+  $html .= '<input type="hidden" id="site_url" name="site_url" value="' . $base_url . '">';
+  $html .= '<input type="hidden" id="contact_email" name="contact_email" value="' . $user->mail . '">';
   $html .= '<input type="submit" value="Report a Problem" class="form-submit btn btn-danger" />';
-  $html .= '</form>';
+  $html .= '</form></div>';
 
   $html .= drupal_render(drupal_get_form('express_settings_site_status_form'));
 
