@@ -1,0 +1,32 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for cu_pmm module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function cu_profile_module_manager_requirements($phase) {
+  if ($phase === 'runtime') {
+    $severity = REQUIREMENT_OK;
+
+    // Get enabled modules with hosting in the name.
+    $enabled_hosting_modules = (array) db_query("SELECT name FROM {system} WHERE type = 'module' AND status = 1 AND name LIKE '%_hosting' ORDER BY weight ASC, name ASC")->fetchCol('name');
+    $hosting_modules_count = count($enabled_hosting_modules);
+
+    if ($hosting_modules_count === 0 || $hosting_modules_count > 1) {
+      $severity = REQUIREMENT_ERROR;
+    }
+
+    return [
+      'cu_pmm_hosting_modules_enabled' => [
+        'title' => 'One Hosting Module Enabled?',
+        'description' => 'Ensure that only one hosting module is enabled per Express site.',
+        'value' => 'Hosting modules enabled: '. (!empty(implode(',', $enabled_hosting_modules)) ? implode(',', $enabled_hosting_modules) : 'None...Not good.'),
+        'severity' => $severity,
+      ],
+    ];
+  }
+}
