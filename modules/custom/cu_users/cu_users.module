@@ -193,11 +193,6 @@ function cu_users_cron() {
 
   $time_zone = date_default_timezone_get();
 
-  // Set timezone to Denver if not set already.
-  if ($time_zone != 'America/Denver') {
-    date_default_timezone_set('America/Denver');
-  }
-
   // Get hour of the day in 0 to 23 format.
   $hours = date("H");
 
@@ -206,6 +201,11 @@ function cu_users_cron() {
   // hour.
   if ($hours == 02) {
     $deleted_rows = db_delete('sessions')->execute();
+
+    // Clean up test/dev/admin accounts
+    if (variable_get('cu_inactive_users_auto_delete', 1)) {
+      cu_inactive_users_delete_dev_accounts();
+    }
 
     // Write to the watchdog just in case this becomes a stat in the future.
     watchdog('cron', 'Number of sessions deleted: %deleted_rows', array('%deleted_rows' => $deleted_rows));

@@ -430,7 +430,6 @@ function cu_inactive_users_report_remove_process($uids) {
 }
 
 function cu_inactive_users_delete_dev_accounts() {
-
   // Store uids for roles and test users.
   $uids = array(
     'roles' => array(),
@@ -465,25 +464,26 @@ function cu_inactive_users_delete_dev_accounts() {
     // Loop and delete users.
     // Log names deleted.
     $names = array();
+
+    // Log names not deleted
+    $names_not_deleted = array();
+
     foreach ($users as $user) {
       try {
-        $names[] = $user->name;
         user_delete($user->uid);
-        //if something goes wrong throw exception
+        $names[] = $user->name;
       } 
       catch (user_delete_exception $e) {
-        echo 'Message: ' . $e->getMessage();
+        $names_not_deleted[] = $user->name;
+        watchdog('cu_inactive_users', 'Delete user failed for', $user->name, WATCHDOG_WARNING);        
       }
     }
-    watchdog('cu_inactive_uers', 'Deleting Dev/Test users %users', array('%users' => join(', ', $names)), WATCHDOG_NOTICE);
-  }
-}
 
-/**
- * Implements hook_cron().
- */
-function cu_inactive_users_cron() {
-  if (variable_get('cu_inactive_users_auto_delete', 1)) {
-    cu_inactive_users_delete_dev_accounts();
+    // Deleted users
+    watchdog('cu_inactive_users', 'Deleted Dev/Test users %users', array('%users' => join(', ', $names)), WATCHDOG_NOTICE);
+
+    // Exclude users that failed
+    watchdog('cu_inactive_users', 'The following useres were not deleted: ', array('%users_not_deleted' => join(', ', $names_not_deleted)), WATCHDOG_WARNING);
+
   }
 }
