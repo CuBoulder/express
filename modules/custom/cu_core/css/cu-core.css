@@ -5,7 +5,6 @@
 
 .environment-production.infrastructure-new.status-launched #navbar-administration #navbar-bar .express-environment-indicator, .environment-production.infrastructure-new.status-launched .express-environment-indicator { background: #222; color: #fff; }
 .environment-production.infrastructure-new.status-launched #navbar-administration #navbar-bar .express-environment-indicator *, .environment-production.infrastructure-new.status-launched .express-environment-indicator * { color: inherit; }
-.environment-production.infrastructure-new.status-launched #navbar-administration #navbar-bar .express-environment-indicator a, .environment-production.infrastructure-new.status-launched .express-environment-indicator a { display: none; }
 
 .environment-production.infrastructure-new.status-staged #navbar-administration #navbar-bar .express-environment-indicator, .environment-production.infrastructure-new.status-staged .express-environment-indicator { background: #388E3C; color: #fff; }
 .environment-production.infrastructure-new.status-staged #navbar-administration #navbar-bar .express-environment-indicator *, .environment-production.infrastructure-new.status-staged .express-environment-indicator * { color: inherit; }
