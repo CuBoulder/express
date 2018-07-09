@@ -482,7 +482,7 @@ function cu_inactive_users_delete_dev_accounts() {
     // Deleted users
     watchdog('cu_inactive_users', 'Deleted Dev/Test users %users', array('%users' => join(', ', $names)), WATCHDOG_NOTICE);
 
-    // Exclude users that failed
+    //  Users that failed to be deleted
     watchdog('cu_inactive_users', 'The following useres were not deleted: ', array('%users_not_deleted' => join(', ', $names_not_deleted)), WATCHDOG_WARNING);
 
   }
