@@ -204,6 +204,7 @@ function cu_users_cron() {
 
     // Clean up test/dev/admin accounts
     if (variable_get('cu_inactive_users_auto_delete', 1)) {
+      dpm('Clean up');
       cu_inactive_users_delete_dev_accounts();
     }
 

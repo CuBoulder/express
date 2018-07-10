@@ -461,29 +461,19 @@ function cu_inactive_users_delete_dev_accounts() {
   $users = cu_inactive_users_noedits($uid_list);
 
   if (!empty($users)) {
-    // Loop and delete users.
     // Log names deleted.
     $names = array();
-
-    // Log names not deleted
-    $names_not_deleted = array();
-
+    // Loop and delete users.
     foreach ($users as $user) {
       try {
         user_delete($user->uid);
         $names[] = $user->name;
       } 
       catch (user_delete_exception $e) {
-        $names_not_deleted[] = $user->name;
-        watchdog('cu_inactive_users', 'Delete user failed for', $user->name, WATCHDOG_WARNING);        
+        watchdog('cu_inactive_users', 'Delete user failed for', $user->name, $e->getMessage(), WATCHDOG_WARNING);        
       }
     }
-
     // Deleted users
-    watchdog('cu_inactive_users', 'Deleted Dev/Test users %users', array('%users' => join(', ', $names)), WATCHDOG_NOTICE);
-
-    //  Users that failed to be deleted
-    watchdog('cu_inactive_users', 'The following useres were not deleted: ', array('%users_not_deleted' => join(', ', $names_not_deleted)), WATCHDOG_WARNING);
-
+    watchdog('cu_inactive_users', 'Deleted users: %users', array('%users' => join(', ', $names)), WATCHDOG_NOTICE);
   }
 }
