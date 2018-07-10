@@ -390,7 +390,6 @@ function _cu_inactive_users_format_roles($roles) {
 }
 
 function cu_inactive_users_report_remove($uids = NULL) {
-  cu_inactive_users_delete_dev_accounts();
   $output = array();
   $list = array();
   $results = cu_inactive_users_report_remove_process($uids);
