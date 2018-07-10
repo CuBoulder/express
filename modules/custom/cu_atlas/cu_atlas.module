@@ -69,6 +69,7 @@ function cu_atlas_atlas_statistics() {
     'file',
     'faqs',
     'content_list_page',
+    'webform',
     'article',
     'article_list_page',
     'person',
