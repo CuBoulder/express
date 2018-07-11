@@ -736,7 +736,8 @@ function cu_users_override_external_invite_submit(&$form, &$form_state) {
 
   if (!empty($emails)) {
     foreach ($emails as $email) {
-      $output = cu_users_ldap_email_lookup($email);
+      //$output = cu_users_ldap_email_lookup($email);
+      $output = '';
       $ldap_mail_return = '';
 
       // $output can be an array with $output['count'] as the only key.
