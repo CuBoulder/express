@@ -6,13 +6,11 @@
  */
 
 /**
- * Implements hook_cron().
- *
+ * Tasks for cu_udpate_ping_cronapi()
+ * 
  * Send usage stats to Drupal update server once a week.
  */
-function cu_update_ping_cron() {
-  // Only need to do this once a week.
-  if (REQUEST_TIME >= strtotime('+1 week', (int) variable_get('cu_update_ping_time', strtotime('-1 year')))) {
+function cu_update_ping_cron_task() {
     global $base_url;
 
     // Generate site key to send to drupal.org.
@@ -53,10 +51,16 @@ function cu_update_ping_cron() {
         continue;
       }
     }
-
-
-    // Set time variable on success.
-    variable_set('cu_update_ping_time', REQUEST_TIME);
-
   }
-}
+
+  /**
+   * Implements hook_cronapi().
+   */
+  function cu_update_ping_cronapi($op, $job = NULL)
+  {
+    $items['cu_update_ping_cron_task'] = array(
+      'description' => 'Send usage stats to Drupal update server once a week',
+      'rule' => '0 0 * * 0' //“Run this once a week at 00:00 on Sunday.”
+    );
+    return $items;
+  }

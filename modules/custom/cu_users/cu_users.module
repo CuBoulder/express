@@ -185,32 +185,33 @@ function cu_users_secure_permissions($role) {
 }
 
 /**
- * Implements hook_cron().
+ * Implements hook_cronapi().
  *
- * Expire user sessions nightly between 2AM and 3AM.
+ * Expire user sessions nightly between at 2AM
  */
-function cu_users_cron() {
+function cu_users_cronapi($op, $job = null) {
+  $items['cu_users_cron_task'] = array(
+    'description' => 'Update user realnames and primary affiliation',
+    'rule' => '0 2 * * *'
+  );
+  return $items;
+}
 
-  $time_zone = date_default_timezone_get();
+/**
+ * Tasks for cu_users_cronapi
+ */
+function cu_users_cron_task()
+{
+  $deleted_rows = db_delete('sessions')->execute();
 
-  // Get hour of the day in 0 to 23 format.
-  $hours = date("H");
-
-  // If hour is 2 meaning between 2AM and 3AM delete user sessions
-  // This assumes cron runs every 20 minutes or at least a couple times and
-  // hour.
-  if ($hours == 02) {
-    $deleted_rows = db_delete('sessions')->execute();
-
-    // Clean up test/dev/admin accounts
-    if (variable_get('cu_inactive_users_auto_delete', 1)) {
-      dpm('Clean up');
-      cu_inactive_users_delete_dev_accounts();
-    }
-
-    // Write to the watchdog just in case this becomes a stat in the future.
-    watchdog('cron', 'Number of sessions deleted: %deleted_rows', array('%deleted_rows' => $deleted_rows));
+  // Clean up test/dev/admin accounts
+  if (variable_get('cu_inactive_users_auto_delete', 1)) {
+    dpm('Clean up');
+    cu_inactive_users_delete_dev_accounts();
   }
+
+  // Write to the watchdog just in case this becomes a stat in the future.
+  watchdog('cron', 'Number of sessions deleted: %deleted_rows', array('%deleted_rows' => $deleted_rows));
 }
 
 /**
