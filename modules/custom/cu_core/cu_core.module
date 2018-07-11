@@ -192,6 +192,9 @@ function cu_core_permission() {
   );
 }
 
+/**
+ * Implements template_preprocess_html
+ */
 function cu_core_preprocess_html(&$vars) {
   /**
    * Accepted values for displaying indicator (add as classes in classes_array variable:
@@ -219,12 +222,10 @@ function cu_core_preprocess_html(&$vars) {
 
   if (user_access('view express environment indicator')) {
     $env = $_SERVER['HTTP_HOST'];
-    //variable_get('atlas_status') == 'available'
-    // @TODO: Need better detection of Valet sites
-    drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
+    // @TODO: Need better detection of Valet sites.
     switch ($env) {
       case 'www.colorado.edu':
-        if ($_ENV['OSR_ENV'] == 'master') {
+        if (isset($_ENV['OSR_ENV']) && $_ENV['OSR_ENV'] === 'master') {
           $vars['classes_array'][] = 'indicator-disabled';
         }
         else {
@@ -235,7 +236,7 @@ function cu_core_preprocess_html(&$vars) {
         }
         break;
       case 'www-test.colorado.edu':
-        if ($_ENV['OSR_ENV'] == 'test') {
+        if (isset($_ENV['OSR_ENV']) && $_ENV['OSR_ENV'] === 'test') {
           $vars['classes_array'][] = 'indicator-disabled';
         }
         else {
@@ -259,8 +260,6 @@ function cu_core_preprocess_html(&$vars) {
         break;
     }
   }
-
-  drupal_add_css(drupal_get_path('module', 'cu_core') . '/css/cu-core.css');
 
   if (variable_get('site_404', '') === current_path()) {
     $vars['head_title'] = implode(' | ', array(
