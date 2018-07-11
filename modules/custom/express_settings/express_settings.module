@@ -67,8 +67,7 @@ function express_settings_menu() {
     'title' => 'Verify Migration',
     'description' => 'Confirm that this site has migrated successfully',
     'type' => MENU_NORMAL_ITEM,
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('express_settings_site_status_form'),
+    'page callback' => 'express_settings_site_status_page',
     'access arguments' => array('administer express site status'),
     'weight' => -50,
   );
@@ -132,7 +131,7 @@ function express_settings_menu() {
     'weight' => 1,
   );
   $items['admin/settings/url-management/redirects'] = array(
-    'title' => 'URL Redirects',
+    'title' => 'Redirects',
     'description' => 'Redirect users from one URL to another',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_goto',
@@ -313,39 +312,54 @@ function express_settings_navbar() {
   return $items;
 }
 
+function express_settings_site_status_page() {
+  global $base_url;
+  global $user;
+  $html = '<div style="float:left"><form action="https://www.colorado.edu/webcentral/support/report-problem" method="GET">';
+  $html .= '<input type="hidden" id="site_url" name="site_url" value="' . $base_url . '">';
+  $html .= '<input type="hidden" id="contact_email" name="contact_email" value="' . $user->mail . '">';
+  $html .= '<input type="submit" value="Report a Problem" class="form-submit btn btn-danger" />';
+  $html .= '</form></div>';
+  $form = drupal_get_form('express_settings_site_status_form');
+  $html .= drupal_render($form);
+
+  return $html;
+
+}
+
 /**
  * Page callback for admin/site-configuration/site-status.
  */
 function express_settings_site_status_form($form, &$form_state) {
   $form = array();
 
-  //@TODO: Add logic to patch site
-  //@TODO: Change name of button
-
-  $html = '<strong>This form is only for testing the workflow.  No changes are made to the sites status.</strong>';
-  $html .= '<p>If you have found an issue with your site, please contact websupport@colorado.edu.</p>';
-  $html .= '<p><i class="fa fa-check" aria-hidden="true"></i> Key pages are rending properly.</p>';
-  $html .= '<p><i class="fa fa-check" aria-hidden="true"></i> Complex layouts or custom functionality are working properly.</p>';
-  $html .= '<p><i class="fa fa-check" aria-hidden="true"></i> Webforms submissions are routing properly.</p>';
-  $html .= '<p>Confirming this site queue a change from www-new to www in the next migration group to roll over.  Roll overs happen at 9AM, 11AM, 1PM and 3PM Monday through Friday.</p>';
-
-  $form['mymarkup'] = array(
-    '#type' => 'markup',
-    '#markup' => $html,
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => t('Approve Migration'),
   );
 
-  // Let system_settings_form_submit run first to variable_set vars.
-  $form = system_settings_form($form);
-  $form['#submit'][] = 'express_settings_site_status_form_submit';
+  $form['submit']['#attributes']['class'][] = 'btn-success';
   return $form;
+
 }
 
 /**
  * Submit handler for express_settings_site_name_form.
  */
 function express_settings_site_status_form_submit($form, &$form_state) {
+  global $user;
+  $atlas_id = variable_get('atlas_id', NULL);
+  $site_array = atlas_api_request('sites', $atlas_id);
 
-   drupal_set_message("Still doing nothing.", 'warning');
+  $site_array_new['_etag'] = $site_array['_etag'];
+  $site_array_new['verification.verification_status'] = 'approved';
+  $site_array_new['verification.verification_user'] = $user->name;
+
+  atlas_api_request('sites', $atlas_id, 'PATCH', $site_array_new);
+
+  //@TODO Calculate routing change time.
+
+  drupal_set_message("Migration Approved", 'status');
 
 }
 
@@ -454,22 +468,91 @@ function express_settings_google_analytics_form_validate($form, &$form_state) {
  * Submit handler for express_settings_google_analytics_form().
  */
 function express_settings_google_analytics_form_submit($form, &$form_state) {
+  $js_code_before = '';
+  $js_code_after = '';
   if ($ga_codes = variable_get('ga_account', '')) {
     // Explode the string and trim whitespace.
     $ga_codes = array_map('trim', explode(',', $ga_codes));
-    //add Express specific code to array
+
+    // Add Express specific code to array.
     $ga_codes[] = 'UA-105731679-1';
-    $js_code = '';
     foreach ($ga_codes as $key => $code) {
-      $js_code .= format_string("ga('create', '@ga_account', 'auto', {'name':'customTracker@key'});  ga('customTracker@key.send', 'pageview');", array(
+      $js_code_before .= format_string('ga("create", "@ga_account", "auto", {"name":"customTracker@key"});', array(
         '@ga_account' => $code,
         '@key' => $key,
       ));
+
+      $js_code_after .= format_string('ga("customTracker@key.send", "pageview");', array(
+        '@key' => $key,
+      ));
     }
-    variable_set('googleanalytics_codesnippet_after', $js_code);
   }
-  else {
-    variable_set('googleanalytics_codesnippet_after', '');
+
+  variable_set('googleanalytics_codesnippet_before', $js_code_before);
+  variable_set('googleanalytics_codesnippet_after', $js_code_after);
+}
+
+function express_settings_js_alter(&$javascript) {
+
+  // Find the JS code for GA as well as the index so we can replace it later.
+  $ga_js_code_index = NULL;
+  $js_code = array_filter($javascript, function ($val, $index) use(&$ga_js_code_index) {
+    if (is_string($val['data']) && strpos($val['data'], 'ga("create",')) {
+      $ga_js_code_index = $index;
+      return TRUE;
+    }
+    return FALSE;
+  }, ARRAY_FILTER_USE_BOTH);
+  $js_code = explode(';', array_shift($js_code)['data']);
+
+  // Initialize arrays so that it can be used in array_filter().
+  $ga_create_snippets = [];
+  $everything_else = [];
+
+  $ga_create_snippets = array_filter($js_code, function ($val) {
+    return strpos($val, 'ga("create",') === 0;
+  });
+  $ga_set_snippets = array_filter($js_code, function ($val) {
+    return strpos($val, 'ga("set",') === 0;
+  });
+
+  $everything_else = array_filter($js_code, function ($val) {
+    return strpos($val, 'ga("create",') !== 0 && strpos($val, 'ga("set",') !== 0;
+  });
+
+  // Find index of the first ga("set") metric.
+  $first_send_index = array_search('ga("send", "pageview")', $everything_else, FALSE);
+
+  // Split the array so that the create snippets can be inserted.
+  $first_part = [];
+  $last_part = [];
+  foreach ($everything_else as $key => $item) {
+    if ($key < $first_send_index) {
+      $first_part[] = $item;
+    } else {
+      $last_part[] = $item;
+    }
+  }
+
+  // Duplicate ga("set") for custom trackers.
+  $custom_set_snippets = [];
+  foreach ($ga_set_snippets as $snippet) {
+    $count = 0;
+    foreach ($ga_create_snippets as $create) {
+      if ($count === count($ga_create_snippets) - 1) {
+        continue;
+      }
+      $end_of_string = stristr($snippet, 'set');
+      $custom_set_snippets[] = 'ga("customTracker'. $count. '.'. $end_of_string;
+      $count++;
+    }
+  }
+
+  // Merge the JS snippets in order.
+  $final_js = array_merge($first_part, $ga_create_snippets, $ga_set_snippets, $custom_set_snippets, $last_part);
+
+  if (isset($javascript[$ga_js_code_index])) {
+    $javascript[$ga_js_code_index]['data'] = implode(';', $final_js);
   }
 }
 

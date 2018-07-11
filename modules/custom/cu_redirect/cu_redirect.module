@@ -20,6 +20,15 @@ function cu_redirect_menu() {
   return $items;
 }
 
+function cu_redirect_permission() {
+  return array(
+    'view redirects' => array(
+      'title' => t('view redirects'),
+      'description' => t('View redirects.'),
+    ),
+  );
+}
+
 /**
  * Implements hook_redirect_validate().
  *
@@ -247,6 +256,36 @@ function cu_redirect_redirect_insert($redirect) {
     '!source' => l($redirect->source, $redirect->source),
     '!redirect' => $redirect->redirect ? l($redirect->redirect, $redirect->redirect) : l('<front>', '<front>')
   )));
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function cu_redirect_menu_alter(&$items) {
+  $items['admin/config/search/redirect']['title'] = t('Redirects');
+  $items['admin/config/search/redirect/list']['title'] = t('URL');
+  $items['admin/config/search/redirect/wildcards'] = $items['admin/config/search/match_redirect'];
+  $items['admin/config/search/redirect/wildcards']['title'] = t('Wildcards');
+  $items['admin/config/search/redirect/wildcards']['type'] = MENU_LOCAL_TASK;
+  $items['admin/config/search/redirect/wildcards']['weight'] = 12;
+  $items['admin/config/search/redirect/wildcards']['access arguments'] = array('view redirects');
+  //unset($items['admin/config/search/match_redirect']);
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function cu_redirect_form_match_redirect_list_form_alter(&$form, &$form_state, $form_id) {
+  $dev = user_role_load_by_name('developer');
+  $admin = user_role_load_by_name('administrator');
+
+  if (!user_has_role($dev->rid) && !user_has_role($admin->rid)) {
+    $redirects_count = $form['redirects'] ?? [];
+    foreach ($redirects_count as $key => $redirect) {
+      $form['redirects'][$key]['operations']['#type'] = 'hidden';
+    }
+    $form['actions']['#type'] = 'hidden';
+  }
 }
 
 /**
