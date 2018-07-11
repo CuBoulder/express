@@ -39,5 +39,4 @@ optional-dependencies[] = cu_quicktab_styles
 optional-dependencies[] = quicktabs
 optional-dependencies[] = quicktab_beans
 
-
 stylesheets[all][] = css/cu-core.css

@@ -193,7 +193,7 @@ function cu_core_permission() {
 }
 
 /**
- * Implements template_preprocess_html
+ * Implements template_preprocess_html().
  */
 function cu_core_preprocess_html(&$vars) {
   /**
