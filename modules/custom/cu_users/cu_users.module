@@ -303,6 +303,7 @@ function cu_users_user_presave(&$edit, $account, $category) {
 
       // Filter the roles being saved to make sure the user always has one left.
       $remaining_core_roles = array_filter($edit['roles'], function ($val2) use ($core_role_ids) {
+        $val2 = (int) $val2;
         return array_key_exists($val2, $core_role_ids);
       });
 
