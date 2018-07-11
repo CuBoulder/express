@@ -279,19 +279,10 @@ function cu_users_user_presave(&$edit, $account, $category) {
 
   // Need to get the role IDs to compare later.
   // The roles are ordered from lowest to highest permission level.
+  $core_roles = express_permissions_role_settings(array('core'));
   $core_role_ids = [];
-  $core_roles = [
-    'edit_my_content',
-    'edit_only',
-    'content_editor',
-    'site_editor',
-    'site_owner',
-  ];
-  foreach ($core_roles as $val) {
-    $temp_role = user_role_load_by_name($val);
-    if (isset($temp_role->rid)) {
-      $core_role_ids[$temp_role->rid] = $temp_role->name;
-    }
+  foreach ($core_roles['rid'] as $rid => $role) {
+    $core_role_ids[$rid] = $role['label'];
   }
 
   // Loop through roles being saved on user and reduce them to the highest permissioned role.
