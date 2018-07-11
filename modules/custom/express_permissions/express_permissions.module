@@ -94,19 +94,19 @@ function express_permissions_role_settings($type = NULL, $exclude = array()) {
   );
   $settings['access_manager'] = array(
     'label' => 'Access Manager',
-    'type' => 'addon',
+    'type' => 'core_addon',
   );
   $settings['configuration_manager'] = array(
     'label' => 'Configuration Manager',
-    'type' => 'addon',
+    'type' => 'core_addon',
   );
   $settings['campaign_manager'] = array(
     'label' => 'Campaign Manager',
-    'type' => 'addon',
+    'type' => 'bundle_addon',
   );
   $settings['form_manager'] = array(
     'label' => 'Form Manager',
-    'type' => 'addon',
+    'type' => 'bundle_addon',
   );
 
   $roles = user_roles(TRUE);
