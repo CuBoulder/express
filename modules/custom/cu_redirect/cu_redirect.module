@@ -278,15 +278,9 @@ function cu_redirect_menu_alter(&$items) {
 function cu_redirect_form_match_redirect_list_form_alter(&$form, &$form_state, $form_id) {
   // Get service roles.
   $roles = express_permissions_role_settings(array('service'));
-  // Format them into a simple array for intersect comparison.
-  $rids = array();
-  foreach ($roles[rid] as $rid => $role_name) {
-    $rids[$rid] = $rid;
-  }
   // Get current user and check to see if they have any service level roles.
   global $user;
-  $role_access = array_intersect_key($user->roles, $rids);
-
+  $role_access = array_intersect_key($user->roles, $roles['rid']);
   // Hide fields if user does not have service level role.
   if (!empty($role_access)) {
     $redirects_count = $form['redirects'] ?? [];
