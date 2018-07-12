@@ -282,7 +282,7 @@ function cu_redirect_form_match_redirect_list_form_alter(&$form, &$form_state, $
   global $user;
   $role_access = array_intersect_key($user->roles, $roles['rid']);
   // Hide fields if user does not have service level role.
-  if (!empty($role_access)) {
+  if (empty($role_access)) {
     $redirects_count = $form['redirects'] ?? [];
     foreach ($redirects_count as $key => $redirect) {
       $form['redirects'][$key]['operations']['#type'] = 'hidden';
