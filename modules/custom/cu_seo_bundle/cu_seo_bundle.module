@@ -35,7 +35,6 @@ function cu_seo_bundle_secure_permissions($role) {
     ),
     'developer' => array(
       'edit meta tags',
-      'administer meta tags',
       'administer xmlsitemap',
       'access broken links report',
       'administer linkchecker',
