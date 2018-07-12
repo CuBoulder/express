@@ -165,8 +165,7 @@ Feature: URL redirects
     When I go to "fruity-tooty"
     # User sees page since "Allow content to be redirected?" isn't checked.
     Then I should see "Fruity Tooty Body text."
-    When I go to "admin/config/search/redirect/wildcards"
-    And I follow "Edit"
+    When I go to "admin/config/search/match_redirect/edit/1"
     Then I should see "Edit match redirect"
     When I check "Allow content to be redirected?"
     And I press "Save"
