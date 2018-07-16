@@ -1,4 +1,8 @@
-Feature: Context
+@api @AdvDesign
+Feature: Add background images with Context
+In order to add visual interest to my site
+As an authenticated user
+I should be able to attach graphics to site and page title backgrounds 
 
 @context @contextconditions @exclude_all_bundles
 Scenario Outline: A content_editor should see a limited number of context conditions
@@ -39,11 +43,6 @@ Scenario Outline: A content_editor should see a limited number of context reacti
 # CONTEXT FUNCTIONALITY IS TESTED IN OTHER FEATURES. 
 # THIS FEATURE TARGETS SITE BACKGROUND IMAGES AND PAGE TITLE IMAGES ONLY
 
-@api @AdvDesign
-Feature: Add background images with Context
-In order to add visual interest to my site
-As an authenticated user
-I should be able to attach graphics to site and page title backgrounds 
 
 # THIS SCENARIO UPLOADS A GRAPHIC TO USE AS BACKGROUND
 # NEED A CUSTOM STEP TO FIGURE OUT THE NODE ID
