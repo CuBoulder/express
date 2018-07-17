@@ -12,7 +12,6 @@ branches:
   only:
    - dev
 
-
 addons:
   # The username and access key are stored in the Travis settings.
   sauce_connect: true
@@ -41,7 +40,7 @@ install:
 
   # Behat tags. Allows you to include/exclude tags per bundle as needed.
   - export EXPRESS_JS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@javascript"
-  - export EXPRESS_HEADLESS_BEHAT_TAGS="@editmycontent"
+  - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript"
   - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken"
 
   # Copy scripts to root.
