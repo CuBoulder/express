@@ -1,3 +1,4 @@
+
 @blocks @slider @core
 Feature: Slider Block
 When I login to a Web Express website
