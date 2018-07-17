@@ -20,7 +20,7 @@ SKIP_EXPRESS_TESTS="$(git log -2 --pretty=%B | awk '/./{line=$0} END{print line}
 if [ ! "${SKIP_EXPRESS_TESTS}" ]; then
 
   echo "Running Express headless tests..."
-  ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags ${EXPRESS_HEADLESS_BEHAT_TAGS}
+  ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.travis.yml --verbose --tags ${EXPRESS_HEADLESS_BEHAT_TAGS}
   earlyexit
 
   # Run JS Behat tests if merged into dev.
@@ -48,7 +48,7 @@ if [ "${BUNDLE_NAME}" != "null" ]; then
   $HOME/.composer/vendor/bin/drush updb -y
 
   echo "Running ${BUNDLE_NAME} bundle tests..."
-  ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.bundle.yml --verbose --tags ${BUNDLE_BEHAT_TAGS}
+  ${ROOT_DIR}/drupal/profiles/express/tests/behat/bin/behat --stop-on-failure --strict --config ${ROOT_DIR}/drupal/profiles/express/tests/behat/behat.bundle.yml --verbose --tags ${BUNDLE_BEHAT_TAGS}
   earlyexit
 fi
 
