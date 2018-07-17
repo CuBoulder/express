@@ -190,7 +190,7 @@ function cu_users_secure_permissions($role) {
  * Expire user sessions nightly between at 2AM
  */
 function cu_users_cronapi($op, $job = null) {
-  $items['cu_users_cron_task'] = array(
+  $items['cu_users_cron'] = array(
     'description' => 'Update user realnames and primary affiliation',
     'rule' => '0 2 * * *'
   );
@@ -200,7 +200,7 @@ function cu_users_cronapi($op, $job = null) {
 /**
  * Tasks for cu_users_cronapi
  */
-function cu_users_cron_task()
+function cu_users_cron()
 {
   $deleted_rows = db_delete('sessions')->execute();
 

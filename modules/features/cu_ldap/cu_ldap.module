@@ -135,7 +135,7 @@ function cu_ldap_user_login(&$edit, $account) {
   _set_custom_user_fields($account);
 }
 
-function cu_ldap_cron_task() {
+function cu_ldap_cron() {
   $users = entity_load('user');
 
   foreach ($users as &$account) {
@@ -151,7 +151,7 @@ function cu_ldap_cron_task() {
  * Implements hook_cronapi().
  */
 function cu_ldap_cronapi($op, $job = NULL) {
-  $items['cu_ldap_cron_task'] = array(
+  $items['cu_ldap_cron'] = array(
     'description' => 'Update user realnames and primary affiliation',
     'rule' => '0 0 * */1 *', // “At 00:00 in every month.”
   );

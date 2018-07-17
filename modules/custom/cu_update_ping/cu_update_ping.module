@@ -10,7 +10,7 @@
  * 
  * Send usage stats to Drupal update server once a week.
  */
-function cu_update_ping_cron_task() {
+function cu_update_ping_cron() {
     global $base_url;
 
     // Generate site key to send to drupal.org.
@@ -58,7 +58,7 @@ function cu_update_ping_cron_task() {
    */
   function cu_update_ping_cronapi($op, $job = NULL)
   {
-    $items['cu_update_ping_cron_task'] = array(
+    $items['cu_update_ping_cron'] = array(
       'description' => 'Send usage stats to Drupal update server once a week',
       'rule' => '0 0 * * 0' //“Run this once a week at 00:00 on Sunday.”
     );
