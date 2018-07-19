@@ -31,13 +31,13 @@ The Express profile takes advantage of several service providers that have open 
 
 ### Sauce Labs
 
-Cross-browser testing platform and open source <3 provided by [Sauce Labs](https://saucelabs.com)
+Cross-browser testing platform and open source <3 provided by [Sauce Labs](https://saucelabs.com).
 
 ### Travis CI
 
-Test runner integration provided by [Travis CI](https://travis-ci.org/)
+Test runner integration provided by [Travis CI](https://travis-ci.org/).
 
 ### CodeClimate
 
-Code quality analysis provided by [CodeClimate](https://codeclimate.com/)
+Code quality analysis provided by [CodeClimate](https://codeclimate.com/).
 
