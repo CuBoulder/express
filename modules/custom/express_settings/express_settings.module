@@ -500,7 +500,16 @@ function express_settings_js_alter(&$javascript) {
     }
     return FALSE;
   }, ARRAY_FILTER_USE_BOTH);
-  $js_code = explode(';', array_shift($js_code)['data']);
+
+  $special_chars = [
+    '\u0026#039;' => '\'',
+  ];
+  $js_no_special_chars = array_shift($js_code)['data'];
+  foreach ($special_chars as $char => $replacement) {
+    $js_no_special_chars = str_replace($char, $replacement, $js_no_special_chars);
+  }
+
+  $js_code = explode(';', $js_no_special_chars);
 
   // Initialize arrays so that it can be used in array_filter().
   $ga_create_snippets = [];
