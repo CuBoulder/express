@@ -12,29 +12,31 @@ $tables = array(1,2,3,4,5,6,7,8,9,10);
 if (isset($_SERVER['WWWNG_ENV'])) {
  echo 'old server locations</br>';
  $path_of_site = str_replace('/profiles/express/tests/infrastructure/3_delete_testing_tables.php', '', $_SERVER['REQUEST_URI']);
- $path_to_settings = '/data/web/express' . $path_of_site . '/sites/default/';
+ $path_to_settings = '/data/web/express' . $path_of_site . '/sites/default/settings.local_post.php';
 }
 
 if (isset($_ENV['OSR_ENV'])) {
   echo 'new server locations</br>';
   $path_of_site = str_replace('/profiles/express/tests/infrastructure/3_delete_testing_tables.php', '', $_SERVER['REQUEST_URI']);
- $path_to_settings = '/data/web/htdocs/express' . $path_of_site . '/sites/default/';
+  $path_to_settings = '/data/web/htdocs/express' . $path_of_site . '/sites/default/settings.php';
+  echo $path_to_settings;
 }
 
 // If it isn't the new or old servers, assume it's VALET do development purposes
 if (!isset($path_to_settings)) { 
   echo 'local development locations</br>';
 	$path_of_site = '/' . str_replace('.test', '', $_SERVER['HTTP_HOST']);
-	$path_to_settings = '../../../../../../web' . $path_of_site . '/sites/default/';
+	// Because Valet is stored in the user's dir, we have to use relative paths
+	$path_to_settings = '../../../../../../web' . $path_of_site . '/sites/default/settings.php';
 }
 
 // Check to see what dir we are looking for the settings in
 //print '<pre>';
 //print_r(scandir($path_to_settings));
 
-if (file_exists($path_to_settings . 'settings.php')) {
-  echo 'settings.php found in ' . $path_to_settings . '</br>';
-  require_once($path_to_settings . 'settings.php');
+if (file_exists($path_to_settings)) {
+  echo 'settings.php found at ' . $path_to_settings . '</br>';
+  require_once($path_to_settings);
 }
 
 // set array values from settings.php to variables that are easier to work with
