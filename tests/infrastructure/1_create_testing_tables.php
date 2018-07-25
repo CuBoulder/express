@@ -29,6 +29,10 @@ if (!isset($path_to_settings)) {
 	$path_to_settings = '../../../../../../web' . $path_of_site . '/sites/default/';
 }
 
+// Check to see what dir we are looking for the settings in
+print '<pre>';
+print_r(scandir($path_to_settings));
+
 if (file_exists($path_to_settings . 'settings.php')) {
   echo 'settings.php found in ' . $path_to_settings . '</br>';
   require_once($path_to_settings . 'settings.php');

@@ -26,11 +26,11 @@ if (!isset($path_to_settings)) {
   echo 'local development locations</br>';
 	$path_of_site = '/' . str_replace('.test', '', $_SERVER['HTTP_HOST']);
 	$path_to_settings = '../../../../../../web' . $path_of_site . '/sites/default/';
-	print $path_to_settings;
 }
+
 // Check to see what dir we are looking for the settings in
-print '<pre>';
-print_r(scandir($path_to_settings));
+//print '<pre>';
+//print_r(scandir($path_to_settings));
 
 if (file_exists($path_to_settings . 'settings.php')) {
   echo 'settings.php found in ' . $path_to_settings . '</br>';
