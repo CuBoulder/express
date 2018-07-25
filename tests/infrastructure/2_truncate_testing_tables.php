@@ -12,14 +12,15 @@ $tables = array(1,2,3,4,5,6,7,8,9,10);
 
 if (isset($_SERVER['WWWNG_ENV'])) {
  echo 'old server locations</br>';
- $path_of_site = str_replace('/profiles/express/tests/infrastructure/3_delete_testing_tables.php', '', $_SERVER['REQUEST_URI']);
+ $path_of_site = str_replace('/profiles/express/tests/infrastructure/2_truncate_testing_tables.php', '', $_SERVER['REQUEST_URI']);
  $path_to_settings = '/data/web/express' . $path_of_site . '/sites/default/';
 }
 
 if (isset($_ENV['OSR_ENV'])) {
   echo 'new server locations</br>';
-  $path_of_site = str_replace('/profiles/express/tests/infrastructure/3_delete_testing_tables.php', '', $_SERVER['REQUEST_URI']);
- $path_to_settings = '/data/web/htdocs/express' . $path_of_site . '/sites/default/';
+  $path_of_site = str_replace('/profiles/express/tests/infrastructure/2_truncate_testing_tables.php', '', $_SERVER['REQUEST_URI']);
+  $path_to_settings = '/data/web/htdocs/express' . $path_of_site . '/sites/default/';
+  
 }
 
 // If it isn't the new or old servers, assume it's VALET do development purposes
