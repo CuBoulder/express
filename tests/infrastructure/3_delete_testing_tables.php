@@ -1,4 +1,5 @@
 <?php
+
 $before = microtime(true);
 //set this up so we chould use different sql for each table
 $tables = array(1,2,3,4,5,6,7,8,9,10);
@@ -40,7 +41,7 @@ if (file_exists($path_to_settings)) {
 }
 
 // set array values from settings.php to variables that are easier to work with
-$servername = $databases['default']['default']['host'];
+$servername = $databases['default']['default']['host'] . ':' . $databases['default']['default']['port'];
 $username = $databases['default']['default']['username'];
 $password = $databases['default']['default']['password'];
 $database = $databases['default']['default']['database'];

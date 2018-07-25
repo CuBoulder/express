@@ -41,7 +41,7 @@ if (file_exists($path_to_settings)) {
 }
 
 // set array values from settings.php to variables that are easier to work with
-$servername = $databases['default']['default']['host'];
+$servername = $databases['default']['default']['host'] . ':' . $databases['default']['default']['port'];
 $username = $databases['default']['default']['username'];
 $password = $databases['default']['default']['password'];
 $database = $databases['default']['default']['database'];
