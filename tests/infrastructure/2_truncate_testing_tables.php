@@ -18,7 +18,7 @@ if (isset($_SERVER['WWWNG_ENV'])) {
 
 if (isset($_ENV['OSR_ENV'])) {
   echo 'new server locations</br>';
-  $path_of_site = str_replace('/profiles/express/tests/infrastructure/2_truncate_testing_tables.phpp', '', $_SERVER['REQUEST_URI']);
+  $path_of_site = str_replace('/profiles/express/tests/infrastructure/2_truncate_testing_tables.php', '', $_SERVER['REQUEST_URI']);
   $path_to_settings = '/data/web/htdocs/express' . $path_of_site . '/sites/default/settings.php';
   echo $path_to_settings;
 }
