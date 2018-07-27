@@ -48,14 +48,14 @@ I should be able to create, edit, and delete Basic Pages
   
   #  2) CHECK THAT SIMPLE NODE CAN BE CREATED
   Scenario: Node Functionality - A very basic Basic Page node can be created
-    Given I am logged in as a user with the "site_owner" role
-    And I am on "node/add/page"
-    And fill in "edit-title" with "My Page"
-    And fill in "Body" with "Lorem ipsum dolor sit amet"
-    When I press "edit-submit"
-    Then I should be on "/my-page"
-    And I should see "My Page"
-    And I should see "Lorem ipsum dolor sit amet"
+  Given I am logged in as a user with the "site_owner" role
+  And I am on "node/add/page"
+  And fill in "edit-title" with "My Page"
+  And fill in "Body" with "Lorem ipsum dolor sit amet"
+  When I press "edit-submit"
+  Then I should be on "/my-page"
+  And I should see "My Page"
+  And I should see "Lorem ipsum dolor sit amet"
  
   # 2.1) CHANGE AUTHOR OF THE PAGE NODE
   @javascript
@@ -110,65 +110,65 @@ I should be able to create, edit, and delete Basic Pages
       | site_editor    |
 
   Scenario: Node Access -  EditOnly can edit and revise but not delete node; can clear page cache
-    Given I am logged in as a user with the "edit_only" role
-    And I am on "admin/content"
-    And I follow "My Page"
-    Then I should see the link "View"
-    And I should see the link "Edit"
-    And I should not see the link "Edit Layout"
-    And I should see the link "Revisions"
-    And I should see the link "Clear Page Cache"
-    When I follow "Edit"
-    Then I should see "This document is now locked against simultaneous editing."
-    And I should not see an "#edit-delete" element
-    And I press "Cancel edit"
+  Given I am logged in as a user with the "edit_only" role
+  And I am on "admin/content"
+  And I follow "My Page"
+  Then I should see the link "View"
+  And I should see the link "Edit"
+  And I should not see the link "Edit Layout"
+  And I should see the link "Revisions"
+  And I should see the link "Clear Page Cache"
+  When I follow "Edit"
+  Then I should see "This document is now locked against simultaneous editing."
+  And I should not see an "#edit-delete" element
+  And I press "Cancel edit"
 
   # Page assigned to edit_my_content role is assigned on cu_page.feature:17
   Scenario: Node Access -  EditMyContent can edit Basic Pages and Persons if owner; cannot delete; can clear page cache
-    Given I am logged in as a user with the "edit_my_content" role
-    And I am on "edit-my-content-page"
-    Then I should see the link "View"
-    And I should see the link "Edit"
-    And I should not see the link "Edit Layout"
-    And I should not see the link "Clear Page Cache"
-    When I follow "Edit"
-    # @todo move this to a locked document test or remove as a duplicate.
-    # Then I should see "This document is now locked against simultaneous editing."
-    Then I should not see an "#edit-delete" element
-    When I fill in "Body" with "changing content..."
-    And I press "Save"
-    Then I should see "changing content..."
-    When I follow "Edit"
-    Then I should see the link "Revisions"
+  Given I am logged in as a user with the "edit_my_content" role
+  And I am on "edit-my-content-page"
+  Then I should see the link "View"
+  And I should see the link "Edit"
+  And I should not see the link "Edit Layout"
+  And I should not see the link "Clear Page Cache"
+  When I follow "Edit"
+  # @todo move this to a locked document test or remove as a duplicate.
+  # Then I should see "This document is now locked against simultaneous editing."
+  Then I should not see an "#edit-delete" element
+  When I fill in "Body" with "changing content..."
+  And I press "Save"
+  Then I should see "changing content..."
+  When I follow "Edit"
+  Then I should see the link "Revisions"
 
   # 4) CHECK THAT DELETE BUTTON ACTUALLY WORKS
   Scenario: Verify that the Delete button actually works
-    Given I am logged in as a user with the "site_owner" role
-    And I am on "admin/content"
-    And I follow "My Page"
-    And I follow "Edit"
-    And I press "Delete"
-    Then I should see "Are you sure you want to delete My Page?"
-    And I press "Delete"
-    Then I should see "Basic page My Page has been deleted."
-    And I am on "/"
+  Given I am logged in as a user with the "site_owner" role
+  And I am on "admin/content"
+  And I follow "My Page"
+  And I follow "Edit"
+  And I press "Delete"
+  Then I should see "Are you sure you want to delete My Page?"
+  And I press "Delete"
+  Then I should see "Basic page My Page has been deleted."
+  And I am on "/"
 
   # 5) CHECK MORE COMPLEX NODE CREATION
   Scenario: A graphic can be uploaded to a Basic Page node
-    Given I am logged in as a user with the "site_owner" role
-    And I am on "node/add/page"
-    And fill in "edit-title" with "About Ralphie"
-    And fill in "Body" with "Ralphie the Buffalo is the name of the live mascot of the University of Colorado Buffaloes."
-    And I fill in "edit-field-photo-und-0-alt" with "Ralphie Buffalo with handlers"
-    And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
-    And I press "edit-field-photo-und-0-upload-button"
-    Then I should see "File information"
-    And I should see "ralphie.jpg"
-    And I should see "Insert"
-    And I press "edit-submit"
-    Then I should be on "/about-ralphie"
-    And I should see "About Ralphie"
-    And I should see "Ralphie the Buffalo is the name of the live mascot of the University of Colorado Buffaloes."
+  Given I am logged in as a user with the "site_owner" role
+  And I am on "node/add/page"
+  And fill in "edit-title" with "About Ralphie"
+  And fill in "Body" with "Ralphie the Buffalo is the name of the live mascot of the University of Colorado Buffaloes."
+  And I fill in "edit-field-photo-und-0-alt" with "Ralphie Buffalo with handlers"
+  And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
+  And I press "edit-field-photo-und-0-upload-button"
+  Then I should see "File information"
+  And I should see "ralphie.jpg"
+  And I should see "Insert"
+  And I press "edit-submit"
+  Then I should be on "/about-ralphie"
+  And I should see "About Ralphie"
+  And I should see "Ralphie the Buffalo is the name of the live mascot of the University of Colorado Buffaloes."
 
   Scenario: The provide menu link box should be checked on node creation but remain unchecked if user chooses to uncheck that box.
     Given I am logged in as a user with the "site_owner" role
