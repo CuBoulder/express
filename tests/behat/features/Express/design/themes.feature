@@ -22,7 +22,7 @@ Examples:
 | configuration_manager | "Choose a theme" |
 
 
-Scenario: An anonymous user should not be able to set site name
+Scenario: An anonymous user should not be able to set site theme
 When I go to "admin/theme"
 Then I should see "Access denied"
   
@@ -41,14 +41,16 @@ Scenario: Functionality - All available themes should be available
     And I should see "Swatch"
     And I should see "Tradition"
 
-# @broken
-#Scenario: Functionality - An Admin-level user can change the site theme
-# Given  I am logged in as a user with the "site_owner" role
-# And am on "admin/theme"
-# And I click the ".btn-info" element NEED BETTER SELECTOR
-# Then I should see "Active theme has been set."
+
+Scenario: Functionality - An Admin-level user can change the site theme
+Given I am logged in as a user with the "site_owner" role
+And am on "admin/theme"
+And I click the "a" element with "/admin/theme/active/cuhighlight" for "href"
+Then I should see "Active theme has been set."
+Then I go to "/"
+And the response should contain "cuhighlight/css/highlight-styles"
    
 Scenario: Access - As a site_owner I should not see jquery theme settings
   Given  I am logged in as a user with the "site_owner" role
-    And am on "admin/theme/config/cumodern"
+  And am on "admin/theme/config/cumodern"
   Then I should not see "jQuery Update"
