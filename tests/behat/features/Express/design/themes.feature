@@ -48,8 +48,7 @@ And am on "admin/theme"
 And I click the "a" element with "/admin/theme/active/cuhighlight" for "href"
 Then I should see "Active theme has been set."
 Then I go to "/"
-And print last response
-And the response should contain "cuhighlight/css/highlight-styles"
+And the response should contain "themes/cuhighlight"
    
 Scenario: Access - As a site_owner I should not see jquery theme settings
   Given  I am logged in as a user with the "site_owner" role
