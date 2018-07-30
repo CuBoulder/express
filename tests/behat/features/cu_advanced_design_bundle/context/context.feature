@@ -5,8 +5,8 @@ As an authenticated user
 I should be able to attach graphics to site and page title backgrounds 
 
 @context @contextconditions @exclude_all_bundles
-Scenario Outline: A content_editor should see a limited number of context conditions
-  Given  I am logged in as a user with the "content_editor" role
+Scenario Outline: A Site Owner should see a limited number of context conditions
+  Given  I am logged in as a user with the "site_owner" role
     And am on "admin/structure/context/add"
   When I select <condition> from "edit-conditions-selector"
 
@@ -25,8 +25,8 @@ Scenario Outline: A content_editor should see a limited number of context condit
       | "Sitewide public" |
 
 @context @contextreactions @exclude_all_bundles
-Scenario Outline: A content_editor should see a limited number of context reactions
-  Given  I am logged in as a user with the "content_editor" role
+Scenario Outline: A Site Owner should see a limited number of context reactions
+  Given  I am logged in as a user with the "site_owner" role
     And am on "admin/structure/context/add"
   Then I select <reaction> from "edit-reactions-selector"
 
