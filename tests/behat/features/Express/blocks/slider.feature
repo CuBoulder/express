@@ -32,15 +32,15 @@ Examples:
   Then I should see "Access denied"
   
 # 2) TEST THAT A SIMPLE BLOCK CAN BE CREATED AND REVISED
-Scenario: Block Functionality - A very simple Slider can be created 
+Scenario: Block Functionality - A very simple Slider can be created
  Given I am logged in as a user with the "site_owner" role
-  And I am on "block/add/slider"
-  And fill in "edit-label" with "Slider Label"
-  And fill in "edit-title" with "My Slider Title"
-  And I fill in "edit-field-slider-slide-und-0-field-slider-image-und-0-alt" with "Mountain Fantasy"
-And I attach the file "behatBanner1.jpg" to "edit-field-slider-slide-und-0-field-slider-image-und-0-upload"
+ And I am on "block/add/slider"
+ And fill in "edit-label" with "Slider Label"
+ And fill in "edit-title" with "My Slider Title"
+ And I fill in "edit-field-slider-slide-und-0-field-slider-image-und-0-alt" with "Mountain Fantasy"
+ And I attach the file "behatBanner1.jpg" to "edit-field-slider-slide-und-0-field-slider-image-und-0-upload"
  When I press "edit-submit"
-  Then I should be on "block/slider-label/view"
+ Then I should be on "block/slider-label/view"
  And I should see "My Slider Title"
  
 #  2.5 CREATE REVISIONS TO THE BLOCK ABOVE
