@@ -23,6 +23,7 @@ And I go to "block/learn-more/design"
 And I click the "#edit-icon a.fieldset-title" element
 And I select "fa-apple" from "exbd_icon"
 And I press "edit-submit"
+#YES THE FOLLOWING LINE IS MISSPELLED IN WEB EXPRESS
 Then I should see "Block Desiger settings have been saved."
 
 # CREATE A BASIC PAGE
