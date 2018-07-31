@@ -8,7 +8,7 @@ In order to add visual interest to my site
 As an authenticated user
 I should be able to attach Font Awesome icons to my block titles
 
-@api @javascript
+@javascript
 Scenario: An authenticated user can add an icon to a block title
 Given I am logged in as a user with the "site_owner" role
 
@@ -23,6 +23,7 @@ And I go to "block/learn-more/design"
 And I click the "#edit-icon a.fieldset-title" element
 And I select "fa-apple" from "exbd_icon"
 And I press "edit-submit"
+#YES THE FOLLOWING LINE IS MISSPELLED IN WEB EXPRESS
 Then I should see "Block Desiger settings have been saved."
 
 # CREATE A BASIC PAGE
@@ -39,7 +40,7 @@ And I fill in "edit-name" with "appleicon"
 And I select "path" from "edit-conditions-selector"
 And I fill in "edit-conditions-plugins-path-values" with "about-apples"
 And I select "block" from "edit-reactions-selector"
-And I click the "edit-reactions-plugins-block-selector-text-block a.fieldset-title" element
+And I click the "#edit-reactions-plugins-block-selector-text-block a.fieldset-title" element
 And I check "edit-reactions-plugins-block-selector-text-block-checkboxes-bean-learn-more"
 And I click the ".context-blockform-regionlabel-sidebar_second a" element
 And I press "Save"
