@@ -6,9 +6,10 @@
  */
 function ucb_on_prem_hosting_install() {
   module_disable(array(
+    'memcache',
     'ng_hosting'
   ));
-  drupal_uninstall_modules($module_list = array('ng_hosting'), $uninstall_dependents = FALSE);
+  drupal_uninstall_modules($module_list = array('memcache','ng_hosting'), $uninstall_dependents = FALSE);
 
   // Configure SMTP settings
   // Don't need to worry about uninstall, SMTP module takes care of these variables.
