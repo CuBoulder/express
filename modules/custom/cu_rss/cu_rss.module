@@ -412,5 +412,79 @@ function cu_rss_feed_output($categories = NULL, $tags = NULL) {
   $channel['description'] = 'Feed from ' . variable_get('site_name', '') . ', University of Colorado Boulder';
 
 
-  node_feed($nids, $channel);
+  cu_rss_node_feed($nids, $channel);
+}
+
+/**
+ * Copy of node_feed() core function to add uuid as guid instead of node id.
+ */
+function cu_rss_node_feed($nids = FALSE, $channel = array()) {
+  global $base_url, $language_content;
+  // Get UUIDs
+  $uuids = entity_get_uuid_by_id('node', $nids);
+  if ($nids === FALSE) {
+    $nids = db_select('node', 'n')
+      ->fields('n', array('nid', 'created'))
+      ->condition('n.promote', 1)
+      ->condition('n.status', 1)
+      ->orderBy('n.created', 'DESC')
+      ->range(0, variable_get('feed_default_items', 10))
+      ->addTag('node_access')
+      ->execute()
+      ->fetchCol();
+  }
+
+  $item_length = variable_get('feed_item_length', 'fulltext');
+  $namespaces = array('xmlns:dc' => 'http://purl.org/dc/elements/1.1/');
+
+  // Load all nodes to be rendered.
+  $nodes = node_load_multiple($nids);
+  $items = '';
+  foreach ($nodes as $node) {
+    $item_text = '';
+
+    $node->link = url("node/$node->nid", array('absolute' => TRUE));
+    $node->rss_namespaces = array();
+    $account = user_load($node->uid);
+    $node->rss_elements = array(
+      array('key' => 'pubDate', 'value' => gmdate('r', $node->created)),
+      array('key' => 'dc:creator', 'value' => format_username($account)),
+      array('key' => 'guid', 'value' => $uuids[$node->nid], 'attributes' => array('isPermaLink' => 'false'))
+    );
+
+    // The node gets built and modules add to or modify $node->rss_elements
+    // and $node->rss_namespaces.
+    $build = node_view($node, 'rss');
+    unset($build['#theme']);
+
+    if (!empty($node->rss_namespaces)) {
+      $namespaces = array_merge($namespaces, $node->rss_namespaces);
+    }
+
+    if ($item_length != 'title') {
+      // We render node contents and force links to be last.
+      $build['links']['#weight'] = 1000;
+      $item_text .= drupal_render($build);
+    }
+
+    $items .= format_rss_item($node->title, $node->link, $item_text, $node->rss_elements);
+  }
+
+  $channel_defaults = array(
+    'version'     => '2.0',
+    'title'       => variable_get('site_name', 'Drupal'),
+    'link'        => $base_url,
+    'description' => variable_get('feed_description', ''),
+    'language'    => $language_content->language
+  );
+  $channel_extras = array_diff_key($channel, $channel_defaults);
+  $channel = array_merge($channel_defaults, $channel);
+
+  $output = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
+  $output .= "<rss version=\"" . $channel["version"] . "\" xml:base=\"" . $base_url . "\" " . drupal_attributes($namespaces) . ">\n";
+  $output .= format_rss_channel($channel['title'], $channel['link'], $channel['description'], $items, $channel['language'], $channel_extras);
+  $output .= "</rss>\n";
+
+  drupal_add_http_header('Content-Type', 'application/rss+xml; charset=utf-8');
+  print $output;
 }
