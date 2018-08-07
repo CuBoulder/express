@@ -12,7 +12,7 @@ I should be able to create, edit, and delete a Photo Gallery
   And I am on "node/add/photo-gallery"
   And fill in "edit-title" with "Gallery One"
   And fill in "Body" with "Click to enlarge"
-And I fill in " edit-field-photo-und-0-alt" with " yellow cupcakes with lavender frosting"
+And I fill in "edit-field-photo-und-0-alt" with "yellow cupcakes with lavender frosting"
 And I attach the file "cupcakes.jpg" to "edit-field-photo-und-0-upload"
   When I press "edit-submit"
  Then I should be on "/gallery-one"
