@@ -1,0 +1,19 @@
+name = AutoSlave
+description = Automatically use slave db's for read's.
+core = 7.x
+
+
+
+; Information added by Drupal.org packaging script on 2017-10-13
+version = "7.x-1.16"
+core = "7.x"
+project = "autoslave"
+datestamp = "1507931956"
+
+
+; Information added by Drupal.org packaging script on 2017-10-24
+version = "7.x-1.20"
+core = "7.x"
+project = "autoslave"
+datestamp = "1508860456"
+

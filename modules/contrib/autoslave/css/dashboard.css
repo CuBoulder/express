@@ -1,0 +1,94 @@
+.db-infrastructure {
+  clear: both;
+}
+
+.db-infrastructure .server-status {
+  float: left;
+  margin: 10px;
+  width: 400px;
+}
+
+.db-selectmaster{
+  margin-left: 7.5em;
+}
+
+.db-selectmaster .master-status{
+  float: left;
+  margin: 10px;
+  width: 400px;
+}
+.db-selectmaster table {
+  width: 100%;
+}
+
+.db-infrastructure .server-status .chart {
+  background-color: #eee;
+}
+
+.db-charts {
+  display: inline-block;
+  float: left; width: 100%;
+}
+
+.db-legend {
+  display: inline-block;
+  float: left; width: 7.5em;
+}
+
+.legend {
+  display: inline-block;
+  margin: 0 5px 5px 0;
+  height: 20px;
+  width: 20px;
+}
+
+div.hover table.hover tbody, table.hover tbody {
+  -webkit-box-shadow: inset 0px 0px 30px -2px rgba(51,77,242,0.8);
+  -moz-box-shadow: inset 0px 0px 30px -2px rgba(51,77,242,0.8);
+  box-shadow: inset 0px 0px 30px -2px rgba(51,77,242,0.8);
+}
+.legend.update {
+  background-color: rgb(44, 160, 44);
+}
+
+.legend.insert {
+  background-color: rgb(255, 127, 14);
+}
+
+.legend.select {
+  background-color: rgb(31, 119, 180);
+}
+
+.legend.force {
+  background-color: rgb(44, 160, 44);
+}
+
+.lourd {
+  font-weight: bold !important;
+}
+
+.db-charts-table {
+  margin: 10px 0px 0px;
+}
+
+.db-charts-table th, .db-charts-table td {
+  border: 1px solid;
+  font-size: 1em;
+}
+
+.db-charts .label {
+  font-weight: 800;
+}
+
+.db-charts .db-charts-masteronport {
+  font-size: 0.85em;
+  text-transform: lowercase;
+}
+.db-legend a, div.master-fail {
+  font-weight: 700!important;
+  color: black;
+}
+
+.db-legend a:hover, div.master-fail.hover {
+  text-decoration: underline;
+}

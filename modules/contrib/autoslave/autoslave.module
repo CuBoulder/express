@@ -1,0 +1,1239 @@
+<?php
+
+include_once 'autoslave/defines.inc';
+
+/**
+ * Implements hook_menu().
+ */
+function autoslave_menu() {
+  $items = array();
+  $items['admin/config/system/autoslave'] = array(
+    'title' => 'AutoSlave',
+    'description' => 'AutoSlave settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('autoslave_settings_form'),
+    'access arguments' => array('administer site configuration'),
+  );
+  $items['admin/config/system/autoslave/settings'] = array(
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'title' => 'Settings',
+    'weight' => 1,
+  );
+  $items['admin/config/system/autoslave/dashboard'] = array(
+    'title' => 'Dashboard',
+    'page callback' => 'autoslave_dashboard_page',
+    'description' => 'AutoSlave dashboard',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['autoslave/dashboard'] = array(
+    'title' => 'View autoslave dashboard access bypass with hash key.',
+    'page callback' => 'autoslave_dashboard_page',
+    'description' => 'AutoSlave dashboard',
+    'access callback' => 'user_access',
+    'access arguments' => array('autoslave dashboard hashkey'),
+    'theme callback' => 'variable_get',
+    'theme arguments' => array('admin_theme'),
+    'type' => MENU_LOCAL_TASK,
+  );
+  $items['admin/config/system/autoslave/dashboard/cron'] = array(
+    'page callback' => '__callback_autoslave_dashboard_cron',
+    'description' => 'AutoSlave dashboard cron json callback for ajax',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/autoslave/%/%/invalidate'] = array(
+    'title' => 'Autoslave manual invalidate server',
+    'page callback' => '__callback_autoslave_invalidate_server',
+    'page arguments' => array(2),
+    'description' => 'Autoslave json callback for ajax manual override invalidate server admin/autoslave/serverhost/serverport/invalidate',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/autoslave/%/%/resume'] = array(
+    'title' => 'Autoslave manual resume normal autoslave',
+    'page callback' => '__callback_autoslave_resume_normal_operation',
+    'page arguments' => array(2),
+    'description' => 'Autoslave json callback for ajax manual resume normal autoslave server admin/autoslave/serverhost/serverport/resume',
+    'access callback' => 'user_access',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/config/system/autoslave/status'] = array(
+    'title' => 'Status',
+    'description' => 'AutoSlave status',
+    'page callback' => 'autoslave_status_page',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_TASK
+  );
+  $items['admin/config/system/autoslave/affected-tables'] = array(
+    'title' => 'Affected tables',
+    'description' => 'AutoSlave affected tables',
+    'page callback' => 'autoslave_affected_tables_page',
+    'access arguments' => array('administer site configuration'),
+    'type' => MENU_LOCAL_TASK
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function autoslave_permission() {
+  $permissions['autoslave dashboard hashkey'] = array(
+    'title' => t('View autoslave dashboard when correct hashkey is used'),
+    'description' => t('Allow users to view autoslave dashboard with unique key in URL path'),
+  );
+  return $permissions;
+}
+
+/**
+ * Hook into the autoslave dashboard page, check for perms and hashkey.
+ * @param array $data
+ * @param array $router_item
+ * @param string $root_path
+ */
+function autoslave_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  if ($router_item['page_callback'] == 'autoslave_dashboard_page' && $router_item['theme_callback'] == 'variable_get' &&
+  $router_item['href'] == 'autoslave/dashboard') {
+    if (user_access('autoslave dashboard hashkey')) {
+      if (!_autoslave_dashboard_check_hash() && !user_access('administer site configuration')) {
+        $router_item['access_arguments'] = serialize(array('administer site configuration'));
+        drupal_goto('user', array(), 302);// Incorrect or missing hashkey, redirect to login.
+      }
+    }
+  }
+}
+
+
+/**
+ * Settings form
+ */
+function autoslave_settings_form() {
+  if (!file_exists(DRUPAL_ROOT . '/includes/database/autoslave/database.inc')) {
+    drupal_set_message(t('AutoSlave driver is not installed'), 'error');
+  }
+  elseif (!autoslave_is_driver_loaded()) {
+    drupal_set_message(t('AutoSlave driver is not loaded'), 'warning');
+  }
+  $form['autoslave_assumed_replication_lag'] = array(
+    '#title' => t('Maximum assumed replication lag'),
+    '#description' => t('Time in seconds to use the master db for after issuing a write query. Note: This may cause a session being created for anonymous users and could have impact on reverse proxy caching. NOTE: This is setting is deprecated and should be configured on the autoslave connection in settings.php!'),
+    '#type' => 'textfield',
+    '#default_value' => variable_get('autoslave_assumed_replication_lag', AUTOSLAVE_ASSUMED_REPLICATION_LAG),
+  );
+  $form['autoslave_dashboard_deltas'] = array(
+    '#title' => t('Number of bars to put into the dashboard for each server.'),
+    '#description' => t('The bar graph on /admin/config/system/autoslave assumes by default that you want 30 bars.  If you lower this value to say 20, you will see 20 vertical bars on the graph.  With less deltas the graph could be easier to read however as a tradeoff you will see less data!'),
+    '#type' => 'textfield',
+    '#element_validate' => array('element_validate_integer_positive'),
+    '#default_value' => variable_get('autoslave_dashboard_deltas', 30),
+  );
+  $form['autoslave_debug_mode'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable autoslave debug mode (for more detailed logging in watchdog).'),
+    '#default_value' => variable_get('autoslave_debug_mode', FALSE),
+    '#description' => t('If checked, autoslave debug mode will be enabled.'),
+  );
+  $form['autoslave_dashboard_url_key'] = array(
+    '#type' => 'textfield',
+    '#title' => t('URL hash parameter'),
+    '#default_value' => variable_get('autoslave_dashboard_url_key', 'hash'),
+    '#description' => t('Set the URL parameter for hashed key,
+      for example: http://example.com/admin/config/system/autoslave/dashboard?<strong>hash</strong>=abc...,
+      example.com/admin/config/system/autoslave/dashboard?<strong>key</strong>=abc...'),
+    '#maxlength' => 20,
+    '#size' => 10,
+  );
+
+  return system_settings_form($form);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function autoslave_theme($existing, $type, $theme, $path) {
+  return array(
+    'autoslave_dashboard' => array(
+      'template' => 'autoslave_dashboard',
+      'path' => $path . '/templates',
+    ),
+  );
+}
+
+/**
+ * Page callback, make this ajax available to provide a link on the autoslave_dashboard_page
+ * to trigger autoslave_dashboard_cron path is: admin/config/system/autoslave/status.
+ */
+function __callback_autoslave_dashboard_cron() {
+  __autoslave_dashboard_cron();
+  sleep(1);// Nice wait animation on interface.
+  return drupal_json_output(array('status' => TRUE, 'result' => 'ok'));
+}
+
+function autoslave_dashboard_cron() {
+  __autoslave_dashboard_cron();
+}
+/*
+ * Checks to see if autoslave is using an invalidation file.
+ * returns string path to file or false.
+ */
+function __autoslave_using_invalidation_file() {
+  $invalidation_file_real = '';
+  $autoslave_using_invalidation_file = FALSE;
+  global $databases;
+  foreach ($databases as $key => $targets) {
+    foreach ($targets as $target => $conninfo) {
+      $conninfos = empty($conninfo['driver']) ? $conninfo : array($conninfo);
+      foreach ($conninfos as $conninfo) {
+        if ($conninfo['driver'] != 'autoslave') {
+          continue;
+        }
+        try {
+          $conn = Database::getConnection($target, $key);
+          if (isset($conn->connectionOptions['invalidation path'])) {
+            $invalidation_file = $conn->connectionOptions['invalidation path'] . "/autoslave-invalidation-$key.inc";
+            if (file_exists($invalidation_file)) {
+              $autoslave_using_invalidation_file = TRUE;
+            }
+          }
+          else {
+            $invalidation_file = "public://autoslave-invalidation-$key.inc";
+            if ($wrapper = file_stream_wrapper_get_instance_by_uri($invalidation_file)) {
+              $invalidation_file_real = $wrapper->realpath();
+            }
+            if (file_exists($invalidation_file_real)) {
+              $autoslave_using_invalidation_file = TRUE;
+            }
+          }
+        }
+        catch(Exception $e) {
+          watchdog('autoslave_is_using_invalidation_file','<pre>@e</pre>', array('@e'=> print_r($e,TRUE)));
+        }
+      }
+    }
+  }
+  if ($autoslave_using_invalidation_file) {
+    return $invalidation_file_real;
+  }
+  else {
+    return $autoslave_using_invalidation_file;
+  }
+}
+
+/*
+ * Autoslave json callback for ajax manual override resume normal autoslave operation admin/autoslave/serverhost/serverport/resume.
+ * returns json.
+ */
+function __callback_autoslave_resume_normal_operation() {
+  $server_host = arg(2);
+  if (!isset($server_host)) {
+    return drupal_json_output(array('status' => FALSE, 'result' => t('FAILURE in autoslave_resume_normal_operation() invalid host')), JSON_PRETTY_PRINT);
+  }
+  $server_port = arg(3);
+  if (!isset($server_port) || !is_numeric($server_port)) {
+    return drupal_json_output(array('status' => FALSE, 'result' => t('FAILURE in autoslave_resume_normal_operation() invalid port')), JSON_PRETTY_PRINT);
+  }
+
+  $autoslave_was_using_invalidation_file = FALSE;
+  $invalidation_file_deleted = FALSE;
+  $invalidation_file_real = '';
+  $message = t('Successfully deleted the invalidation file: ');
+  global $databases;
+  foreach ($databases as $key => $targets) {
+    foreach ($targets as $target => $conninfo) {
+      $conninfos = empty($conninfo['driver']) ? $conninfo : array($conninfo);
+      foreach ($conninfos as $conninfo) {
+        if ($conninfo['driver'] != 'autoslave') {
+          continue;
+        }
+        try {
+          $conn = Database::getConnection($target, $key);
+          if (isset($conn->connectionOptions['invalidation path'])) {
+            $invalidation_file = $conn->connectionOptions['invalidation path'] . "/autoslave-invalidation-$key.inc";
+            if (file_exists($invalidation_file)) {
+              $autoslave_was_using_invalidation_file = TRUE;
+            }
+          }
+          else {
+            $invalidation_file = "public://autoslave-invalidation-$key.inc";
+            if ($wrapper = file_stream_wrapper_get_instance_by_uri($invalidation_file)) {
+              $invalidation_file_real = $wrapper->realpath();
+            }
+            if (file_exists($invalidation_file_real)) {
+              $autoslave_was_using_invalidation_file = TRUE;
+            }
+          }
+          if ($autoslave_was_using_invalidation_file) {
+            $conninfo_host = isset($conninfo['host'])? $conninfo['host'] : '';
+            $conninfo_port = isset($conninfo['port'])? $conninfo['port'] : '3306';
+            try {
+              if (empty($conninfo_port)) {
+                $conninfo_port = 3306;
+              }
+              /*
+               * Intentionally using mysqli to run this query to ensure going to the intended database
+               * Database::getConnection is autoslave load balanced,
+               * mysqli connection ensures bypassing autoslave.
+               **/
+              //Not sure yet about automating this start slave , see drupal_set_message below. @TODO review this.
+              //$sdb = new mysqli($server_host, $conninfo['username'], $conninfo['password'], '', $server_port);
+              //$result = $sdb->query("start slave");
+            }
+            catch (Exception $e) {
+              watchdog('autoslave_resume_normal_operation','start slave <pre>@e</pre>', array('@e'=> print_r($e,TRUE),
+                '@host' => $conninfo_host,
+                '@port' => $conninfo_port,
+              ));
+            }
+          }
+        }
+        catch(Exception $e) {
+          watchdog('autoslave_resume_normal_operation','<pre>@e</pre>', array('@e'=> print_r($e,TRUE)));
+        }
+      }
+    }
+  }
+  $elysia_msg = '';
+  if (module_exists('elysia_cron')) {
+    elysia_cron_set_job_disabled('autoslave_cron', FALSE);
+    $elysia_msg = t(" RE-ENABLED ELYSIA CRON FOR autoslave_cron. ");
+  }
+  sleep(3); //Allow server some time to catch up with binary logs before bringing it back in. @TODO review this.
+  if (unlink($invalidation_file_real)) {
+    //Servers all back to default setting in settings.php.
+    $invalidation_file_deleted = TRUE;
+    $message.=$invalidation_file_real;
+    //drupal_set_message(), 'success', TRUE);
+    return drupal_json_output(array('status' => TRUE, 'result' => $message . $elysia_msg .
+    t(" updated for host: @host on port @port.  Make sure you have run 'start slave' on host: @host port: @port", array(
+      '@host' => $server_host,
+      '@port' => $server_port,
+    ))));
+  }
+  else {
+    return drupal_json_output(array('status' => FALSE, 'result' => t('FAILURE in autoslave_resume_normal_operation() not unlinked')));
+  }
+}
+/*
+ * Autoslave json callback for ajax manual override invalidate server admin/autoslave/serverhost/serverport/invalidate.
+ * returns json.
+ */
+function __callback_autoslave_invalidate_server() {
+  $server_host = arg(2);
+  $server_port = arg(3);
+  $invalidation_is_kicked_in = FALSE;
+  // Make t() function calls prior to invalidation, this avoids a 500 error.
+  // A 500 error avoid because this thread db connection will be invalidated
+  // so avoid db access, do it now, avoid immediately after invalidation.
+  $invalidation_failed = t('Autoslave is in default operation mode, invalidation did not kick in.');
+  $invalidation_message = t('Autoslave is in invalidation mode using this file: ');
+  $stop_slave_msg = t(" for host: @host on port @port.  If you're planning server maintenance on host " .
+    "@host port @port down then you now should run 'stop slave'", array(
+      '@host' => $server_host,
+      '@port' => $server_port,
+    ));
+  $elysia_msg = '';
+  if (empty($server_host)) {
+    return drupal_json_output(array('status'=> FALSE, 'data' => $invalidation_failed), JSON_PRETTY_PRINT);
+    drupal_set_message($invalidation_failed . t(" for host: @host on port @port.", array(
+      '@host' => $server_host,
+      '@port' => $server_port,
+    )), 'warning', TRUE);
+  }
+  if (empty($server_port)) {
+    $server_port = 3306; // Default the server port to 3306 when no server port is provided.
+  }
+  if (module_exists('elysia_cron')) {
+    elysia_cron_set_job_disabled('autoslave_cron', TRUE);
+    $elysia_msg = t(" ALSO TEMPORARILY DISABLED ELYSIA CRON FOR autoslave ");
+  }
+  global $databases;
+  foreach ($databases as $key => $targets) {
+    foreach ($targets as $target => $conninfo) {
+      $conninfos = empty($conninfo['driver']) ? $conninfo : array($conninfo);
+      foreach ($conninfos as $conninfo) {
+        if ($conninfo['driver'] != 'autoslave') {
+          continue;
+        }
+        try {
+          $conn = Database::getConnection($target, $key);
+          $pool = $conn->getPool();
+          $invalidation_file = '';
+          foreach ($pool['master'] as $target_master => $masterconninfos) {
+            //if ($conn->determineMasterTarget() == $target_master) {
+              // $conn for to the current live master.
+            //}
+            foreach($masterconninfos as $id => $connection) {
+              if (isset($connection['port']) && isset($connection['host'])) {
+                if ($server_port == $connection['port'] && $server_host == $connection['host']) {
+                  $conn->invalidateConnection($id);
+                }
+              }
+            }
+            foreach ($pool['slave'] as $target_slave => $slaveconninfos) {
+              foreach($slaveconninfos as $id => $connection) {
+                if (isset($connection['port']) && isset($connection['host'])) {
+                  if ($server_port == $connection['port'] && $server_host == $connection['host']) {
+                    $conn->invalidateConnection($id);
+                  }
+                }
+              }
+            }
+          }
+          if (isset($conn->connectionOptions['invalidation path'])) {
+            $invalidation_file = $conn->connectionOptions['invalidation path'] . "/autoslave-invalidation-$key.inc";
+            if (file_exists($invalidation_file)) {
+              $invalidation_is_kicked_in = TRUE;
+              $invalidation_message.= $invalidation_file;
+            }
+          }
+          else {
+            $invalidation_file = "public://autoslave-invalidation-$key.inc";
+            if ($wrapper = file_stream_wrapper_get_instance_by_uri($invalidation_file)) {
+              $invalidation_file_real = $wrapper->realpath();
+            }
+            if (file_exists($invalidation_file_real)) {
+              $invalidation_is_kicked_in = TRUE;
+              $invalidation_message.= $invalidation_file;
+            }
+          }
+        }
+        catch(Exception $e) {
+          watchdog('autoslave_invalidate_server','<pre>@e</pre>', array('@e'=> print_r($e,TRUE)));
+        }
+      }
+    }
+  }
+  if ($invalidation_is_kicked_in) {
+    return drupal_json_output(array('status'=> TRUE, 'data' => $invalidation_message . $elysia_msg .
+     $stop_slave_msg));
+  }
+  else {
+    if (module_exists('elysia_cron')) {
+      elysia_cron_set_job_disabled('autoslave_cron', FALSE);
+    }
+    drupal_set_message($invalidation_failed . t(" for host: @host on port @port.", array(
+     '@host' => $server_host,
+     '@port' => $server_port,
+    )), 'error', TRUE);
+    return drupal_json_output(array('status'=> FALSE, 'data' => $invalidation_failed));
+  }
+}
+
+/**
+ * Local function, see autoslave_cron collect statistics from the mysql;
+ */
+function __autoslave_dashboard_cron() {
+  global $databases;
+  $debug_mode = variable_get('autoslave_debug_mode');
+  $n_select = 0;
+  $n_insert = 0;
+  $n_update = 0;
+  $srv_num = 0;
+  $host_port = array();
+  foreach ($databases as $key => $targets) {
+    foreach ($targets as $target => $conninfo) {
+      $conninfos = empty($conninfo['driver']) ? $conninfo : array($conninfo);
+      foreach ($conninfos as $conninfo) {
+        if ($conninfo['driver'] != 'mysql') {
+          continue;// Skip non-mysql drivers.
+        }
+        $n_select = 0;
+        $n_insert = 0;
+        $n_update = 0;
+        $conninfo_host = isset($conninfo['host'])? $conninfo['host'] : '';
+        $conninfo_port = isset($conninfo['port'])? $conninfo['port'] : '3306';
+        if (empty($conninfo_port)) {
+          $conninfo_port = 3306;
+        }
+        if (empty($conninfo_host) || !isset($conninfo['username'])) {
+          continue;
+        }
+        $hostport_string = $conninfo_port . $conninfo_host;
+        if (in_array($hostport_string, $host_port)) {
+          // This server host and port was previously processed, skipping.
+          continue;
+        }
+        if ($debug_mode) {
+          watchdog('autoslave_cron_debug', "[@key][@target] port = @port host = @host server_num = @srv_num", array(
+            '@key' => $key,
+            '@target' => $target,
+            '@port' => $conninfo_port,
+            '@host' => $conninfo_host,
+            '@srv_num' => $srv_num,
+          ), WATCHDOG_NOTICE);
+        }
+        $host_port[] =  $hostport_string;
+        $test_for_slave = stripos($target, 'slave'); //Tests to see if this target is a 100% slave or not.
+        $srv_num = (isset($conninfo['autoslave_id']) ? $conninfo['autoslave_id'] : $srv_num=$srv_num+1);
+        $sdb = ''; // keep this in scope for this loop.
+        // BEGIN PROCESSING FOR NEW autoslave_server_stats.
+        try
+        {
+          /*
+           * Intentionally changed this query to mysqli from Database::getConnection($target, $key)->query.
+           * Made this change to ensure going to the intended database because
+           * Database::getConnection for target slave occasionally would point to the master
+           * grabbing incorrect statistics and skewing results.  mysqli connection ensures bypassing autoslave.
+           **/
+          $sdb = new mysqli($conninfo_host, $conninfo['username'], $conninfo['password'], '', $conninfo_port);
+          $result = $sdb->query("show global status where Variable_name='Com_select'");
+          if (empty($result)) {
+            $n_select = 0;
+            $n_update = 0;
+            $n_insert = 0;
+            drupal_set_message(t("Insufficient priviledges to run the mysql command \"show global status where Variable_name='Com_select';\"" .
+              ' on server_num @srv_num [@key][@target] at host: @host on port @port.  You must grant the ' .
+              'correct permissions to @user@\'@host\';"', array(
+              '@host' => isset($conninfo['host']) ? $conninfo['host'] : 'host',
+              '@user' => isset($conninfo['username']) ? $conninfo['username'] : 'username',
+              '@key' => $key,
+              '@port' => !empty($conninfo['port']) ? $conninfo['port'] : '3306',
+              '@target' => $target,
+              '@srv_num' =>  $srv_num,
+            )), 'warning', TRUE);
+          }
+          else {
+            $row = $result->fetch_array();
+            $n_select = $row['Value'];
+            $result = $sdb->query("show global status where Variable_name='Com_insert'");
+            $row = $result->fetch_array();
+            $n_insert = $row['Value'];
+            $result = $sdb->query("show global status where Variable_name='Com_update'");
+            $row = $result->fetch_array();
+            $n_update = $row['Value'];
+          }
+        }
+        catch (Exception $e)
+        {
+          // do some logging, error handling...
+          $n_select = 0;
+          watchdog('autoslave_cron', "Error connecting to: [@key][@target] port = @port host = @host", array(
+            '@key' => $key,
+            '@target' => $target,
+            '@port' => $conninfo_port,
+            '@host' => $conninfo_host,
+          ), WATCHDOG_ERROR);
+        }
+        try {
+          $insert_return_code = db_insert('autoslave_server_stats') // Table name no longer needs {}
+          ->fields(array(
+            'server_num' => $srv_num,
+            'n_select' => $n_select,
+            'n_insert' => $n_insert,
+            'n_update' => $n_update,
+            'ts' => date('Y-m-d H:i:s'),
+          ))
+          ->execute();
+        }
+        catch (Exception $e) {
+          watchdog('autoslave_cron', 'Error inserting into table autoslave_server_stats on: [@key][@target]', array(
+            '@key' => $key,
+            '@target' => $target
+          ), WATCHDOG_ERROR);
+        }
+        // END PROCESSING FOR NEW autoslave_server_stats.
+        // BEGIN TRIMMING OLDER autoslave_server_stats.
+        try {
+          // Keep the database trimmed.
+          $number_of_days_to_keep = 4;
+          $del_before = date('Y-m-d H:i:s', time() - $number_of_days_to_keep * 86400);
+          // Drupal 7
+          $num_deleted = db_delete('autoslave_server_stats')
+            ->condition('server_num', $srv_num)
+            ->condition('ts', $del_before, '<')
+            ->execute();
+        }
+        catch (Exception $e) {
+          watchdog('autoslave_cron', 'Error deleting rows from the autoslave_server_stats table on: [@key][@target]', array(
+            '@key' => $key,
+            '@target' => $target
+          ), WATCHDOG_ERROR);
+        }
+        // END TRIMMING OLDER autoslave_server_stats.
+        // BEGIN autoslave_slave_status processing , note this will only get data from slaves.
+        try {
+          db_delete('autoslave_slave_status')
+            ->condition('server_num', $srv_num, '=')
+            ->execute();
+        }
+        catch (Exception $e) {
+          //Do nothing, in this case it's ok, we needed to delete the old $srv_num row, and if there wasn't one already it is ok.
+          watchdog('autoslave_cron', 'Exception message: @e', array('@e' => $e), WATCHDOG_NOTICE);
+        }
+        try {
+          // Update the autoslave_slave_status table.
+          $fields_array = array();
+          if ($test_for_slave !== FALSE) {
+            sleep(2);// Sleep 2 seconds. (mostly because of my lame dev setup (3 mysql servers on same slow vm host different ports).
+          }
+          $bShowSlaveSuccess = FALSE;
+          /*
+           * Intentionally changed this query to mysqli from Database::getConnection($target, $key)->query.
+           * Made this change to ensure going to the intended database because
+           * Database::getConnection for target slave occasionally would point to the master
+           * grabbing information from the incorrect server.  mysqli connection ensures bypassing autoslave.
+           **/
+          $sdb = new mysqli($conninfo_host, $conninfo['username'], $conninfo['password'], '', $conninfo_port);
+          $result = $sdb->query("show slave status");
+          if (empty($result)) {
+            throw new Exception('Need permissions for replication client.');
+          }
+          $row = $result->fetch_array();
+          if (!empty($row)) {
+            $bShowSlaveSuccess = TRUE;
+          }
+          $fields_array = array(
+            'server_num' => $srv_num,
+            'io_state' => substr($row['Slave_IO_State'],0, 256),
+            'master_host' => substr($row['Master_Host'],0, 256),
+            'master_port' => $row['Master_Port'],
+            'master_uuid' => substr($row['Master_UUID'],0, 256),
+            'auto_position' => $row['Auto_Position'],
+            'io_running' => $row['Slave_IO_Running'],
+            'sql_running' => $row['Slave_SQL_Running'],
+            'last_error' => $row['Last_Error'],
+            'last_io_error' => $row['Last_IO_Error'],
+            'last_sql_error' => $row['Last_SQL_Error'],
+            'sql_running_state' => substr("host $conninfo_host port $conninfo_port " . $row['Slave_SQL_Running_State'],0 ,256),
+            'ts' => date('Y-m-d H:i:s'),
+          );
+          if (!$bShowSlaveSuccess) {
+            $text_master_or_slave = 'Master is up and running.';
+            if ($test_for_slave !== FALSE) {
+              $text_master_or_slave = 'Slave is up and running and currently processing the relay logs.';
+            }
+            $fields_array = array(
+              'server_num' => $srv_num,
+              'io_state' => '',
+              'master_host' => isset($conninfo['host']) ? $conninfo['host'] : 'host',
+              'master_port' => '',
+              'master_uuid' => '',
+              'io_running' => '',
+              'sql_running' => '',
+              'last_error' => '',
+              'last_io_error' => '',
+              'last_sql_error' => '',
+              'sql_running_state' => "host $conninfo_host port $conninfo_port " . $text_master_or_slave,
+              'ts' => date('Y-m-d H:i:s'));
+            if ($test_for_slave !== FALSE) {
+              watchdog('autoslave_cron_helper', 'No records found for show slave status on [@key][@target] at server_num @srv_num ' .
+              '@host on port @port appears to be a slave server.  Have you granted REPLICATION CLIENT to the mysql user @user ' .
+              ' to run "show slave status" on: [@key][@target]?', array(
+                '@host' => isset($conninfo['host']) ? $conninfo['host'] : 'host',
+                '@user' => isset($conninfo['username']) ? $conninfo['username'] : 'username',
+                '@key' => $key,
+                '@port' => !empty($conninfo['port']) ? $conninfo['port'] : '3306',
+                '@target' => $target,
+                '@srv_num' =>  $srv_num,
+              ), WATCHDOG_NOTICE);
+            }
+          }
+          $insert_return_code = db_insert('autoslave_slave_status')->fields($fields_array)->execute();
+        }
+        catch (Exception $e) {
+          if ($test_for_slave) {
+            watchdog('autoslave_cron_helper', '(Slave server) Insufficient priviledges to run the mysql command "show slave status;"' .
+              ' on server_num @srv_num [@key][@target] at host: @host on port @port.  You must grant the ' .
+              'correct permissions as follows: "grant REPLICATION CLIENT on *.* to @user@\'@host\';" ' .
+              'server_num ' . $srv_num . ' at host: @host on port @port appears to be a slave server. ' .
+              ' The mysql user @user is probably lacking permissions to run "show slave status" on: ' .
+              '[@key][@target].  Full exception message: @e', array(
+              '@host' => isset($conninfo['host']) ? $conninfo['host'] : 'host',
+              '@user' => isset($conninfo['username']) ? $conninfo['username'] : 'username',
+              '@key' => $key,
+              '@port' => !empty($conninfo['port']) ? $conninfo['port'] : '3306',
+              '@target' => $target,
+              '@srv_num' =>  $srv_num,
+              '@e' => $e,
+            ), WATCHDOG_NOTICE);
+          }
+          else {
+            watchdog('autoslave_cron_helper', '(Master or secondary master. server) You must grant the correct permissions on server_num @srv_num as follows: ' .
+              '"grant REPLICATION CLIENT on *.* to @user@\'@host\';"  the @user is probably lacking permissions for ' .
+              '"show slave status" on: [@key][@target].  Full exception message: @e', array(
+              '@host' => isset($conninfo['host']) ? $conninfo['host'] : 'host',
+              '@user' => isset($conninfo['username']) ? $conninfo['username'] : 'username',
+              '@key' => $key,
+              '@port' => !empty($conninfo['port']) ? $conninfo['port'] : '3306',
+              '@target' => $target,
+              '@srv_num' =>  $srv_num,
+              '@e' => $e,
+            ), WATCHDOG_NOTICE);
+          }
+          drupal_set_message(t('Insufficient priviledges to run the mysql command "show slave status;"' .
+              ' on server_num @srv_num [@key][@target] at host: @host on port @port.  You must grant the ' .
+              'correct permissions as follows: "grant REPLICATION CLIENT on *.* to @user@\'@host\';"', array(
+              '@host' => isset($conninfo['host']) ? $conninfo['host'] : 'host',
+              '@user' => isset($conninfo['username']) ? $conninfo['username'] : 'username',
+              '@key' => $key,
+              '@port' => !empty($conninfo['port']) ? $conninfo['port'] : '3306',
+              '@target' => $target,
+              '@srv_num' =>  $srv_num,
+          )), 'warning', TRUE);
+        }
+        // END autoslave_slave_status processing , note this will only get data from slaves.
+        //grant REPLICATION CLIENT on *.* to user@'host';*/
+      }
+    }
+  }
+}
+
+/**
+ * Implements the dashboard page rendering.
+ */
+function autoslave_dashboard_page() {
+  $asd_formatted_hashlink = NULL; // Pass $asd_full_link to the theme autoslave_dashboard for autoslave_dashboard.tpl.php.
+  $master_host_port = array();//Do master processing only once.
+  if (user_access('administer site configuration')) {
+    $asd_hashkey = _autoslave_dashboard_get_hash_from_hostname();
+    $asd_link = (($_SERVER['HTTPS'] == 'off')? 'http://' : 'https://') . $_SERVER['SERVER_NAME'] .
+    '/autoslave/dashboard?' . variable_get('autoslave_dashboard_url_key', 'hash') . '=' . $asd_hashkey;
+    $asd_link_text = t("You can use !link to view this dashboard without being logged in.", array('!link' => $asd_link));
+    $options['attributes']['title'] = $asd_link_text;
+    $options['query'][variable_get('autoslave_dashboard_url_key', 'hash')] = $asd_hashkey;
+    $asd_formatted_hashlink = l($asd_link_text, '/autoslave/dashboard', $options);
+  }
+  $userAnonymous = user_load(0);
+  if (!user_access('autoslave dashboard hashkey', $userAnonymous)) {
+    drupal_set_message(t('Unauthenticated users do not currently have "View autoslave dashboard when correct hashkey ' .
+    'is used" permission.  Please configure this in /admin/people/permissions'), 'warning', TRUE);
+  }
+  $module_path = drupal_get_path('module', 'autoslave');
+  drupal_add_js($module_path . '/js/dashboard.js');
+  drupal_add_css($module_path . '/css/dashboard.css');
+  //do processing for json, output as a string, pass it to the theme variables.
+  $array_of_servers = array();
+  $array_for_json = array(); // To be used for the autoslave_server_stats array processing.
+  $array_slave_status = array(); // To be used for the autoslave_slave_status array processing.
+  $result_num_servers = db_select('autoslave_server_stats', 'a')
+     ->fields('a', array('server_num'))
+     ->distinct()
+     ->execute()
+     ->fetchAll();
+  $num_servers = count($result_num_servers);
+  foreach ($result_num_servers as $srvnum_server) {
+    //Start the autoslave_server_stats json_data array processing.
+    $srvnum = $srvnum_server->server_num;
+    $array_of_servers[] = $srvnum;
+    $data = array();
+    $number_of_deltas = (int) (variable_get('autoslave_dashboard_deltas', 30) + 1);
+    if (!is_numeric($number_of_deltas)) {
+      $number_of_deltas = 31; // Number of bars = $number_of_deltas -1.
+    }
+    $countResults = db_select('autoslave_server_stats', 'a')
+       ->fields('a', array('server_num', 'n_select', 'n_insert', 'n_update', 'ts'))
+       ->condition('server_num', $srvnum,'=')
+       ->execute()
+       ->fetchAll();
+    $total_number_of_stats = count($countResults);
+    $start_range = $total_number_of_stats-$number_of_deltas;
+    if ($start_range < 0) {
+      $start_range = 0;
+    }
+    $results = db_select('autoslave_server_stats', 'a')
+       ->fields('a', array('server_num', 'n_select', 'n_insert', 'n_update', 'ts'))
+       ->condition('server_num', $srvnum,'=')
+       ->range($start_range, $total_number_of_stats)
+       ->orderBy('ts', 'ASC')
+       ->execute()
+       ->fetchAll();
+    $prev_select = null;
+    $prev_insert = null;
+    $prev_update = null;
+    foreach ($results as $row) {
+      if ($prev_select === null) {
+        $prev_select = $row->n_select;
+        $prev_insert = $row->n_insert;
+        $prev_update = $row->n_update;
+        continue;
+      }
+      $array_for_json[$srvnum][] = array($row->n_select - $prev_select, $row->n_insert - $prev_insert, $row->n_update - $prev_update);
+      $prev_select = $row->n_select;
+      $prev_insert = $row->n_insert;
+      $prev_update = $row->n_update;
+    }
+    //End of the autoslave_server_stats json_data array processing.
+    //Start the autoslave_slave_status status_data array.
+    $results = db_select('autoslave_slave_status', 'a')
+     ->fields('a', array('server_num',
+         'io_state',
+         'master_host',
+         'master_port',
+         'master_uuid',
+         'auto_position',
+         'io_running',
+         'sql_running',
+         'last_error',
+         'last_io_error',
+         'last_sql_error',
+         'sql_running_state',
+     'ts'))
+     ->condition('server_num', $srvnum,'=')
+     ->execute()
+     ->fetchAll();
+    foreach ($results as $row) {
+      $server_status = sprintf("<table class='db-charts-table'><thead><tr><th>Server Number : " .
+      " %d</th><th>Master is : %s <span class='db-charts-masteronport'>on port</span> %s</th></tr></thead>" .
+      "<tbody>" .
+      "<tr><td><span class='label'>IO Running :</span> %s</td><td><span class='label'>SQL Running :</span> %s</td></tr>" .
+      "<tr><td><span class='label'>Master_UUID :</span> %s</td><td><span class='label'>Auto_Position :</span> %s</td></tr>" .
+      "<tr><td colspan='2'><span class='label'>Last Error :</span> %s</td></tr>" .
+      "<tr><td colspan='2'><span class='label'>Last IO Error :</span> %s</td></tr>" .
+      "<tr><td colspan='2'><span class='label'>Last SQL Error :</span> %s</td></tr>" .
+      "<tr><td colspan='2'><span class='label'>SQL Running State :</span> %s</td></tr>" .
+      "<tr><td colspan='2'><span class='label'>Last Updated :</span> %s</td></tr></tbody></table>",
+        $srvnum,
+        $row->master_host,
+        $row->master_port,
+        $row->io_running,
+        $row->sql_running,
+        $row->master_uuid,
+        $row->auto_position,
+        $row->last_error,
+        $row->last_io_error,
+        $row->last_sql_error,
+        $row->sql_running_state,
+        $row->ts
+      );
+      $array_slave_status[$srvnum] = $server_status;
+    }
+    //End the autoslave_slave_status status_data array.
+  }
+  $array_of_masters = array();
+  if (!autoslave_is_driver_loaded()) {
+    //AUTOSLAVE DRIVER IS NOT LOADED.
+    $array_for_json = NULL;
+    $msg = t('autoslave driver is not loaded');
+    $not_available = sprintf("<table class='db-charts-table'><thead><tr><th> %s" .
+    "</th></tr></thead><tbody><tr><td>%s</td></tr></tbody></table>", $msg, $msg, $msg);
+    $array_slave_status = array();
+    $array_slave_status[1] = $not_available;
+    $array_master_status = array();
+    $array_master_status[1] = '';//$not_available;
+    $array_of_servers = array();
+    $array_of_servers[] = 1;
+    $num_servers = 1;
+    $asd_formatted_hashlink = NULL;
+  }
+  else {
+    $array_master_status = __autoslave_master_status();
+    $num_of_masters = count($array_master_status);
+    for ($m = 1; $m <= $num_of_masters; $m++) {
+      $array_of_masters[] = $m;
+    }
+  }
+  if (module_exists('elysia_cron')) {
+    if (elysia_cron_is_job_disabled('autoslave_cron')) {
+      drupal_set_message(t("The elysia_cron module is enabled, the 'autoslave_cron' job is 'PAUSED'. " .
+       "This is to prevent autoslave from overriding your manual invalidation because normally autoslave_cron " .
+       "will test your server connections and automatically bring them back into load.  Normally this is what " .
+       "you want however in a manual override you are probably doing maintenance on your server and don't" .
+       " want it to be hit.  The 'autoslave_cron' job will be UN-PAUSED when you resume normal operation." .
+       "If you are planning server maintenance on the invalidated server now would be a good time to run" .
+       " 'stop slave' on that host."),
+      'warning', TRUE);
+    }
+  }
+  return theme('autoslave_dashboard', array('json_data' => json_encode($array_for_json, JSON_PRETTY_PRINT),
+    'json_slave_status' => json_encode($array_slave_status, JSON_PRETTY_PRINT),
+    'json_master_status' => json_encode($array_master_status, JSON_PRETTY_PRINT),
+    'json_servers' => json_encode($array_of_servers, JSON_PRETTY_PRINT),
+    'json_masters' => json_encode($array_of_masters, JSON_PRETTY_PRINT),
+    'num_servers' => $num_servers,
+    'num_masters' => count($array_master_status),
+    'hashkey_link' => $asd_formatted_hashlink,
+    'wait_div' => __theme_wait_link()
+    // Variables go here, you can add more variables like json_data.
+    // These variables are used in templates/autoslave_dashboard.tpl.php.
+  ));
+}
+
+function __theme_wait_link() {
+  return sprintf("<div id='wait' style='display:none;width:265px;height:265px;border:0px solid black;" .
+      "position:absolute;top:40%%;left:40%%;padding:2px;'><img id='spinner' src='/%s/wait.gif' width='256'" .
+      "height='256' /><br>%s</div>",
+        drupal_get_path('module', 'autoslave'),
+        t('Loading ...')
+      );
+}
+function __autoslave_master_status() {
+
+  global $databases;
+  $output = '';
+  $master_num_serv = 0;
+  $some_invalidation_is_kicked_in = FALSE;
+  foreach ($databases as $key => $targets) {
+    foreach ($targets as $target => $conninfo) {
+      $conninfos = empty($conninfo['driver']) ? $conninfo : array($conninfo);
+      foreach ($conninfos as $conninfo) {
+        if ($conninfo['driver'] != 'autoslave') {
+          continue;
+        }
+        $output .= "<h2>[$key][$target]</h2>";
+        try {
+          $conn = Database::getConnection($target, $key);
+          $pool = $conn->getPool();
+          $invalidation_file = '';
+          $invalidation_message = t('Autoslave is in default operation mode');
+          if (isset($conn->connectionOptions['invalidation path'])) {
+            $invalidation_file = $conn->connectionOptions['invalidation path'] . "/autoslave-invalidation-$key.inc";
+            if (file_exists($invalidation_file)) {
+              $some_invalidation_is_kicked_in = TRUE;
+              $invalidation_message = t('Invalidation mode enabled with @filepath', array('@filepath' => $invalidation_file));
+            }
+          }
+          else {
+            $invalidation_file = "public://autoslave-invalidation-$key.inc";
+            if ($wrapper = file_stream_wrapper_get_instance_by_uri($invalidation_file)) {
+              $invalidation_file_real = $wrapper->realpath();
+            }
+            if (file_exists($invalidation_file_real)) {
+              $some_invalidation_is_kicked_in = TRUE;
+              $invalidation_message = t('Invalidation mode enabled with @filepath', array('@filepath' => $invalidation_file_real));
+            }
+          }
+          foreach ($pool['master'] as $target_master => $conninfos) {
+            if ($conn->determineMasterTarget() == $target_master) {
+              $target_master_info = '<strong>' . $target_master . '</strong>';
+              $master_num_serv++;
+              //watchdog('autoslave_DEBUG_MASTER','<pre>@conninfos</pre>', array('@conninfos'=> print_r($conninfos, TRUE)));
+              $master_host = isset($conninfos[$master_num_serv]['host']) ? $conninfos[$master_num_serv]['host'] : t('Error reading hostname');
+              $master_port = isset($conninfos[$master_num_serv]['port']) ? $conninfos[$master_num_serv]['port'] : 3306;
+              $server_status = sprintf("<table data-autoslave-invalidation='%d' data-target-master='%s' data-target-host='%s' data-target-port='%s' class='db-charts-table is-master'><thead><tr><th>%s at host %s port %s" .
+                "<span class='db-charts-masteronport'></span></th></tr></thead>" .
+                "<tbody><tr><td><span class='label'><strong>Currently live as a master (autoslave valid).</strong></span></td></tr><tr><td><span class='label'>" .
+                "Key: %s Target: %s <br>Pool: Master</span></td></tr><tr><td><span class='label'>%s</span></td></tr>",
+                 $some_invalidation_is_kicked_in, $target_master, $master_host, $master_port, $target_master, $master_host, $master_port, $key, $target, $invalidation_message
+              );
+            }
+            else if ($conn->determineMasterTarget() != $target_master) {
+              $target_master_info = '<strong>' . $target_master . '</strong>';
+              $master_num_serv++;
+              $autoslave_status_for_server = 0;
+              $server_status_message = t('currently disabled (autoslave invalid).');
+              if (isset($conninfos[$master_num_serv]['status'])) {
+                $autoslave_status_for_server = $conninfos[$master_num_serv]['status'];
+              }
+              if ($autoslave_status_for_server || !$some_invalidation_is_kicked_in) {
+                $server_status_message = t('currently enabled (autoslave valid) but not live as a master.');
+              }
+              else {
+                $autoslave_status_for_server = 0;
+              }
+              //watchdog('autoslave_DEBUG_TEMPORARY','<pre>@conninfos</pre>', array('@conninfos'=> print_r($conninfos, TRUE)));
+              $master_host = isset($conninfos[$master_num_serv]['host']) ? $conninfos[$master_num_serv]['host'] : t('Error reading hostname');
+              $master_port = isset($conninfos[$master_num_serv]['port']) ? $conninfos[$master_num_serv]['port'] : 3306;
+              $server_status = sprintf("<table data-autoslave-invalidation='%d' data-target-master='%s' data-target-host='%s' data-target-port='%s' class='db-charts-table is-slave'><thead><tr><th>%s at host %s port %s" .
+                "<span class='db-charts-masteronport'></span></th></tr></thead>" .
+                "<tbody><tr><td><span class='label'><strong>Server is %s</strong></span></td></tr><tr><td><span class='label'>" .
+                "Key: %s Target: %s <br>Pool: Master</span></td></tr><tr><td><span class='label'>%s</span></td></tr>",
+                 $some_invalidation_is_kicked_in, $target_master, $master_host, $master_port, $target_master, $master_host, $master_port, $server_status_message, $key, $target, $invalidation_message
+              );
+            }
+            $array_master_status[$master_num_serv] = $server_status;
+          }
+        }
+        catch (Exception $e) {
+          drupal_set_message(t('Error connecting to: [@key][@target]', array(
+            '@key' => $key,
+            '@target' => $target
+          )), 'error');
+        }
+      }
+    }
+  }
+
+  return $array_master_status;
+}
+/**
+ * Status page for all autoslave setups
+ */
+function autoslave_status_page() {
+  if (!file_exists(DRUPAL_ROOT . '/includes/database/autoslave/database.inc')) {
+    drupal_set_message(t('AutoSlave driver is not installed'), 'error');
+    return '';
+  }
+  if (!autoslave_is_driver_loaded()) {
+    drupal_set_message(t('AutoSlave driver is not loaded'), 'warning');
+  }
+
+  // Load .install files
+  include_once DRUPAL_ROOT . '/includes/install.inc';
+  $tasks = db_installer_object('autoslave');
+
+  global $databases;
+  $output = '';
+  foreach ($databases as $key => $targets) {
+    foreach ($targets as $target => $conninfo) {
+      $conninfos = empty($conninfo['driver']) ? $conninfo : array($conninfo);
+      foreach ($conninfos as $conninfo) {
+        if ($conninfo['driver'] != 'autoslave') {
+          continue;
+        }
+        $output .= "<h2>[$key][$target]</h2>";
+        try {
+          $output .= $tasks->connectionStatusTable(Database::getConnection($target, $key));
+        }
+        catch (Exception $e) {
+          drupal_set_message(t('Error connecting to: [@key][@target]', array(
+            '@key' => $key,
+            '@target' => $target
+          )), 'error');
+        }
+        $output .= '<br>';
+      }
+    }
+  }
+
+  return $output;
+}
+
+/**
+ * Status page for the affected tables
+ */
+function autoslave_affected_tables_page() {
+  if (!file_exists(DRUPAL_ROOT . '/includes/database/autoslave/database.inc')) {
+    drupal_set_message(t('AutoSlave driver is not installed'), 'error');
+  }
+  elseif (!autoslave_is_driver_loaded()) {
+    drupal_set_message(t('AutoSlave driver is not loaded'), 'warning');
+  }
+
+  $active = array();
+  $inactive = array();
+  global $databases;
+  foreach ($databases as $key => $targets) {
+    foreach ($targets as $target => $conninfos) {
+      if (isset($conninfos['driver'])) {
+        $conninfos = array($conninfos);
+      }
+      foreach ($conninfos as $conninfo) {
+        if ($conninfo['driver'] !== 'autoslave' || (isset($conninfo['global replication lag']) && !$conninfo['global replication lag'])) {
+          continue;
+        }
+        try {
+          $tables = Database::getConnection($target, $key)->getAffectedTables(time());
+          foreach ($tables as $row) {
+            $desc = t('expires in @expires_in seconds', array('@expires_in' => $row['expires'] - time()));
+            $row['expires'] = date('Y-m-d H:i:s', $row['expires']) . " ($desc)";
+
+            $desc = t('invalidated @age seconds ago', array('@age' => time() - $row['invalidated']));
+            $row['invalidated'] = date('Y-m-d H:i:s', $row['invalidated']) . " ($desc)";
+
+            $active[$row['db_key'] . ':' . $row['db_target'] . ':' . $row['affected_table']] = array(
+              'key' => $row['db_key'],
+              'target' => $row['db_target'],
+              'table' => $row['affected_table'],
+              'invalidated' => $row['invalidated'],
+              'expires' => $row['expires'],
+              'in_sync' => isset($row['wcnt1_slave']) ? ($row['wcnt1_slave'] === $row['wcnt1'] ? t('Yes') : t('No')) : t('N/A'),
+            );
+          }
+        }
+        catch (Exception $e) {
+          drupal_set_message(t('Error connecting to: [@key][@target]', array(
+            '@key' => $conninfo['key'],
+            '@target' => $conninfo['target']
+          )), 'error');
+        }
+      }
+    }
+  }
+
+  $output = '';
+  $header = array('Key', 'Target', 'Table', 'Invalidated', 'Expires', 'In sync.');
+  $output .= "<h2>Active</h2>";
+  $output .= theme('table', array('header' => $header, 'rows' => $active));
+
+  return $output;
+}
+
+
+/**
+ * Implements hook_cron().
+ * Check invalidated connections and update their status.
+ */
+function autoslave_cron() {
+  __autoslave_dashboard_cron();
+  global $databases;
+  foreach ($databases as $key => $targets) {
+    foreach ($targets as $target => $conninfo) {
+      $conninfos = empty($conninfo['driver']) ? $conninfo : array($conninfo);
+      foreach ($conninfos as $conninfo) {
+        if ($conninfo['driver'] != 'autoslave') {
+          continue;
+        }
+        $conn = Database::getConnection($target, $key);
+        if ($conn->driver() != 'autoslave') {
+          continue;
+        }
+
+        $pool = $conn->getPool();
+        foreach ($pool['all'] as $id => $conninfo) {
+          if ($conninfo['driver'] == 'autoslave') {
+            continue;
+          }
+          if (isset($conninfo['status']) && $conninfo['status'] === FALSE) {
+            $status = $conn->checkConnection($id);
+            $dsn = $conninfo['driver'] . '://' . $conninfo['host'];
+            if ($status === TRUE || $status === FALSE) {
+              watchdog('autoslave', "!dsn is up again!", array('!dsn' => $dsn), WATCHDOG_NOTICE);
+              $conn->updateInvalidationFile($conninfo['key'], $conninfo['target'], $conninfo['idx'], TRUE);
+            }
+            else {
+              watchdog('autoslave', "!dsn is still down: !status", array('!dsn' => $dsn, '!status' => $status->getMessage()), WATCHDOG_ERROR);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+function autoslave_is_driver_loaded() {
+  return Database::getConnection('default', 'default')->driver() === 'autoslave';
+}
+
+/**
+ * Implements hook_batch_alter().
+ *
+ * SimpleTest renames/copies the default connection. This will fail with the AutoSlave
+ * driver. If a simpletest is about to run switch very hard to the master!
+ */
+function autoslave_batch_alter(&$batch) {
+  // It's not necessary to do anything, if AutoSlave driver is not loaded
+  if (!autoslave_is_driver_loaded()) {
+    return;
+  }
+
+  // Make sure we wrap the simpletest batch operation, so that we may
+  // switch to the master permanently
+  foreach ($batch['sets'] as &$set) {
+    if (!empty($set['operations'])) {
+      foreach ($set['operations'] as &$operation) {
+        // This is a simpletest batch operation. Hijack it, so that
+        // we may perform a hard switch to the master before it runs.
+        if ($operation[0] == '_simpletest_batch_operation') {
+          $operation = array('_autoslave_batch_operation', $operation);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Wrapper for simpletest batch operations.
+ * Make sure that the master is defined as the 'default' target, otherwise
+ * simpletest won't make it ...
+ */
+function _autoslave_batch_operation($callback, $args, &$context) {
+  $connection = Database::getConnection();
+  if ($connection->driver() == 'autoslave') {
+    $connection->hardSwitch();
+  }
+  $args[] = &$context;
+  call_user_func_array($callback, $args);
+}
+
+/**
+ * Check whether a hash is present in the current URL, and if so, verify
+ * that the hash is correct.
+ *
+ * @return boolean
+ *   TRUE if the hash is present and correct, otherwise FALSE.
+ */
+function _autoslave_dashboard_check_hash() {
+  $asd_url_key = variable_get('autoslave_dashboard_url_key', 'hash');
+
+  // Check hash key in url.
+  $url_query = drupal_get_query_parameters();
+  if (isset($url_query[$asd_url_key])) {
+    $url_hash = $url_query[$asd_url_key];
+
+    // Generate reference hash.
+    $hash = _autoslave_dashboard_get_hash_from_hostname();
+
+    // Check hash match and return access state.
+    if ($url_hash == $hash) {
+      return TRUE;
+    }
+  }
+}
+
+/**
+ * Implements hook_query_TAG_alter().
+ */
+function autoslave_query_autoslave_alter($query) {
+  if (!$query instanceOf SelectQueryInterface) {
+    return;
+  }
+  list($target, $key) = $query->getMetaData('autoslave_connection');
+  $autoslave = Database::getConnection($target, $key);
+
+  // Determine master/slave based on intersection of $query->getTables() and $connection->getInternalAffectedTables()
+  $tables = $autoslave->findTablesInQuery($query);
+  $connection = array_intersect($tables, $autoslave->getInternalAffectedTables()) ? $autoslave->getMasterConnection() : $autoslave->getSlaveConnection();
+
+  $autoslave->changeQueryConnection($query, $connection);
+}
+
+/**
+ * Implements hook_library_alter() to put newer jQuery on the autoslave dashboard page.
+ */
+function autoslave_library_alter(&$javascript, $module) {
+  if (module_exists('jquery_update')) {
+    if ($module === 'system' && arg(0) == 'admin' && arg(1) == 'autoslave' && arg(2) == 'dashboard') {
+      // Make sure we inject either the minified or uncompressed version as desired.
+      $min = variable_get('jquery_update_compression_type', 'min') == 'none' ? '' : '.min';
+      $cdn = variable_get('jquery_update_jquery_cdn', 'none');
+      $path = drupal_get_path('module', 'jquery_update');
+      $version = '1.8';
+      jquery_update_jquery_replace($javascript, $cdn, $path, $min, $version);
+    }
+  }
+}
+
+/**
+ * Generate hash from node ID.
+ *
+ * @param int $nid
+ *   Node ID, nid.
+ *
+ * @return string
+ *   Base-64 encoded, URL-safe sha-256 hash based on node ID.
+ */
+function _autoslave_dashboard_get_hash_from_hostname() {
+  $hostname = $_SERVER['SERVER_NAME'];
+  return drupal_hash_base64(drupal_get_private_key() . $hostname);
+}
+
+/**
+ * Implements hook_book().
+ * Dummy implementation for ensuring early module load
+ */
+function autoslave_boot() {
+}
+
+/**
+ * Implements hook_exit().
+ */
+function autoslave_exit($destination = NULL) {
+  $conn = Database::getConnection();
+  // If default connection is an autoslave driver, then we check if we should reset the
+  // "ignore_slave_server" session var to a more reasonable value.
+  // We always use float ourselves, so if "ignore_slave_server" is not a float, then
+  // someone else must have set it.
+  if (
+    $conn->driver() == 'autoslave' &&
+    isset($_SESSION['ignore_slave_server']) &&
+    !is_float($_SESSION['ignore_slave_server']) &&
+    $conn->max_expires
+  ) {
+    $_SESSION['ignore_slave_server'] = (float)($conn->max_expires + $conn->getReplicationLag());
+  }
+}
