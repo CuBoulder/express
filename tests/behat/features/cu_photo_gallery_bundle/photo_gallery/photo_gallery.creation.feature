@@ -1,10 +1,8 @@
-
 @PhotoGallery
 Feature: Photo Gallery Bundle
 When I login to a Web Express website
 As an authenticated user
 I should be able to create, edit, and delete a Photo Gallery
-
 
 # 2) TEST THAT A SIMPLE PHOTO GALLERY CAN BE CREATED AND REVISED
  Scenario: Node Functionality - A very simple Photo Gallery can be created 
