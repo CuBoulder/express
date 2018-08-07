@@ -7,8 +7,8 @@ I should be able to create, edit, and delete a Photo Gallery
 # 2) TEST THAT A SIMPLE PHOTO GALLERY CAN BE CREATED AND REVISED
  Scenario: Node Functionality - A very simple Photo Gallery can be created 
  Given I am logged in as a user with the "site_owner" role
-  And I am on "node/add/photo-gallery"
-  And fill in "edit-title" with "Gallery One"
+And I am on "node/add/photo-gallery"
+ And fill in "edit-title" with "Gallery One"
   And fill in "Body" with "Click to enlarge"
 And I fill in "edit-field-photo-und-0-alt" with "yellow cupcakes with lavender frosting"
 And I attach the file "cupcakes.jpg" to "edit-field-photo-und-0-upload"
@@ -24,17 +24,16 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
 And I follow "Gallery One"
 And I follow "Edit"
- # BROKEN AT THIS TIME And fill in "edit-name" with "osr-test-edit-own" 
+And I fill in "edit-field-photo-und-1-alt" with "Ralphie and handlers"
+And I attach the file "ralphie.jp" to "edit-field-photo-und-1-upload"
   And fill in "Body" with "Enjoy our Pics"
  And I press "Save"
- Then I should see " Photo Gallery Gallery One has been updated."
+ Then I should see "Photo Gallery Gallery One has been updated."
   And I should see the link "Revisions"
+  And the response should contain "alt=\"Ralphie and handlers\""
 
 
-
-  # @todo This test fails on Travis after upload around wait step.
-  @javascript @files @broken
-  Scenario: Create a basic photo gallery.
+Scenario: Create a basic photo gallery.
     Given  I am logged in as a user with the "content_editor" role
       And I am on "node/add/photo-gallery"
       And I fill in "edit-title" with "Test Photo Gallery"
