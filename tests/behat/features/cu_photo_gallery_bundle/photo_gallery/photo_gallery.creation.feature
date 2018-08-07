@@ -4,73 +4,62 @@ When I login to a Web Express website
 As an authenticated user
 I should be able to create, edit, and delete a Photo Gallery
 
-# 2) TEST THAT A SIMPLE PHOTO GALLERY CAN BE CREATED AND REVISED
- Scenario: Node Functionality - A very simple Photo Gallery can be created 
- Given I am logged in as a user with the "site_owner" role
+# 2) TEST THAT A SIMPLE PHOTO GALLERY CAN BE CREATED
+Scenario: Node Functionality - A very simple Photo Gallery can be created 
+Given I am logged in as a user with the "site_owner" role
 And I am on "node/add/photo-gallery"
- And fill in "edit-title" with "Gallery One"
-  And fill in "Body" with "Click to enlarge"
+And fill in "edit-title" with "My Photos"
+And fill in "Body" with "Click to enlarge"
 And I fill in "edit-field-photo-und-0-alt" with "yellow cupcakes with lavender frosting"
 And I attach the file "cupcakes.jpg" to "edit-field-photo-und-0-upload"
-  When I press "edit-submit"
- Then I should be on "/gallery-one"
- And I should see "Gallery One"
+And I press "Upload"
+# And I wait for the ".form-item-field-photo-und-1" element to appear
+And I wait 5 seconds
+Then I check "edit-menu-enabled"
+And I fill in "edit-menu-link-title" with "Photos Link"
+And I press "Save"
+Then I should be on "/my-photos"
+And I should see "Photos Link"
+And I should see "My Photos"
 And I should see "Click to enlarge"
-And the response should contain "alt=\"yellow cupcakes with lavender frosting\""
+And the response should contain "class=\"colorbox\""
 
 #  2.5 CREATE REVISIONS TO THE NEW NODE
-Scenario: Node functionality - Create Revision of Photo Gallery node
+Scenario: Node functionality - Create Revision of Photo Gallery node by adding new photo
 Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
-And I follow "Gallery One"
+And I follow "My Photos"
 And I follow "Edit"
 And I fill in "edit-field-photo-und-1-alt" with "Ralphie and handlers"
-And I attach the file "ralphie.jp" to "edit-field-photo-und-1-upload"
-  And fill in "Body" with "Enjoy our Pics"
- And I press "Save"
- Then I should see "Photo Gallery Gallery One has been updated."
-  And I should see the link "Revisions"
-  And the response should contain "alt=\"Ralphie and handlers\""
+And I attach the file "ralphie.jpg" to "edit-field-photo-und-1-upload"
+And I press "Save"
+Then I should see "Photo Gallery My Photos has been updated."
+And I should see the link "Revisions"
+And the response should contain "alt=\"Ralphie and handlers\""
+
+Scenario: Create a basic photo gallery with three photos
+  Given  I am logged in as a user with the "site_editor" role
+  And I am on "node/add/photo-gallery"
+  And I fill in "edit-title" with "Test Photo Gallery"
+  And I fill in "edit-field-photo-und-0-alt" with "Ralphie Alt Text"
+  And I fill in "edit-field-photo-und-0-title" with "Ralphie Title Text"
+  And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
+  And I press "Upload"
+  And I wait 5 seconds
+  And I fill in "edit-field-photo-und-1-alt" with "Cupcakes Alt Text"
+  And I fill in "edit-field-photo-und-1-title" with "Cupcakes Title Text"
+  And I attach the file "cupcakes.jpg" to "edit-field-photo-und-1-upload"
+  And I press "Upload"
+  And I wait 5 seconds
+  And I fill in "edit-field-photo-und-2-alt" with "Fantasy Mtns Alt Text"
+  And I fill in "edit-field-photo-und-2-title" with "Fantasy Mtns Title Text"
+  And I attach the file "behatBanner1.jpg" to "edit-field-photo-und-2-upload"
+  And I press "Upload"
+  And I press "Save"
+  Then I should see "Photo Gallery Test Photo Gallery has been created."
+  And the response should contain "class=\"colorbox\""
 
 
-Scenario: Create a basic photo gallery.
-    Given  I am logged in as a user with the "content_editor" role
-      And I am on "node/add/photo-gallery"
-      And I fill in "edit-title" with "Test Photo Gallery"
-      And I fill in "edit-field-photo-und-0-alt" with "alt one"
-      And I fill in "edit-field-photo-und-0-title" with "title one"
-      And I attach the file "ralphie.jpg" to "edit-field-photo-und-0-upload"
-      And I press "Upload"
-      And I wait 5 seconds
-      And I fill in "edit-field-photo-und-1-alt" with "alt two"
-      And I fill in "edit-field-photo-und-1-title" with "title two"
-      And I attach the file "ralphie.jpg" to "edit-field-photo-und-1-upload"
-      And I press "Upload"
-      And I press "Save"
-    Then I should see "Photo Gallery Test Photo Gallery has been created."
-    When I click the "img" element with "alt one" for "alt"
-      And I wait 5 seconds
-    Then I should see "alt one"
-    When I click the "#cboxNext" element
-    Then I should see "alt two"
-    When I click the "#cboxClose" element
-    Then I should see "Test Photo Gallery"
-
- @broken
- Scenario Outline: All users should be able to view a photo gallery node.
-    Given  I am logged in as a user with the <role> role
-      And I create a "photo_gallery" node with the title "New Gallery"
-    Then I should see <message>
-
-    Examples:
-      | role            | message        |
-      | content_editor  | "New Gallery"  |
-      | site_owner      | "New Gallery"  |
-      | administrator   | "New Gallery"  |
-      | developer       | "New Gallery"  |
-      | edit_my_content | "New Gallery"  |
-      
-@node_creation @broken
-  Scenario: An anonymous user should be able to view Photo Gallery content.
-      And I create a "photo_gallery" node with the title "New Gallery"
-    Then I should see "New Gallery"
+Scenario: An anonymous user should be able to view Photo Gallery content.
+Given I am on "/my-photos"
+Then I should see "My Photos"
