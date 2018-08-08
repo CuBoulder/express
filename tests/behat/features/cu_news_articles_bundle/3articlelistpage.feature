@@ -26,18 +26,14 @@ I should be able to create, edit, and delete Article List Page content
     When I am on "node/add/article-list-page"
     Then I should see "Access denied"
     
-
- Scenario: The Provide Menu Link box should be checked on node creation but remain unchecked if unchecked.
-    Given I am logged in as a user with the "site_owner" role
-    When I go to "node/add/article-list-page"
-      And  I fill in "edit-title" with "News Page"
-    And the "edit-menu-enabled" checkbox should be checked
+ Scenario: A Simple Article List page display all articles created
+Given I am logged in as a user with the "site_owner" role
+When I go to "node/add/article-list-page"
+And  I fill in "edit-title" with "News Page"
 And I press "Save"
-      Then I should see "News Page"
-      And I should see "Lunch is served at the Center for Community"
+Then I should see "News Page"
+And I should see "Lunch is served at the Center for Community"
     
-
-  
     Scenario: The Article List Page provides several display/format types
     Given I am logged in as a user with the "site_owner" role
     And am on "node/add/article-list-page"
