@@ -35,11 +35,4 @@ Then I should see "News Page"
 And I should see "An article about Ralphie"
 And I should see "Lunch is served at the Center for Community"
     
-    Scenario: The Article List Page provides several display/format types
-    Given I am logged in as a user with the "site_owner" role
-    And am on "node/add/article-list-page"
-   # And I click the ".group-people-list-display.field-group-fieldset a.fieldset-title" element
-  #  And I select "Table" from "edit-field-people-list-display-und"
-  #  And I select "Grid" from "edit-field-people-list-display-und"
-  #  And I select "List" from "edit-field-people-list-display-und"
-    
+   
