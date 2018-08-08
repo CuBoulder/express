@@ -35,7 +35,7 @@ Examples:
 And I should see "Enjoy many lucious desserts"
  
 #  2.5 CREATE REVISIONS TO THE NEW NODE
-Scenario: Node functionality - Create Revision of node
+Scenario: Node functionality - Create node revision by adding graphics
 Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
 And I follow "Lunch is served at the Center for Community"
@@ -49,8 +49,8 @@ And I attach the file "cupcakes.jpg" to "edit-field-article-thumbnail-und-0-uplo
   And I should see the link "Revisions"
 
 
-# 5) TEST MORE COMPLEX NODE CREATION
-Scenario: Node Functionality Tagging an article creates a Taxonomy Term and an Article List Page
+TEST MORE COMPLEX NODE CREATION
+Scenario: Node Functionality - Tagging an article creates a Taxonomy Term and an Article List Page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/article"
   And fill in "edit-title" with "An article about Ralphie"
@@ -65,7 +65,7 @@ And I attach the file "ralphie.jpg" to "edit-field-article-thumbnail-und-0-uploa
   And I should see "An Article List Page has been created"
   When I go to "admin/content"
   Then I should see "Ralphie"
- When I am on "/ralphie"
+ When I go to "/ralphie"
  Then I should see "An article about Ralphie"
  And I should not see "Lunch is served at the Center for Community"
  
