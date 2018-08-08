@@ -1,3 +1,4 @@
+@newsArticles
 Feature: Article Content Type
   When I log into the website
   As an content editor, site owner, administrator or developer
