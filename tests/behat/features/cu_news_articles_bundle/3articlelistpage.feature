@@ -53,8 +53,8 @@ I should be able to create, edit, and delete Article List Page content
     Scenario: The Article List Page provides several display/format types
     Given I am logged in as a user with the "site_owner" role
     And am on "node/add/article-list-page"
-    And I click the ".group-people-list-display.field-group-fieldset a.fieldset-title" element
-    And I select "Table" from "edit-field-people-list-display-und"
-    And I select "Grid" from "edit-field-people-list-display-und"
-    And I select "List" from "edit-field-people-list-display-und"
+   # And I click the ".group-people-list-display.field-group-fieldset a.fieldset-title" element
+  #  And I select "Table" from "edit-field-people-list-display-und"
+  #  And I select "Grid" from "edit-field-people-list-display-und"
+  #  And I select "List" from "edit-field-people-list-display-und"
     
