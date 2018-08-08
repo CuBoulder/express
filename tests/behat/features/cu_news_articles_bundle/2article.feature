@@ -25,7 +25,7 @@ Examples:
   Then I should see "Access denied"
   
 # 2) TEST THAT A SIMPLE NODE CAN BE CREATED AND REVISED
- Scenario: Node Functionality - A very simple Article node can be created 
+ Scenario: Node Functionality - A simple Article node can be created; has full functionality 
  Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/article"
   And fill in "edit-title" with "Lunch is served at the Center for Community"
@@ -56,7 +56,6 @@ And I attach the file "cupcakes.jpg" to "edit-field-article-thumbnail-und-0-uplo
   And I should see the link "Revisions"
 
 # 3) TEST EDITING AND DELETING PRIVILEGES ON THE NODE JUST MADE
-
 Scenario Outline: Node Access -  Some roles can edit and delete Article node content
 Given I am logged in as a user with the <role> role
 And I am on "admin/content"
@@ -104,14 +103,17 @@ And I should not see the link "Clear Page Cache"
 
 # 4) TEST THAT THE DELETE BUTTON ACTUALLY WORKS
  Scenario: Node Functionality - Verify that the Delete button actually works
- Given I am logged in as a user with the "site_owner" role
-And I am on "admin/content"
-And I follow "Lunch is served at the Center for Community"
+  Given I am logged in as a user with the "site_owner" role
+  And I am on "node/add/article"
+  And fill in "edit-title" with "Article to Delete"
+  And fill in "Body" with "A temporary node"
+  And I press "Save"
+  Then I should see "Article Article to Delete has been created."
 And I follow "Edit"
  And I press "Delete"
- Then I should see "Are you sure you want to delete An article about Ralphie?"
+ Then I should see "Are you sure you want to delete Article to Delete?"
   And I press "Delete"
- Then I should see "Article An article about Ralpie has been deleted"
+ Then I should see "Article Article to Delete has been deleted."
 And I am on "/"
 
 # 5) TEST MORE COMPLEX NODE CREATION
