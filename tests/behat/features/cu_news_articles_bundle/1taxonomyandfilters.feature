@@ -1,6 +1,6 @@
 # SEE ARTICLES FOR TAXONOMY PERMISSION TESTS (where did they go?)
 
-@NewsArticles
+@newsArticles
 Feature: Article Taxonomy
 In order to group and filter my articles
 As an authenticated user
