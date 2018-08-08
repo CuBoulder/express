@@ -32,6 +32,7 @@ When I go to "node/add/article-list-page"
 And  I fill in "edit-title" with "News Page"
 And I press "Save"
 Then I should see "News Page"
+And I should see "An article about Ralphie"
 And I should see "Lunch is served at the Center for Community"
     
     Scenario: The Article List Page provides several display/format types
