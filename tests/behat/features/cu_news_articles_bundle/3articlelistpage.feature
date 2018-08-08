@@ -31,6 +31,7 @@ I should be able to create, edit, and delete Article List Page content
     When I go to "node/add/article-list-page"
       And  I fill in "edit-title" with "News Page"
     And the "edit-menu-enabled" checkbox should be checked
+    Then print last response
 And I press "Save"
       Then I should see "News Page"
       And I should see "Lunch is served at the Center for Community"
