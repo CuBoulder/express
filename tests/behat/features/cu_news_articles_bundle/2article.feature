@@ -28,8 +28,8 @@ Examples:
  Scenario: Node Functionality - A very simple Article node can be created 
  Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/article"
-  And fill in "edit-title" with "An article about Ralphie"
-  And fill in "Body" with "Ralphie is the mascot of the University of Colorado"
+  And fill in "edit-title" with "Lunch is served at the Center for Community"
+  And fill in "Body" with "Enjoy many lucious desserts"
   And I should see the link "Images"
   And I should see the link "Categories"
   And I should see the link "Tags"
@@ -37,14 +37,14 @@ Examples:
   And I should see the link "External Link"
   When I press "edit-submit"
 # Then I should be on "/my-name-of-block-or-node"
- And I should see "Article An article about Ralphie has been created."
-And I should see "Ralphie is the mascot of the University of Colorado"
+ And I should see "Article Lunch is served at the Center for Community has been created."
+And I should see "Enjoy many lucious desserts"
  
 #  2.5 CREATE REVISIONS TO THE NEW NODE
 Scenario: Node functionality - Create Revision of node
 Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
-And I follow "An article about Ralphie"
+And I follow "Lunch is served at the Center for Community"
 And I follow "Edit"
  # BROKEN AT THIS TIME And fill in "edit-name" with "osr-test-edit-own" 
 And I fill in "edit-field-image-und-0-alt" with "yellow cupcakes with lavender frosting"
@@ -52,7 +52,7 @@ And I attach the file "cupcakes.jpg" to "edit-field-image-und-0-upload"
 And I fill in "edit-field-article-thumbnail-und-0-alt" with "yellow cupcakes with lavender frosting"
 And I attach the file "cupcakes.jpg" to "edit-field-article-thumbnail-und-0-upload"
  And I press "Save"
- Then I should see "Article An article about Ralphie has been updated."
+ Then I should see "Article An article about cupcakes has been updated."
   And I should see the link "Revisions"
 
 # 3) TEST EDITING AND DELETING PRIVILEGES ON THE NODE JUST MADE
