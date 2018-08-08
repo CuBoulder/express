@@ -52,7 +52,7 @@ And I attach the file "cupcakes.jpg" to "edit-field-image-und-0-upload"
 And I fill in "edit-field-article-thumbnail-und-0-alt" with "yellow cupcakes with lavender frosting"
 And I attach the file "cupcakes.jpg" to "edit-field-article-thumbnail-und-0-upload"
  And I press "Save"
- Then I should see "Article An article about cupcakes has been updated."
+ Then I should see "Article Lunch is served at the Center for Community has been updated."
   And I should see the link "Revisions"
 
 # 3) TEST EDITING AND DELETING PRIVILEGES ON THE NODE JUST MADE
@@ -60,7 +60,7 @@ And I attach the file "cupcakes.jpg" to "edit-field-article-thumbnail-und-0-uplo
 Scenario Outline: Node Access -  Some roles can edit and delete Article node content
 Given I am logged in as a user with the <role> role
 And I am on "admin/content"
-And I follow "An article about Ralphie"
+And I follow "Lunch is served at the Center for Community"
 Then I should see the link "View"
 And I should see the link "Edit"
 And I should see the link "Edit Layout"
@@ -82,7 +82,7 @@ Examples:
 Scenario: Node Access - EditOnly can edit and revise but not delete node; can clear page cache
 Given I am logged in as a user with the "edit_only" role
 And I am on "admin/content"
-And I follow "An article about Ralphie"
+And I follow "Lunch is served at the Center for Community"
 Then I should see the link "View"
 And I should see the link "Edit"
 And I should not see the link "Edit Layout"
@@ -97,7 +97,7 @@ And I press "Cancel edit"
 Scenario: Node Access - EditMyContent can not edit Article nodes
 Given I am logged in as a user with the "edit_my_content" role
 And I am on "admin/content"
-And I follow "An article about Ralphie"
+And I follow "Lunch is served at the Center for Community"
 Then I should see the link "View"
 And I should not see the link "Edit"
 And I should not see the link "Clear Page Cache"
@@ -106,7 +106,7 @@ And I should not see the link "Clear Page Cache"
  Scenario: Node Functionality - Verify that the Delete button actually works
  Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
-And I follow "An article about Ralphie"
+And I follow "Lunch is served at the Center for Community"
 And I follow "Edit"
  And I press "Delete"
  Then I should see "Are you sure you want to delete An article about Ralphie?"
