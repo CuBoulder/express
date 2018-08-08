@@ -29,12 +29,11 @@ I should be able to create, edit, and delete Article List Page content
     Scenario: The Provide Menu Link box should be checked on node creation but remain unchecked if unchecked.
     Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/article-list-page"
-      And  I fill in "edit-title" with "Article List Page"
-    Then the "edit-menu-enabled" checkbox should be checked
-    When I uncheck "edit-menu-enabled"
-      And I press "Save"
-      And I follow "Edit"
-    Then the checkbox "edit-menu-enabled" should be unchecked
+      And  I fill in "edit-title" with "News Page"
+    And the "edit-menu-enabled" checkbox should be checked
+And I press "Save"
+      Then I should see "News Page"
+      And I should see "Lunch is served at the Center for Community"
     
    Scenario: Tagging an article creates an Article List Page
   Given I am logged in as a user with the "site_owner" role
