@@ -27,7 +27,7 @@ Feature: Article Content Type
     Given  I am logged in as a user with the "content_editor" role
       And am on "node/add/article"
       And fill in "Title" with "New article"
-      And I follow "Disable rich-text"
+     # And I follow "Disable rich-text"
       And fill in "Body" with "Demo body content"
       And I follow "External Link"
       And fill in "edit-field-article-external-url-und-0-url" with "www.google.com"
