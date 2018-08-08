@@ -30,9 +30,14 @@ Examples:
   And I am on "node/add/article"
   And fill in "edit-title" with "An article about Ralphie"
   And fill in "Body" with "Ralphie is the mascot of the University of Colorado"
+  And I should see the link "Images"
+  And I should see the link "Categories"
+  And I should see the link "Tags"
+  And I should see the link "Byline"
+  And I should see the link "External Link"
   When I press "edit-submit"
 # Then I should be on "/my-name-of-block-or-node"
- And I should see "An article about Ralphie"
+ And I should see "Article An article about Ralphie has been created."
 And I should see "Ralphie is the mascot of the University of Colorado"
  
 #  2.5 CREATE REVISIONS TO THE NEW NODE
@@ -109,3 +114,5 @@ And I am on "/"
 # 5) TEST MORE COMPLEX NODE CREATION
 # specific node tests here
  # Scenario: Node Function
+ 
+ # DATES CAN BE TURNED OFF FOR DISPLAY ON ARTICLES
