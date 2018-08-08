@@ -26,29 +26,17 @@ I should be able to create, edit, and delete Article List Page content
     When I am on "node/add/article-list-page"
     Then I should see "Access denied"
     
-    Scenario: The Provide Menu Link box should be checked on node creation but remain unchecked if unchecked.
+
+ Scenario: The Provide Menu Link box should be checked on node creation but remain unchecked if unchecked.
     Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/article-list-page"
       And  I fill in "edit-title" with "News Page"
     And the "edit-menu-enabled" checkbox should be checked
-    Then print last response
 And I press "Save"
       Then I should see "News Page"
       And I should see "Lunch is served at the Center for Community"
     
-   Scenario: Tagging an article creates an Article List Page
-  Given I am logged in as a user with the "site_owner" role
-  And I am on "admin/content"
-  And I follow "Lunch is served at the Center for Community"
-  And I follow "Edit"
-  And I fill in "edit-field-tags-und" with "Campus Life"
-  And I press "Save"
-  Then I should see "The taxonomy term has been linked to this page."
-  And I should see "An Article List Page has been created"
-  When I go to "admin/content"
-  Then I should see "Campus Life"
- When I am on "/campus-life"
- Then I should see "Lunch is served at the Center for Community"
+
   
     Scenario: The Article List Page provides several display/format types
     Given I am logged in as a user with the "site_owner" role
