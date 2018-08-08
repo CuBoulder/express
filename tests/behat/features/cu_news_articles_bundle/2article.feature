@@ -25,17 +25,11 @@ Examples:
   Then I should see "Access denied"
   
 # 2) TEST THAT A SIMPLE NODE CAN BE CREATED AND REVISED
- Scenario: Node Functionality - A simple Article node can be created; has full functionality 
+ Scenario: Node Functionality - A simple Article node can be created
  Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/article"
   And fill in "edit-title" with "Lunch is served at the Center for Community"
   And fill in "Body" with "Enjoy many lucious desserts"
-  Then print last response
- # And I should see the link "Images"
- # And I should see the link "Categories"
- # And I should see the link "Tags"
- # And I should see the link "Byline"
- # And I should see the link "External Link"
   When I press "edit-submit"
  Then I should see "Article Lunch is served at the Center for Community has been created."
 And I should see "Enjoy many lucious desserts"
@@ -46,8 +40,8 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
 And I follow "Lunch is served at the Center for Community"
 And I follow "Edit"
-# And I fill in "edit-field-image-und-0-alt" with "yellow cupcakes with lavender frosting"
-# broken And I attach the file "cupcakes.jpg" to "edit-field-image-und-0-upload"
+And I fill in "edit-field-image-und-0-alt" with "yellow cupcakes with lavender frosting"
+And I attach the file "cupcakes.jpg" to "edit-field-image-und-0-upload"
 And I fill in "edit-field-article-thumbnail-und-0-alt" with "yellow cupcakes with lavender frosting"
 And I attach the file "cupcakes.jpg" to "edit-field-article-thumbnail-und-0-upload"
  And I press "Save"
@@ -84,8 +78,8 @@ And I follow "Lunch is served at the Center for Community"
 Then I should see the link "View"
 And I should see the link "Edit"
 And I should not see the link "Edit Layout"
-And I should see the link Revisions"
-And I should see the link Clear Page Cache"
+And I should see the link "Revisions"
+And I should see the link "Clear Page Cache"
 When I follow "Edit"
 Then I should see "This document is now locked against simultaneous editing."
 And I should not see an "#edit-delete" element
