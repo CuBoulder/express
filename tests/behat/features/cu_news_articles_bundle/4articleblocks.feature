@@ -1,4 +1,4 @@
-@newsArticles
+@newsArticlesBlocks
 Feature: News and Articles
 In order to display aggregations of articles on different types of node
 As an authenticated user
@@ -115,7 +115,7 @@ Scenario Outline: An authenticated user can access the form for adding an articl
  Scenario: An Article Grid Block offers several display views
     Given I am logged in as a user with the "site_owner" role
     And am on "add/article-grid"
-    nd I fill in "Label" with "My Article Grid Block"
+    And I fill in "Label" with "My Article Grid Block"
     And I fill in "Title" with "My Article Grid Block"
   When I select "12" from "edit-field-article-grid-items-und"
   When I select "9" from "edit-field-article-grid-items-und"
@@ -132,8 +132,8 @@ And I press "Save"
  Scenario: An Article Slider Block offers several display views
     Given I am logged in as a user with the "site_owner" role
     And am on "add/article-slider"
-    nd I fill in "Label" with "My Article Slider Block"
-    And I fill in "Title" with "My Article Slider Block
+    And I fill in "Label" with "My Article Slider Block"
+    And I fill in "Title" with "My Article Slider Block"
 And I press "Save" 
    Then I should see "My Article Slider Block"
  And I should see "An article about Ralphie"
