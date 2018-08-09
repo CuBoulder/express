@@ -115,7 +115,7 @@ Scenario Outline: An authenticated user can access the form for adding an articl
  Scenario: An Article Grid Block offers several display views
     Given I am logged in as a user with the "site_owner" role
     And am on "add/article-grid"
-    And I fill in "Label" with "My Article Grid Block"
+   And I fill in "Label" with "My Article Grid Block"
     And I fill in "Title" with "My Article Grid Block"
   When I select "12" from "edit-field-article-grid-items-und"
   When I select "9" from "edit-field-article-grid-items-und"
