@@ -15,26 +15,39 @@ And I should see "Article Feature"
 And I should see "Article Grid"
 And I should see "Article Slider"
 
+@articleBlockPerms
 Scenario Outline: An authenticated user can access the form for adding an article list block
     Given I am logged in as a user with the <role> role
     When I go to "block/add/articles"
     Then I should see <message>
+    And I go to "block/add/article-feature"
+    Then I should see <message2>
+    And I go to "block/add/article-grid"
+    Then I should see <message3>
+    And I go to "block/add/article-slider"
+    Then I should see <message4>
 
     Examples:
-      | role                  | message                     |
-      | edit_my_content       | "Access denied"             |
-      | content_editor        | "Create Article List block" |
-      | site_owner            | "Create Article List block" |
-      | administrator         | "Create Article List block" |
-      | developer             | "Create Article List block" |
-      | configuration_manager | "Access denied"             |
-      | site_editor           | "Create Article List block" |
-      | edit_only             | "Access denied"             |
-      | access_manager        | "Access denied"             |
+      | role                  | message                     | message2                       | message3                    | message4                      |
+      | edit_my_content       | "Access denied"             | "Access denied"                | "Access denied"             | "Access denied"               |
+      | content_editor        | "Create Article List block" | "Create Article Feature block" | "Create Article Grid block" | "Create Article Slider block" |
+      | site_owner            | "Create Article List block" | "Create Article Feature block" | "Create Article Grid block" | "Create Article Slider block" |
+      | administrator         | "Create Article List block" | "Create Article Feature block" | "Create Article Grid block" | "Create Article Slider block" |
+      | developer             | "Create Article List block" | "Create Article Feature block" | "Create Article Grid block" | "Create Article Slider block" |
+      | configuration_manager | "Access denied"             | "Access denied"                | "Access denied"             | "Access denied" |
+      | site_editor           | "Create Article List block" | "Create Article Feature block" | "Create Article Grid block" | "Create Article Slider block" |
+      | edit_only             | "Access denied"             | "Access denied"                | "Access denied"             | "Access denied" |
+      | access_manager        | "Access denied"             | "Access denied"                | "Access denied"             | "Access denied" |
 
-
+@articleBlockPerms
   Scenario: An anonymous user cannot access the form for adding a people list block
     When I am on "block/add/articles"
+    Then I should see "Access denied"
+    And I go to "block/add/article-feature"
+    Then I should see "Access denied"
+    And I go to "block/add/article-grid"
+    Then I should see "Access denied"
+    And I go to "block/add/article-slider"
     Then I should see "Access denied"
     
  Scenario: The Article List Block has been populated with Filters
@@ -59,7 +72,6 @@ Scenario Outline: An authenticated user can access the form for adding an articl
  And I should see "An article about Ralphie"
  And I should see "Lunch is served at the Center for Community"
 
-@featureBlock
  Scenario: An Article Feature Block offers several display views
     Given I am logged in as a user with the "site_owner" role
     And am on "block/add/article-feature"
