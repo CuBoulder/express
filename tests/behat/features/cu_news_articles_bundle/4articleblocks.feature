@@ -112,3 +112,23 @@ Scenario Outline: An authenticated user can access the form for adding an articl
  Then I should see "My Article List Block"
  And I should see "An article about Ralphie"
  And I should see "Lunch is served at the Center for Community"
+ 
+ Scenario Outline: An Article Grid Block offers several display views
+    Given I am logged in as a user with the "site_owner" role
+    And am on "add/article-grid"
+    nd I fill in "Label" with "My Article Grid Block"
+    And I fill in "Title" with "My Article Grid Block"
+  When I select "12" from "edit-field-article-grid-items-und"
+  When I select "9" from "edit-field-article-grid-items-und"
+  When I select "6" from "edit-field-article-grid-items-und"
+  When I select "3" from "edit-field-article-grid-items-und"
+  
+  
+ And I select "summary-hide" from "edit-field-article-grid-summary-und"
+Then I select "summary-show" from "edit-field-article-grid-summary-und"
+And I press "Save" 
+   Then I should see "My Article Grid Block"
+ And I should see "An article about Ralphie"
+ And I should see "Ralphie is the mascot at CU Boulder Read more"
+ And I should see "Lunch is served at the Center for Community"
+  
