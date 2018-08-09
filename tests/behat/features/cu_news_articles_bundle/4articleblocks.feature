@@ -132,7 +132,7 @@ And I press "Save"
  Scenario: An Article Slider Block offers several display views
     Given I am logged in as a user with the "site_owner" role
     And am on "add/article-slider"
-    nd I fill in "Label" with "My Article Slider Block"
+    And I fill in "Label" with "My Article Slider Block"
     And I fill in "Title" with "My Article Slider Block"
 And I press "Save" 
    Then I should see "My Article Slider Block"
