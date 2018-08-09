@@ -4,9 +4,6 @@ In order to display aggregations of articles on different types of node
 As an authenticated user
 I should be able to create, edit, and delete Article List Blocks
 
-Scenario: Enabling the News bundle creates four types of blocks
-# http://tuesday.test/block/add
-
 Scenario: Four Article Blocks types are added when bundle is enabled
 Given I am logged in as a user with the "site_owner" role
 And I am on "block/add"
@@ -15,7 +12,7 @@ And I should see "Article Feature"
 And I should see "Article Grid"
 And I should see "Article Slider"
 
-@articleBlockPerms
+
 Scenario Outline: An authenticated user can access the form for adding an article list block
     Given I am logged in as a user with the <role> role
     When I go to "block/add/articles"
@@ -39,7 +36,7 @@ Scenario Outline: An authenticated user can access the form for adding an articl
       | edit_only             | "Access denied"             | "Access denied"                | "Access denied"             | "Access denied" |
       | access_manager        | "Access denied"             | "Access denied"                | "Access denied"             | "Access denied" |
 
-@articleBlockPerms
+
   Scenario: An anonymous user cannot access the form for adding a people list block
     When I am on "block/add/articles"
     Then I should see "Access denied"
@@ -104,15 +101,14 @@ And I press "Save"
  And I should see "Ralphie is the mascot at CU Boulder Read more"
  And I should see "Lunch is served at the Center for Community"
  
- @articleSliderBlock
  Scenario: An Article Slider Block offers several display views
     Given I am logged in as a user with the "site_owner" role
     And am on "block/add/article-slider"
     And I fill in "Label" with "My Article Slider Block"
     And I fill in "Title" with "My Article Slider Block"
-    And I check "Ralphie"
+  And I check "Ralphie"
 And I press "Save" 
-   Then I should see "My Article Slider Block"
+ Then I should see "My Article Slider Block"
  And I should see "An article about Ralphie"
  And I should not see "Lunch is served at the Center for Community"
  
