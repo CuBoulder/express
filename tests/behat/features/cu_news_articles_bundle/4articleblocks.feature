@@ -59,6 +59,7 @@ Scenario Outline: An authenticated user can access the form for adding an articl
  And I should see "An article about Ralphie"
  And I should see "Lunch is served at the Center for Community"
 
+@featureBlock
  Scenario: An Article Feature Block offers several display views
     Given I am logged in as a user with the "site_owner" role
     And am on "block/add/article-feature"
@@ -70,7 +71,7 @@ Scenario Outline: An authenticated user can access the form for adding an articl
    And I select "slider-large" from "edit-field-article-feature-image-size-und"
    And I select "slider" from "edit-field-article-feature-image-size-und"
  And I press "Save"
- Then I should see "My Article List Block"
+ Then I should see "My Article Feature Block"
  And I should see "An article about Ralphie"
  And I should see "Lunch is served at the Center for Community"
  
