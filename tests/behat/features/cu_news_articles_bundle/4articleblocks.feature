@@ -42,7 +42,7 @@ Scenario Outline: An authenticated user can access the form for adding an articl
     Given I am logged in as a user with the "site_owner" role
     And am on "block/add/articles"
     And I fill in "Label" with "My Article List Block"
-    And I fill in "Title" with My Article List Block"
+    And I fill in "Title" with "My Article List Block"
     When I select "teaser" from "field_article_display[und]"
  Then I select "feature" from "field_article_display[und]"
  Then I select "feature_large" from "field_article_display[und]"
@@ -51,7 +51,7 @@ Scenario Outline: An authenticated user can access the form for adding an articl
  Then print last response
  And I press "Save"
  Then I should see "My Article List Block"
- And I should see "An article abot Ralphie"
+ And I should see "An article about Ralphie"
  And I should see "Lunch is served at the Center for Community"
 
 
@@ -98,4 +98,17 @@ Scenario Outline: An authenticated user can access the form for adding an articl
     And I should see "Kendall StaffTechHoneyLaw"
 
 
-
+ Scenario Outline: An Article Feature Block offers several display views
+    Given I am logged in as a user with the "site_owner" role
+    And am on "block/add/article-feature"
+    And I fill in "Label" with "My Article Feature Block"
+    And I fill in "Title" with "My Article Feature Block"
+    When I select "article-feature-inline-2" from "edit-field-article-feature-display-und"
+   Then I select "article-feature-inline-3" from "edit-field-article-feature-display-und"
+   Then I select "article-feature-inline-stacked" from "edit-field-article-feature-display-und"
+   And I select "slider-large" from "edit-field-article-feature-image-size-und"
+   And I select "slider" from "edit-field-article-feature-image-size-und"
+ And I press "Save"
+ Then I should see "My Article List Block"
+ And I should see "An article about Ralphie"
+ And I should see "Lunch is served at the Center for Community"
