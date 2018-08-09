@@ -36,6 +36,13 @@ Scenario Outline: An authenticated user can access the form for adding an articl
   Scenario: An anonymous user cannot access the form for adding a people list block
     When I am on "block/add/articles"
     Then I should see "Access denied"
+    
+ Scenario: The Article List Block has been populated with Filters
+    Given I am logged in as a user with the "site_owner" role
+   And am on "block/add/articles"
+   Then I should see "Academics"
+   And I should see "Ralphie"
+   And I should see "Research"
 
  Scenario: A simple Article List Block offers several display views
     Given I am logged in as a user with the "site_owner" role
@@ -47,26 +54,11 @@ Scenario Outline: An authenticated user can access the form for adding an articl
  Then I select "feature_large" from "field_article_display[und]"
  Then I select "sidebar" from "field_article_display[und]"
  Then I select "title" from "field_article_display[und]"
- Then print last response
  And I press "Save"
  Then I should see "My Article List Block"
  And I should see "An article about Ralphie"
  And I should see "Lunch is served at the Center for Community"
 
-
-   @javascript
-  Scenario: The People List Block has been populated with Filters
-    Given I am logged in as a user with the "site_owner" role
-    And am on "block/add/people-list-block"
-    And I click the ".group-people-list-filter.field-group-fieldset a.fieldset-title" element
-    And I should see "Geophysics"
-    And I should see "Technology"
-    Then I should see "Faculty"
-    Then I should see "Staff"
-    And I should see "Honeywell"
-    And I should see "Marietta"
-    And I should see "Design"
-    And I should see "Law"
 
 
   Scenario: A simple People List Block can be created
