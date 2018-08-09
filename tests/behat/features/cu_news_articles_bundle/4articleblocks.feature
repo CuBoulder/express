@@ -5,7 +5,7 @@ As an authenticated user
 I should be able to create, edit, and delete Article List Blocks
 
 Scenario: Enabling the News bundle creates four types of blocks
-http://tuesday.test/block/add
+# http://tuesday.test/block/add
 
 Scenario: Four Article Blocks types are added when bundle is enabled
 Given I am logged in as a user with the "site_owner" role
@@ -38,17 +38,22 @@ Scenario Outline: An authenticated user can access the form for adding an articl
     Then I should see "Access denied"
 
 
-  Scenario Outline: A simple People List Block offers several display views
-    Given I am logged in as a user with the "content_editor" role
-    And am on "block/add/people-list-block"
-    When I select <condition> from "edit-field-people-block-thumbnail-und"
+  Scenario Outline: A simple Article List Block offers several display views
+    Given I am logged in as a user with the "site_owner" role
+    And am on "block/add/articles"
+    And I fill in "Label" with "My Article List Block"
+    And I fill in "Title" with My Article List Block"
+    When I select "teaser" from "field_article_display[und]"
+ Then I select "feature" from "field_article_display[und]"
+ Then I select "feature_large" from "field_article_display[und]"
+ Then I select "sidebar" from "field_article_display[und]"
+ Then I select "title" from "field_article_display[und]"
+ Then print last response
+ And I press "Save"
+ Then I should see "My Article List Block"
+ And I should see "An article abot Ralphie"
+ And I should see "Lunch is served at the Center for Community"
 
-    Examples:
-      | condition |
-      | "teaser"  |
-      | "grid"    |
-      | "sidebar" |
-      | "title"   |
 
    @javascript
   Scenario: The People List Block has been populated with Filters
