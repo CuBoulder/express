@@ -49,7 +49,7 @@ And I attach the file "cupcakes.jpg" to "edit-field-article-thumbnail-und-0-uplo
   And I should see the link "Revisions"
 
 
-TEST MORE COMPLEX NODE CREATION
+# TEST MORE COMPLEX NODE CREATION
 Scenario: Node Functionality - Tagging an article creates a Taxonomy Term and an Article List Page
   Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/article"
