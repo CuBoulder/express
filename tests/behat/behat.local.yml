@@ -34,9 +34,6 @@ default:
     seo_bundle:
       paths: [ "%paths.base%/features/cu_seo_bundle" ]
       contexts: [ FeatureContext ]
-    social_media:
-      paths: [ "%paths.base%/features/cu_social_media_bundle" ]
-      contexts: [ FeatureContext ]
   extensions:
       Behat\MinkExtension:
         base_url: "http://127.0.0.1:8079/"

@@ -13,7 +13,6 @@ dependencies[] = cu_news_bundle
 dependencies[] = cu_people_bundle
 dependencies[] = cu_photo_gallery_bundle
 dependencies[] = cu_seo_bundle
-dependencies[] = cu_social_media_bundle
 
 ; Create users for tests.
 dependencies[] = cu_local_users
