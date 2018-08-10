@@ -24,3 +24,20 @@ In addition to the Express install profile, Express sites add functionality by e
 * [![Build Status](https://travis-ci.org/CuBoulder/cu_section_page_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/cu_section_page_bundle) [Section Page Bundle](https://github.com/CuBoulder/cu_section_page_bundle)
 * [![Build Status](https://travis-ci.org/CuBoulder/cu_video_hero_unit_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/cu_video_hero_unit_bundle) [Video Hero Unit](https://github.com/CuBoulder/cu_video_hero_unit_bundle)
 * [![Build Status](https://travis-ci.org/CuBoulder/express_responsive_visibility_bundle.svg?branch=master)](https://travis-ci.org/CuBoulder/express_responsive_visibility_bundle) [Responsive_Visibility_Bundle](https://github.com/CuBoulder/express_responsive_visibility_bundle)
+
+## Open Source Supporters
+
+The Express profile takes advantage of several service providers that have open source licenses we use to develop the profile.
+
+### Sauce Labs
+
+Cross-browser testing platform and open source <3 provided by [Sauce Labs](https://saucelabs.com).
+
+### Travis CI
+
+Test runner integration provided by [Travis CI](https://travis-ci.org/).
+
+### CodeClimate
+
+Code quality analysis provided by [CodeClimate](https://codeclimate.com/).
+

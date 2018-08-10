@@ -496,19 +496,37 @@ function express_settings_js_alter(&$javascript) {
 
   // Find the JS code for GA as well as the index so we can replace it later.
   $ga_js_code_index = NULL;
-  $js_code = array_filter($javascript, function ($val, $index) use(&$ga_js_code_index) {
+  $js_code = array_filter($javascript, function ($val, $index) use (&$ga_js_code_index) {
     if (is_string($val['data']) && strpos($val['data'], 'ga("create",')) {
       $ga_js_code_index = $index;
       return TRUE;
     }
     return FALSE;
   }, ARRAY_FILTER_USE_BOTH);
-  $js_code = explode(';', array_shift($js_code)['data']);
+
+  // If GA JS is not found, then return.
+  if (empty($js_code)) {
+    return;
+  }
+
+  // Certain characters can get converted ito strings that break parsing for semi-colons.
+  // Those characters need to be replaced before exploding the string.
+  $special_chars = [
+    '\u0026#039;' => '\'',
+  ];
+  $js_no_special_chars = array_shift($js_code)['data'];
+  foreach ($special_chars as $char => $replacement) {
+    $js_no_special_chars = str_replace($char, $replacement, $js_no_special_chars);
+  }
+
+  // Splitting by ; separates the code into JS statements.
+  $js_code = explode(';', $js_no_special_chars);
 
   // Initialize arrays so that it can be used in array_filter().
   $ga_create_snippets = [];
   $everything_else = [];
 
+  // Filter for create, set snippets and then everything else.
   $ga_create_snippets = array_filter($js_code, function ($val) {
     return strpos($val, 'ga("create",') === 0;
   });
