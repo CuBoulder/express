@@ -2,7 +2,7 @@
 # https://github.com/CuBoulder/express/issues/2177
 # WHEN FIXED, SELECTOR USED IN LINE 47 WILL CHANGE AND TEST MUST BE UPDATED TO REFLECT THAT
 
-@AdvDesign
+@AdvDesign @blockmenuicons
 Feature: Font Awesome Icons in block titles
 In order to add visual interest to my site
 As an authenticated user
@@ -36,6 +36,7 @@ Then I should see "About Apples"
 
 # ADD BLOCK TO PAGE WITH CONTEXT
 Then I go to "admin/structure/context/add"
+And print last response
 And I fill in "edit-name" with "appleicon"
 And I select "path" from "edit-conditions-selector"
 And I fill in "edit-conditions-plugins-path-values" with "about-apples"
