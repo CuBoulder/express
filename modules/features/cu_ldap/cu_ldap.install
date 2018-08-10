@@ -1,0 +1,11 @@
+<?php
+
+/**
+ * Implements hook_install().
+ */
+function cu_ldap_install() {
+$directory = new stdClass();
+  $directory->sid = 'directory';
+  $directory->name = 'directory.colorado.edu';
+  drupal_write_record('ldap_servers', $directory);
+}

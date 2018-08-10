@@ -95,10 +95,12 @@ function cu_block_section_preprocess_entity(&$vars) {
   $bundle = $vars['elements']['#bundle'];
   $output = '';
   // Only preprocess block section beans.
-  if ($entity_type == 'bean' && $bundle == 'block_section') {
-    foreach ($vars['bean']->field_blocks_section_blocks[LANGUAGE_NONE] as $item) {
-      $bean = _cu_block_section_rerender($item);
-      $output .= render($bean);
+  if ($entity_type === 'bean' && $bundle === 'block_section') {
+    if (isset($vars['bean']->field_blocks_section_blocks[LANGUAGE_NONE])) {
+      foreach ($vars['bean']->field_blocks_section_blocks[LANGUAGE_NONE] as $item) {
+        $bean = _cu_block_section_rerender($item);
+        $output .= render($bean);
+      }
     }
     $vars['content']['blocks'] = $output;
 
@@ -116,6 +118,11 @@ function cu_block_section_preprocess_entity(&$vars) {
       $dimensions = array();
       $dimensions['height'] = $vars['content']['field_block_section_bg_image']['#items'][0]['height'];
       $dimensions['width'] = $vars['content']['field_block_section_bg_image']['#items'][0]['width'];
+      // Render image for xlarge displays
+      $vars['content']['field_block_section_bg_image'][0]['#image_style'] = 'xlarge';
+      $image_xlarge = render($vars['content']['field_block_section_bg_image']);
+      $vars['image_xlarge'] = trim(preg_replace('/\s+/', ' ', $image_xlarge));
+
       // Render image for large displays
       $vars['content']['field_block_section_bg_image'][0]['#image_style'] = 'hero';
       $image_large = render($vars['content']['field_block_section_bg_image']);
