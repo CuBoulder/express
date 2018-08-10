@@ -22,8 +22,6 @@ Scenario Outline: Image styles should be the correct dimensions
   | slider                    | "Focal Point Scale And Crop 1500x563"     |
   | slider-large              | "Focal Point Scale And Crop 1500x1000"    |
   | el_hero                   | "Scale width 1500 (upscaling allowed)"    |
-  | flexslider_full           | "Scale and crop 800x500"                  |
-  | flexslider_thumbnail      | "Scale and crop 160x100"                  |
   | focal_point_preview       | "Scale width 250 (upscaling allowed)"     |
   | thumbnail                 | "Scale 100x100 (upscaling allowed)"       |
   | medium                    | "Scale width 600 (upscaling allowed)"     |

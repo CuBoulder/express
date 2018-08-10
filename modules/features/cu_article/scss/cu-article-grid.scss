@@ -8,6 +8,11 @@
     margin-bottom: 10px;
   }
 }
+.article-grid > .row {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
 
 .article-grid-summary-display .article-grid-article-title {
   font-weight: 600;

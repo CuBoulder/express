@@ -6,7 +6,6 @@
   As an authenticated user
   I should see the correct toolbar menus and shortcuts.
   
-
  Scenario Outline: All roles should see the blue and white toolbars
   Given I am logged in as a user with the <role> role
   When I go to "/"
@@ -20,7 +19,9 @@
     | site_owner |
     | content_editor |
     | edit_my_content |
-
+    | site_editor      | 
+    | edit_only        | 
+    
 
 Scenario Outline: All roles should see a blue toolbar with the same five links
  Given I am logged in as a user with the <role> role
@@ -38,6 +39,9 @@ Examples:
      | site_owner |
      | content_editor |
      | edit_my_content |
+     | site_editor      | 
+     | edit_only        | 
+
  
 # CHECKING THE EXPRESS MENU
   Scenario: As a developer I should see the complete Express menu
@@ -62,6 +66,7 @@ Examples:
      And I should see the link "Content"
      And I should see the link "Structure"
      And I should see the link "Users"
+     And I should see the link "Reports"
      And I should see the link "Design"
      And I should see the link "Settings"
 
@@ -70,7 +75,6 @@ Examples:
     | administrator |
     | site_owner |
 
-
   Scenario: As a content_editor I should see a limited Express menu
    Given  I am logged in as a user with the "content_editor" role
    When I go to "admin"
@@ -78,7 +82,6 @@ Examples:
     And I should see the link "Content"
     And I should see the link "Structure"
     And I should see the link "Settings"
-      
 
   Scenario: As an edit_my_content I should see an extremely limited Express menu
    Given I am logged in as a user with the "edit_my_content" role
@@ -86,7 +89,6 @@ Examples:
    Then I should see "Access Denied"
    And I should see the link "Dashboard"
    And I should see the link "Content"
-    
 
  Scenario Outline: Most user roles should see the same Shortcuts menu
    Given I am logged in as a user with the <role> role
@@ -104,8 +106,7 @@ Examples:
       | developer |
       | administrator |
       | site_owner |
-      | content_editor |
-
+   #   | content_editor | HIDE TILL PERMS CAN BE WORKED OUT
 
   Scenario: An edit_my_content user should see a very limited Shortcuts menu
    Given I am logged in as a user with the "edit_my_content" role

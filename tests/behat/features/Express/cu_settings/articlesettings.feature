@@ -4,7 +4,7 @@ In order to show or hide an article's published date
 An authenticated user with the proper role
 Should be able to set Article Settings options
 
-#SOME ROLES CAN ACCESS THE ARTICLE SETTINGS OPTIONS
+# ARTICLE SETTINGS PERMS ARE PART OF 'ADMINISTER EXPRESS SETTINGS' - SITE EDITORS DON'T GET TO DO THIS.
 
 Scenario Outline: A user with the proper role can access the Article Settings options
  Given I am logged in as a user with the <role> role
@@ -18,6 +18,10 @@ Examples:
     | site_owner      | "Article Published Date Display" |
     | content_editor  | "Access denied" |
     | edit_my_content | "Access denied" |
+    | site_editor      | "Access denied" |
+    | edit_only        | "Access denied" |
+    | access_manager   | "Access denied" |
+    | configuration_manager | "Article Published Date Display" |
     
 
 Scenario: An anonymous user cannot access the Article Settings options
@@ -26,8 +30,8 @@ Scenario: An anonymous user cannot access the Article Settings options
   
 #CHANGING THE SETTINGS HIDES THE PUBLISHED DATE ON ARTICLE
 
-Scenario Outline: User can change the Article Settings; aka hide publish date on article
- Given I am logged in as a user with the <role> role
+Scenario: Changing the Article Settings does hide the publish date on article
+ Given I am logged in as a user with the "site_owner" role
  And am on "admin/settings/news/article-settings"
  When I select "hide" from "date_display"
  And I press "edit-submit"
@@ -37,11 +41,4 @@ Scenario Outline: User can change the Article Settings; aka hide publish date on
  And I fill in "Body" with "Here is more information."
  And I press "Save"
  Then I should see "A New Article"
- And I should not see a ".author-meta-date" element
-    
-Examples:
-    | role            | 
-    | developer       | 
-    | administrator   | 
-    | site_owner      | 
-
+ And I should not see a ".author-meta-date" element    
