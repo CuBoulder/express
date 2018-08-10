@@ -28,9 +28,6 @@ default:
     people:
       paths: [ "%paths.base%/features/cu_people_bundle" ]
       contexts: [ FeatureContext ]
-    photo_gallery:
-      paths: [ "%paths.base%/features/cu_photo_gallery_bundle" ]
-      contexts: [ FeatureContext ]
     seo_bundle:
       paths: [ "%paths.base%/features/cu_seo_bundle" ]
       contexts: [ FeatureContext ]

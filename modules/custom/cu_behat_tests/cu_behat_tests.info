@@ -11,7 +11,6 @@ dependencies[] = cu_advanced_layout_bundle
 dependencies[] = cu_feeds_bundle
 dependencies[] = cu_news_bundle
 dependencies[] = cu_people_bundle
-dependencies[] = cu_photo_gallery_bundle
 dependencies[] = cu_seo_bundle
 dependencies[] = cu_social_media_bundle
 
