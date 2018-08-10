@@ -24,9 +24,8 @@ Examples:
   When I am on "node/add/article"
   Then I should see "Access denied"
   
-  @oneArticle
 # 2) TEST THAT A SIMPLE NODE CAN BE CREATED AND REVISED
- Scenario: Node Functionality - A simple Article node can be created; Date displayed by default
+ Scenario: Node Functionality - A simple Article node can be created
  Given I am logged in as a user with the "site_owner" role
   And I am on "node/add/article"
   And fill in "edit-title" with "Lunch is served at the Center for Community"
@@ -34,10 +33,10 @@ Examples:
   When I press "edit-submit"
  Then I should see "Article Lunch is served at the Center for Community has been created."
 And I should see "Enjoy many lucious desserts"
-Then the response should contain "class=\"fa fa-calendar-o\""
+
  
 #  2.5 CREATE REVISIONS TO THE NEW NODE
-Scenario: Node functionality - Create node revision by adding graphics and turning off date display
+Scenario: Node functionality - Create node revision by adding graphics
 Given I am logged in as a user with the "site_owner" role
 And I am on "admin/content"
 And I follow "Lunch is served at the Center for Community"
@@ -47,10 +46,9 @@ And I attach the file "cupcakes.jpg" to "edit-field-image-und-0-upload"
 And I fill in "edit-field-article-thumbnail-und-0-alt" with "yellow cupcakes with lavender frosting"
 And I attach the file "cupcakes.jpg" to "edit-field-article-thumbnail-und-0-upload"
 And I select "hide" from "edit-field-article-date-display-und"
- And I press "Save"
- Then I should see "Article Lunch is served at the Center for Community has been updated."
-  And I should see the link "Revisions"
-Then the response should not contain "class=\"fa fa-calendar-o\""
+And I press "Save"
+Then I should see "Article Lunch is served at the Center for Community has been updated."
+And I should see the link "Revisions"
 
 
 # TEST MORE COMPLEX NODE CREATION
@@ -73,9 +71,17 @@ And I attach the file "ralphie.jpg" to "edit-field-article-thumbnail-und-0-uploa
  Then I should see "An article about Ralphie"
  And I should not see "Lunch is served at the Center for Community"
  
-# DATES CAN BE TURNED OFF FOR DISPLAY ON ARTICLES
-Scenario: Article Date Display can be turned off site-wide
+# DATES CAN BE TURNED ON and OFF FOR DISPLAY ON ARTICLES
+# This is also tested in Express/cu_settings/articlesettings.feature
+Scenario: Article Date Display can be turned on and off site-wide
 Given I am logged in as a user with the "site_owner" role
+And I go to "admin/settings/news/article-settings"
+And I select "show" from "date_display"
+And I press "Save Settings"
+# NOW GO LOOK AT THE RALPHIE ARTICLE
+Then I go to "admin/content"
+When I follow "An article about Ralphie"
+Then the response should contain "class=\"fa fa-calendar-o\""
 And I go to "admin/settings/news/article-settings"
 And I select "hide" from "date_display"
 And I press "Save Settings"
