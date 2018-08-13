@@ -4,6 +4,7 @@ In order to add visual interest to my site
 As an authenticated user
 I should be able to attach Font Awesome icons to my block titles
 
+@javascript
 Scenario: An authenticated user can add an icon to a block title
 Given I am logged in as a user with the "site_owner" role
 
@@ -11,7 +12,7 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "block/add/block"
 And I fill in "edit-label" with "Learn More"
 And fill in "edit-title" with "Learn More"
-# And I follow "Disable rich-text"
+And I follow "Disable rich-text"
 And I fill in "Body" with "A is for Apple"
 And I press "Save"
 And I go to "block/learn-more/design"
@@ -24,7 +25,7 @@ Then I should see "Block Desiger settings have been saved."
 # CREATE A BASIC PAGE
 Then I go to "node/add/page"
 And fill in "edit-title" with "About Apples"
-# And I follow "Disable rich-text"
+And I follow "Disable rich-text"
 And fill in "Body" with "The apple blossom is the state flower of Michigan."
 And I press "edit-submit"
 Then I should see "About Apples"
