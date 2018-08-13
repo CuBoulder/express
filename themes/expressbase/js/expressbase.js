@@ -33,7 +33,14 @@
     });
     $('a.search-toggle').click(function(event){
       event.preventDefault();
-      $('#search').slideToggle('fast').focus();
+      $('#search').slideToggle('fast');
+      if ($('#search .search-options').length) {
+        $('#search').focus();
+      }
+      else {
+        $('#search input#edit-search-keys').focus();
+      }
+
       $('.express-search-box-small').addClass('fadeIn');
     });
   });
