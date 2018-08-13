@@ -25,3 +25,17 @@ function express_permissions_update_7005() {
   express_permissions_order_roles();
 }
 
+/**
+ * Set variable to 4 for 2.9.1 update.
+ */
+function express_permissions_update_7006() {
+  variable_set('express_permissions_owner_cap', 4);
+  variable_set('express_permissions_addon_cap', 3);
+}
+
+/**
+ * Rebuild permissions.
+ */
+function express_permissions_update_7007() {
+  secure_permissions_rebuild();
+}

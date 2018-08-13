@@ -373,6 +373,9 @@ td.person-table-contact .fa {
 
 .people-list-wrapper-grid {
   margin: 0 -20px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 /*
 .grid-person {
