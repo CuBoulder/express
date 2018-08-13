@@ -39,7 +39,7 @@ install:
   - export BUNDLE_NAME="null"
 
   # Behat tags. Allows you to include/exclude tags per bundle as needed.
-  - export EXPRESS_JS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@javascript"
+  - export EXPRESS_JS_BEHAT_TAGS="@javascript@blockmenuicons"
   - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript"
   - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken"
 

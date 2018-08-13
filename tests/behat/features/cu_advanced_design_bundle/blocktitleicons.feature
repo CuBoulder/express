@@ -1,8 +1,4 @@
-# THE MENU ICON TITLE TEST WILL BREAK ONCE THE DEVS FIX THE PROBLEM WITH CONTEXT/ADD
-# https://github.com/CuBoulder/express/issues/2177
-# WHEN FIXED, SELECTOR USED IN LINE 47 WILL CHANGE AND TEST MUST BE UPDATED TO REFLECT THAT
-
-@AdvDesign
+@AdvDesign @blockmenuicons
 Feature: Font Awesome Icons in block titles
 In order to add visual interest to my site
 As an authenticated user
@@ -42,7 +38,7 @@ And I fill in "edit-conditions-plugins-path-values" with "about-apples"
 And I select "block" from "edit-reactions-selector"
 And I click the "#edit-reactions-plugins-block-selector-text-block a.fieldset-title" element
 And I check "edit-reactions-plugins-block-selector-text-block-checkboxes-bean-learn-more"
-And I click the ".context-blockform-regionlabel-sidebar_second a" element
+And I click the "a" element with "/admin/structure/context/add#sidebar_second" for "href"
 And I press "Save"
 Then I should see "appleicon has been created"
 # GO CHECK THE PAGE
