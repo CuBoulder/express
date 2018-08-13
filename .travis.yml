@@ -41,7 +41,6 @@ install:
   # Behat tags. Allows you to include/exclude tags per bundle as needed.
   - export EXPRESS_JS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@javascript"
   - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript"
- #  - export EXPRESS_HEADLESS_BEHAT_TAGS="@blockmenuicons"
   - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken"
 
   # Copy scripts to root.
