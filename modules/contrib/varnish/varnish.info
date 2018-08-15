@@ -6,9 +6,8 @@ package = Caching
 files[] = varnish.cache.inc
 files[] = varnish.test
 
-; Information added by Drupal.org packaging script on 2017-11-30
-version = "7.x-1.8"
+; Information added by Drupal.org packaging script on 2018-07-20
+version = "7.x-1.9"
 core = "7.x"
 project = "varnish"
-datestamp = "1512043986"
-
+datestamp = "1532082190"
