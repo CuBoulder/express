@@ -24,7 +24,7 @@ function cu_profile_module_manager_requirements($phase) {
       'cu_pmm_hosting_modules_enabled' => [
         'title' => 'One Hosting Module Enabled?',
         'description' => 'Ensure that only one hosting module is enabled per Express site.',
-        'value' => 'Hosting modules enabled: '. (!empty(implode(',', $enabled_hosting_modules)) ? implode(',', $enabled_hosting_modules) : 'None...Not good.'),
+        'value' => 'Hosting modules enabled: '. (!empty(implode(', ', $enabled_hosting_modules)) ? implode(', ', $enabled_hosting_modules) : 'None...Not good.'),
         'severity' => $severity,
       ],
     ];
