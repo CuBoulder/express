@@ -65,7 +65,7 @@ function ldap_help_config() {
           'simple_user' => array(
             'delete_if_exists' => TRUE,
             'find_filter' => "distinguishedName=cn=ed-drupal-user-17,$provision_root",
-            'dn' =>  "cn=ed-drupal-user-17, $provision_root",
+            'dn' => "cn=ed-drupal-user-17, $provision_root",
             'attr' => array(
               "displayName" => "Drupal User",
               "cn" => 'ed-drupal-user-17',
@@ -77,22 +77,22 @@ function ldap_help_config() {
               'mail' => 'ed-drupal-user-17@blah.com',
               'givenName' => 'Drupal',
               'sn' => 'User',
-              'distinguishedName' =>  "cn=ed-drupal-user-17,$provision_root",
+              'distinguishedName' => "cn=ed-drupal-user-17,$provision_root",
             ),
           ),
           'simple_group' => array(
             'delete_if_exists' => TRUE,
             'find_filter' => "distinguishedName=cn=ed-drupal-group2,$provision_root",
-            'dn' =>  "cn=ed-drupal-group2,$provision_root",
+            'dn' => "cn=ed-drupal-group2,$provision_root",
             'attr' => array(
               "cn" => 'ed-drupal-group2',
               "sAMAccountName" => 'ed-drupal-group2',
-              'instanceType' =>  '4',
+              'instanceType' => '4',
               "objectClass" => array(
                 "top", "group",
               ),
               'name' => 'ed-drupal-group2',
-              'distinguishedName' =>  "cn=ed-drupal-group2,$provision_root",
+              'distinguishedName' => "cn=ed-drupal-group2,$provision_root",
             ),
           ),
         ),
