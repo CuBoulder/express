@@ -45,13 +45,13 @@ install:
  
  # ---- the following are Cathy specific
    # run-js-tests.sh
-  - export EXPRESS_JS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@javascript&&@blockmenuicons"
+  - export EXPRESS_JS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@javascript&&@AdvDesign"
  
  # behat-tests.sh
-  - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript&&@blockmenuicons"
+  - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript&&@AdvDesign"
  
   # also behat-tests.sh
-  - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@blockmenuicons"
+  - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@AdvDesign"
  
 # ---- end Cathy specific
 
