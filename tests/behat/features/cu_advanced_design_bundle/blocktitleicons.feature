@@ -1,4 +1,4 @@
-@AdvDesign @blocktitleicons
+@AdvDesign
 Feature: Font Awesome Icons in block titles
 In order to add visual interest to my site
 As an authenticated user
