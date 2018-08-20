@@ -36,6 +36,7 @@ And I fill in "edit-name" with "appleicon"
 And I select "path" from "edit-conditions-selector"
 And I fill in "edit-conditions-plugins-path-values" with "about-apples"
 And I select "block" from "edit-reactions-selector"
+# THE NEXT LINES SELECT THE TEXT BLOCK AND PLACE IT IN SIDEBAR LEFT REGION
 And I click the "#edit-reactions-plugins-block-selector-text-block a.fieldset-title" element
 And I check "edit-reactions-plugins-block-selector-text-block-checkboxes-bean-learn-more"
 And I click the ".context-blockform-regionlabel-content_sidebar_left a.add-block" element
