@@ -48,10 +48,10 @@ install:
   - export EXPRESS_JS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@javascript&&@blockmenuicons"
  
  # behat-tests.sh
- # - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript"
+  - export EXPRESS_HEADLESS_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&~@javascript&&@blockmenuicons"
  
   # also behat-tests.sh
- # - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken"
+  - export BUNDLE_BEHAT_TAGS="~@exclude_all_bundles&&~@broken&&@blockmenuicons"
  
 # ---- end Cathy specific
 
