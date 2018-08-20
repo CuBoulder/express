@@ -38,6 +38,7 @@ And I fill in "edit-conditions-plugins-path-values" with "about-apples"
 And I select "block" from "edit-reactions-selector"
 And I click the "#edit-reactions-plugins-block-selector-text-block a.fieldset-title" element
 And I check "edit-reactions-plugins-block-selector-text-block-checkboxes-bean-learn-more"
+And print last response
 And I click the ".context-blockform-regionlabel-sidebar_second a.add-block" element
 And I press "Save"
 Then I should see "appleicon has been created"
