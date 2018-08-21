@@ -1,4 +1,7 @@
 Feature: Context
+In order to place blocks and add background graphics
+As an authenticated user
+I should be able to access the full context features
 
   @context @contextconditions @exclude_all_bundles
   Scenario Outline: A Site Owner should see a limited number of context conditions
