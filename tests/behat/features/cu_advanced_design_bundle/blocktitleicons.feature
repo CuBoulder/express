@@ -26,25 +26,3 @@ And I select "fa-apple" from "exbd_icon"
 And I press "edit-submit"
 #YES THE FOLLOWING LINE IS MISSPELLED IN WEB EXPRESS
 Then I should see "Block Desiger settings have been saved."
-
-# CREATE A BASIC PAGE
-Then I go to "node/add/page"
-And fill in "edit-title" with "About Apples"
-And I follow "Disable rich-text"
-And fill in "Body" with "The apple blossom is the state flower of Michigan."
-And I press "edit-submit"
-Then I should see "About Apples"
-
-# ADD BLOCK TO PAGE WITH LAYOUT
-# Then I follow "Edit Layout"
-# And I select "Text Block" from "edit-field-intro-und-actions-bundle--3"
-# And I fill in "edit-field-intro-und-form-label" with "Apple Info Block"
-# And fill in "edit-field-intro-und-form-title" with "Apple Info Block"
-# And I press 'Create block"
-
-# GO CHECK THE PAGE
-# And I go to "/about-apples"
-# Then I should see "About Apples"
-# And I should see "Learn More"
-# And the response should contain "fa fa-apple"
-# And the response should contain "class=\"exbd-block-icon fa fa-apple\""
