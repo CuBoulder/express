@@ -7,7 +7,7 @@ I should be able to attach Font Awesome icons to my block titles
 # TESTING NOTE: ATTACHING A BLOCK TO A PAGE IS VERY DIFFICULT WITH BEHAT; IT CAN BE DONE BUT THE
 # TEST IS NOT ROBUST - i.e IT'S EASY TO BREAK; SO IT HAS TO BE A HUMAN-RUN TEST, NOT AN AUTOMATED ONE
 
-# JAVASCRIPT TAG IS NECESSARY FOR TEST TO FIND #EDIT-ICON ELEMENT
+# JAVASCRIPT TAG IS NECESSARY FOR TEST TO FIND #EDIT-ICON ELEMENt
 @javascript
 Scenario: An authenticated user can add an icon to a block title
 Given I am logged in as a user with the "site_owner" role
