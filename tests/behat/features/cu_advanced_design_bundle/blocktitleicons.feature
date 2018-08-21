@@ -15,9 +15,9 @@ And fill in "edit-title" with "Apple Info Block"
 And I follow "Disable rich-text"
 And I fill in "Body" with "A is for Apple"
 And I press "Save"
-# And I go to "block/apple-info-block/design"
+And I go to "block/apple-info-block/design"
 # SEE IF FOLLOWING BLOCK DESIGNER WORKS
-And I follow "Block Designer"
+# And I follow "Block Designer" NO IT DOESN'T WORK; CAN'T BE FOUND
 And I click the "#edit-icon a.fieldset-title" element
 And I select "fa-apple" from "exbd_icon"
 And I press "edit-submit"
