@@ -1,9 +1,10 @@
+@AdvancedDesign
 Feature: Context
 In order to place blocks and add background graphics
 As an authenticated user
 I should be able to access the full context features
 
-  @context @contextconditions @exclude_all_bundles
+@context @contextconditions @exclude_all_bundles
   Scenario Outline: A Site Owner should see a limited number of context conditions
     Given  I am logged in as a user with the "site_owner" role
     And am on "admin/structure/context/add"
