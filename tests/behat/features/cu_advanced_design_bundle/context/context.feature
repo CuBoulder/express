@@ -1,10 +1,10 @@
 Feature: Context
 
-@context @contextconditions @exclude_all_bundles
-Scenario Outline: A content_editor should see a limited number of context conditions
-  Given  I am logged in as a user with the "content_editor" role
+  @context @contextconditions @exclude_all_bundles
+  Scenario Outline: A content_editor should see a limited number of context conditions
+    Given  I am logged in as a user with the "content_editor" role
     And am on "admin/structure/context/add"
-  When I select <condition> from "edit-conditions-selector"
+    When I select <condition> from "edit-conditions-selector"
 
     Examples:
       | condition |
@@ -20,11 +20,11 @@ Scenario Outline: A content_editor should see a limited number of context condit
       | "Sitewide context" |
       | "Sitewide public" |
 
-@context @contextreactions @exclude_all_bundles
-Scenario Outline: A content_editor should see a limited number of context reactions
-  Given  I am logged in as a user with the "content_editor" role
+  @context @contextreactions @exclude_all_bundles
+  Scenario Outline: A content_editor should see a limited number of context reactions
+    Given  I am logged in as a user with the "content_editor" role
     And am on "admin/structure/context/add"
-  Then I select <reaction> from "edit-reactions-selector"
+    Then I select <reaction> from "edit-reactions-selector"
 
     Examples:
       | reaction |

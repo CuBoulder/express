@@ -227,7 +227,7 @@ websupport@colorado.edu');
   variable_set('user_external_invite_accepted_confirmation_template', 'You have successfully joined the [site:name] Web Express website as a user with "[user_external_invite:invite_core_role][user_external_invite:invite_addon_roles]" access privileges.
 
 To access and edit this site:
-1) Go to [site:login-url]
+1) Go to [user_external_invite:invite_login_link]
 2) Login with your IdentiKey name and password.
 
 Web Central:
@@ -1041,6 +1041,16 @@ function cu_core_update_7050() {
 function cu_core_update_7051() {
   cu_core_revert_features();
 }
+
+/**
+ * Enable express_content_edit_lock for 2.9.4.
+ */
+function cu_redirect_update_7052() {
+  module_enable(array('express_content_edit_lock'));
+  cu_core_revert_features();
+  secure_permissions_rebuild();
+}
+
 
 /**
  * Revert features by passing features in an array.

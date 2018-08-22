@@ -332,6 +332,14 @@ function cu_content_administration_override_views_default_views() {
     3 => 0,
     5 => 0,
   );
+  /* Filter criterion: Content: Type */
+  $handler->display->display_options['filters']['type_1']['id'] = 'type_1';
+  $handler->display->display_options['filters']['type_1']['table'] = 'node';
+  $handler->display->display_options['filters']['type_1']['field'] = 'type';
+  $handler->display->display_options['filters']['type_1']['operator'] = 'not in';
+  $handler->display->display_options['filters']['type_1']['value'] = array(
+    'webform' => 'webform',
+  );
 
   /* Display: Page db */
   $handler = $view->new_display('page', 'Page db', 'page');
