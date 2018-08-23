@@ -1,4 +1,4 @@
-@people
+@people @peoplelist @javacript
 Feature: People List Block
   In order to place lists of people on different types of node
   As an authenticated user
@@ -67,6 +67,7 @@ Feature: People List Block
     And I should see "Abdullah FacTechMariDes"
     And I should see "Deshawn StaffGeoMariDes"
     And I should see "Kendall StaffTechHoneyLaw"
+    And I should not see "Leave this field blank"
 
 
   Scenario: The People List Block can filter out persons
