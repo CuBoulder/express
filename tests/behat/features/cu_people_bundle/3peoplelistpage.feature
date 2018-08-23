@@ -1,4 +1,4 @@
- @people
+ @people @peoplelist @javacript
 Feature: People List Page Content Type
   In order to display a directory list of Person nodes
   As an authenticated user
