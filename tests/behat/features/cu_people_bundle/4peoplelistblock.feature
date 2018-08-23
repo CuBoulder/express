@@ -1,4 +1,4 @@
-@people @peoplelist @javacript
+@people
 Feature: People List Block
   In order to place lists of people on different types of node
   As an authenticated user
