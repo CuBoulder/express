@@ -170,6 +170,8 @@ Feature: People List Page Content Type
     And I should see "Research Group"
     And I should see "Area of Expertise"
     And I should not see "Committees"
+    And print last response
+    
       # THIS ONE IS AN ATLAS ERROR
     # TEST FINDS THIS EVEN THOUGH HIDDEN And I should not see "Leave This Field Blank"
     
