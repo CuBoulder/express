@@ -126,7 +126,7 @@ Feature: URL redirects
     When I press "Delete"
     Then I should see "There are no redirects that were never accessed. No redirects have been removed."
 
-  Scenario Outline: Only a developer should be able to add math redirects.
+  Scenario Outline: Only a developer should be able to add match redirects.
     Given I am logged in as a user with the <role> role
     When I go to "admin/config/search/match_redirect/add"
     Then I should see <message>
@@ -165,7 +165,7 @@ Feature: URL redirects
     When I go to "fruity-tooty"
     # User sees page since "Allow content to be redirected?" isn't checked.
     Then I should see "Fruity Tooty Body text."
-    When I go to "admin/config/search/redirect/wildcards"
+    When I go to "admin/config/search/match_redirect"
     And I follow "Edit"
     Then I should see "Edit match redirect"
     When I check "Allow content to be redirected?"
