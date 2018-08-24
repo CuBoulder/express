@@ -279,12 +279,14 @@ function cu_redirect_form_match_redirect_list_form_alter(&$form, &$form_state, $
   $dev = user_role_load_by_name('developer');
   $admin = user_role_load_by_name('administrator');
 
-  if (!user_has_role($dev->rid) && !user_has_role($admin->rid)) {
+  if (arg(3) != 'match_redirect') {
+    $form['actions']['#type'] = 'hidden';
+    $form['#prefix'] = l('Add match redirect', 'admin/config/search/match_redirect/add');
     $redirects_count = $form['redirects'] ?? [];
+
     foreach ($redirects_count as $key => $redirect) {
       $form['redirects'][$key]['operations']['#type'] = 'hidden';
     }
-    $form['actions']['#type'] = 'hidden';
   }
 }
 
