@@ -15,5 +15,4 @@ dependencies[] = atlas
 dependencies[] = atlas_statistics
 dependencies[] = smtp
 dependencies[] = maillog
-
-optional-dependencies[] = memcache
+dependencies[] = memcache
