@@ -157,3 +157,8 @@ function cu_ldap_cron() {
     watchdog('cron', 'CU_LDAP updated realnames and primary affiliation for all enabled users.');
   }
 }
+
+function cu_ldap_page_alter(&$page) {
+  $ldap_servers = db_query('SELECT address FROM ldap_servers WHERE sid = :sid', array(':sid' => 'directory'))->fetchField();
+  dpm($ldap_servers);
+}
