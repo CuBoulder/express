@@ -209,6 +209,14 @@ function express_content_edit_lock_page_alter(&$page) {
   $onConfPage = strpos(current_path(), 'admin/settings/bundles/list/confirm');
   if (variable_get('lock_user_dev') == 1 && $onConfPage === 0) {
     $page['content']['system_main']['main']['#markup'] = '<p>Enabling bundles has been disabled on this site while it is locked.</p>';
+  } else if (variable_get('atlas_status') == 'available' && $onConfPage === 0) {
+    global $base_url;
+    drupal_set_message(
+      t('Enabling bundles has been disabled on this site while it is in the <i>available</i> status. <a href="$base_url/admin/config/development/atlas">Update Atlas Settings</a> or <a href="@base_url/admin/people/invite">Invite a User</a>',
+        array('@base_url' => $base_url)
+      ),
+      'error');
+    $page['content']['system_main']['main']['#markup'] = '<p>Enabling bundles has been disabled on this site while it is in the <i>available</i> status.</p><div class="btn btn-primary disabled">Confirm</div></a><a href="$base_url/admin/settings/bundles/list/" title="Cancel"><div class="btn btn-default">Cancel</div>';
   }
 }
 
