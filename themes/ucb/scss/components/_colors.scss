@@ -1,0 +1,34 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+/**
+ * Color styles
+ */
+
+ @each $name, $color in $all_colors {
+   .background-#{$name},
+   .exbd-style-#{$name} {
+     background-color: $color;
+     color: set-text-color($color);
+     a:link,
+     a:visited {
+       color: set-link-color($color);
+     }
+   }
+   .text-#{$name} {
+     color: $color !important;
+   }
+ }
+
+ @for $i from 1 through 9 {
+  .background-gray-#{$i}00 {
+    $color: darken(#fff, $i * 10);
+    background: $color;
+    color: set-text-color($color);
+    a:link,
+    a:visited {
+      color: set-link-color($color);
+    }
+  }
+}

@@ -1,0 +1,62 @@
+//
+// Global variables and mixins
+//
+
+// Fonts/Type
+$base_font: "Neue Helvetica W01", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$base_font_size: 17px;
+
+// Breakpoints
+$breakpoint_small: 576px;
+$breakpoint_medium: 768px;
+$breakpoint_tablet: $breakpoint_medium;
+$breakpoint_large: 992px;
+$breakpoint_desktop: $breakpoint_large;
+$breakpoint_xlarge: 1140px;
+
+// Rounded Corners/Border Radius
+$radius_small: 3px;
+$radius_medium: 5px;
+$radius_large: 7px;
+$radius_none: 0px;
+
+// Spacing
+$spacing: 20px;
+$gutter: $spacing * 2;
+
+// Max Width
+$max_width: 1200px;
+
+// element-invisible improved and more robust
+@mixin element-invisible {
+  border: 0;
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  white-space: nowrap;
+}
+
+// Clear floats
+@mixin clearfloats {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+// Shadow hover transition
+@mixin shadowtransition {
+  transition: -webkit-box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
+  transition: -moz-box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
+  transition: box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
+}

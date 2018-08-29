@@ -1,0 +1,184 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+/**
+ * Button styles
+ */
+
+// Base button styles
+
+@mixin button_default {
+  color: #fff;
+  display: inline-block;
+  padding:5px 10px;
+  font-weight:500;
+  font-family: $base_font;
+  transition: background-color 0.5s ease;
+  margin-bottom: 5px;
+  text-decoration: none !important;
+
+  @include rounded($radius: $radius_small);
+  @include rgbashadow(0, 1px, 2px, #000000, .20);
+  @include shadowtransition;
+}
+
+a.button,
+.button {
+  @include button_default;
+}
+
+@mixin button($color) {
+ background-color: $color;
+ color: set-text-color($color) !important;
+ @if ($color == #fff) {
+   border:1px solid #e0e0e0;
+ }
+ &:hover,
+ &:focus {
+   background-color:darken($color, 3%);
+   @include rgbashadow(0, 2px, 5px, #000000, .30);
+ }
+ &:active {
+   @include rgbashadow(0, 3px, 15px, #000000, .35);
+ }
+}
+
+// Button colors
+$colors: (
+  "blue": $blue,
+  "white": $white,
+  "gray-dark": $gray-dark,
+  "gray-light": $gray-light,
+  "gray": $gray-light,
+  "black":$black,
+  "gold": $gold,
+);
+// Create buttons from colors
+@each $name, $color in $colors {
+  .button.button-#{$name},
+  .buttons-color-#{$name} a, {
+    @include button_default;
+    @include button($color);
+  }
+}
+
+// Button sizes
+.button-large {
+  font-size: 125%;
+  padding:10px;
+}
+.button-small {
+  font-size: 90%;
+  padding: 1px 6px;
+}
+
+// Button groups
+.buttongroup {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  //@include rounded($radius: $radius_small);
+  a.button {
+    display: block;
+    @include rounded($radius: 0px);
+    text-align: center;
+    font-weight: 500;
+  }
+}
+@media screen and (min-width:768px) {
+  .buttongroup .button-group-content {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+    position: relative;
+    a.button {
+      display: table-cell;
+      @include rounded($radius: 0px);
+      text-align: center;
+      vertical-align: middle;
+      border-style: solid;
+      position: relative;
+      border:none;
+      overflow: hidden;
+    }
+    a.button:after {
+      bottom: 0;
+      content: "";
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 0;
+      -webkit-box-shadow: 0px 0 1px 0 rgba(0, 0, 0, 0.25) inset;
+      box-shadow: 0px 0 1px 0 rgba(0, 0, 0, 0.25) inset;
+    }
+  }
+}
+.buttongroup-size-small {
+  font-size: 85%;
+  a.button {
+    padding:2px 5px;
+  }
+}
+.buttongroup-size-large {
+  font-size: 115%;
+  a.button {
+    padding: 20px;
+    font-weight: bold;
+  }
+}
+
+// Create button groups from colors
+@each $name, $color in $colors {
+  .button-group-color-#{$name} {
+    background-color: darken($color, 10%);
+    a.button {
+      @include button($color);
+    }
+  }
+}
+
+// Give buttons
+.cu-give-button-dark {
+  @include button_default;
+  @include button($gray_dark);
+}
+.cu-give-button-light {
+  @include button_default;
+  @include button($gray_light);
+}
+.cu-give-button-gold {
+  @include button_default;
+  @include button($gold);
+}
+
+// Ghost buttons
+.button-ghost {
+  display: inline-block;
+  padding:5px 10px;
+  font-weight:500;
+  font-family: $base_font;
+  margin-bottom: 5px;
+  text-decoration: none;
+}
+@each $name, $color in $colors {
+  .button-ghost.button-ghost-#{$name},
+  .buttons-color-outline-#{$name} a {
+    border:1px solid $color;
+    color: $color !important;
+    text-decoration: none;
+    @if (lightness($color) > 40) {
+      background: rgba(#000, .25);
+    }
+    @else {
+      background: rgba(#FFF, .25);
+    }
+    &:hover,
+    &:active,
+    &:focus {
+      background: $color;
+      color: set-text-color($color) !important;
+    }
+  }
+}

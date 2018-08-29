@@ -1,0 +1,170 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+/**
+ * Layout styles
+ */
+
+// Max width containers
+.element-max-width {
+  max-width: $max_width;
+}
+.element-max-width-padding {
+  max-width: $max_width - (2 * $spacing);
+}
+
+// Containers
+.container {
+  width: 100%;
+  padding-right: $spacing;
+  padding-left: $spacing;
+  margin-right: auto;
+  margin-left: auto;
+}
+// Fluid containers for tablet & mobile
+@media (min-width: 576px) {
+  .container {
+    //max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    //max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+}
+.layout-fixed {
+  .container {
+    width:1140px;
+    max-width: none;
+  }
+}
+
+.container-fluid {
+  width: 100%;
+  padding-right: $spacing;
+  padding-left: $spacing;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+// Grid wrappers
+.row {
+  margin-left: -$spacing;
+  margin-right: -$spacing;
+}
+// For elements that do not include grid elements, but need the spacing to
+// align properly.
+.element-spacing {
+  padding:0 $spacing;
+}
+
+// variables
+$responsiveMax: 1200px;
+$fixedMax: 1200px;
+$gutter: 40px;
+$padding: 20px;
+
+@mixin clearfloats {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+/* Max width classes for elements */
+.layout-responsive .element-max-width {
+  max-width: $max_width;
+  margin-right: auto;
+  margin-left: auto;
+  @include clearfloats;
+  clear:both;
+}
+.layout-responsive .element-max-width-gutter,
+.layout-responsive .element-max-width-padding {
+  max-width: ($max_width - $gutter);
+  margin-right: auto;
+  margin-left: auto;
+  @include clearfloats;
+  clear:both;
+}
+
+.layout-fixed .element-max-width {
+  max-width: $max_width;
+  margin-right: auto;
+  margin-left: auto;
+  @include clearfloats;
+  clear:both;
+}
+.layout-fixed .element-max-width-gutter,
+.layout-fixed .element-max-width-padding {
+  max-width: ($max_width - $gutter);
+  margin-right: auto;
+  margin-left: auto;
+  @include clearfloats;
+  clear:both;
+}
+
+
+
+.layout-responsive .container-max {
+  margin-right: auto;
+  margin-left: auto;
+  max-width:$max_width;
+  @include clearfloats;
+}
+.layout-fixed .container-max {
+  margin-right: auto;
+  margin-left: auto;
+  width:$max_width;
+  @include clearfloats;
+}
+.layout-fixed {
+  min-width: $max_width;
+}
+
+
+
+
+/* Visibility */
+
+.visible-xs,
+.visible-sm,
+.visible-md,
+.visible-lg {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .visible-xs {
+    display: block !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 959px) {
+  .visible-sm {
+    display: block !important;
+  }
+}
+@media (min-width: 960px) and (max-width: 1199px) {
+  .visible-md {
+    display: block !important;
+  }
+}
+@media (min-width: 1200px) {
+  .visible-lg {
+    display: block !important;
+  }
+}
