@@ -262,7 +262,7 @@ function ucb_preprocess_page(&$vars) {
   // Section classes
   $vars['section']['slider']['class'] = '';
   $vars['section']['after-content2']['class'] = '';
-  $vars['section']['footer-section']['class'] = '';
+  $vars['section']['footer-section']['class'] = 'background-black';
   $vars['section']['footer']['class'] = '';
   $vars['section']['site-info']['class'] = '';
 }
