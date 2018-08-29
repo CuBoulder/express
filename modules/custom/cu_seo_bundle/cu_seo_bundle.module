@@ -18,18 +18,23 @@ function cu_seo_bundle_secure_permissions($role) {
   $permissions = array(
     'administrator' => array(
       'edit meta tags',
-      'administer meta tags',
       'access broken links report',
       'edit link settings',
       'administer site verify',
       'view seo dashboard',
     ),
     'content_editor' => array(
+      'access broken links report',
       'edit meta tags',
+    ),
+    'edit_my_content' => array(
+      'access broken links report',
+    ),
+    'edit_only' => array(
+      'access broken links report',
     ),
     'developer' => array(
       'edit meta tags',
-      'administer meta tags',
       'administer xmlsitemap',
       'access broken links report',
       'administer linkchecker',
@@ -40,7 +45,6 @@ function cu_seo_bundle_secure_permissions($role) {
     ),
     'site_editor' => array(
       'edit meta tags',
-      'administer meta tags',
       'administer xmlsitemap',
       'access broken links report',
       'edit link settings',
@@ -49,7 +53,6 @@ function cu_seo_bundle_secure_permissions($role) {
     ),
     'site_owner' => array(
       'edit meta tags',
-      'administer meta tags',
       'administer xmlsitemap',
       'access broken links report',
       'edit link settings',

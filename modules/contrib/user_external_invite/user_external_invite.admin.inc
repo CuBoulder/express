@@ -90,6 +90,15 @@ function user_external_invite_settings_form() {
     ),
   );
 
+  global $base_url;
+  $form['user_external_invite_login_link'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Login Link'),
+    '#description' => t('Login link sent to user once the invite has been granted.'),
+    '#default_value' => variable_get('user_external_invite_login_link', 'user'),
+    '#field_prefix' => "$base_url/",
+  );
+
   // Message templates.
   $form['user_external_invite_invite_template'] = array(
     '#title' => t('Invitation Email Template'),
@@ -188,9 +197,6 @@ function user_external_invite_form($form, &$form_state) {
       }
     }
 
-    asort($core_role_options);
-    asort($addon_role_options);
-
     $form['core_rid'] = array(
       '#title' => t('Core Role'),
       '#type' => 'radios',
@@ -227,9 +233,9 @@ function user_external_invite_form($form, &$form_state) {
       '#type' => 'submit',
       '#value' => t('Send Invites'),
     );
-    return $form;  
+    return $form;
   }
-  
+
 }
 
 /**

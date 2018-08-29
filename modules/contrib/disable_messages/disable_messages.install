@@ -1,8 +1,8 @@
 <?php
 
-/*
+/**
  * @file
- * Filter Messages Module install file
+ * Filter Messages Module install file.
  */
 
 /**
@@ -22,7 +22,11 @@ function disable_messages_install() {
   $result = db_query('SELECT r.rid FROM {role} r');
   foreach ($result as $role) {
     // Add view all message permission for all users.
-    $permissions = array('view status messages', 'view warning messages', 'view error messages');
+    $permissions = array(
+      'view status messages',
+      'view warning messages',
+      'view error messages',
+    );
     foreach ($permissions as $perm) {
       db_query("
         INSERT INTO {role_permission} (rid, permission, module)
@@ -36,7 +40,15 @@ function disable_messages_install() {
       );
     }
   }
-  drupal_set_message(st('Added view all message type permissions for all roles. You can change this in !link', array('!link' => l(st('administer permissions'), 'admin/people/permissions', array('fragment' => 'module-disable_messages')))));
+  drupal_set_message(st('Added view all message type permissions for
+    all roles. You can change this in !link', array(
+      '!link' => l(st('administer permissions'), 'admin/people/permissions',
+        array(
+          'fragment' => 'module-disable_messages',
+        )
+      ),
+    )
+  ));
 }
 
 /**
@@ -52,11 +64,11 @@ function disable_messages_uninstall() {
   variable_del('disable_messages_exclude_users');
   variable_del('disable_messages_enable_debug');
   variable_del('disable_messages_debug_visible_div');
-  // Permission deletions are handled by core
+  // Permission deletions are handled by core.
 }
 
 /**
- * Implementation of hook_update().
+ * Implements hook_update().
  */
 function disable_messages_update_7100() {
   // Do nothing other than force update of theme registry.

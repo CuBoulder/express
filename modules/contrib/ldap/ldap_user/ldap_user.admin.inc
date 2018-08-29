@@ -6,7 +6,6 @@
  *
  */
 
-
 /**
  * form for adding, updating, and deleting a single ldap authorization mapping
  */
