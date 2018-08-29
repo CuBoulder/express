@@ -6,12 +6,11 @@ package = Hosting
 
 dependencies[] = varnish
 dependencies[] = memcache
-;dependencies[] = ldap_authentication
-;dependencies[] = ldap_servers
-;dependencies[] = ldap_user
-;dependencies[] = cu_ldap
+dependencies[] = ldap_authentication
+dependencies[] = ldap_servers
+dependencies[] = ldap_user
+dependencies[] = cu_ldap
 dependencies[] = noreqnewpass
 dependencies[] = cu_atlas
 dependencies[] = atlas
 dependencies[] = atlas_statistics
-dependencies[] = session_cookie_lifetime

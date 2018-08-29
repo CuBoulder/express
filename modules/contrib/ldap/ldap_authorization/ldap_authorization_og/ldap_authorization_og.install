@@ -13,4 +13,3 @@ function ldap_authorization_og_uninstall() {
   batch_set(ldap_severs_user_data_setup_batch('og_group'));
   $batch =& batch_get();
 }
-  

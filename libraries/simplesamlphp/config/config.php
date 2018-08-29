@@ -4,9 +4,51 @@
  * 
  */
 
-global $databases;
+if (!ini_get('session.save_handler')) {
+  ini_set('session.save_handler', 'file');
+}
 
-$db = $databases['default']['default'];
+if (strpos($_SERVER['SCRIPT_NAME'], "index.php")) {
+  // the $conf array is available without loading this, but the $databases is not
+  global $databases;
+} else {
+  // this handles calls directly to php files in /profiles/express/simplesaml/module.php/saml/sp/
+  // in this case we have to load Drupal's settings file from the realtive location of
+  // /data/web/homepage/profiles/express/simplesaml/module.php
+  include('../../../sites/default/settings.php');
+}
+
+
+if (isset($conf["cu_path"]) && $conf["cu_path"]) {
+  $saml_baseURL = 'https://' . $_SERVER['HTTP_HOST'] . '/' . $conf["cu_path"];
+} else {
+  $saml_baseURL = 'https://' . $_SERVER['HTTP_HOST'];
+}
+
+$saml_baseurlpath = $saml_baseURL . '/profiles/express/simplesaml/';
+
+if (isset($_REQUEST['saml-config-debug']) && $_REQUEST['saml-config-debug']) {
+  print $_SERVER['SCRIPT_FILENAME'] . "</br>";
+  print __DIR__ . "</br>";
+  ///Users/kere7580/Sites/exs/code/dslm_base/profiles/express-2.8.5/libraries/simplesamlphp/config
+  print realpath('../../../'). "</br>";
+  if (file_exists('../../../sites/default/settings.php')) {
+    print "Relative path to settings.php location is correct</br>";
+  } else {
+    print "Relative path to settings.php location is NOT correct</br>";
+  }
+	print "Base URL: $saml_baseURL </br>";
+	print "Base URL Path: $saml_baseurlpath </br>";
+	print_r($databases['saml']['default']);
+	print "<p>";
+	$path_parts = pathinfo($_SERVER['PHP_SELF']);
+	print_r($path_parts);
+	die;
+}
+
+header('Access-Control-Allow-Origin: *');
+
+$db = $databases['saml']['default'];
 
 $config = array(
 
@@ -31,7 +73,7 @@ $config = array(
      * external url, no matter where you come from (direct access or via the
      * reverse proxy).
      */
-    'baseurlpath' => 'simplesaml/',
+    'baseurlpath' => $saml_baseurlpath,
 
     /*
      * The 'application' configuration array groups a set configuration options
@@ -52,7 +94,7 @@ $config = array(
          * need to compute the right URLs yourself and pass them dynamically
          * to SimpleSAMLphp's API.
          */
-        //'baseURL' => 'https://example.com'
+        'baseURL' => $saml_baseURL,
     //),
 
     /*
@@ -64,7 +106,7 @@ $config = array(
      * - 'temdir': Saving temporary files. SimpleSAMLphp will attempt to create
      *   this directory if it doesn't exist.
      * When specified as a relative path, this is relative to the SimpleSAMLphp
-     * root directory. 
+     * root directory.
      */
     'certdir' => 'cert/',
     'loggingdir' => 'log/',
@@ -76,8 +118,8 @@ $config = array(
      * The email address will be used as the recipient address for error reports, and
      * also as the technical contact in generated metadata.
      */
-    'technicalcontact_name' => 'Administrator',
-    'technicalcontact_email' => 'na@example.org',
+    'technicalcontact_name' => 'Web Express Admin',
+    'technicalcontact_email' => 'OSR-DL-WEBDEV@colorado.edu',
 
     /*
      * The timezone of the server. This option should be set to the timezone you want
@@ -110,7 +152,7 @@ $config = array(
      * metadata listing and diagnostics pages.
      * You can also put a hash here; run "bin/pwgen.php" to generate one.
      */
-    'auth.adminpassword' => '123',
+    'auth.adminpassword' => '{SMD5}8ChCWlklFIKZ2MIlqNZWTu7WICWdPE6X',
 
     /*
      * Set this options to true if you want to require administrator password to access the web interface
@@ -166,7 +208,7 @@ $config = array(
      * If you have some SP's on HTTP and IdP is normally on HTTPS, this option
      * enables secure POSTing to HTTP endpoint without warning from browser.
      *
-     * For this to work, module.php/core/postredirect.php must be accessible
+     * For this to work, www-te must be accessible
      * also via HTTP on IdP, e.g. if your IdP is on
      * https://idp.example.org/ssp/, then
      * http://idp.example.org/ssp/module.php/core/postredirect.php must be accessible.
@@ -372,7 +414,7 @@ $config = array(
     /*
      * SQL database credentials
      */
-    'database.username' => 'simplesamlphp',
+    'database.username' => 'saml',
     'database.password' => 'secret',
 
     /*
@@ -417,7 +459,7 @@ $config = array(
      * one of the functionalities below, but in some cases you could run multiple functionalities.
      * In example when you are setting up a federation bridge.
      */
-    'enable.saml20-idp' => false,
+    'enable.saml20-idp' => true,
     'enable.shib13-idp' => false,
     'enable.adfs-idp' => false,
     'enable.wsfed-sp' => false,
@@ -456,7 +498,6 @@ $config = array(
      * ),
      *
      */
-
 
 
     /*************************
@@ -1024,22 +1065,12 @@ $config = array(
     /*
      * The username and password to use when connecting to the database.
      */
-    'store.sql.username' => $db['username'],
-    'store.sql.password' => $db['password'],
+    'store.sql.username'            => $db['username'],
+    'store.sql.password'            => $db['password'],
 
     /*
      * The prefix we should use on our tables.
      */
-    'store.sql.prefix' => 'SimpleSAMLphp',
+    'store.sql.prefix'              => 'SimpleSAMLphp',
 
-    /*
-     * The hostname and port of the Redis datastore instance.
-     */
-    'store.redis.host' => 'localhost',
-    'store.redis.port' => 6379,
-
-    /*
-     * The prefix we should use on our Redis datastore.
-     */
-    'store.redis.prefix' => 'SimpleSAMLphp',
 );

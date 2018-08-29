@@ -44,3 +44,13 @@ function cu_slider_update_7013() {
   $field['translatable'] = 0;
   field_update_field($field);
 }
+
+/**
+ * Deleting View that had dependency on EVA
+ */
+function cu_slider_update_7014() {
+  if ($view = views_get_view('cu_slider')) {
+    views_delete_view($view);
+  }
+}
+
