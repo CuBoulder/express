@@ -38,17 +38,23 @@ function express_content_edit_lock_admin_form($form, &$form_state) {
     return array_search($name, $roles);
   }
 
+  // Define roles that users can be invited to.
+  // Always exclude anonymous and authenticated roles.
+  $user_roles = user_roles();
+  $admin_rid = get_role_by_name('administrator');
+  $dev_rid = get_role_by_name('developer');
+  $excluded_roles = module_invoke_all('user_external_invite_excluded_roles', [1, 2, $admin_rid, $dev_rid]);
+  foreach ($excluded_roles as $role_id) {
+    if (isset($user_roles[$role_id])) {
+      unset($user_roles[$role_id]);
+    }
+  }
+
   $form['lock_by_role'] = array(
     '#type' => 'checkboxes',
     '#multiple' => TRUE,
     '#title' => t('Lock users based on their role'),
-    '#options' => array(
-      // The keys for the array are user role ID #s.
-      get_role_by_name('edit_my_content') => t('Edit my content'),
-      get_role_by_name('content_editor') => t('Content editors'),
-      get_role_by_name('site_owner') => t('Site owners'),
-      get_role_by_name('administrator') => t('Administrators'),
-    ),
+    '#options' => $user_roles,
     '#default_value' => variable_get('lock_by_role', array()),
     '#description' => t('Every user with a role selected above will be locked out.'),
   );
@@ -68,6 +74,7 @@ function express_content_edit_lock_admin_form($form, &$form_state) {
     '#type' => 'submit',
     '#value' => t('Save configuration'),
   );
+
   return $form;
 }
 
