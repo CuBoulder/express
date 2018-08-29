@@ -7,3 +7,10 @@
  * memcache.inc must be configured in settings.php, and memcache.module is not
  * necessary to use memcache as a cache backend.
  */
+
+ /**
+ * Empty function added to be able to run php level function_exists check in settings.php.
+ */
+ function memcache_function_exists_check() {
+   return TRUE;
+ }
