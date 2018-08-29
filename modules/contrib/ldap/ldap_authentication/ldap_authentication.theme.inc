@@ -48,10 +48,10 @@ function theme_ldap_authentication_user_pass_message($variables) {
     $msg = t('This page is only useful for the site administrator.  All other users
       need to reset their passwords');
     if ($auth_conf->ldapUserHelpLinkUrl) {
-      $msg .=  ' ' . t('at') . ' ' . l(t($auth_conf->ldapUserHelpLinkText), $auth_conf->ldapUserHelpLinkUrl) . '.';
+      $msg .= ' ' . t('at') . ' ' . l(t($auth_conf->ldapUserHelpLinkText), $auth_conf->ldapUserHelpLinkUrl) . '.';
     }
     else {
-      $msg .=  ' ' . t('with one of your organizations password management sites.');
+      $msg .= ' ' . t('with one of your organizations password management sites.');
     }
   }
   else { // mixed mode

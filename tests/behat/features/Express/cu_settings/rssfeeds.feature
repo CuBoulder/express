@@ -28,10 +28,13 @@ Examples:
     | administrator   | 
     | site_owner      | 
     | content_editor  | 
+    | site_editor      | 
+#   | configuration_manager | HIDE FOR NOW; RETEST LATER
+
     
 # SOME ROLES CAN NOT ACCESS RSS FEED SETTINGS
 
-Scenario Outline: EMCs should not be able to view the RSS feeds
+Scenario Outline: EMCs, EditOnly and AcsMgrs should not be able to view the RSS feeds
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/feeds/rss/overview"
 Then I should see "Access denied"
@@ -39,6 +42,8 @@ Then I should see "Access denied"
  Examples:
     | role            | 
     | edit_my_content  | 
+    | edit_only        | 
+    | access_manager   | 
     
 
 Scenario: An anonymous user should not be able to view the RSS feeds
@@ -60,10 +65,12 @@ Examples:
     | administrator   | 
     | site_owner      | 
     | content_editor  | 
+    | site_editor      | 
+#   | configuration_manager | HIDE FOR NOW; RETEST LATER
 
 # SOME ROLES CAN NOT ACCESS THE RSS FEED BUILDER
 
-Scenario Outline: EMCs should not be able to access the RSS feed builder page
+Scenario Outline: EMCs, EditOnly and AcsMgrs should not be able to access the RSS feed builder page
 Given I am logged in as a user with the <role> role
 When I go to "admin/settings/feeds/rss/add"
 Then I should see "Access denied"
@@ -71,6 +78,8 @@ Then I should see "Access denied"
  Examples:
     | role            | 
     | edit_my_content  | 
+    | edit_only        | 
+    | access_manager   | 
     
 
 Scenario: An anonymous user should not be able to access the RSS feed builder page
@@ -79,12 +88,13 @@ Scenario: An anonymous user should not be able to access the RSS feed builder pa
   
 # BUILDING AN RSS FEED
 # NOTE THIS PARTICULAR FEED CAN ONLY BE TESTED ONCE; USE OTHER FEEDS TO TEST OTHER ROLES
+
 Scenario: One user can build a feed with the default feed/rss.xml
  Given I am logged in as a user with the "site_owner" role
  When I go to "admin/settings/feeds/rss/add"
  Then I should see "Build custom RSS feeds"
  And I fill in "edit-rss-title" with "Exciting News"
- And I press "Save Feed"
+ And I press "edit-submit"
  Then I should see "Exciting News"
  And I should see "feed/rss.xml"
  

@@ -374,7 +374,7 @@ a.expand-title:focus {
 .image-caption {
   font-size: 80%;
   line-height: 120%;
-  display: table;
+  display: block;
   margin-bottom: 20px;
 }
 @media screen and (min-width:540px) {
@@ -390,10 +390,12 @@ a.expand-title:focus {
   }
 }
 .image-caption p {
-  display: table-caption;
-  caption-side: bottom;
-  padding: 5px 10px;
-  background: #f0f0f0;
+  //display: table-caption;
+  //caption-side: bottom;
+  //display: inline-block;
+  //clear: both;
+  padding: 5px 0;
+  //background: #f0f0f0;
   margin: 0;
 }
 div.image-caption img {
@@ -407,24 +409,7 @@ div.image-caption  p:first-child {
 .image-caption p:last-child {
   margin-bottom: 0;
 }
-.image-full-width .image-caption {
-  background-color: #f0f0f0;
-  display: block;
-}
-.layout-responsive .image-full-width .image-caption p:nth-child(n+2) {
-  max-width:1200px;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-  padding:5px 20px;
-}
-.layout-fixed .image-full-width .image-caption p:nth-child(n+2) {
-  max-width:960px;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
-  padding: 5px 20px;
-}
+
 .image-caption img {
   display: block;
   float: none;
@@ -435,7 +420,7 @@ div.image-caption  p:first-child {
 }
 
 /* Callout shortcode CSS */
-#zone-wide-2 .feature-story-wrapper .feature-layout-callout img {
+.feature-layout-wrapper .feature-layout-callout img {
   max-width: 100% !important;
 }
 .feature-layout-callout {
@@ -491,9 +476,9 @@ div.image-caption  p:first-child {
     width:520px;
     float: right;
   }
-  .feature-story-wrapper .feature-layout-callout,
-  .feature-story-wrapper .feature-layout-callout-large,
-  .feature-story-wrapper .feature-layout-callout-xlarge  {
+  .feature-layout-wrapper .feature-layout-callout,
+  .feature-layout-wrapper .feature-layout-callout-large,
+  .feature-layout-wrapper .feature-layout-callout-xlarge  {
     margin-right:-260px;
   }
 }

@@ -7,7 +7,6 @@
  *
  */
 
-
 $entries = array(
     'cn=hpotter,ou=people,dc=hogwarts,dc=edu' =>
     array(

@@ -6,8 +6,6 @@
  *
  */
 
-
-
 module_load_include('php', 'ldap_query', 'LdapQuery.class');
 
 class LdapQueryAdmin extends LdapQuery {
@@ -143,7 +141,7 @@ class LdapQueryAdmin extends LdapQuery {
   public function getActions() {
     $switch = ($this->status ) ? 'disable' : 'enable';
     $actions = array();
-    $actions[] =  l(t('edit'), LDAP_QUERY_MENU_BASE_PATH . '/query/edit/' . $this->qid);
+    $actions[] = l(t('edit'), LDAP_QUERY_MENU_BASE_PATH . '/query/edit/' . $this->qid);
     if (property_exists($this, 'type')) {
       if ($this->type == 'Overridden') {
           $actions[] = l(t('revert'), LDAP_QUERY_MENU_BASE_PATH . '/query/delete/' . $this->qid);

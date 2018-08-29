@@ -8,6 +8,11 @@
     margin-bottom: 10px;
   }
 }
+.article-grid > .row {
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
 
 .article-grid-summary-display .article-grid-article-title {
   font-weight: 600;
@@ -56,8 +61,14 @@
 
 .article-feature-stacked {
   @media all and (min-width: 768px) {
+    .article-feature-top {
+      border-bottom:1px solid #e7e7e7;
+      .article-view-mode-feature {
+        padding-bottom: 0;
+      }
+    }
     .article-feature-remaining {
-      border-top:1px solid #e7e7e7;
+
       padding-top: 20px;
       display: flex;
       flex-direction: row;
