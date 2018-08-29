@@ -1,3 +1,4 @@
+@newsArticles
 Feature: Article List Page
 
   @article-list-page
