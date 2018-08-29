@@ -6,6 +6,7 @@
  *
  * Defines a new class field handler for a default ldap field
  */
+
 class ldap_views_handler_field extends views_handler_field {
 
   function render($values) {
@@ -34,7 +35,7 @@ class ldap_views_handler_field extends views_handler_field {
   function options_form(&$form, &$form_state) {
     parent::options_form($form, $form_state);
     $form['multivalue'] = array(
-      '#type' => 'select',     // it should be 'radios', but it makes #dependency not to work
+      '#type' => 'select', // it should be 'radios', but it makes #dependency not to work
       '#title' => t('Values to show'),
       '#description' => t('What to do whith  multivalue attributes'),
       '#options' => array(

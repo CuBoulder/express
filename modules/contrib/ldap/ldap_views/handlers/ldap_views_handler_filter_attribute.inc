@@ -5,6 +5,7 @@
  * Basic textfield filter to handle string filtering commands for a generic ldap attribute
  * Includes new criterias
  */
+
 class ldap_views_handler_filter_attribute extends ldap_views_handler_filter {
 
   /**

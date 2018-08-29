@@ -186,4 +186,3 @@ Test ldap entry provisioning workflow: User requests account -> email verificati
          in the database in the authmaps table, a record should exist with module=ldap_user and authname=<username tested>
   8.4 Test manual selection of "Create corresponding LDAP Entry" and Do not make this an LDAP Associated account in admin/people/create form
      -- is this even allowable?  What's the use case for this?
-    

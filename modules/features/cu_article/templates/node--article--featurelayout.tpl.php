@@ -6,7 +6,7 @@
 <?php if (!empty($author_meta)): ?>
   <?php $author_meta = array_reverse($author_meta, TRUE) ?>
   <div class="author-meta">
-    <?php print join('', $author_meta); ?>
+    <?php print join(' <span class="author-meta-separator">&bull;</span> ', $author_meta); ?>
   </div>
 <?php endif; ?>
 <?php if (!empty($content['body'])): ?>

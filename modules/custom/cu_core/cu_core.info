@@ -1,7 +1,7 @@
 name = CU Core
 description = Provides CU-specific functionality, like adding variables, to Express Core.
 core = 7.x
-version = 7.x-9.3
+version = 7.x-9.4
 package = CU-Core
 
 dependencies[] = cu_redirect
@@ -26,6 +26,8 @@ dependencies[] = xmlsitemap_node
 dependencies[] = xmlsitemap_menu
 dependencies[] = cu_helpscout
 dependencies[] = cu_inactive_users
+dependencies[] = match_redirect
+dependencies[] = express_content_edit_lock
 
 optional-dependencies[] = cu_users
 optional-dependencies[] = express_content_edit_lock

@@ -1,6 +1,10 @@
 <?php
 
 /**
+ * @file
+ */
+
+/**
  * Implements hook_ctools_plugin_api().
  */
 function ldap_feeds_ctools_plugin_api($owner, $api) {
@@ -32,7 +36,8 @@ function ldap_feeds_feeds_plugins() {
     'name' => 'Drupal User LDAP Entry Fetcher',
     'description' => 'Fetches one entry for each LDAP authenticated user.  Fetches both LDAP entry attributes such as
     <code>cn, dn,</code> etc.
-      and Drupal user data such as <code>uid, name, mail, created, status, language, </code>and <code>signature</code>.',
+      and Drupal user data such as <code>uid, name, mail, created, status, language, </code>and <code>signature</code>.
+      Make sure to add dn in your LDAP query for this parser, if you use custom attributes.',
     'handler' => array(
       'parent' => 'FeedsFetcher', // This is the key name, not the class name.
       'class' => 'FeedsDrupalUserLdapEntryFetcher',

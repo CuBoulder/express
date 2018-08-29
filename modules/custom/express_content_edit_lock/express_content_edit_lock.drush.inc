@@ -68,14 +68,3 @@ function drush_express_content_edit_lock_express_unlock()
   variable_set('lock_user_dev', false);
   drush_print(dt('Site is unlocked.'));
 }
-
-/**
- * Drush command logic.
- *
- * drush_lud().
- */
-function express_content_edit_lock_command($arg1 = 'N/A', $arg2 = 'N/A') {
-  $opt1 = drush_get_option('opt1', 'N/A');
-  $tokens = array('@arg1' => $arg1, '@opt1' => $opt1);
-  drush_print(dt('My custom command. Argument: @arg1 Option: @opt1', $tokens));
-}
