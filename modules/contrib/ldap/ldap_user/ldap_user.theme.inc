@@ -5,7 +5,6 @@
  *   theme functions for ldap_user module
  */
 
-
 /**
  * turns array of variables to a form embedded in one table for each ldap server
  */
@@ -20,7 +19,7 @@ function theme_ldap_user_conf_form($variables) {
       list($direction, $discard, $column_name, $i) = $parts;
       $row = $element['#row'];
       $col = $element['#col'];
-      $tables[$direction]['rows'][$row][$col] = array('data' => drupal_render($form[$key]), 'class' => array('module'),  'colspan' => 1);
+      $tables[$direction]['rows'][$row][$col] = array('data' => drupal_render($form[$key]), 'class' => array('module'), 'colspan' => 1);
     }
   }
 

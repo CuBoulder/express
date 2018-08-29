@@ -2,86 +2,122 @@
 
 /**
  * @file
- *
- * abstract class to represent an ldap_authorization consumer behavior
+ * Abstract class to represent an ldap_authorization consumer behavior
  * such as drupal_role, og_group, etc.  each authorization comsumer
  * will extend this class with its own class named
- * LdapAuthorizationConsumer<consumer type> such as LdapAuthorizationConsumerDrupalRole
- *
+ * LdapAuthorizationConsumer<consumer type> such as LdapAuthorizationConsumerDrupalRole.
  */
 
+/**
+ *
+ */
 class LdapAuthorizationConsumerAbstract {
 
-  public $consumerType = NULL; // machine name of consumer.  e.g. og_group, drupal_role, etc.
+  /**
+   * Machine name of consumer.  e.g. og_group, drupal_role, etc.
+   */
+  public $consumerType = NULL;
 
   /**
-   * the following properties are generally populated from a
+   * The following properties are generally populated from a
    * call to hook_ldap_authorization_consumer()
    */
-  public $name;  // user interface name of consumer. e.g.  drupal role, og group
-  public $namePlural; // user interface name of consumer. e.g. drupal roles, og groups
-  public $shortName; // user interface short name of consumer. e.g. role, group
-  public $shortNamePlural; //  user interface short name of consumer plural, e.g. roles, groups
-  public $description;// e.g. roles, groups
-  public $consumerModule; // module providing consumer functionality e.g. ldap_authorization_drupal_roles
 
-  public $consumerConf; // LDAPConsumerConf object class encapuslating admin form
-  public $testLink; // link to test this consumer
-  public $editLink; // link to configure this consumer
+  /**
+   * User interface name of consumer. e.g.  drupal role, og group.
+   */
+  public $name;
+
+  /**
+   * User interface name of consumer. e.g. drupal roles, og groups.
+   */
+  public $namePlural;
+  /**
+   * User interface short name of consumer. e.g. role, group.
+   */
+  public $shortName;
+
+  /**
+   * User interface short name of consumer plural, e.g. roles, groups.
+   */
+  public $shortNamePlural;
+
+  /**
+   * E.g. roles, groups.
+   */
+  public $description;
+  /**
+   * Module providing consumer functionality e.g. ldap_authorization_drupal_roles.
+   */
+  public $consumerModule;
+
+  /**
+   * LDAPConsumerConf object class encapuslating admin form.
+   */
+  public $consumerConf;
+
+  /**
+   * Link to test this consumer.
+   */
+  public $testLink;
+
+  /**
+   * Link to configure this consumer.
+   */
+  public $editLink;
 
   public $emptyConsumer = array(
     'exists' => TRUE,
     'value' => NULL,
     'name' => NULL,
-    'map_to_string' => NULL
-    );
+    'map_to_string' => NULL,
+  );
 
-   /**
+  /**
    * @property boolean $allowConsumerObjectCreation
    *
    *  Does this consumer module support creating consumer objects
    * (drupal roles,  og groups, etc.)
-   *
    */
 
   public $allowConsumerObjectCreation = FALSE;
 
-   /**
+  /**
    * @property boolean $detailedWatchdogLog
    *
    *  should watchdog log be used for debugging, useful for non programmers
    *  who don't have php debugging enabled
-   *
    */
   public $detailedWatchdogLog = FALSE;
 
 
-   /**
+  /**
    * @property array $defaultConsumerConfProperties
    * default properties for consumer admin UI form
    */
   public $defaultConsumerConfProperties = array(
-      'onlyApplyToLdapAuthenticated' => TRUE,
-      'useMappingsAsFilter' => TRUE,
-      'synchOnLogon' => TRUE,
-      'revokeLdapProvisioned' => TRUE,
-      'regrantLdapProvisioned' => TRUE,
-      'createConsumers' => TRUE,
-      );
+    'onlyApplyToLdapAuthenticated' => TRUE,
+    'useMappingsAsFilter' => TRUE,
+    'synchOnLogon' => TRUE,
+    'revokeLdapProvisioned' => TRUE,
+    'regrantLdapProvisioned' => TRUE,
+    'createConsumers' => TRUE,
+  );
 
- /**
-   * Constructor Method
+  /**
+   * Constructor Method.
    *
-   * @param string $consumer_type e.g. drupal_role, og_group
-   * @param array $params as associative array of default properties
-   *
+   * @param string $consumer_type
+   *   e.g. drupal_role, og_group.
+   * @param array $params
+   *   as associative array of default properties.
    */
-  function __construct($consumer_type, $params) {
+  public function __construct($consumer_type, $params) {
     $this->consumerType = $consumer_type;
     $this->name = $params['consumer_name'];
-    $this->namePlural= $params['consumer_name_plural'];
+    $this->namePlural = $params['consumer_name_plural'];
     $this->shortName = $params['consumer_short_name'];
-    $this->shortNamePlural= $params['consumer_short_name_plural'];
+    $this->shortNamePlural = $params['consumer_short_name_plural'];
     $this->consumerModule = $params['consumer_module'];
     $this->mappingDirections = $params['consumer_mapping_directions'];
     $this->testLink = l(t('test') . ' ' . $this->name, LDAP_SERVERS_MENU_BASE_PATH . '/authorization/test/' . $this->consumerType);
@@ -90,15 +126,14 @@ class LdapAuthorizationConsumerAbstract {
     $this->consumerConf = new LdapAuthorizationConsumerConf($this);
   }
 
-
   /**
-   * function to normalize mappings
+   * Function to normalize mappings
    * should be overridden when mappings are not stored as map|authorization_id format
    * where authorization_id is the format returned by
    *   LdapAuthorizationConsumerAbstract::usersAuthorizations()
    *
-   * for example ldap_authorization_og may store mapping target as:
-   *   Campus Accounts|group-name=knitters,role-name=administrator member
+   * For example ldap_authorization_og may store mapping target as:
+   *   Campus Accounts|group-name=knitters,role-name=administrator member.
    *
    *   normalized mappings are of form such as for organic groups:
    *
@@ -136,51 +171,57 @@ class LdapAuthorizationConsumerAbstract {
   }
 
   /**
-   *
-   * create authorization consumers
+   * Create authorization consumers.
    *
    * @param string (lowercase) $consumer_id
-   * @param array $consumer as associative array with the following key/values
+   * @param array $consumer
+   *   as associative array with the following key/values
    *   'value' => NULL | mixed consumer such as drupal role name, og group entity, etc.
    *   'name' => name of consumer for UI, logging etc.
    *   'map_to_string' => string mapped to in ldap authorization.  mixed case string
    *   'exists' => TRUE indicates consumer is known to exist,
    *               FALSE indicates consumer is known to not exist,
-   *               NULL indicate consumer's existance not checked yet
-   *
+   *               NULL indicate consumer's existance not checked yet.
    */
   public function createConsumer($consumer_id, $consumer) {
-    // method must be overridden
+    // Method must be overridden.
   }
 
   /**
-   * populate consumer side of $consumers array
+   * Populate consumer side of $consumers array.
    *
-   * @param array $consumers as associative array keyed on $consumer_id with values
+   * @param array $consumers
+   *   as associative array keyed on $consumer_id with values
    *   of $consumer.  $consumer_id and $consumer have structure in LdapAuthorizationConsumerAbstractClass::createConsumer
-   *   when values are $consumer['exists'] != TRUE need to be populated by consumer object
-   * @param boolean $create_missing_consumers indicates if consumers (drupal roles, og groups, etc) should be created
-   *   if values are NULL, object will be created if
+   *   when values are $consumer['exists'] != TRUE need to be populated by consumer object.
+   * @param bool $create_missing_consumers
+   *   indicates if consumers (drupal roles, og groups, etc) should be created
+   *   if values are NULL, object will be created if.
    *
    * @return $consumers by reference
    */
-
   public function populateConsumersFromConsumerIds(&$consumers, $create_missing_consumers = FALSE) {
-    // method must be overridden
+    // Method must be overridden.
   }
 
+  /**
+   *
+   */
   public function authorizationDiff($initial, $current) {
     return array_diff($initial, $current);
   }
 
-
   /**
-   * grant authorizations to a user
+   * Grant authorizations to a user.
    *
-   * @param object $user drupal user object
-   * @param array $consumers in form of LdapAuthorizationConsumerAbstractClass::populateConsumersFromConsumerIds
-   * @param array $ldap_entry is ldap data from ldap entry which drupal user is mapped to
-   * @param boolean $user_save.  should user object be saved by authorizationGrant method
+   * @param object $user
+   *   drupal user object.
+   * @param array $consumers
+   *   in form of LdapAuthorizationConsumerAbstractClass::populateConsumersFromConsumerIds.
+   * @param array $ldap_entry
+   *   is ldap data from ldap entry which drupal user is mapped to.
+   * @param bool $user_save
+   *   should user object be saved by authorizationGrant method.
    *
    * @return array $results.  Array of form
    *   array(
@@ -190,21 +231,24 @@ class LdapAuthorizationConsumerAbstract {
    *   where 1s and 0s represent success and failure to grant
    *
    *
-   *  method may be desireable to override, if consumer benefits from adding grants as a group rather than one at a time
+   *   method may be desireable to override, if consumer benefits from adding grants as a group rather than one at a time
    */
-
   public function authorizationGrant(&$user, &$user_auth_data, $consumers, $ldap_entry = NULL, $user_save = TRUE) {
     $this->filterOffPastAuthorizationRecords($user, $user_auth_data);
     $this->grantsAndRevokes('grant', $user, $user_auth_data, $consumers, $ldap_entry, $user_save);
   }
 
   /**
-   * revoke authorizations to a user
+   * Revoke authorizations to a user.
    *
-   * @param object $user drupal user object
-   * @param array $consumers in form of LdapAuthorizationConsumerAbstractClass::populateConsumersFromConsumerIds
-   * @param array $ldap_entry is ldap data from ldap entry which drupal user is mapped to
-   * @param boolean $user_save.  should user object be saved by authorizationGrant method
+   * @param object $user
+   *   drupal user object.
+   * @param array $consumers
+   *   in form of LdapAuthorizationConsumerAbstractClass::populateConsumersFromConsumerIds.
+   * @param array $ldap_entry
+   *   is ldap data from ldap entry which drupal user is mapped to.
+   * @param bool $user_save
+   *   should user object be saved by authorizationGrant method.
    *
    * @return array $results.  Array of form
    *   array(
@@ -212,20 +256,17 @@ class LdapAuthorizationConsumerAbstract {
    *    <authz consumer id2> => 0,
    *   )
    *   where 1s and 0s represent success and failure to revoke
-   *  $user_auth_data is returned by reference
+   *   $user_auth_data is returned by reference
    *
-   *  method may be desireable to override, if consumer benefits from revoking grants as a group rather than one at a time
+   *   method may be desireable to override, if consumer benefits from revoking grants as a group rather than one at a time
    */
-
   public function authorizationRevoke(&$user, &$user_auth_data, $consumers, $ldap_entry, $user_save = TRUE) {
     $this->filterOffPastAuthorizationRecords($user, $user_auth_data);
     $this->grantsAndRevokes('revoke', $user, $user_auth_data, $consumers, $ldap_entry, $user_save);
   }
 
-
-
   /**
-   * this is a function to clear off
+   * This is a function to clear off.
    */
   public function filterOffPastAuthorizationRecords(&$user, &$user_auth_data, $time = NULL) {
     if ($time != NULL || variable_get('ldap_help_user_data_clear', 0)) {
@@ -244,36 +285,39 @@ class LdapAuthorizationConsumerAbstract {
   }
 
   /**
-   * some authorization schemes such as organic groups, require a certain order.  implement this method
-   * to sort consumer ids/authorization ids
+   * Some authorization schemes such as organic groups, require a certain order.  implement this method
+   * to sort consumer ids/authorization ids.
    *
-   * @param string $op 'grant' or 'revoke' signifying what to do with the $consumer_ids
-   * @param $consumers associative array in form of LdapAuthorizationConsumerAbstract::populateConsumersFromConsumerIds
+   * @param string $op
+   *   'grant' or 'revoke' signifying what to do with the $consumer_ids.
+   * @param $consumers
+   *   associative array in form of LdapAuthorizationConsumerAbstract::populateConsumersFromConsumerIds
    *
-   * alters $consumers by reference
-   *
+   *   alters $consumers by reference
    */
-  public function sortConsumerIds($op, &$consumers) { }
-
+  public function sortConsumerIds($op, &$consumers) {}
 
   /**
-   * attempt to flush related caches.  This will be something like og_invalidate_cache($gids)
+   * Attempt to flush related caches.  This will be something like og_invalidate_cache($gids)
    *
-   * @param $consumers associative array in form of LdapAuthorizationConsumerAbstract::populateConsumersFromConsumerIds
-   *
-   *
+   * @param $consumers
+   *   associative array in form of LdapAuthorizationConsumerAbstract::populateConsumersFromConsumerIds
    */
-  public function flushRelatedCaches($consumers = NULL) { }
+  public function flushRelatedCaches($consumers = NULL) {}
 
   /**
-   * @param string $op 'grant' or 'revoke' signifying what to do with the $consumer_ids
+   * @param string $op
+   *   'grant' or 'revoke' signifying what to do with the $consumer_ids.
    * @param drupal user object $object
-   * @param array $user_auth_data is array specific to this consumer_type.  Stored at $user->data['ldap_authorizations'][<consumer_type>]
-   * @param $consumers as associative array in form of LdapAuthorizationConsumerAbstract::populateConsumersFromConsumerIds
-   * @param array $ldap_entry, when available user's ldap entry.
-   * @param boolean $user_save indicates is user data array should be saved or not.  this depends on the implementation calling this function
+   * @param array $user_auth_data
+   *   is array specific to this consumer_type.  Stored at $user->data['ldap_authorizations'][<consumer_type>].
+   * @param $consumers
+   *   as associative array in form of LdapAuthorizationConsumerAbstract::populateConsumersFromConsumerIds
+   * @param array $ldap_entry,
+   *   when available user's ldap entry.
+   * @param bool $user_save
+   *   indicates is user data array should be saved or not.  this depends on the implementation calling this function.
    */
-
   protected function grantsAndRevokes($op, &$user, &$user_auth_data, $consumers, &$ldap_entry = NULL, $user_save = TRUE) {
 
     if (!is_array($user_auth_data)) {
@@ -305,7 +349,7 @@ class LdapAuthorizationConsumerAbstract {
       /** grants **/
       if ($op == 'grant') {
         if ($user_has_authorization && !$user_has_authorization_recorded) {
-          // grant case 1: authorization id already exists for user, but is not ldap provisioned.  mark as ldap provisioned, but don't regrant
+          // Grant case 1: authorization id already exists for user, but is not ldap provisioned.  mark as ldap provisioned, but don't regrant.
           $results[$consumer_id] = TRUE;
           $user_auth_data[$consumer_id] = array(
             'date_granted' => time(),
@@ -313,8 +357,9 @@ class LdapAuthorizationConsumerAbstract {
           );
         }
         elseif (!$user_has_authorization && $consumer['exists']) {
-          // grant case 2: consumer exists, but user is not member. grant authorization
-          $results[$consumer_id] = $this->grantSingleAuthorization($user, $consumer_id, $consumer, $user_auth_data, $user_save);  // allow consuming module to add additional data to $user_auth_data
+          // Grant case 2: consumer exists, but user is not member. grant authorization
+          // allow consuming module to add additional data to $user_auth_data.
+          $results[$consumer_id] = $this->grantSingleAuthorization($user, $consumer_id, $consumer, $user_auth_data, $user_save);
           $existing = empty($user_auth_data[$consumer_id]) ? array() : $user_auth_data[$consumer_id];
           $user_auth_data[$consumer_id] = $existing + array(
             'date_granted' => time(),
@@ -322,15 +367,15 @@ class LdapAuthorizationConsumerAbstract {
           );
         }
         elseif ($consumer['exists'] !== TRUE) {
-          // grant case 3: something is wrong. consumers should have been created before calling grantsAndRevokes
+          // Grant case 3: something is wrong. consumers should have been created before calling grantsAndRevokes.
           $results[$consumer_id] = FALSE;
         }
         elseif ($consumer['exists'] === TRUE) {
-          // grant case 4: consumer exists and user has authorization recorded. do nothing
+          // Grant case 4: consumer exists and user has authorization recorded. do nothing.
           $results[$consumer_id] = TRUE;
         }
         else {
-          // grant case 5: $consumer['exists'] has not been properly set before calling function
+          // Grant case 5: $consumer['exists'] has not been properly set before calling function.
           $results[$consumer_id] = FALSE;
           watchdog('ldap_authorization', "grantsAndRevokes consumer[exists] not properly set. consumer_id=$consumer_id, op=$op, username=%username", $watchdog_tokens, WATCHDOG_ERROR);
         }
@@ -340,17 +385,18 @@ class LdapAuthorizationConsumerAbstract {
 
         $log .= "revoking existing consumer object, ";
         if ($user_has_authorization) {
-          // revoke case 1: user has authorization, revoke it.  revokeSingleAuthorization will remove $user_auth_data[$consumer_id]
-          $results[$consumer_id] = $this->revokeSingleAuthorization($user, $consumer_id, $consumer, $user_auth_data, $user_save);  // defer to default for $user_save param
-          $log .= t(',result=') . (boolean)($results[$consumer_id]);
+          // Revoke case 1: user has authorization, revoke it.  revokeSingleAuthorization will remove $user_auth_data[$consumer_id]
+          // defer to default for $user_save param.
+          $results[$consumer_id] = $this->revokeSingleAuthorization($user, $consumer_id, $consumer, $user_auth_data, $user_save);
+          $log .= t(',result=') . (boolean) ($results[$consumer_id]);
         }
-        elseif ($user_has_authorization_recorded)  {
-          // revoke case 2: user does not have authorization, but has record of it. remove record of it.
+        elseif ($user_has_authorization_recorded) {
+          // Revoke case 2: user does not have authorization, but has record of it. remove record of it.
           unset($user_auth_data[$consumer_id]);
           $results[$consumer_id] = TRUE;
         }
         else {
-          // revoke case 3: trying to revoke something that isn't there
+          // Revoke case 3: trying to revoke something that isn't there.
           $results[$consumer_id] = TRUE;
         }
 
@@ -368,7 +414,8 @@ class LdapAuthorizationConsumerAbstract {
       $user_edit = $user->data;
       $user_edit['data']['ldap_authorizations'][$this->consumerType] = $user_auth_data;
       $user = user_save($user, $user_edit);
-      $user_auth_data = $user->data['ldap_authorizations'][$this->consumerType];  // reload this.
+      // Reload this.
+      $user_auth_data = $user->data['ldap_authorizations'][$this->consumerType];
     }
     $this->flushRelatedCaches($consumers);
 
@@ -382,85 +429,99 @@ class LdapAuthorizationConsumerAbstract {
   }
 
   /**
-   * @param drupal user object $user to have $consumer_id revoked
-   * @param string lower case $consumer_id $consumer_id such as drupal role name, og group name, etc.
-   * @param mixed $consumer.  depends on type of consumer.  Drupal roles are strings, og groups are ??
-   * @param array $user_auth_data array of $user data specific to this consumer type.
-   *   stored in $user->data['ldap_authorizations'][<consumer_type>] array
-   * @param boolean $reset signifying if caches associated with $consumer_id should be invalidated.
+   * @param drupal user object $user
+   *   to have $consumer_id revoked.
+   * @param string lower case $consumer_id
+   *   $consumer_id such as drupal role name, og group name, etc.
+   * @param mixed $consumer
+   *   depends on type of consumer.  Drupal roles are strings, og groups are ??
+   * @param array $user_auth_data
+   *   array of $user data specific to this consumer type.
+   *   stored in $user->data['ldap_authorizations'][<consumer_type>] array.
+   * @param bool $reset
+   *   signifying if caches associated with $consumer_id should be invalidated.
    *
-   * return boolen TRUE on success, FALSE on fail.  If user save is FALSE, the user object will
+   *   return boolen TRUE on success, FALSE on fail.  If user save is FALSE, the user object will
    *   not be saved and reloaded, so a returned TRUE may be misleading.
-   *   $user_auth_data should have successfully revoked consumer id removed
+   *   $user_auth_data should have successfully revoked consumer id removed.
    */
-
   public function revokeSingleAuthorization(&$user, $consumer_id, $consumer, &$user_auth_data, $user_save = FALSE, $reset = FALSE) {
-     // method must be overridden
+    // Method must be overridden.
   }
 
   /**
-   * @param stdClass $user as drupal user object to have $consumer_id granted
-   * @param string lower case $consumer_id $consumer_id such as drupal role name, og group name, etc.
-   * @param mixed $consumer.  depends on type of consumer.  Drupal roles are strings, og groups are ??
-   * @param array $user_auth_data in form
+   * @param object $user
+   *   as drupal user object to have $consumer_id granted.
+   * @param string lower case $consumer_id
+   *   $consumer_id such as drupal role name, og group name, etc.
+   * @param mixed $consumer
+   *   depends on type of consumer.  Drupal roles are strings, og groups are ??
+   * @param array $user_auth_data
+   *   in form
    *   array('my drupal role' =>
    *     'date_granted' => 1351814718,
    *     'consumer_id_mixed_case' => 'My Drupal Role',
    *     )
-   * @param boolean $reset signifying if caches associated with $consumer_id should be invalidated.
-   *  @return boolean FALSE on failure or TRUE on success
+   * @param bool $reset
+   *   signifying if caches associated with $consumer_id should be invalidated.
+   * @return boolean FALSE on failure or TRUE on success
    */
   public function grantSingleAuthorization(&$user, $consumer_id, $consumer, &$user_auth_data, $user_save = FALSE, $reset = FALSE) {
-     // method must be overridden
+    // Method must be overridden.
   }
 
   /**
-	 * Return all user consumer ids
-	 *   regardless of it they were granted by this module
-	 *
-	 * @param user object $user
-	 * @return array of consumer ids such as array('3-2','7-2'), array('admin','user_admin')
-	 */
-
+   * Return all user consumer ids
+   *   regardless of it they were granted by this module.
+   *
+   * @param user object $user
+   *
+   * @return array of consumer ids such as array('3-2','7-2'), array('admin','user_admin')
+   */
   public function usersAuthorizations(&$user) {
-    // method must be overridden
+    // Method must be overridden.
   }
 
   /**
-   * put authorization ids in displayable format
+   * Put authorization ids in displayable format.
    */
   public function convertToFriendlyAuthorizationIds($authorizations) {
     return $authorizations;
   }
 
   /**
-  * @param drupal user object $user to have $consumer_id granted
-  * @param string lower case $consumer_id $consumer_id such as drupal role name, og group name, etc.
-  * @param mixed $consumer.  depends on type of consumer.  Drupal roles are strings, og groups are ??
-  *
-  * return boolen TRUE on success, FALSE on fail.  If user save is FALSE, the user object will
-  *   not be saved and reloaded, so a returned TRUE may be misleading.
-  */
+   * @param drupal user object $user
+   *   to have $consumer_id granted.
+   * @param string lower case $consumer_id
+   *   $consumer_id such as drupal role name, og group name, etc.
+   * @param mixed $consumer
+   *   depends on type of consumer.  Drupal roles are strings, og groups are ??
+   *
+   *   return boolen TRUE on success, FALSE on fail.  If user save is FALSE, the user object will
+   *   not be saved and reloaded, so a returned TRUE may be misleading.
+   */
   public function createSingleAuthorization(&$user, $consumer_id, $consumer, &$user_auth_data) {
-     // method must be overridden
+    // Method must be overridden.
   }
 
   /**
-  * @param drupal user object $user
-  * @param string lowercase $consumer_id such as drupal role name, og group name, etc.
-  *
-  * @return boolean if an ldap_authorization_* module granted the authorization id
-  */
+   * @param drupal user object $user
+   * @param string lowercase $consumer_id
+   *   such as drupal role name, og group name, etc.
+   *
+   * @return boolean if an ldap_authorization_* module granted the authorization id
+   */
   public function hasLdapGrantedAuthorization(&$user, $consumer_id) {
     return (!empty($user->data['ldap_authorizations'][$this->consumerType][$consumer_id]));
   }
 
   /**
    * NOTE this is in mixed case, since we must rely on whatever module is storing
-   * the authorization id
+   * the authorization id.
    *
    * @param drupal user object $user
-   * @param string lowercase case $consumer_id such as drupal role name, og group name, etc.
+   * @param string lowercase case $consumer_id
+   *   such as drupal role name, og group name, etc.
    *
    * @return param boolean is user has authorization id, regardless of what module granted it.
    */
@@ -469,22 +530,21 @@ class LdapAuthorizationConsumerAbstract {
   }
 
   /**
-	 * Validate authorization mappings on LDAP Authorization OG Admin form.
-	 *
-	 * @param array $mapping single mapping in format generated in normalizeMappings method
-	 * @param array $form_values from authorization configuration form
-	 * @param boolean $clear_cache
-	 *
-	 * @return array of form array($message_type, $message_text) where message type is status, warning, or error
-	 *   and $message_text is what the user should see.
-	 *
-	 */
-
+   * Validate authorization mappings on LDAP Authorization OG Admin form.
+   *
+   * @param array $mapping
+   *   single mapping in format generated in normalizeMappings method.
+   * @param array $form_values
+   *   from authorization configuration form.
+   * @param bool $clear_cache
+   *
+   * @return array of form array($message_type, $message_text) where message type is status, warning, or error
+   *   and $message_text is what the user should see.
+   */
   public function validateAuthorizationMappingTarget($mapping, $form_values = NULL, $clear_cache = FALSE) {
     $message_type = NULL;
     $message_text = NULL;
     return array($message_type, $message_text);
   }
-
 
 }
