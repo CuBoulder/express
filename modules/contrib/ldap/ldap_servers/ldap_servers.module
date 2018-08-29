@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @file
+ */
+
 define('LDAP_SERVER_LDAP_QUERY_CHUNK', 50);
 define('LDAP_SERVERS_MAXFILTER_ORS', 30);
 define('LDAP_SERVER_LDAP_QUERY_RECURSION_LIMIT', 10);
@@ -139,14 +143,16 @@ define('LDAP_MORE_RESULTS_TO_RETURN', 0x5f);
 define('LDAP_CLIENT_LOOP', 0x60);
 define('LDAP_REFERRAL_LIMIT_EXCEEDED', 0x61);
 
-require_once dirname(__FILE__) . '/ldap_servers.functions.inc';
-require_once dirname(__FILE__) . '/ldap_servers.tokens.inc';
+module_load_include('inc', 'ldap_servers', 'ldap_servers.functions');
+module_load_include('inc', 'ldap_servers', 'ldap_servers.tokens');
 
 /**
  * Implements hook_init().
  */
 function ldap_servers_init() {
-  drupal_add_css(drupal_get_path('module', 'ldap_servers') . '/ldap_servers.admin.css', 'module');
+  if (strpos(current_path(), 'admin/config/people/ldap') === 0) {
+    drupal_add_css(drupal_get_path('module', 'ldap_servers') . '/ldap_servers.admin.css', 'module');
+  }
 }
 
 /**
@@ -378,7 +384,7 @@ function ldap_servers_ldap_user_attrs_list_alter(&$available_user_attrs, &$param
         }
       }
 
-      $available_user_attrs['[field.ldap_user_puid_sid]'] =  array(
+      $available_user_attrs['[field.ldap_user_puid_sid]'] = array(
         'name' => t('Field: sid providing PUID'),
         'configurable_to_drupal' => 0,
         'configurable_to_ldap' => 1,
@@ -391,7 +397,7 @@ function ldap_servers_ldap_user_attrs_list_alter(&$available_user_attrs, &$param
         'prov_module' => 'ldap_user',
       ) + $available_user_attrs['[field.ldap_user_puid_sid]'];
 
-      $available_user_attrs['[field.ldap_user_puid]'] =  array(
+      $available_user_attrs['[field.ldap_user_puid]'] = array(
         'name' => t('Field: PUID', $tokens),
         'configurable_to_drupal' => 0,
         'configurable_to_ldap' => 1,
@@ -410,7 +416,7 @@ function ldap_servers_ldap_user_attrs_list_alter(&$available_user_attrs, &$param
         'name' => t('Field: PUID Attribute', $tokens),
         'configurable_to_drupal' => 0,
         'configurable_to_ldap' => 1,
-        'source' =>  $ldap_server->unique_persistent_attr ,
+        'source' => $ldap_server->unique_persistent_attr ,
         'notes' => 'configure at ' . $server_edit_path,
         'direction' => LDAP_USER_PROV_DIRECTION_TO_DRUPAL_USER,
         'enabled' => TRUE,
@@ -455,7 +461,7 @@ function ldap_servers_ldap_user_attrs_list_alter(&$available_user_attrs, &$param
       if (!isset($available_user_attrs['[property.mail]']) || !is_array($available_user_attrs['[property.mail]'])) {
         $available_user_attrs['[property.mail]'] = array();
       }
-      $available_user_attrs['[property.mail]'] =  array(
+      $available_user_attrs['[property.mail]'] = array(
         'name' => 'Property: Email',
         'source' => ($ldap_server->mail_template) ? $ldap_server->mail_template : '[' . $ldap_server->mail_attr . ']',
         'direction' => LDAP_USER_PROV_DIRECTION_TO_DRUPAL_USER,
@@ -899,31 +905,31 @@ function ldap_servers_ldap_servers_types() {
 
   $path = drupal_get_path('module', 'ldap_servers') . '/ldap_types';
 
-  $types['default'] =  array(
+  $types['default'] = array(
     'class' => t('LdapTypeDefault'),
     'directory_path' => $path,
     'name' => 'Default LDAP',
   );
 
-  $types['ad'] =  array(
+  $types['ad'] = array(
     'class' => t('LdapTypeActiveDirectory'),
     'directory_path' => $path,
     'name' => 'Active Directory',
   );
 
-  $types['novell_edir'] =  array(
+  $types['novell_edir'] = array(
     'class' => t('LdapTypeNovell'),
     'directory_path' => $path,
     'name' => 'Novell',
   );
 
-  $types['openldap'] =  array(
+  $types['openldap'] = array(
     'class' => t('LdapTypeOpenLdap'),
     'directory_path' => $path,
     'name' => 'Open LDAP',
   );
 
-  $types['opendir'] =  array(
+  $types['opendir'] = array(
     'class' => t('LdapTypeOpenDirectory'),
     'directory_path' => $path,
     'name' => 'Apple Open Directory',

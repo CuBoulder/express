@@ -22,7 +22,7 @@ function ldap_servers_settings() {
     *   ... thus default needs to be "No Encryption" to avoid confusion.
     */
 
-  $form['previous_encryption'] = array('#type' => 'hidden',  '#default_value' => variable_get('ldap_servers_encryption', LDAP_SERVERS_ENC_TYPE_CLEARTEXT));
+  $form['previous_encryption'] = array('#type' => 'hidden', '#default_value' => variable_get('ldap_servers_encryption', LDAP_SERVERS_ENC_TYPE_CLEARTEXT));
   $form['encryption'] = array('#type' => 'fieldset', '#title' => t('Encryption'));
   $form['encryption']['ldap_servers_encryption'] = array(
     '#type' => 'select',

@@ -5,7 +5,6 @@
  * Install, update and uninstall functions for the LDAP authentication module.
  */
 
-
 /**
  * Implements hook_requirements().
  */

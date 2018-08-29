@@ -114,9 +114,8 @@ class LdapAuthenticationConfAdmin extends LdapAuthenticationConf {
         'users of this site to be authenticated by visiting the URL ' .
         '"user/login/sso, or automatically if selecting "automated ' .
         'single sign-on" below. Set up of LDAP authentication must be ' .
-        'performed on the web server. Please review the !readme file ' .
-        'for more information.', array('!readme' =>
-        l(t('README.txt'), drupal_get_path('module', 'ldap_sso') . '/README.txt')))
+        'performed on the web server. Please review the readme file of the '.
+        'ldap_sso module for more information.')
         . '</p>';
 
       $values['ssoExcludedPathsDescription'] = '<p>' .
@@ -379,7 +378,7 @@ class LdapAuthenticationConfAdmin extends LdapAuthenticationConf {
       '#title' => t('Deny access to users without Ldap Authorization Module
         authorization mappings such as Drupal roles.
         Requires LDAP Authorization to be enabled and configured!'),
-      '#default_value' =>  $this->excludeIfNoAuthorizations,
+      '#default_value' => $this->excludeIfNoAuthorizations,
       '#description' => t($this->excludeIfNoAuthorizationsDescription, $tokens),
       '#disabled' => (boolean)(!module_exists('ldap_authorization')),
     );

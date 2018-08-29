@@ -7,7 +7,6 @@
  * see README.txt for instructions
  */
 
-
 require_once('functions.inc');
 
 $config = ldap_help_config();
@@ -108,16 +107,16 @@ foreach ($config['servers'] as $sid => $server) {
           ldap_help_display('no entries found');
         }
         else {
-          for ($j=0; $j<$entry_count; $j++) {
+          for ($j = 0; $j < $entry_count; $j++) {
             $entry = $entries[$j];
             $attr_count = $entry['count'];
             ldap_help_display(NULL, "\nsearch results, entry[$j]:");
             ldap_help_display('  dn[' . $j . ']', $entry['dn']);
-            for ($i=0; $i<$attr_count; $i++) {
+            for ($i = 0; $i < $attr_count; $i++) {
               $attr_name = $entry[$i];
               if (in_array($attr_name, $query['show_attr'])) {
                 $values_count = $entry[$attr_name]['count'];
-                for ($k=0; $k<$values_count; $k++) {
+                for ($k = 0; $k < $values_count; $k++) {
                   ldap_help_display('  ' . $attr_name . '[' . $k . ']', $entry[$attr_name][$k]);
                 }
               }
