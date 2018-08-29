@@ -8,7 +8,7 @@ function cu_ldap_update_7001() {
   $ldap_servers = db_query('SELECT address FROM ldap_servers WHERE sid = :sid', array(':sid' => 'directory'))->fetchCol();
 
   if (count($ldap_servers) <= 0) {
-    db_insert('ldap_servers')// Table name no longer needs {}
+    db_insert('ldap_servers')
     ->fields(array(
       'sid' => 'directory',
       'numeric_sid' => '1',
