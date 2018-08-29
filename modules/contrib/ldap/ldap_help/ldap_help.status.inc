@@ -17,29 +17,29 @@ function ldap_help_status($return = 'html') {
   $phpinfo = ldap_help_parsePHPModules();
   $status['server'] = ldap_help_get_server($phpinfo, $info);
   $reporting_text = _ldap_help_parse_status_to_text($status['server'], $heading);
-  $content =  "<h3>$heading</h3>" . theme('status_report', array('requirements' => $status['server'])); //  . ldap_help_phpinfo();
+  $content = "<h3>$heading</h3>" . theme('status_report', array('requirements' => $status['server'])); //  . ldap_help_phpinfo();
 
   $status['user_settings'] = ldap_help_get_user_settings();
-  $content .=  "<h3>User Settings</h3>" . theme('status_report', array('requirements' => $status['user_settings']));
+  $content .= "<h3>User Settings</h3>" . theme('status_report', array('requirements' => $status['user_settings']));
 
   if (module_exists('ldap_servers')) {
     list($status['ldap_servers'], $servers) = ldap_help_get_ldap_servers();
-    $content .=  "<h3>General Settings</h3>" . theme('status_report', array('requirements' => $status['ldap_servers']));
+    $content .= "<h3>General Settings</h3>" . theme('status_report', array('requirements' => $status['ldap_servers']));
 
     foreach ($servers as $sid => $server) {
-      $content .=  "<h3>Server: " . $server[1]['value'] . "</h3>" . theme('status_report', array('requirements' => $server));
+      $content .= "<h3>Server: " . $server[1]['value'] . "</h3>" . theme('status_report', array('requirements' => $server));
     }
   }
 
   if (module_exists('ldap_authentication')) {
     $status['ldap_authentication'] = ldap_help_get_ldap_authentication();
-    $content .=  "<h3>LDAP Authentication Settings</h3>" . theme('status_report', array('requirements' => $status['ldap_authentication']));
+    $content .= "<h3>LDAP Authentication Settings</h3>" . theme('status_report', array('requirements' => $status['ldap_authentication']));
   }
   if (module_exists('ldap_authorization')) {
     $status['ldap_authorizations'] = ldap_help_get_ldap_authorization();
     if (count($status['ldap_authorizations'])) {
       foreach ($status['ldap_authorizations'] as $sid => $mapping) {
-        $content .=  "<h3>LDAP Authorization Mapping</h3>" . theme('status_report', array('requirements' => $mapping));
+        $content .= "<h3>LDAP Authorization Mapping</h3>" . theme('status_report', array('requirements' => $mapping));
       }
     }
   }
@@ -135,33 +135,33 @@ function ldap_help_get_server($phpinfo, &$info) {
   $status[] = array('title' => 'Drupal', 'value' => VERSION , 'severity' => "0");
 
   foreach ( $ldapmodules as $ldapmodule) {
-    $status[] =  array('title' => $ldapmodule, 'value' => $info[$ldapmodule]['text'], 'severity' => "0");
+    $status[] = array('title' => $ldapmodule, 'value' => $info[$ldapmodule]['text'], 'severity' => "0");
   }
   return $status;
 }
 
 function ldap_help_get_ldapauth(&$info) {
 
-  $status[] =  array(
+  $status[] = array(
     'title' => 'Authentication mode',
-    value =>   $info['ldapauth']['login_process_text'] ,
+    value => $info['ldapauth']['login_process_text'] ,
   'severity' => "0");
 
-  $status[] =  array(
+  $status[] = array(
     'title' => 'Conflict Resolve Feature',
-    value =>   $info['ldapauth']['login_conflict_text'],
+    value => $info['ldapauth']['login_conflict_text'],
   'severity' => "0");
 
   $info['ldapauth']['ldapauth_disable_pass_change_text'] = (LDAPAUTH_FORGET_PASSWORDS == TRUE) ? "Do not " : "Do";
   $info['ldapauth']['ldapauth_disable_pass_change_text'] .= 'store users\' passwords during sessions.';
 
-  $status[] =  array('title' => 'Security Options', value => $info['ldapauth']['ldapauth_disable_pass_change_text'], 'severity' => "0");
+  $status[] = array('title' => 'Security Options', value => $info['ldapauth']['ldapauth_disable_pass_change_text'], 'severity' => "0");
 
   $info['ldapauth']['ldapauth_disable_pass_change_text'] = (LDAPAUTH_DISABLE_PASS_CHANGE == TRUE) ? "R" : "Do not R";
   $info['ldapauth']['ldapauth_disable_pass_change_text'] .= 'emove password change fields from user edit form';
   $info['ldapauth']['ldapauth_alter_email_field_text'] = 'ldapauth_alter_email_field: ' . LDAPAUTH_ALTER_EMAIL_FIELD ;
 
-  $status[] =  array('title' => 'LDAP UI Options', value => $info['ldapauth']['ldapauth_disable_pass_change_text'] . "<br/>" . $info['ldapauth']['ldapauth_alter_email_field_text'], 'severity' => "0");
+  $status[] = array('title' => 'LDAP UI Options', value => $info['ldapauth']['ldapauth_disable_pass_change_text'] . "<br/>" . $info['ldapauth']['ldapauth_alter_email_field_text'], 'severity' => "0");
 
   return $status;
 }
@@ -192,7 +192,7 @@ function _ldap_help_parse_status_to_text($status, $heading, $replacements = arra
    // array("\r\n","\r\n","\r\n","\r\n","\r\n"),$item['value'] );
     $item['value'] = str_replace(array_keys($replacements), array_values($replacements), $item['value'] );
     $item['title'] = str_replace(array_keys($replacements), array_values($replacements), $item['title'] );
-    $content .=   $item['title'] . $name_val_del . $item['value'] . $var_del;
+    $content .= $item['title'] . $name_val_del . $item['value'] . $var_del;
   }
   return $content;
 }
@@ -216,10 +216,10 @@ function ldap_help_parsePHPModules() {
   $s = preg_replace('/<td[^>]*>([^<]+)<\/td>/', "<info>\\1</info>", $s);
   $vtmp = preg_split('/(<h2>[^<]+<\/h2>)/', $s, -1, PREG_SPLIT_DELIM_CAPTURE);
   $vmodules = array();
-  for ($i=1; $i<count($vtmp); $i++) {
+  for ($i = 1; $i < count($vtmp); $i++) {
     if (preg_match('/<h2>([^<]+)<\/h2>/', $vtmp[$i], $vmat)) {
       $vname = trim($vmat[1]);
-      $vtmp2 = explode("\n", $vtmp[$i+1]);
+      $vtmp2 = explode("\n", $vtmp[$i + 1]);
       foreach ($vtmp2 AS $vone) {
         $vpat = '<info>([^<]+)<\/info>';
         $vpat3 = "/$vpat\s*$vpat\s*$vpat/";
@@ -292,7 +292,7 @@ function ldap_help_get_ldap_servers() {
       );
     }
 
-  $ldaps = (strpos(drupal_strtolower($server_object->address), 'ldaps') !== FALSE) ?  'y' : 'n';
+  $ldaps = (strpos(drupal_strtolower($server_object->address), 'ldaps') !== FALSE) ? 'y' : 'n';
   $servers[$sid][] = array(
     'title' => 'ldaps in address',
     'value' => $ldaps,
@@ -443,7 +443,7 @@ function ldap_help_parse_form($form, $items) {
             break;
         }
         if ($items[$fieldset_name][$field_name] == 'empty') {
-          $value = ((boolean)trim($value)) ?  'populated': 'empty';
+          $value = ((boolean)trim($value)) ? 'populated' : 'empty';
         }
         $status[] = array(
           'title' => $field_name,

@@ -4,6 +4,7 @@
  * @file
  * Basic textfield argument to handle dynamic ldap attributes
  */
+
 class ldap_views_handler_argument_attribute extends views_handler_argument {
 
   function option_definition() {

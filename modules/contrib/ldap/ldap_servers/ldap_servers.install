@@ -5,7 +5,6 @@
  * Install, update and uninstall functions for the LDAP API module.
  */
 
-
 /**
  * Implements hook_install().
  */
@@ -61,7 +60,7 @@ function ldap_servers_requirements($phase) {
   if ($phase == 'runtime') {
     $requirements['ldap_servers_enabled'] = array(
       'title' => $t('LDAP Server status'),
-      'value' =>  $t('Disabled'),
+      'value' => $t('Disabled'),
       'severity' => REQUIREMENT_WARNING,
     );
 
@@ -77,7 +76,7 @@ function ldap_servers_requirements($phase) {
         );
         $requirements[$server_req_key] = array(
           'title' => $t('LDAP Server status: @sid (@host)', $server_tokens),
-          'value' =>  $t('Connection: Failed, check logs for details.', $server_tokens),
+          'value' => $t('Connection: Failed, check logs for details.', $server_tokens),
           'severity' => REQUIREMENT_ERROR,
         );
 
@@ -229,7 +228,7 @@ function ldap_servers_update_7102() {
     $msg = t('"bind_method" field added to ldap_servers table');
   }
 
-  return ($msg) ? $msg :  t('No database changes made.');
+  return ($msg) ? $msg : t('No database changes made.');
 }
 
 /**
@@ -246,7 +245,7 @@ function ldap_servers_update_7103() {
     $msg = t('"group_object_category" field added to ldap_servers table');
   }
 
-  return ($msg) ? $msg :  t('No database changes made.');
+  return ($msg) ? $msg : t('No database changes made.');
 }
 
 
@@ -287,7 +286,7 @@ function ldap_servers_update_7104() {
 
 
 
-  return ($msg) ? $msg :  t('No database changes made.');
+  return ($msg) ? $msg : t('No database changes made.');
 }
 
 /**
@@ -300,7 +299,7 @@ function ldap_servers_update_7105() {
     $msg = t('LDAP User module enabled.  Some authentication and authorization functionality shifted to LDAP User module.');
   }
 
-  return ($msg) ? $msg :  t('LDAP User module was already enabled.  No action taken.');
+  return ($msg) ? $msg : t('LDAP User module was already enabled.  No action taken.');
 }
 
 
@@ -320,7 +319,7 @@ function ldap_servers_update_7106() {
     $msg = t('"account_name_attr" field added to ldap_servers table');
   }
 
-  return ($msg) ? $msg :  t('No database changes made.');
+  return ($msg) ? $msg : t('No database changes made.');
 }
 
 /**
@@ -331,7 +330,7 @@ function ldap_servers_update_7107() {
     db_drop_field('ldap_servers', 'allow_conflicting_drupal_accts');
     $msg = t('"allow_conflicting_drupal_accts" field removed from ldap_servers table');
   }
-  return ($msg) ? $msg :  t('No database changes made.');
+  return ($msg) ? $msg : t('No database changes made.');
 }
 
 
