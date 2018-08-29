@@ -22,9 +22,9 @@ $vimeo: #51b5e7;
          url('../socicon/socicon.svg#icomoonregular') format('svg');
     font-weight: normal;
     font-style: normal;
- 
+
 }
- 
+
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     @font-face {
         font-family:si;
@@ -40,6 +40,16 @@ $vimeo: #51b5e7;
     overflow:hidden;
     margin:0; padding:0;
     list-style:none;
+
+    a {
+      display: flex;
+      text-decoration: none;
+      background:#333;
+      &:hover {
+        background:#666;
+        color:#fff;
+      }
+    }
 }
 
 .soc li,
@@ -47,8 +57,9 @@ $vimeo: #51b5e7;
     display:inline-block;
     *display:inline;
     zoom:1;
-    margin: 0;
+    margin: 0 5px 5px 0;
     overflow: hidden;
+
 }
 .social-links-vertical li,
 .item-list .social-links-vertical li,
@@ -61,7 +72,6 @@ $vimeo: #51b5e7;
   margin:0 10px 10px 0;
   display: inline-block;
 }
-
 
 .social-links-24 li .socicon {
   width: 24px;
@@ -109,13 +119,16 @@ $vimeo: #51b5e7;
   margin-right: 10px;
   white-space: nowrap;
   padding-left: 10px;
+  color:#fff !important;
+  font-size: 85%;
+  font-weight: bold;
 }
 .social-links-vertical-bars li .social-links-text {
   margin: 0;
   padding:0 10px 0 0;
   color:#fff !important;
   float: none;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .soc li .socicon {
@@ -136,7 +149,7 @@ $vimeo: #51b5e7;
     position: relative;
     z-index: 1;
     float: left;
-    
+
     -webkit-border-radius: 0px;
     -moz-border-radius: 0px;
     border-radius: 0px;
