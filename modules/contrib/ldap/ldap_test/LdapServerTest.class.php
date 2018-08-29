@@ -109,7 +109,7 @@ class LdapServerTest extends LdapServer {
     }
 
     $watchdog_tokens = array('%user' => $userdn, '%errno' => $ldap_errno, '%error' => $ldap_error);
-    watchdog('ldap', "LDAP bind failure for user %user. Error %errno: %error", $watchdog_tokens);
+    watchdog('ldap_servers', "LDAP bind failure for user %user. Error %errno: %error", $watchdog_tokens);
     return $ldap_errno;
 
   }
@@ -238,7 +238,7 @@ class LdapServerTest extends LdapServer {
           // cn=jdoe,ou=campus accounts,dc=ad,dc=myuniversity,dc=edu
           //$pos = strpos($dn_lcase, $base_dn);
           $substring = strrev(substr(strrev($dn_lcase), 0, strlen($base_dn)));
-          $cascmp =  strcasecmp($base_dn, $substring);
+          $cascmp = strcasecmp($base_dn, $substring);
           if ($cascmp !== 0) {
 
             continue; // not in basedn
@@ -279,7 +279,7 @@ class LdapServerTest extends LdapServer {
           $filter_value = $subquery[1];
 
           $substring = strrev(substr(strrev($dn_lcase), 0, strlen($base_dn)));
-          $cascmp =  strcasecmp($base_dn, $substring);
+          $cascmp = strcasecmp($base_dn, $substring);
           if ($cascmp !== 0) {
             $match = FALSE;
             break; // not in basedn

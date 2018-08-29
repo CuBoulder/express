@@ -1,8 +1,8 @@
 <?php
 
 /**
- * @page
- * bean_test.module
+ * @file
+ * Primary hook implementations for the Bean Test module.
  */
 
 /**
