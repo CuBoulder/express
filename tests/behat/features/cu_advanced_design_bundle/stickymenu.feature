@@ -1,10 +1,9 @@
-@AdvDesign
+@AdvancedDesign
 Feature: A Sticky Menu keeps the main navigation on the screen
 In order to make it easier for user to navigate on extra-long pages
 As an authenticated user
 I should be able to enable the Sticky Menu feature
 
-@api 
 Scenario: An authenticated user can enable Sticky Menu
 Given I am logged in as a user with the "site_owner" role
  And I am on "admin/structure/menu/settings"

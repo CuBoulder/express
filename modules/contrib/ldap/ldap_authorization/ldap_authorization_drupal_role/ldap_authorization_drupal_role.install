@@ -5,7 +5,6 @@
  * Install, update and uninstall functions for the LDAP authorization module.
  */
 
-
 /**
  * Implements hook_uninstall().
  */

@@ -4,6 +4,7 @@
  * @file
  * Base sort handler for a ldap attributes
  */
+
 class ldap_views_handler_sort_attribute extends ldap_views_handler_sort {
   function option_definition() {
     $options = parent::option_definition();

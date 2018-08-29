@@ -311,7 +311,7 @@ class LdapUserConf {
     if (!$sid || !$this->drupalAcctProvisionServer) {
       return FALSE;
     }
-    elseif ($this->ldapEntryProvisionServer == $sid) {
+    elseif ($this->drupalAcctProvisionServer == $sid) {
       return TRUE;
     }
     else {
@@ -350,7 +350,7 @@ class LdapUserConf {
         if (count(array_intersect($prov_events, $detail['prov_events']))) {
           // Add the attribute to our array.
           if ($detail['ldap_attr']) {
-            ldap_servers_token_extract_attributes($required_attributes,  $detail['ldap_attr']);
+            ldap_servers_token_extract_attributes($required_attributes, $detail['ldap_attr']);
           }
         }
       }
@@ -451,7 +451,7 @@ class LdapUserConf {
     }
     $this->synchMapping = $available_user_attrs;
 
-    cache_set('ldap_user_synch_mapping',  $this->synchMapping);
+    cache_set('ldap_user_synch_mapping', $this->synchMapping);
   }
 
   /**
@@ -619,7 +619,7 @@ class LdapUserConf {
         }
         if (!$ldap_user_prov_entry_exists) {
           $user_entity->ldap_user_prov_entries[LANGUAGE_NONE][] = array(
-            'value' =>  $ldap_user_prov_entry,
+            'value' => $ldap_user_prov_entry,
           );
 
           // Save the field without calling user_save()
@@ -776,8 +776,8 @@ class LdapUserConf {
    *   $user_edit data returned by reference
    *
    */
-  public function synchToDrupalAccount($drupal_user, &$user_edit, $prov_event = LDAP_USER_EVENT_SYNCH_TO_DRUPAL_USER, $ldap_user = NULL,  $save = FALSE) {
-    
+  public function synchToDrupalAccount($drupal_user, &$user_edit, $prov_event = LDAP_USER_EVENT_SYNCH_TO_DRUPAL_USER, $ldap_user = NULL, $save = FALSE) {
+
     $debug = array(
       'account' => $drupal_user,
       'user_edit' => $user_edit,
@@ -980,7 +980,7 @@ class LdapUserConf {
     /**
      * 4. call drupal_alter() to allow other modules to alter $ldap_user
      */
-
+    $params['account'] = $account;
     drupal_alter('ldap_entry', $ldap_user_entry, $params);
 
     return array($ldap_user_entry, $result);
@@ -1074,7 +1074,7 @@ class LdapUserConf {
       else { // create drupal account
         $this->entryToUserEdit($ldap_user, $user_edit, $ldap_server, LDAP_USER_PROV_DIRECTION_TO_DRUPAL_USER, array(LDAP_USER_EVENT_CREATE_DRUPAL_USER));
         if ($save) {
-          $watchdog_tokens = array('%drupal_username' =>  $user_edit['name']);
+          $watchdog_tokens = array('%drupal_username' => $user_edit['name']);
           if (empty($user_edit['name'])) {
             drupal_set_message(t('User account creation failed because of invalid, empty derived Drupal username.'), 'error');
             watchdog('ldap_user',
@@ -1198,17 +1198,6 @@ class LdapUserConf {
     }
 
     $drupal_username = $ldap_server->userUsernameFromLdapEntry($ldap_user['attr']);
-		if ($this->isSynched('[property.picture]', $prov_events, $direction)){
-
-			$picture = $ldap_server->userPictureFromLdapEntry($ldap_user['attr'], $drupal_username);
-
-			if ($picture){
-				$edit['picture'] = $picture;
-				if(isset($picture->md5Sum)){
-					$edit['data']['ldap_user']['init']['thumb5md'] = $picture->md5Sum;
-				}
-			}
-		}
 
     if ($this->isSynched('[property.name]', $prov_events, $direction) && !isset($edit['name']) && $drupal_username) {
       $edit['name'] = $drupal_username;
@@ -1241,6 +1230,18 @@ class LdapUserConf {
         'dn'   => $ldap_user['dn'],
         'mail' => isset($edit['mail']) && !empty($edit['mail']) ? $edit['mail'] : $ldap_user['mail'],
       );
+    }
+
+    if ($this->isSynched('[property.picture]', $prov_events, $direction)) {
+      $picture = $ldap_server->userPictureFromLdapEntry($ldap_user['attr'], $drupal_username);
+      if ($picture) {
+        if (in_array(LDAP_USER_EVENT_CREATE_DRUPAL_USER, $prov_events)) {
+          $edit['picture'] = $picture->fid;
+        } else {
+          $edit['picture'] = $picture;
+        }
+        $edit['data']['ldap_user']['init']['thumb5md'] = $picture->md5Sum;
+      }
     }
 
     /**

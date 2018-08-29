@@ -81,11 +81,11 @@ class LdapServerAdmin extends LdapServer {
     $this->groupNested = trim($values['grp_nested']);
 
     $this->groupUserMembershipsAttrExists = trim($values['grp_user_memb_attr_exists']);
-    $this->groupUserMembershipsAttr =  drupal_strtolower(trim($values['grp_user_memb_attr']));
+    $this->groupUserMembershipsAttr = drupal_strtolower(trim($values['grp_user_memb_attr']));
 
     $this->groupMembershipsAttr = drupal_strtolower(trim($values['grp_memb_attr']));
 
-    $this->groupMembershipsAttrMatchingUserAttr =  drupal_strtolower(trim($values['grp_memb_attr_match_user_attr']));
+    $this->groupMembershipsAttrMatchingUserAttr = drupal_strtolower(trim($values['grp_memb_attr_match_user_attr']));
 
     $this->groupDeriveFromDn = trim($values['grp_derive_from_dn']);
     $this->groupDeriveFromDnAttr = drupal_strtolower(trim($values['grp_derive_from_dn_attr']));
@@ -183,7 +183,7 @@ class LdapServerAdmin extends LdapServer {
   public function getLdapServerActions() {
     $switch = ($this->status ) ? 'disable' : 'enable';
     $actions = array();
-    $actions[] =  l(t('edit'), LDAP_SERVERS_MENU_BASE_PATH . '/servers/edit/' . $this->sid);
+    $actions[] = l(t('edit'), LDAP_SERVERS_MENU_BASE_PATH . '/servers/edit/' . $this->sid);
     if (property_exists($this, 'type')) {
       if ($this->type == 'Overridden') {
           $actions[] = l(t('revert'), LDAP_SERVERS_MENU_BASE_PATH . '/servers/delete/' . $this->sid);
@@ -282,7 +282,7 @@ class LdapServerAdmin extends LdapServer {
 
   if (!function_exists('ldap_set_rebind_proc')) {
     $form['server']['followrefs']['#disabled'] = TRUE;
-    $form['server']['followrefs']['#description'] =  t('This functionality is disabled because the function ldap_set_rebind_proc can not be found on this server.  Perhaps your version of php does not have this function.  See php.net/manual/en/function.ldap-set-rebind-proc.php') . $form['server']['followrefs']['#description'];
+    $form['server']['followrefs']['#description'] = t('This functionality is disabled because the function ldap_set_rebind_proc can not be found on this server.  Perhaps your version of php does not have this function.  See php.net/manual/en/function.ldap-set-rebind-proc.php') . $form['server']['followrefs']['#description'];
   }
 
   $form['server']['tls']['#required'] = FALSE;
@@ -366,25 +366,25 @@ class LdapServerAdmin extends LdapServer {
 
 
     if (!is_numeric($this->port)) {
-      $errors['port'] =  t('The TCP/IP port must be an integer.');
+      $errors['port'] = t('The TCP/IP port must be an integer.');
     }
 
     if ($this->bind_method == LDAP_SERVERS_BIND_METHOD_USER && !$this->user_dn_expression) {
-      $errors['user_dn_expression'] =  t('When using "Bind with Users Credentials", Expression for user DN is required');
+      $errors['user_dn_expression'] = t('When using "Bind with Users Credentials", Expression for user DN is required');
     }
 
     if ($this->mail_attr && $this->mail_template) {
-      $errors['mail_attr'] =  t('Mail attribute or Mail Template may be used.  Not both.');
+      $errors['mail_attr'] = t('Mail attribute or Mail Template may be used.  Not both.');
     }
 
     if ($this->bind_method == LDAP_SERVERS_BIND_METHOD_SERVICE_ACCT && !$this->binddn) {
-      $errors['binddn'] =  t('When using "Bind with Service Account", Bind DN is required.');
+      $errors['binddn'] = t('When using "Bind with Service Account", Bind DN is required.');
     }
     if ($op == 'add') {
       if ($this->bind_method == LDAP_SERVERS_BIND_METHOD_SERVICE_ACCT &&
         (($op == 'add' && !$this->bindpw_new) || ($op != 'add' && !$this->bindpw))
       ) {
-        $errors['bindpw'] =  t('When using "Bind with Service Account", Bind password is required.');
+        $errors['bindpw'] = t('When using "Bind with Service Account", Bind password is required.');
       }
     }
 
@@ -414,13 +414,13 @@ protected function warnings($op, $has_errors = NULL) {
       $defaults = ldap_servers_ldaps_option_array();
       if (isset($defaults['user']['user_attr']) && ($this->user_attr != $defaults['user']['user_attr'])) {
         $tokens = array('%name' => $defaults['name'], '%default' => $defaults['user']['user_attr'], '%user_attr' => $this->user_attr);
-        $warnings['user_attr'] =  t('The standard UserName attribute in %name is %default.  You have %user_attr. This may be correct
+        $warnings['user_attr'] = t('The standard UserName attribute in %name is %default.  You have %user_attr. This may be correct
           for your particular LDAP.', $tokens);
       }
 
       if (isset($defaults['user']['mail_attr']) && $this->mail_attr && ($this->mail_attr != $defaults['user']['mail_attr'])) {
         $tokens = array('%name' => $defaults['name'], '%default' => $defaults['user']['mail_attr'], '%mail_attr' => $this->mail_attr);
-        $warnings['mail_attr'] =  t('The standard mail attribute in %name is %default.  You have %mail_attr.  This may be correct
+        $warnings['mail_attr'] = t('The standard mail attribute in %name is %default.  You have %mail_attr.  This may be correct
           for your particular LDAP.', $tokens);
       }
     }
@@ -429,7 +429,7 @@ protected function warnings($op, $has_errors = NULL) {
    // }
 
     if (!$this->mail_attr && !$this->mail_template) {
-      $warnings['mail_attr'] =  t('Mail attribute or Mail Template should be used for most user account functionality.');
+      $warnings['mail_attr'] = t('Mail attribute or Mail Template should be used for most user account functionality.');
     }
 
    // commented out validation because too many false positives present usability errors.
@@ -583,11 +583,11 @@ public function drupalFormSubmit($op, $values) {
         ),
       ),
 
-      'ldap_type' =>  array(
+      'ldap_type' => array(
         'form' => array(
           'fieldset' => 'server',
           '#type' => 'select',
-          '#options' =>  ldap_servers_ldaps_option_array(),
+          '#options' => ldap_servers_ldaps_option_array(),
           '#title' => t('LDAP Server Type'),
           '#description' => t('This field is informative.  It\'s purpose is to assist with default values and give validation warnings.'),
         ),
@@ -910,7 +910,7 @@ public function drupalFormSubmit($op, $values) {
         ),
       ),
 
-      'ldap_to_drupal_user' =>  array(
+      'ldap_to_drupal_user' => array(
         'form' => array(
           'fieldset' => 'users',
           '#disabled' => (!module_exists('php')),
@@ -933,7 +933,7 @@ public function drupalFormSubmit($op, $values) {
         ),
       ),
 
-     'testing_drupal_username' =>  array(
+     'testing_drupal_username' => array(
         'form' => array(
           'fieldset' => 'users',
           '#type' => 'textfield',
@@ -948,7 +948,7 @@ public function drupalFormSubmit($op, $values) {
         ),
       ),
 
-     'testing_drupal_user_dn' =>  array(
+     'testing_drupal_user_dn' => array(
         'form' => array(
           'fieldset' => 'users',
           '#type' => 'textfield',
@@ -978,7 +978,7 @@ public function drupalFormSubmit($op, $values) {
         ),
       ),
 
-     'grp_object_cat' =>  array(
+     'grp_object_cat' => array(
         'form' => array(
           'fieldset' => 'groups',
           '#type' => 'textfield',
@@ -1042,7 +1042,7 @@ public function drupalFormSubmit($op, $values) {
         ),
       ),
 
-      'grp_user_memb_attr' =>  array(
+      'grp_user_memb_attr' => array(
         'form' => array(
           'fieldset' => 'groups',
           '#type' => 'textfield',
@@ -1065,7 +1065,7 @@ public function drupalFormSubmit($op, $values) {
         ),
       ),
 
-      'grp_memb_attr' =>  array(
+      'grp_memb_attr' => array(
         'form' => array(
           'fieldset' => 'groups',
           '#type' => 'textfield',
@@ -1085,7 +1085,7 @@ public function drupalFormSubmit($op, $values) {
         ),
       ),
 
-      'grp_memb_attr_match_user_attr' =>  array(
+      'grp_memb_attr_match_user_attr' => array(
         'form' => array(
           'fieldset' => 'groups',
           '#type' => 'textfield',
@@ -1128,7 +1128,7 @@ public function drupalFormSubmit($op, $values) {
         ),
       ),
 
-      'grp_derive_from_dn_attr' =>  array(
+      'grp_derive_from_dn_attr' => array(
         'form' => array(
           'fieldset' => 'groups',
           '#type' => 'textfield',
@@ -1151,7 +1151,7 @@ public function drupalFormSubmit($op, $values) {
         ),
       ),
 
-     'grp_test_grp_dn' =>  array(
+     'grp_test_grp_dn' => array(
         'form' => array(
           'fieldset' => 'groups',
           '#type' => 'textfield',
@@ -1171,7 +1171,7 @@ public function drupalFormSubmit($op, $values) {
         ),
       ),
 
-     'grp_test_grp_dn_writeable' =>  array(
+     'grp_test_grp_dn_writeable' => array(
         'form' => array(
           'fieldset' => 'groups',
           '#type' => 'textfield',
@@ -1206,7 +1206,7 @@ public function drupalFormSubmit($op, $values) {
         ),
       ),
 
-     'search_page_size' =>  array(
+     'search_page_size' => array(
         'form' => array(
           'fieldset' => 'pagination',
           '#type' => 'textfield',
@@ -1232,7 +1232,7 @@ public function drupalFormSubmit($op, $values) {
         ),
       ),
 
-      'weight' =>  array(
+      'weight' => array(
         'schema' => array(
           'type' => 'int',
           'not null' => FALSE,
