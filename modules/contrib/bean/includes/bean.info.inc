@@ -28,6 +28,7 @@ class BeanMetadataController extends EntityDefaultMetadataController {
       'getter callback' => 'entity_property_verbatim_get',
       'setter callback' => 'entity_property_verbatim_set',
       'schema field' => 'title',
+      'type' => 'text',
     );
 
     $properties['view_mode'] = array(
