@@ -29,7 +29,7 @@
   $yiq: (($r*299) + ($g*587) + ($b*114))/1000;
 
   @if ($color == $cugold) {
-    @return $black;
+    @return #222;
   }
   @else if (lightness($color) == 100%) {
     @return $blue;
@@ -41,6 +41,29 @@
     @return darken($blue-dark, 5); // Lighter backgorund, return dark color
   } @else {
     @return #ddd; // Darker background, return light color
+  }
+}
+
+@function set-link-hover-color($color) {
+  $r: red($color);
+  $g: green($color);
+  $b: blue($color);
+
+  $yiq: (($r*299) + ($g*587) + ($b*114))/1000;
+
+  @if ($color == $cugold) {
+    @return $black;
+  }
+  @else if (lightness($color) == 100%) {
+    @return $red;
+  }
+  @else if ($yiq >= 220) {
+    @return $red;
+  }
+  @else if ($yiq >= 128) {
+    @return darken($red, 5); // Lighter backgorund, return dark color
+  } @else {
+    @return #fff; // Darker background, return light color
   }
 }
 

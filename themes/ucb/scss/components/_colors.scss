@@ -15,6 +15,9 @@
      a:visited {
        color: set-link-color($color);
      }
+     a:hover {
+       color: set-link-hover-color($color);
+     }
    }
    .text-#{$name} {
      color: $color !important;
@@ -29,6 +32,9 @@
     a:link,
     a:visited {
       color: set-link-color($color);
+    }
+    a:hover {
+      color: set-link-hover-color($color);
     }
   }
 }

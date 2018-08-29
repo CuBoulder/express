@@ -57,7 +57,8 @@ $colors: (
 // Create buttons from colors
 @each $name, $color in $colors {
   .button.button-#{$name},
-  .buttons-color-#{$name} a, {
+  .buttons-color-#{$name} a,
+  .buttons-color-#{$name} a.button {
     @include button_default;
     @include button($color);
   }
@@ -161,11 +162,14 @@ $colors: (
   font-family: $base_font;
   margin-bottom: 5px;
   text-decoration: none;
+
 }
 @each $name, $color in $colors {
   .button-ghost.button-ghost-#{$name},
-  .buttons-color-outline-#{$name} a {
+  .buttons-color-outline-#{$name} a,
+  .buttons-color-outline-#{$name} a.button {
     border:1px solid $color;
+    @include rounded($radius: 0px);
     color: $color !important;
     text-decoration: none;
     @if (lightness($color) > 40) {
