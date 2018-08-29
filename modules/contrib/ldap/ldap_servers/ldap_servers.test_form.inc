@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @file
+ */
+
 module_load_include('inc', 'ldap_servers', 'ldap_servers.functions');
 
 /**
@@ -87,7 +91,7 @@ function ldap_servers_test_form($form, &$form_state, $op = NULL, $sid = NULL) {
     '#description' => t('This is optional and used for testing this server\'s group configuration.'),
   );
 
-  if ($ldap_server->bind_method ==  LDAP_SERVERS_BIND_METHOD_ANON_USER) {
+  if ($ldap_server->bind_method == LDAP_SERVERS_BIND_METHOD_ANON_USER) {
     $form['testing_drupal_userpw'] = array(
       '#type' => 'password',
       '#title' => t('Testing Drupal User Password'),
@@ -136,12 +140,24 @@ function ldap_servers_test_form($form, &$form_state, $op = NULL, $sid = NULL) {
           dpm("Drupal user entity for: $user_name");
           dpm($user_entity);
         }
-       dpm("Test Group LDAP Entry");
-       dpm($test_data['group_entry'][0]);
+        if (isset($test_data['group_entry'][0])) {
+          dpm("Test Group LDAP Entry");
+          dpm($test_data['group_entry'][0]);
+        }
       }
     }
   }
   return $form;
+}
+
+function ldap_servers_string_binary_check($input) {
+  if (preg_match('~[^\x20-\x7E\t\r\n]~', $input) > 0) {
+    $truncatedString = truncate_utf8($input, 200);
+    return t('Binary (excerpt): @excerpt', ['@excerpt' => $truncatedString]);
+  }
+  else {
+    return $input;
+  }
 }
 
 /**
@@ -186,7 +202,7 @@ function ldap_servers_test_form_submit($form, &$form_state) {
 
   if ($ldap_server->bind_method == LDAP_SERVERS_BIND_METHOD_SERVICE_ACCT) {
     $results_tables['basic'][] = array(t('Binding with DN for non-anonymous search (%bind_dn).  Using password ',
-      array('%bind_dn' =>  $ldap_server->binddn)) . ' ' . $bindpw_type);
+      array('%bind_dn' => $ldap_server->binddn)) . ' ' . $bindpw_type);
   }
   else {
     $results_tables['basic'][] = array(t('Binding with null DN for anonymous search.'));
@@ -215,13 +231,13 @@ function ldap_servers_test_form_submit($form, &$form_state) {
 
     // 3. add group
     $result = $ldap_server->groupAddGroup($group_create_test_dn, $group_create_test_attr);
-    $result = ($result)  ? "PASS" : 'FAIL';
+    $result = ($result) ? "PASS" : 'FAIL';
     $attr = serialize($group_create_test_attr);
     $results_tables['group1'][] = array("LdapServer::groupAddGroup($group_create_test_dn, $attr)", $result);
 
     // 4. call to all members in an empty group returns emtpy array, not FALSE
     $result = $ldap_server->groupAllMembers($group_create_test_dn);
-    $result = (is_array($result) && count($result) == 0)  ? 'PASS' : 'FAIL';
+    $result = (is_array($result) && count($result) == 0) ? 'PASS' : 'FAIL';
     $results_tables['group1'][] = array("LdapServer::groupAllMembers($group_create_test_dn) returns empty array for empty group ", $result);
 
     // 5. add member to group
@@ -243,7 +259,7 @@ function ldap_servers_test_form_submit($form, &$form_state) {
 
     $only_if_group_empty = TRUE;
     $result = $ldap_server->groupRemoveGroup($group_create_test_dn, $only_if_group_empty);
-    $result = ($ldap_server->dnExists($group_create_test_dn, 'ldap_entry', array('cn', 'member'))) ?  "FAIL" : 'PASS';
+    $result = ($ldap_server->dnExists($group_create_test_dn, 'ldap_entry', array('cn', 'member'))) ? "FAIL" : 'PASS';
     $results_tables['group1'][] = array("LdapServer::groupRemoveGroup($group_create_test_dn, $only_if_group_empty)", $result);
   }
 
@@ -260,10 +276,10 @@ function ldap_servers_test_form_submit($form, &$form_state) {
           $mapping[] = "$key = " . $value[0];
         }
       }
-      $results_tables['basic'][] =  array(theme_item_list(array('items' => $mapping, 'title' => t('Attributes available to anonymous search', array('%bind_dn' =>  $ldap_server->binddn)) , 'type' => 'ul', 'attributes' => array())));
+      $results_tables['basic'][] = array(theme_item_list(array('items' => $mapping, 'title' => t('Attributes available to anonymous search', array('%bind_dn' => $ldap_server->binddn)) , 'type' => 'ul', 'attributes' => array())));
     }
     $results_tables['basic'][] = array(t('Binding with DN (%bind_dn).  Using supplied password ',
-      array('%bind_dn' =>  $ldap_user['dn'])));
+      array('%bind_dn' => $ldap_user['dn'])));
     $result = $ldap_server->bind($ldap_user['dn'], $values['testing_drupal_userpw'], FALSE);
     if ($result == LDAP_SUCCESS) {
       $results_tables['basic'][] = array(t('Successfully bound to server'), 'PASS');
@@ -295,7 +311,7 @@ function ldap_servers_test_form_submit($form, &$form_state) {
 
         if ($ldap_server->groupUserMembershipsConfigured) {
           $groupusermembershipsfromuserattr = $ldap_server->groupUserMembershipsFromUserAttr($user, $nested);
-          $count =  count($groupusermembershipsfromuserattr);
+          $count = count($groupusermembershipsfromuserattr);
           $result = theme('item_list', array('items' => $groupusermembershipsfromuserattr, 'type' => 'ul'));
         }
         else {
@@ -338,7 +354,7 @@ function ldap_servers_test_form_submit($form, &$form_state) {
 
   $tokens = ($ldap_user && isset($ldap_user['attr'])) ? ldap_servers_token_tokenize_entry($ldap_user['attr'], 'all') : array();
   foreach ($tokens as $key => $value) {
-    $results_tables['tokens'][] = array($key, $value);
+    $results_tables['tokens'][] = array($key, ldap_servers_string_binary_check($value));
   }
   $form_state['ldap_server_test_data'] = array(
     'username' => $values['testing_drupal_username'],
@@ -352,7 +368,7 @@ function ldap_servers_test_form_submit($form, &$form_state) {
   if (isset($group_entry) ) {
     $form_state['ldap_server_test_data']['group_entry'] = $group_entry;
   }
-  
+
 }
 
 /**
@@ -375,7 +391,7 @@ function ldap_servers_test_binding_credentials(&$ldap_server, $bindpw, &$results
   if (!$errors) {
     $bind_result = $ldap_server->bind($ldap_server->binddn, $bindpw, FALSE);
     if ($bind_result == LDAP_SUCCESS) {
-      $results_tables['basic'][] =  array(t('Successfully bound to server'));
+      $results_tables['basic'][] = array(t('Successfully bound to server'));
     }
     else {
       $results_tables['basic'][] = array(t('Failed to bind to server. ldap error #') . $bind_result . ' ' . $ldap_server->errorMsg('ldap')) ;

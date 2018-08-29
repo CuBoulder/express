@@ -29,7 +29,7 @@ if [ ! "${SKIP_EXPRESS_TESTS}" ]; then
 
 fi
 
-# Run bundle tests.
+# Run the bundle tests.
 if [ "${BUNDLE_NAME}" != "null" ]; then
 
   # Enable bundle.

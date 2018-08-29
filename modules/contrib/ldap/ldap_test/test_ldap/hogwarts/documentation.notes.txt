@@ -132,4 +132,3 @@ cn=slytherin,ou=groups,dc=hogwarts,dc=edu
   adumbledore
   mmcgonagall
   spomana
-

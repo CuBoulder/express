@@ -255,9 +255,9 @@ function ldap_server_massage_text($value, $value_type, $context) {
        foreach ($values as $key => $val) {
             // Escaping of filter meta characters
             $val = str_replace('\\', '\5c', $val);
-            $val = str_replace('*',  '\2a', $val);
-            $val = str_replace('(',  '\28', $val);
-            $val = str_replace(')',  '\29', $val);
+            $val = str_replace('*', '\2a', $val);
+            $val = str_replace('(', '\28', $val);
+            $val = str_replace(')', '\29', $val);
 
             // ASCII < 32 escaping
             $val = ldap_pear_asc2hex32($val);
@@ -322,14 +322,14 @@ function ldap_server_massage_text($value, $value_type, $context) {
         foreach ($values as $key => $val) {
             // Escaping of filter meta characters
             $val = str_replace('\\', '\\\\', $val);
-            $val = str_replace(',',    '\,', $val);
-            $val = str_replace('+',    '\+', $val);
-            $val = str_replace('"',    '\"', $val);
-            $val = str_replace('<',    '\<', $val);
-            $val = str_replace('>',    '\>', $val);
-            $val = str_replace(';',    '\;', $val);
-            $val = str_replace('#',    '\#', $val);
-            $val = str_replace('=',    '\=', $val);
+            $val = str_replace(',', '\,', $val);
+            $val = str_replace('+', '\+', $val);
+            $val = str_replace('"', '\"', $val);
+            $val = str_replace('<', '\<', $val);
+            $val = str_replace('>', '\>', $val);
+            $val = str_replace(';', '\;', $val);
+            $val = str_replace('#', '\#', $val);
+            $val = str_replace('=', '\=', $val);
 
             // ASCII < 32 escaping
             $val = ldap_pear_asc2hex32($val);
@@ -375,14 +375,14 @@ function ldap_server_massage_text($value, $value_type, $context) {
         foreach ($values as $key => $val) {
             // strip slashes from special chars
             $val = str_replace('\\\\', '\\', $val);
-            $val = str_replace('\,',    ',', $val);
-            $val = str_replace('\+',    '+', $val);
-            $val = str_replace('\"',    '"', $val);
-            $val = str_replace('\<',    '<', $val);
-            $val = str_replace('\>',    '>', $val);
-            $val = str_replace('\;',    ';', $val);
-            $val = str_replace('\#',    '#', $val);
-            $val = str_replace('\=',    '=', $val);
+            $val = str_replace('\,', ',', $val);
+            $val = str_replace('\+', '+', $val);
+            $val = str_replace('\"', '"', $val);
+            $val = str_replace('\<', '<', $val);
+            $val = str_replace('\>', '>', $val);
+            $val = str_replace('\;', ';', $val);
+            $val = str_replace('\#', '#', $val);
+            $val = str_replace('\=', '=', $val);
 
             // Translate hex code into ascii
             $values[$key] = ldap_pear_hex2asc($val);

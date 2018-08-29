@@ -5,7 +5,6 @@
  * Hooks provided by ldap_servers module
  */
 
-
 /**
  * Allows other modules to periodically affect an ldap associated user
  * or its corresponding ldap entry.
@@ -136,7 +135,7 @@ function hook_ldap_attributes_needed_alter(&$attributes, $params) {
           $attributes[$ldap_server->mail_attr] = ldap_servers_set_attribute_map(); // set default values for an attribute, force data_type
         }
 
-        ldap_servers_token_extract_attributes($attributes,  $ldap_server_obj->mail_template);
+        ldap_servers_token_extract_attributes($attributes, $ldap_server_obj->mail_template);
         $attributes[$ldap_server->unique_persistent_attr] = ldap_servers_set_attribute_map(@$attributes[$ldap_server->unique_persistent_attr]);
 
       break;

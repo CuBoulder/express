@@ -88,7 +88,6 @@ function cu_wysiwyg_wysiwyg_default_profiles() {
       'resize_enabled' => 1,
       'simple_source_formatting' => 1,
       'default_toolbar_grouping' => 1,
-      'simple_source_formatting' => 0,
       'acf_mode' => 0,
       'acf_allowed_content' => '',
       'css_setting' => 'self',
