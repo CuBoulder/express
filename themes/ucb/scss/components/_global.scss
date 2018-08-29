@@ -32,7 +32,8 @@ a {
   &:hover {
     color: $red;
   }
-  &:active {
+  &:active,
+  &:focus {
     color: $red;
   }
 }

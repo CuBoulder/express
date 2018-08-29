@@ -15,7 +15,9 @@
      a:visited {
        color: set-link-color($color);
      }
-     a:hover {
+     a:hover,
+     a:active,
+     a:focus {
        color: set-link-hover-color($color);
      }
    }
@@ -33,7 +35,9 @@
     a:visited {
       color: set-link-color($color);
     }
-    a:hover {
+    a:hover,
+    a:active,
+    a:focus {
       color: set-link-hover-color($color);
     }
   }
