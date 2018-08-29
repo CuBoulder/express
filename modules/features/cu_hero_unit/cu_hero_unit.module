@@ -82,12 +82,24 @@ function cu_hero_unit_preprocess_entity(&$vars) {
     $classes_array[] = 'hero-size-' .  render($vars['content']['field_hero_unit_size'][0]['#markup']);
     $classes_array[] = 'hero-align-' . render($vars['content']['field_hero_unit_text_align'][0]['#markup']);
     $classes_array[] = 'hero-text-' . render($vars['content']['field_hero_unit_text_color'][0]['#markup']);
-    $classes_array[] = 'hero-background-' . render($vars['content']['field_hero_unit_bg_color'][0]['#markup']);
-    $classes_array[] = 'hero-links-' . render($vars['content']['field_hero_unit_link_color'][0]['#markup']);
+    $bg_color = render($vars['content']['field_hero_unit_bg_color'][0]['#markup']);
+    $classes_array[] = 'background-' . cu_hero_unit_bg_color_translate($bg_color);
+    //$classes_array[] = 'buttons-color-' . render($vars['content']['field_hero_unit_link_color'][0]['#markup']);
     if (!empty($vars['field_hero_unit_overlay']) && $vars['field_hero_unit_overlay'][0]['value'] == 1) {
       $classes_array[] = 'hero-unit-overlay';
     }
     $vars['hero_classes'] = join(' ', $classes_array);
+
+    $button_color = render($vars['content']['field_hero_unit_link_color'][0]['#markup']);
+    $button_class = cu_hero_unit_button_class_translate($button_color);
+
+    if (!empty($vars['field_hero_unit_link'])) {
+      foreach ($vars['field_hero_unit_link'] as $key => $link) {
+        $vars['content']['field_hero_unit_link'][$key]['#element']['attributes']['class'] = 'button ' . $button_class;
+      }
+    }
+
+    dpm($vars);
   }
 }
 
@@ -105,4 +117,32 @@ function cu_hero_unit_bg_color_options() {
     'light_blue' => 'Light Blue',
   );
   return $options;
+}
+
+function cu_hero_unit_bg_color_translate($color) {
+  $colors = array(
+    'white' => 'white',
+    'gray' => 'gray-light',
+    'black' => 'black',
+    'dark_gray' => 'gray-dark',
+    'gold' => 'gold',
+    'tan' => 'tan',
+    'light_blue' => 'blue-light',
+  );
+  return $colors[$color];
+}
+
+function cu_hero_unit_button_class_translate($color) {
+  $colors = array(
+    'blue' => 'button-blue',
+    'white' => 'button-white',
+    'gray' => 'button-gray',
+    'black' => 'button-black',
+    'dark_gray' => 'button-gray-dark',
+    'gold' => 'button-gold',
+    'outline-white' => 'button-ghost button-ghost-white',
+    'outline-black' => 'button-ghost button-ghost-black',
+  );
+
+  return $colors[$color];
 }

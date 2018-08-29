@@ -203,7 +203,7 @@ function cu_hero_unit_field_default_field_instances() {
     'settings' => array(
       'absolute_url' => 1,
       'attributes' => array(
-        'class' => 'hero-unit-button',
+        'class' => 'button',
         'configurable_class' => 0,
         'configurable_title' => 0,
         'rel' => '',
