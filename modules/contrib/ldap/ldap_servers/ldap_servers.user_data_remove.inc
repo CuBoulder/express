@@ -5,7 +5,6 @@
 * collection of functions related to removing user data
 */
 
-
 function ldap_severs_user_data_setup_batch($consumer_type = NULL) {
 
   $max_uid = db_query("SELECT max(uid) FROM {users}")->fetchField();
@@ -58,7 +57,7 @@ function ldap_servers_empty_user_data($start, $step, $consumer_type, &$context) 
 
 function ldap_authorization_generate_users() {
   $response = "";
-  for ($i=1; $i<1000; $i++) {
+  for ($i = 1; $i < 1000; $i++) {
     $name = "user" . $i;
     if ($account = user_load_by_name($name)) {
       user_delete($account->uid);

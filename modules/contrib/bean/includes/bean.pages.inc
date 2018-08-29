@@ -10,8 +10,10 @@
  */
 function bean_view_page(Bean $bean) {
   $title = $bean->label() ? $bean->label() : $bean->adminTitle();
+  $view_mode = ($bean->view_mode) ? $bean->view_mode : 'default';
   drupal_set_title($title);
-  return bean_view($bean);
+
+  return bean_view($bean, $view_mode);
 }
 
 /**
@@ -66,10 +68,10 @@ function bean_list() {
 
   // Build the sortable table header.
   $header = array(
-    'title' => array(
-      'data' => 'Title',
+    'label' => array(
+      'data' => 'Label',
       'type' => 'property',
-      'specifier' => 'title',
+      'specifier' => 'label',
       'sort' => 'asc'
     ),
     'type' => array(
@@ -102,7 +104,7 @@ function bean_list() {
 
   foreach ($beans as $bean) {
     $rows[$bean->bid] = array(
-      'title' => array(
+      'label' => array(
         'data' => array(
           '#type' => 'link',
           '#title' => $bean->label,
@@ -392,7 +394,7 @@ function bean_form_submit($form, &$form_state) {
   $bean->save();
   $form_state['values']['bean'] = $bean;
 
-  $watchdog_args = array('@type' => $bean->typeName(), '%title' => $bean->label());
+  $watchdog_args = array('@type' => $bean->type, '%title' => $bean->label());
   $t_args = array('@type' => $bean->typeName(), '%title' => $bean->label());
 
   if (!$insert) {
