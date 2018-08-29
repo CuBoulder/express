@@ -159,6 +159,9 @@ function cu_ldap_cron() {
 }
 
 function cu_ldap_page_alter(&$page) {
-  $ldap_servers = db_query('SELECT address FROM ldap_servers WHERE sid = :sid', array(':sid' => 'directory'))->fetchField();
-  dpm($ldap_servers);
+  $ldap_servers = db_query('SELECT address FROM ldap_servers WHERE sid = :sid', array(':sid' => 'directory'))->fetchCol();
+
+  if (count($ldap_servers) > 0) {
+    dpm($ldap_servers);
+  }
 }

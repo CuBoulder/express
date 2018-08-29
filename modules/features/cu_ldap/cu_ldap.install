@@ -5,9 +5,9 @@
  */
 function cu_ldap_update_7001() {
   // Create a db insert with the properties we have from saving the form.
-  $ldap_servers = db_query('SELECT numeric_sid FROM ldap_servers WHERE sid = :sid', array(':sid' => 'directory'))->fetchField();
+  $ldap_servers = db_query('SELECT address FROM ldap_servers WHERE sid = :sid', array(':sid' => 'directory'))->fetchCol();
 
-  if ($ldap_servers !== 1) {
+  if (count($ldap_servers) <= 0) {
     db_insert('ldap_servers')// Table name no longer needs {}
     ->fields(array(
       'sid' => 'directory',
