@@ -5,7 +5,6 @@
  * FeedsLdapQueryFetcher
  */
 
-
 /**
  * FeedsLdapQueryFetcherResult
  */
@@ -101,7 +100,7 @@ class FeedsLdapQueryFetcher extends FeedsFetcher {
   public function sourceForm($source_config) {
 
     $tokens = array(
-      '!edit_link' => l(t('Edit Feed'), 'admin/structure/feeds/edit/' . $this->id),
+      '!edit_link' => l(t('Edit Feed'), 'admin/structure/feeds/' . $this->id),
     );
 
     $form_state = array();
