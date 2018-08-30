@@ -1,3 +1,4 @@
+
 @file @core
 Feature: File Content Type
 When I login to a Web Express website
@@ -48,6 +49,7 @@ Examples:
 # NEXT LINE: CHECKING FOR HTTPS://
   And I should not see "http://www.colorado.edu"
  
+
 #  2.5 CREATE REVISIONS TO THE NEW NODE
 Scenario: Node functionality - Create Revision of File node
 Given I am logged in as a user with the "site_owner" role

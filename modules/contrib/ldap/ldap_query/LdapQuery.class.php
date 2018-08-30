@@ -61,7 +61,7 @@ class LdapQuery {
     else {
       $select = db_select('ldap_query')
         ->fields('ldap_query')
-        ->condition('ldap_query.qid',  $qid)
+        ->condition('ldap_query.qid', $qid)
         ->execute();
       foreach ($select as $record) {
         $query_records[$record->qid] = $record;

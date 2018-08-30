@@ -41,7 +41,7 @@ function ldap_user_test_form($form, &$form_state, $op = NULL) {
       '#type' => 'radios',
       '#title' => t('Testing Mode'),
       '#required' => 0,
-      '#default_value' => isset( $_SESSION['ldap_user_test_form']['test_mode']) ?  $_SESSION['ldap_user_test_form']['test_mode'] : 'query',
+      '#default_value' => isset( $_SESSION['ldap_user_test_form']['test_mode']) ? $_SESSION['ldap_user_test_form']['test_mode'] : 'query',
       '#options' => array(
         'query' => t('Test Query.  Will not alter anything in drupal or LDAP'),
         'execute' => t('Execute Action.  Will perform provisioning configured for events below.  If this is selected only one action should be selected below'),
@@ -124,7 +124,7 @@ function ldap_user_test_form_submit($form, &$form_state) {
     $results['ldap_user_conf'] = $ldap_user_conf;
 
     if (is_object($user_object)) {
-      $authmaps = db_query("SELECT aid, uid, module, authname FROM {authmap} WHERE uid = :uid", array(':uid' => $user_object->uid))->fetchAllAssoc('aid',  PDO::FETCH_ASSOC);
+      $authmaps = db_query("SELECT aid, uid, module, authname FROM {authmap} WHERE uid = :uid", array(':uid' => $user_object->uid))->fetchAllAssoc('aid', PDO::FETCH_ASSOC);
     }
     else {
       $authmaps = 'No authmaps available.  Authmaps only shown if user account exists beforehand';
@@ -199,6 +199,6 @@ function ldap_user_test_form_submit($form, &$form_state) {
   $_SESSION['ldap_user_test_form']['test_mode'] = $form_state['values']['test_mode'];
   $_SESSION['ldap_user_test_form']['testing_drupal_username'] = $username;
 
-  $form_state['redirect'] =  LDAP_USER_TEST_FORM_PATH;
+  $form_state['redirect'] = LDAP_USER_TEST_FORM_PATH;
 
 }
