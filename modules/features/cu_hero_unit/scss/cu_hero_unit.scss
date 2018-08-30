@@ -10,12 +10,16 @@
 
 @mixin transparentGradient($color, $alpha, $direction) {
   $rgba1: rgba($color,$alpha);
-  $rgba2: rgba($color,0);
-  background-image: -webkit-linear-gradient($direction, $rgba1, $rgba2);
-  background-image: -moz-linear-gradient($direction, $rgba1, $rgba2);
-  background-image: -o-linear-gradient($direction, $rgba1, $rgba2);
-  background-image: -ms-linear-gradient($direction, $rgba1, $rgba2);
-  background-image: linear-gradient($direction, $rgba1, $rgba2);
+  $rgba2: rgba($color,$alpha);
+  $rgba3: rgba($color,0);
+  background-image: -webkit-linear-gradient($direction, $rgba1, $rgba2, $rgba3);
+  background-image: -moz-linear-gradient($direction, $rgba1, $rgba2, $rgba3);
+  background-image: -o-linear-gradient($direction, $rgba1, $rgba2, $rgba3);
+  background-image: -ms-linear-gradient($direction, $rgba1, $rgba2, $rgba3);
+  background-image: linear-gradient($direction, $rgba1, $rgba2, $rgba3);
+
+
+
 }
 
 $radius_small: 3px;
@@ -333,11 +337,15 @@ $radius_small: 3px;
 .hero-align-center.hero-unit-overlay:after {
   background:rgba(0,0,0,.5);
 }
-.hero-align-left.hero-unit-overlay:after,
+.hero-align-left.hero-unit-overlay:after {
+  background:rgba(0,0,0,.5);
+}
 .hero-align-left-half.hero-unit-overlay:after {
   @include transparentGradient(#000000, .6, left);
 }
-.hero-align-right.hero-unit-overlay:after,
+.hero-align-right.hero-unit-overlay:after {
+  background:rgba(0,0,0,.5);
+}
 .hero-align-right-half.hero-unit-overlay:after {
   @include transparentGradient(#000000, .6, right);
 }
@@ -346,11 +354,15 @@ $radius_small: 3px;
 .hero-text-black.hero-align-center.hero-unit-overlay:after {
   background:rgba(#fff,.75);
 }
-.hero-text-black.hero-align-left.hero-unit-overlay:after,
+.hero-text-black.hero-align-left.hero-unit-overlay:after {
+  background:rgba(#fff,.75);
+}
 .hero-text-black.hero-align-left-half.hero-unit-overlay:after {
   @include transparentGradient(#fff, .75, left);
 }
-.hero-text-black.hero-align-right.hero-unit-overlay:after,
+.hero-text-black.hero-align-right.hero-unit-overlay:after {
+  background:rgba(#fff,.75);
+}
 .hero-text-black.hero-align-right-half.hero-unit-overlay:after {
   @include transparentGradient(#fff, .75, right);
 }

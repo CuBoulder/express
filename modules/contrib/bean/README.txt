@@ -51,3 +51,10 @@ Easily convert Boxes to Beans: https://github.com/skwashd/bean_boxes
 Views without Views: http://thinkshout.com/blog/2012/06/sean/introducing-relevant-content-bean
 Bean Intro: http://previousnext.com.au/blog/introduction-bean-module
 Extending An Already Defined Bean: http://drupal.org/node/1826204
+
+Related modules
+---------------
+* Devel Contrib
+  https://www.drupal.org/project/devel_contrib
+  Includes a Devel Contrib Generate submodule which adds Devel Generate support
+  to any supported entity, including Bean.
