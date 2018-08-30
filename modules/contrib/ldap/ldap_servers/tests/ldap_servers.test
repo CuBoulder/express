@@ -5,7 +5,6 @@
  * simpletest for ldap servers
  */
 
-
 if (function_exists('ldap_servers_module_load_include')) {
   ldap_servers_module_load_include('php', 'ldap_test', 'LdapTestCase.class');
 }
@@ -98,7 +97,7 @@ class LdapServersTestCase extends LdapTestCase {
 
         // test parent function groupMembershipsFromUser
         $groups = $ldap_server->groupMembershipsFromUser($ldap_module_user_entry, 'group_dns', $nested);
-        $count =  count($groups);
+        $count = count($groups);
         $diff1 = array_diff($groups_desired, $groups);
         $diff2 = array_diff($groups, $groups_desired);
         $pass = (count($diff1) == 0 && count($diff2) == 0 && $count == $desired_count);
@@ -181,7 +180,7 @@ class LdapServersTestCase extends LdapTestCase {
     $this->assertTrue( $house0 == $ldap_entry['house'][0], t("[house:0] token worked ($house0) on ldap_servers_token_replace()."), $this->ldapTestId);
 
     $mixed = ldap_servers_token_replace($ldap_entry, 'thisold[house:0]');
-    $this->assertTrue( $mixed  == 'thisold' . $ldap_entry['house'][0], t("thisold[house:0] token worked ($mixed) on ldap_servers_token_replace()."), $this->ldapTestId);
+    $this->assertTrue( $mixed == 'thisold' . $ldap_entry['house'][0], t("thisold[house:0] token worked ($mixed) on ldap_servers_token_replace()."), $this->ldapTestId);
 
     $compound = ldap_servers_token_replace($ldap_entry, '[samaccountname:0][house:0]');
     $this->assertTrue( $compound == $ldap_entry['sAMAccountName'][0] . $ldap_entry['house'][0], t("[samaccountname:0][house:0] compound token worked ($mixed) on ldap_servers_token_replace()."), $this->ldapTestId);
@@ -317,8 +316,8 @@ class LdapServersTestCase extends LdapTestCase {
       $field_to_prop_map = LdapServer::field_to_properties_map();
       $field_to_prop_map['bindpw'] = 'bindpw';
       $ldap_servers = ldap_servers_get_servers(NULL, 'all', FALSE, TRUE);
-      $this->assertTrue(count(array_keys($ldap_servers)) == 1, 'Add form for ldap server added server.',  $this->ldapTestId . ' Add Server');
-      $this->assertText('LDAP Server Server server1 added', 'Add form confirmation message',  $this->ldapTestId . ' Add Server');
+      $this->assertTrue(count(array_keys($ldap_servers)) == 1, 'Add form for ldap server added server.', $this->ldapTestId . ' Add Server');
+      $this->assertText('LDAP Server Server server1 added', 'Add form confirmation message', $this->ldapTestId . ' Add Server');
       // assert one ldap server exists in db table
 
       // assert load of server has correct properties for each input
@@ -329,7 +328,7 @@ class LdapServersTestCase extends LdapTestCase {
         debug($ldap_servers);
         debug($server_data['server1']);
       }
-      $this->assertTrue(count($mismatches) == 0, 'Add form for ldap server properties match values submitted.',  $this->ldapTestId . ' Add Server');
+      $this->assertTrue(count($mismatches) == 0, 'Add form for ldap server properties match values submitted.', $this->ldapTestId . ' Add Server');
 
 
       /** update server conf test **/
@@ -346,7 +345,7 @@ class LdapServersTestCase extends LdapTestCase {
       unset($edit['sid']);
       $this->drupalPost('admin/config/people/ldap/servers/edit/server1', $edit, t('Update'));
       $ldap_servers = ldap_servers_get_servers(NULL, 'all', FALSE, TRUE);
-      $this->assertTrue(count(array_keys($ldap_servers)) == 1, 'Update form for ldap server didnt delete or add another server.',  $this->ldapTestId . '.Update Server');
+      $this->assertTrue(count(array_keys($ldap_servers)) == 1, 'Update form for ldap server didnt delete or add another server.', $this->ldapTestId . '.Update Server');
       // assert confirmation message without error
       // assert one ldap server exists in db table
       // assert load of server has correct properties for each input
@@ -355,7 +354,7 @@ class LdapServersTestCase extends LdapTestCase {
       if (count($mismatches)) {
         debug('mismatches between ldap server properties and form submitted values'); debug($mismatches);
       }
-      $this->assertTrue(count($mismatches) == 0, 'Update form for ldap server properties match values submitted.',  $this->ldapTestId . '.Update Server');
+      $this->assertTrue(count($mismatches) == 0, 'Update form for ldap server properties match values submitted.', $this->ldapTestId . '.Update Server');
 
       /** delete server conf test **/
       $this->drupalGet('admin/config/people/ldap/servers/delete/server1');
@@ -363,7 +362,7 @@ class LdapServersTestCase extends LdapTestCase {
 
       $ldap_servers = ldap_servers_get_servers(NULL, 'all', FALSE, TRUE);
 
-      $this->assertTrue(count(array_keys($ldap_servers)) == 0, 'Delete form for ldap server deleted server.',  $this->ldapTestId . '.Delete Server');
+      $this->assertTrue(count(array_keys($ldap_servers)) == 0, 'Delete form for ldap server deleted server.', $this->ldapTestId . '.Delete Server');
 
       variable_set('ldap_simpletest', $ldap_simpletest_initial); // return to fake server mode
     }

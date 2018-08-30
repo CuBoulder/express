@@ -2,16 +2,15 @@
 
 /**
  * @file
- * class to encapsulate an ldap entry to authorization consumer ids mapping configuration
+ * Class to encapsulate an ldap entry to authorization consumer ids mapping configuration.
  *
- * this is the lightweight version of the class for use on logon etc.
+ * This is the lightweight version of the class for use on logon etc.
  * the LdapAuthorizationConsumerConfAdmin extends this class and has save,
  * iterate, etc methods.
- *
  */
 
 /**
- * LDAP Authorization Consumer Configuration
+ * LDAP Authorization Consumer Configuration.
  */
 class LdapAuthorizationConsumerConf {
 
@@ -44,16 +43,19 @@ class LdapAuthorizationConsumerConf {
   public $hasError = FALSE;
   public $errorName = NULL;
 
-
+  /**
+   *
+   */
   public function clearError() {
     $this->hasError = FALSE;
     $this->errorMsg = NULL;
     $this->errorName = NULL;
   }
-   /**
-   * Constructor Method
+
+  /**
+   * Constructor Method.
    */
-  function __construct(&$consumer, $_new = FALSE, $_sid = NULL) {
+  public function __construct(&$consumer, $_new = FALSE, $_sid = NULL) {
     $this->consumer = $consumer;
     $this->consumerType = $consumer->consumerType;
     if ($_new) {
@@ -66,10 +68,13 @@ class LdapAuthorizationConsumerConf {
         watchdog('ldap_authorization', 'failed to load existing %consumer object', array('%consumer' => $consumer->consumerType), WATCHDOG_ERROR);
       }
     }
-    // default value for deriveFromEntryAttrMatchingUserAttr set up this way for backward compatibility in 1.0 branch,
+    // Default value for deriveFromEntryAttrMatchingUserAttr set up this way for backward compatibility in 1.0 branch,
     // make deriveFromEntryAttrMatchingUserAttr default to dn in 2.0 branch.
   }
 
+  /**
+   *
+   */
   protected function loadFromDb() {
     if (module_exists('ctools')) {
       ctools_include('export');
@@ -83,7 +88,7 @@ class LdapAuthorizationConsumerConf {
     else {
       $select = db_select('ldap_authorization', 'ldap_authorization');
       $select->fields('ldap_authorization');
-      $select->condition('ldap_authorization.consumer_type',  $this->consumerType);
+      $select->condition('ldap_authorization.consumer_type', $this->consumerType);
       $server_record = $select->execute()->fetchObject();
     }
 
@@ -92,7 +97,7 @@ class LdapAuthorizationConsumerConf {
       return FALSE;
     }
 
-    foreach ($this->field_to_properties_map() as $db_field_name => $property_name ) {
+    foreach ($this->field_to_properties_map() as $db_field_name => $property_name) {
       if (isset($server_record->$db_field_name)) {
         if (in_array($db_field_name, $this->field_to_properties_serialized())) {
           $this->{$property_name} = unserialize($server_record->$db_field_name);
@@ -102,13 +107,15 @@ class LdapAuthorizationConsumerConf {
         }
       }
     }
-    $this->numericConsumerConfId = isset($server_record->numeric_consumer_conf_id)? $server_record->numeric_consumer_conf_id : NULL;
+    $this->numericConsumerConfId = isset($server_record->numeric_consumer_conf_id) ? $server_record->numeric_consumer_conf_id : NULL;
     $this->server = ldap_servers_get_servers($this->sid, NULL, TRUE);
     return TRUE;
 
   }
 
-  // direct mapping of db to object properties
+  /**
+   * Direct mapping of db to object properties.
+   */
   public static function field_to_properties_map() {
     return array(
       'sid' => 'sid',
@@ -127,20 +134,26 @@ class LdapAuthorizationConsumerConf {
     );
   }
 
+  /**
+   *
+   */
   public static function field_to_properties_serialized() {
     return array('mappings');
   }
 
   /**
-   * Destructor Method
+   * Destructor Method.
    */
-  function __destruct() {
+  public function __destruct() {
 
   }
 
   protected $_sid;
   protected $_new;
 
+  /**
+   *
+   */
   protected function linesToArray($lines) {
     $lines = trim($lines);
 
@@ -156,7 +169,9 @@ class LdapAuthorizationConsumerConf {
     return $array;
   }
 
-
+  /**
+   *
+   */
   protected function pipeListToArray($mapping_list_txt, $make_item0_lowercase = FALSE) {
     $result_array = array();
     $mappings = preg_split('/[\n\r]+/', $mapping_list_txt);
@@ -168,4 +183,5 @@ class LdapAuthorizationConsumerConf {
     }
     return $result_array;
   }
+
 }

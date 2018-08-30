@@ -5,7 +5,6 @@
  * Administrative page callbacks for the ldap_authentication module.
  */
 
-
 /**
  * form for adding, updating, and deleting a single ldap authorization mapping
  *

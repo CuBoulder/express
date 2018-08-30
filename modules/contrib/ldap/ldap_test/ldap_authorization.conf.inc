@@ -39,7 +39,7 @@ $conf['og_group2']['og_group'] = array(
     array(
       'from' => 'cn=faculty,ou=groups,dc=hogwarts,dc=edu',
       'user_entered' => 'faculty',
-      'normalized' =>  'node:faculty:' . $OG_AUTHENTICATED_ROLE,
+      'normalized' => 'node:faculty:' . $OG_AUTHENTICATED_ROLE,
       'simplified' => '',
       'valid' => '',
       'error_message' => '',
