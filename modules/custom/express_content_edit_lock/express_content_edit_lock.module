@@ -28,7 +28,7 @@ function express_content_edit_lock_menu() {
  * Implements hook_form() and builds out lock users options on admin/dashboard/lock.
  */
 function express_content_edit_lock_admin_form($form, &$form_state) {
-  $users_list = implode(',', variable_get('lock_allow_users'), array());
+  $users_list = implode(',', variable_get('lock_allow_users'));
 
   /**
    * Implements custom function to get role by name.
@@ -80,11 +80,7 @@ function express_content_edit_lock_admin_form_submit($form, &$form_state) {
   global $user;
   // Exclude unnecessary elements.
   form_state_values_clean($form_state);
-  $allowed_users = explode(',', $form_state['values']['lock_allow_users']);
-
-  foreach ($allowed_users as $user) {
-    trim($user);
-  }
+  $allowed_users = explode(', ', $form_state['values']['lock_allow_users']);
 
   $form_state['values']['lock_allow_users'] = $allowed_users;
 
@@ -93,10 +89,6 @@ function express_content_edit_lock_admin_form_submit($form, &$form_state) {
       $value = array_keys(array_filter($value));
     }
     variable_set($key, $value);
-  }
-
-  if (!in_array($user->name, $allowed_users)) {
-    drupal_set_message(t('You just locked yourself out. Goodbye.'));
   }
 
   drupal_set_message(t('Lock changes have been saved'));
