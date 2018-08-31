@@ -36,6 +36,6 @@ Scenario: An anonymous user should not be able to access the form
 
 #4 Try to edit a page as a content editor
   Scenario: A content editor should not be able to edit content while lock persists
-    Given I am logged in as a user with the "content editor" role
+    Given I am logged in as a user with the "content_editor" role
     And I go to "node/1/edit"
     Then I should see "This site has been locked. For more information contact the Site Owner."
