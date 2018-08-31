@@ -41,11 +41,10 @@ Scenario: A content editor should not be able to edit content while lock persist
   Then I should see "We have locked editing of content on this site."
 
 #5 And now we need to turn off the content lock so other tests can pass
-Scenario An administrator or developer should be able to unlock content edits
+Scenario: An administrator or developer should be able to unlock content edits
   Given I am logged in as a user with the "administrator" role
   And I go to "admin/people/lock"
   And I uncheck "Content editors"
   And I uncheck "Site owners"
   When I press "Save configuration"
   Then I should see "Lock changes have been saved"
-  
