@@ -11,7 +11,7 @@ Scenario Outline: An authenticated user should be able to access the form for lo
   Then I should see <message>
 
   Examples:
-  | role            | message         |
+  | role            | message |
   | edit_my_content | "Access denied" |
   | content_editor  | "Access denied" |
   | site_owner      | "Access denied" |
