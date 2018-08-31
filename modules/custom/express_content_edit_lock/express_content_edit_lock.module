@@ -28,19 +28,27 @@ function express_content_edit_lock_menu() {
  * Implements hook_form() and builds out lock users options on admin/dashboard/lock.
  */
 function express_content_edit_lock_admin_form($form, &$form_state) {
-  $users_list = implode(',', variable_get('lock_allow_users'));
+  $users_list = implode(',', variable_get('lock_allow_users'), array());
 
-  $roles = express_permissions_role_settings(NULL, array('developer'));
-  foreach ($roles['rid'] as $rid => $role) {
-    $options[$rid] = $role['label'];
+  /**
+   * Implements custom function to get role by name.
+   */
+  function get_role_by_name($name) {
+    $roles = user_roles();
+    return array_search($name, $roles);
   }
-  asort($options);
 
   $form['lock_by_role'] = array(
     '#type' => 'checkboxes',
     '#multiple' => TRUE,
     '#title' => t('Lock users based on their role'),
-    '#options' => $options,
+    '#options' => array(
+      // The keys for the array are user role ID #s.
+      get_role_by_name('edit_my_content') => t('Edit my content'),
+      get_role_by_name('content_editor') => t('Content editors'),
+      get_role_by_name('site_owner') => t('Site owners'),
+      get_role_by_name('administrator') => t('Administrators'),
+    ),
     '#default_value' => variable_get('lock_by_role', array()),
     '#description' => t('Every user with a role selected above will be locked out.'),
   );
