@@ -28,7 +28,7 @@ function express_content_edit_lock_menu() {
  * Implements hook_form() and builds out lock users options on admin/dashboard/lock.
  */
 function express_content_edit_lock_admin_form($form, &$form_state) {
-  $users_list = implode(',', variable_get('lock_allow_users'));
+  $users_list = variable_get('lock_allow_users');
 
   /**
    * Implements custom function to get role by name.
@@ -80,7 +80,7 @@ function express_content_edit_lock_admin_form_submit($form, &$form_state) {
   global $user;
   // Exclude unnecessary elements.
   form_state_values_clean($form_state);
-  $allowed_users = explode(', ', $form_state['values']['lock_allow_users']);
+  $allowed_users = str_replace("$user->name, ", '', $form_state['values']['lock_allow_users']);
 
   $form_state['values']['lock_allow_users'] = $allowed_users;
 
@@ -133,12 +133,10 @@ function express_content_edit_lock_secure_permissions($role) {
  * Check to see if user->name is in lock_allow_users variable.
  */
 function _lock_allow_users_check($username) {
-  $output = FALSE;
-  $allowed_users = variable_get('lock_allow_users', array());
+  $allowed_users = variable_get('lock_allow_users', '');
 
-  if (in_array($username, $allowed_users)) {
-    $output = TRUE;
-  }
+  $output = (str_replace("$username, ", '', $allowed_users)) ? true : false;
+
   return $output;
 }
 
