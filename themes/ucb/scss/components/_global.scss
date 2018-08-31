@@ -26,20 +26,26 @@
 a {
   color: $blue;
   transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  text-decoration-color: rgba($blue, .65);
+  -webkit-text-decoration-color: rgba($blue, .65);
   &:visited {
     color: $blue;
   }
   &:hover {
     color: $red;
+    text-decoration-color: rgba($red, .65);
+    -webkit-text-decoration-color: rgba($red, .65);
   }
   &:active,
   &:focus {
     color: $red;
+    text-decoration-color: rgba($red, .65);
+    -webkit-text-decoration-color: rgba($red, .65);
   }
 }
 .no-underline a,
 a.no-underline {
-  text-decoration: none;
+  text-decoration: none !important;
 }
 
 .main-content-wrapper {
