@@ -92,7 +92,7 @@ function express_content_edit_lock_admin_form_submit($form, &$form_state) {
     variable_set($key, $value);
   }
 
-  drupal_set_message(t('Lock has been enabled'));
+  drupal_set_message(t('Lock changes have been saved'));
 }
 
 /**
