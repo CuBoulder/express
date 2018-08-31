@@ -29,8 +29,8 @@ Scenario: An administrator or developer should be able to lock content edits
   And I go to "admin/people/lock"
   And I check "Content editors"
   And I check "Site owners"
-  And I fill in "edit-lock-allow-users" with "osr-test-owner"
-  And I fill in "edit-lock-leave-message" with "We have locked editing of content on this site."
+  And I fill in "Allow specific users to be exempt from their role's lock" with "osr-test-owner"
+  And I fill in "Leave a message for locked out users" with "We have locked editing of content on this site."
   When I press "Save configuration"
   Then I should see "Lock changes have been saved"
 
