@@ -4,7 +4,7 @@ In order to lock content from being edited
 As an authenticated user
 I should be able to lock users out of editing content
   
- @express-content-edit-lock
+@express-content-edit-lock
 Scenario Outline: An authenticated user should be able to access the form for locking content
     Given I am logged in as a user with the <role> role
     When I go to "admin/people/lock"
@@ -18,18 +18,25 @@ Scenario Outline: An authenticated user should be able to access the form for lo
     | administrator   | "Users" |
     | developer       | "Users" |
 
- @express-content-edit-lock
+@express-content-edit-lock
 Scenario: An anonymous user should not be able to access the form
   Given I go to "admin/people/lock"
   Then I should see "Access denied"
 
- @javascript
+@express-content-edit-lock
 Scenario: An administrator or developer should be able to lock content edits
 Given I am logged in as a user with the "administrator" role
 And I go to "admin/people/lock"
+And I check "edit-lock-by-role-6"
 And I check "edit-lock-by-role-10"
 And I check "edit-lock-by-role-11"
 And I fill in "edit-lock-allow-users" with "osr-test-owner"
 And I fill in "edit-lock-leave-message" with "We have locked editing of content on this site."
 And I press "Save configuration"
 And I should see "Lock has been enabled."
+
+@express-content-edit-lock
+Scenario: A content editor should not be able to edit content while lock persists
+Given I am logged in as a user with the "content editor" role
+And I go to "node/1/edit"
+And I should see "This site has been locked. For more information contact the Site Owner."
