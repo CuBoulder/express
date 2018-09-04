@@ -30,7 +30,7 @@ function express_content_edit_lock_menu() {
 function express_content_edit_lock_admin_form($form, &$form_state) {
   $users_list = implode(',', variable_get('lock_allow_users'));
 
-  $roles = express_permissions_role_settings(NULL, array('developer'));
+  $roles = express_permissions_role_settings(array('core'), array('developer', 'administrator'));
   foreach ($roles['rid'] as $rid => $role) {
     $options[$rid] = $role['label'];
   }

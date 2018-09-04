@@ -27,8 +27,8 @@ Scenario: An anonymous user should not be able to access the form
 Scenario: An administrator or developer should be able to lock content edits
   Given I am logged in as a user with the "administrator" role
   And I go to "admin/people/lock"
-  And I check "Content editors"
-  And I check "Site owners"
+  And I check "Site Editor"
+  And I check "Site Owner"
   And I fill in "Allow specific users to be exempt from their role's lock" with "osr-test-owner"
   And I fill in "Leave a message for locked out users" with "We have locked editing of content on this site."
   When I press "Save configuration"
@@ -36,7 +36,7 @@ Scenario: An administrator or developer should be able to lock content edits
 
 #4 Try to edit a page as a content editor
 Scenario: A content editor should not be able to edit content while lock persists
-  Given I am logged in as a user with the "content_editor" role
+  Given I am logged in as a user with the "site_editor" role
   And I go to "node/1/edit"
   Then I should see "We have locked editing of content on this site."
 
@@ -44,7 +44,7 @@ Scenario: A content editor should not be able to edit content while lock persist
 Scenario: An administrator or developer should be able to unlock content edits
   Given I am logged in as a user with the "administrator" role
   And I go to "admin/people/lock"
-  And I uncheck "Content editors"
-  And I uncheck "Site owners"
+  And I uncheck "Site Editor"
+  And I uncheck "Site Owner"
   When I press "Save configuration"
   Then I should see "Lock changes have been saved"
