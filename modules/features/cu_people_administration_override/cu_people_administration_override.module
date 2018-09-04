@@ -48,7 +48,7 @@ function cu_people_administration_override_views_post_render(&$view, &$output, &
   if ($view->name === 'cu_people_administration_override_view') {
     $role_info = express_permissions_role_settings($type = NULL, $exclude = array());
     foreach ($role_info['names'] as $key => $name) {
-      $output = str_replace($key . '</li>', $name['label'], $output);
+      $output = str_replace($key . '</li>', $name['label'] . '</li>', $output);
     }
   }
 }
