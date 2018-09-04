@@ -135,9 +135,7 @@ function express_content_edit_lock_secure_permissions($role) {
 function _lock_allow_users_check($username) {
   $allowed_users = variable_get('lock_allow_users', array());
 
-  $output = (in_array($username, $allowed_users)) ? true : false;
-
-  return $output;
+  return in_array($username, $allowed_users);
 }
 
 /**
