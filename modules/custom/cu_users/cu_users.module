@@ -123,7 +123,7 @@ function cu_users_menu() {
     'title' => 'Authored Content',
     'page callback' => 'cu_users_user_authored_content',
     'page arguments' => array('user_profile_form', 1),
-    'access arguments' => array('administer users'),
+    'access arguments' => array('access users overview'),
     'type' => MENU_LOCAL_TASK,
     'weight' => 1,
   );
@@ -131,7 +131,7 @@ function cu_users_menu() {
     'title' => 'Edited Content',
     'page callback' => 'cu_users_user_edited_content',
     'page arguments' => array('user_profile_form', 1),
-    'access arguments' => array('administer users'),
+    'access arguments' => array('access users overview'),
     'type' => MENU_LOCAL_TASK,
     'weight' => 1,
   );
