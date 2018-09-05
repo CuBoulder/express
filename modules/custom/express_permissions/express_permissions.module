@@ -645,7 +645,6 @@ function express_permissions_secure_permissions($role) {
       'administer nodes',
       'administer people settings',
       'administer redirects',
-      'administer users',
       'assign content_editor role',
       'assign edit_my_content role',
       'assign site_owner role',
@@ -870,18 +869,20 @@ function express_permissions_form_user_profile_form_alter(&$form, &$form_state) 
   //dpm($available_roles);
   if (user_has_role($available_roles['names']['administrator']['rid']) || user_has_role($available_roles['names']['site_owner']['rid'])) {
     $available_roles = express_permissions_role_settings($type = NULL, $exclude = array('developer', 'administrator'));
-  } else {
+  } else if (user_has_role($available_roles['names']['developer']['rid']) || $user->uid === '1') {
     $available_roles = express_permissions_role_settings($type = NULL, $exclude = array());
+  } else {
+    $available_roles = [];
   }
 
   $original_role_options = $available_roles; //$form['account']['roles']['#options'];
 
   // Let's make it look like the original options.
   foreach ($original_role_options['names'] as $option) {
-    $permissioned_role_options[$option['rid']] = $option['label'];
+    $new_role_options[$option['rid']] = $option['label'];
   }
 
-  $form['account']['roles']['#options'] = $permissioned_role_options;
+  $form['account']['roles']['#options'] = $new_role_options;
 }
 
 /**
