@@ -864,9 +864,7 @@ function express_permissions_form_user_profile_form_alter(&$form, &$form_state) 
   $new_role_options = [];
   // Get Roles of user being edited.
   // If user has a certain role, limit role options.
-
   $available_roles = express_permissions_role_settings($type = NULL, $exclude = array());
-  //dpm($available_roles);
   if (user_has_role($available_roles['names']['administrator']['rid']) || user_has_role($available_roles['names']['site_owner']['rid'])) {
     $available_roles = express_permissions_role_settings($type = NULL, $exclude = array('developer', 'administrator'));
   } else if (user_has_role($available_roles['names']['developer']['rid']) || $user->uid === '1') {
@@ -875,7 +873,7 @@ function express_permissions_form_user_profile_form_alter(&$form, &$form_state) 
     $available_roles = [];
   }
 
-  $original_role_options = $available_roles; //$form['account']['roles']['#options'];
+  $original_role_options = $available_roles;
 
   // Let's make it look like the original options.
   foreach ($original_role_options['names'] as $option) {
