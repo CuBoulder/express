@@ -1034,6 +1034,14 @@ function cu_core_update_7052() {
   secure_permissions_rebuild();
 }
 
+/**
+ * Disable role_delegation for 3.0.0 release.
+ */
+function cu_redirect_update_7053() {
+  module_disable(array('role_delegation'));
+  drupal_uninstall_modules(array('role_delegation'), $uninstall_dependents = FALSE);
+}
+
 
 /**
  * Revert features by passing features in an array.
