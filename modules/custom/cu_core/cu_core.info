@@ -28,6 +28,8 @@ dependencies[] = cu_helpscout
 dependencies[] = cu_inactive_users
 dependencies[] = match_redirect
 dependencies[] = express_content_edit_lock
+dependencies[] = r4032login
+dependencies[] = unpublished_404
 
 optional-dependencies[] = cu_users
 optional-dependencies[] = express_content_edit_lock
