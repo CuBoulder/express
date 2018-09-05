@@ -1035,7 +1035,7 @@ function cu_core_update_7052() {
 }
 
 /**
- * Enable unpublished_404, r4032alogin for 2.9.7.
+ * Enable unpublished_404, r4032login for 2.9.7.
  */
 function cu_core_update_7053() {
   module_enable(array('unpublished_404', 'r4032login'));
