@@ -276,10 +276,13 @@ function cu_redirect_menu_alter(&$items) {
  * Implements hook_form_FORM_ID_alter().
  */
 function cu_redirect_form_match_redirect_list_form_alter(&$form, &$form_state, $form_id) {
-  $dev = user_role_load_by_name('developer');
-  $admin = user_role_load_by_name('administrator');
-
-  if (!user_has_role($dev->rid) && !user_has_role($admin->rid)) {
+  // Get service roles.
+  $roles = express_permissions_role_settings(array('service'));
+  // Get current user and check to see if they have any service level roles.
+  global $user;
+  $role_access = array_intersect_key($user->roles, $roles['rid']);
+  // Hide fields if user does not have service level role.
+  if (empty($role_access)) {
     $redirects_count = $form['redirects'] ?? [];
     foreach ($redirects_count as $key => $redirect) {
       $form['redirects'][$key]['operations']['#type'] = 'hidden';
@@ -296,7 +299,7 @@ function cu_redirect_form_match_redirect_list_form_alter(&$form, &$form_state, $
 function cu_redirect_node_validate($node, $form, &$form_state) {
     $path_info = $form_state['values']['path'] ?? NULL;
     $validation_error_message = "Enter a custom path by which this content can be accessed. Do not enter the full url.";
-    
+
     if (isset($path_info['alias']) && !empty($path_info['alias'])) {
         if (strpos($path_info['alias'], '://') !== FALSE) {
             form_set_error('path', $validation_error_message);
