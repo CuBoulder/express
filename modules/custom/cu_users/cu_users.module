@@ -500,17 +500,59 @@ function cu_users_roles_form_submit($form, &$form_state) {
  */
 function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
   global $user;
+
+  $core_rids = variable_get('user_external_invite_core_roles', []);
+  if (empty($core_rids)) {
+    drupal_set_message(t('Your site is not yet configured to edit user roles. Contact the site administrator to configure this.'), 'status');
+  }
+
+  $core_role_options = [];
+  foreach ($core_rids as $val) {
+    if ($val) {
+      $core_role_options[$val] = _user_external_invite_role_name_from_rid($val);
+    }
+  }
+
+  $addon_rids = variable_get('user_external_invite_addon_roles', []);
+  $addon_role_options = [];
+  foreach ($addon_rids as $val) {
+    if ($val) {
+      $addon_role_options[$val] = _user_external_invite_role_name_from_rid($val);
+    }
+  }
+  asort($addon_role_options);
+
   $so = user_role_load_by_name('site_owner');
   if (user_has_role($so->rid, $user)) {
-    $form['account']['roles']['#access'] = TRUE;
-    $form['account']['roles_change']['#access'] = TRUE;
+    //$form['account']['roles']['#access'] = TRUE;
     $form['account']['pass']['#access'] = FALSE;
     $form['redirect']['#access'] = FALSE;
     $form['timezone']['#access'] = FALSE;
     $form['field_ldap_display_name']['#access'] = FALSE;
     $form['field_ldap_last_name']['#access'] = FALSE;
     $form['field_ldap_primary_affiliation']['#access'] = FALSE;
+
+    $saved_core = array_intersect_key($core_role_options, $user->roles);
+    $form['account']['core_rid'] = array(
+      '#title' => 'Core Role',
+      '#type' => 'radios',
+      '#options' => $core_role_options,
+      '#theme' => 'express_roles',
+      '#default_value' => key($saved_core),
+      '#required' => TRUE,
+    );
+    $saved_addon = array_intersect_key($addon_role_options, $user->roles);
+    $form['account']['addon_rids'] = array(
+      '#title' => 'Add-on Roles',
+      '#type' => 'checkboxes',
+      '#options' => $addon_role_options,
+      '#theme' => 'express_roles',
+      '#default_value' => array_keys($saved_addon),
+    );
+    $form['#validate'][] = 'express_permissions_invite_site_owner_cap';
+    $form['#submit'][] = 'cu_users_roles_form_submit';
   }
+  dpm($form['account']);
 }
 
 /**
