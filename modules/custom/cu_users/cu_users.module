@@ -469,38 +469,13 @@ function cu_users_roles_form($form, $form_state, $account) {
 }
 
 /**
- * Sumit function for cu_users_roles_form().
- */
-function cu_users_roles_form_submit($form, &$form_state) {
-  $id = $form_state['values']['account'];
-  if (!empty($form_state['values']['account'])) {
-    $account = user_load($form_state['values']['account']);
-    $roles = array();
-    if (!empty($form_state['values']['core_rid'])) {
-      $rid = $form_state['values']['core_rid'];
-      $roles[$rid] = $rid;
-    }
-    if (!empty($form_state['values']['addon_rids'])) {
-      foreach ($form_state['values']['addon_rids'] as $role_id => $value) {
-        if ($value) {
-          $roles[$role_id] = $role_id;
-        }
-      }
-    }
-    $form_state['redirect'] = 'user/' . $id;
-    user_save($account, array('roles' => $roles));
-    drupal_set_message("$account->name has been updated.", 'status');
-  }
-}
-
-/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Hide role fields.
  */
 function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
   global $user;
-
+  $account = $form['#user'];
   $core_rids = variable_get('user_external_invite_core_roles', []);
   if (empty($core_rids)) {
     drupal_set_message(t('Your site is not yet configured to edit user roles. Contact the site administrator to configure this.'), 'status');
@@ -524,7 +499,7 @@ function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
 
   $so = user_role_load_by_name('site_owner');
   if (user_has_role($so->rid, $user)) {
-    //$form['account']['roles']['#access'] = TRUE;
+    $form['account']['roles']['#access'] = TRUE;
     $form['account']['pass']['#access'] = FALSE;
     $form['redirect']['#access'] = FALSE;
     $form['timezone']['#access'] = FALSE;
@@ -532,8 +507,12 @@ function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
     $form['field_ldap_last_name']['#access'] = FALSE;
     $form['field_ldap_primary_affiliation']['#access'] = FALSE;
 
-    $saved_core = array_intersect_key($core_role_options, $user->roles);
-    $form['account']['core_rid'] = array(
+    $saved_core = array_intersect_key($core_role_options, $account->roles);
+    $form['account']['roles'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('User Roles'),
+    );
+    $form['account']['roles']['core_rid'] = array(
       '#title' => 'Core Role',
       '#type' => 'radios',
       '#options' => $core_role_options,
@@ -541,18 +520,39 @@ function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
       '#default_value' => key($saved_core),
       '#required' => TRUE,
     );
-    $saved_addon = array_intersect_key($addon_role_options, $user->roles);
-    $form['account']['addon_rids'] = array(
+    $saved_addon = array_intersect_key($addon_role_options, $account->roles);
+    $form['account']['roles']['addon_rids'] = array(
       '#title' => 'Add-on Roles',
       '#type' => 'checkboxes',
       '#options' => $addon_role_options,
       '#theme' => 'express_roles',
       '#default_value' => array_keys($saved_addon),
     );
-    $form['#validate'][] = 'express_permissions_invite_site_owner_cap';
     $form['#submit'][] = 'cu_users_roles_form_submit';
   }
-  dpm($form['account']);
+}
+
+/**
+ * Sumit function for cu_users_roles_form().
+ */
+function cu_users_roles_form_submit($form, &$form_state) {
+  $id = $form_state['values']['uid'];
+  $account = user_load($id);
+  $roles = array();
+  if (!empty($form_state['values']['core_rid'])) {
+    $rid = $form_state['values']['core_rid'];
+    $roles[$rid] = $rid;
+  }
+  if (!empty($form_state['values']['addon_rids'])) {
+    foreach ($form_state['values']['addon_rids'] as $role_id => $value) {
+      if ($value) {
+        $roles[$role_id] = $role_id;
+      }
+    }
+  }
+  $form_state['redirect'] = 'user/' . $id;
+  user_save($account, array('roles' => $roles));
+  drupal_set_message("$account->name has been updated.", 'status');
 }
 
 /**
