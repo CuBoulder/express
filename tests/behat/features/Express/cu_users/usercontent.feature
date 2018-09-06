@@ -9,6 +9,7 @@ Given I am logged in as a user with the <role> role
 # Scenario: Only certain roles have access to the User pages
 # Given I am logged in as a user with the "site_owner" role
 And I am on "admin/people"
+Then print last response
 # The following targets the first user in the user table cuz we don't know ID
 When I click the ".views-row-first .views-field-edit-node a" element
 Then I should see the link "Authored Content"
