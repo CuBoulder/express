@@ -11,7 +11,7 @@ Given I am logged in as a user with the <role> role
 And I am on "admin/people"
 Then print last response
 # The following targets the first user in the user table cuz we don't know ID
-When I click the ".views-row-first .views-field-edit-node a" element
+When I click the ".views-field-edit-node a" element
 Then I should see the link "Authored Content"
 And I should see the link "Edited Content"
 And I should see the link "Broken links"
