@@ -410,64 +410,6 @@ function cu_users_form_user_external_invite_form_alter(&$form, &$form_state, $fo
   $form['#submit'][] = 'cu_users_override_external_invite_submit';
 }
 
-/** Implements hook_form().
- *
- * Edit users' Roles.
- */
-function cu_users_roles_form($form, $form_state, $account) {
-  $core_rids = variable_get('user_external_invite_core_roles', []);
-  if (empty($core_rids)) {
-    drupal_set_message(t('Your site is not yet configured to edit user roles. Contact the site administrator to configure this.'), 'status');
-  }
-  $form = array();
-
-  $core_role_options = [];
-  foreach ($core_rids as $val) {
-    if ($val) {
-      $core_role_options[$val] = _user_external_invite_role_name_from_rid($val);
-    }
-  }
-
-  $addon_rids = variable_get('user_external_invite_addon_roles', []);
-  $addon_role_options = [];
-  foreach ($addon_rids as $val) {
-    if ($val) {
-      $addon_role_options[$val] = _user_external_invite_role_name_from_rid($val);
-    }
-  }
-  asort($addon_role_options);
-
-  $form['account']['account'] = array(
-    '#type' => 'hidden',
-    '#value' => $account->uid,
-  );
-
-  $saved_core = array_intersect_key($core_role_options, $account->roles);
-  $form['account']['core_rid'] = array(
-    '#title' => 'Core Role',
-    '#type' => 'radios',
-    '#options' => $core_role_options,
-    '#theme' => 'express_roles',
-    '#default_value' => key($saved_core),
-    '#required' => TRUE,
-  );
-  $saved_addon = array_intersect_key($addon_role_options, $account->roles);
-  $form['account']['addon_rids'] = array(
-    '#title' => 'Add-on Roles',
-    '#type' => 'checkboxes',
-    '#options' => $addon_role_options,
-    '#theme' => 'express_roles',
-    '#default_value' => array_keys($saved_addon),
-  );
-  $form['actions']['submit'] = array(
-    '#type' => 'submit',
-    '#value' => 'Save',
-  );
-  $form['#validate'][] = 'express_permissions_invite_site_owner_cap';
-  $form['#submit'][] = 'cu_users_roles_form_submit';
-  return $form;
-}
-
 /**
  * Implements hook_form_FORM_ID_alter().
  *
