@@ -19,7 +19,7 @@ And I should see the link "Locked documents"
 Examples:
   | role             |
   | developer        |
-  | administrator    |
+#  | administrator    |
   | site_owner       |
 
 Scenario Outline: Some roles cannot access the individual User pages
