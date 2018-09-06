@@ -9,6 +9,7 @@ Given I am logged in as a user with the <role> role
 And I am on "admin/people"
 # The following targets the first user in the user table cuz we don't know ID
 When I click the ".views-field-edit-node a" element
+Then return last response
 Then I should see "Changes to Display Name, Primary Affiliation, and Last Name fields will be overwritten by LDAP the next time this user logs in."
 Then I should see the link "Authored Content"
 And I should see the link "Edited Content"
