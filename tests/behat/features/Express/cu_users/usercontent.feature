@@ -18,9 +18,9 @@ And I should see the link "Locked documents"
 
 Examples:
   | role             |
-  | developer        |
-#  | administrator    |
   | site_owner       |
+#  | administrator    |
+#  | developer      |
 
 Scenario Outline: Some roles cannot access the individual User pages
 Given I am logged in as a user with the <role> role
