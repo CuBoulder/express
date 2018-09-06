@@ -38,7 +38,7 @@ Scenario: The user tabs should not be blank
 Given I am logged in as a user with the "site_owner" role
 And I am on "admin/people"
 # The following targets the first user in the user table cuz we don't know ID
-When I click the ".views-row-first .views-field-edit-node a" element
+When I click the ".views-field-edit-node a" element
 And I follow "Roles"
 Then I should see "Edit My Content"
 And I should see "Content Editor"
