@@ -124,20 +124,18 @@ function cu_users_menu_alter(&$items) {
   $items['admin/config']['access arguments'] = array('access configuration administration');
   $items['admin/structure/block']['access callback'] = 'user_access';
   $items['admin/structure/block']['access arguments'] = array('access configuration administration');
-
-  $items['user/%user/roles']['page arguments'] = array('cu_users_roles_form', 1);
 }
 
 /**
  * Implements hook_admin_paths().
  * Set edit layout paths to be admin paths.
  */
- function cu_users_admin_paths() {
-   $paths = array(
-     'user/*' => TRUE,
-   );
-   return $paths;
- }
+function cu_users_admin_paths() {
+ $paths = array(
+   'user/*' => TRUE,
+ );
+ return $paths;
+}
 
 /**
  * Implements hook_permission().
