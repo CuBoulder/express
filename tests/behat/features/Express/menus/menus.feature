@@ -61,8 +61,23 @@ Scenario: Access - An anonymous user should not be able to cannot add or edit me
   When I am on "admin/structure/menu"
   Then I should see "Access denied"
   
-# NOTE: THE MENUS SECTION HAS LINKS TO THE BLOCKS ADMIN PAGE AND CONTENT TYPES ADMIN PAGE
-# WHICH ARE OFF LIMITS TO ALL BUT DEVELOPERS
+# THIS SCENARIO TESTS FOR TEXT THAT KEEPS COMING BACK; See Issue/1815  
+Scenario: Functionality - The explanatory blurb should be "Each menu has a corresponding block which can be placed in a content region."
+ Given I am logged in as a user with the "site_owner" role
+And I am on "admin/structure/menu"
+Then I should see "Each menu has a corresponding block which can be placed in a content region"
+
+# NOTE: SOMETIMES THE MENUS SECTION REVERTS TO DISPLAYING LINKS TO THE BLOCKS ADMIN PAGE AND CONTENT TYPES ADMIN PAGE
+# VERIFY THAT THESE PAGES ARE OFF LIMITS TO ALL BUT DEVELOPERS
+Scenario Outline: Access - No one (but Devs) can access the Drupal System Block Admin page or Content Types page
+Given I am logged in as a user with the <role> role
+When I go to "admin/structure/block"
+Then I should see "Access denied"
+And I go to "admin/structure/types"
+Then I should see "Access denied"
+
+# NOTE: SOMETIMES THE MENUS SECTION REVERTS TO DISPLAYING LINKS TO THE BLOCKS ADMIN PAGE AND CONTENT TYPES ADMIN PAGE
+# VERIFY THAT THESE PAGES ARE OFF LIMITS TO ALL BUT DEVELOPE
 Scenario Outline: Access - No one (but Devs) can access the Drupal System Block Admin page or Content Types page
 Given I am logged in as a user with the <role> role
 When I go to "admin/structure/block"
