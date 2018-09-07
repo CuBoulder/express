@@ -26,7 +26,6 @@ function cu_ldap_form_alter(&$form, &$form_state, $form_id) {
       $form['pass']['#title'] = t('IdentiKey Password');
       $form['pass']['#description'] = '';
       $form['#validate'][] = 'cu_ldap_user_login_validate';
-      dpm($form);
     case 'user_profile_form':
       $form['account']['name']['#disabled'] = TRUE;
       if (!user_access('access users overview', $account = NULL)) {
@@ -47,7 +46,20 @@ function cu_ldap_user_login_validate(&$form, &$form_state) {
   $account = user_load($uid);
   $roles = count($account->roles);
 
-  if ($roles < 2 && !isset($_GET['key']) && !array_key_exists($account->name, $all)) {
+  // Delete the account if created less than 60 seconds ago.
+  $time = time() - 60;
+
+  $new_account = ($account->created > $time);
+
+  if ($roles < 2 && !isset($_GET['key']) && empty($new_account) && !array_key_exists($account->name, $all)) {
+    // Notify user that they cannot log in to the site.
+    form_set_error('name', 'No roles associated with your account. If you received an email invitation, please use the link provided.');
+  }
+  if ($roles < 2 && !isset($_GET['key']) && $new_account && !array_key_exists($account->name, $all)) {
+    // Delete account if it's new.
+    user_delete($uid);
+    watchdog('cu_users_log', t('User tried to log in without roles and was deleted: %uid', array('%uid' => $uid)));
+
     // Notify user that they cannot log in to the site.
     form_set_error('name', 'No roles associated with your account. If you received an email invitation, please use the link provided.');
   }
