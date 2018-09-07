@@ -7,11 +7,11 @@ I see a set of tabs populated with information about my users
 Scenario Outline: Access - Certain roles have access to the individual User pages
 Given I am logged in as a user with the <role> role
 And I am on "admin/people"
-# The following targets the first user in the user table cuz we don't know ID
+# The following targets the first user in the user table cuz we can't be sure of any user IDs
 When I click the ".views-field-edit-node a" element
-Then print last response
-Then I should see "Changes to Display Name, Primary Affiliation, and Last Name fields will be overwritten by LDAP the next time this user logs in."
-Then I should see the link "Authored Content"
+# Then print last response
+Then I should see "Username"
+And I should see the link "Authored Content"
 And I should see the link "Edited Content"
 And I should see the link "Broken links"
 And I should see the link "Locked documents"
