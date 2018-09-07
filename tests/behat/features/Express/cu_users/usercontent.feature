@@ -27,9 +27,12 @@ Given I am logged in as a user with the "site_owner" role
 And I am on "admin/people"
 # The following targets the first user in the user table cuz we don't know ID
 When I click the ".views-field-edit-node a" element
+And print current URL
 And I follow "Authored Content"
+And print current URL
 Then I should see "OPERATIONS"
 And I follow "Edited Content"
+And print current URL
 Then I should see "OPERATIONS"
 And I follow "Broken links"
 Then I should see "No broken links have been found."
