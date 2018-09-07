@@ -25,6 +25,8 @@ function cu_ldap_form_alter(&$form, &$form_state, $form_id) {
       $form['name']['#description'] = '';
       $form['pass']['#title'] = t('IdentiKey Password');
       $form['pass']['#description'] = '';
+      $form['#validate'][] = 'cu_ldap_user_login_validate';
+      dpm($form);
     case 'user_profile_form':
       $form['account']['name']['#disabled'] = TRUE;
       if (!user_access('access users overview', $account = NULL)) {
@@ -35,6 +37,17 @@ function cu_ldap_form_alter(&$form, &$form_state, $form_id) {
         drupal_set_message(t('Changes to Display Name, Primary Affiliation, and Last Name fields will be overwritten by LDAP the next time this user logs in.'), 'warning');
       }
       break;
+  }
+}
+
+function cu_ldap_user_login_validate(&$form, &$form_state) {
+  $uid = $form_state['uid'];
+
+  $account = user_load($uid);
+  $roles = count($account->roles);
+
+  if ($roles < 2) {
+    form_set_error('name', 'No roles associated with your account. If you received an email invitation, you must use the link provided.');
   }
 }
 
