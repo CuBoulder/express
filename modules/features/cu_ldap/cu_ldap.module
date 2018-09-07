@@ -51,7 +51,7 @@ function cu_ldap_user_login_validate(&$form, &$form_state) {
 
   $new_account = ($account->created > $time);
 
-  if ($roles < 2 && !isset($_GET['key']) && empty($new_account) && !array_key_exists($account->name, $all)) {
+  if ($roles < 2 && !isset($_GET['key']) && !$new_account && !array_key_exists($account->name, $all)) {
     // Notify user that they cannot log in to the site.
     form_set_error('name', 'No roles associated with your account. If you received an email invitation, please use the link provided.');
   }
