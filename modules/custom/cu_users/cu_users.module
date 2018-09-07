@@ -124,19 +124,18 @@ function cu_users_menu_alter(&$items) {
   $items['admin/config']['access arguments'] = array('access configuration administration');
   $items['admin/structure/block']['access callback'] = 'user_access';
   $items['admin/structure/block']['access arguments'] = array('access configuration administration');
-  $items['user/%/roles']['access callback'] = FALSE;
 }
 
 /**
  * Implements hook_admin_paths().
  * Set edit layout paths to be admin paths.
  */
- function cu_users_admin_paths() {
-   $paths = array(
-     'user/*' => TRUE,
-   );
-   return $paths;
- }
+function cu_users_admin_paths() {
+ $paths = array(
+   'user/*' => TRUE,
+ );
+ return $paths;
+}
 
 /**
  * Implements hook_permission().
@@ -778,17 +777,6 @@ function cu_users_username_alter(&$name, $account) {
   if (array_key_exists($account->name, $all)) {
     $name = $name . ' (Web Express Team)';
   }
-}
-
-/**
- * Implements hook_admin_paths().
- * Set edit layout paths to be admin paths.
- */
-function cu_users_admin_paths() {
-  $paths = array(
-    'user/*' => TRUE,
-  );
-  return $paths;
 }
 
 /**
