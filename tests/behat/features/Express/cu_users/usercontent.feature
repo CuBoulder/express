@@ -8,8 +8,8 @@ Scenario Outline: Access - Certain roles have access to the individual User page
 Given I am logged in as a user with the <role> role
 And I am on "admin/people"
 # The following targets the first user in the user table cuz we can't be sure of any user IDs
+# It puts us on the first user available to the logged in user
 When I click the ".views-field-edit-node a" element
-# Then print last response
 Then I should see "Username"
 And I should see the link "Authored Content"
 And I should see the link "Edited Content"
@@ -34,5 +34,5 @@ Then I should see "OPERATIONS"
 And I follow "Broken links"
 Then I should see "No broken links have been found."
 # Hiding the following check for now as Behat won't follow
-# And I follow "Locked documents"
-# Then I should see "Below is a list of all documents locked by you"
+And I follow "Locked documents"
+Then I should see "Below is a list of all documents locked by you"
