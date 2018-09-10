@@ -257,8 +257,6 @@ function atlas_admin_settings_submit($form, &$form_state) {
     $request_data['code']['profile'] = $form_state['values']['atlas_profile'];
   }
   if (isset($form_state['values']['atlas_packages'])) {
-    // Drop all the keys with zero as a value.
-    // $form_state['values']['atlas_packages'] = array_diff($form_state['values']['atlas_packages'], array(0));
     // Check to see if the new arrays are different.
     if (isset($site_array['code']['package'])) {
       $packages_diff = array_diff($form_state['values']['atlas_packages'], $site_array['code']['package']);
