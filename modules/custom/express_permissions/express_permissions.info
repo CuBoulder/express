@@ -5,4 +5,4 @@ package = Express
 
 dependencies[] = secure_permissions
 dependencies[] = administerusersbyrole
-dependencies[] = role_delegation
+;dependencies[] = role_delegation
