@@ -1037,7 +1037,7 @@ function cu_core_update_7052() {
 /**
  * Disable role_delegation for 3.0.0 release.
  */
-function cu_redirect_update_7053() {
+function cu_core_update_7053() {
   module_disable(array('role_delegation'));
   drupal_uninstall_modules(array('role_delegation'), $uninstall_dependents = FALSE);
 }
