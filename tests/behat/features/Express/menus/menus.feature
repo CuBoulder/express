@@ -75,15 +75,6 @@ When I go to "admin/structure/block"
 Then I should see "Access denied"
 And I go to "admin/structure/types"
 Then I should see "Access denied"
-
-# NOTE: SOMETIMES THE MENUS SECTION REVERTS TO DISPLAYING LINKS TO THE BLOCKS ADMIN PAGE AND CONTENT TYPES ADMIN PAGE
-# VERIFY THAT THESE PAGES ARE OFF LIMITS TO ALL BUT DEVELOPE
-Scenario Outline: Access - No one (but Devs) can access the Drupal System Block Admin page or Content Types page
-Given I am logged in as a user with the <role> role
-When I go to "admin/structure/block"
-Then I should see "Access denied"
-And I go to "admin/structure/types"
-Then I should see "Access denied"
   
 Examples:
 | role                  |  
