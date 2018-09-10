@@ -17,7 +17,7 @@
   @if ($yiq >= 128) {
     @return $text-black; // Lighter backgorund, return dark color
   } @else {
-    @return #ffffff; // Darker background, return light color
+    @return #fff; // Darker background, return light color
   }
 }
 

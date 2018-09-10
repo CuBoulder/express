@@ -33,8 +33,15 @@
     });
     $('#search-toggle').click(function(event){
       event.preventDefault();
-      $('#search').slideToggle('fast').focus();
-      $('.express-search-box-small').addClass('fadeIn');
+      $('#search').fadeIn('fast');
+      $('#edit-search-keys').focus();
+      $(this).attr('aria-expanded', 'true');
+    });
+    $('#close-search').click(function(event){
+      event.preventDefault();
+      $('#search').hide();
+      $('#header').focus();
+      $('#search-toggle').attr('aria-expanded', 'false');
     });
   });
   $(window).on('resize', function(){

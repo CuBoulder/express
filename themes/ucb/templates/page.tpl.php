@@ -15,15 +15,18 @@
 
     <!-- DESKTOP SEARCH -->
     <div id="search" tabindex="-1">
-      <div class="container">
-        <?php print render($search_desktop); ?>
+      <div id="search-inner">
+        <div class="container">
+          <button id="close-search"><i class="fa fa-times" aria-hidden="true"></i><span class="element-invisible">Close</span></button>
+          <?php print render($search_desktop); ?>
+        </div>
       </div>
     </div>
     <!-- /DESKTOP SEARCH -->
 
     <!-- SITE HEADER -->
-    <div id="header-wrapper" class="section header-wrapper no-underline">
-      <header class="header container clearfix" id="header" role="banner">
+    <div id="header-wrapper" class="section header-wrapper no-underline" >
+      <header class="header container clearfix" id="header" role="banner" tabindex="-1">
         <div class="site-name-wrapper">
           <div class="site-name-inner">
             <?php
@@ -37,7 +40,7 @@
           </div>
         </div>
         <div class="mobile-menu-toggle menu-toggle">
-          <button id="toggle" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-menu" aria-label="Navigation"><i class="fa fa-reorder fa-fw"></i><span class="mobile-menu-text">Menu </span></button>
+          <button id="toggle" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-menu" aria-label="Navigation"><i class="fa fa-reorder fa-fw" aria-hidden="true"></i><span class="mobile-menu-text">Menu </span></button>
         </div>
       </header>
     </div>
@@ -76,7 +79,7 @@
         <div id="mobile-search">
           <?php
             if (!empty($search_mobile)) {
-              print render($search_mobile);
+              // print render($search_mobile);
             }
           ?>
         </div>
