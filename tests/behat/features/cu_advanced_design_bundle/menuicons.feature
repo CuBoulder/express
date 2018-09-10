@@ -1,4 +1,4 @@
-@AdvDesign
+@AdvancedDesign
 Feature: Font Awesome Icons in menus
 In order to add visual interest to my site
 As an authenticated user

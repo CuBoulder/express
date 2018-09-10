@@ -183,7 +183,7 @@ public function removeRoleFromUser($user, $role_name) {
 
     if ($clones) {
       $clonable_user = $this->csvTables['users'][101];
-      for ($i=0; $i < $clones; $i++) {
+      for ($i = 0; $i < $clones; $i++) {
         $user = $clonable_user;
         $cn = "clone" . $i;
         $dn = 'cn=' . $cn . ',' . $this->csvTables['conf'][$test_ldap_id]['userbasedn'];
@@ -254,8 +254,8 @@ public function removeRoleFromUser($user, $role_name) {
     if ($server_properties['groupUserMembershipsAttrExists']) {
       $member_attr = $server_properties['groupUserMembershipsAttr'];
       foreach ($this->csvTables['memberships'] as $gid => $membership) {
-        $group_dn =  $this->data['ldap_servers_by_guid'][$sid][$membership['group_guid']]['dn'];
-        $user_dn =  $this->data['ldap_servers_by_guid'][$sid][$membership['member_guid']]['dn'];
+        $group_dn = $this->data['ldap_servers_by_guid'][$sid][$membership['group_guid']]['dn'];
+        $user_dn = $this->data['ldap_servers_by_guid'][$sid][$membership['member_guid']]['dn'];
         $this->ldapData['ldap_servers'][$sid][$user_dn][$member_attr][] = $group_dn;
         if (isset($this->ldapData['ldap_servers'][$sid][$user_dn][$member_attr]['count'])) {
           unset($this->ldapData['ldap_servers'][$sid][$user_dn][$member_attr]['count']);
@@ -265,8 +265,8 @@ public function removeRoleFromUser($user, $role_name) {
       }
     }
 
-    $this->data['ldap_servers'][$sid]['ldap'] =  $this->ldapData['ldap_servers'][$sid];
-    $this->data['ldap_servers'][$sid]['csv'] =  $this->csvTables;
+    $this->data['ldap_servers'][$sid]['ldap'] = $this->ldapData['ldap_servers'][$sid];
+    $this->data['ldap_servers'][$sid]['csv'] = $this->csvTables;
     variable_set('ldap_test_server__' . $sid, $this->data['ldap_servers'][$sid]);
     $current_sids = variable_get('ldap_test_servers', array());
     $current_sids[] = $sid;
@@ -338,8 +338,8 @@ public function removeRoleFromUser($user, $role_name) {
   public function addLDAPUserToLDAPArraysFromAttributes($user, $sid, $dn, $attributes, $ldap_type, $user_attr) {
 
     if ($ldap_type == 'activedirectory') {
-      $attributes[$user_attr] =  array(0 => $user['cn'], 'count' => 1);
-      $attributes['distinguishedname'] =  array( 0 => $dn, 'count' => 1);
+      $attributes[$user_attr] = array(0 => $user['cn'], 'count' => 1);
+      $attributes['distinguishedname'] = array( 0 => $dn, 'count' => 1);
     }
     elseif ($ldap_type == 'openldap') {
 

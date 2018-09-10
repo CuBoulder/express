@@ -16,11 +16,11 @@ function ldap_test_ldap_authentication_data() {
       'loginUIPasswordTxt' => 'Hogwards LDAP Password',
       'ldapUserHelpLinkUrl' => 'https://passwords.hogwarts.edu/',
       'ldapUserHelpLinkText' => 'Hogwarts IT Password Support Page',
-      'allowOnlyIfTextInDn' =>  NULL,
-      'excludeIfTextInDn' =>  NULL,
-      'allowTestPhp' =>  NULL,
-      'excludeIfNoAuthorizations' =>  LDAP_AUTHENTICATION_EXCL_IF_NO_AUTHZ_DEFAULT,
-      'ssoEnabled' =>  FALSE,
+      'allowOnlyIfTextInDn' => NULL,
+      'excludeIfTextInDn' => NULL,
+      'allowTestPhp' => NULL,
+      'excludeIfNoAuthorizations' => LDAP_AUTHENTICATION_EXCL_IF_NO_AUTHZ_DEFAULT,
+      'ssoEnabled' => FALSE,
     );
 
   $conf['MixedModeUserLogon'] = $conf['default'];

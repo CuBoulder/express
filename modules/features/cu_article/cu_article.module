@@ -146,7 +146,6 @@ function cu_article_preprocess_entity(&$vars) {
     $content = $vars['content'];
     global $base_url;
 
-
     // Get configs.
     $items = $vars['elements']['#entity']->field_article_items_display[LANGUAGE_NONE][0]['value'];
     $display = $vars['elements']['#entity']->field_article_display[LANGUAGE_NONE][0]['value'];
@@ -313,8 +312,7 @@ function cu_article_preprocess_entity(&$vars) {
     }
     else {
       $type = $vars['elements']['#bundle'];
-      _cu_article_bean_null_results($vars, $type);
-      $vars['content'] = array();
+      $vars['content'] = _cu_article_bean_null_results($vars, $type);
     }
 
   }
@@ -451,8 +449,7 @@ function cu_article_preprocess_entity(&$vars) {
     }
     else {
       $type = $vars['elements']['#bundle'];
-      _cu_article_bean_null_results($vars, $type);
-      $vars['content'] = array();
+      $vars['content'] = _cu_article_bean_null_results($vars, $type);
     }
 
   }
@@ -610,8 +607,7 @@ function cu_article_preprocess_entity(&$vars) {
     }
     else {
       $type = $vars['elements']['#bundle'];
-      _cu_article_bean_null_results($vars, $type);
-      $vars['content'] = array();
+      $vars['content'] = _cu_article_bean_null_results($vars, $type);
     }
   }
 }
@@ -621,12 +617,11 @@ function cu_article_preprocess_entity(&$vars) {
  */
 function _cu_article_bean_null_results($vars, $type = NULL) {
   if ($type) {
-    $permission = 'edit any ' . $type . ' bean';
-    if (user_access($permission)) {
-      $delta = $vars['elements']['#entity']->delta;
-      $label = $vars['elements']['#entity']->label;
-      $edit = l($label, 'block/' . $delta . '/edit');
-      drupal_set_message(t('!label has no results', array('!label' => $edit)), 'warning');
+    if ($type == 'article_grid') {
+      return array('articles' => t('There are no results at this time.'));
+    }
+    if ($type == 'articles') {
+      return t('There are no results at this time.');
     }
   }
 }

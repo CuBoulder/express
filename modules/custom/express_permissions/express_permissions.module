@@ -56,6 +56,84 @@ function express_permissions_secure_permissions_roles() {
 }
 
 /**
+ * Return role information including labels and types.
+ *
+ * $type: array of types to return. NULL or FALSE to return all.
+ * $exclude: array of role machine names to exclude.
+ */
+function express_permissions_role_settings($type = NULL, $exclude = array()) {
+  $settings = array();
+  $role_settings = array();
+  // List all roles with human readable label and a type.
+  // Type options: service, core, core_addon, bundle_addon.
+  $settings['edit_my_content'] = array(
+    'label' => 'Edit My Content',
+    'type' => 'core',
+  );
+  $settings['edit_only'] = array(
+    'label' => 'Content Editor (edit only)',
+    'type' => 'core',
+  );
+  $settings['content_editor'] = array(
+    'label' => 'Content Editor (deprecated)',
+    'type' => 'core',
+  );
+  $settings['site_editor'] = array(
+    'label' => 'Site Editor',
+    'type' => 'core',
+  );
+  $settings['site_owner'] = array(
+    'label' => 'Site Owner',
+    'type' => 'core',
+  );
+  $settings['administrator'] = array(
+    'label' => 'Administrator',
+    'type' => 'service',
+  );
+  $settings['developer'] = array(
+    'label' => 'Developer',
+    'type' => 'service',
+  );
+  $settings['access_manager'] = array(
+    'label' => 'Access Manager',
+    'type' => 'core_addon',
+  );
+  $settings['configuration_manager'] = array(
+    'label' => 'Configuration Manager',
+    'type' => 'core_addon',
+  );
+  $settings['campaign_manager'] = array(
+    'label' => 'Campaign Manager',
+    'type' => 'bundle_addon',
+  );
+  $settings['form_manager'] = array(
+    'label' => 'Form Manager',
+    'type' => 'bundle_addon',
+  );
+  // Get all the roles.
+  $roles = user_roles(TRUE);
+  // Combine new role info(labels/types) with stored role info(role ids).
+  foreach ($roles as $rid => $role_name) {
+    if ( ($role_name != 'authenticated user') && !empty($settings[$role_name]) && !in_array($role_name, $exclude)) {
+      // Add role id to array values.
+      $settings[$role_name]['rid'] = $rid;
+      // Filter roles by type.
+      if ($type) {
+        if (in_array($settings[$role_name]['type'], $type) ) {
+          $role_settings['names'][$role_name] = $settings[$role_name];
+          $role_settings['rid'][$rid] = $settings[$role_name];
+        }
+      }
+      else {
+        $role_settings['names'][$role_name] = $settings[$role_name];
+        $role_settings['rid'][$rid] = $settings[$role_name];
+      }
+    }
+  }
+  return $role_settings;
+}
+
+/**
  * Define site permissions in code.
  *
  * Create a secure_permissions_data module directory and place this function
@@ -791,10 +869,11 @@ function express_permissions_form_user_profile_form_alter(&$form, &$form_state) 
     // Format role name to be  more readable.
     $new_role_name = check_plain($role_name);
     $new_role_name = ucwords(str_replace('_', ' ', $new_role_name));
+     if ($role_name == 'content_editor') {
+      $new_role_name =  'Content Editor (deprecated)';
+    }
     if ($role_name == 'edit_only') {
-      if (in_array('developer', $user->roles) || in_array('administrator', $user->roles)) {
-        $new_role_name =  '<i>' . $new_role_name . ' (temp role hidden from site owners)</i>';
-      }
+      $new_role_name =  'Content Editor (edit only)';
     }
     if ($role_name == 'access_manager') {
       $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
