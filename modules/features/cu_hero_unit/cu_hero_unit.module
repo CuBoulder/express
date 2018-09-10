@@ -98,8 +98,6 @@ function cu_hero_unit_preprocess_entity(&$vars) {
         $vars['content']['field_hero_unit_link'][$key]['#element']['attributes']['class'] = 'button ' . $button_class;
       }
     }
-
-    dpm($vars);
   }
 }
 
