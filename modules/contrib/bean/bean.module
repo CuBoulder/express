@@ -75,9 +75,6 @@ function bean_entity_info() {
           ),
         ),
       ),
-
-      // @see devel_contrib.module
-      'devel contrib generator class' => 'DevelContribGeneratorDefault',
     ),
   );
 
@@ -429,11 +426,9 @@ function bean_bean_cache_clear() {
   drupal_static_reset('bean_fetch_plugin_info');
   drupal_static_reset('bean_load_plugin_class');
   drupal_static_reset('bean_block_info');
-  drupal_static_reset('bean_load_delta');
 
   // Flush caches.
   cache_clear_all('bean_plugins', 'cache');
-  cache_clear_all('bean_block_info', 'cache');
 
   if (module_exists('block')) {
     cache_clear_all(NULL, 'cache_block');
@@ -452,8 +447,6 @@ function bean_cache_clear_block($bean = null) {
   else {
     cache_clear_all('bean:', 'cache_block', TRUE);
   }
-
-  cache_clear_all('bean_block_info', 'cache');
 }
 
 /**
@@ -570,7 +563,7 @@ function bean_load_revision($bid, $vid, $reset = FALSE) {
  *   A fully-loaded $bean object or FALSE if it cannot be loaded.
  */
 function bean_load_delta($delta, $reset = FALSE, $revision = NULL) {
-  $deltas = &drupal_static(__FUNCTION__, array());
+  static $deltas = array();
   if (!$reset && !$revision && isset($deltas[$delta])) {
     return $deltas[$delta];
   }
@@ -844,8 +837,7 @@ function bean_view(Bean $bean, $view_mode = 'default', $langcode = NULL) {
 function bean_view_callback($entities, $view_mode, $langcode, $entity_type) {
   $render = array();
   foreach($entities as $key => $entity) {
-    $id = entity_id($entity_type, $entity);
-    $render[$entity_type][$id] = bean_view($entity, $view_mode, $langcode);
+    $render[$entity_type][$key] = bean_view($entity, $view_mode, $langcode);
   }
   return $render;
 }
@@ -860,12 +852,6 @@ function bean_block_info() {
     return $blocks;
   }
 
-  $cache = cache_get('bean_block_info', 'cache');
-  if ($cache) {
-    $blocks = $cache->data;
-    return $blocks;
-  }
-
   $blocks = array();
   $beans = bean_get_all_beans();
   foreach ($beans as $bean) {
@@ -874,8 +860,6 @@ function bean_block_info() {
       'cache' => $bean->getInfo('cache_level'),
     );
   }
-
-  cache_set('bean_block_info', $blocks, 'cache');
 
   return $blocks;
 }
@@ -898,6 +882,12 @@ function bean_block_view($delta = '') {
     $return = array(
       'content' => $content,
       'subject' => isset($bean->title) ? filter_xss($bean->title, $allowed_tags = array('em', 'strong', 'i', 'b')) : '',
+    );
+  }
+
+  if (!empty($return['content']) && module_exists('contextual')) {
+    $return['content']['#contextual_links']['bean'] = array(
+      'block', array($bean->Identifier(), 'edit')
     );
   }
 
