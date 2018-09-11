@@ -125,6 +125,8 @@ function cu_users_menu_alter(&$items) {
   $items['admin/structure/block']['access callback'] = 'user_access';
   $items['admin/structure/block']['access arguments'] = array('access configuration administration');
 
+  $items['admin/people/invite']['title'] = t('Invite New Users');
+
   $items['user/%user/roles']['page arguments'] = array('cu_users_roles_form', 1);
 }
 
@@ -408,6 +410,7 @@ function cu_users_form_user_external_invite_form_alter(&$form, &$form_state, $fo
 
   // https://github.com/CuBoulder/express/issues/2562
   $form['#submit'][] = 'cu_users_override_external_invite_submit';
+  dpm($form);
 }
 
 /**
