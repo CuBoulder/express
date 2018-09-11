@@ -1042,6 +1042,13 @@ function cu_core_update_7053() {
   drupal_uninstall_modules(array('role_delegation'), $uninstall_dependents = FALSE);
 }
 
+/**
+ * Enable unpublished_404, r4032login for 2.9.7.
+ */
+function cu_core_update_7054() {
+  module_enable(array('unpublished_404', 'r4032login'));
+}
+
 
 /**
  * Revert features by passing features in an array.

@@ -861,35 +861,25 @@ function express_permissions_form_user_profile_form_alter(&$form, &$form_state) 
   global $user;
   $form['#validate'][] = 'express_permissions_site_owner_cap';
 
-  $new_role_options = array();
+  $new_role_options = [];
   // Get Roles of user being edited.
-  $original_role_options = $form['account']['roles']['#options'];
-
-  foreach ($original_role_options as $rid => $role_name) {
-    // Format role name to be  more readable.
-    $new_role_name = check_plain($role_name);
-    $new_role_name = ucwords(str_replace('_', ' ', $new_role_name));
-     if ($role_name == 'content_editor') {
-      $new_role_name =  'Content Editor (deprecated)';
-    }
-    if ($role_name == 'edit_only') {
-      $new_role_name =  'Content Editor (edit only)';
-    }
-    if ($role_name == 'access_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    if ($role_name == 'configuration_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    if ($role_name == 'campaign_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    if ($role_name == 'form_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    $new_role_options[$rid] = $new_role_name;
-
+  // If user has a certain role, limit role options.
+  $available_roles = express_permissions_role_settings($type = NULL, $exclude = array());
+  if (user_has_role($available_roles['names']['administrator']['rid']) || user_has_role($available_roles['names']['site_owner']['rid'])) {
+    $available_roles = express_permissions_role_settings($type = NULL, $exclude = array('developer', 'administrator'));
+  } else if (user_has_role($available_roles['names']['developer']['rid']) || $user->uid === '1') {
+    $available_roles = express_permissions_role_settings($type = NULL, $exclude = array());
+  } else {
+    $available_roles = [];
   }
+
+  $original_role_options = $available_roles;
+
+  // Let's make it look like the original options.
+  foreach ($original_role_options['names'] as $option) {
+    $new_role_options[$option['rid']] = $option['label'];
+  }
+
   $form['account']['roles']['#options'] = $new_role_options;
 }
 
