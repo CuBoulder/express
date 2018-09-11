@@ -28,11 +28,7 @@ function cu_ldap_form_alter(&$form, &$form_state, $form_id) {
       $form['#validate'][] = 'cu_ldap_user_login_validate';
     case 'user_profile_form':
       $form['account']['name']['#disabled'] = TRUE;
-      if (!user_access('access users overview', $account = NULL)) {
-        $form['field_ldap_display_name']['#disabled'] = TRUE;
-        $form['field_ldap_last_name']['#disabled'] = TRUE;
-        $form['field_ldap_primary_affiliation']['#disabled'] = TRUE;
-      } else {
+      if (user_access('access extended role assignment', $account = NULL)) {
         drupal_set_message(t('Changes to Display Name, Primary Affiliation, and Last Name fields will be overwritten by LDAP the next time this user logs in.'), 'warning');
       }
       break;
