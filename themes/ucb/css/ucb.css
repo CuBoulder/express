@@ -28,6 +28,8 @@ table { border-collapse: collapse; border-spacing: 0; }
 
 .focus--mouse, a.focus--mouse:focus, button.focus--mouse:focus, input.focus--mouse:focus, textarea.focus--mouse:focus { outline: none; text-decoration: none; }
 
+#skip-link { margin: 0 !important; padding: 0 !important; }
+
 /** Branding styles */
 #print-header { display: none; }
 
@@ -615,6 +617,7 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: rgba
 
 @media (min-width: 992px) { .container { max-width: 960px; } }
 @media (min-width: 1200px) { .container { max-width: 1140px; } }
+@media (min-width: 1500px) { .container { max-width: 1440px; } }
 .layout-fixed .container { width: 1140px; max-width: none; }
 
 .container-fluid { width: 100%; padding-right: 20px; padding-left: 20px; margin-right: auto; margin-left: auto; }

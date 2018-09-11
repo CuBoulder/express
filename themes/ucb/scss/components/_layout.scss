@@ -46,6 +46,11 @@
     max-width: 1140px;
   }
 }
+@media (min-width: 1500px) {
+  .container {
+    max-width: 1440px;
+  }
+}
 .layout-fixed {
   .container {
     width:1140px;
