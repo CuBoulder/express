@@ -654,7 +654,6 @@ function express_permissions_secure_permissions($role) {
       'diff view changes',
       'view redirects',
       'view express environment indicator',
-      'administer express site status',
     ),
     'edit_only' => array(
       'access administration pages',
