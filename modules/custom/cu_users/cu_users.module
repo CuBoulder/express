@@ -410,7 +410,6 @@ function cu_users_form_user_external_invite_form_alter(&$form, &$form_state, $fo
 
   // https://github.com/CuBoulder/express/issues/2562
   $form['#submit'][] = 'cu_users_override_external_invite_submit';
-  dpm($form);
 }
 
 /**
@@ -477,7 +476,6 @@ function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
     );
     $form['#submit'][] = 'cu_users_roles_form_submit';
   }
-  dpm($form['account']);
 }
 
 /**
