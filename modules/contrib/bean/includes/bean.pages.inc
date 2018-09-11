@@ -10,10 +10,8 @@
  */
 function bean_view_page(Bean $bean) {
   $title = $bean->label() ? $bean->label() : $bean->adminTitle();
-  $view_mode = ($bean->view_mode) ? $bean->view_mode : 'default';
   drupal_set_title($title);
-
-  return bean_view($bean, $view_mode);
+  return bean_view($bean);
 }
 
 /**
@@ -68,10 +66,10 @@ function bean_list() {
 
   // Build the sortable table header.
   $header = array(
-    'label' => array(
-      'data' => 'Label',
+    'title' => array(
+      'data' => 'Title',
       'type' => 'property',
-      'specifier' => 'label',
+      'specifier' => 'title',
       'sort' => 'asc'
     ),
     'type' => array(
@@ -104,7 +102,7 @@ function bean_list() {
 
   foreach ($beans as $bean) {
     $rows[$bean->bid] = array(
-      'label' => array(
+      'title' => array(
         'data' => array(
           '#type' => 'link',
           '#title' => $bean->label,
