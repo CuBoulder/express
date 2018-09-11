@@ -53,7 +53,7 @@ function cu_ldap_user_login_validate(&$form, &$form_state) {
 
   if ($roles < 2 && !isset($_GET['key']) && !$new_account && !array_key_exists($account->name, $all)) {
     // Notify user that they cannot log in to the site.
-    form_set_error('name', 'No roles associated with your account. If you received an email invitation, please use the link provided.');
+    form_set_error('name', 'You do not have permission to edit this site. If you received an email invitation, please use the link provided.');
   }
   if ($roles < 2 && !isset($_GET['key']) && $new_account && !array_key_exists($account->name, $all)) {
     // Delete account if it's new.
@@ -61,7 +61,7 @@ function cu_ldap_user_login_validate(&$form, &$form_state) {
     watchdog('cu_users_log', t('User tried to log in without roles and was deleted: %uid', array('%uid' => $uid)));
 
     // Notify user that they cannot log in to the site.
-    form_set_error('name', 'No roles associated with your account. If you received an email invitation, please use the link provided.');
+    form_set_error('name', 'You do not have permission to edit this site. If you received an email invitation, please use the link provided.');
   }
 }
 
