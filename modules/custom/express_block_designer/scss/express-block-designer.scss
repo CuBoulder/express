@@ -13,68 +13,16 @@ ul.tabs--primary li a.block-designer:before {
   }
   // Block Styles
 
-  &.exbd-style-white {
-    & > .block-inner {
-      @include block(#fff);
-      color: $text;
-      a:link, a:visited {
-        color:$blue;
-      }
-    }
-  }
 
-  &.exbd-style-light-gray {
-    & > .block-inner {
-      @include block($light_gray);
-      color: $text;
-      a:link, a:visited {
-        color:$dark_link_blue;
-      }
-    }
-  }
   &.exbd-style-outline {
-    & > .block-inner {
-      @include block($color: transparent);
-      border:1px solid $border_color;
-    }
+    @include block($color: transparent);
+    border:1px solid $border_color;
   }
   &.exbd-style-underline {
-    & > .block-inner {
-      border-bottom:1px solid $border_color;
-      padding:0 0 20px 0;
-    }
+    border-bottom:1px solid $border_color;
+    padding:0 0 20px 0;
   }
-  &.exbd-style-dark-gray {
-    & > .block-inner {
-      @include block($dark_gray);
-      color:#fff;
-      a:link, a:visited {
-        color:$cugold;
-      }
-      a:hover,
-      a:active {
-        color:#ddd;
-      }
-    }
-  }
-  &.exbd-style-lightblue {
-    & > .block-inner {
-      @include block($light_blue);
-      color: $text;
-      a:link, a:visited {
-        color:$dark_link_blue;
-      }
-    }
-  }
-  &.exbd-style-tan {
-    & > .block-inner {
-      @include block($tan);
-      color:$text;
-      a:link, a:visited {
-        color:$dark_link_blue;
-      }
-    }
-  }
+
   // Heading alignment
   &.exbd-heading-align-centered > .block-inner > .exbd-block-title {
     text-align: center;
