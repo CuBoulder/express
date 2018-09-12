@@ -265,6 +265,64 @@ function ucb_preprocess_page(&$vars) {
   $vars['section']['footer-section']['class'] = 'background-black';
   $vars['section']['footer']['class'] = '';
   $vars['section']['site-info']['class'] = '';
+
+
+  // Get region column settings
+  if (theme_get_setting('after_content_columns')) {
+    $after_content_columns = theme_get_setting('after_content_columns') ? theme_get_setting('after_content_columns') : 1;
+    $after_content_columns = (isset($vars['page']['after_content']['#column_override']) && ($vars['page']['after_content']['#column_override'] != 'no-change')) ? $vars['page']['after_content']['#column_override'] : $after_content_columns;
+  }
+  if (theme_get_setting('lower_columns')) {
+    $lower_columns = theme_get_setting('lower_columns') ? theme_get_setting('lower_columns') : 1;
+    $lower_columns = (isset($vars['page']['lower']['#column_override']) && ($vars['page']['lower']['#column_override'] != 'no-change')) ? $vars['page']['lower']['#column_override'] : $lower_columns;
+  }
+  if (theme_get_setting('footer_columns')) {
+    $footer_columns = theme_get_setting('footer_columns') ? theme_get_setting('footer_columns') : 1;
+    $footer_columns = (isset($vars['page']['footer']['#column_override']) && ($vars['page']['footer']['#column_override'] != 'no-change')) ? $vars['page']['footer']['#column_override'] : $footer_columns;
+  }
+  // Add column classes to blocks in each of the regions
+  $classes = ucb_size_column_classes();
+
+  // After Content region
+  $grid_classes = array();
+  $grid_classes[] = $classes['xs'][$after_content_columns];
+  $grid_classes[] = $classes['sm'][$after_content_columns];
+  $grid_classes[] = $classes['md'][$after_content_columns];
+  $grid_classes[] = $classes['lg'][$after_content_columns];
+  $grid_classes = join(' ', $grid_classes);
+  $children = element_children($vars['page']['after_content']);
+  foreach ($children as $child) {
+    $vars['page']['after_content'][$child]['#prefix'] = '<div class="block-column-wrapper ' . $grid_classes . '">';
+    $vars['page']['after_content'][$child]['#suffix'] = '</div>';
+  }
+
+  // Lower region
+  $grid_classes = array();
+  $grid_classes[] = $classes['xs'][$lower_columns];
+  $grid_classes[] = $classes['sm'][$lower_columns];
+  $grid_classes[] = $classes['md'][$lower_columns];
+  $grid_classes[] = $classes['lg'][$lower_columns];
+  $grid_classes = join(' ', $grid_classes);
+  $children = element_children($vars['page']['lower']);
+  foreach ($children as $child) {
+    $vars['page']['lower'][$child]['#prefix'] = '<div class="' . $grid_classes . '">';
+    $vars['page']['lower'][$child]['#suffix'] = '</div>';
+  }
+
+  // Footer region
+  $grid_classes = array();
+  $grid_classes[] = $classes['xs'][$footer_columns];
+  $grid_classes[] = $classes['sm'][$footer_columns];
+  $grid_classes[] = $classes['md'][$footer_columns];
+  $grid_classes[] = $classes['lg'][$footer_columns];
+  $grid_classes = join(' ', $grid_classes);
+  $children = element_children($vars['page']['footer']);
+  foreach ($children as $child) {
+    $vars['page']['footer'][$child]['#prefix'] = '<div class="' . $grid_classes . '">';
+    $vars['page']['footer'][$child]['#suffix'] = '</div>';
+  }
+
+
 }
 
 /**
@@ -400,41 +458,7 @@ function ucb_preprocess_block(&$vars) {
     $vars['classes_array'][] = 'bean-type-' . $bean_type;
     $vars['classes_array'][] = drupal_html_class('block-bean-type-' . $bean_type);
   }
-  // Get region column settings
-  if (theme_get_setting('after_content_columns')) {
-    $after_content_columns = theme_get_setting('after_content_columns') ? theme_get_setting('after_content_columns') : 1;
-    $after_content_columns = (isset($vars['column_override'])) ? $vars['column_override'] : $after_content_columns;
-  }
-  if (theme_get_setting('lower_columns')) {
-    $lower_columns = theme_get_setting('lower_columns') ? theme_get_setting('lower_columns') : 1;
-    $lower_columns = (isset($vars['column_override'])) ? $vars['column_override'] : $lower_columns;
-  }
-  if (theme_get_setting('footer_columns')) {
-    $footer_columns = theme_get_setting('footer_columns') ? theme_get_setting('footer_columns') : 1;
-    $footer_columns = (isset($vars['column_override'])) ? $vars['column_override'] : $footer_columns;
-  }
-  // Add column classes to blocks
-  $classes = ucb_size_column_classes();
-  switch ($vars['block']->region) {
-    case 'after_content':
-      $vars['classes_array'][] = $classes['xs'][$after_content_columns];
-      $vars['classes_array'][] = $classes['sm'][$after_content_columns];
-      $vars['classes_array'][] = $classes['md'][$after_content_columns];
-      $vars['classes_array'][] = $classes['lg'][$after_content_columns];
-      break;
-    case 'lower':
-      $vars['classes_array'][] = $classes['xs'][$lower_columns];
-      $vars['classes_array'][] = $classes['sm'][$lower_columns];
-      $vars['classes_array'][] = $classes['md'][$lower_columns];
-      $vars['classes_array'][] = $classes['lg'][$lower_columns];
-      break;
-    case 'footer':
-      $vars['classes_array'][] = $classes['xs'][$footer_columns];
-      $vars['classes_array'][] = $classes['sm'][$footer_columns];
-      $vars['classes_array'][] = $classes['md'][$footer_columns];
-      $vars['classes_array'][] = $classes['lg'][$footer_columns];
-      break;
-  }
+
 }
 
 /**
