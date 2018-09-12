@@ -224,46 +224,6 @@ function cu_users_user_has_role($role_name, $user = NULL) {
 }
 
 /**
- * Implements hook_views_pre_render().
- *
- * Hide developers, administrators, and test accounts on the Users overview page
- * from lesser roles.
- */
-function cu_users_views_pre_render(&$view) {
-  if ($view->name == 'cu_people_administration_override_view') {
-    $account = $GLOBALS['user'];
-    // If the current user is an administrator or developer, then don't alter
-    // the view results.
-    if ($account->uid == 1 || cu_users_user_has_role('developer', $account)) {
-      return;
-    }
-    // Load all of the view results at once to avoid making hundreds of calls to
-    // load users.
-    $uids = array_map(function ($var) {
-      return $var->uid;
-    }, $view->result);
-    $users = user_load_multiple($uids);
-    // $view-result is keyed by 0, whereas the loaded users are keyed by id,
-    // so let's use a for loop to walk through the loaded users and unset the
-    // matching view results.
-    for ($x = 0; $x < count($users); $x++) {
-      $user = current($users);
-      // Hide developer, administrator, and test accounts.
-      if (in_array('developer', $user->roles) ||
-        in_array('administrator', $user->roles) ||
-        (strpos($user->name, 'osr') === 0 && strpos($account->name, 'osr') !== 0)
-      ) {
-        // Don't hide the current user (Site Owner).
-        if ($user->uid != $account->uid) {
-          unset($view->result[$x]);
-        }
-      }
-      next($users);
-    }
-  }
-}
-
-/**
  * Implements hook_form_FORM_ID_alter().
  *
  * Don't allow users to delete an account and its content.
