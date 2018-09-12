@@ -8,7 +8,7 @@
 
  @each $name, $color in $all_colors {
    .background-#{$name},
-   .exbd-block.exbd-style-#{$name} > .block-inner {
+   .exbd-block.exbd-style-#{$name} {
      background-color: $color;
      color: set-text-color($color);
      a:link,
