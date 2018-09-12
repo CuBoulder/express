@@ -342,9 +342,9 @@ function cu_people_administration_override_views_default_views() {
     3 => 0,
     5 => 0,
   );
-  $handler->display->display_options['path'] = 'admin/people/update';
+  $handler->display->display_options['path'] = 'admin/people/promote';
   $handler->display->display_options['menu']['type'] = 'tab';
-  $handler->display->display_options['menu']['title'] = 'Update Existing Users';
+  $handler->display->display_options['menu']['title'] = 'Promote Existing Users';
   $handler->display->display_options['menu']['weight'] = '4';
   $handler->display->display_options['menu']['name'] = 'management';
   $handler->display->display_options['menu']['context'] = 0;
