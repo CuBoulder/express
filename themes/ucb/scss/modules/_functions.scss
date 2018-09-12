@@ -39,8 +39,9 @@
   }
   @else if ($yiq >= 128) {
     @return darken($blue-dark, 5); // Lighter backgorund, return dark color
-  } @else {
-    @return #ddd; // Darker background, return light color
+  }
+  @else {
+    @return $gold; // Darker background, return light color
   }
 }
 
