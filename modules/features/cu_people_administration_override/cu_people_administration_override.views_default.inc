@@ -362,12 +362,6 @@ function cu_people_administration_override_views_default_views() {
   $handler->display->display_options['defaults']['access'] = FALSE;
   $handler->display->display_options['access']['type'] = 'role';
   $handler->display->display_options['access']['role'] = array(
-    3 => '3',
-    5 => '5',
-    6 => '6',
-    8 => '8',
-    9 => '9',
-    10 => '10',
     11 => '11',
   );
   $handler->display->display_options['defaults']['filter_groups'] = FALSE;
