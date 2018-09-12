@@ -145,26 +145,6 @@ function atlas_admin_settings() {
     '#default_value' => $active_profile,
   );
 
-  $package_options = _get_code_options('packages', NULL);
-  // If there are packages, add the field.
-  if (!empty($package_options)) {
-    $active_packages = array();
-    // Check and see if we have any packages.
-    if (array_key_exists('package', $site_array['code'])) {
-      $active_modules_list = $site_array['code']['package'];
-      foreach ($active_modules_list as $module) {
-        $active_packages[] = $module;
-      }
-    }
-
-    $form['atlas_code']['atlas_packages'] = array(
-      '#type' => 'checkboxes',
-      '#title' => t('packages'),
-      '#options' => $package_options,
-      '#default_value' => $active_packages,
-    );
-  }
-
   // Set the options and description. Override if status is not 'Launched'.
   $update_group_options = range(0, 14);
   $update_group_description = 'Groups 0-10 are considered "normal" and can be arbitrarily reassigned. Groups 11-14 should only be used for sites that need special attention.';
@@ -255,21 +235,6 @@ function atlas_admin_settings_submit($form, &$form_state) {
 
   if ($form_state['values']['atlas_profile'] != $site_array['code']['profile']) {
     $request_data['code']['profile'] = $form_state['values']['atlas_profile'];
-  }
-  if (isset($form_state['values']['atlas_packages'])) {
-    // Check to see if the new arrays are different.
-    if (isset($site_array['code']['package'])) {
-      $packages_diff = array_diff($form_state['values']['atlas_packages'], $site_array['code']['package']);
-    }
-    // Check for First added package, Remove all packages, or Change packages.
-    if (!empty($packages_diff)
-      || (array_key_exists('package', $site_array['code']) && empty($form_state['values']['atlas_packages']))
-    ) {
-      $request_data['code']['package'] = $form_state['values']['atlas_packages'];
-    }
-    elseif (!array_key_exists('package', $site_array['code']) && !empty($form_state['values']['atlas_packages'])) {
-      $request_data['code']['package'] = $form_state['values']['atlas_packages'];
-    }
   }
 
   if ($form_state['values']['atlas_update_group'] != $site_array['update_group']) {
