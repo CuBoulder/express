@@ -14,18 +14,18 @@
      a:link,
      a:visited {
        color: set-link-color($color);
-       text-decoration-color: rgba(set-link-color($color), .65);
-       -webkit-text-decoration-color: rgba(set-link-color($color), .65);
+       //text-decoration-color: rgba(set-link-color($color), .65);
+       //-webkit-text-decoration-color: rgba(set-link-color($color), .65);
      }
      a:hover,
      a:active,
      a:focus {
        color: set-link-hover-color($color);
-       text-decoration-color: rgba(set-link-hover-color($color), .65);
-       -webkit-text-decoration-color: rgba(set-link-hover-color($color), .65);
+       //text-decoration-color: rgba(set-link-hover-color($color), .65);
+       //-webkit-text-decoration-color: rgba(set-link-hover-color($color), .65);
      }
    }
-   .exbd-block.exbd-style-#{$name} > .block-inner {
+   .exbd-block.exbd-style-#{$name} {
      padding:10px;
     @media screen and (min-width:960px) {
       padding:20px;
@@ -48,15 +48,15 @@
     a:link,
     a:visited {
       color: set-link-color($color);
-      text-decoration-color: rgba(set-link-color($color), .65);
-      -webkit-text-decoration-color: rgba(set-link-color($color), .65);
+      //text-decoration-color: rgba(set-link-color($color), .65);
+      //-webkit-text-decoration-color: rgba(set-link-color($color), .65);
     }
     a:hover,
     a:active,
     a:focus {
       color: set-link-hover-color($color);
-      text-decoration-color: rgba(set-link-hover-color($color), .65);
-      -webkit-text-decoration-color: rgba(set-link-hover-color($color), .65);
+      //text-decoration-color: rgba(set-link-hover-color($color), .65);
+      //-webkit-text-decoration-color: rgba(set-link-hover-color($color), .65);
     }
   }
 }
