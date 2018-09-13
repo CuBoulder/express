@@ -72,7 +72,7 @@ function cu_ldap_user_login_validate(&$form, &$form_state) {
     form_set_error('name', 'You do not have permission to edit this site. If you received an email invitation, please use the link provided.');
   }
   if ($roles < 2 && isset($_GET['destination']) && _is_node_form($nid) && !array_key_exists($account->name, $all)) {
-    $role = user_role_load_by_name("edit_only");
+    $role = user_role_load_by_name("edit_my_own");
     user_multiple_role_edit(array($uid), 'add_role', $role->rid);
     watchdog('cu_users_log', t('UID: %uid was given the role of edit_only to submit webforms.', array('%uid' => $uid)));
   }
