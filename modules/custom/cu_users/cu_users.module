@@ -800,5 +800,4 @@ function cu_users_mail_alter(&$message) {
     $str = str_replace($role_names, $edited_role_names, $message['body'][0]);
     $message['body'][0] = $str;
   }
-  dpm($message['body']);
 }
