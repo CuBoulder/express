@@ -278,19 +278,10 @@ function cu_users_user_presave(&$edit, $account, $category) {
 
   // Need to get the role IDs to compare later.
   // The roles are ordered from lowest to highest permission level.
+  $core_roles = express_permissions_role_settings(array('core'));
   $core_role_ids = [];
-  $core_roles = [
-    'edit_my_content',
-    'edit_only',
-    'content_editor',
-    'site_editor',
-    'site_owner',
-  ];
-  foreach ($core_roles as $val) {
-    $temp_role = user_role_load_by_name($val);
-    if (isset($temp_role->rid)) {
-      $core_role_ids[$temp_role->rid] = $temp_role->name;
-    }
+  foreach ($core_roles['rid'] as $rid => $role) {
+    $core_role_ids[$rid] = $role['label'];
   }
 
   // Loop through roles being saved on user and reduce them to the highest permissioned role.
@@ -402,10 +393,10 @@ function cu_users_ldap_email_lookup($email) {
  * Implements hook_form_FORM_ID_alter().
  */
 function cu_users_form_user_external_invite_form_alter(&$form, &$form_state, $form_id) {
-
   // Theme role fields
   $form['core_rid']['#theme'] = 'express_roles';
   $form['addon_rids']['#theme'] = 'express_roles';
+
   asort($form['addon_rids']['#options']);
 
   // Add javascript validation
@@ -419,16 +410,18 @@ function cu_users_form_user_external_invite_form_alter(&$form, &$form_state, $fo
   $form['#submit'][] = 'cu_users_override_external_invite_submit';
 }
 
-/** Implements hook_form().
+/**
+ * Implements hook_form_FORM_ID_alter().
  *
- * Edit users' Roles.
+ * Hide role fields.
  */
-function cu_users_roles_form($form, $form_state, $account) {
+function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
+  global $user;
+  $account = $form['#user'];
   $core_rids = variable_get('user_external_invite_core_roles', []);
   if (empty($core_rids)) {
     drupal_set_message(t('Your site is not yet configured to edit user roles. Contact the site administrator to configure this.'), 'status');
   }
-  $form = array();
 
   $core_role_options = [];
   foreach ($core_rids as $val) {
@@ -446,76 +439,62 @@ function cu_users_roles_form($form, $form_state, $account) {
   }
   asort($addon_role_options);
 
-  $form['account']['account'] = array(
-    '#type' => 'hidden',
-    '#value' => $account->uid,
-  );
+  $so = user_role_load_by_name('site_owner');
+  if (user_has_role($so->rid, $user)) {
+    $form['account']['roles']['#access'] = TRUE;
+    $form['account']['pass']['#access'] = FALSE;
+    $form['redirect']['#access'] = FALSE;
+    $form['timezone']['#access'] = FALSE;
+    $form['field_ldap_display_name']['#access'] = FALSE;
+    $form['field_ldap_last_name']['#access'] = FALSE;
+    $form['field_ldap_primary_affiliation']['#access'] = FALSE;
 
-  $saved_core = array_intersect_key($core_role_options, $account->roles);
-  $form['account']['core_rid'] = array(
-    '#title' => 'Core Role',
-    '#type' => 'radios',
-    '#options' => $core_role_options,
-    '#theme' => 'express_roles',
-    '#default_value' => key($saved_core),
-    '#required' => TRUE,
-  );
-  $saved_addon = array_intersect_key($addon_role_options, $account->roles);
-  $form['account']['addon_rids'] = array(
-    '#title' => 'Add-on Roles',
-    '#type' => 'checkboxes',
-    '#options' => $addon_role_options,
-    '#theme' => 'express_roles',
-    '#default_value' => array_keys($saved_addon),
-  );
-  $form['actions']['submit'] = array(
-    '#type' => 'submit',
-    '#value' => 'Save',
-  );
-  $form['#validate'][] = 'express_permissions_invite_site_owner_cap';
-  $form['#submit'][] = 'cu_users_roles_form_submit';
-  return $form;
+    $saved_core = array_intersect_key($core_role_options, $account->roles);
+    $form['account']['roles'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('User Roles'),
+    );
+    $form['account']['roles']['core_rid'] = array(
+      '#title' => 'Core Role',
+      '#type' => 'radios',
+      '#options' => $core_role_options,
+      '#theme' => 'express_roles',
+      '#default_value' => key($saved_core),
+      '#required' => TRUE,
+    );
+    $saved_addon = array_intersect_key($addon_role_options, $account->roles);
+    $form['account']['roles']['addon_rids'] = array(
+      '#title' => 'Add-on Roles',
+      '#type' => 'checkboxes',
+      '#options' => $addon_role_options,
+      '#theme' => 'express_roles',
+      '#default_value' => array_keys($saved_addon),
+    );
+    $form['#submit'][] = 'cu_users_roles_form_submit';
+  }
 }
 
 /**
  * Sumit function for cu_users_roles_form().
  */
 function cu_users_roles_form_submit($form, &$form_state) {
-  $id = $form_state['values']['account'];
-  if (!empty($form_state['values']['account'])) {
-    $account = user_load($form_state['values']['account']);
-    $roles = array();
-    if (!empty($form_state['values']['core_rid'])) {
-      $rid = $form_state['values']['core_rid'];
-      $roles[$rid] = $rid;
-    }
-    if (!empty($form_state['values']['addon_rids'])) {
-      foreach ($form_state['values']['addon_rids'] as $role_id => $value) {
-        if ($value) {
-          $roles[$role_id] = $role_id;
-        }
+  $id = $form_state['values']['uid'];
+  $account = user_load($id);
+  $roles = array();
+  if (!empty($form_state['values']['core_rid'])) {
+    $rid = $form_state['values']['core_rid'];
+    $roles[$rid] = $rid;
+  }
+  if (!empty($form_state['values']['addon_rids'])) {
+    foreach ($form_state['values']['addon_rids'] as $role_id => $value) {
+      if ($value) {
+        $roles[$role_id] = $role_id;
       }
     }
-    $form_state['redirect'] = 'user/' . $id;
-    user_save($account, array('roles' => $roles));
-    drupal_set_message("$account->name has been updated.", 'status');
   }
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- *
- * Hide role fields.
- */
-function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
-  if (!user_access('access extended role assignment')) {
-    if (!empty($form['account']['roles'])) {
-      $form['account']['roles']['#access'] = FALSE;
-    }
-    if (!empty($form['account']['roles_change'])) {
-      $form['account']['roles_change']['#access'] = FALSE;
-    }
-  }
+  $form_state['redirect'] = 'user/' . $id;
+  user_save($account, array('roles' => $roles));
+  drupal_set_message("$account->name has been updated.", 'status');
 }
 
 /**
@@ -537,6 +516,12 @@ function cu_user_express_roles($element) {
   $output = array();
   foreach ($element['form']['#options'] as $key => $option) {
     $output[$key] = $element['form'][$key];
+    if ($output[$key]['#title'] == 'Content Editor') {
+      $output[$key]['#title']  = 'Content Editor (deprecated)';
+    }
+    if ($output[$key]['#title'] == 'Edit Only') {
+      $output[$key]['#title']  = 'Content Editor (edit only)';
+    }
     $output[$key]['#prefix'] = '<div class="cu-role-wrapper">';
     if (cu_user_role_descriptions($option)) {
       $output[$key]['#suffix'] = '<div class="cu-role-description">' . cu_user_role_descriptions($option) . '</div></div>';
@@ -572,10 +557,12 @@ function cu_user_role_type_descriptions($type) {
  * Provides role descriptions.
  */
 function cu_user_role_descriptions($role) {
+  // Content Editor role names are still in the original machine name alters at this point.  The title change in cu_user_express_roles happens later
   $descriptions = array(
     'Site Owner' => 'Main authority/contact for the website. All site access permissions. Limited to 3 people. Held responsible for the website adhering to university policies.',
     'Site Editor' => 'Main site builder. Full access to website content and layout tools. Trusted user responsible for the day-to-day maintenance and building of the website. Can receive elevated add-on roles.',
-    'Content Editor' => 'Edit only access. A basic role limited to content edits/updates for existing content. Can’t delete or add content, blocks or layouts.',
+    'Content Editor' => 'A basic role limited...',
+    'Edit Only' => 'Edit only access. A basic role limited to content edits/updates for existing content. Can’t delete or add content, blocks or layouts.',
     'Edit My Content' => 'Page specific access. A basic role limited to content edits/updates for specific pages. Can receive limited add-on roles.',
     'Access Manager' => 'Can assign up to three site users to help manage users and roles on a site. This role will grant access to:
     <ul class="bullet-list">
