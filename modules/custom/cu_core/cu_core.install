@@ -1049,6 +1049,13 @@ function cu_core_update_7054() {
   module_enable(array('unpublished_404', 'r4032login'));
 }
 
+/**
+ * Update external invites for 2.9.7.
+ */
+function cu_core_update_7055() {
+  // Set default variables for user_external_invite.
+  _set_external_invite_variables();
+}
 
 /**
  * Revert features by passing features in an array.
