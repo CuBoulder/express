@@ -6,6 +6,13 @@
  */
 
 /**
+ * Implementation of hook_views_api()
+ */
+function express_dashboard_user_views_api() {
+  return array('api' => 3.0);
+}
+
+/**
  * Implements hook_user_login().
  *
  * Send user to dashboard after logging in.
@@ -34,6 +41,21 @@ function express_dashboard_user_express_dashboard($variables) {
     'callback' => 'express_dashboard_user_content',
     'weight' => -99,
     'access arguments' => array('use user dashboard'),
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+  );
+  $variables['authored'] = array(
+    'title' => 'Authored Content',
+    'callback' => 'express_dashboard_user_authored_content',
+    'weight' => -98,
+    'access arguments' => array('use user dashboard'),
+    'type' => MENU_LOCAL_TASK,
+  );
+  $variables['edited'] = array(
+    'title' => 'Edited Content',
+    'callback' => 'express_dashboard_user_edited_content',
+    'weight' => -98,
+    'access arguments' => array('use user dashboard'),
+    'type' => MENU_LOCAL_TASK,
   );
   return $variables;
 }
@@ -51,10 +73,47 @@ function express_dashboard_user_permission() {
 }
 
 /**
+ * Use this to get the user's realname without loading entire user object.
+ */
+function _get_realname($uid) {
+  $output = db_query('SELECT r.realname FROM {realname} r WHERE r.uid = :uid', array(':uid' => $uid))->fetchField();
+  return $output;
+}
+
+/**
+ * Callback function for edited dashboard.
+ */
+function express_dashboard_user_edited_content() {
+  global $user;
+  $realname = _get_realname($user->uid);
+
+  $user_content = views_embed_view('authored_content', 'page_1');
+  $output['left']['widgets']['edited']['title'] = $realname . '\'s edited content';
+  $output['left']['widgets']['edited']['content']['#markup'] = $user_content;
+
+  return $output;
+}
+
+/**
+ * Callback function for authored dashboard.
+ */
+function express_dashboard_user_authored_content() {
+  global $user;
+  $realname = _get_realname($user->uid);
+
+  $user_content = views_embed_view('authored_content', 'page');
+  $output['left']['widgets']['authored']['title'] = $realname . '\'s authored content';
+  $output['left']['widgets']['authored']['content']['#markup'] = $user_content;
+
+  return $output;
+}
+
+/**
  * Callback function for user dashboard.
  */
 function express_dashboard_user_content() {
   global $user;
+  $realname = _get_realname($user->uid);
   $vars['user'] = (array) $user;
   $excluded_roles = array(
     'authenticated user',
@@ -74,6 +133,7 @@ function express_dashboard_user_content() {
   $users_online = module_invoke('user', 'block_view', 'online');
   $output['left']['widgets']['online']['title'] = 'Who\'s online';
   $output['left']['widgets']['online']['content']['#markup'] = $users_online['content'];
+
   // Display real name if available.
   $output['left']['widgets']['user']['title'] = function_exists('realname_load') ? realname_load($user) : $user->name;
   $output['left']['widgets']['user']['content']['#markup'] = theme('express_dashboard_user_profile', (array) $vars);
