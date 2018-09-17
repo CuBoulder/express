@@ -1,0 +1,20 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+@import "components/branding";
+@import "components/buttons";
+@import "components/colors";
+@import "components/helpers";
+
+body {
+
+  font-family: $base_font;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-style: normal;
+  font-variant:normal;
+  -webkit-text-size-adjust: none;
+}

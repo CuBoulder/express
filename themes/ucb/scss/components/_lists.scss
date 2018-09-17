@@ -1,0 +1,151 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+/**
+ * List styles
+ */
+
+ol {
+  list-style: decimal;
+}
+ul {
+  list-style: disc;
+}
+.item-list,
+.field-type-text-with-summary,
+.field-type-text-long {
+  ul li {
+    list-style: disc;
+    margin-bottom:10px;
+  }
+  ul ul li,
+  ul ul ul ul li,
+  ul ul ul ul ul ul li {
+    list-style: circle;
+  }
+  ul ul ul li,
+  ul ul ul ul ul li,
+  ul ul ul ul ul ul ul li {
+    list-style: disc;
+  }
+  ul ul,
+  ol ol {
+    margin:10px 0 0 0;
+
+  }
+  ol li {
+    margin: 0 0 10px 0;
+  }
+}
+
+
+.node ol,
+.node ul,
+ul,
+ol {
+  padding-left: 1.5em;
+}
+
+.node ul.inline,
+.node ol.inline,
+ul.inline,ol.inline {
+  padding-left: 0;
+}
+
+ul.list-style-nobullet {
+  list-style: none;
+  list-style-image: none;
+  padding-left: 0;
+}
+ul.list-style-nobullet > li {
+  list-style: none;
+  list-style-image: none;
+}
+
+ul.list-style-underline > li {
+  list-style: none;
+}
+
+ul.list-style-underline {
+  list-style: none;
+  list-style-image: none;
+  padding-left: 0;
+}
+ul.list-style-underline > li {
+  list-style: none;
+  border-bottom: 1px solid $border;
+  padding-bottom: 10px;
+}
+ul.list-style-border {
+  list-style: none;
+  list-style-image: none;
+  padding-left: 0;
+}
+ul.list-style-border > li {
+  list-style: none;
+  border: 1px solid $border;
+  padding: 10px;
+  margin-bottom: -1px;
+}
+ul.list-style-icon-1,
+ul.list-style-icon-2,
+ul.list-style-icon-3,
+ul.list-style-icon-4,
+ul.list-style-icon-5,
+ul.list-style-icon-6 {
+  list-style: none;
+  list-style-image: none;
+  overflow: hidden;
+  > li {
+    list-style: none !important;
+    list-style-image: none !important;
+    position: relative;
+  }
+  li:before {
+    font-family: 'FontAwesome';
+    position: absolute;
+    top:0;
+    left:-20px;
+    color:$cugold;
+  }
+}
+// check icon
+ul.list-style-icon-1 > li:before {
+  content: '\f00c';
+
+}
+// checkbox icon
+ul.list-style-icon-2 > li:before {
+  content: '\f14a';
+}
+// angle icon
+ul.list-style-icon-3 > li:before {
+  content: '\f101';
+}
+// arrow icon
+ul.list-style-icon-4 > li:before {
+  content: '\f0a9';
+}
+// star icon
+ul.list-style-icon-5 > li:before {
+  content: '\f005';
+}
+// hand icon
+ul.list-style-icon-6 > li:before {
+  content: '\f0a4';
+}
+
+/* ORDERED LIST STYLES */
+ol.list-style-alpha-upper, ol.list-style-alpha-upper > li {
+  list-style: upper-alpha;
+}
+ol.list-style-alpha-lower, ol.list-style-alpha-lower > li {
+  list-style: lower-alpha;
+}
+ol.list-style-roman-upper, ol.list-style-roman-upper > li {
+  list-style: upper-roman;
+}
+ol.list-style-roman-lower, ol.list-style-roman-lower > li {
+  list-style: lower-roman;
+}

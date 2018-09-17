@@ -33,11 +33,17 @@
   .container {
     //max-width: 720px;
   }
+  .container.container-small {
+    max-width: 540px;
+  }
 }
 
 @media (min-width: 992px) {
   .container {
     max-width: 960px;
+  }
+  .container.container-small {
+    max-width: 720px;
   }
 }
 
@@ -45,10 +51,16 @@
   .container {
     max-width: 1140px;
   }
+  .container.container-small {
+    max-width: 960;
+  }
 }
 @media (min-width: 1500px) {
   .container {
     max-width: 1440px;
+  }
+  .container.container-small {
+    max-width: 960;
   }
 }
 .layout-fixed {

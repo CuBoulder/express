@@ -283,7 +283,8 @@
 #block-menu-block-site-navigation-menus-1,
 #block-menu-block-site-navigation-menus-2,
 #block-menu-block-site-navigation-menus-3,
-#section-navigation {
+#section-navigation
+#subnavigation {
   ul.menu,
   ul.menu li {
     list-style: none;
@@ -376,6 +377,20 @@ a.menu__link {
   @media (min-width:768px) {
     #block-menu-block-site-navigation-menus-4 {
       display: none;
+    }
+  }
+}
+
+// Inline Menus
+ul.inline.inline-menu {
+  overflow:hidden;
+  flex-direction: row;
+  flex-wrap: wrap;
+  li {
+    margin: 0;
+    padding:0;
+    a {
+      margin-right:15px;
     }
   }
 }

@@ -1,4 +1,9 @@
 #search {
+  h2:before {
+    content: '\f002';
+    font-family: FontAwesome;
+    margin-right:5px;
+  }
   display: none;
   position: fixed;
   top:0;
@@ -12,15 +17,21 @@
     align-items: center;
     padding: 20px 0;
   }
+  .search-form {
+    position: relative;
+  }
   #close-search {
-    position: fixed;
-    top:20px;
-    right:20px;
+    position: absolute;
+    top:0;
+    right:0;
     z-index: 11;
     font-size:24px;
     background: none;
     border: none;
     color:#fff;
+  }
+  .cu-search {
+    border:5px solid rgba(#fff, .333);
   }
   .cu-search-box {
     background: none;
@@ -28,6 +39,22 @@
   // display: none;
   background:rgba(#000, .85);
   color:$white;
+  .campus-links {
+    padding:20px 0;
+    border-top:3px solid $border;
+    font-size:85%;
+    font-weight:bold;
+    h3 {
+      font-size: 100%;
+
+    }
+  }
+  a:link, a:visited {
+    color:$gold;
+    &:hover {
+      color:$white;
+    }
+  }
   .block {
     margin-bottom: 0;
   }

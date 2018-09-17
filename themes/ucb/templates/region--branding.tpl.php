@@ -4,7 +4,7 @@
   $logo = $base_url . '/' . drupal_get_path('theme', 'ucb') . '/images/cu-boulder-logo-text-' . $color . '.svg';
 
 ?>
-<div class="brand-bar brand-color-<?php print $color; ?> no-underline">
+<div class="brand-bar brand-bar-color-<?php print $color; ?> no-underline">
   <div class="container">
     <div class="brand-bar-container">
       <div class="brand-logo">

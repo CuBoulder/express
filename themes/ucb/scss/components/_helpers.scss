@@ -55,3 +55,14 @@ a.no-underline {
 .text-minify {
   font-size:85%;
 }
+
+.element-invisible {
+  @include element-invisible;
+}
+.clearfloats {
+  @include clearfloats;
+}
+
+.display-inline {
+  display: inline;
+}

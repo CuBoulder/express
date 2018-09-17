@@ -107,16 +107,30 @@
 
 
  /* NEW BRANDING */
-
  .brand-bar {
-   background: #fff;
+   background: #000;
    color:#fff;
    padding:10px 0px;
    a:link,
    a:visited {
      color:#fff;
    }
-   // margin-bottom: -15px;
+   &.brand-bar-color-white {
+     background:#000;
+     color:#fff;
+     a:link,
+     a:visited {
+       color:#fff;
+     }
+   }
+   &.brand-bar-color-black {
+     background:#fff;
+     color:#000;
+     a:link,
+     a:visited {
+       color:#000;
+     }
+   }
  }
  .brand-bar-container {
 
@@ -139,6 +153,18 @@
      }
    }
  }
+
+ .brand-color-white,
+ .brand-bar-reverse,
+ .brand-bar-dark ,
+ .brand-bar-black  {
+   color:#fff !important;
+   a:link, a:visited {
+     color:#fff !important;
+   }
+ }
+
+
  #header-wrapper {
    background: $white;
    color:$text-black;
@@ -150,6 +176,7 @@
    .site-name-wrapper {
      flex-grow: 1;
      font-size:20px;
+     padding-right:40px;
      @media screen and (min-width:768px) {
        & {
          font-size: 30px;
@@ -193,7 +220,7 @@
    }
  }
  .site-name-inner {
-   padding-right:40px;
+
  }
  .layout-responsive .menu-toggle {
    //top:0;

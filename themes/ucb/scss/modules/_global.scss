@@ -60,3 +60,26 @@ $max_width: 1200px;
   transition: -moz-box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
   transition: box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
 }
+
+//
+// element-invisible improved and more robust
+//
+@mixin element-invisible {
+  border: 0;
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  white-space: nowrap;
+}
+//
+// Clear floats
+//
+@mixin clearfloats {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
