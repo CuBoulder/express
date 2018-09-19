@@ -8,7 +8,7 @@ Should be able to access the Menu Configuration pages
 
 Scenario Outline: Higher level roles get the link to Configure Menus
 Given I am logged in as a user with the <role> role
-When I gm on "admin/settings"
+When I am on "admin/settings"
 Then I should see the link "Configure Menus"
 
 Examples:
@@ -21,7 +21,7 @@ Examples:
 
 Scenario Outline: Lower level roles do not get the link to Configure Menus
 Given I am logged in as a user with the <role> role
-When I gm on "admin/settings"
+When I am on "admin/settings"
 Then I should not see "Configure Menus"
 
 Examples:
