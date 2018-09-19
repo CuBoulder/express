@@ -56,7 +56,7 @@ Examples:
 | access_manager        |
 | configuration_manager |
 
-Scenario: Access - An anonymous user should not be able to cannot add or edit menus
+Scenario: Access - An anonymous user should not be able to add or edit menus
   When I am on "admin/structure/menu"
   Then I should see "Access denied"
 
@@ -68,6 +68,7 @@ Then I should see "Each menu has a corresponding block which can be placed in a 
 
 # NOTE: Sometimes the Menus Section reverts to old ways; and displays links to the Blocks Admin page and Content Types Admin page
 # This test verifys that these pages are off limits to all but developers 
+
 Scenario Outline: Access - No one (but Devs) can access the Drupal System Block Admin page or Content Types page
 Given I am logged in as a user with the <role> role
 When I go to "admin/structure/block"
