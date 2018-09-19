@@ -32,7 +32,7 @@ Scenario: The Bundle List page displays three tabs
   And I should see "Add-on"
   And I should see "Request"
 
-# THE FOLLOWING TEST WHITESCREENS FOR DEVELOPERS IN TEST ENVIRONMENT; TAGGING AS BROKEN FOR NOW 
+# THE FOLLOWING TEST WHITESCREENS FOR DEVELOPERS IN TEST ENVIRONMENT; TAGGING AS BROKEN FOR NOW
  @broken
 Scenario Outline: Only Devs, Admins, SOs and ConMgrs can access the Bundle Add-on page
 Given I am logged in as a user with the <role> role
@@ -50,8 +50,8 @@ Examples:
 | edit_only        | "Access denied" |
 | access_manager   | "Access denied" |
 | configuration_manager | "These are bundles that can be added" |
-    
-# THE FOLLOWING TEST WHITESCREENS FOR DEVELOPERS IN TEST ENVIRONMENT; TAGGING AS BROKEN FOR NOW 
+
+# THE FOLLOWING TEST WHITESCREENS FOR DEVELOPERS IN TEST ENVIRONMENT; TAGGING AS BROKEN FOR NOW
  @broken
 Scenario Outline: Only Devs, Admins, SOs and ConMgrs can access the Bundle Request page
 Given I am logged in as a user with the <role> role
