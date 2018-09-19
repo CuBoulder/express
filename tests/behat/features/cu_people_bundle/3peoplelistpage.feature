@@ -45,11 +45,11 @@ Feature: People List Page Content Type
     And I select "Table" from "edit-field-people-list-display-und"
     And I select "Grid" from "edit-field-people-list-display-und"
     And I select "List" from "edit-field-people-list-display-und"
-    
+
 ## POPULATING DATA TABLE FOR PEOPLE LIST PAGES AND BLOCKS
 
   Scenario: Create Person 1 - Deshawn Michael StaffGeoMariDes
-    Given I am logged in as a user with the "content_editor" role
+    Given I am logged in as a user with the "site_owner" role
     And am on "node/add/person"
     And fill in "First Name" with "Deshawn"
     And fill in "Last Name" with "StaffGeoMariDes"
@@ -64,7 +64,7 @@ Feature: People List Page Content Type
     Then I should see "Person Deshawn StaffGeoMariDes has been created."
 
   Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyLaw
-    Given I am logged in as a user with the "content_editor" role
+    Given I am logged in as a user with the "site_owner" role
     And am on "node/add/person"
     And fill in "First Name" with "Alejandro"
     And fill in "Last Name" with "FacGeoHoneyLaw"
@@ -80,7 +80,7 @@ Feature: People List Page Content Type
 
 
   Scenario: Create Person 3 - Kendall Hull StaffTechHoneyLaw
-    Given I am logged in as a user with the "content_editor" role
+    Given I am logged in as a user with the "site_owner" role
     And am on "node/add/person"
     And fill in "First Name" with "Kendall"
     And fill in "Last Name" with "StaffTechHoneyLaw"
@@ -96,7 +96,7 @@ Feature: People List Page Content Type
 
 
   Scenario: Create Person 4 - Abdullah Lang FacTechMariDes
-    Given I am logged in as a user with the "content_editor" role
+    Given I am logged in as a user with the "site_owner" role
     And am on "node/add/person"
     And fill in "First Name" with "Abdullah"
     And fill in "Last Name" with "FacTechMariDes"
@@ -172,4 +172,3 @@ Feature: People List Page Content Type
     And I should not see "Committees"
       # THIS ONE IS AN ATLAS ERROR
     # TEST FINDS THIS EVEN THOUGH HIDDEN And I should not see "Leave This Field Blank"
-    

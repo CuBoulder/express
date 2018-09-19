@@ -26,7 +26,7 @@ Feature: Person Content Type
     Then I should see "Access denied"
 
   Scenario: A simple Person node can be created and deleted
-    Given  I am logged in as a user with the "content_editor" role
+    Given  I am logged in as a user with the "site_owner" role
     And am on "node/add/person"
     And fill in "First Name" with "Random"
     And fill in "Last Name" with "Individual"
@@ -41,7 +41,7 @@ Feature: Person Content Type
     Then I should see "Person Random Individual has been deleted."
 
   Scenario: Footer, Main Menu, and Secondary Menus should be available when creating a Person
-    Given I am logged in as a user with the "content_editor" role
+    Given I am logged in as a user with the "site_owner" role
     And I am on "node/add/person"
     And I check "Provide a menu link"
     Then I select "<Footer Menu>" from "edit-menu-parent"
@@ -50,7 +50,7 @@ Feature: Person Content Type
 
   @javascript @broken
   Scenario: A Person node appears correctly in the mobile menu
-    Given I am logged in as a user with the "content_editor" role
+    Given I am logged in as a user with the "site_owner" role
     And I am on "node/add/person"
     And fill in "First Name" with "John"
     And fill in "Last Name" with "Doe"
@@ -64,7 +64,7 @@ Feature: Person Content Type
 
 
   Scenario: Person nodes can accept more than one filter value per filter
-    Given  I am logged in as a user with the "content_editor" role
+    Given  I am logged in as a user with the "site_owner" role
     And am on "node/add/person"
     And fill in "First Name" with "Random"
     And fill in "Last Name" with "Individual"

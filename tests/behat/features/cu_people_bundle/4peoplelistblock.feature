@@ -29,7 +29,7 @@ Feature: People List Block
 
 
   Scenario Outline: A simple People List Block offers several display views
-    Given I am logged in as a user with the "content_editor" role
+    Given I am logged in as a user with the "site_owner" role
     And am on "block/add/people-list-block"
     When I select <condition> from "edit-field-people-block-thumbnail-und"
 
@@ -56,7 +56,7 @@ Feature: People List Block
 
 
   Scenario: A simple People List Block can be created
-    Given I am logged in as a user with the "content_editor" role
+    Given I am logged in as a user with the "site_owner" role
     And am on "block/add/people-list-block"
     And fill in "edit-label" with "Simple People Block Label"
     And fill in "edit-title" with "Simple People Block Title"
