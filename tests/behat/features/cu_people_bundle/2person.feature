@@ -25,6 +25,7 @@ Feature: Person Content Type
     When I am on "node/add/person"
     Then I should see "Access denied"
 
+# Create a person node to test editing access
   Scenario: A simple Person node can be created
     Given I am logged in as a user with the "site_owner" role
     And am on "node/add/person"
@@ -64,8 +65,7 @@ Feature: Person Content Type
     Then I should see "John Doe"
     And I resize the window to "desktop" resolution.
 
-
-  Scenario: Person nodes can accept more than one filter value per filter
+ Scenario: Person nodes can accept more than one filter value per filter
    Given I am logged in as a user with the "site_owner" role
     And am on "node/add/person"
     And fill in "First Name" with "Misc"
