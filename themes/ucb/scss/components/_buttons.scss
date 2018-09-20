@@ -26,7 +26,12 @@
 a.button,
 .button {
   @include button_default;
+  &.button-full {
+    display: block;
+    text-align: center;
+  }
 }
+
 
 @mixin button($color) {
  background-color: $color;
@@ -37,6 +42,9 @@ a.button,
  &:hover,
  &:focus {
    background-color:darken($color, 3%);
+   @if ($color == $gold) {
+     background-color:$gold-gray;
+   }
    @include rgbashadow(0, 2px, 5px, #000000, .30);
  }
  &:active {
