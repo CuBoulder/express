@@ -26,7 +26,7 @@ Feature: Person Content Type
     Then I should see "Access denied"
 
   Scenario: A simple Person node can be created
-    Given  I am logged in as a user with the "site_owner" role
+    Given I am logged in as a user with the "site_owner" role
     And am on "node/add/person"
     And fill in "First Name" with "Random"
     And fill in "Last Name" with "Individual"
@@ -36,7 +36,7 @@ Feature: Person Content Type
     Then I should see "Person Random Individual has been created."
     
    Scenario: A user with the Edit Only role can edit but not delete Person nodes
-    Given  I am logged in as a user with the "edit_only" role 
+    Given I am logged in as a user with the "edit_only" role 
     And am on "random-individual"
     And I follow "Edit"
     Then I should see "This document is now locked against simultaneous editing."
