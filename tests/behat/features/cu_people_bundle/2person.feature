@@ -52,7 +52,7 @@ Feature: Person Content Type
 
   @javascript @broken
   Scenario: A Person node appears correctly in the mobile menu
-    Given I am logged in as a user with the "content_editor" role
+    Given I am logged in as a user with the "site_owner" role
     And I am on "node/add/person"
     And fill in "First Name" with "John"
     And fill in "Last Name" with "Doe"
@@ -66,10 +66,10 @@ Feature: Person Content Type
 
 
   Scenario: Person nodes can accept more than one filter value per filter
-    Given  I am logged in as a user with the "content_editor" role
+   Given I am logged in as a user with the "site_owner" role
     And am on "node/add/person"
-    And fill in "First Name" with "Random"
-    And fill in "Last Name" with "Individual"
+    And fill in "First Name" with "Misc"
+    And fill in "Last Name" with "Ellaneous"
     And fill in "edit-field-person-filter-1-und" with "Apple, Orange"
     And fill in "edit-field-person-filter-2-und" with "Cat, Dog"
     And fill in "edit-field-person-filter-3-und" with "Green, Red"
