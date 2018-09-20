@@ -173,3 +173,9 @@ Feature: People List Page Content Type
       # THIS ONE IS AN ATLAS ERROR
     # TEST FINDS THIS EVEN THOUGH HIDDEN And I should not see "Leave This Field Blank"
     
+Scenario: A user with the Edit Only role can edit but not delete People List Pages
+    Given I am logged in as a user with the "edit_only" role 
+    And am on "our-faculty"
+    And I follow "Edit"
+    Then I should see "This document is now locked against simultaneous editing."
+    But I should not see "Delete"
