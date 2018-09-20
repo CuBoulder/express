@@ -1063,7 +1063,7 @@ function cu_core_update_7055() {
 /**
  * Update external invites for 2.9.7.
  */
-function cu_core_update_7055() {
+function cu_core_update_7056() {
   // Set default variables for user_external_invite.
   _set_external_invite_variables();
 }
