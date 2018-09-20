@@ -10,6 +10,8 @@
 
 .soc li, .item-list .soc li { display: inline-block; *display: inline; zoom: 1; margin: 0 5px 5px 0; overflow: hidden; }
 
+.social-links-vertical { display: inline-block; }
+
 .social-links-vertical li, .item-list .social-links-vertical li, .social-links-vertical-bars li, .item-list .social-links-vertical-bars li { display: block; margin-bottom: 10px; }
 
 .item-list .social-links-horizontal-icons-only li { margin: 0 10px 10px 0; display: inline-block; }
