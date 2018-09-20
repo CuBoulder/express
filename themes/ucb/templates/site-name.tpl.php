@@ -29,14 +29,14 @@
   $affiliation_link = variable_get('cu_site_affiliation_link', FALSE);
 ?>
 
-<?php if ($affiliation || $affiliation_link): ?>
+<?php if ($affiliation): ?>
 
   <div class="affiliation">
     <?php
-      if (!empty($affiliation) && !$affiliation_link) {
+      if ($affiliation && !$affiliation_link) {
         print $affiliation;
       }
-      elseif (!empty($affiliation) && !empty($affiliation_link)) {
+      elseif ($affiliation && $affiliation_link) {
         print l($affiliation, $affiliation_link, array('html' => TRUE));
       }
     ?>
