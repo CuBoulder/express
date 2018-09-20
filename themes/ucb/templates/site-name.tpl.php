@@ -25,20 +25,19 @@
   <?php endif; ?>
 <?php endif; ?>
 <?php
-  $affiliation = variable_get('express_site_affiliation', FALSE);
-  $cu_affiliation = variable_get('cu_site_affiliation_options', FALSE);
+  $affiliation = variable_get('cu_site_affiliation', FALSE);
+  $affiliation_link = variable_get('cu_site_affiliation_link', FALSE);
 ?>
 
-<?php if ($affiliation || $cu_affiliation): ?>
+<?php if ($affiliation || $affiliation_link): ?>
 
   <div class="affiliation">
     <?php
-      if (!empty($affiliation) && $cu_affiliation == 'custom') {
+      if (!empty($affiliation) && !$affiliation_link) {
         print $affiliation;
       }
-      elseif (!empty($cu_affiliation) && $cu_affiliation != 'custom') {
-        $affiliation = cu_core_site_affiliation_options($cu_affiliation);
-        print l($affiliation['label'], $affiliation['url'], array('html' => TRUE));
+      elseif (!empty($affiliation) && !empty($affiliation_link)) {
+        print l($affiliation, $affiliation_link, array('html' => TRUE));
       }
     ?>
   </div>
