@@ -1060,6 +1060,13 @@ function cu_core_update_7055() {
   variable_set('locale_custom_strings_en', $locale_custom_strings_en);
 }
 
+/**
+ * Update external invites for 2.9.7.
+ */
+function cu_core_update_7055() {
+  // Set default variables for user_external_invite.
+  _set_external_invite_variables();
+}
 
 /**
  * Revert features by passing features in an array.
