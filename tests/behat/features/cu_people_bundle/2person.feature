@@ -25,8 +25,8 @@ Feature: Person Content Type
     When I am on "node/add/person"
     Then I should see "Access denied"
 
-  Scenario: A simple Person node can be created and deleted
-    Given  I am logged in as a user with the "content_editor" role
+  Scenario: A simple Person node can be created
+    Given  I am logged in as a user with the "site_owner" role
     And am on "node/add/person"
     And fill in "First Name" with "Random"
     And fill in "Last Name" with "Individual"
@@ -34,11 +34,13 @@ Feature: Person Content Type
     And I attach the file "ralphie.jpg" to "edit-field-person-photo-und-0-upload"
     When I press "Save"
     Then I should see "Person Random Individual has been created."
+    
+   Scenario: A user with the Edit Only role can edit but not delete Person nodes
+    Given  I am logged in as a user with the "edit_only" role 
+    And am on "random-individual"
     And I follow "Edit"
-    And I press "edit-delete"
-    Then I should see "Are you sure you want to delete Random Individual?"
-    And I press "edit-submit"
-    Then I should see "Person Random Individual has been deleted."
+    Then I should see "This document is now locked against simultaneous editing."
+    But I should not see "Delete"
 
   Scenario: Footer, Main Menu, and Secondary Menus should be available when creating a Person
     Given I am logged in as a user with the "content_editor" role
