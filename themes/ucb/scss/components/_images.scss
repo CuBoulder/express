@@ -12,6 +12,11 @@
    min-width: 50px;
  }
 
+ // Centering images
+p[style*="text-align:center"] img {
+  display: inline-block;
+}
+
 
 .region-intro,
 .region-wide-2,
