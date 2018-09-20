@@ -18,8 +18,9 @@
       <div id="search-inner">
         <div class="container container-small">
           <div class="search-form">
-            <button id="close-search"><i class="fa fa-times" aria-hidden="true"></i><span class="element-invisible">Close</span></button>
+
             <?php print render($search_desktop); ?>
+            <button id="close-search"><i class="fa fa-times" aria-hidden="true"></i><span class="element-invisible">Close</span></button>
           </div>
         </div>
       </div>
