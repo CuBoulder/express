@@ -79,7 +79,7 @@ function expressbase_preprocess_html(&$vars) {
   // Add Campus name to title
   $slogan_title = variable_get('site_slogan_title', 'University of Colorado Boulder');
   $vars['head_title_array']['slogan'] = $slogan_title;
-  if (isset($vars['head_title']) && !drupal_is_front_page()) {
+  if (isset($vars['head_title'])) {
     $vars['head_title'] .= ' | University of Colorado Boulder';
   }
 
