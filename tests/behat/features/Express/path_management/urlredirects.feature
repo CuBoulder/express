@@ -4,7 +4,7 @@ Feature: URL redirects
   An authenticated user with the proper role
   Should be able to create a URL redirect
 
-  Scenario Outline: Devs, Admins, SOs and ConMgrs can Create URL Redirects
+  Scenario Outline: Devs, Admins, SOs and ConMgrs can read the URL Redirects form
     Given I am logged in as a user with the <role> role
     When I go to "admin/config/search/redirect"
     Then I should see <message>
@@ -125,71 +125,3 @@ Feature: URL redirects
     Then I should see "Are you sure you want to delete all unaccessed redirects? This action cannot be undone"
     When I press "Delete"
     Then I should see "There are no redirects that were never accessed. No redirects have been removed."
-
-  Scenario Outline: Only a developer should be able to add match redirects.
-    Given I am logged in as a user with the <role> role
-    When I go to "admin/config/search/match_redirect/add"
-    Then I should see <message>
-
-    Examples:
-      | role                  | message                                                                                                    |
-      | developer             | "By default if a pattern matches and there is content for that target url then it will not be redirected." |
-      | administrator         | "By default if a pattern matches and there is content for that target url then it will not be redirected." |
-      | site_owner            | "Access denied"                                                                                            |
-      | content_editor        | "Access denied"                                                                                            |
-      | edit_my_content       | "Access denied"                                                                                            |
-      | site_editor           | "Access denied"                                                                                            |
-      | edit_only             | "Access denied"                                                                                            |
-      | access_manager        | "Access denied"                                                                                            |
-      | configuration_manager | "Access denied"                                                                                            |
-
-  Scenario: A developer should be able to add and edit match redirects.
-    Given I am logged in as a user with the "developer" role
-    When I go to "node/add/page"
-    And I fill in "Title" with "Fruity Tooty"
-    And I fill in "Body" with "Fruity Tooty Body text."
-    And I press "Save"
-    Then I should see "Basic page Fruity Tooty has been created."
-    When I go to "node/add/page"
-    And I fill in "Title" with "Veggie Tooty"
-    And I fill in "Body" with "Veggie Tooty Body text."
-    And I press "Save"
-    Then I should see "Basic page Veggie Tooty has been created."
-    When I go to "admin/config/search/match_redirect/add"
-    Then I should see "By default if a pattern matches and there is content for that target url then it will not be redirected."
-    When I fill in "Pattern" with "fruity*"
-    And I fill in "Target" with "veggie-tooty"
-    And I select "301" from "status_code"
-    And I press "Save"
-    Then I should see "Redirect saved."
-    When I go to "fruity-tooty"
-    # User sees page since "Allow content to be redirected?" isn't checked.
-    Then I should see "Fruity Tooty Body text."
-    When I go to "admin/config/search/match_redirect"
-    And I follow "Edit"
-    Then I should see "Edit match redirect"
-    When I check "Allow content to be redirected?"
-    And I press "Save"
-    Then I should see "Redirect saved."
-    And I should see "Edit"
-    And I should see "Delete"
-    # User gets redirected even though content is there.
-    When I go to "fruity-tooty"
-    Then I should see "Veggie Tooty Body text."
-
-  Scenario Outline: Less privileged users should not be able to edit match redirects.
-    Given I am logged in as a user with the <role> role
-    When I go to "admin/config/search/match_redirect/add"
-    Then I should see <message>
-
-    Examples:
-      | role                  | message         |
-      | developer             | "Edit"          |
-      | administrator         | "Edit"          |
-      | site_owner            | "Access denied" |
-      | content_editor        | "Access denied" |
-      | edit_my_content       | "Access denied" |
-      | site_editor           | "Access denied" |
-      | edit_only             | "Access denied" |
-      | access_manager        | "Access denied" |
-      | configuration_manager | "Access denied" |
