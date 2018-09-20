@@ -5,7 +5,10 @@
 /**
  * Layout styles
  */
-
+.layout-boxed .page {
+  max-width: 1140px;
+  margin: 0 auto;
+}
 // Max width containers
 .element-max-width {
   max-width: $max_width;
