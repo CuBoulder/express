@@ -1,11 +1,11 @@
 @AdvContentBundle 
 Feature: the Content List page
 In order to create a node with a list of other nodes
-As an authenticated user
+As user with the proper role
 I should be able to access and use the Content List page
-  
 
-Scenario Outline: An authenticated user should be able to access the content list page
+
+Scenario Outline: A user with the proper role should be able to access the content list page
   Given I am logged in as a user with the <role> role
   When I go to "node/add/content-list-page"
   Then I should see <message>
@@ -13,6 +13,7 @@ Scenario Outline: An authenticated user should be able to access the content lis
   Examples:
   | role            | message         |
   | edit_my_content | "Access denied" |
+  | edit_only       | "Access denied" |
   | content_editor  | "Create Content List Page" |
   | site_owner      | "Create Content List Page" |
   | administrator   | "Create Content List Page" |
@@ -27,25 +28,25 @@ Scenario: An anonymous user should not be able to access the form
  @javascript
 Scenario: A content list page can pull in articles, pages and persons
 Given I am logged in as a user with the "site_owner" role
-#BASIC PAGE
+# CREATE BASIC PAGE
 And I am on "node/add/page"
 And fill in "edit-title" with "List Test Page"
 And I follow "Disable rich-text"
 And fill in "Body" with "Demo body content"
 When I uncheck "edit-menu-enabled"
 And I press "Save"
-#ARTICLE
+# CREATE ARTICLE
 And I go to "node/add/article"
 And fill in "edit-title" with "List Test Article"
 And I follow "Disable rich-text"
 And fill in "Body" with "Demo article content"
 And I press "Save"
-#PERSON
+# CREATE PERSON
 And I go to "node/add/person"
 And fill in "First Name" with "MyFirst"
 And fill in "Last Name" with "MyLast"
 And I press "Save"
-#CONTENT LIST PAGE
+# CREATE CONTENT LIST PAGE
 And I go to "node/add/content-list-page"
 And fill in "edit-title" with "Test Content List Page"
 And fill in "edit-field-content-list-reference-und-0-target-id" with "List Test Page"
@@ -63,5 +64,12 @@ And I should see the link "List Test Page"
 And I should see the link "List Test Article" 
 And I should see the link "MyFirst MyLast"
 
-
+Scenario: An EditOnly can edit a Content Grid
+Given I am logged in as a user with the "edit_only" role
+And am on "admin/content"
+And I follow "Test Content List Page"
+Then I should see the link "Edit"
+And I follow "Edit"
+Then I should see "This document is now locked against simultaneous editing."
+And I should not see "Delete"
 
