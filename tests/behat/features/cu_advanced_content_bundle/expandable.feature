@@ -1,7 +1,7 @@
 @AdvContentBundle @expandable
 Feature: the Expandable (Quicktabs) block
 In order to create the look of tabbed content
-As an authenticated user
+As a user with the proper role
 I should be able to access and use the Expandable Block
   
 
@@ -24,7 +24,7 @@ Scenario: An anonymous user should not be able to access the form
   Then I should see "Access denied"
   
 
-Scenario: An authenticated user should see a number of display options
+Scenario: user with the proper role should see a number of display options
 Given I am logged in as a user with the "site_owner" role
 When I go to "block/add/expandable"
 Then the "edit-field-expandable-section-open-und" checkbox should be checked
@@ -52,3 +52,12 @@ And I should see "Expandable Title"
 And I should see "Heading One"
 And I should see "Cupcake ipsum dolor sit amet ice cream carrot cake"
 And I should see "Heading Two"
+
+Scenario: An EditOnly can edit a Content List Block
+Given I am logged in as a user with the "edit_only" role
+And am on "block/my-block-row-block-label/view"
+Then I should see the link "Edit Block"
+And I follow "Edit Block"
+Then I should see "Edit Content List: My Block Row Block Label"
+Then I should not see "Delete"
+
