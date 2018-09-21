@@ -63,3 +63,10 @@ And I press "Save"
 Then I should see "My Block Row Block Title"
 And I should see "Ducks can fly and swim"
 
+Scenario: An EditOnly can edit a Content List Block
+Given I am logged in as a user with the "edit_only" role
+And am on "block/my-block-row-block-label/view"
+Then I should see the link "Edit Block"
+And I follow "Edit Block"
+Then I should see "Edit Content List: My Block Row Block Label"
+Then I should not see "Delete"
