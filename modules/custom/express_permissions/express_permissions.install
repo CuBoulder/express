@@ -41,7 +41,7 @@ function express_permissions_update_7007() {
 }
 
 /**
- * Rebuild permissions.
+ * Rebuild permissions for 2.9.7.
  */
 function express_permissions_update_7008() {
   secure_permissions_rebuild();
