@@ -1,7 +1,7 @@
 @AdvContentBundle 
 Feature: the Content Grid block
 In order to create interesting layouts of graphics and text
-As an authenticated user
+As a user with the proper role
 I should be able to access and use the Content Grid Block
   
 Scenario Outline: A user with the proper role can access the form for adding a content list block
