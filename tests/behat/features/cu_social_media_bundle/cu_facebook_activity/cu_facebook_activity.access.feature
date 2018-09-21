@@ -1,7 +1,7 @@
-Feature: Facebook Activity Access Feature
+  @social_media
+  Feature: Facebook Activity Access Feature
   Test access to creation of social link beans.
 
-  @social_media
   Scenario Outline: Certain user roles should be able to create Create Facebook Activity block content.
   Given  I am logged in as a user with the <role> role
   And I am on "block/add/facebook-activity"
@@ -16,7 +16,6 @@ Feature: Facebook Activity Access Feature
   | edit_my_content | "Access Denied"                   |
   | edit_only       | "Access Denied"                   |
 
-  @social_media
-  Scenario: An anonymous user shouldn't be able to create Create Facebook Activity block content.
+  Scenario: An anonymous user shouldn't be able to create Facebook Activity block content.
   Given I am on "block/add/facebook-activity"
   Then I should see "Access Denied"
