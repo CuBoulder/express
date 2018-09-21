@@ -9,11 +9,12 @@ Feature: Social Links Access Feature
 
   Examples:
   | role            | message                      |
-  | content_editor  | "Create Social Links block"  |
+  | site_editor     | "Create Social Links block"     |
   | site_owner      | "Create Social Links block"  |
   | administrator   | "Create Social Links block"  |
   | developer       | "Create Social Links block"  |
-  | edit_my_content | "Access Denied"              |
+  | edit_my_content | "Access Denied"               |
+  | edit_only       | "Access Denied"               |
 
   @social_media
   Scenario: An anonymous user shouldn't be able to create Create Social Links block content.
