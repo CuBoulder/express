@@ -13,8 +13,8 @@ Feature: Twitter Feed Access Feature
   | site_owner      | "Create Twitter Block block"  |
   | administrator   | "Create Twitter Block block"  |
   | developer       | "Create Twitter Block block"  |
-  | edit_my_content | "Access Denied"               |
-  #| content_editor | "Access Denied"               |
+  | edit_my_content | "Access Denied"                   |
+  | edit_only       | "Access Denied"                   |
 
   @social_media
   Scenario: An anonymous user shouldn't be able to create Create Twitter Block block content.
