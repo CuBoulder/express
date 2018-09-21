@@ -2,7 +2,7 @@
 Feature: Social Links Creation Feature
  Test creation and editing of social link beans.
 
-Scenario: Create a Social Links Block.
+Scenario: Create a Social Links Block
 Given  I am logged in as a user with the "site_editor" role
 And I am on "block/add/social-links"
 And I fill in "Label" with "New Social Links Label"
