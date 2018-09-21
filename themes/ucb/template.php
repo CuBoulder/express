@@ -142,6 +142,9 @@ function ucb_preprocess_html(&$vars) {
   // Set skip to link
   $vars['skip_link_anchor'] = 'main';
   $vars['skip_link_text'] = t('Skip to Content');
+
+  // Add site type class
+  $vars['classes_array'][] = 'express-site-type-' . variable_get('express_site_type', 'default');
 }
 
 /**
