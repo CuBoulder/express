@@ -4,7 +4,7 @@ In order to create a video block with a still cover graphic
 As a user with the proper role
 I should be able to access and use the Video Reveal Block
   
-Scenario Outline: An authenticated user should be able to access the form for adding a video reveal block
+Scenario Outline: A user with the proper role should be able to access the form for adding a video reveal block
   Given  I am logged in as a user with the <role> role
   When I go to "block/add/video-reveal"
   Then I should see <message>
