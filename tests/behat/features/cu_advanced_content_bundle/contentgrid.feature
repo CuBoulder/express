@@ -79,4 +79,5 @@ Given I am logged in as a user with the "edit_only" role
 And am on "block/my-content-grid-label/view"
 Then I should see the link "Edit Block"
 And I follow "Edit Block"
+Then I should see "Edit Content Grid: My Content Grid Label"
 Then I should not see "Delete"
