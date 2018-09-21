@@ -1,7 +1,7 @@
 @AdvContentBundle 
 Feature: the Content List block
 In order to create a block with a list of nodes
-As an authenticated user
+As a user with the proper role
 I should be able to access and use the Content List Block
 
 Scenario Outline: A user with the proper role should be able to access the form for adding a content list block
@@ -23,7 +23,7 @@ Scenario: An anonymous user should not be able to access the form
   Given I go to "block/add/content-list"
   Then I should see "Access denied"
 
-Scenario Outline: A user with the proper role should see a number of Sort options
+Scenario: A user with the proper role should see a number of Sort options
 Given I am logged in as a user with the "site_owner" role
 And am on "block/add/content-list"
 When I select "_none" from "edit-field-content-list-sort-und"
@@ -32,7 +32,7 @@ When I select "Date Created" from "edit-field-content-list-sort-und"
 When I select "Date Created Reverse" from "edit-field-content-list-sort-und"
 When I select "Alphabetical" from "edit-field-content-list-sort-und"
 
-Scenario Outline: A user with the proper role should see a number of Display options
+Scenario: A user with the proper role should see a number of Display options
 Given I am logged in as a user with the "site_owner" role
 And am on "block/add/content-list"
 When I select "Teaser" from "edit-field-content-list-display-und"
