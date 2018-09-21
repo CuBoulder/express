@@ -1,7 +1,7 @@
+@social_media
 Feature: Facebook Like Creation Feature
  Tests creation and editing of Facebook like beans.
 
-@social_media
 Scenario: Create an Facebook Like Block.
   Given  I am logged in as a user with the "site_editor" role
     And I am on "block/add/facebook-like-button"
