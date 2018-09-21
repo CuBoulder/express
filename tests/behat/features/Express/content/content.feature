@@ -6,10 +6,10 @@
  @extended_search @rebuild
  Feature: Content page allows viewing and sorting of content
   When I go to the Admin/Content page
-  As an authenticated user
+  As a user with the proper role
   I should be able to view, sort and add content
 
-  Scenario Outline: Devs, Admins and SOs get four tabs and 'Add content' link
+  Scenario Outline: Upper Level roles get four tabs and 'Add content' link
     Given  I am logged in as a user with the <role> role
     When I go to "admin/content"
     And I should see the link "Content"
@@ -24,6 +24,7 @@
     | developer       |
     | administrator   |
     | site_owner      |
+    | site_editor     |
 
 
  Scenario: Content Editors get two tabs and and 'Add content' link
@@ -34,6 +35,15 @@
     # LOCKED DOCUMENT TAB IS TURNED OFF FOR NOW
    # But I should not see the link "Locked documents"
     And I should see the link "Add content"
+    
+ Scenario: EditOnlys get two tabs and and no 'Add content' link
+    Given  I am logged in as a user with the "edit_only" role
+    When I go to "admin/content"
+    And I should see the link "Content"
+    And I should see the link "Blocks"
+    # LOCKED DOCUMENT TAB IS TURNED OFF FOR NOW
+   # But I should not see the link "Locked documents"
+    And I should not see the link "Add content"    
 
  Scenario: Edit_My_Content editors get no tabs; no 'Add content' link
     Given  I am logged in as a user with the "edit_my_content" role
