@@ -106,6 +106,8 @@ img.custom-logo { width: 100%; height: auto; display: block; }
 #cu-footer a.cu-boulder-homepage-link { color: #cfb87c; text-decoration: none; }
 #cu-footer a.cu-boulder-homepage-link:hover { color: #fff; }
 
+.express-site-type-sport-club .site-name-wrapper { background-image: url(../images/cu-buffs-logo.png); background-repeat: no-repeat; background-size: 55px 40px; background-position: left center; padding-left: 65px; }
+
 /** Button styles */
 a.button, .button { color: #fff; display: inline-block; padding: 5px 10px; font-weight: 500; font-family: "Neue Helvetica W01", "Helvetica Neue", Helvetica, Arial, sans-serif; transition: background-color 0.5s ease; margin-bottom: 5px; text-decoration: none !important; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -webkit-background-clip: padding-box; -moz-background-clip: padding; background-clip: padding-box; -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); transition: -webkit-box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease; transition: -moz-box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease; transition: box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease; }
 a.button.button-full, .button.button-full { display: block; text-align: center; }
@@ -229,13 +231,13 @@ textarea, select, input[type="date"], input[type="datetime"], input[type="dateti
 
 button, input[type="reset"], input[type="submit"], input[type="button"] { font-size: 100%; }
 
-input.form-text, textarea.form-textarea, input[type=text], input[type=email], input[type=tel], textarea { padding: 10px; border: 1px solid #ddd; background-color: #f0f0f0; line-height: 150%; }
+input.form-text, textarea.form-textarea, input[type=text], input[type=email], input[type=tel], textarea { padding: 10px; border: 1px solid rgba(128, 128, 128, 0.333); background-color: rgba(128, 128, 128, 0.1); color: inherit; line-height: 150%; }
 
 input.form-text, input[type=text], input[type=email], input[type=tel] { max-width: 100%; -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */ -moz-box-sizing: border-box; /* Firefox, other Gecko */ box-sizing: border-box; }
 
-input.form-text:focus, textarea.form-textarea:focus, input[type=text]:focus, input[type=email]:focus, input[type=tel]:focus { background-color: #f4f4f4; outline: #0277BD solid 2px; }
+input.form-text:focus, textarea.form-textarea:focus, input[type=text]:focus, input[type=email]:focus, input[type=tel]:focus { background-color: rgba(128, 128, 128, 0.2); outline: #0277BD solid 2px; }
 
-input[type=submit], form button { color: #222; background: #f0f0f0; font-size: 85%; border: none; padding: 5px 10px; font-weight: 600; font-family: "Neue Helvetica W01", "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -webkit-background-clip: padding-box; -moz-background-clip: padding; background-clip: padding-box; transition: background-color 0.5s ease; transition: -webkit-box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease; transition: -moz-box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease; transition: box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease; -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); border: 1px solid #ddd; }
+input[type=submit], form button { color: #222; background: #EEEEEE; font-size: 85%; border: none; padding: 5px 10px; font-weight: 600; font-family: "Neue Helvetica W01", "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; -webkit-background-clip: padding-box; -moz-background-clip: padding; background-clip: padding-box; transition: background-color 0.5s ease; transition: -webkit-box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease; transition: -moz-box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease; transition: box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease; -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); border: 1px solid #ddd; }
 
 #search input[type=submit], #mobile-search input[type=submit] { -webkit-box-shadow: 0 0px 0px rgba(255, 255, 255, 0); -moz-box-shadow: 0 0px 0px rgba(255, 255, 255, 0); box-shadow: 0 0px 0px rgba(255, 255, 255, 0); border: none; }
 
@@ -249,8 +251,8 @@ html.js input.form-autocomplete { background-image: url(../images/autocomplete.g
 
 html.js input.throbbing { background-image: url(../images/throbber.gif); background-position: 98% 45%; background-repeat: no-repeat; }
 
-fieldset { padding: 10px; border: 1px solid #e5e5e5; }
-fieldset legend { font-weight: bold; font-size: 120%; padding: 0 10px; border-left: 1px solid #e5e5e5; border-right: 1px solid #e5e5e5; }
+fieldset { padding: 10px; border: 1px solid rgba(128, 128, 128, 0.333); }
+fieldset legend { font-weight: bold; font-size: 120%; padding: 0 10px; }
 
 form label { font-weight: bold; }
 
