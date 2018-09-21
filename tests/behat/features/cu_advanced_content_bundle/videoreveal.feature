@@ -1,7 +1,7 @@
 @AdvContentBundle 
 Feature: the Video Reveal block
 In order to create a video block with a still cover graphic
-As an authenticated user
+As a user with the proper role
 I should be able to access and use the Video Reveal Block
   
 
@@ -13,6 +13,7 @@ Scenario Outline: An authenticated user should be able to access the form for ad
   Examples:
   | role            | message         |
   | edit_my_content | "Access denied" |
+  | edit_only       | "Access denied" |
   | content_editor  | "Create Video Reveal block" |
   | site_owner      | "Create Video Reveal block" |
   | administrator   | "Create Video Reveal block" |
