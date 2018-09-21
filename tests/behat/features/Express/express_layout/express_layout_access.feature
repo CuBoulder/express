@@ -8,8 +8,10 @@ Feature: CU Layout Access
 
     Examples:
       | role            | message         |
+      | edit_only       | "Select which regions are available to place blocks for each content type." |
       | content_editor  | "Select which regions are available to place blocks for each content type." |
       | edit_my_content | "Select which regions are available to place blocks for each content type." |
+      | site_editor     | "Select which regions are available to place blocks for each content type." |
       | site_owner      | "Select which regions are available to place blocks for each content type." |
       | administrator   | "Select which regions are available to place blocks for each content type." |
       | developer       | "Access denied" |
