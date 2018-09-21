@@ -13,6 +13,7 @@ Scenario Outline: An authenticated user should be able to access the form for ad
   Examples:
   | role            | message         |
   | edit_my_content | "Access denied" |
+  | edit_only       | "Access denied" |
   | content_editor  | "Create Expandable block" |
   | site_owner      | "Create Expandable block" |
   | administrator   | "Create Expandable block" |
@@ -24,7 +25,7 @@ Scenario: An anonymous user should not be able to access the form
   Then I should see "Access denied"
   
 
-Scenario: user with the proper role should see a number of display options
+Scenario: A user with the proper role should see a number of display options
 Given I am logged in as a user with the "site_owner" role
 When I go to "block/add/expandable"
 Then the "edit-field-expandable-section-open-und" checkbox should be checked
@@ -53,11 +54,11 @@ And I should see "Heading One"
 And I should see "Cupcake ipsum dolor sit amet ice cream carrot cake"
 And I should see "Heading Two"
 
-Scenario: An EditOnly can edit a Content List Block
+Scenario: An EditOnly can edit an Expandable block
 Given I am logged in as a user with the "edit_only" role
-And am on "block/my-block-row-block-label/view"
+And am on "block/expandable-label/view"
 Then I should see the link "Edit Block"
 And I follow "Edit Block"
-Then I should see "Edit Content List: My Block Row Block Label"
+Then I should see "Edit Expandable: Expandable Label"
 Then I should not see "Delete"
 
