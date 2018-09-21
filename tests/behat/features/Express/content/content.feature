@@ -27,7 +27,7 @@
     | site_editor     |
 
 
- Scenario: Content Editors get two tabs and and 'Add content' link
+ Scenario: Content Editors get two tabs and an 'Add content' link
     Given  I am logged in as a user with the "content_editor" role
     When I go to "admin/content"
     And I should see the link "Content"
