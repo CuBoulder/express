@@ -14,7 +14,7 @@ Feature: Facebook Activity Access Feature
   | administrator   | "Create Facebook Activity block"  |
   | developer       | "Create Facebook Activity block"  |
   | edit_my_content | "Access Denied"                   |
-  #| content_editor  | "Create Facebook Activity block"  |
+  | edit_only       | "Access Denied"                   |
 
   @social_media
   Scenario: An anonymous user shouldn't be able to create Create Facebook Activity block content.
