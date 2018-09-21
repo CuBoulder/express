@@ -1,7 +1,7 @@
-Feature: Facebook Like Button Access Feature
+  @social_media @max_execution_time
+  Feature: Facebook Like Button Access Feature
   Test access to creation of social link beans.
 
-  @social_media @max_execution_time
   Scenario Outline: Certain user roles should be able to create Create Facebook Like Button block content.
   Given  I am logged in as a user with the <role> role
   And I am on "block/add/facebook-like-button"
@@ -16,7 +16,7 @@ Examples:
   | edit_my_content | "Access Denied"                     |
   | edit_only       | "Access Denied"                    |     
  
-  @social_media
-  Scenario: An anonymous user shouldn't be able to create Create Facebook Like Button block content.
+
+  Scenario: An anonymous user shouldn't be able to create Facebook Like Button block content.
    Given I am on "block/add/facebook-like-button"
    Then I should see "Access Denied"
