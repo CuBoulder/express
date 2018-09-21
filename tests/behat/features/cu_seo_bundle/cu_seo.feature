@@ -4,7 +4,6 @@ Feature: Search Engine Optimization Bundle
   As an authenticated user with the proper role
   I should be able access and edit SEO links and functionality
 
-
 Scenario Outline: Only Devs can verify that the Google Analytics Settings page has been installed
 Given I am logged in as a user with the <role> role
 When I go to "admin/config/system/googleanalytics"
@@ -17,10 +16,11 @@ Examples:
     | site_owner      | "Access denied"    |
     | content_editor  | "Access denied"    |
     | edit_my_content | "Access denied"    |
+    | edit_only       | "Access denied"    |
 
 #CHECK THAT SEO TAB HAS BEEN ACTIVATED ON DASHBOARD
 
-Scenario Outline: Devs, SOs and CEs are given the SEO tab
+Scenario Outline: Only upper-level roles are given the SEO tab
 Given I am logged in as a user with the <role> role
 When I go to "admin/dashboard"
 Then I should see the link "User"
@@ -31,12 +31,11 @@ Examples:
     | developer        | 
     | administrator    | 
     | site_owner       |
-    | content_editor   | 
-    | edit_my_content  | 
+
     
 # THE SEO TAB HAS BEEN POPULATED WITH SEO FUNCTIONALITY
 
-Scenario Outline: Devs, SOs and CEs see the SEO Checklist populated with SEO functionality
+Scenario Outline: Upper-level roles see the SEO Checklist populated with SEO functionality
 Given I am logged in as a user with the <role> role
 When I go to "admin/dashboard/seo"
 Then I should see "Google Analytics"
@@ -51,11 +50,21 @@ Examples:
     | developer       | 
     | administrator   | 
     | site_owner      |
-    | content_editor  | 
-    | edit_my_content  | 
     
 
-Scenario: An anonymous user can not access the SEO checklist page
+Scenario Outline: Users with lower level permissions can not access the SEO checklist page
+Given I am logged in as a user with the <role> role
+When I go to "admin/dashboard/seo"
+Then I should see "Access denied"
+
+Examples:
+    | role            | 
+    | site_editor     | 
+    | edit_my_content | 
+    | edit_only       | 
+    
+  
+  Scenario: An anonymous user can not access the SEO checklist page
   Given I go to "admin/dashboard/seo"
   Then I should see "Access denied"
     
@@ -71,8 +80,9 @@ Examples:
     | developer       | "Analyze your site content for links" |
     | administrator   | "Analyze your site content for links" |
     | site_owner      | "Analyze your site content for links" |
-    | content_editor  | "Analyze your site content for links" |
-    | edit_my_content | "Analyze your site content for links" |
+    | site_editor     | "Access denied"                       |
+    | edit_my_content | "Access denied"                       |
+    | edit_only       | "Access denied"                       |
     
 #VERIFY THAT LINK CHECKER WORKS
 @javascript
