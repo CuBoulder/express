@@ -513,6 +513,7 @@ function express_settings_js_alter(&$javascript) {
   // Those characters need to be replaced before exploding the string.
   $special_chars = [
     '\u0026#039;' => '\'',
+    '\u0026amp;' => 'and',
   ];
   $js_no_special_chars = array_shift($js_code)['data'];
   foreach ($special_chars as $char => $replacement) {
