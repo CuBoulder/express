@@ -24,19 +24,10 @@
     text-transform: uppercase;
     font-size:24px;
     font-family: Arial, Helvetica;
-    span.mobile-menu-text {
-      position: absolute !important;
-      clip: rect(1px 1px 1px 1px); /* IE6, IE7 */
-      clip: rect(1px, 1px, 1px, 1px);
-    }
   }
   @media screen and (min-width: 480px) {
     .mobile-menu-toggle {
       font-size:14px;
-      span.mobile-menu-text {
-        position: static !important;
-        clip: auto;
-      }
       button {
         padding:2px 5px;
         display: inline-block;
@@ -51,6 +42,11 @@
     .mobile-menu-toggle {
       display: none;
     }
+  }
+}
+@media screen and (max-width:479px) {
+  .mobile-menu-toggle span.mobile-menu-text {
+    @include element-invisible;
   }
 }
 

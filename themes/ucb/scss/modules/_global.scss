@@ -72,6 +72,8 @@ $max_width: 1200px;
   position: absolute !important;
   width: 1px;
   white-space: nowrap;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
 }
 //
 // Clear floats

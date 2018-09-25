@@ -428,7 +428,7 @@ a.button.button-full, .button.button-full { display: block; text-align: center; 
 
 .text-minify { font-size: 85%; }
 
-.element-invisible { border: 0; height: 1px; overflow: hidden; padding: 0; position: absolute !important; width: 1px; white-space: nowrap; }
+.element-invisible { border: 0; height: 1px; overflow: hidden; padding: 0; position: absolute !important; width: 1px; white-space: nowrap; clip: rect(1px 1px 1px 1px); clip: rect(1px, 1px, 1px, 1px); }
 
 .clearfloats:after { content: ""; display: table; clear: both; }
 
