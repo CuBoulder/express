@@ -739,3 +739,24 @@ function ucb_image_style(&$vars) {
   $vars['attributes']['class'] = array('image-' . $vars['style_name']);
   return theme('image', $vars);
 }
+
+function ucb_affiliation($site_type = NULL, $value = NULL) {
+  $affiliations = array(
+    'sport-club' => array(
+      'label' => 'A CU Boulder Sport Club',
+      'url' => 'https://www.colorado.edu/recreation'
+    ),
+  );
+  if ($site_type && !empty($affiliations[$site_type])) {
+    if ($value == 'label') {
+      return $affiliations[$site_type]['label'];
+    }
+    elseif ($value == 'link') {
+      return $affiliations[$site_type]['label'];
+    }
+    else {
+      return $affiliations[$site_type];
+    }
+  }
+  return FALSE;
+}

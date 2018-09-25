@@ -25,8 +25,9 @@
   <?php endif; ?>
 <?php endif; ?>
 <?php
-  $affiliation = variable_get('cu_site_affiliation', FALSE);
-  $affiliation_link = variable_get('cu_site_affiliation_link', FALSE);
+  $site_type = variable_get('express_site_type', NULL);
+  $affiliation = variable_get('cu_site_affiliation', ucb_affiliation($site_type, 'label'));
+  $affiliation_link = variable_get('cu_site_affiliation_link', ucb_affiliation($site_type, 'link'));
 ?>
 
 <?php if ($affiliation): ?>
