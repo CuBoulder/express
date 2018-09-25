@@ -28,15 +28,16 @@ function cu_ldap_form_alter(&$form, &$form_state, $form_id) {
       $form['#validate'][] = 'cu_ldap_user_login_validate';
     case 'user_profile_form':
       $form['account']['name']['#disabled'] = TRUE;
-      if (!user_access('access users overview', $account = NULL)) {
-        $form['field_ldap_display_name']['#disabled'] = TRUE;
-        $form['field_ldap_last_name']['#disabled'] = TRUE;
-        $form['field_ldap_primary_affiliation']['#disabled'] = TRUE;
-      } else {
+      if (user_access('access extended role assignment', $account = NULL)) {
         drupal_set_message(t('Changes to Display Name, Primary Affiliation, and Last Name fields will be overwritten by LDAP the next time this user logs in.'), 'warning');
       }
       break;
   }
+}
+
+function _is_node_form($nid) {
+  $node = node_load($nid);
+  return ($node->type == 'webform');
 }
 
 function cu_ldap_user_login_validate(&$form, &$form_state) {
@@ -46,22 +47,29 @@ function cu_ldap_user_login_validate(&$form, &$form_state) {
   $account = user_load($uid);
   $roles = count($account->roles);
 
+  $nid = (isset($_GET['destination'])) ? substr($_GET['destination'], 5) : null;
+
   // Delete the account if created less than 60 seconds ago.
   $time = time() - 60;
 
   $new_account = ($account->created > $time);
 
-  if ($roles < 2 && !isset($_GET['key']) && !$new_account && !array_key_exists($account->name, $all)) {
+  if ($roles < 2 && !isset($_GET['key']) && !$new_account && !_is_node_form($nid) && !array_key_exists($account->name, $all)) {
     // Notify user that they cannot log in to the site.
-    form_set_error('name', 'No roles associated with your account. If you received an email invitation, please use the link provided.');
+    form_set_error('name', 'You do not have permission to edit this site. If you received an email invitation, please use the link provided.');
   }
-  if ($roles < 2 && !isset($_GET['key']) && $new_account && !array_key_exists($account->name, $all)) {
+  if ($roles < 2 && !isset($_GET['key']) && $new_account && !_is_node_form($nid) && !array_key_exists($account->name, $all)) {
     // Delete account if it's new.
     user_delete($uid);
     watchdog('cu_users_log', t('User tried to log in without roles and was deleted: %uid', array('%uid' => $uid)));
 
     // Notify user that they cannot log in to the site.
-    form_set_error('name', 'No roles associated with your account. If you received an email invitation, please use the link provided.');
+    form_set_error('name', 'You do not have permission to edit this site. If you received an email invitation, please use the link provided.');
+  }
+  if ($roles < 2 && isset($_GET['destination']) && _is_node_form($nid) /*&& !array_key_exists($account->name, $all)*/) {
+    $role = user_role_load_by_name("form_submitter");
+    user_multiple_role_edit(array($uid), 'add_role', $role->rid);
+    watchdog('cu_users_log', t('UID: %uid was given the role of form_submitter to submit webforms.', array('%uid' => $uid)));
   }
 }
 
