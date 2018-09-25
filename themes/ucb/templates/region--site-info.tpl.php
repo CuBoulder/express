@@ -16,7 +16,7 @@
     <?php endif; ?>
     <?php $class = $content ? 'col-lg-4 col-md-4' : 'col-lg-12 col-md-12'; ?>
     <div id="cu-footer" class="<?php print $class; ?>">
-        <p><a href="//www.colorado.edu"><img src="<?php print $base_url . '/' . drupal_get_path('theme', 'ucb'); ?>/images/beboulder/be-boulder-<?php print $beboulder['color']; ?>.png" alt="University of Colorado Boulder" class="beboulder"/></a></p>
+        <p><a href="//www.colorado.edu"><img src="<?php print $base_url . '/' . drupal_get_path('theme', 'ucb'); ?>/images/beboulder/be-boulder-<?php print $beboulder['color']; ?>.svg" alt="University of Colorado Boulder" class="beboulder"/></a></p>
                 <p><strong><a href="http://www.colorado.edu" class="cu-boulder-homepage-link">University of Colorado Boulder</a></strong><br />&copy; Regents of the University of Colorado<br />
         <span class="required-links"><a href="http://www.colorado.edu/about/privacy-statement">Privacy</a> &bull; <a href="http://www.colorado.edu/about/legal-trademarks">Legal &amp; Trademarks</a> &bull; <a href="http://www.colorado.edu/map">Campus Map</a></span></p>
     </div>
