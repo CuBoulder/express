@@ -139,6 +139,15 @@ function express_settings_menu() {
     'access arguments' => array('administer redirects'),
     'weight' => 0,
   );
+  $items['admin/settings/url-management/match_redirect'] = array(
+    'title' => 'Match Redirect',
+    'description' => 'Configure match redirects',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'drupal_goto',
+    'page arguments' => array('admin/config/search/match_redirect'),
+    'access arguments' => array('administer matchredirect'),
+    'weight' => 1,
+  );
 
   // DEFINES CACHE SECTION.
   $items['admin/settings/cache'] = array(

@@ -1,7 +1,7 @@
 @AdvLayoutBundle @block-section-block
 Feature: the Block Section Block
 In order to place a block on a background graphic
-As an authenticated user
+As a user with the proper role
 I should be able to access and use the Block Section Block
   
 
@@ -13,6 +13,7 @@ Scenario Outline: An authenticated user should be able to access the form for ad
     Examples:
     | role            | message         |
     | edit_my_content | "Access denied" |
+    | edit_only       | "Access denied" |
     | content_editor  | "Create Block Section block" |
     | site_owner      | "Create Block Section block" |
     | administrator   | "Create Block Section block" |
@@ -81,3 +82,12 @@ And I press "Save"
 Then I should see "My Block Section Block Title"
 And I should see "Ralphie Buffalo Title"
 And I should see "Ralphie Handlers run Ralphie around Folsom Field."
+
+Scenario: An EditOnly can edit a Block Section Block
+Given I am logged in as a user with the "edit_only" role
+And am on "block/my-block-section-block-label/view"
+Then I should see the link "Edit Block"
+And I follow "Edit Block"
+Then I should see "Edit Block Section: My Block Section Block Label"
+Then I should not see "Delete"
+
