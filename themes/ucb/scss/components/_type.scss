@@ -25,41 +25,14 @@ body {
  */
 h1, h2, h3, h4, h5, h6 {
   line-height: 1.3;
-  margin: 0 0 10px 0;
+  margin: 0 0 $spacing/2 0;
   a {
     //text-decoration: none;
   }
 }
 #footer-section {
   h1, h2, h3, h4, h5, h6 {
-    margin: 0 0 10px 0;
-  }
-}
-
-h1#page-title,
-h1#page-title-image-title,
-.page-title-section h1 {
-  font-size: 220%;
-  font-weight: 200;
-  font-family:$base_font;
-  i, em {
-    font-style: italic;
-  }
-}
-.layout-responsive {
-  h1#page-title,
-  h1#page-title-image-title,
-  .page-title-section h1 {
-    font-size: 180%;
-  }
-}
-@media screen and (min-width: 768px) {
-  .layout-responsive {
-    h1#page-title,
-    h1#page-title-image-title,
-    .page-title-section h1 {
-      font-size: 220%;
-    }
+    margin: 0 0 $spacing/2 0;
   }
 }
 
@@ -131,13 +104,12 @@ $heading-scale: 15; // amount of px headings grow  - h2 = 160%
   }
 }
 
-
 // Page Title
+h1,
 h1#page-title,
 h1#page-title-image-title,
 .page-title-section h1 {
   font-size: 180%;
-  font-weight: 200;
   font-family:$base_font;
   i, em {
     font-style: italic;
@@ -151,13 +123,44 @@ h1#page-title-image-title,
   }
 }
 
-// Bold headings
-.headings-bold {
+// Font Weights
+h1#page-title,
+h1#page-title-image-title,
+.page-title-section h1, h2, h3, h4 {
+  font-weight:bold;
+  strong,
+  b {
+    font-weight: bold;
+  }
+}
+h5, h6 {
+  font-weight: bold;
+}
+h2.block-title, h2.node-title {
+  font-weight:bold;
+}
+.headings-light {
+  h1#page-title,
+  h1#page-title-image-title,
+  .page-title-section h1,
+  h2, h2.block-title, h2.node-title,
+  h3, h4, h5, h6 {
+    font-weight:normal;
+    strong,
+    b {
+      font-weight: bold;
+    }
+  }
+}
+
+// Change weights if .brand-fonts is set
+.brand-fonts {
   h1#page-title,
   h1#page-title-image-title,
   .page-title-section h1, h2, h3, h4 {
     font-weight:700;
-    strong {
+    strong,
+    b {
       font-weight: 700;
     }
   }
@@ -167,16 +170,29 @@ h1#page-title-image-title,
   h2.block-title, h2.node-title {
     font-weight:700;
   }
+  &.headings-light {
+    h1#page-title,
+    h1#page-title-image-title,
+    .page-title-section h1,
+    h2, h2.block-title, h2.node-title,
+    h3, h4, h5, h6 {
+      font-weight:200;
+      strong,
+      b {
+        font-weight: 600;
+      }
+    }
+  }
 }
 
 // Add margin to bottom of some elements
 p, dl, hr, ol, ul, pre, table, address, fieldset {
-  margin: 0 0 20px 0;
+  margin: 0 0 $spacing 0;
 }
 p:empty {
   margin: 0;
 }
-.content p:last-child {
+.content > *:last-child {
   margin-bottom: 0;
 }
 dt, .admin h3 {
@@ -187,16 +203,16 @@ dt, .admin h3 {
 dd {
   padding-left: 10px;
   font-style: italic;
-  margin-bottom: 20px;
+  margin-bottom: $spacing;
   p {
-    margin-bottom: 10px;
+    margin-bottom: $spacing/2;
   }
 }
 
 blockquote {
   font-size: 110%;
-  margin: 0px 0px 40px 20px;
-  padding-left:20px;
+  margin: 0px 0px $spacing*2 $spacing;
+  padding-left: $spacing;
   border-left: 4px solid $border;
 }
 // Smaller text
@@ -235,13 +251,13 @@ sub {
  * 600 is a good bold, 700 is extra black, 900 is extra black condensed
  */
 strong {
-  font-weight: 600;
+  font-weight: bold;
 }
 .lead {
   font-size: 130%;
   line-height: 1.4;
   strong {
-    font-weight: 600;
+    font-weight: bold;
   }
 }
 .hero,
@@ -251,9 +267,15 @@ h3.hero,
 .exbd-heading-style-hero-bold > .block-inner > .exbd-block-title > .block-title {
   font-size:200%;
   line-height: 1.3;
-  font-weight: 100;
+  font-weight:normal;
   strong {
-    font-weight: 900;
+    font-weight: bold;
+  }
+  .brand-fonts & {
+    font-weight:100;
+    strong {
+      font-weight:900;
+    }
   }
 }
 .exbd-heading-style-hero-bold > .block-inner > .exbd-block-title > .block-title {
@@ -267,9 +289,15 @@ h3.supersize,
 .exbd-heading-style-supersize-bold > .block-inner > .exbd-block-title > .block-title {
   font-size:320%;
   line-height: 1.3;
-  font-weight: 100;
+  font-weight: normal;
   strong {
-    font-weight: 900;
+    font-weight: bold;
+  }
+  .brand-fonts & {
+    font-weight:100;
+    strong {
+      font-weight:900;
+    }
   }
 }
 .exbd-heading-style-supersize-bold > .block-inner > .exbd-block-title > .block-title {
@@ -285,4 +313,10 @@ h3.supersize,
 // Emphasis
 em {
   font-style: italic;
+}
+
+// Code
+code {
+  font-family: monospace;
+  font-size: 85%;
 }

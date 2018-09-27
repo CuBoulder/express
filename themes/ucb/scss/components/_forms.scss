@@ -27,6 +27,10 @@ textarea {
   color:inherit;
   line-height: 150%;
 }
+textarea {
+  display: block;
+  width:100%;
+}
 input.form-text,
 input[type=text],
 input[type=email],
@@ -38,6 +42,7 @@ input[type=tel], {
 }
 input.form-text:focus,
 textarea.form-textarea:focus,
+textarea,
 input[type=text]:focus,
 input[type=email]:focus,
 input[type=tel]:focus {
@@ -51,7 +56,7 @@ form button {
   font-size: 85%;
   border:none;
   padding:5px 10px;
-  font-weight:600;
+  font-weight:bold;
   font-family: $base_font;
   @include rounded($radius: $radius_small);
   transition: background-color 0.5s ease;
@@ -59,20 +64,7 @@ form button {
   @include rgbashadow(0, 1px, 2px, #000000, .20);
   border:1px solid #ddd;
 }
-#search,
-#mobile-search {
-  input[type=submit] {
-    @include rgbashadow(0, 0px, 0px, #ffffff, 0);
-    border: none;
-  }
-}
-.banner-black,
-.banner-dark,
-.banner-light {
-  #search input.form-text {
-    border: none;
-  }
-}
+
 input[type=submit]:focus,
 form button:focus {
   outline: $green solid 2px;
@@ -84,16 +76,6 @@ input[type=radio]:focus,
 input[type=checkbox]:focus,
 select:focus {
   //outline: $blue solid 2px;
-}
-html.js input.form-autocomplete {
-  background-image: url(../images/autocomplete.gif);
-  background-position: 98% 45%;
-  background-repeat: no-repeat;
-}
-html.js input.throbbing {
-  background-image: url(../images/throbber.gif);
-  background-position: 98% 45%;
-  background-repeat: no-repeat;
 }
 
 fieldset {
@@ -109,4 +91,8 @@ fieldset {
 }
 form label {
   font-weight: bold;
+  display: block;
+}
+form input[type=checkbox] + label, form input[type=radio] + label {
+  display: inline-block;
 }

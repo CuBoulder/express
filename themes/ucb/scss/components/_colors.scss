@@ -7,6 +7,11 @@
  */
 
  @each $name, $color in $all_colors {
+   // Background color only.
+   .background-color-#{$name} {
+     background-color: $color;
+   }
+   // Background color with adjusted text and link colors.
    .background-#{$name},
    .exbd-block.exbd-style-#{$name} {
      background-color: $color;
@@ -58,5 +63,9 @@
       //text-decoration-color: rgba(set-link-hover-color($color), .65);
       //-webkit-text-decoration-color: rgba(set-link-hover-color($color), .65);
     }
+  }
+  .background-color-gray-#{$i}00 {
+    $color: darken(#fff, $i * 10);
+    background: $color;
   }
 }

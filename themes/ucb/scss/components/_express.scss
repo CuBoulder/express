@@ -1,0 +1,17 @@
+/**
+ * Express/Drupal specific styles
+ */
+.main-content-wrapper {
+  padding:$spacing 0 !important;
+}
+
+html.js input.form-autocomplete {
+  background-image: url(../images/autocomplete.gif);
+  background-position: 98% 45%;
+  background-repeat: no-repeat;
+}
+html.js input.throbbing {
+  background-image: url(../images/throbber.gif);
+  background-position: 98% 45%;
+  background-repeat: no-repeat;
+}

@@ -23,6 +23,53 @@ a.no-underline {
 .padding-large {
   padding: $spacing*2;
 }
+$directions: (
+  "top",
+  "bottom",
+  "left",
+  "right",
+);
+ @each $direction in $directions {
+   .padding-#{$direction},
+   .padding-medium-#{$direction} {
+     padding-#{$direction}: $spacing;
+   }
+   .padding-small-#{$direction} {
+     padding-#{$direction}: $spacing/2;
+   }
+   .padding-large-#{$direction} {
+     padding-#{$direction}: $spacing*2;
+   }
+ }
+
+.padding-horizontal,
+.padding-horizontal-medium {
+  padding-left: $spacing;
+  padding-right: $spacing;
+}
+.padding-horizontal-small {
+  padding-left: $spacing/2;
+  padding-right: $spacing/2;
+}
+.padding-horizontal-large {
+  padding-left: $spacing*2;
+  padding-right: $spacing*2;
+}
+
+.padding-vertical,
+.padding-vertical-medium {
+  padding-top: $spacing;
+  padding-bottom: $spacing;
+}
+.padding-vertical-small {
+  padding-top: $spacing/2;
+  padding-bottom: $spacing/2;
+}
+.padding-vertical-large {
+  padding-top: $spacing*2;
+  padding-bottom: $spacing*2;
+}
+
 // Borders
 .border {
   border:1px solid $border;
@@ -65,6 +112,9 @@ a.no-underline {
 
 .display-inline {
   display: inline;
+}
+.text-center {
+  text-align: center;
 }
 
 // Equal Height Row Contents

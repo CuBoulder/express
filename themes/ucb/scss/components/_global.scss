@@ -13,7 +13,6 @@
  body {
    margin: 0;
    padding: 0;
-   background:#000;
  }
  .page {
    background:#fff;
@@ -43,9 +42,4 @@ a {
     text-decoration-color: rgba($red, .65);
     -webkit-text-decoration-color: rgba($red, .65);
   }
-}
-
-
-.main-content-wrapper {
-  padding:$spacing 0 !important;
 }

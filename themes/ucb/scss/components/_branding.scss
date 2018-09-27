@@ -11,7 +11,8 @@
  }
 
  // Banner Colors
- .banner-white #header-wrapper{
+ .banner-white .header-wrapper,
+ header.white {
    background: $white;
    color:$text-black;
    a:link, a:visited, a:hover {
@@ -28,7 +29,8 @@
      color:$text-black;
    }
  }
- .banner-light #header-wrapper {
+ .banner-light .header-wrapper,
+ header.light {
    background: $gray-light;
    color:$text-black;
    a:link, a:visited, a:hover {
@@ -45,7 +47,8 @@
      color:$text-black;
    }
  }
- .banner-dark #header-wrapper {
+ .banner-dark .header-wrapper,
+ header.dark {
    background: $gray-dark;
    color:$white;
    a:link, a:visited, a:hover {
@@ -62,7 +65,8 @@
      color:$white;
    }
  }
- .banner-black #header-wrapper {
+ .banner-black .header-wrapper,
+ header.black {
    background: $black;
    color:$white;
    a:link, a:visited, a:hover {
@@ -79,7 +83,7 @@
      color:$white;
    }
  }
- #header-wrapper {
+ header {
    padding: 20px 0;
  }
 
@@ -165,7 +169,7 @@
  }
 
 
- #header-wrapper {
+ .header-wrapper {
    background: $white;
    color:$text-black;
  }
@@ -173,23 +177,29 @@
    position: relative;
    display:flex;
    align-items:center;
+   font-size:20px;
+   font-weight: 900;
+   font-family: $base_font_condensed;
+   line-height: 1.1;
+   .site-name {
+     font-size:20px;
+     font-weight: 900;
+   }
+   @media screen and (min-width:768px) {
+     &,
+     & .site-name {
+       font-size: 30px;
+     }
+   }
    .site-name-wrapper {
      flex-grow: 1;
-     font-size:20px;
      padding-right:40px;
-     @media screen and (min-width:768px) {
-       & {
-         font-size: 30px;
-       }
-     }
+
    }
  }
  .site-name {
-   font-weight: 900;
-
    padding:0;
    margin: 0;
-   line-height: 1.1;
  }
 
  .affiliation {
@@ -198,24 +208,36 @@
 
    padding-top:5px;
    font-weight: bold;
-   .banner-black #header-wrapper &,
-   .banner-black #header-wrapper & a:link,
-   .banner-black #header-wrapper & a:visited {
+   .banner-black .header-wrapper &,
+   .banner-black .header-wrapper & a:link,
+   .banner-black .header-wrapper & a:visited,
+   header.black &,
+   header.black a:link,
+   header.black a:visited {
      color:#aaa;
    }
-   .banner-dark #header-wrapper &,
-   .banner-dark #header-wrapper & a:link,
-   .banner-dark #header-wrapper & a:visited {
+   .banner-dark .header-wrapper &,
+   .banner-dark .header-wrapper & a:link,
+   .banner-dark .header-wrapper & a:visited,
+   header.dark &,
+   header.dark & a:link,
+   header.dark & a:visited {
      color:#9b9b9b;
    }
-   .banner-white #header-wrapper &,
-   .banner-white #header-wrapper & a:link,
-   .banner-white #header-wrapper & a:visited {
+   .banner-white .header-wrapper &,
+   .banner-white .header-wrapper & a:link,
+   .banner-white .header-wrapper & a:visited,
+   header.white &,
+   header.white & a:link,
+   header.white & a:visited  {
      color:#757575;
    }
-   .banner-light #header-wrapper &,
-   .banner-light #header-wrapper & a:link,
-   .banner-light #header-wrapper & a:visited {
+   .banner-light .header-wrapper &,
+   .banner-light .header-wrapper & a:link,
+   .banner-light .header-wrapper & a:visited,
+   header.light &,
+   header.light & a:link,
+   header.light & a:visited  {
      color:#6e6e6e;
    }
  }

@@ -8,9 +8,10 @@
 
 // Keyboard Focus
 .focus--keyboard {
-	outline: $blue solid 2px;
+	//outline: $blue solid 2px;
 	text-decoration: none;
-	outline-offset: -1px;
+	outline: rgb(128,128,128) dotted 2px;
+	outline-offset: 2px;
 }
 .focus--mouse {
 	outline: none;
@@ -33,4 +34,5 @@ textarea {
 #skip-link {
 	margin: 0 !important;
 	padding: 0 !important;
+	background:#fff;
 }

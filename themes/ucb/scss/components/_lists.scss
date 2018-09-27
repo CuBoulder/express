@@ -53,12 +53,14 @@ ul.inline,ol.inline {
   padding-left: 0;
 }
 
-ul.list-style-nobullet {
+ul.list-style-nobullet,
+ul.unstyled {
   list-style: none;
   list-style-image: none;
   padding-left: 0;
 }
-ul.list-style-nobullet > li {
+ul.list-style-nobullet > li,
+ul.unstyled li {
   list-style: none;
   list-style-image: none;
 }
@@ -76,6 +78,7 @@ ul.list-style-underline > li {
   list-style: none;
   border-bottom: 1px solid $border;
   padding-bottom: 10px;
+  margin-bottom:10px;
 }
 ul.list-style-border {
   list-style: none;
@@ -148,4 +151,14 @@ ol.list-style-roman-upper, ol.list-style-roman-upper > li {
 }
 ol.list-style-roman-lower, ol.list-style-roman-lower > li {
   list-style: lower-roman;
+}
+
+ul.list-menu {
+  a {
+    display: block;
+    &.active {
+      filter: grayscale(100%);
+      font-weight:bold;
+    }
+  }
 }

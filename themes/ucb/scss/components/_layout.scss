@@ -52,7 +52,7 @@
 
 @media (min-width: 1200px) {
   .container {
-    max-width: 1140px;
+    max-width: 1160px;
   }
   .container.container-small {
     max-width: 960;
@@ -60,7 +60,7 @@
 }
 @media (min-width: 1500px) {
   .container {
-    max-width: 1440px;
+    max-width: 1460px;
   }
   .container.container-small {
     max-width: 960;
@@ -68,7 +68,7 @@
 }
 .layout-fixed {
   .container {
-    width:1140px;
+    width:1160px;
     max-width: none;
   }
 }
