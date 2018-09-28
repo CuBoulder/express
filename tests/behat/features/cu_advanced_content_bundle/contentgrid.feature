@@ -70,7 +70,7 @@ Then I should see "Content Grid My Content Grid Title has been created."
 And I should see "Cupcake ipsum dolor sit amet ice cream carrot cake" 
 And I should see "Veggie ipsum dolor sit amet cucumber broccoli carrot stringbean"
 
-@broken
+@broken 
 Scenario: An EditOnly can edit a Content Grid
 Given I am logged in as a user with the "edit_only" role
 And am on "block/my-content-grid-label/view"
