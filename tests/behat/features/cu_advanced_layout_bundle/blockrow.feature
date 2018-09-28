@@ -24,7 +24,7 @@ Scenario: An anonymous user should not be able to access the form
   Given I go to "block/add/block-row"
   Then I should see "Access denied"
 
- @block-row-block
+ @block-row-block @javascript
 Scenario: A block row block can be created
   Given I am logged in as a user with the "site_owner" role
 
