@@ -1,7 +1,7 @@
 @PhotoGallery
 Feature: Photo Gallery Bundle
 When I login to a Web Express website
-As an authenticated user
+As a user with the proper role
 I should be able to create, edit, and delete a Photo Gallery
 
 # 2) TEST THAT A SIMPLE PHOTO GALLERY CAN BE CREATED
@@ -58,7 +58,17 @@ Scenario: Create a basic photo gallery with three photos
   And I press "Save"
   Then I should see "Photo Gallery Test Photo Gallery has been created."
   And the response should contain "class=\"colorbox\""
-
+  
+Scenario: Node Access -  EditOnly can edit and revise but not delete node; can clear page cache
+  Given I am logged in as a user with the "edit_only" role
+  And I am on "test-photo-gallery"
+  And I should see the link "Edit"
+  And I should not see the link "Edit Layout"
+  And I should see the link "Clear Page Cache"
+  When I follow "Edit"
+  Then I should see "This document is now locked against simultaneous editing."
+  And I should not see an "#edit-delete" element
+  And I press "Cancel edit"
 
 Scenario: An anonymous user should be able to view Photo Gallery content.
 Given I am on "/my-photos"
