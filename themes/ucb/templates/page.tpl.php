@@ -29,7 +29,8 @@
 
     <!-- SITE HEADER -->
     <div id="header-wrapper" class="section header-wrapper no-underline cu-header">
-      <header class="header container clearfix" id="header" role="banner" tabindex="-1">
+      <div class="container">
+      <header class="ucb header clearfix" id="header" role="banner" tabindex="-1">
         <div class="site-name-wrapper">
 
             <?php
@@ -46,6 +47,7 @@
           <button id="toggle" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-menu" aria-label="Navigation"><i class="fa fa-reorder fa-fw" aria-hidden="true"></i><span class="mobile-menu-text">Menu </span></button>
         </div>
       </header>
+    </div>
     </div>
     <!-- /SITE HEADER -->
 
@@ -316,7 +318,7 @@
           <div id="footer-navigation" class="container">
             <div class="nav-inner col-lg-12 col-md-12 clearfix">
               <nav id="footer-menu">
-              <?php print theme('links__footer_menu', array('links' => $footer_menu, 'attributes' => array('id' => 'footer-menu-links', 'class' => array('links', 'inline-menu', 'clearfix')), 'heading' => array('text' => t('Footer menu'),'level' => 'h2','class' => array('element-invisible')))); ?>
+              <?php print theme('ucb_footer_menu_links', array('links' => $footer_menu, 'attributes' => array('id' => 'footer-menu-links', 'class' => array('links', 'inline-menu', 'clearfix')), 'heading' => array('text' => t('Footer menu'),'level' => 'h2','class' => array('element-invisible')))); ?>
               </nav>
             </div>
           </div>

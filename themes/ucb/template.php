@@ -11,6 +11,21 @@ function ucb_theme(&$existing, $type, $theme, $path) {
     'template' => 'site-name',
     'path' => $template_dir,
   );
+  $registry['ucb_main_menu_links'] = array(
+    'render element' => 'element',
+    'function' => 'theme_ucb_main_menu_links',
+    'variables' => array(),
+  );
+  $registry['ucb_secondary_menu_links'] = array(
+    'render element' => 'element',
+    'function' => 'theme_ucb_secondary_menu_links',
+    'variables' => array(),
+  );
+  $registry['ucb_footer_menu_links'] = array(
+    'render element' => 'element',
+    'function' => 'theme_ucb_footer_menu_links',
+    'variables' => array(),
+  );
   return $registry;
 }
 
@@ -491,7 +506,7 @@ function ucb_menu_link(array $vars) {
  * Implements theme_links__system_main_menu().
  * Markup/Classes for main menu
  */
-function ucb_links__system_main_menu($vars) {
+function theme_ucb_main_menu_links($vars) {
   $classes = join(' ',$vars['attributes']['class']);
 
   // Build menu heading.
@@ -537,7 +552,7 @@ function ucb_links__system_main_menu($vars) {
  * Implements theme_links__system_secondary_menu().
  * Markup/Classes for secondary menu
  */
-function ucb_links__system_secondary_menu($vars) {
+function theme_ucb_secondary_menu_links($vars) {
   // Prepare label - set by more_menus.module
   $classes = join(' ',$vars['attributes']['class']);
 
@@ -584,7 +599,7 @@ function ucb_links__system_secondary_menu($vars) {
  * Implements theme_links__footer_menu().
  * Markup/Classes for footer menu
  */
-function ucb_links__footer_menu($vars) {
+function theme_ucb_footer_menu_links($vars) {
   $classes = join(' ',$vars['attributes']['class']);
 
   // Build menu heading.
