@@ -42,11 +42,14 @@ input[type=tel], {
 }
 input.form-text:focus,
 textarea.form-textarea:focus,
-textarea,
+textarea:focus,
 input[type=text]:focus,
 input[type=email]:focus,
 input[type=tel]:focus {
   background-color: rgba(128,128,128,.2);
+  outline: $blue solid 2px;
+}
+select:focus {
   outline: $blue solid 2px;
 }
 input[type=submit],
