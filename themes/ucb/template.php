@@ -278,11 +278,11 @@ function ucb_preprocess_page(&$vars) {
   $vars['search_mobile'] = _block_get_renderable_array(_block_render_blocks(array($block)));
 
   // Section classes
-  $vars['section']['slider']['class'] = '';
-  $vars['section']['after-content2']['class'] = '';
-  $vars['section']['footer-section']['class'] = 'background-black';
+  $vars['section']['slider']['class'] = theme_get_setting('slider_class');
+  $vars['section']['after-content2']['class'] = theme_get_setting('after_content2_class');
+  $vars['section']['footer-section']['class'] = theme_get_setting('footer_section_class');
   $vars['section']['footer']['class'] = '';
-  $vars['section']['site-info']['class'] = '';
+  $vars['section']['site-info']['class'] = theme_get_setting('site_info_class');
 
 
   // Get region column settings
