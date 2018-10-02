@@ -110,7 +110,13 @@ table.noborder tr,
 table.noborder tr.odd,
 table.noborder tr.even,
 table.noborder td,
-table.noborder th {
+table.noborder th,
+table.table-noborder,
+table.table-noborder tr,
+table.table-noborder tr.odd,
+table.table-noborder tr.even,
+table.table-noborder td,
+table.table-noborder th {
   border:none;
 }
 table td p:last-child { margin-bottom: 0; }
