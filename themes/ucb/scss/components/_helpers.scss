@@ -13,6 +13,19 @@ a.no-underline {
 }
 
 // Padding
+.padding-none {
+  padding: 0px !important;
+}
+.padding-none-vertical {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.padding-none-horizontal {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+
 .padding,
 .padding-medium {
   padding: $spacing;
@@ -94,6 +107,31 @@ $directions: (
 .margin-bottom {
   margin-bottom: $spacing;
 }
+.margin-left {
+  margin-left: $spacing;
+}
+.margin-right {
+  margin-right: $spacing;
+}
+.margin-none {
+  margin: 0 !important;
+}
+.margin-none-vertical {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+.margin-none-horizontal {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+// Alignment
+.align-left {
+  float: left;
+}
+.align-right {
+  float: right;
+}
 
 // Text Sizing
 .text-magnify {
@@ -128,4 +166,12 @@ $directions: (
 // No Wrap
 .nowrap {
   white-space: nowrap;
+}
+
+// Text
+.text-capitalize {
+  text-transform: capitalize;
+}
+.text-uppercase {
+  text-transform: uppercase;
 }
