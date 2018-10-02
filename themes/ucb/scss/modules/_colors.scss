@@ -65,10 +65,27 @@ $all_colors: (
 );
 
 // Icons
+$icon-black: #000;
+$icon-white: #fff;
 $icon-blue : $blue-medium;
 $icon-red : $red;
+$icon-yellow : $amber;
 $icon-green : $green;
 $icon-purple: $purple;
 $icon-orange : $orange;
-$icon-yellow : $yellow;
 $icon-brick: $brick;
+
+$icon_colors: (
+  "black" : $icon-black,
+  "white" : $icon-white,
+  "gray" : #808080,
+  "gold" : $gold,
+  "blue" : $icon-blue,
+  "red" : $icon-red,
+  "yellow" : $icon-yellow,
+  "green" : $icon-green,
+  "purple" : $icon-purple,
+  "orange" : $icon-orange,
+  "brick" : $icon-brick,
+
+);
