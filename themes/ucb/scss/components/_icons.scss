@@ -6,6 +6,20 @@
  * Icon styles
  */
 
+ @each $name, $color in $icon_colors {
+	 .icon-color-#{$name},
+	 .exbd-icon-color-#{$name} {
+		 color: $color;
+	 }
+	 // Icon Wrappers.
+	 .icon-color-#{$name}.icon-wrapper-square,
+	 .icon-color-#{$name}.icon-wrapper-rounded,
+	 .icon-color-#{$name}.icon-wrapper-circle {
+		 background-color: $color;
+		 color: set-text-color($color);
+	 }
+ }
+
  /* Icons for file extensions */
 
 /* Word/TXT/RTF */
