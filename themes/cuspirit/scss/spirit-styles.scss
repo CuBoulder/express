@@ -2,7 +2,7 @@
 @import "../../expressbase/scss/modules/_global.scss";
 
 body {
-  background-color: #1a1a1a;
+  //background-color: #1a1a1a;
 }
 .layout-boxed {
   background-color: #f7f7f7;
@@ -119,22 +119,22 @@ ul#action-menu {
   padding: 40px 0 20px;
 }
 .after-content2-wrapper {
-  background-color: #f9f9f9;
+  //background-color: #f9f9f9;
   padding: 40px 0 20px;
 }
-.footer-section {
+.footer-section1 {
   background-color: #1a1a1a;
   color:#fff;
   a:link,
   a:visited {
-    color:$cugold;
+    //color:$cugold;
   }
   a:hover {
     color:#fff;
   }
 }
 .footer-wrapper {
-  background-color: #272727;
+  //background-color: #272727;
   padding: 40px 0 20px;
 }
 .site-info-wrapper {
