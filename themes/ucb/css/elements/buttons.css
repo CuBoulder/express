@@ -107,7 +107,7 @@ a.button.button-full, .button.button-full { display: block; text-align: center; 
 .cu-give-button-gold:hover, .cu-give-button-gold:focus { background-color: #cbb271; background-color: #a6a6a6; -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); }
 .cu-give-button-gold:active { -webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35); -moz-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35); box-shadow: 0 3px 15px rgba(0, 0, 0, 0.35); }
 
-.button-ghost { display: inline-block; padding: 5px 10px; font-weight: 500; font-family: "Neue Helvetica W01", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; margin-bottom: 5px; text-decoration: none; }
+.button-ghost { display: inline-block; padding: 5px 10px; font-weight: bold; font-family: "Neue Helvetica W01", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; margin-bottom: 5px; text-decoration: none; }
 
 .button-ghost.button-ghost-blue, .buttons-color-outline-blue a, .buttons-color-outline-blue a.button { border: 1px solid #0277BD; -webkit-border-radius: 0px; -moz-border-radius: 0px; border-radius: 0px; -webkit-background-clip: padding-box; -moz-background-clip: padding; background-clip: padding-box; color: #0277BD !important; text-decoration: none; background: rgba(255, 255, 255, 0.25); }
 .button-ghost.button-ghost-blue:hover, .button-ghost.button-ghost-blue:active, .button-ghost.button-ghost-blue:focus, .buttons-color-outline-blue a:hover, .buttons-color-outline-blue a:active, .buttons-color-outline-blue a:focus, .buttons-color-outline-blue a.button:hover, .buttons-color-outline-blue a.button:active, .buttons-color-outline-blue a.button:focus { background: #0277BD; color: #fff !important; }

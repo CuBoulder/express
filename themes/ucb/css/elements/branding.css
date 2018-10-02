@@ -35,12 +35,7 @@ a:active, a:focus { color: #B71C1C; text-decoration-color: rgba(183, 28, 28, 0.6
 .banner-black .header-wrapper .menu-toggle button, header.black .menu-toggle button { color: #fff; border-color: rgba(128, 128, 128, 0.5); }
 .banner-black .header-wrapper a.search-toggle:link, .banner-black .header-wrapper a.search-toggle:visited, header.black a.search-toggle:link, header.black a.search-toggle:visited { color: #fff; }
 
-header { padding: 20px 0; }
-
 #branding { position: relative; }
-
-#cu-footer { font-size: 90%; }
-#cu-footer img { max-width: 240px; width: 100%; height: auto; display: block; }
 
 /* NEW BRANDING */
 .brand-bar { background: #000; color: #fff; padding: 10px 0px; }
@@ -51,7 +46,7 @@ header { padding: 20px 0; }
 .brand-bar.brand-bar-color-black a:link, .brand-bar.brand-bar-color-black a:visited { color: #000; }
 
 .brand-bar-container { display: flex; flex-direction: row; justify-content: space-between; align-items: center; width: 100%; }
-.brand-bar-container .brand-logo img { width: 100%; max-width: 200px; height: auto; display: block; }
+.brand-bar-container .brand-logo img { width: 100%; max-width: 200px; min-width: 160px; height: auto; display: block; }
 @media screen and (min-width: 768px) { .brand-bar-container .brand-logo img { max-width: 240px; } }
 
 .brand-color-white, .brand-bar-reverse, .brand-bar-dark, .brand-bar-black { color: #fff !important; }
@@ -59,36 +54,17 @@ header { padding: 20px 0; }
 
 .header-wrapper { background: #fff; color: #111111; }
 
-header { position: relative; display: flex; align-items: center; font-size: 20px; font-weight: 900; font-family: "Neue Helvetica W01", "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 1.1; }
-header .site-name { font-size: 20px; font-weight: 900; }
-@media screen and (min-width: 768px) { header, header .site-name { font-size: 30px; } }
-header .site-name-wrapper { flex-grow: 1; padding-right: 40px; }
+header.ucb { position: relative; display: flex; align-items: center; font-size: 20px; padding: 20px 0; font-weight: 900; font-family: "Neue Helvetica W01", "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 1.1; }
+header.ucb .site-name { font-size: 20px; font-weight: 900; }
+@media screen and (min-width: 768px) { header.ucb, header.ucb .site-name { font-size: 30px; } }
+header.ucb .site-name-wrapper { flex-grow: 1; padding-right: 40px; }
 
 .site-name { padding: 0; margin: 0; }
 
 .affiliation { text-transform: uppercase; font-size: 50%; padding-top: 5px; font-weight: bold; }
-.banner-black .header-wrapper .affiliation, .banner-black .header-wrapper .affiliation a:link, .banner-black .header-wrapper .affiliation a:visited, header.black .affiliation, .affiliation header.black a:link, .affiliation header.black a:visited { color: #aaa; }
-.banner-dark .header-wrapper .affiliation, .banner-dark .header-wrapper .affiliation a:link, .banner-dark .header-wrapper .affiliation a:visited, header.dark .affiliation, header.dark .affiliation a:link, header.dark .affiliation a:visited { color: #9b9b9b; }
-.banner-white .header-wrapper .affiliation, .banner-white .header-wrapper .affiliation a:link, .banner-white .header-wrapper .affiliation a:visited, header.white .affiliation, header.white .affiliation a:link, header.white .affiliation a:visited { color: #757575; }
-.banner-light .header-wrapper .affiliation, .banner-light .header-wrapper .affiliation a:link, .banner-light .header-wrapper .affiliation a:visited, header.light .affiliation, header.light .affiliation a:link, header.light .affiliation a:visited { color: #6e6e6e; }
-
-.layout-responsive .menu-toggle button { background: none; border: none; padding: 0; }
-
-/* Custom Logo */
-img.custom-logo { width: 100%; height: auto; display: block; }
-
-.banner-white .custom-logo-black, .banner-light .custom-logo-black { display: block; }
-.banner-white .custom-logo-white, .banner-light .custom-logo-white { display: none; }
-
-.banner-black .custom-logo-white, .banner-dark .custom-logo-white { display: block; }
-.banner-black .custom-logo-black, .banner-dark .custom-logo-black { display: none; }
-
-#block-cu-site-info-site-info h2.block-title a { color: #cfb87c; text-decoration: none; }
-#block-cu-site-info-site-info h2.block-title a:hover { color: #fff; }
-
-#cu-footer a.cu-boulder-homepage-link { color: #cfb87c; text-decoration: none; }
-#cu-footer a.cu-boulder-homepage-link:hover { color: #fff; }
-
-.express-site-type-sport-club .site-name-wrapper { background-image: url(../images/cu-buffs-logo.png); background-repeat: no-repeat; background-size: 55px 40px; background-position: left center; padding-left: 65px; }
+.banner-black .header-wrapper .affiliation, .banner-black .header-wrapper .affiliation a:link, .banner-black .header-wrapper .affiliation a:visited, header.ucb.black .affiliation, .affiliation header.ucb.black a:link, .affiliation header.ucb.black a:visited { color: #aaa; }
+.banner-dark .header-wrapper .affiliation, .banner-dark .header-wrapper .affiliation a:link, .banner-dark .header-wrapper .affiliation a:visited, header.ucb.dark .affiliation, header.ucb.dark .affiliation a:link, header.ucb.dark .affiliation a:visited { color: #9b9b9b; }
+.banner-white .header-wrapper .affiliation, .banner-white .header-wrapper .affiliation a:link, .banner-white .header-wrapper .affiliation a:visited, header.ucb.white .affiliation, header.ucb.white .affiliation a:link, header.ucb.white .affiliation a:visited { color: #757575; }
+.banner-light .header-wrapper .affiliation, .banner-light .header-wrapper .affiliation a:link, .banner-light .header-wrapper .affiliation a:visited, header.ucb.light .affiliation, header.ucb.light .affiliation a:link, header.ucb.light .affiliation a:visited { color: #6e6e6e; }
 
 /*# sourceMappingURL=branding.css.map */

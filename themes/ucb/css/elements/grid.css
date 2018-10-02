@@ -64,7 +64,7 @@ a:active, a:focus { color: #B71C1C; text-decoration-color: rgba(183, 28, 28, 0.6
 @media (min-width: 768px) and (max-width: 959px) { .visible-sm { display: block !important; } }
 @media (min-width: 960px) and (max-width: 1199px) { .visible-md { display: block !important; } }
 @media (min-width: 1200px) { .visible-lg { display: block !important; } }
-.row { display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; margin-right: -20px; margin-left: -20px; overflow: hidden; }
+.row { display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; margin-right: -20px; margin-left: -20px; }
 
 .no-gutters { margin-right: 0; margin-left: 0; }
 
