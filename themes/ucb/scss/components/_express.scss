@@ -1,6 +1,46 @@
 /**
  * Express/Drupal specific styles
  */
+
+ .site-name-inner {
+
+ }
+ .layout-responsive .menu-toggle {
+   //top:0;
+   button {
+     background:none;
+     border:none;
+     padding:0;
+   }
+ }
+
+ /* Custom Logo */
+ img.custom-logo {
+   width:100%;
+   //max-width:500px !important;
+   height: auto;
+   display: block;
+ }
+ .banner-white,
+ .banner-light {
+   .custom-logo-black {
+     display: block;
+   }
+   .custom-logo-white {
+     display: none;
+   }
+ }
+ .banner-black,
+ .banner-dark {
+   .custom-logo-white {
+     display: block;
+   }
+   .custom-logo-black {
+     display: none;
+   }
+ }
+
+
 .main-content-wrapper {
   padding:$spacing 0 !important;
 }
@@ -15,3 +55,39 @@ html.js input.throbbing {
   background-position: 98% 45%;
   background-repeat: no-repeat;
 }
+
+
+// Site Information
+ #block-cu-site-info-site-info h2.block-title a {
+   color: $cugold;
+   text-decoration: none;
+   &:hover {
+     color:#fff;
+   }
+ }
+
+ #cu-footer {
+   font-size: 90%;
+   img {
+     max-width: 240px;
+     width: 100%;
+     height: auto;
+     display: block;
+   }
+   a.cu-boulder-homepage-link {
+     color: $cugold;
+     text-decoration: none;
+     &:hover {
+       color:#fff;
+     }
+   }
+ }
+
+ // Sport Club Branding
+ .express-site-type-sport-club .site-name-wrapper {
+   background-image:url(../images/cu-buffs-logo.png);
+   background-repeat:no-repeat;
+   background-size: 55px 40px;
+   background-position: left center;
+   padding-left:65px;
+ }
