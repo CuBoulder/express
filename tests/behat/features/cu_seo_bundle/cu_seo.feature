@@ -72,9 +72,9 @@ Examples:
     | developer       | "Analyze your site content for links" |
     | administrator   | "Analyze your site content for links" |
     | site_owner      | "Analyze your site content for links" |
-    | site_editor     | "Access denied"                       |
-    | edit_my_content | "Access denied"                       |
-    | edit_only       | "Access denied"                       |
+    #| site_editor     | "Access denied"                       |
+    #| edit_my_content | "Access denied"                       |
+    #| edit_only       | "Access denied"                       |
     
 #VERIFY THAT LINK CHECKER WORKS
 @javascript
