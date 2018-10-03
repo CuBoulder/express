@@ -47,9 +47,9 @@ Then I should see <message>
     | edit_only       | "Access denied"                       |
     
   
-  Scenario: An anonymous user can not access the SEO checklist page
-  Given I go to "admin/dashboard/seo"
-  Then I should see "Access denied"   
+Scenario: An anonymous user can not access the SEO checklist page
+Given I go to "admin/dashboard/seo"
+Then I should see "Access denied"   
 
 Scenario: The SEO Checklist is properly populated with SEO functionality
 Given I am logged in as a user with the "site_owner" role
