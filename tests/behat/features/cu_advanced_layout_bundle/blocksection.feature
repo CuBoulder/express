@@ -59,13 +59,13 @@ When I select "Hidden" from "edit-field-block-section-content-bg-und"
 When I select "Transparent" from "edit-field-block-section-content-bg-und"
 When I select "Solid" from "edit-field-block-section-content-bg-und"
 
- @javascript
-Scenario: A block section block can be created
+@javascript
+#Note: You can't create a Block Section Block w/o javascript
+Scenario: A Block Section Block can be created
 Given I am logged in as a user with the "site_owner" role
 And I go to "block/add/block-section"
 And I fill in "edit-label" with "My Block Section Block Label"
 And I fill in "edit-title" with "My Block Section Block Title"
-
 # CREATE a TEXT BLOCK
 And I select "Text Block" from "edit-field-blocks-section-blocks-und-actions-bundle"
 And I wait for the ".ief-form" element to appear
@@ -83,6 +83,8 @@ Then I should see "My Block Section Block Title"
 And I should see "Ralphie Buffalo Title"
 And I should see "Ralphie Handlers run Ralphie around Folsom Field."
 
+@broken 
+# This test depends on the one above, which doesn't get run cuz its javascript
 Scenario: An EditOnly can edit a Block Section Block
 Given I am logged in as a user with the "edit_only" role
 And am on "block/my-block-section-block-label/view"
