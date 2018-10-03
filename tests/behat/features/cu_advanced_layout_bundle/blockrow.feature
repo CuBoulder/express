@@ -25,7 +25,8 @@ Scenario: An anonymous user should not be able to access the form
   Then I should see "Access denied"
 
  @javascript
-Scenario: A block row block can be created
+ #Note: You can't create a Block Row Block w/o javascript
+Scenario: A Block Row Block can be created
 Given I am logged in as a user with the "site_owner" role
 And I go to "block/add/block-row"
 And I fill in "edit-label" with "My Block Row Block Label"
