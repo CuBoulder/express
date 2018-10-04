@@ -110,6 +110,10 @@ function express_permissions_role_settings($type = NULL, $exclude = array()) {
     'label' => 'Form Manager',
     'type' => 'bundle_addon',
   );
+  $settings['form_submitter'] = array(
+    'label' => 'Form Submitter',
+    'type' => 'bundle_addon',
+  );
   // Get all the roles.
   $roles = user_roles(TRUE);
   // Combine new role info(labels/types) with stored role info(role ids).
