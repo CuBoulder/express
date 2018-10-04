@@ -1,7 +1,7 @@
 @AdvancedDesign
 Feature: Context
 In order to place blocks and add background graphics
-As an authenticated user
+As a user with the proper role
 I should be able to access the full context features
 
 @context @contextconditions
