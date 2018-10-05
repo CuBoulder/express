@@ -7,9 +7,9 @@ dependencies[] = uuid
 
 package = Bean
 
-; Information added by Drupal.org packaging script on 2016-08-08
-version = "7.x-1.11"
+; Information added by Drupal.org packaging script on 2016-08-02
+version = "7.x-1.10"
 core = "7.x"
 project = "bean"
-datestamp = "1470638340"
+datestamp = "1470148449"
 

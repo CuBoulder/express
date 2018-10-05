@@ -89,5 +89,3 @@ Running the Script
       
 4. From the ldap_test_script, type:
    php test.php
-
-

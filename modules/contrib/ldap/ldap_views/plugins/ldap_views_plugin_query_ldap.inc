@@ -4,6 +4,7 @@
  * @file
  * Defines the default query object which builds and execute a ldap query
  */
+
 class ldap_views_plugin_query_ldap extends views_plugin_query {
 
   /**
@@ -168,7 +169,7 @@ class ldap_views_plugin_query_ldap extends views_plugin_query {
   function build_ldap_filter($filter) {
     $condition     = $this->build_condition();
     $contextual    = $this->build_contextual_filter();
-    $search_filter = !empty($contextual) && !empty($condition)? '(&' . $condition . $contextual . ')' : $condition . $contextual;
+    $search_filter = !empty($contextual) && !empty($condition) ? '(&' . $condition . $contextual . ')' : $condition . $contextual;
     return !empty($search_filter) ? $search_filter : $filter;
   }
 
@@ -245,7 +246,7 @@ class ldap_views_plugin_query_ldap extends views_plugin_query {
     if (property_exists($view->query, 'limit')) {
       $limit     = $view->query->limit;
     }
-    $offset = property_exists($view->query, 'offset')? $view->query->offset : 0;
+    $offset = property_exists($view->query, 'offset') ? $view->query->offset : 0;
     $result      = array();
     $sort_fields = array();
     if (!empty($this->orderby)) {

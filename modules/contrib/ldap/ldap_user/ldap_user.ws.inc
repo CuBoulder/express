@@ -61,12 +61,12 @@ function ldap_user_ws($action, $direction_tag, $drupal_user_name_or_dn, $key) {
   if ($direction_tag == 'todrupal') {
     $direction = LDAP_USER_PROV_DIRECTION_TO_DRUPAL_USER;
     $sid = $ldap_user_conf->drupalAcctProvisionServer;
-    $ldap_server =  ldap_servers_get_servers($sid, NULL, TRUE);
+    $ldap_server = ldap_servers_get_servers($sid, NULL, TRUE);
   }
   if ($direction_tag == 'toldap') {
     $direction = LDAP_USER_PROV_DIRECTION_TO_LDAP_ENTRY;
     $sid = $ldap_user_conf->ldapEntryProvisionServer;
-    $ldap_server =  ldap_servers_get_servers($sid, NULL, TRUE);
+    $ldap_server = ldap_servers_get_servers($sid, NULL, TRUE);
   }
   else  {
     $direction = LDAP_USER_PROV_DIRECTION_NONE;

@@ -74,6 +74,22 @@ drush runserver 127.0.0.1:8079
 drush runserver 127.0.0.1:8079 > /dev/null 2>&1 &
 ```
 
+If you have your local sites already running on a server--for example, at localhost/express--go to the behat.local.yml file and replace:
+
+```bash
+  extensions:
+      Behat\MinkExtension:
+        base_url: "http://127.0.0.1:8079/"
+```
+
+With your localhost site address:
+
+```bash
+  extensions:
+      Behat\MinkExtension:
+        base_url: "http://localhost/express"
+```
+
 When Express installs, environmental variables are used to determine which "core" to install. If no environment other than the Express deployment servers is found, the "ng_hosting" module will be enabled by default. You can export a variable to enable the Pantheon or other hosting setups, but they might not install the modules and configuration you want. 
 
 It is likely that the hosting modules will be modified to take in local environments and some shared VM solution. For now, you can use different environmental variables for each Express environment you'd want to install. For example, you could use `$_SERVER['WWWNG_ENV'] = TRUE;` in your `settings.php` file to enable "ng_hosting" like is done on production. In that case, you should be able to login to your account via LDAP, but if not, then use Drush.
