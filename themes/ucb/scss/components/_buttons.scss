@@ -9,7 +9,8 @@
 // Base button styles
 
 @mixin button_default {
-  color: #fff;
+  background-color: $blue;
+  color: #fff !important;
   display: inline-block;
   padding:5px 10px;
   font-weight:bold;
@@ -24,7 +25,8 @@
 a.button,
 .button {
   @include button_default;
-  &.button-full {
+  &.button-full,
+  &.button-block {
     display: block;
     text-align: center;
   }
