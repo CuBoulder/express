@@ -6,6 +6,19 @@
  * Helper classes.
  */
 
+// Shadows
+$sizes: (
+  "small" : 5px,
+  "medium" : 10px,
+  "large" : 20px,
+);
+
+@each $name, $size in $sizes {
+  .shadow-#{$name} {
+    @include rgbashadow(0, 0, $size, #000, .2);
+  }
+}
+
 // Underlines
 .no-underline a,
 a.no-underline {
@@ -174,4 +187,82 @@ $directions: (
 }
 .text-uppercase {
   text-transform: uppercase;
+}
+.text-align-right {
+  text-align: right;
+}
+.text-align-left {
+  text-align: left;
+}
+
+
+/* Visibility */
+
+.visible-xs,
+.visible-sm,
+.visible-md,
+.visible-lg {
+  display: none !important;
+}
+@media (max-width: 767px) {
+  .visible-xs {
+    display: block !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 959px) {
+  .visible-sm {
+    display: block !important;
+  }
+}
+@media (min-width: 960px) and (max-width: 1199px) {
+  .visible-md {
+    display: block !important;
+  }
+}
+@media (min-width: 1200px) {
+  .visible-lg {
+    display: block !important;
+  }
+}
+
+.invisible-xs,
+.invisible-sm,
+.invisible-md,
+.invisible-lg {
+  display:block;
+  &.display-inline-block {
+    display: inline-block;
+  }
+  &.display-inline {
+    display: inline;
+  }
+}
+
+@media screen and (max-width: $breakpoint_tablet - 1) {
+  .invisible-xs {
+    @include element-invisible;
+  }
+}
+@media screen and (min-width: $breakpoint_tablet ) and (max-width: $breakpoint_desktop - 1) {
+  .invisible-sm {
+    @include element-invisible;
+  }
+}
+@media screen and (min-width: $breakpoint_desktop ) and (max-width: $breakpoint_xlarge - 1) {
+  .invisible-md {
+    @include element-invisible;
+  }
+}
+
+@media screen and (min-width: $breakpoint_xlarge ) {
+  .invisible-lg {
+    @include element-invisible;
+  }
+}
+
+// Background Images
+.background-image-cover {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
 }
