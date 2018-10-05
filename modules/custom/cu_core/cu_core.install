@@ -1045,12 +1045,19 @@ function cu_core_update_7051() {
 /**
  * Enable express_content_edit_lock for 2.9.4.
  */
-function cu_redirect_update_7052() {
+function cu_core_update_7052() {
   module_enable(array('express_content_edit_lock'));
   cu_core_revert_features();
   secure_permissions_rebuild();
 }
 
+/**
+ * Enable Google Tag Manager for 2.9.6.
+ */
+function cu_core_update_7053() {
+  module_enable(array('google_tag'));
+  variable_set('google_tag_container_id', 'GTM-M3DX2QP');
+}
 
 /**
  * Revert features by passing features in an array.
