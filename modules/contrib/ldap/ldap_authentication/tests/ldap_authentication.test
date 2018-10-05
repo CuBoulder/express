@@ -5,6 +5,7 @@
  * ldap_authentication simpletests
  *
  */
+
 module_load_include('php', 'ldap_test', 'LdapTestCase.class');
 module_load_include('module', 'ldap_authentication');
 
@@ -225,7 +226,7 @@ class LdapAuthenticationTestCase extends LdapTestCase {
     );
 
     $this->drupalPost('user', $edit, t('Log in'));
-    $this->assertText(t('Sorry, unrecognized username or password'),  'User 1 failed with bad password', $testid );
+    $this->assertText(t('Sorry, unrecognized username or password'), 'User 1 failed with bad password', $testid );
     $this->drupalLogout();
 
     /** LDAP_authen.EM.ULT.drupal.goodpwd - result: failed logon **/
@@ -677,7 +678,7 @@ class LdapAuthenticationTestCase extends LdapTestCase {
         module_exists('ldap_authentication') &&
         (variable_get('ldap_simpletest', 2) > 0)
       );
-    $this->assertTrue($setup_success, ' ldap_authentication UI setup successful',  $this->testId('user interface tests'));
+    $this->assertTrue($setup_success, ' ldap_authentication UI setup successful', $this->testId('user interface tests'));
 
     $sid = 'activedirectory1';
     $sids = array('activedirectory1');
