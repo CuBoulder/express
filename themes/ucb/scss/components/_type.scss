@@ -124,6 +124,7 @@ h1#page-title-image-title,
 }
 
 // Font Weights
+h1,
 h1#page-title,
 h1#page-title-image-title,
 .page-title-section h1, h2, h3, h4 {
@@ -140,6 +141,7 @@ h2.block-title, h2.node-title {
   font-weight:bold;
 }
 .headings-light {
+  h1,
   h1#page-title,
   h1#page-title-image-title,
   .page-title-section h1,
@@ -155,6 +157,7 @@ h2.block-title, h2.node-title {
 
 // Change weights if .brand-fonts is set
 .brand-fonts {
+  h1
   h1#page-title,
   h1#page-title-image-title,
   .page-title-section h1, h2, h3, h4 {
@@ -171,6 +174,7 @@ h2.block-title, h2.node-title {
     font-weight:700;
   }
   &.headings-light {
+    h1
     h1#page-title,
     h1#page-title-image-title,
     .page-title-section h1,
@@ -319,4 +323,7 @@ em {
 code {
   font-family: monospace;
   font-size: 85%;
+}
+pre {
+  white-space: pre-wrap;
 }
