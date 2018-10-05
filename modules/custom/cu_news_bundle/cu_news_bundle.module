@@ -59,6 +59,14 @@ function cu_news_bundle_secure_permissions($role) {
       'administer category vocabulary terms',
       'administer tags vocabulary terms',
     ),
+    'edit_only' => array(
+      'edit any article content',
+      'edit any articles bean',
+      'edit any article_feature bean',
+      'edit any article_grid bean',
+      'edit any article_list_page content',
+      'edit any article_slider bean',
+    ),
     'content_editor' => array(
       'administer category vocabulary terms',
       'administer byline vocabulary terms',

@@ -1,0 +1,43 @@
+<?php
+/**
+ * @file
+ * Code for the unpublished 404.
+ */
+
+/**
+ * Implements hook_menu_alter().
+ */
+function unpublished_404_menu_alter(&$items) {
+  $items['node/%node']['access callback'] = 'unpublished_404_node_access';
+  $items['node/%node']['access arguments'] = array();
+  $items['node/%node']['page callback'] = 'unpublished_404_node_page_view';
+}
+
+/**
+ * Access callback.
+ * An access callback for all individual node pages.
+ */
+function unpublished_404_node_access() {
+  return TRUE;
+}
+
+/**
+ * Page callback.
+ * A page callback for all individual node pages.
+ *
+ * @param object $node
+ *   A node object that is being viewed.
+ */
+function unpublished_404_node_page_view($node) {
+
+  $node_content = '';
+
+  if (!node_access('view', $node)) {
+    $node_content = MENU_NOT_FOUND;
+  }
+  else {
+    $node_content = node_page_view($node);
+  }
+
+  return $node_content;
+}

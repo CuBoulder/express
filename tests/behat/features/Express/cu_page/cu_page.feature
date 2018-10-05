@@ -2,7 +2,7 @@
 @page @core
 Feature: Basic Page Content Type
 When I login to a Web Express website
-As an authenticated user
+As a user with the proper role
 I should be able to create, edit, and delete Basic Pages
 
   # NOTE: THERE IS CURRENTLY NO KNOWN WAY TO PRESS THE INSERT BUTTON; GRAPHICS CAN BE UPLOADED BUT NOT INSERTED

@@ -1,7 +1,7 @@
 @AdvancedDesign
 Feature: Font Awesome Icons in block titles
 In order to add visual interest to my site
-As an authenticated user
+As a user with the proper role
 I should be able to attach Font Awesome icons to my block titles
 
 # TESTING NOTE: TO FULLY TEST THIS FUNCTIONALITY, THE BLOCK MUST BE PLACED ON A PAGE. THIS IS VERY DIFFICULT WITH BEHAT; 

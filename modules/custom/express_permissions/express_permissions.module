@@ -288,6 +288,43 @@ function express_permissions_secure_permissions($role) {
       'view warning messages',
       'view error messages',
     ),
+    'edit_only' => array(
+      'access administration pages',
+      'access bean overview',
+      'access ckeditor link',
+      'access content overview',
+      'access contextual links',
+      'access express settings',
+      'access navbar',
+      'administer nodes',
+      'check out documents',
+      'clear path caches',
+      'create url aliases',
+      'customize shortcut links',
+      'diff view changes',
+      'edit any block bean',
+      'edit any faqs content',
+      'edit any file content',
+      'edit any hero_unit bean',
+      'edit any page content',
+      'edit any slider bean',
+      'edit own faqs content',
+      'edit own file content',
+      'edit own page content',
+      'preview focal point',
+      'revert revisions',
+      'use text format wysiwyg',
+      'view any hero_unit bean',
+      'view any slider bean',
+      'view any unpublished content',
+      'view bean page',
+      'view bean revisions',
+      'view error messages',
+      'view revisions',
+      'view status messages',
+      'view the administration theme',
+      'view warning messages',
+    ),
     'content_editor' => array(
       'access administration pages',
       'access bean overview',
@@ -732,44 +769,6 @@ function express_permissions_secure_permissions($role) {
       'diff view changes',
       'view redirects',
       'view express environment indicator',
-      'administer express site status',
-    ),
-    'edit_only' => array(
-      'access administration pages',
-      'access bean overview',
-      'access ckeditor link',
-      'access content overview',
-      'access contextual links',
-      'access express settings',
-      'access navbar',
-      'administer nodes',
-      'check out documents',
-      'clear path caches',
-      'create url aliases',
-      'customize shortcut links',
-      'diff view changes',
-      'edit any block bean',
-      'edit any faqs content',
-      'edit any file content',
-      'edit any hero_unit bean',
-      'edit any page content',
-      'edit any slider bean',
-      'edit own faqs content',
-      'edit own file content',
-      'edit own page content',
-      'preview focal point',
-      'revert revisions',
-      'use text format wysiwyg',
-      'view any hero_unit bean',
-      'view any slider bean',
-      'view any unpublished content',
-      'view bean page',
-      'view bean revisions',
-      'view error messages',
-      'view revisions',
-      'view status messages',
-      'view the administration theme',
-      'view warning messages',
     ),
     'access_manager' => array(
       'access administration pages',
@@ -861,35 +860,25 @@ function express_permissions_form_user_profile_form_alter(&$form, &$form_state) 
   global $user;
   $form['#validate'][] = 'express_permissions_site_owner_cap';
 
-  $new_role_options = array();
+  $new_role_options = [];
   // Get Roles of user being edited.
-  $original_role_options = $form['account']['roles']['#options'];
-
-  foreach ($original_role_options as $rid => $role_name) {
-    // Format role name to be  more readable.
-    $new_role_name = check_plain($role_name);
-    $new_role_name = ucwords(str_replace('_', ' ', $new_role_name));
-     if ($role_name == 'content_editor') {
-      $new_role_name =  'Content Editor (deprecated)';
-    }
-    if ($role_name == 'edit_only') {
-      $new_role_name =  'Content Editor (edit only)';
-    }
-    if ($role_name == 'access_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    if ($role_name == 'configuration_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    if ($role_name == 'campaign_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    if ($role_name == 'form_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    $new_role_options[$rid] = $new_role_name;
-
+  // If user has a certain role, limit role options.
+  $available_roles = express_permissions_role_settings($type = NULL, $exclude = array());
+  if (user_has_role($available_roles['names']['administrator']['rid']) || user_has_role($available_roles['names']['site_owner']['rid'])) {
+    $available_roles = express_permissions_role_settings($type = NULL, $exclude = array('developer', 'administrator'));
+  } else if (user_has_role($available_roles['names']['developer']['rid']) || $user->uid === '1') {
+    $available_roles = express_permissions_role_settings($type = NULL, $exclude = array());
+  } else {
+    $available_roles = [];
   }
+
+  $original_role_options = $available_roles;
+
+  // Let's make it look like the original options.
+  foreach ($original_role_options['names'] as $option) {
+    $new_role_options[$option['rid']] = $option['label'];
+  }
+
   $form['account']['roles']['#options'] = $new_role_options;
 }
 
