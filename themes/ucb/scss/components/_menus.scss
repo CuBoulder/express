@@ -25,7 +25,7 @@
     font-size:24px;
     font-family: Arial, Helvetica;
   }
-  @media screen and (min-width: 480px) {
+  @media screen and (min-width: $breakpoint_small) {
     .mobile-menu-toggle {
       font-size:14px;
       button {
@@ -38,13 +38,13 @@
       }
     }
   }
-  @media screen and (min-width: 960px) {
+  @media screen and (min-width: $breakpoint_large) {
     .mobile-menu-toggle {
       display: none;
     }
   }
 }
-@media screen and (max-width:479px) {
+@media screen and (max-width:$breakpoint_small - 1) {
   .mobile-menu-toggle span.mobile-menu-text {
     @include element-invisible;
   }
@@ -57,7 +57,7 @@
   #footer-menu-wrapper {
     display: none;
   }
-  @media (min-width:960px) {
+  @media (min-width:$breakpoint_large) {
     #secondary-menu-wrapper,
     #main-menu-wrapper,
     #footer-menu-wrapper {
@@ -370,13 +370,12 @@ a.menu__link {
   #block-menu-block-site-navigation-menus-4 {
     display: block;
   }
-  @media (min-width:768px) {
+  @media (min-width:$breakpoint_medium) {
     #block-menu-block-site-navigation-menus-4 {
       display: none;
     }
   }
 }
-
 // Inline Menus
 ul.inline.inline-menu {
   overflow:hidden;
