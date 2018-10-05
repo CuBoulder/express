@@ -1,7 +1,7 @@
 name = CU Core
 description = Provides CU-specific functionality, like adding variables, to Express Core.
 core = 7.x
-version = 7.x-9.5
+version = 7.x-9.6
 package = CU-Core
 
 dependencies[] = cu_redirect
@@ -19,6 +19,7 @@ dependencies[] = elysia_cron
 dependencies[] = cu_elysia_cron
 dependencies[] = cu_search
 dependencies[] = google_cse
+dependencies[] = google_tag
 dependencies[] = cu_update_ping
 dependencies[] = cu_unused_beans
 dependencies[] = xmlsitemap
