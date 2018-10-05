@@ -81,6 +81,17 @@
   margin-left: auto;
 }
 
+// Full width element
+
+.bleed {
+  left: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  position: relative;
+  right: 50%;
+  width: 100vw;
+}
+
 // Grid wrappers
 .row {
   margin-left: -$spacing;
@@ -155,36 +166,4 @@ $padding: 20px;
 }
 .layout-fixed {
   min-width: $max_width;
-}
-
-
-
-
-/* Visibility */
-
-.visible-xs,
-.visible-sm,
-.visible-md,
-.visible-lg {
-  display: none !important;
-}
-@media (max-width: 767px) {
-  .visible-xs {
-    display: block !important;
-  }
-}
-@media (min-width: 768px) and (max-width: 959px) {
-  .visible-sm {
-    display: block !important;
-  }
-}
-@media (min-width: 960px) and (max-width: 1199px) {
-  .visible-md {
-    display: block !important;
-  }
-}
-@media (min-width: 1200px) {
-  .visible-lg {
-    display: block !important;
-  }
 }
