@@ -65,22 +65,22 @@ h1, h1#page-title, h1#page-title-image-title, .page-title-section h1 { font-size
 h1 i, h1 em, h1#page-title i, h1#page-title em, h1#page-title-image-title i, h1#page-title-image-title em, .page-title-section h1 i, .page-title-section h1 em { font-style: italic; }
 
 @media screen and (min-width: 768px) { h1#page-title, h1#page-title-image-title, .page-title-section h1 { font-size: 220%; } }
-h1#page-title, h1#page-title-image-title, .page-title-section h1, h2, h3, h4 { font-weight: bold; }
-h1#page-title strong, h1#page-title b, h1#page-title-image-title strong, h1#page-title-image-title b, .page-title-section h1 strong, .page-title-section h1 b, h2 strong, h2 b, h3 strong, h3 b, h4 strong, h4 b { font-weight: bold; }
+h1, h1#page-title, h1#page-title-image-title, .page-title-section h1, h2, h3, h4 { font-weight: bold; }
+h1 strong, h1 b, h1#page-title strong, h1#page-title b, h1#page-title-image-title strong, h1#page-title-image-title b, .page-title-section h1 strong, .page-title-section h1 b, h2 strong, h2 b, h3 strong, h3 b, h4 strong, h4 b { font-weight: bold; }
 
 h5, h6 { font-weight: bold; }
 
 h2.block-title, h2.node-title { font-weight: bold; }
 
-.headings-light h1#page-title, .headings-light h1#page-title-image-title, .headings-light .page-title-section h1, .headings-light h2, .headings-light h2.block-title, .headings-light h2.node-title, .headings-light h3, .headings-light h4, .headings-light h5, .headings-light h6 { font-weight: normal; }
-.headings-light h1#page-title strong, .headings-light h1#page-title b, .headings-light h1#page-title-image-title strong, .headings-light h1#page-title-image-title b, .headings-light .page-title-section h1 strong, .headings-light .page-title-section h1 b, .headings-light h2 strong, .headings-light h2 b, .headings-light h2.block-title strong, .headings-light h2.block-title b, .headings-light h2.node-title strong, .headings-light h2.node-title b, .headings-light h3 strong, .headings-light h3 b, .headings-light h4 strong, .headings-light h4 b, .headings-light h5 strong, .headings-light h5 b, .headings-light h6 strong, .headings-light h6 b { font-weight: bold; }
+.headings-light h1, .headings-light h1#page-title, .headings-light h1#page-title-image-title, .headings-light .page-title-section h1, .headings-light h2, .headings-light h2.block-title, .headings-light h2.node-title, .headings-light h3, .headings-light h4, .headings-light h5, .headings-light h6 { font-weight: normal; }
+.headings-light h1 strong, .headings-light h1 b, .headings-light h1#page-title strong, .headings-light h1#page-title b, .headings-light h1#page-title-image-title strong, .headings-light h1#page-title-image-title b, .headings-light .page-title-section h1 strong, .headings-light .page-title-section h1 b, .headings-light h2 strong, .headings-light h2 b, .headings-light h2.block-title strong, .headings-light h2.block-title b, .headings-light h2.node-title strong, .headings-light h2.node-title b, .headings-light h3 strong, .headings-light h3 b, .headings-light h4 strong, .headings-light h4 b, .headings-light h5 strong, .headings-light h5 b, .headings-light h6 strong, .headings-light h6 b { font-weight: bold; }
 
-.brand-fonts h1#page-title, .brand-fonts h1#page-title-image-title, .brand-fonts .page-title-section h1, .brand-fonts h2, .brand-fonts h3, .brand-fonts h4 { font-weight: 700; }
-.brand-fonts h1#page-title strong, .brand-fonts h1#page-title b, .brand-fonts h1#page-title-image-title strong, .brand-fonts h1#page-title-image-title b, .brand-fonts .page-title-section h1 strong, .brand-fonts .page-title-section h1 b, .brand-fonts h2 strong, .brand-fonts h2 b, .brand-fonts h3 strong, .brand-fonts h3 b, .brand-fonts h4 strong, .brand-fonts h4 b { font-weight: 700; }
+.brand-fonts h1 h1#page-title, .brand-fonts h1#page-title-image-title, .brand-fonts .page-title-section h1, .brand-fonts h2, .brand-fonts h3, .brand-fonts h4 { font-weight: 700; }
+.brand-fonts h1 h1#page-title strong, .brand-fonts h1 h1#page-title b, .brand-fonts h1#page-title-image-title strong, .brand-fonts h1#page-title-image-title b, .brand-fonts .page-title-section h1 strong, .brand-fonts .page-title-section h1 b, .brand-fonts h2 strong, .brand-fonts h2 b, .brand-fonts h3 strong, .brand-fonts h3 b, .brand-fonts h4 strong, .brand-fonts h4 b { font-weight: 700; }
 .brand-fonts h5, .brand-fonts h6 { font-weight: 600; }
 .brand-fonts h2.block-title, .brand-fonts h2.node-title { font-weight: 700; }
-.brand-fonts.headings-light h1#page-title, .brand-fonts.headings-light h1#page-title-image-title, .brand-fonts.headings-light .page-title-section h1, .brand-fonts.headings-light h2, .brand-fonts.headings-light h2.block-title, .brand-fonts.headings-light h2.node-title, .brand-fonts.headings-light h3, .brand-fonts.headings-light h4, .brand-fonts.headings-light h5, .brand-fonts.headings-light h6 { font-weight: 200; }
-.brand-fonts.headings-light h1#page-title strong, .brand-fonts.headings-light h1#page-title b, .brand-fonts.headings-light h1#page-title-image-title strong, .brand-fonts.headings-light h1#page-title-image-title b, .brand-fonts.headings-light .page-title-section h1 strong, .brand-fonts.headings-light .page-title-section h1 b, .brand-fonts.headings-light h2 strong, .brand-fonts.headings-light h2 b, .brand-fonts.headings-light h2.block-title strong, .brand-fonts.headings-light h2.block-title b, .brand-fonts.headings-light h2.node-title strong, .brand-fonts.headings-light h2.node-title b, .brand-fonts.headings-light h3 strong, .brand-fonts.headings-light h3 b, .brand-fonts.headings-light h4 strong, .brand-fonts.headings-light h4 b, .brand-fonts.headings-light h5 strong, .brand-fonts.headings-light h5 b, .brand-fonts.headings-light h6 strong, .brand-fonts.headings-light h6 b { font-weight: 600; }
+.brand-fonts.headings-light h1 h1#page-title, .brand-fonts.headings-light h1#page-title-image-title, .brand-fonts.headings-light .page-title-section h1, .brand-fonts.headings-light h2, .brand-fonts.headings-light h2.block-title, .brand-fonts.headings-light h2.node-title, .brand-fonts.headings-light h3, .brand-fonts.headings-light h4, .brand-fonts.headings-light h5, .brand-fonts.headings-light h6 { font-weight: 200; }
+.brand-fonts.headings-light h1 h1#page-title strong, .brand-fonts.headings-light h1 h1#page-title b, .brand-fonts.headings-light h1#page-title-image-title strong, .brand-fonts.headings-light h1#page-title-image-title b, .brand-fonts.headings-light .page-title-section h1 strong, .brand-fonts.headings-light .page-title-section h1 b, .brand-fonts.headings-light h2 strong, .brand-fonts.headings-light h2 b, .brand-fonts.headings-light h2.block-title strong, .brand-fonts.headings-light h2.block-title b, .brand-fonts.headings-light h2.node-title strong, .brand-fonts.headings-light h2.node-title b, .brand-fonts.headings-light h3 strong, .brand-fonts.headings-light h3 b, .brand-fonts.headings-light h4 strong, .brand-fonts.headings-light h4 b, .brand-fonts.headings-light h5 strong, .brand-fonts.headings-light h5 b, .brand-fonts.headings-light h6 strong, .brand-fonts.headings-light h6 b { font-weight: 600; }
 
 p, dl, hr, ol, ul, pre, table, address, fieldset { margin: 0 0 20px 0; }
 
@@ -128,5 +128,7 @@ strong { font-weight: bold; }
 em { font-style: italic; }
 
 code { font-family: monospace; font-size: 85%; }
+
+pre { white-space: pre-wrap; }
 
 /*# sourceMappingURL=type.css.map */
