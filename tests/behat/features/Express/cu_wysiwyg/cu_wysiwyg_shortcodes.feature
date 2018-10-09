@@ -1,11 +1,11 @@
 Feature: WYSIWYG Feature
 When I login to the website
-As a content editor, site owner, administrator or developer
+As a user with the proper role
 I should be able to use the full functionality of the WYSIWYG editor
 
   @javascript @wysiwyg
-  Scenario: A content editor should be able to add a video shortcode
-    Given  I am logged in as a user with the "content_editor" role
+  Scenario: A site owner should be able to add a video shortcode
+    Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
       And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "My Video Shortcode"
@@ -18,8 +18,8 @@ I should be able to use the full functionality of the WYSIWYG editor
       #And I should see a ".video-filter" element
 
   @javascript @wysiwyg
-  Scenario: A content editor should be able to add a button shortcode
-    Given  I am logged in as a user with the "content_editor" role
+  Scenario: A site owner should be able to add a button shortcode
+  Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
       And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "My Button Shortcode"
@@ -35,8 +35,8 @@ I should be able to use the full functionality of the WYSIWYG editor
     #Then I should see a "#hplogo" element
 
   @javascript @wysiwyg @files @broken
-  Scenario: A content editor should be able to add an image caption shortcode
-    Given  I am logged in as a user with the "content_editor" role
+  Scenario: A site owner should be able to add an image caption shortcode
+  Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
       And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "My Image Caption Shortcode"
@@ -54,8 +54,8 @@ I should be able to use the full functionality of the WYSIWYG editor
     # Then I should see "New Button"
 
   @javascript @wysiwyg
-  Scenario: A content editor should be able to add an icon shortcode
-    Given  I am logged in as a user with the "content_editor" role
+  Scenario: A site owner should be able to add an icon shortcode
+  Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
       And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "My Icon Shortcode"
@@ -69,8 +69,8 @@ I should be able to use the full functionality of the WYSIWYG editor
     #Then I should see a ".fa-ambulance.icon-color-black.icon-wrapper-square" element
 
   @javascript @wysiwyg
-  Scenario: A content editor should be able to add a give button shortcode
-    Given  I am logged in as a user with the "content_editor" role
+  Scenario: A site owner should be able to add a give button shortcode
+  Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
       And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "My Give Button Shortcode"
@@ -89,8 +89,8 @@ I should be able to use the full functionality of the WYSIWYG editor
     #Then I should see a "#hplogo" element
 
   @javascript @wysiwyg
-  Scenario: A content editor should be able to add a expand content shortcode
-    Given  I am logged in as a user with the "content_editor" role
+  Scenario: A site owner should be able to add a expand content shortcode
+Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
       And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "My Expandable Content Shortcode"
@@ -115,8 +115,8 @@ I should be able to use the full functionality of the WYSIWYG editor
       #And I should not see "Example content #1"
 
   @javascript @wysiwyg
-  Scenario: A content editor should be able to add a map embed shortcode
-    Given  I am logged in as a user with the "content_editor" role
+  Scenario: A site owner should be able to add a map embed shortcode
+ Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
       And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "My Map Shortcode"
@@ -128,8 +128,8 @@ I should be able to use the full functionality of the WYSIWYG editor
     #Then the "iframe" element should contain "src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3055.782574009197!2d-105.25404084826329!3d40.0133039793131!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x876bedc53ea9c665%3A0x2927ccc033644a4b!2s3100+Marine+St%2C+Boulder%2C+CO+80303!5e0!3m2!1sen!2sus!4v1445292423584&ie=UTF8&output=embed\""
 
   @javascript @wysiwyg
-  Scenario: A content editor should be able to add a box shortcode
-    Given  I am logged in as a user with the "content_editor" role
+  Scenario: A site owner should be able to add a box shortcode
+Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
       And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "My Box Shortcode"
@@ -145,8 +145,8 @@ I should be able to use the full functionality of the WYSIWYG editor
       #And I should see a ".cu-box.box-black.float-right.box-style-filled" element
 
   @wysiwyg @javascript
-  Scenario: A content editor should be able to add a countup shortcode
-    Given  I am logged in as a user with the "content_editor" role
+  Scenario: A site owner should be able to add a countup shortcode
+ Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
       And I wait for the "#cke_1_top" element to appear
       And I fill in "Title" with "Countup Shortcode"
