@@ -3,7 +3,7 @@ Feature: WYSIWYG Pathologic tests
   @wysiwyg @javascript @broken
   # @todo Need to setup Pathologic link in testing module install.
   Scenario: Pathologic should change URLs
-    Given  I am logged in as a user with the "content_editor" role
+    Given  I am logged in as a user with the "site_owner" role
     When I setup Pathologic local paths
       And I go to "node/add/page"
       And I follow "Disable rich-text"
