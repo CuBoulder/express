@@ -17,7 +17,6 @@ I should be able to access the functionality of the WYSIWYG editor
       | administrator  |
       | developer      |
 
-
   @wysiwyg @javascript
   Scenario Outline: An authenticated user should have all the WYSIWYG shortcode and other buttons available
     Given I am logged in as a user with the <role> role
