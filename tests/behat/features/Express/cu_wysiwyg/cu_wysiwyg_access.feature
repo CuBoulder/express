@@ -1,6 +1,6 @@
 Feature: WYSIWYG Access Feature
 When I login to the website
-As a content editor, site owner, administrator or developer
+As a user with the proper role
 I should be able to access the functionality of the WYSIWYG editor
 
   @wysiwyg @javascript
@@ -12,7 +12,7 @@ I should be able to access the functionality of the WYSIWYG editor
 
     Examples:
       | role           |
-      | content_editor |
+      | site_editor    |
       | site_owner     |
       | administrator  |
       | developer      |
@@ -36,7 +36,7 @@ I should be able to access the functionality of the WYSIWYG editor
 
     Examples:
       | role           |
-      | content_editor |
+      | site_editor    |
       | site_owner     |
       | administrator  |
       | developer      |
