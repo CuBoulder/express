@@ -28,8 +28,8 @@ And I press "Button Shortcode Generator"
 And I fill in "Button Text" with "New Button"
 And I fill in "URL" with "http://www.google.com"
       # @todo Figure out why OK button is weird here.
-        And I press "OK"
-     And I press "Save"
+And I press "OK"
+And I press "Save"
     #Then I should see "My Button Shortcode"
     #Then I should see "New Button"
       #And I click "New Button"
@@ -49,8 +49,8 @@ And I fill in "URL" with "http://www.google.com"
       # @todo Figure out how to switch to iframe contexts http://apigen.juzna.cz/doc/Behat/Mink/source-class-Behat.Mink.Driver.DriverInterface.html#163-171
       # And I press the "Image Caption Shortcode Generator" button
       # And I fill in "Image Caption" with "Ralphie Run"
-         And I press "OK"
-     And I press  "Save"
+And I press "OK"
+And I press "Save"
     # Then I should see "My Image Caption Shortcode"
     # Then I should see "New Button"
 
@@ -65,8 +65,8 @@ And I fill in "URL" with "http://www.google.com"
       And I select "fa-5x" from "Icon Size"
       And I select "Black" from "Icon Color"
       And I select "square" from "Icon Wrapper"
-        And I press "OK"
-     And I press  "Save"
+And I press "OK"
+And I press "Save"
     #Then I should see a ".fa-ambulance.icon-color-black.icon-wrapper-square" element
 
   @javascript 
@@ -82,8 +82,8 @@ And I fill in "URL" with "http://www.google.com"
       And I select "large" from "Give Button Size"
       And I select "full" from "Give Button Style"
       # @todo Figure out why OK button is weird here.
-        And I press "OK"
-     And I press  "Save"
+And I press "OK"
+And I press "Save"
     #Then I should see "Give Now!"
       #And I should see a ".cu-give-button.button-large.button-full.cu-give-button-light" element
     #When I click "Give Now!"
@@ -102,8 +102,8 @@ Given I am logged in as a user with the "site_owner" role
       #And I press the "Expand Content Shortcode Generator" button
       #And I fill in "Title" with "Example FAQ #2"
       #And I fill in "Expand Content Text" with "Example content #2"
-        And I press "OK"
-     And I press  "Save"
+And I press "OK"
+And I press "Save"
     #Then I should see "Example FAQ #1"
       #And I should see "Example FAQ #2"
     #When I click "Example FAQ #1"
@@ -123,8 +123,8 @@ Given I am logged in as a user with the "site_owner" role
       And I press "Map Shortcode Generator"
       And print last response
       And I fill in "Map Embed Code" with "https://www.colorado.edu/map/?id=336&em=1&open=0#?mc/39.997204,-105.250175?z/17"
-       And I press "OK"
-     And I press  "Save"
+And I press "OK"
+And I press "Save"
 
     
   @javascript 
@@ -138,8 +138,8 @@ Given I am logged in as a user with the "site_owner" role
       And I fill in "Box Text" with "Box Shortcode Text"
       And I select "black" from "Box Color"
       And I select "right" from "Float"
-       And I press "OK"
-     And I press  "Save"
+And I press "OK"
+And I press "Save"
     #Then I should see "Box Shortcode"
       #And I should see "Box Shortcode Text"
       #And I should see a ".cu-box.box-black.float-right.box-style-filled" element
@@ -152,7 +152,7 @@ Given I am logged in as a user with the "site_owner" role
       And I fill in "Title" with "Countup Shortcode"
       And I follow "Disable rich-text"
       And I fill in "Body" with "[countup]3000[/countup]"
-      And I press "Save"
+And I press "Save"
       And I wait 5 seconds
     Then I should see "3000"
       And I should not see "[countup]3000[/countup]"
