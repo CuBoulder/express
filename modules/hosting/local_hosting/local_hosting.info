@@ -6,3 +6,4 @@ package = Hosting
 
 ; Create users for login without LDAP.
 dependencies[] = cu_local_users
+dependencies[] = syslog
