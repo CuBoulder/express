@@ -13,7 +13,6 @@ And I fill in "Title" with "My Video Shortcode"
 And I press "Video Shortcode Generator"
 And I fill in "video URL" with "https://www.youtube.com/watch?v=m-m7mBSw-5k"
 And I press "OK"
-Then I should see "[video:https://www.youtube.com/watch?v=m-m7mBSw-5k]"
 And I press "Save"
 #Then I should see "My Video Shortcode"
 # @todo Figure out a step definition for elements.
@@ -21,13 +20,13 @@ And I press "Save"
 
 @javascript 
 Scenario: A site owner should be able to add a button shortcode
-  Given I am logged in as a user with the "site_owner" role
-    When I go to "node/add/page"
-      And I wait for the "#cke_1_top" element to appear
-      And I fill in "Title" with "My Button Shortcode"
-      And I press "Button Shortcode Generator"
-      And I fill in "Button Text" with "New Button"
-      And I fill in "URL" with "http://www.google.com"
+Given I am logged in as a user with the "site_owner" role
+When I go to "node/add/page"
+And I wait for the "#cke_1_top" element to appear
+And I fill in "Title" with "My Button Shortcode"
+And I press "Button Shortcode Generator"
+And I fill in "Button Text" with "New Button"
+And I fill in "URL" with "http://www.google.com"
       # @todo Figure out why OK button is weird here.
         And I press "OK"
      And I press "Save"
