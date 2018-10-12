@@ -4,19 +4,20 @@ When I login to the website
 As a user with the proper role
 I should be able to use the full functionality of the WYSIWYG editor
 
-  @javascript 
-  Scenario: A site owner should be able to add a video shortcode
-    Given I am logged in as a user with the "site_owner" role
-    When I go to "node/add/page"
-      And I wait for the "#cke_1_top" element to appear
-      And I fill in "Title" with "My Video Shortcode"
-      And I press "Video Shortcode Generator"
-      And I fill in "video URL" with "https://www.youtube.com/watch?v=m-m7mBSw-5k"
-      And I press "OK"
-     And I press  "Save"
-    #Then I should see "My Video Shortcode"
-      # @todo Figure out a step definition for elements.
-      #And I should see a ".video-filter" element
+@javascript 
+Scenario: A site owner should be able to add a video shortcode
+Given I am logged in as a user with the "site_owner" role
+When I go to "node/add/page"
+And I wait for the "#cke_1_top" element to appear
+And I fill in "Title" with "My Video Shortcode"
+And I press "Video Shortcode Generator"
+And I fill in "video URL" with "https://www.youtube.com/watch?v=m-m7mBSw-5k"
+And I press "OK"
+Then I should see "[video:https://www.youtube.com/watch?v=m-m7mBSw-5k]"
+And I press "Save"
+#Then I should see "My Video Shortcode"
+# @todo Figure out a step definition for elements.
+#And I should see a ".video-filter" element
 
   @javascript 
   Scenario: A site owner should be able to add a button shortcode
@@ -29,7 +30,7 @@ I should be able to use the full functionality of the WYSIWYG editor
       And I fill in "URL" with "http://www.google.com"
       # @todo Figure out why OK button is weird here.
         And I press "OK"
-     And I press  "Save"
+     And I press "Save"
     #Then I should see "My Button Shortcode"
     #Then I should see "New Button"
       #And I click "New Button"
