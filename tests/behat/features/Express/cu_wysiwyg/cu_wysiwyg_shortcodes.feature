@@ -19,8 +19,8 @@ And I press "Save"
 # @todo Figure out a step definition for elements.
 #And I should see a ".video-filter" element
 
-  @javascript 
-  Scenario: A site owner should be able to add a button shortcode
+@javascript 
+Scenario: A site owner should be able to add a button shortcode
   Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
       And I wait for the "#cke_1_top" element to appear
