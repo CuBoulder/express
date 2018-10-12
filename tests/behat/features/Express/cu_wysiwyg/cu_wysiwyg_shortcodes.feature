@@ -1,9 +1,10 @@
+@wysiwyg
 Feature: WYSIWYG Feature
 When I login to the website
 As a user with the proper role
 I should be able to use the full functionality of the WYSIWYG editor
 
-  @javascript @wysiwyg
+  @javascript 
   Scenario: A site owner should be able to add a video shortcode
     Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
@@ -17,7 +18,7 @@ I should be able to use the full functionality of the WYSIWYG editor
       # @todo Figure out a step definition for elements.
       #And I should see a ".video-filter" element
 
-  @javascript @wysiwyg
+  @javascript 
   Scenario: A site owner should be able to add a button shortcode
   Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
@@ -34,7 +35,7 @@ I should be able to use the full functionality of the WYSIWYG editor
       #And I click "New Button"
     #Then I should see a "#hplogo" element
 
-  @javascript @wysiwyg @files @broken
+  @javascript @files @broken
   Scenario: A site owner should be able to add an image caption shortcode
   Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
@@ -53,7 +54,7 @@ I should be able to use the full functionality of the WYSIWYG editor
     # Then I should see "My Image Caption Shortcode"
     # Then I should see "New Button"
 
-  @javascript @wysiwyg
+  @javascript
   Scenario: A site owner should be able to add an icon shortcode
   Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
@@ -68,7 +69,7 @@ I should be able to use the full functionality of the WYSIWYG editor
       #And I press the "Save" button
     #Then I should see a ".fa-ambulance.icon-color-black.icon-wrapper-square" element
 
-  @javascript @wysiwyg
+  @javascript 
   Scenario: A site owner should be able to add a give button shortcode
   Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
@@ -88,7 +89,7 @@ I should be able to use the full functionality of the WYSIWYG editor
     #When I click "Give Now!"
     #Then I should see a "#hplogo" element
 
-  @javascript @wysiwyg
+  @javascript 
   Scenario: A site owner should be able to add a expand content shortcode
 Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
@@ -114,7 +115,7 @@ Given I am logged in as a user with the "site_owner" role
     #Then I should see "Example content #2"
       #And I should not see "Example content #1"
 
-  @javascript @wysiwyg
+  @javascript
   Scenario: A site owner should be able to add a map embed shortcode
  Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
@@ -127,7 +128,7 @@ Given I am logged in as a user with the "site_owner" role
       #And I press the "Save" button
     #Then something
     
-  @javascript @wysiwyg
+  @javascript 
   Scenario: A site owner should be able to add a box shortcode
 Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
@@ -144,7 +145,7 @@ Given I am logged in as a user with the "site_owner" role
       #And I should see "Box Shortcode Text"
       #And I should see a ".cu-box.box-black.float-right.box-style-filled" element
 
-  @wysiwyg @javascript
+ @javascript
   Scenario: A site owner should be able to add a countup shortcode
  Given I am logged in as a user with the "site_owner" role
     When I go to "node/add/page"
