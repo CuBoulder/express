@@ -1,7 +1,7 @@
 @AdvancedDesign
 Feature: A Sticky Menu keeps the main navigation on the screen
 In order to make it easier for user to navigate on extra-long pages
-As an authenticated user
+As a user with the proper role
 I should be able to enable the Sticky Menu feature
 
 Scenario: An authenticated user can enable Sticky Menu

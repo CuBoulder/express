@@ -64,7 +64,7 @@ Feature: People List Page Content Type
     Then I should see "Person Deshawn StaffGeoMariDes has been created."
 
   Scenario: Create Person 2 - Alejandro Cruz FacGeoHoneyLaw
-    Given I am logged in as a user with the "site_owner" role
+   Given I am logged in as a user with the "site_owner" role
     And am on "node/add/person"
     And fill in "First Name" with "Alejandro"
     And fill in "Last Name" with "FacGeoHoneyLaw"
@@ -96,7 +96,7 @@ Feature: People List Page Content Type
 
 
   Scenario: Create Person 4 - Abdullah Lang FacTechMariDes
-    Given I am logged in as a user with the "site_owner" role
+   Given I am logged in as a user with the "site_owner" role
     And am on "node/add/person"
     And fill in "First Name" with "Abdullah"
     And fill in "Last Name" with "FacTechMariDes"
@@ -172,3 +172,11 @@ Feature: People List Page Content Type
     And I should not see "Committees"
       # THIS ONE IS AN ATLAS ERROR
     # TEST FINDS THIS EVEN THOUGH HIDDEN And I should not see "Leave This Field Blank"
+ 
+Scenario: A user with the Edit Only role can edit but not delete People List Pages
+    Given I am logged in as a user with the "edit_only" role 
+    And am on "our-faculty"
+    And I follow "Edit"
+    Then I should see "This document is now locked against simultaneous editing."
+    But I should not see "Delete"
+
