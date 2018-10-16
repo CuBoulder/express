@@ -17,7 +17,6 @@ Examples:
 | administrator  |
 | site_owner     |
 | site_editor    |
-| content_editor |
 
 Scenario Outline: Lower level roles do not get the link to Configure Menus
 Given I am logged in as a user with the <role> role
@@ -25,6 +24,7 @@ When I am on "admin/settings"
 Then I should not see "Configure Menus"
 
 Examples:
-| role                  |
-| edit_my_content       |
-| edit_only             |
+| role             |
+| edit_my_content  |
+| edit_only        |
+| content_editor   |
