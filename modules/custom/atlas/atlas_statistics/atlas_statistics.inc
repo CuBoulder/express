@@ -87,7 +87,23 @@ function atlas_statistics_atlas_statistics() {
 
   // Returns system status boolean and resolves to TRUE or FALSE.
   module_load_include('inc', 'system', 'system.admin');
-  $statistics_data['drupal_system_status'] = (system_status(TRUE)) ? TRUE : FALSE;
+  if system_status(TRUE) {
+    $statistics_data['drupal_system_status'] = TRUE;
+    watchdog(
+      'atlas_statistics',
+      'System Status is True | %requirements',
+      array(
+        '%requirements' => _atlas_drush_core_requirements()
+      ),
+      WATCHDOG_WARNING,
+      NULL
+    );
+  }
+  else {
+    $statistics_data['drupal_system_status'] = FALSE;
+  }
+
+
 
   // Get role ids to search for in query.
   $role_ids = [];
@@ -165,4 +181,40 @@ function atlas_statistics_webform_is_active($nid, $date = '13 months ago') {
     $last_submission = end($submissions);
     return $last_submission->submitted > strtotime($date);
   }
+}
+
+/**
+ * Replicate functionality of https://github.com/drush-ops/drush/blob/8.x/commands/core/core.drush.inc#L797
+ */
+function _atlas_drush_core_requirements() {
+  include_once DRUSH_DRUPAL_CORE . '/includes/install.inc';
+  $severities = array(
+    REQUIREMENT_INFO => t('Info'),
+    REQUIREMENT_OK => t('OK'),
+    REQUIREMENT_WARNING => t('Warning'),
+    REQUIREMENT_ERROR => t('Error'),
+  );
+  drupal_load_updates();
+  $requirements = drush_module_invoke_all('requirements', 'runtime');
+  // If a module uses "$requirements[] = " instead of
+  // "$requirements['label'] = ", then build a label from
+  // the title.
+  foreach($requirements as $key => $info) {
+    if (is_numeric($key)) {
+      unset($requirements[$key]);
+      $new_key = strtolower(str_replace(' ', '_', $info['title']));
+      $requirements[$new_key] = $info;
+    }
+  }
+  ksort($requirements);
+  $min_severity = 2;
+  foreach($requirements as $key => $info) {
+    $severity = array_key_exists('severity', $info) ? $info['severity'] : -1;
+    $requirements[$key]['sid'] = $severity;
+    $requirements[$key]['severity'] = $severities[$severity];
+    if ($severity < $min_severity) {
+      unset($requirements[$key]);
+    }
+  }
+  return $requirements;
 }
