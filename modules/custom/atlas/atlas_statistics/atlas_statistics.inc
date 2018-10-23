@@ -226,7 +226,7 @@ function atlas_statistics_webform_is_active($nid, $date = '13 months ago') {
  * Replicate functionality of https://github.com/drush-ops/drush/blob/8.x/commands/core/core.drush.inc#L797
  */
 function _atlas_drush_core_requirements() {
-  include_once DRUSH_DRUPAL_CORE . '/includes/install.inc';
+  include_once DRUPAL_ROOT . '/includes/install.inc';
   $severities = array(
     REQUIREMENT_INFO => t('Info'),
     REQUIREMENT_OK => t('OK'),
