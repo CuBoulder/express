@@ -226,6 +226,7 @@ function atlas_statistics_webform_is_active($nid, $date = '13 months ago') {
  * Replicate functionality of https://github.com/drush-ops/drush/blob/8.x/commands/core/core.drush.inc#L797
  */
 function _atlas_drush_core_requirements() {
+
   include_once DRUPAL_ROOT . '/includes/install.inc';
   $severities = array(
     REQUIREMENT_INFO => t('Info'),
@@ -238,6 +239,7 @@ function _atlas_drush_core_requirements() {
   // If a module uses "$requirements[] = " instead of
   // "$requirements['label'] = ", then build a label from
   // the title.
+
   foreach($requirements as $key => $info) {
     if (is_numeric($key)) {
       unset($requirements[$key]);
@@ -251,9 +253,9 @@ function _atlas_drush_core_requirements() {
     $severity = array_key_exists('severity', $info) ? $info['severity'] : -1;
     $requirements[$key]['sid'] = $severity;
     $requirements[$key]['severity'] = $severities[$severity];
-    if ($severity < $min_severity) {
-      unset($requirements[$key]);
+    if ($severity >= $min_severity) {
+      $return_string .= $requirements[$key]['title'] . ' - ' . $requirements[$key]['value'] . ' | ';
     }
   }
-  return $requirements;
+  return $return_string;
 }
