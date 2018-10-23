@@ -89,7 +89,7 @@ function atlas_statistics_atlas_statistics() {
   module_load_include('inc', 'system', 'system.admin');
   if (system_status(TRUE)) {
     $statistics_data['drupal_system_status'] = TRUE;
-    if (drupal_is_cli() && function_exists('drush_main')) {
+    //if (drupal_is_cli() && function_exists('drush_main')) {
       watchdog(
         'atlas_statistics',
         'System Status is True | %requirements',
@@ -98,7 +98,7 @@ function atlas_statistics_atlas_statistics() {
         ),
         WATCHDOG_WARNING,
         NULL
-      );
+      //);
     }
   }
   else {
