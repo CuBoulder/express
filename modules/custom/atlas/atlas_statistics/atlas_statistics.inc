@@ -87,7 +87,7 @@ function atlas_statistics_atlas_statistics() {
 
   // Returns system status boolean and resolves to TRUE or FALSE.
   module_load_include('inc', 'system', 'system.admin');
-  if system_status(TRUE) {
+  if (system_status(TRUE)) {
     $statistics_data['drupal_system_status'] = TRUE;
     watchdog(
       'atlas_statistics',
