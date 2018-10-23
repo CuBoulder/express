@@ -236,7 +236,7 @@ function _atlas_drush_core_requirements() {
     REQUIREMENT_ERROR => t('Error'),
   );
   drupal_load_updates();
-  $requirements = drush_module_invoke_all('requirements', 'runtime');
+  $requirements = module_invoke_all('requirements', 'runtime');
   // If a module uses "$requirements[] = " instead of
   // "$requirements['label'] = ", then build a label from
   // the title.
