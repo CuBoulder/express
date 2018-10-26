@@ -103,7 +103,11 @@ function atlas_statistics_atlas_statistics() {
     $statistics_data['drupal_system_status'] = FALSE;
   }
 
-
+  // If webform is enabled then gather its statistics.
+  $webform_stats = _atlas_statistics_get_webform_statistics();
+  if (module_exists('webform')) {
+    $statistics_data['webforms'] = $webform_stats;
+  }
 
   // Get role ids to search for in query.
   $role_ids = [];
@@ -187,6 +191,7 @@ function atlas_statistics_webform_is_active($nid, $date = '13 months ago') {
  * Replicate functionality of https://github.com/drush-ops/drush/blob/8.x/commands/core/core.drush.inc#L797
  */
 function _atlas_drush_core_requirements() {
+  $return_string = NULL;
   include_once DRUPAL_ROOT . '/includes/install.inc';
   $severities = array(
     REQUIREMENT_INFO => t('Info'),
@@ -212,9 +217,9 @@ function _atlas_drush_core_requirements() {
     $severity = array_key_exists('severity', $info) ? $info['severity'] : -1;
     $requirements[$key]['sid'] = $severity;
     $requirements[$key]['severity'] = $severities[$severity];
-    if ($severity < $min_severity) {
-      unset($requirements[$key]);
+    if ($severity >= $min_severity) {
+      $return_string .= $requirements[$key]['title'] . ' - ' . $requirements[$key]['value'] . ' | ';
     }
   }
-  return $requirements;
+  return $return_string;
 }
