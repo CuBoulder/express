@@ -23,7 +23,8 @@ body {
 /**
  * Headings
  */
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
   line-height: 1.3;
   margin: 0 0 $spacing/2 0;
   a {
@@ -31,42 +32,48 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 #footer-section {
-  h1, h2, h3, h4, h5, h6 {
+  h1, h2, h3, h4, h5, h6,
+  .h1, .h2, .h3, .h4, .h5, .h6  {
     margin: 0 0 $spacing/2 0;
   }
 }
 
 // Headings
-$base-font-size: 75%;
-$heading-scale: 15; // amount of px headings grow  - h2 = 160%
+$base-font-size: 100%;
+$heading-scale: 10; // amount of px headings grow  - h2 = 160%
 
 @for $i from 2 through 6 {
-  h#{$i} {
+  h#{$i},
+  .h#{$i} {
     font-size: $base-font-size + $heading-scale * (6 - $i);
   }
 }
 // Slightly smaller sizes for sidebars
 .sidebar {
   @for $i from 2 through 6 {
-    h#{$i} {
+    h#{$i},
+    .h#{$i} {
       font-size: $base-font-size + $heading-scale * (6 - $i);
     }
   }
 }
 
-
+$heading-scale: 15;
 @media screen and (min-width:960px) {
   $base-font-size: 100%;
   @for $i from 2 through 6 {
-    h#{$i} {
+    h#{$i},
+    .h#{$i} {
       font-size: $base-font-size + $heading-scale * (6 - $i);
     }
   }
   // Slightly smaller sizes for sidebars
   .sidebar {
-    $base-font-size: 75%;
+    //$base-font-size: 75%;
+    $heading-scale: 8;
     @for $i from 2 through 6 {
-      h#{$i} {
+      h#{$i},
+      .h#{$i} {
         font-size: $base-font-size + $heading-scale * (6 - $i);
       }
     }
@@ -75,10 +82,11 @@ $heading-scale: 15; // amount of px headings grow  - h2 = 160%
 // Smaller headings for after content regions
 #after-content,
 #after-content-2 {
-  $base-font-size: 75%;
-  $heading-scale: 15;
+  //$base-font-size: 75%;
+  $heading-scale: 10;
   @for $i from 2 through 6 {
-    h#{$i} {
+    h#{$i},
+    .h#{$i} {
       font-size: $base-font-size + $heading-scale * (6 - $i);
     }
   }
@@ -87,10 +95,11 @@ $heading-scale: 15; // amount of px headings grow  - h2 = 160%
 #footer-section {
   font-size:90%;
   line-height: 1.5;
-  $base-font-size: 75%;
+  //$base-font-size: 75%;
   $heading-scale: 10;
   @for $i from 2 through 6 {
-    h#{$i} {
+    h#{$i},
+    .h#{$i} {
       font-size: $base-font-size + $heading-scale * (6 - $i);
     }
   }
@@ -108,7 +117,8 @@ $heading-scale: 15; // amount of px headings grow  - h2 = 160%
 h1,
 h1#page-title,
 h1#page-title-image-title,
-.page-title-section h1 {
+.page-title-section h1,
+.h1 {
   font-size: 180%;
   font-family:$base_font;
   i, em {
@@ -116,25 +126,31 @@ h1#page-title-image-title,
   }
 }
 @media screen and (min-width: $breakpoint_tablet) {
+  h1,
   h1#page-title,
   h1#page-title-image-title,
-  .page-title-section h1 {
+  .page-title-section h1,
+  .h1 {
     font-size: 220%;
   }
 }
 
 // Font Weights
 h1,
+.h1,
 h1#page-title,
 h1#page-title-image-title,
-.page-title-section h1, h2, h3, h4 {
+.page-title-section h1,
+h2, h3, h4,
+.h2, .h3, .h4 {
   font-weight:bold;
   strong,
   b {
     font-weight: bold;
   }
 }
-h5, h6 {
+h5, h6,
+.h5, .h6 {
   font-weight: bold;
 }
 h2.block-title, h2.node-title {
@@ -142,11 +158,13 @@ h2.block-title, h2.node-title {
 }
 .headings-light {
   h1,
+  .h1
   h1#page-title,
   h1#page-title-image-title,
   .page-title-section h1,
   h2, h2.block-title, h2.node-title,
-  h3, h4, h5, h6 {
+  h3, h4, h5, h6
+  .h2,.h3, .h4, .h5, .h6 {
     font-weight:normal;
     strong,
     b {
@@ -157,29 +175,35 @@ h2.block-title, h2.node-title {
 
 // Change weights if .brand-fonts is set
 .brand-fonts {
-  h1
+  h1,
+  .h1
   h1#page-title,
   h1#page-title-image-title,
-  .page-title-section h1, h2, h3, h4 {
+  .page-title-section h1, h2, h3, h4,
+  .h2, .h3, .h4 {
     font-weight:700;
     strong,
     b {
       font-weight: 700;
     }
   }
-  h5, h6 {
+  h5, h6,
+  .h5, .h6
+   {
     font-weight: 600;
   }
   h2.block-title, h2.node-title {
     font-weight:700;
   }
   &.headings-light {
-    h1
+    h1,
+    .h1
     h1#page-title,
     h1#page-title-image-title,
     .page-title-section h1,
     h2, h2.block-title, h2.node-title,
-    h3, h4, h5, h6 {
+    h3, h4, h5, h6,
+    .h2, .h3, .h4, .h5, .h6 {
       font-weight:200;
       strong,
       b {
@@ -187,6 +211,10 @@ h2.block-title, h2.node-title {
       }
     }
   }
+}
+
+.type-size {
+  font-size: 100% !important;
 }
 
 // Add margin to bottom of some elements
@@ -326,4 +354,10 @@ code {
 }
 pre {
   white-space: pre-wrap;
+
+}
+h1, h2, h3, h4, h5, h6 {
+  & + pre {
+    margin-top: -($spacing + ($spacing/2));
+  }
 }
