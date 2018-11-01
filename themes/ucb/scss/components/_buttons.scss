@@ -181,10 +181,10 @@ $colors: (
     color: $color !important;
     text-decoration: none;
     @if (lightness($color) > 40) {
-      background: rgba(#000, .25);
+      background: rgba(#000, .15);
     }
     @else {
-      background: rgba(#FFF, .25);
+      background: rgba(#FFF, .15);
     }
     &:hover,
     &:active,
