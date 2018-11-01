@@ -5,106 +5,135 @@
 /**
  * Image styles
  */
- img {
-   display: block;
-   max-width:100%;
-   height: auto;
-   min-width: 50px;
- }
-
- // Centering images
-p[style*="text-align:center"] img {
-  display: inline-block;
+img {
+ max-width:100%;
+ height: auto;
+ min-width: 50px;
 }
 
-
-.region-intro,
-.region-wide-2,
-.region-post-title-wide {
-  img.image-large,
-  img.image-hero,
-  img.image-slider,
-  img[class=""] {
-    width: 100%;
-    height: auto;
-    max-width: none;
-    display: block;
-  }
-  img.image-medium,
-  img.image-small,
-  img.image-large_square_thumbnail,
-  img.image-large_wide_thumbnail,
-  img.image-square_thumbnail,
-  img.image-square,
-  img.image-small_square,
-  img.image-thumbnail {
-    max-width: 100%;
-  }
-}
-
-.field-type-text-with-summary img[style*="float:right"],
-.field-type-text-long img[style*="float:right"] {
-  float: right !important;
-  margin: 0 0 20px 20px;
-  max-width: 100%;
-}
-.field-type-text-with-summary img[style*="float:left"],
-.field-type-text-long img[style*="float:left"] {
-  float: left !important;
-  margin: 0 20px 20px 0;
-  max-width: 100%;
-}
-img.image-medium[style*="float:right"],
-img.image-medium[style*="float:left"] {
-    max-width:50%;
-}
-img.image-small[style*="float:right"],
-img.image-small[style*="float:left"] {
-    max-width:50%;
-}
-
-.image-square,
-.image-square_thumbnail {
-  float:left;
-  width:50px;
-  height: 50px;
-  margin:0 10px 10px 0;
-}
-
-
-.sidebar {
-  .image-square,
-  .image-square_thumbnail  {
-    width:50px;
-    height: 50px;
-  }
-}
-@media all and (min-width: 960px) {
-  .image-square,
-  .image-square_thumbnail {
-    float:left;
-    width:100px;
-    height: 100px;
-    margin:0 10px 10px 0;
-  }
-  .sidebar {
-    .image-square,
-    .image-square_thumbnail  {
-      width:65px;
-      height: 65px;
+// Responsive classes: img.image-md-66 - image is 66% on medium breakpoint
+$breakpoints: (
+  "xs" : $breakpoint_xs,
+  "sm" : $breakpoint_small,
+  "md" : $breakpoint_medium,
+  "lg" : $breakpoint_large,
+);
+$widths: (
+  25,
+  33,
+  50,
+  66,
+  75,
+  100,
+);
+@each $breakpoint, $value in $breakpoints {
+  @media screen and (min-width: $value) {
+    @each $width in $widths {
+      img.image-#{$breakpoint}-#{$width} {
+        max-width:$width * 1%;
+      }
     }
   }
 }
 
-.image-small-square-thumbnail {
-  float:left;
-  width:70px;
-  height: 70px;
-  margin:0 10px 10px 0;
-}
-.feature-layout-callout {
-  .image-square,
-  .image-small-thumbnail {
-    width:110px;
+// Image % widths
+@each $width in $widths {
+  img.image-#{$width} {
+    max-width:$width * 1%;
   }
+}
+
+//Image px widths
+$widths: (
+  50,
+  75,
+  100,
+  150,
+  200,
+);
+
+@each $breakpoint, $value in $breakpoints {
+  @media screen and (min-width: $value) {
+    @each $width in $widths {
+      img.image-#{$breakpoint}-#{$width}px {
+        width:#{$width}px ;
+      }
+    }
+  }
+}
+@each $width in $widths {
+  img.image-#{$width}px {
+    width:#{$width}px ;
+  }
+}
+
+
+img.image-full {
+  width:100% !important;
+  max-width: none;
+  display: block !important;
+}
+img.image-block {
+  display: block;
+}
+
+img.image-inline {
+  display: inline-block;
+}
+
+// Image alignment
+.image-align-left {
+  float:left;
+  margin: 0 $spacing $spacing 0;
+}
+.image-align-right {
+  float:right;
+  margin: 0 0 $spacing $spacing;
+}
+.image-align-left-small {
+  float:left;
+  margin: 0 $spacing/2 $spacing/2 0;
+}
+.image-align-right-small {
+  float:right;
+  margin: 0 0 $spacing/2 $spacing/2;
+}
+@each $breakpoint, $value in $breakpoints {
+  img.image-#{$breakpoint}-align-left,
+  img.image-#{$breakpoint}-align-right,
+  img.image-#{$breakpoint}-align-left-small,
+  img.image-#{$breakpoint}-align-right-small {
+    float:none;
+  }
+}
+
+
+@each $breakpoint, $value in $breakpoints {
+  @media screen and (min-width: $value) {
+    img.image-#{$breakpoint}-align-left {
+      float:left;
+      margin: 0 $spacing $spacing 0;
+    }
+    img.image-#{$breakpoint}-align-right {
+      float:right;
+      margin: 0 0 $spacing $spacing;
+    }
+    img.image-#{$breakpoint}-align-left-small {
+      float:left;
+      margin: 0 $spacing/2 $spacing/2 0;
+    }
+    img.image-#{$breakpoint}-align-right-small {
+      float:right;
+      margin: 0 0 $spacing/2 $spacing/2;
+    }
+    img.image-#{$breakpoint}-align-none {
+      float: none;
+    }
+  }
+}
+
+// Circle Images
+// Source image should be a square
+img.circular {
+  border-radius: 100%;
 }
