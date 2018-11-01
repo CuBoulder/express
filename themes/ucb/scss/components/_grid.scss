@@ -429,7 +429,7 @@
     }
   }
 
-  @media (min-width: $breakpoint_medium + 1) {
+  @media (min-width: $breakpoint_medium) {
     .col-md {
       -ms-flex-preferred-size: 0;
       flex-basis: 0;
