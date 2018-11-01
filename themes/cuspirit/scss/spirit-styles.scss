@@ -41,7 +41,7 @@ a:hover {
 }
 .slider-wrapper {
   background-color: $bg_dark1;
-  padding: 20px;
+  padding: 20px 0;
   color: #fff;
   a {
     color: $cugold;
@@ -54,21 +54,26 @@ a:hover {
   background: #fff;
   @include rgbashadow(0, 2px, 5px, #000000, .10);
   #navigation ul#main-menu {
-    a:link,
-    a:visited {
+
+    & > li > a:link,
+    & > li > a:visited {
       color:#333;
       line-height: 64px;
       font-weight: 600;
       border-right:1px solid #d7d7d7;
       padding:0 12px;
     }
-    a:hover,
-    a.active,
-    a.active-trail {
+    & > li > a:hover,
+    & > li > a:focus {
+      background-color:#eee;
+      color:#333;
+    }
+    & > li > a.active,
+    & > li > a.active-trail {
       background-color: $cugold;
       color:#000;
     }
-    a.home-link.active {
+    & > li > a.home-link.active {
       background: transparent;
     }
   }
@@ -271,7 +276,7 @@ $border: #e7e7e7;
   background-color: #f2f2f2;
 }
 #mobile-menu {
-  ul a {
+  & > ul > li > a {
     border-bottom: 1px solid $border_color;
     color: #656565;
     &.active-trail,
