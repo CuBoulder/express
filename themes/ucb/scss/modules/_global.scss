@@ -7,7 +7,10 @@ $base_font: "Neue Helvetica W01", "Roboto", "Helvetica Neue", Helvetica, Arial, 
 $base_font_condensed: "Neue Helvetica W01", "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $base_font_size: 17px;
 
+$fontawesome: "Font Awesome 5 Free", "FontAwesome";
+
 // Breakpoints
+$breakpoint_xs: 0px;
 $breakpoint_small: 576px;
 $breakpoint_medium: 768px;
 $breakpoint_tablet: $breakpoint_medium;
