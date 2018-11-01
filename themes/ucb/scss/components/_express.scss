@@ -1,7 +1,14 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
 /**
  * Express/Drupal specific styles
  */
-
+.section {
+  position: relative;
+  z-index: inherit;
+}
  .site-name-inner {
 
  }
@@ -90,4 +97,53 @@ html.js input.throbbing {
    background-size: 55px 40px;
    background-position: left center;
    padding-left:65px;
+ }
+
+ // Mega Menu
+ #navigation {
+   position: re
+
+ }
+ li.mega-menu-link {
+   //position: relative;
+   .navigation-wrapper & .mega-menu-wrapper {
+     position: absolute;
+     top:100%;
+     z-index: 100;
+     width:100%;
+   }
+   .mega-menu-wrapper {
+     display: none;
+
+     ul, li {
+       display: block;
+       padding: 0;
+       a {
+         //padding:5px 0;
+         display: block;
+       }
+     }
+
+     ul {
+       margin: 0;
+     }
+     li {
+       margin: 0 0 10px 0;
+       &:last-child {
+         margin:0;
+       }
+     }
+
+     .field-name-field-mega-menu-link-desc {
+       font-size: 75%;
+     }
+   }
+ }
+ a.mega-menu-link:after {
+   content: '\f107';
+   font-family: $fontawesome;
+   margin-left:5px;
+   opacity: .5;
+   font-size: 75%;
+   line-height: 1;
  }
