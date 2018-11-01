@@ -83,6 +83,12 @@
 .social-links-vertical-bars .social-links-text-flickr { background-color: black; }
 .social-links-vertical-bars .social-links-text-vimeo { background-color: #1984b9; }
 
+.socicon-feed:before, .socicon-email:before { font-family: FontAwesome; }
+
+.socicon-feed:before { content: "\f09e"; }
+
+.socicon-email:before { content: "\f0e0"; }
+
 .socicon-internet:before { content: "\e957"; }
 
 .socicon-moddb:before { content: "\e94b"; }
