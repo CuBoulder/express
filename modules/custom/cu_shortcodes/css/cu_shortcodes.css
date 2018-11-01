@@ -121,7 +121,7 @@ div.image-caption p:first-child { display: block; margin: 0 !important; padding:
 /* Callout shortcode CSS */
 .feature-layout-wrapper .feature-layout-callout img { max-width: 100% !important; }
 
-.feature-layout-callout { width: 240px; float: right; margin: 0 0 40px 40px; }
+.feature-layout-callout { width: 240px; float: right; margin: 0 0 40px 40px; clear: both; }
 
 .feature-layout-callout img.image-square-thumbnail { width: 110px; height: auto; display: block; float: left; margin: 0 10px 10px 0; }
 
