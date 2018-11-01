@@ -8,14 +8,14 @@
 
 // Shadows
 $sizes: (
-  "small" : 5px,
-  "medium" : 10px,
-  "large" : 20px,
+  "small" : 10px,
+  "medium" : 20px,
+  "large" : 40px,
 );
 
 @each $name, $size in $sizes {
   .shadow-#{$name} {
-    @include rgbashadow(0, 0, $size, #000, .2);
+    @include rgbashadow(0, 0, $size, #000, .1);
   }
 }
 
@@ -57,13 +57,16 @@ $directions: (
 );
  @each $direction in $directions {
    .padding-#{$direction},
-   .padding-medium-#{$direction} {
+   .padding-medium-#{$direction},
+   .padding-#{$direction}-medium {
      padding-#{$direction}: $spacing;
    }
-   .padding-small-#{$direction} {
+   .padding-small-#{$direction},
+   .padding-#{$direction}-small {
      padding-#{$direction}: $spacing/2;
    }
-   .padding-large-#{$direction} {
+   .padding-large-#{$direction},
+   .padding-#{$direction}-large {
      padding-#{$direction}: $spacing*2;
    }
  }
@@ -126,6 +129,19 @@ $directions: (
 .margin-right {
   margin-right: $spacing;
 }
+.margin-top-large {
+  margin-top: $spacing*2;
+}
+.margin-bottom-large {
+  margin-bottom: $spacing*2;
+}
+.margin-left-large  {
+  margin-left: $spacing*2;
+}
+.margin-right-large  {
+  margin-right: $spacing*2;
+}
+// Remove margins
 .margin-none {
   margin: 0 !important;
 }
@@ -136,6 +152,112 @@ $directions: (
 .margin-none-horizontal {
   margin-left: 0 !important;
   margin-right: 0 !important;
+}
+.margin-none-bottom {
+  margin-bottom: 0 !important;
+}
+// removes bottom margin from last direct child in container element.
+.last-margin-none {
+  & > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Negative margins for collapsing elements
+.margin-bottom-negative,
+.margin-bottom-negative-medium {
+  margin-bottom: -$spacing;
+}
+.margin-bottom-negative-small {
+  margin-bottom: -$spacing/2;
+}
+.margin-bottom-negative-large {
+  margin-bottom: -$spacing*2;
+}
+
+// Responsive Margins
+$directions: (
+  "top",
+  "bottom",
+  "left",
+  "right",
+);
+
+@each $direction in $directions {
+  .margin-xs-#{$direction}-none,
+  .margin-sm-#{$direction}-none,
+  .margin-md-#{$direction}-none,
+  .margin-lg-#{$direction}-none {
+    margin-#{$direction}: 0;
+  }
+  .margin-xs-#{$direction}-small-none,
+  .margin-sm-#{$direction}-small-none,
+  .margin-md-#{$direction}-small-none,
+  .margin-lg-#{$direction}-small-none {
+    margin-#{$direction}: 0;
+  }
+  .margin-xs-#{$direction}-large-none,
+  .margin-sm-#{$direction}-large-none,
+  .margin-md-#{$direction}-large-none,
+  .margin-lg-#{$direction}-large-none
+   {
+    margin-#{$direction}: 0;
+  }
+}
+
+@media (max-width: $breakpoint_small - 1) {
+  @each $direction in $directions {
+    .margin-xs-#{$direction} {
+      margin-#{$direction}: $spacing;
+    }
+    .margin-xs-#{$direction}-small {
+      margin-#{$direction}: $spacing/2;
+    }
+    .margin-xs-#{$direction}-large {
+      margin-#{$direction}: $spacing*2;
+    }
+  }
+}
+
+@media (min-width: $breakpoint_small) and (max-width: $breakpoint_medium - 1) {
+  @each $direction in $directions {
+    .margin-sm-#{$direction} {
+      margin-#{$direction}: $spacing;
+    }
+    .margin-sm-#{$direction}-small {
+      margin-#{$direction}: $spacing/2;
+    }
+    .margin-sm-#{$direction}-large {
+      margin-#{$direction}: $spacing*2;
+    }
+  }
+}
+@media (min-width: $breakpoint_medium) and (max-width: $breakpoint_large - 1) {
+  @each $direction in $directions {
+    .margin-md-#{$direction} {
+      margin-#{$direction}: $spacing;
+    }
+    .margin-md-#{$direction}-small {
+      margin-#{$direction}: $spacing/2;
+    }
+    .margin-md-#{$direction}-large {
+      margin-#{$direction}: $spacing*2;
+    }
+  }
+}
+
+@media screen and (min-width: $breakpoint_large ) {
+  @each $direction in $directions {
+    .margin-lg-#{$direction} {
+      margin-#{$direction}: $spacing;
+    }
+    .margin-lg-#{$direction}-small {
+      margin-#{$direction}: $spacing/2;
+    }
+    .margin-lg-#{$direction}-large {
+      margin-#{$direction}: $spacing*2;
+    }
+  }
 }
 
 // Alignment
@@ -164,17 +286,6 @@ $directions: (
 .display-inline {
   display: inline;
 }
-.text-center {
-  text-align: center;
-}
-
-// Equal Height Row Contents
-
-.row.equal-height {
-  & > * {
-    display:flex;
-  }
-}
 
 // No Wrap
 .nowrap {
@@ -194,6 +305,9 @@ $directions: (
 .text-align-left {
   text-align: left;
 }
+.text-align-center {
+  text-align: center;
+}
 
 
 /* Visibility */
@@ -204,22 +318,22 @@ $directions: (
 .visible-lg {
   display: none !important;
 }
-@media (max-width: 767px) {
+@media (max-width: $breakpoint_small - 1) {
   .visible-xs {
     display: block !important;
   }
 }
-@media (min-width: 768px) and (max-width: 959px) {
+@media (min-width: $breakpoint_small) and (max-width: $breakpoint_medium - 1) {
   .visible-sm {
     display: block !important;
   }
 }
-@media (min-width: 960px) and (max-width: 1199px) {
+@media (min-width: $breakpoint_medium) and (max-width: $breakpoint_large - 1) {
   .visible-md {
     display: block !important;
   }
 }
-@media (min-width: 1200px) {
+@media (min-width: $breakpoint_large) {
   .visible-lg {
     display: block !important;
   }
@@ -265,4 +379,99 @@ $directions: (
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
+}
+
+// Overflow
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-scroll {
+  overflow:scroll;
+}
+.overflow-scroll-y {
+  overflow-y: scroll;
+}
+.overflow-scroll-x {
+  overflow-x: scroll;
+}
+
+// Equal height columns
+// .row > .col-lg-4 > * (height set to 100%)
+.row.equal-height {
+  & > * {
+    align-items: stretch;
+    display: flex;
+  }
+  & > * > * {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+  }
+}
+
+// Vertical Centered Rows
+.row.center-vertical {
+  & > * {
+    align-items: stretch;
+    display: flex;
+    align-items:center;
+  }
+}
+
+// No gutters in columns
+.row.gutters-none {
+  margin-left: 0;
+  margin-right: 0;
+  & > * {
+    padding-left:0;
+    padding-right:0;
+  }
+}
+
+// Positioning
+.position-relative {
+  position: relative;
+}
+.position-absolute {
+  position: absolute;
+  z-index:1;
+  &.position-top {
+    top:0;
+  }
+  &.position-bottom {
+    bottom: 0;
+  }
+  &.position-left {
+    left:0;
+  }
+  &.position-right {
+    right:0;
+  }
+}
+
+// Overlays
+.overlay-black,
+.overlay-white {
+	position:relative;
+}
+.overlay-black:before,
+.overlay-white:before {
+	content: " ";
+	position: absolute;
+	top:0;
+	bottom:0;
+	left:0;
+	right:0;
+	z-index: 0;
+}
+.overlay-black:before {
+  background-color: rgba(0,0,0,.5);
+}
+.overlay-white:before {
+  background-color: rgba(255,255,255,.65);
+}
+.overlay-black > *,
+.overlay-white > * {
+	z-index: 1;
+	position: relative;
 }
