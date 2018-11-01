@@ -97,6 +97,65 @@
   margin-left: -$spacing;
   margin-right: -$spacing;
 }
+
+// Flexbox ordering
+
+.row.direction-xs-column {
+  flex-direction: column;
+}
+.row.direction-xs-column-reverse {
+  flex-direction: column-reverse;
+}
+.row.direction-xs-row {
+  flex-direction: row;
+}
+.row.direction-xs-row-reverse {
+  flex-direction: row-reverse;
+}
+@media (min-width: $breakpoint_small) {
+  .row.direction-sm-column {
+    flex-direction: column;
+  }
+  .row.direction-sm-column-reverse {
+    flex-direction: column-reverse;
+  }
+  .row.direction-sm-row {
+    flex-direction: row;
+  }
+  .row.direction-sm-row-reverse {
+    flex-direction: row-reverse;
+  }
+}
+@media (min-width: $breakpoint_medium) {
+  .row.direction-md-column {
+    flex-direction: column;
+  }
+  .row.direction-md-column-reverse {
+    flex-direction: column-reverse;
+  }
+  .row.direction-md-row {
+    flex-direction: row;
+  }
+  .row.direction-md-row-reverse {
+    flex-direction: row-reverse;
+  }
+}
+@media (min-width: $breakpoint_large) {
+  .row.direction-lg-column {
+    flex-direction: column;
+  }
+  .row.direction-lg-column-reverse {
+    flex-direction: column-reverse;
+  }
+  .row.direction-lg-row {
+    flex-direction: row;
+  }
+  .row.direction-lg-row-reverse {
+    flex-direction: row-reverse;
+  }
+}
+
+
 // For elements that do not include grid elements, but need the spacing to
 // align properly.
 .element-spacing {
