@@ -29,7 +29,7 @@
   $yiq: (($r*299) + ($g*587) + ($b*114))/1000;
 
   @if ($color == $cugold) {
-    @return #222;
+    @return #444;
   }
   @else if (lightness($color) == 100%) {
     @return $blue;
@@ -38,10 +38,18 @@
     @return $blue-dark;
   }
   @else if ($yiq >= 128) {
-    @return darken($blue-dark, 5); // Lighter backgorund, return dark color
+    @return darken($blue-contrast, 5); // Lighter backgorund, return dark color
   }
+  // Color is probably dark at this point.
+  // Return gold if image has no color/saturation = 0
+  // Or return a light gray
   @else {
-    @return $gold; // Darker background, return light color
+    @if (saturation($color) > 0) {
+      @return #ddd;
+    }
+    @else {
+      @return $gold; // Darker background, return light color
+    }
   }
 }
 
