@@ -18,9 +18,10 @@ $gold-gray: #a6a6a6;
 
 // Links
 $blue: #0277BD;
-$blue-dark: darken($blue, 10);
+$blue-contrast: darken($blue, 10);
 
 // Secondary
+$blue-dark: #01579B;
 $blue-medium:#4FC3F7;
 $blue-light:#E1F5FE;
 $gold-light:lighten($cugold, 25%);
@@ -63,6 +64,48 @@ $all_colors: (
   "red-light" : $red-light,
   "gold" : $gold,
 );
+
+$brand: (
+  "gold" : $gold,
+);
+$neutrals: (
+  "white" : $white,
+  "black" : $black,
+  "gray-dark" : $gray-dark,
+  "gray-light" : $gray-light,
+  "gray" : $gray-light,
+);
+$secondary: (
+  "blue-light" : $blue-light,
+  "gold-light" : $gold-light,
+  "tan" : $gold-light,
+  "green-light" : $green-light,
+);
+$tertiary: (
+  "blue" : $blue,
+  "blue-medium" : $blue-medium,
+  "blue-dark" : $blue-dark,
+  "brick" : $brick,
+);
+$alert: (
+  "red" : $red,
+  "green" : $green,
+  "amber" : $amber,
+);
+$message: (
+  "yellow" : $yellow,
+  "red-light" : $red-light,
+);
+
+$ucb_colors: (
+  "neutrals" : $neutrals,
+  "secondary" : $secondary,
+  "tertiary" : $tertiary,
+  "alert" : $alert,
+  "message" : $message,
+  "brand" : $brand,
+);
+
 
 // Icons
 $icon-black: #000;
