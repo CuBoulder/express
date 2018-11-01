@@ -43,6 +43,39 @@
       $('#header').focus();
       $('#search-toggle').attr('aria-expanded', 'false');
     });
+
+
+    // Prepare Mega menus
+    $("a.mega-menu-link").attr('aria-haspopup', true).attr('aria-expanded', false);
+    $("a.mega-menu-link").each(function(i){
+      $(this).attr('id', 'mm-' + i);
+      $(this).next().attr('aria-labelledby', 'mm-' + i);
+    });
+    // Display mega menus
+    $("a.mega-menu-link").click(function(event) {
+      event.preventDefault();
+
+      //$(this).next().toggle();
+      if ($(this).next().css('display') == 'block') {
+        $(this).next().hide();
+        $(this).attr('aria-expanded', false);
+      }
+      else {
+        $('.mega-menu-wrapper').hide();
+        $("a.mega-menu-link").attr('aria-expanded', false);
+        $(this).next().show();
+        $(this).attr('aria-expanded', true);
+      }
+    });
+    // Hide mega menus when clicked outside
+    $('html').click(function() {
+      $('.mega-menu-wrapper').hide();
+      $("a.mega-menu-link").attr('aria-expanded', false);
+    });
+
+    $('nav').click(function(event){
+        event.stopPropagation();
+    });
   });
   $(window).on('resize', function(){
       var win = $(this);
