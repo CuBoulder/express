@@ -12,6 +12,11 @@ ol {
 ul {
   list-style: disc;
 }
+ul, ol {
+  ul, ol {
+    margin-bottom: 0;
+  }
+}
 .item-list,
 .field-type-text-with-summary,
 .field-type-text-long {
@@ -53,12 +58,14 @@ ul.inline,ol.inline {
   padding-left: 0;
 }
 
+ul.list-style-none,
 ul.list-style-nobullet,
 ul.unstyled {
   list-style: none;
   list-style-image: none;
   padding-left: 0;
 }
+ul.list-style-none > li,
 ul.list-style-nobullet > li,
 ul.unstyled li {
   list-style: none;
@@ -84,19 +91,26 @@ ul.list-style-border {
   list-style: none;
   list-style-image: none;
   padding-left: 0;
+  border-top: 1px solid $border;
 }
 ul.list-style-border > li {
   list-style: none;
   border: 1px solid $border;
+  border-top: none;
   padding: 10px;
-  margin-bottom: -1px;
 }
 ul.list-style-icon-1,
 ul.list-style-icon-2,
 ul.list-style-icon-3,
 ul.list-style-icon-4,
 ul.list-style-icon-5,
-ul.list-style-icon-6 {
+ul.list-style-icon-6,
+ul.list-style-icon-check,
+ul.list-style-icon-checkbox,
+ul.list-style-icon-angle-double,
+ul.list-style-icon-circle-arrow,
+ul.list-style-icon-star,
+ul.list-style-icon-finger {
   list-style: none;
   list-style-image: none;
   overflow: hidden;
@@ -106,7 +120,7 @@ ul.list-style-icon-6 {
     position: relative;
   }
   li:before {
-    font-family: 'FontAwesome';
+    font-family: $fontawesome;
     position: absolute;
     top:0;
     left:-20px;
@@ -114,29 +128,52 @@ ul.list-style-icon-6 {
   }
 }
 // check icon
-ul.list-style-icon-1 > li:before {
-  content: '\f00c';
-
+ul.list-style-icon-1,
+ul.list-style-icon-check {
+  & > li:before {
+    content: '\f00c';
+    font-weight: 900;
+  }
 }
 // checkbox icon
-ul.list-style-icon-2 > li:before {
-  content: '\f14a';
+ul.list-style-icon-2,
+ul.list-style-icon-checkbox {
+  & > li:before {
+    content: '\f14a';
+    font-weight: 900;
+  }
 }
 // angle icon
-ul.list-style-icon-3 > li:before {
-  content: '\f101';
+ul.list-style-icon-3,
+ul.list-style-icon-angle-double {
+  & > li:before {
+    content: '\f101';
+    font-weight: 900;
+  }
 }
 // arrow icon
-ul.list-style-icon-4 > li:before {
-  content: '\f0a9';
+ul.list-style-icon-4,
+ul.list-style-icon-circle-arrow {
+  & > li:before {
+    content: '\f0a9';
+    font-weight: 900;
+  }
 }
 // star icon
-ul.list-style-icon-5 > li:before {
-  content: '\f005';
+ul.list-style-icon-5,
+ul.list-style-icon-star {
+  & > li:before {
+    content: '\f005';
+    font-weight: 900;
+  }
 }
 // hand icon
-ul.list-style-icon-6 > li:before {
-  content: '\f0a4';
+ul.list-style-icon-6,
+ul.list-style-icon-finger {
+  & > li:before {
+    content: '\f0a4';
+    font-weight: 900;
+  }
 }
 
 /* ORDERED LIST STYLES */
@@ -163,5 +200,41 @@ ul.list-menu {
   }
   ul {
     margin-bottom: 0;
+  }
+}
+
+// Linear Lists
+ul.list-style-linear {
+  margin: 0 0 $spacing 0;
+  padding:0;
+  list-style: none;
+  overflow: hidden;
+  & > li {
+    float:left;
+    padding-left: $spacing;
+  }
+  & > li:first-child {
+    padding-left: 0;
+  }
+}
+ul.list-style-linear-dots {
+  margin: 0 0 $spacing 0;
+  padding:0;
+  list-style: none;
+  overflow: hidden;
+  & > li {
+    float:left;
+    padding-left:8px;
+  }
+  & > li:first-child {
+    padding-left: 0;
+  }
+  & > li:before {
+    content: "•";
+    padding-right:8px;
+  }
+  & > li:first-child:before {
+    content: none;
+    padding: 0;
   }
 }
