@@ -20,7 +20,7 @@
     display: block;
     position: absolute;
     //top:3px;
-    right:20px;
+    right:0;
     text-transform: uppercase;
     font-size:24px;
     font-family: Arial, Helvetica;
@@ -321,13 +321,13 @@
   }
 }
 #mobile-menu {
-  ul, li {
+  & > ul, & > ul > li {
     list-style: none;
     list-style-image: none;
     margin: 0;
     padding: 0;
   }
-  a {
+  & > ul > li > a {
     display: block;
     padding:10px 20px;
   }
@@ -335,12 +335,13 @@
 
 #navigation .links,
 #navigation .menu {
-  li {
+  & > li {
     margin: 0;
     padding: 0;
   }
-  a {
-    display: inline-block;
+  & > li > a {
+    display: block;
+    float: left;
     padding:0 12px;
     line-height: 40px;
   }
