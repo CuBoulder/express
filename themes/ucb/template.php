@@ -529,6 +529,24 @@ function theme_ucb_main_menu_links($vars) {
   $vars['links'][$first]['attributes']['class'][] = 'first';
   $vars['links'][$last]['attributes']['class'][] = 'last';
   foreach ($vars['links'] as $link) {
+    // Reset for each link.
+    $below = '';
+    $mega_menu = NULL;
+    // Check to see if a mega menu is added and enabled.
+    if (!empty($link['mega_menu_enable']) && $link['mega_menu_enable'] && !empty($link['mega_menu_reference'])) {
+      // Load mega menu entity.
+      if ($mega_menu = entity_load('cu_mega_menu', array($link['mega_menu_reference']))) {
+        //$mega_menu = current($mega_menu);
+        $mm_config = entity_view('cu_mega_menu', $mega_menu);
+        //$mm_config = current(current($mega_menu));
+        $mm_config = array_intersect_key($mm_config, array_flip(element_children($mm_config)));
+        // Add the href of the main link to the mega menu variables.
+        $mm_config['href'] = $link['href'];
+        $below = theme('cu_mega_menu', $mm_config);
+        $link['attributes']['class'][] = 'mega-menu-link';
+        $link['attributes']['role'] = 'button';
+      }
+    }
     $classes = '';
     if (!empty($link['attributes']['class'])) {
       $classes = join(' ', $link['attributes']['class']);
@@ -539,10 +557,10 @@ function theme_ucb_main_menu_links($vars) {
       $hide_class = $hide ? 'hide-text' : '';
       $space = $hide ? '' : ' ';
       $title = '<i class="fa fa-fw '. $link['icon'] . '"></i>' . $space . '<span class="' . $hide_class . '">' . $link['title'] . '</span>';
-      $html .= '<li class="' . $classes .'">'.l($title, $link['href'], $link).'</li>';
+      $html .= '<li class="' . $classes .'">'.l($title, $link['href'], $link) . $below . '</li>';
     }
     else if (isset($link['title']) && isset($link['href'])) {
-      $html .= '<li class="' . $classes .'">'.l($link['title'], $link['href'], $link).'</li>';
+      $html .= '<li class="' . $classes .'">'.l($link['title'], $link['href'], $link) . $below . '</li>';
     }
   }
   $html .= "  </ul>";
