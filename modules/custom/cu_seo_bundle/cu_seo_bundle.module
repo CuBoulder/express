@@ -49,7 +49,6 @@ function cu_seo_bundle_secure_permissions($role) {
       'access broken links report',
       'edit link settings',
       'administer site verify',
-      'view seo dashboard',
     ),
     'site_owner' => array(
       'edit meta tags',
