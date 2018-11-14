@@ -97,7 +97,7 @@ dependencies[] = cu_profile_module_manager
 
 ; ============ CU AUTHENTICATION AND PERMISSIONS ============
 dependencies[] = administerusersbyrole
-dependencies[] = role_delegation
+;dependencies[] = role_delegation
 dependencies[] = chain_menu_access
 ; Enabled after everything else to speed up install
 ; dependencies[] = cu_users

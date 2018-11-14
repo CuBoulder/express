@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * Add record to 'ldap_servers' so that features can compare code to db.
+ */
+function cu_ldap_update_7001() {
+  // Create a db insert with the properties we have from saving the form.
+  $ldap_servers = db_query('SELECT address FROM ldap_servers WHERE sid = :sid', array(':sid' => 'directory'))->fetchCol();
+
+  if (count($ldap_servers) <= 0) {
+    db_insert('ldap_servers')
+    ->fields(array(
+      'sid' => 'directory',
+      'numeric_sid' => '1',
+      'name' => 'directory.colorado.edu',
+      'status' => '1',
+      'ldap_type' => 'default',
+      'address' => 'directory.colorado.edu',
+      'port' => '389',
+      'tls' => '1',
+      'followrefs' => '0',
+      'bind_method' => '2',
+      'basedn' => 'a:1:{i:0;s:27:"ou=users,dc=colorado,dc=edu";}',
+      'user_attr' => 'uid',
+      'mail_attr' => 'mail',
+      'unique_persistent_attr' => '0',
+      'user_dn_expression' => 'uid=%username,%basedn',
+      'grp_unused' => '0',
+      'grp_nested' => '0',
+      'grp_user_memb_attr_exists' => '0',
+      'grp_derive_from_dn' => '0',
+      'search_pagination' => '0',
+      'search_page_size' => '1000',
+      'weight' => '0',
+    ))
+      ->execute();
+  } else {
+    watchdog('cu_ldap', t('Ldap_servers already had a record for directory.colorado.edu.'));
+  }
+}

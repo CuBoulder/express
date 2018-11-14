@@ -56,6 +56,88 @@ function express_permissions_secure_permissions_roles() {
 }
 
 /**
+ * Return role information including labels and types.
+ *
+ * $type: array of types to return. NULL or FALSE to return all.
+ * $exclude: array of role machine names to exclude.
+ */
+function express_permissions_role_settings($type = NULL, $exclude = array()) {
+  $settings = array();
+  $role_settings = array();
+  // List all roles with human readable label and a type.
+  // Type options: service, core, core_addon, bundle_addon.
+  $settings['edit_my_content'] = array(
+    'label' => 'Edit My Content',
+    'type' => 'core',
+  );
+  $settings['edit_only'] = array(
+    'label' => 'Content Editor (edit only)',
+    'type' => 'core',
+  );
+  $settings['content_editor'] = array(
+    'label' => 'Content Editor (deprecated)',
+    'type' => 'core',
+  );
+  $settings['site_editor'] = array(
+    'label' => 'Site Editor',
+    'type' => 'core',
+  );
+  $settings['site_owner'] = array(
+    'label' => 'Site Owner',
+    'type' => 'core',
+  );
+  $settings['administrator'] = array(
+    'label' => 'Administrator',
+    'type' => 'service',
+  );
+  $settings['developer'] = array(
+    'label' => 'Developer',
+    'type' => 'service',
+  );
+  $settings['access_manager'] = array(
+    'label' => 'Access Manager',
+    'type' => 'core_addon',
+  );
+  $settings['configuration_manager'] = array(
+    'label' => 'Configuration Manager',
+    'type' => 'core_addon',
+  );
+  $settings['campaign_manager'] = array(
+    'label' => 'Campaign Manager',
+    'type' => 'bundle_addon',
+  );
+  $settings['form_manager'] = array(
+    'label' => 'Form Manager',
+    'type' => 'bundle_addon',
+  );
+  $settings['form_submitter'] = array(
+    'label' => 'Form Submitter',
+    'type' => 'bundle_addon',
+  );
+  // Get all the roles.
+  $roles = user_roles(TRUE);
+  // Combine new role info(labels/types) with stored role info(role ids).
+  foreach ($roles as $rid => $role_name) {
+    if ( ($role_name != 'authenticated user') && !empty($settings[$role_name]) && !in_array($role_name, $exclude)) {
+      // Add role id to array values.
+      $settings[$role_name]['rid'] = $rid;
+      // Filter roles by type.
+      if ($type) {
+        if (in_array($settings[$role_name]['type'], $type) ) {
+          $role_settings['names'][$role_name] = $settings[$role_name];
+          $role_settings['rid'][$rid] = $settings[$role_name];
+        }
+      }
+      else {
+        $role_settings['names'][$role_name] = $settings[$role_name];
+        $role_settings['rid'][$rid] = $settings[$role_name];
+      }
+    }
+  }
+  return $role_settings;
+}
+
+/**
  * Define site permissions in code.
  *
  * Create a secure_permissions_data module directory and place this function
@@ -209,6 +291,43 @@ function express_permissions_secure_permissions($role) {
       'view status messages',
       'view warning messages',
       'view error messages',
+    ),
+    'edit_only' => array(
+      'access administration pages',
+      'access bean overview',
+      'access ckeditor link',
+      'access content overview',
+      'access contextual links',
+      'access express settings',
+      'access navbar',
+      'administer nodes',
+      'check out documents',
+      'clear path caches',
+      'create url aliases',
+      'customize shortcut links',
+      'diff view changes',
+      'edit any block bean',
+      'edit any faqs content',
+      'edit any file content',
+      'edit any hero_unit bean',
+      'edit any page content',
+      'edit any slider bean',
+      'edit own faqs content',
+      'edit own file content',
+      'edit own page content',
+      'preview focal point',
+      'revert revisions',
+      'use text format wysiwyg',
+      'view any hero_unit bean',
+      'view any slider bean',
+      'view any unpublished content',
+      'view bean page',
+      'view bean revisions',
+      'view error messages',
+      'view revisions',
+      'view status messages',
+      'view the administration theme',
+      'view warning messages',
     ),
     'content_editor' => array(
       'access administration pages',
@@ -655,43 +774,6 @@ function express_permissions_secure_permissions($role) {
       'view redirects',
       'view express environment indicator',
     ),
-    'edit_only' => array(
-      'access administration pages',
-      'access bean overview',
-      'access ckeditor link',
-      'access content overview',
-      'access contextual links',
-      'access express settings',
-      'access navbar',
-      'administer nodes',
-      'check out documents',
-      'clear path caches',
-      'create url aliases',
-      'customize shortcut links',
-      'diff view changes',
-      'edit any block bean',
-      'edit any faqs content',
-      'edit any file content',
-      'edit any hero_unit bean',
-      'edit any page content',
-      'edit any slider bean',
-      'edit own faqs content',
-      'edit own file content',
-      'edit own page content',
-      'preview focal point',
-      'revert revisions',
-      'use text format wysiwyg',
-      'view any hero_unit bean',
-      'view any slider bean',
-      'view any unpublished content',
-      'view bean page',
-      'view bean revisions',
-      'view error messages',
-      'view revisions',
-      'view status messages',
-      'view the administration theme',
-      'view warning messages',
-    ),
     'access_manager' => array(
       'access administration pages',
       'access user profiles',
@@ -782,34 +864,25 @@ function express_permissions_form_user_profile_form_alter(&$form, &$form_state) 
   global $user;
   $form['#validate'][] = 'express_permissions_site_owner_cap';
 
-  $new_role_options = array();
+  $new_role_options = [];
   // Get Roles of user being edited.
-  $original_role_options = $form['account']['roles']['#options'];
-
-  foreach ($original_role_options as $rid => $role_name) {
-    // Format role name to be  more readable.
-    $new_role_name = check_plain($role_name);
-    $new_role_name = ucwords(str_replace('_', ' ', $new_role_name));
-    if ($role_name == 'edit_only') {
-      if (in_array('developer', $user->roles) || in_array('administrator', $user->roles)) {
-        $new_role_name =  '<i>' . $new_role_name . ' (temp role hidden from site owners)</i>';
-      }
-    }
-    if ($role_name == 'access_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    if ($role_name == 'configuration_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    if ($role_name == 'campaign_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    if ($role_name == 'form_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    $new_role_options[$rid] = $new_role_name;
-
+  // If user has a certain role, limit role options.
+  $available_roles = express_permissions_role_settings($type = NULL, $exclude = array());
+  if (user_has_role($available_roles['names']['administrator']['rid']) || user_has_role($available_roles['names']['site_owner']['rid'])) {
+    $available_roles = express_permissions_role_settings($type = NULL, $exclude = array('developer', 'administrator'));
+  } else if (user_has_role($available_roles['names']['developer']['rid']) || $user->uid === '1') {
+    $available_roles = express_permissions_role_settings($type = NULL, $exclude = array());
+  } else {
+    $available_roles = [];
   }
+
+  $original_role_options = $available_roles;
+
+  // Let's make it look like the original options.
+  foreach ($original_role_options['names'] as $option) {
+    $new_role_options[$option['rid']] = $option['label'];
+  }
+
   $form['account']['roles']['#options'] = $new_role_options;
 }
 

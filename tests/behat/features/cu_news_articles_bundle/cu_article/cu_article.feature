@@ -1,3 +1,4 @@
+@newsArticles
 Feature: Article Content Type
   When I log into the website
   As an content editor, site owner, administrator or developer
@@ -21,17 +22,17 @@ Feature: Article Content Type
     When I am on "node/add/article"
     Then I should see "Access denied"
 
-  @javascript
+
   Scenario: An authenticated user should be able to create article node
-    Given  I am logged in as a user with the "content_editor" role
+    Given  I am logged in as a user with the "site_owner" role
       And am on "node/add/article"
       And fill in "Title" with "New article"
-      And I follow "Disable rich-text"
+     # And I follow "Disable rich-text"
       And fill in "Body" with "Demo body content"
-      And I follow "External Link"
-      And fill in "edit-field-article-external-url-und-0-url" with "www.google.com"
-      And I follow "Tags"
-      And fill in "Tags" with "Tag1, Tag with lots of parts"
+     # And I follow "External Link"
+      And fill in "edit-field-article-external-url-und-0-url" with "http://www.google.com"
+     # And I follow "Tags"
+      And fill in "edit-field-tags-und" with "Tag1, Tag with lots of parts"
     When I press "Save"
     Then the "#page-title" element should contain "New Article"
       And I should see "Demo body content"

@@ -7,7 +7,6 @@ package = CU-Core
 dependencies[] = cu_redirect
 dependencies[] = cu_help
 dependencies[] = user_external_invite
-dependencies[] = syslog
 dependencies[] = rave_alerts
 dependencies[] = cu_alerts
 dependencies[] = cu_atlas
@@ -29,6 +28,8 @@ dependencies[] = cu_helpscout
 dependencies[] = cu_inactive_users
 dependencies[] = match_redirect
 dependencies[] = express_content_edit_lock
+dependencies[] = r4032login
+dependencies[] = unpublished_404
 
 optional-dependencies[] = cu_users
 optional-dependencies[] = express_content_edit_lock

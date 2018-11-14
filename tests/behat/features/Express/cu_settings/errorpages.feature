@@ -39,7 +39,6 @@ Feature: Error Pages
     And I go to "missing-page-test"
     Then I should see "404 Page"
 
-
   # SETTING THE 403 PAGE
   # Create a basic page; use it for 403 page.
   Scenario: A site-owner can create a Basic Page and use it for the 403 page
