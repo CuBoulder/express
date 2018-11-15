@@ -306,12 +306,14 @@ h3.hero,
   .brand-fonts & {
     font-weight:100;
     strong {
-      font-weight:900;
+      font-weight:750;
+      font-family: $base_font_condensed;
     }
   }
 }
 .exbd-heading-style-hero-bold > .block-inner > .exbd-block-title > .block-title {
-  font-weight: 900;
+  font-weight: 750;
+  font-family: $base_font_condensed;
 }
 
 .supersize,
@@ -328,12 +330,14 @@ h3.supersize,
   .brand-fonts & {
     font-weight:100;
     strong {
-      font-weight:900;
+      font-weight:750;
+      font-family: $base_font_condensed;
     }
   }
 }
 .exbd-heading-style-supersize-bold > .block-inner > .exbd-block-title > .block-title {
-  font-weight: 900;
+  font-weight: 750;
+  font-family: $base_font_condensed;
 }
 // Breadcumbs
 .breadcrumb {
@@ -360,4 +364,8 @@ h1, h2, h3, h4, h5, h6 {
   & + pre {
     margin-top: -($spacing + ($spacing/2));
   }
+}
+.messages .element-invisible + pre {
+  margin-top: 0;
+  margin-bottom: 0;
 }
