@@ -1078,6 +1078,13 @@ function cu_core_update_7057() {
 }
 
 /**
+ * Revert features for 2.10
+ */
+function cu_core_update_7058() {
+  cu_core_revert_features();
+}
+
+/**
  * Revert features by passing features in an array.
  */
 function cu_core_revert_features($features = NULL) {
