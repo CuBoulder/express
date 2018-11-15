@@ -160,6 +160,7 @@ function ucb_preprocess_html(&$vars) {
 
   // Add site type class
   $vars['classes_array'][] = 'express-site-type-' . variable_get('express_site_type', 'default');
+  $vars['classes_array'][] = 'brand-fonts';
 }
 
 /**
@@ -792,4 +793,27 @@ function ucb_affiliation($site_type = NULL, $value = NULL) {
     }
   }
   return FALSE;
+}
+
+/**
+ * Implements theme_breadcrumb().
+ */
+function ucb_breadcrumb($vars = NULL) {
+  $breadcrumb = !empty($vars['breadcrumb']) ? $vars['breadcrumb'] : drupal_get_breadcrumb();
+  $theme = variable_get('theme_default','');
+  if (!empty($breadcrumb) && theme_get_setting('use_breadcrumbs', $theme)) {
+    if (count($breadcrumb) < 2) {
+      return '';
+    }
+
+    // Replace the Home breadcrumb with a Home icon
+    //$breadcrumb[0] = str_replace('Home','<i class="fa fa-home"></i> <span class="home-breadcrumb element-invisible">Home</span>',$breadcrumb[0]);
+    // Get current page title and add to breadcrumb array
+    $breadcrumb[] = '<span class="current-breadcrumb">' . drupal_get_title() . '</span>';
+    // Provide a navigational heading to give context for breadcrumb links to
+    // screen-reader users. Make the heading invisible with .element-invisible.
+    $output = '<h2 class="element-invisible">' . t('Breadcrumb') . '</h2>';
+    $output .= '<div class="breadcrumb">' . implode(' <i class="fa fa-angle-right"></i> ', $breadcrumb) . '</div>';
+    return $output;
+  }
 }
