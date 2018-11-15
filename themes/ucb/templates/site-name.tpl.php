@@ -26,19 +26,39 @@
 <?php endif; ?>
 <?php
   $site_type = variable_get('express_site_type', NULL);
-  $affiliation = variable_get('cu_site_affiliation', ucb_affiliation($site_type, 'label'));
-  $affiliation_link = variable_get('cu_site_affiliation_link', ucb_affiliation($site_type, 'link'));
+
+  $affilation_enable = variable_get('cu_affilation_enable', FALSE);
+  $affilation = variable_get('cu_site_affiliation_options', NULL);
+  $affiliation_title = NULL;
+  $affilation_url = NULL;
+  if ($site_type) {
+    $affilation = cu_core_site_affiliation_options($site_type);
+    $affiliation_title = $affilation['label'];
+    $affiliation_url = $affilation['url'];
+  }
+  elseif ($affilation == 'custom') {
+    $affiliation_title = variable_get('express_site_affiliation_title', NULL);
+    $affiliation_url = variable_get('express_site_affiliation_url', NULL);
+  }
+  elseif (!empty($affilation)) {
+    $affilation = cu_core_site_affiliation_options($affilation);
+    $affiliation_title = $affilation['label'];
+    $affiliation_url = $affilation['url'];
+  }
+
+  //$affiliation = variable_get('cu_site_affiliation', ucb_affiliation($site_type, 'label'));
+  //$affiliation_link = variable_get('cu_site_affiliation_link', ucb_affiliation($site_type, 'link'));
 ?>
 
-<?php if ($affiliation): ?>
+<?php if ($affilation_enable && $affiliation): ?>
 
   <div class="affiliation">
     <?php
-      if ($affiliation && !$affiliation_link) {
-        print $affiliation;
+      if ($affiliation_title && !$affiliation_url) {
+        print $affiliation_title;
       }
-      elseif ($affiliation && $affiliation_link) {
-        print l($affiliation, $affiliation_link, array('html' => TRUE));
+      elseif ($affiliation_title && $affiliation_url) {
+        print l($affiliation_title, $affiliation_url, array('html' => TRUE));
       }
     ?>
   </div>
