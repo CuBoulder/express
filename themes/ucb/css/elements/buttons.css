@@ -48,7 +48,7 @@ a.button.button-full, a.button.button-block, .button.button-full, .button.button
 .button.button-small { font-size: 85%; padding: 1px 6px; }
 
 .buttongroup { display: block; position: relative; overflow: hidden; }
-.buttongroup a.button { display: block; -webkit-border-radius: 0px; -moz-border-radius: 0px; border-radius: 0px; -webkit-background-clip: padding-box; -moz-background-clip: padding; background-clip: padding-box; text-align: center; font-weight: 500; }
+.buttongroup a.button { display: block; -webkit-border-radius: 0px; -moz-border-radius: 0px; border-radius: 0px; -webkit-background-clip: padding-box; -moz-background-clip: padding; background-clip: padding-box; text-align: center; font-weight: bold; }
 
 @media screen and (min-width: 768px) { .buttongroup .button-group-content { display: table; table-layout: fixed; width: 100%; position: relative; }
   .buttongroup .button-group-content a.button { display: table-cell; -webkit-border-radius: 0px; -moz-border-radius: 0px; border-radius: 0px; -webkit-background-clip: padding-box; -moz-background-clip: padding; background-clip: padding-box; text-align: center; vertical-align: middle; border-style: solid; position: relative; border: none; overflow: hidden; }
