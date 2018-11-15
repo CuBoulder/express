@@ -97,7 +97,7 @@
 
 
 
- 
+
 
 
 
@@ -172,16 +172,19 @@
    align-items:center;
    font-size:20px;
    padding: 20px 0;
-   font-weight: 900;
+   font-weight: 750;
    font-family: $base_font_condensed;
    line-height: 1.1;
-   .site-name {
+   .site-name,
+   h1.site-name {
      font-size:20px;
-     font-weight: 900;
+     font-weight: 750;
+     font-family: $base_font_condensed;
    }
    @media screen and (min-width:768px) {
      &,
-     & .site-name {
+     & .site-name,
+     & h1.site-name {
        font-size: 30px;
      }
    }
