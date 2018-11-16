@@ -9,4 +9,3 @@ version = "7.x-2.6"
 core = "7.x"
 project = "xmlsitemap"
 datestamp = "1539120486"
-

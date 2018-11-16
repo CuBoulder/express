@@ -19,7 +19,7 @@ function xmlsitemap_node_entity_info_alter(array &$entity_info) {
 /**
  * Implements hook_cron().
  *
- * Process nodes that need to be added to or updated in the {xmlsitemap} table.
+ * Process old nodes not found in the {xmlsitemap} table.
  */
 function xmlsitemap_node_cron() {
   $limit = xmlsitemap_var('batch_limit');
@@ -94,9 +94,16 @@ function xmlsitemap_node_node_insert(stdClass $node) {
  * Implements hook_node_update().
  */
 function xmlsitemap_node_node_update(stdClass $node) {
+  // Save a sitemap link with revoked access until the node permissions are
+  // checked in the cron.
+  $link = xmlsitemap_node_create_link($node);
+  xmlsitemap_link_presave($link, array($link['type'] => $node));
   // Node access can not be accurately determined in hook_node_update() because
-  // node grants have not yet been written to the table, so we defer creation of
-  // a sitemap link and process during cron.
+  // node grants have not yet been written to the table, so we defer checking
+  // node access permissions and process the sitemap link during cron.
+  $queue = DrupalQueue::get('xmlsitemap_node');
+  $queue->createItem($node->nid);
+}
 
 /**
  * Implements hook_node_delete().
