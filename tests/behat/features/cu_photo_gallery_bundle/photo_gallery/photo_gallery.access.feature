@@ -1,7 +1,7 @@
 @PhotoGallery
 Feature: Photo Gallery Bundle
 When I login to a Web Express website
-As an authenticated user
+As a user with the proper role
 I should be able to create, edit, and delete a Photo Gallery
 
   @max_execution_time
@@ -18,7 +18,7 @@ I should be able to create, edit, and delete a Photo Gallery
     | administrator   | "Create Photo Gallery"  |
     | developer       | "Create Photo Gallery"  |
     | edit_my_content | "Access Denied"         |
-
+    | edit_only       | "Access Denied"         |
 
  Scenario: An anonymous user shouldn't be able to create Photo Gallery content.
  Given I am on "node/add/photo-gallery"
