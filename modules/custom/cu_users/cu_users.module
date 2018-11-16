@@ -605,7 +605,7 @@ function cu_user_role_descriptions($role) {
   $descriptions = array(
     'Site Owner' => 'Main authority/contact for the website. All site access permissions. Limited to 3 people. Held responsible for the website adhering to university policies.',
     'Site Editor' => 'Main site builder. Full access to website content and layout tools. Trusted user responsible for the day-to-day maintenance and building of the website. Can receive elevated add-on roles.',
-    'Content Editor' => 'A basic role limited...',
+    'Content Editor' => 'This role will be changing. The role originally had full edit access to add and/or delete all content as well as layout tools.<br><br>It will be demoted to Edit Only access. Site owners need to determine if a user with Content Editor should be in the new updated version or promoted to Site Editor.',
     'Edit Only' => 'Edit only access. A basic role limited to content edits/updates for existing content. Can’t delete or add content, blocks or layouts.',
     'Edit My Content' => 'Page specific access. A basic role limited to content edits/updates for specific pages. Can receive limited add-on roles.',
     'Access Manager' => 'Can assign up to three site users to help manage users and roles on a site. This role will grant access to:
