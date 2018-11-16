@@ -93,10 +93,7 @@ function cu_dashboard_seo_secure_permissions($role) {
     'developer' => array(
       'use seo dashboard',
     ),
-    'edit_my_content' => array(
-      'use seo dashboard',
-    ),
-    'site_editor' => array(
+    'configuration_manager' => array(
       'use seo dashboard',
     ),
     'site_owner' => array(

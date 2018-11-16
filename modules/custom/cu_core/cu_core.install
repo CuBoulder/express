@@ -967,9 +967,9 @@ function cu_core_update_7042() {
   }
 }
 
-/*
-* Updating site and web emails to prepare for new infrastructure smtp configuration
-*/
+/**
+ * Updating site and web emails to prepare for new infrastructure smtp configuration
+ */
 function cu_core_update_7043() {
    variable_set('webform_default_from_address', 'webexpress_noreply@colorado.edu');
    variable_set('site_mail', 'webexpress_noreply@colorado.edu');
@@ -1035,9 +1035,17 @@ function cu_core_update_7052() {
 }
 
 /**
- * Disable role_delegation for 3.0.0 release.
+ * Enable Google Tag Manager for 2.9.6.
  */
 function cu_core_update_7053() {
+  module_enable(array('google_tag'));
+  variable_set('google_tag_container_id', 'GTM-M3DX2QP');
+}
+
+/**
+ * Disable role_delegation for 3.0.0 release.
+ */
+function cu_core_update_7054() {
   module_disable(array('role_delegation'));
   drupal_uninstall_modules(array('role_delegation'), $uninstall_dependents = FALSE);
 }
@@ -1045,10 +1053,36 @@ function cu_core_update_7053() {
 /**
  * Enable unpublished_404, r4032login for 2.9.7.
  */
-function cu_core_update_7054() {
+function cu_core_update_7055() {
   module_enable(array('unpublished_404', 'r4032login'));
 }
 
+/**
+ * Set stringoverrides correctly.
+ */
+function cu_core_update_7056() {
+  $locale_custom_strings_en[''] = array(
+    'Each menu has a corresponding block that is managed on the <a href="@blocks">Blocks administration page</a>.' => 'Each menu has a corresponding block which can be placed in a content region.',
+    'Set and configure the default theme for your website.  Alternative <a href="@themes">themes</a> are available.' => 'Set and configure the default theme for your website.',
+    'The menu module allows on-the-fly creation of menu links in the content authoring forms. To configure these settings for a particular content type, visit the <a href="@content-types">Content types</a> page, click the <em>edit</em> link for the content type, and go to the <em>Menu settings</em> section.' => 'The menu module allows on-the-fly creation of menu links.',
+  );
+  variable_set('locale_custom_strings_en', $locale_custom_strings_en);
+}
+
+/**
+ * Update external invites for 2.9.7.
+ */
+function cu_core_update_7057() {
+  // Set default variables for user_external_invite.
+  _set_external_invite_variables();
+}
+
+/**
+ * Revert features for 2.10
+ */
+function cu_core_update_7058() {
+  cu_core_revert_features();
+}
 
 /**
  * Revert features by passing features in an array.

@@ -21,5 +21,23 @@ I am redirected to my dashboard
       | developer       |
       | administrator   |
       | site_owner      |
+      | site_editor     |
       | content_editor  |
       | edit_my_content |
+
+  @usertabs
+  Scenario Outline: Authenticated users should see three tabs on their dashboard
+    Given I am logged in as a user with the <role> role
+    When I go to "admin/dashboard"
+    Then I should see the link "User"
+    And I should see the link "Authored Content"
+    And I should see the link "Edited Content"
+
+    Examples:
+      | role             |
+      | developer        |
+      | administrator    |
+      | site_owner       |
+      | site_editor      |
+      | content_editor   |
+      | edit_my_content  |

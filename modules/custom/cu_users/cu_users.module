@@ -116,6 +116,47 @@ function cu_users_help($path, $arg) {
   }
 }
 
+function cu_users_menu() {
+  $items = array();
+
+  $items['user/%user/authored'] = array(
+    'title' => 'Authored Content',
+    'page callback' => 'cu_users_user_authored_content',
+    'page arguments' => array('user_profile_form', 1),
+    'access arguments' => array('access users overview'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
+  );
+  $items['user/%user/edited'] = array(
+    'title' => 'Edited Content',
+    'page callback' => 'cu_users_user_edited_content',
+    'page arguments' => array('user_profile_form', 1),
+    'access arguments' => array('access users overview'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
+  );
+
+  return $items;
+}
+
+/**
+ * Callback function for edited dashboard.
+ */
+function cu_users_user_edited_content($user) {
+  $output = views_embed_view('authored_content', 'block_2');
+
+  return $output;
+}
+
+/**
+ * Callback function for authored dashboard.
+ */
+function cu_users_user_authored_content($user) {
+  $output = views_embed_view('authored_content', 'block_1');
+
+  return $output;
+}
+
 /**
  * Implements hook_menu_alter().
  */
@@ -711,5 +752,14 @@ function cu_users_user_login(&$edit, $account)
       $account->roles += array($account_role_object_id => $account_role);
       user_save($account);
     }
+  }
+}
+
+function cu_users_mail_alter(&$message) {
+  if ($message['id'] == 'user_external_invite_user_external_invite_sent' || $message['id'] == 'user_external_invite_user_external_invite_token') {
+    $role_names = ['Content Editor', 'Edit Only'];
+    $edited_role_names = ['Content Editor (deprecated)', 'Content Editor (edit only)'];
+    $str = str_replace($role_names, $edited_role_names, $message['body'][0]);
+    $message['body'][0] = $str;
   }
 }
