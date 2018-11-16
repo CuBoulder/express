@@ -276,7 +276,19 @@ $snapchat: #fffa37;
   }
 }
 
+// Font awesome replacements
+.socicon-feed:before,
+.socicon-email:before {
+  font-family: FontAwesome;
+}
+.socicon-feed:before {
+  content: "\f09e";
+}
+.socicon-email:before {
+  content: "\f0e0";
+}
 
+// Icons
 
 .socicon-internet:before {
   content: "\e957";
