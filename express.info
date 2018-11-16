@@ -203,9 +203,6 @@ dependencies[] = express_block_designer_menu
 ; ============ FEATURE EXPORTS ============
 dependencies[] = express_linkit_profiles
 
-; REMOVE IN FUTURE
-
-
 ; STILL NEEDS WORK?
 dependencies[] = cu_bean_override_view
 dependencies[] = cu_people_administration_override
