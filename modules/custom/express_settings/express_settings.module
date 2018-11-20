@@ -418,6 +418,7 @@ function express_settings_site_name_form($form, &$form_state) {
     '#default_value' => variable_get('site_name_2', ''),
     '#required' => FALSE,
   );
+  /*
   $form['site_slogan'] = array(
     '#title' => t('Site slogan'),
     '#description' => t('Can be used to give more detail to the page title on search engines'),
@@ -425,6 +426,7 @@ function express_settings_site_name_form($form, &$form_state) {
     '#default_value' => variable_get('site_slogan', ''),
     '#required' => FALSE,
   );
+  */
   $form['site_description'] = array(
     '#title' => 'Site Description',
     '#description' => t('This is the main body of your search result and what people will read first and 
