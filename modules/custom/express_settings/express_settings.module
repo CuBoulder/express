@@ -84,7 +84,7 @@ function express_settings_menu() {
     'weight' => -95,
   );
   $items['admin/settings/site-configuration/site-name'] = array(
-    'title' => 'Site Name',
+    'title' => 'Site Name and Search Engine Display',
     'description' => 'Edit the text for the top brand banner of the website',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
@@ -92,6 +92,7 @@ function express_settings_menu() {
     'access arguments' => array('administer express settings'),
     'weight' => -50,
   );
+  /*
   $items['admin/settings/site-configuration/site-description'] = array(
     'title' => 'Site Description',
     'description' => 'Edit the description of the website',
@@ -101,6 +102,7 @@ function express_settings_menu() {
     'access arguments' => array('administer express settings'),
     'weight' => -45,
   );
+  */
   $items['admin/settings/site-configuration/contact'] = array(
     'title' => 'Contact Information',
     'description' => 'Edit the Contact Information which appears at the bottom of the page',
@@ -379,6 +381,30 @@ function express_settings_site_name_form($form, &$form_state) {
   global $base_url;
   $form = array();
 
+  $site_name = variable_get('site_name', '');
+  $site_description = variable_get('site_description', '');
+
+  $head_title = $site_name . ' | University of Colorado Boulder';
+
+  if (isset($site_description)) {
+    if (strlen($site_description) >= 164) {
+      $description = substr($site_description, 0, 160);
+      $description .= ' ...';
+    } else {
+      $description = $site_description;
+    }
+  } else {
+    $description = t('Please provide a description for this site and click "save configuration" below.');
+  }
+
+  $google_result = '
+    <div id="google-search-result-mimic">
+      <p class="title">' . $head_title . '</p>
+      <p class="url">' . $base_url . '</p>
+      <p>' . $description . '</p>
+    </div>
+  ';
+
   $form['site_name_1'] = array(
     '#title' => t('Site name - line 1'),
     '#type' => 'textfield',
@@ -387,9 +413,37 @@ function express_settings_site_name_form($form, &$form_state) {
   );
   $form['site_name_2'] = array(
     '#title' => t('Site name - line 2 (optional)'),
+    '#description' => t('This will display on a second line in your site\'s header.'),
     '#type' => 'textfield',
     '#default_value' => variable_get('site_name_2', ''),
     '#required' => FALSE,
+  );
+  $form['site_slogan'] = array(
+    '#title' => t('Site slogan'),
+    '#description' => t('Can be used to give more detail to the page title on search engines'),
+    '#type' => 'textfield',
+    '#default_value' => variable_get('site_slogan', ''),
+    '#required' => FALSE,
+  );
+  $form['site_description'] = array(
+    '#title' => 'Site Description',
+    '#description' => t('This is the main body of your search result and what people will read first and 
+                        foremost to see if they\'re going to the correct site. The ideal length for this is between
+                        150 - 160 characters as Google generally cuts off descriptions after ~160 characters.'),
+    '#type' => 'textarea',
+    '#default_value' => variable_get('site_description', ''),
+  );
+  $form['gsrm'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('How your search result might appear:'),
+  );
+  $form['gsrm']['search_result'] = array(
+    '#title' => t('This is how your website will show up on Google.'),
+    '#type' => 'markup',
+    '#markup' => $google_result,
+  );
+  $form['#attached']['css'] = array(
+    drupal_get_path('module', 'express_settings') . '/css/google--search-result.css',
   );
 
   // Let system_settings_form_submit run first to variable_set vars.
@@ -408,10 +462,14 @@ function express_settings_site_name_form_submit($form, &$form_state) {
   variable_set('site_name', filter_xss($full_site_name));
   variable_set('site_name_1', filter_xss($form_state['values']['site_name_1']));
   variable_set('site_name_2', filter_xss($form_state['values']['site_name_2']));
+  variable_set('site_slogan', filter_xss($form_state['values']['site_slogan']));
+  variable_set('site_description', filter_xss($form_state['values']['site_description']));
 }
 
 /**
  * Page callback for admin/site-configuration/site-description.
+ *
+ * @todo remove this and the submit function.
  */
 function express_settings_site_description_form($form, &$form_state) {
   $form = array();

@@ -1,0 +1,38 @@
+#google-search-result-mimic {
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  padding: 30px;
+  margin: 28px 0 60px 0;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+  max-width: 60%;
+}
+#google-search-result-mimic p {
+  margin-bottom: 6px;
+}
+#google-search-result-mimic > .title {
+  color: rgb(26, 13, 171);
+  cursor: pointer;
+  font-family: arial, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 21.6px;
+  text-align: left;
+  text-decoration: none;
+  text-decoration-color: rgb(26, 13, 171);
+  text-decoration-line: none;
+  text-decoration-style: solid;
+  white-space: nowrap;
+}
+#google-search-result-mimic > .url {
+  color: rgb(0, 102, 33);
+  font-family: arial, sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16px;
+  text-align: left;
+  white-space: nowrap;
+}
+.red {
+  color: red !important;
+}

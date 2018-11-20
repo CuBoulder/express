@@ -7,6 +7,18 @@
 include_once 'cu_home_page.features.inc';
 
 /**
+ * Preprocess html.
+ */
+function cu_home_page_preprocess_html(&$vars) {
+  // Set page title (in <head>) to "Site Name | University of Colorado Boulder"
+  // only on the homepage. Besides that, the default of
+  // "Page Name | Site Name | University of Colorado Boulder" is fine.
+  if (drupal_is_front_page()) {
+    $vars['head_title'] = variable_get('site_name');
+  }
+}
+
+/**
  * Implements hook_form_alter().
  *
  * Removes delete button from node form if this node is set as the homepage.
