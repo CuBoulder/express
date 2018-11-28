@@ -36,3 +36,14 @@
 .red {
   color: red !important;
 }
+.google-search-result-arrow {
+  border-style: solid;
+  border-width: 5px 4px 0 4px;
+  width: 0;
+  height: 0;
+  top: 50%;
+  position: absolute;
+  border-color: #006621 transparent;
+  margin-top: -4px;
+  margin-left: 3px;
+}

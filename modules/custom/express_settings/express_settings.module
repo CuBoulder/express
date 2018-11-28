@@ -399,7 +399,7 @@ function express_settings_site_name_form($form, &$form_state) {
   $google_result = '
     <div id="google-search-result-mimic">
       <p class="title">' . $head_title . '</p>
-      <p class="url">' . $base_url . '</p>
+      <p class="url">' . $base_url . '<span class="google-search-result-arrow"></span></p>
       <p>' . $description . '</p>
     </div>
   ';
