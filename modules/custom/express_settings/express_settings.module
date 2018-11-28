@@ -84,15 +84,15 @@ function express_settings_menu() {
     'weight' => -95,
   );
   $items['admin/settings/site-configuration/site-name'] = array(
-    'title' => 'Site Name and Search Engine Display',
-    'description' => 'Edit the text for the top brand banner of the website',
+    'title' => 'Site Name and Site Description',
+    'description' => 'Edit the text for the top brand banner of the website. This will be used in search engine results.',
     'type' => MENU_NORMAL_ITEM,
     'page callback' => 'drupal_get_form',
     'page arguments' => array('express_settings_site_name_form'),
     'access arguments' => array('administer express settings'),
     'weight' => -50,
   );
-
+  /*
   $items['admin/settings/site-configuration/site-description'] = array(
     'title' => 'Site Description',
     'description' => 'Edit the description of the website',
@@ -102,6 +102,7 @@ function express_settings_menu() {
     'access arguments' => array('administer express settings'),
     'weight' => -45,
   );
+  */
   $items['admin/settings/site-configuration/contact'] = array(
     'title' => 'Contact Information',
     'description' => 'Edit the Contact Information which appears at the bottom of the page',
@@ -471,6 +472,7 @@ function express_settings_site_name_form_submit($form, &$form_state) {
  *
  * @todo remove this and the submit function.
  */
+/*
 function express_settings_site_description_form($form, &$form_state) {
   $form = array();
 
@@ -485,7 +487,7 @@ function express_settings_site_description_form($form, &$form_state) {
   $form['#submit'][] = 'express_settings_site_description_form_submit';
   return $form;
 }
-
+*/
 /**
  * Submit handler for express_settings_site_description_form.
  */
