@@ -30,7 +30,7 @@ Scenario: An anonymous user should not be able to set site name
 Scenario: When Site Description is populated, it shows up on the homepage
   Given I am logged in as a user with the "site_owner" role
   And am on "admin/settings/site-configuration/site-name"
-  And fill in "site_description" with "We offer personalized career development"
+  And fill in "Site Description" with "We offer personalized career development"
   And I press "edit-submit"
   Then I should see "The configuration options have been saved"
   And I go to "/"
