@@ -116,9 +116,9 @@ Then I should see <message>
 
 Examples:
     | role            | message |
-    | developer       | "This text is added as a meta description for the site homepage." |
-    | administrator   | "This text is added as a meta description for the site homepage." |
-    | site_owner      | "This text is added as a meta description for the site homepage." |
+    | developer       | "We offer personalized career development" |
+    | administrator   | "We offer personalized career development" |
+    | site_owner      | "We offer personalized career development" |
     | site_editor     | "Access denied"                       |
     | edit_my_content | "Access denied"                       |
     | edit_only       | "Access denied"                       |
