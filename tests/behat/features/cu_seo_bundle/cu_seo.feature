@@ -111,7 +111,7 @@ And the "edit-ga-account" field should contain "UA-654321-1"
 #VERIFY ACCESS TO META TAG DESCRIPTION   
 Scenario Outline: only Devs, Admins and SEOs can access the Site Description setting
 Given I am logged in as a user with the <role> role
-When I go to "admin/settings/site-configuration/site-description"
+When I go to "admin/settings/site-configuration/site-name"
 Then I should see <message>
 
 Examples:
@@ -128,7 +128,7 @@ Examples:
 @testing_frontpage
 Scenario: Adding text to site description populates Meta tag "Description" on site homepage
 Given I am logged in as a user with the "site_owner" role
-When I go to "admin/settings/site-configuration/site-description"
+When I go to "admin/settings/site-configuration/site-name"
 When I fill in "edit-site-description" with "My Amazing Site Description"
 And I press "edit-submit"
 And I go to "/"
