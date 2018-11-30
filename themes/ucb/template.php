@@ -776,9 +776,13 @@ function ucb_image_style(&$vars) {
 
 function ucb_affiliation($site_type = NULL, $value = NULL) {
   $affiliations = array(
-    'sport-club' => array(
+    'sport_club' => array(
       'label' => 'A CU Boulder Sport Club',
       'url' => 'https://www.colorado.edu/recreation'
+    ),
+    'student_group' => array(
+      'label' => 'A CU Boulder Student Group',
+      'url' => 'https://www.colorado.edu/involvement/'
     ),
   );
   if ($site_type && !empty($affiliations[$site_type])) {

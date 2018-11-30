@@ -25,14 +25,15 @@
   <?php endif; ?>
 <?php endif; ?>
 <?php
+  // Get affilation saved settings.
   $site_type = variable_get('express_site_type', NULL);
-
   $affilation_enable = variable_get('cu_affilation_enable', FALSE);
   $affilation = variable_get('cu_site_affiliation_options', NULL);
+  // Null title and url.
   $affiliation_title = NULL;
   $affilation_url = NULL;
-  if ($site_type) {
-    $affilation = cu_core_site_affiliation_options($site_type);
+  if ($site_type && ucb_affiliation($site_type)) {
+    $affilation = ucb_affiliation($site_type);
     $affiliation_title = $affilation['label'];
     $affiliation_url = $affilation['url'];
   }
@@ -45,9 +46,6 @@
     $affiliation_title = $affilation['label'];
     $affiliation_url = $affilation['url'];
   }
-
-  //$affiliation = variable_get('cu_site_affiliation', ucb_affiliation($site_type, 'label'));
-  //$affiliation_link = variable_get('cu_site_affiliation_link', ucb_affiliation($site_type, 'link'));
 ?>
 
 <?php if ($affilation_enable && $affiliation): ?>
