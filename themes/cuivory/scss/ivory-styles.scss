@@ -1,5 +1,5 @@
-@import "../../expressbase/scss/modules/_global.scss";
-@import "../../expressbase/scss/modules/_colors.scss";
+@import "../../ucb/scss/modules/_global.scss";
+@import "../../ucb/scss/modules/_colors.scss";
 
 body.layout-boxed  {
   background-color: #fafafa;
@@ -10,7 +10,7 @@ body.layout-wide {
     display: none;
   }
 }
-.layout-boxed #page {
+.layout-boxed .page {
   width:1200px;
   margin: 0 auto;
   @include rgbashadow(0px, 0px, 80px, #000, .25);
@@ -82,7 +82,7 @@ ul#action-menu a {
 ul#main-menu {
   a {
     color:#656565;
-    border-left:1px solid $border_color;
+    border-left:1px solid $border;
   }
   a:hover,
   a:focus,
@@ -137,30 +137,18 @@ ul#main-menu a.home-link.active {
   background-color: #fff;
 }
 .footer-section {
-  background-color:$bg_dark1;
   border-top:5px solid #c7c7c7;
   background-image: url(../images/content-shadow.png);
   background-repeat: repeat-x;
-  color: #fff;
-  a:link, a:visited {
-    color:$cugold;
-    &:hover,
-    &:focus {
-      color:#fff;
-    }
-  }
+
 }
-.after-content-wrapper,
-.after-content2-wrapper {
-  background-color: #fff;
-}
+
 .after-content-2 .region-lower {
-  padding-top: 20px;
   position: relative;
 }
 .after-content-2 .region-lower:before {
   content: '';
-  border-top:1px solid $border_color;
+  border-top:1px solid $border;
   position: absolute;
   top:0;
   margin: 0 auto;
@@ -170,12 +158,13 @@ ul#main-menu a.home-link.active {
   width: -webkit-calc(100% - 40px);
   width: calc(100% - 40px);
 }
-#footer {
+.after-content-wrapper,
+.after-content2-wrapper,
+.footer-wrapper,
+.site-info-wrapper  {
   padding-top: 20px;
 }
-.site-info-wrapper {
-  background-color: #000;
-}
+
 
 // Subnav
 $defaultFG: #656565;
