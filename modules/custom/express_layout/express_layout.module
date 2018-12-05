@@ -351,6 +351,9 @@ function express_layout_page_alter(&$page) {
         if (function_exists('expressbase_breadcrumb')) {
           $vars['breadcrumb'] = expressbase_breadcrumb();
         }
+        else {
+          $vars['breadcrumb'] = NULL;
+        }
 
         // Add image style urls to variables
         $img_desktop = image_style_url('hero', $layout->field_feature_title_image [LANGUAGE_NONE][0]['uri']);
