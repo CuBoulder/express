@@ -164,7 +164,6 @@
 
       <!-- PAGE TITLE IMAGE -->
       <?php if (isset($title_image) && !drupal_is_front_page()): ?>
-        <a id="main-content"></a>
         <?php
           $vars = array(
             'title_image_width' => $title_image_width,
@@ -188,7 +187,8 @@
           <?php endif; ?>
           <div class="container">
             <!-- TITLE -->
-            <?php if (!isset($title_image) && !drupal_is_front_page()): ?>
+            <div class="<?php if (isset($title_image) && !drupal_is_front_page()) { print 'element-invisible'; }  ?>">
+
               <a id="main-content"></a>
               <?php print render($title_prefix); ?>
               <?php if ($title): ?>
@@ -197,7 +197,7 @@
                 </h1>
               <?php endif; ?>
               <?php print render($title_suffix); ?>
-            <?php endif; ?>
+            </div>
           </div>
 
           <!-- POST TITLE WIDE -->
