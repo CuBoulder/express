@@ -1,11 +1,11 @@
-body { background: none; background-color: #1e1e1e; background-color: #f2f2f2; background-repeat: no-repeat; background-size: cover; background-attachment: fixed; }
+body { background: none; background-color: #000; background-color: #f2f2f2; background-repeat: no-repeat; background-size: cover; background-attachment: fixed; }
 
-@media screen and (min-width: 960px) { #page-wrapper { padding: 20px 0; } }
-#page { -webkit-box-shadow: 0 0 80px rgba(0, 0, 0, 0.25); -moz-box-shadow: 0 0 80px rgba(0, 0, 0, 0.25); box-shadow: 0 0 80px rgba(0, 0, 0, 0.25); }
+@media screen and (min-width: 960px) { .page-wrapper { padding: 20px 0; } }
+.page { -webkit-box-shadow: 0 0 80px rgba(0, 0, 0, 0.25); -moz-box-shadow: 0 0 80px rgba(0, 0, 0, 0.25); box-shadow: 0 0 80px rgba(0, 0, 0, 0.25); }
 
-.layout-fixed #page { width: 1200px; margin: 0 auto; }
+.layout-fixed .page { width: 1500px; margin: 0 auto; }
 
-.layout-responsive #page { width: auto; max-width: 1200px; margin: 0 auto; }
+.layout-responsive .page { width: auto; max-width: 1200px; margin: 0 auto; }
 
 #secondary-menu-wrapper { background-color: #000; }
 
@@ -19,7 +19,7 @@ body { background: none; background-color: #1e1e1e; background-color: #f2f2f2; b
 #secondary-navigation a { color: #fff; display: inline-block; }
 #secondary-navigation a:hover, #secondary-navigation a.active, #secondary-navigation a.active-trail { background-color: #444; color: #fff; }
 
-.top-content { background-color: #1e1e1e; }
+.top-content { background-color: #000; }
 
 .slider-wrapper { padding: 20px; }
 

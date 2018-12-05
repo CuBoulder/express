@@ -1,27 +1,27 @@
-@import "../../expressbase/scss/modules/_global.scss";
-@import "../../expressbase/scss/modules/_colors.scss";
+@import "../../ucb/scss/modules/_global.scss";
+@import "../../ucb/scss/modules/_colors.scss";
 
 body {
   background: none;
-  background-color: $bg_dark2;
+  background-color: #000;
   background-color: #f2f2f2;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
 }
 @media screen and (min-width:960px) {
-  #page-wrapper {
+  .page-wrapper {
     padding:20px 0;
   }
 }
-#page {
+.page {
   @include rgbashadow(0,0,80px,#000,.25);
 }
-.layout-fixed #page {
-  width:1200px;
+.layout-fixed .page {
+  width:1500px;
   margin: 0 auto;
 }
-.layout-responsive #page {
+.layout-responsive .page {
   width:auto;
   max-width: 1200px;
   margin: 0 auto;
@@ -66,7 +66,7 @@ body {
   }
 }
 .top-content {
-  background-color: $bg_dark2;
+  background-color: #000;
 }
 .slider-wrapper {
   padding: 20px;
