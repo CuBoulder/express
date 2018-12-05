@@ -475,14 +475,14 @@ a .icon-color-gray {
   margin: 0 ;
 }
 .page-title-image-background-white {
-  #page-title-image-wrapper h1 {
+  #page-title-image-wrapper #page-title-image-title {
     background:#fff;
     padding:10px;
     color:#363636;
   }
 }
 .page-title-image-background-black {
-  #page-title-image-wrapper h1 {
+  #page-title-image-wrapper #page-title-image-title {
     background:#000;
     padding:10px;
     color:#fff;
@@ -493,12 +493,12 @@ a .icon-color-gray {
     padding: 30px 20px 20px;
     @include gradient($color: rgba(0,0,0,0), $color2: rgba(0,0,0,.75));
   }
-  #page-title-image-wrapper h1 {
+  #page-title-image-wrapper #page-title-image-title {
     background:transparent;
     padding:10px 0px;
     color:#fff;
   }
-  .page-title-image-width-full #page-title-image h1 {
+  .page-title-image-width-full #page-title-image #page-title-image-title {
     padding:10px 0;
   }
 }

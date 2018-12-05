@@ -116,7 +116,7 @@ $heading-scale: 15;
 // Page Title
 h1,
 h1#page-title,
-h1#page-title-image-title,
+#page-title-image-title,
 .page-title-section h1,
 .h1 {
   font-size: 180%;
@@ -128,7 +128,7 @@ h1#page-title-image-title,
 @media screen and (min-width: $breakpoint_tablet) {
   h1,
   h1#page-title,
-  h1#page-title-image-title,
+  #page-title-image-title,
   .page-title-section h1,
   .h1 {
     font-size: 220%;
@@ -139,7 +139,7 @@ h1#page-title-image-title,
 h1,
 .h1,
 h1#page-title,
-h1#page-title-image-title,
+#page-title-image-title,
 .page-title-section h1,
 h2, h3, h4,
 .h2, .h3, .h4 {
@@ -160,7 +160,7 @@ h2.block-title, h2.node-title {
   h1,
   .h1
   h1#page-title,
-  h1#page-title-image-title,
+  #page-title-image-title,
   .page-title-section h1,
   h2, h2.block-title, h2.node-title,
   h3, h4, h5, h6
@@ -178,7 +178,7 @@ h2.block-title, h2.node-title {
   h1,
   .h1
   h1#page-title,
-  h1#page-title-image-title,
+  #page-title-image-title,
   .page-title-section h1, h2, h3, h4,
   .h2, .h3, .h4 {
     font-weight:700;
@@ -199,7 +199,7 @@ h2.block-title, h2.node-title {
     h1,
     .h1
     h1#page-title,
-    h1#page-title-image-title,
+    #page-title-image-title,
     .page-title-section h1,
     h2, h2.block-title, h2.node-title,
     h3, h4, h5, h6,
