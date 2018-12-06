@@ -30,7 +30,7 @@ function cutradition_preprocess_page(&$vars) {
   $vars['theme_hook_suggestions'][] = 'page__title';
 }
 
-function cutradition_breadcrumb1($vars) {
+function cutradition_breadcrumb($vars) {
   global $theme_key;
   $breadcrumb = $vars['breadcrumb'];
   if (count($breadcrumb) < 2) {
@@ -44,7 +44,7 @@ function cutradition_breadcrumb1($vars) {
     // Provide a navigational heading to give context for breadcrumb links to
     // screen-reader users. Make the heading invisible with .element-invisible.
     $output = '<h2 class="element-invisible">' . t('You are here') . '</h2>';
-    $output .= '<div class="breadcrumb">' . implode('<span class="breadcumb-divider element-invisible">/</span>', $breadcrumb) . '</div>';
+    $output .= '<div class="breadcrumbs">' . implode('<span class="breadcumb-divider element-invisible">/</span>', $breadcrumb) . '</div>';
     return $output;
   }
 }
