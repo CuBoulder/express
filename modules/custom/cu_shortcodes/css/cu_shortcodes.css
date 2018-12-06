@@ -106,8 +106,8 @@ a.small-expand-title:focus, a.tooltip-expand-title:focus, a.expand-title:focus {
 
 .image-caption { font-size: 80%; line-height: 120%; display: block; margin-bottom: 20px; }
 
-@media screen and (min-width: 540px) { .image-caption-right { float: right; margin-left: 20px; max-width: 50%; }
-  .image-caption-left { float: left; margin-right: 20px; max-width: 50%; } }
+@media screen and (min-width: 540px) { .image-caption-right { float: right; margin-left: 20px; max-width: 50%; width: 240px; }
+  .image-caption-left { float: left; margin-right: 20px; max-width: 50%; width: 240px; } }
 .image-caption p { padding: 5px 0; margin: 0; }
 
 div.image-caption img { display: block; }
