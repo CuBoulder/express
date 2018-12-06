@@ -478,7 +478,7 @@ function cu_shortcodes_buttongroup($attrs, $content = NULL) {
     'size' => 'regular',
   ), $attrs));
   $content = str_replace(array('<p>&nbsp;</p>','<p>', '</p>'), array('','',''), $content);
-  $output = '<div class="buttongroup buttongroup-color-' . $color . ' buttongroup-size-' . $size . '"><div class="element-max-width-padding"><div class="button-group-content">' . $content . '</div></div></div>';
+  $output = '<div class="buttongroup buttongroup-color-' . $color . ' buttongroup-size-' . $size . '"><div class="container padding-none"><div class="button-group-content">' . $content . '</div></div></div>';
   return $output;
 }
 
