@@ -302,7 +302,7 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
     '#type' => 'select',
     '#options' => $options,
     '#empty_option' => '- None -',
-    '#description' => 'Display a site affiliation message.',
+    '#description' => 'Display a site affiliation message. This element may be overriden by the site type configuraton.',
     '#default_value' => variable_get('cu_site_affiliation_options', ''),
     '#access' => FALSE,
     '#title' => 'Site Affiliation',
@@ -383,144 +383,121 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
 // and by the theme to display the linked label.
 function cu_core_site_affiliation_options($option = NULL) {
   $options = array(
-    'athletics' => array(
-      'url' => 'WEBSITE URL GOES HERE',
-      'label' => 'Athletics',
-    ),
-    'advancement' => array(
-      'url' => 'WEBSITE URL GOES HERE',
-      'label' => 'Advancement',
-    ),
-    'academic_affairs' => array(
-      'url' => 'WEBSITE URL GOES HERE',
-      'label' => 'Academic Affairs',
-    ),
-    'strategic_resources_support' => array(
-      'url' => 'WEBSITE URL GOES HERE',
-      'label' => 'Strategic Resources & Support',
-    ),
 
     'college_of_arts_sciences' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/artsandsciences',
       'label' => 'College of Arts & Sciences',
     ),
     'leeds_school_business' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/business',
       'label' => 'Leeds School of Business',
     ),
     'school_education' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/education',
       'label' => 'School of Education',
     ),
     'college_engineering_applied_science' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/engineering',
       'label' => 'College of Engineering & Applied Science',
     ),
     'college_media_communication_information' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/cmci',
       'label' => 'College of Media, Communication and Information',
     ),
     'college_music' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/music',
       'label' => 'College of Music',
     ),
     'school_law' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/law',
       'label' => 'School of Law',
     ),
     'graduate_school' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/graduateschool',
       'label' => 'Graduate School',
     ),
     'continuing_education' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://ce.colorado.edu/',
       'label' => 'Division of Continuing Education',
     ),
     'university_libraries' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/libraries',
       'label' => 'University Libraries',
     ),
     'academic_affairs_budget_finance' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/',
       'label' => 'Academic Affairs Budget & Finance',
     ),
     'biofrontiers_institute' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/biofrontiers',
       'label' => 'Biofrontiers Institute',
     ),
     'budget_planning' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/',
       'label' => 'Office of Budget & Planning',
     ),
     'diversity_equity_engagement' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/odece',
       'label' => 'Office of Diversity, Equity & Community Engagement',
     ),
     'faculty_affairs' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/facultyaffairs',
       'label' => 'Office of Faculty Affairs',
     ),
     'ombuds' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/ombuds',
       'label' => 'Ombuds Office',
     ),
     'research_innovation' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/researchinnovation',
       'label' => 'Research & Innovation Office',
     ),
     'strategic_initiatives' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/',
       'label' => 'Office of Strategic Initiatives',
     ),
     'student_affairs' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/studentaffairs',
       'label' => 'Division of Student Affairs',
     ),
     'undergraduate_education' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/',
       'label' => 'Office of Undergraduate Education',
     ),
 
 
     'enrollment_management' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/',
       'label' => 'Office of Enrollment Management',
     ),
     'finance_business_strategy' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/',
       'label' => 'Office of Finance & Business Strategy',
     ),
     'human_resources' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/',
       'label' => 'Department of Human Resources',
     ),
     'information_technology' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/',
       'label' => 'Office of Information Technology',
     ),
     'infrastructure_sustainabi;ity' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/',
       'label' => 'Office of Infrastructure & Sustainability',
     ),
     'institutional_equity' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/',
       'label' => 'Office of Institutional Equity',
     ),
     'integrity_safety_compliance' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/',
       'label' => 'Office of Integrity, Safety & Compliance',
     ),
     'strategic_relations_communication' => array(
-      'url' => 'WEBSITE URL GOES HERE',
+      'url' => 'https://www.colorado.edu/strategicrelations',
       'label' => 'Office of Strategic Relations & Communications',
     ),
-
-
-
-
-
-
-
   );
 
   if ($option) {
@@ -536,9 +513,28 @@ function cu_core_site_affiliation_options($option = NULL) {
 
 function cu_core_site_types($type = NULL) {
   $types = array(
-    'sport_club' => 'Sport Club',
-    'student_group' => 'Student Group',
+    'college' => 'College',
+    'school' => 'School',
+    'academic_department' => 'Academic Department',
+    'academic_program' => 'Academic Program',
+    'certificate_program' => 'Certificate Program',
+    'outreach_program' => 'Outreach Program',
+    'residential_academic_program' => 'Residential Academic Program',
+    'academic_support' => 'Academic Support',
+    'center' => 'Center',
+    'institute' => 'Institute',
+    'service_department' => 'Service Department',
+    'resource_department' => 'Resource Department',
+    'support_department' => 'Support Department',
+    'performance' => 'Performance',
+    'event' => 'Event',
+    'museum' => 'Museum',
+    'research_program' => 'Research Program',
     'lab' => 'Lab',
+    'faculty' => 'Faculty',
+    'student_group' => 'Student Group',
+    'sport_club' => 'Sport Club',
+    'publication' => 'Publication',
   );
   if ($type && !empty($types[$type])) {
     return $type;
