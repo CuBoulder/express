@@ -8,4 +8,4 @@
   .layout-boxed .feature-layout-wrapper.feature-layout-wrapper-has-callouts .feature-layout-hero-wrapper, .express-layout-boxed .feature-layout-wrapper.feature-layout-wrapper-has-callouts .feature-layout-hero-wrapper { left: -20px; } }
 
 .feature-layout-hero-wrapper img.image-hero { max-width: none; width: 100%; }
-.layout-boxed .feature-layout-hero-wrapper img.image-hero { max-width: 1200px; }
+.layout-boxed .feature-layout-hero-wrapper img.image-hero { max-width: 1200px; margin: 0 auto; }
