@@ -389,17 +389,38 @@ function cu_shortcodes_box($attrs, $content = NULL) {
         'float' => '',
         'style' => '',
       ), $attrs));
-  $box_title = $title ? '<div class="box-title">' . $title . '</div>' : '';
+  $box_title = $title ? '<div class="box-title padding ">' . $title . '</div>' : '';
   $classes = array();
   $tag = 'div';
   $classes[] = 'cu-box';
+  $classes[] = 'margin-bottom';
   $classes[] = $color ? 'box-' . $color : 'box-white';
+
   $classes[] = $float ? 'float-' . $float : '';
-  $classes[] = $style ? 'box-style-' . $style : 'box-style-filled';
+  $classes[] = $style;
+  if ($style == 'filled') {
+    $classes[] = 'background-' . cu_shortcode_box_translate_class($color);
+  }
+  elseif ($style == 'border') {
+    $classes[] = 'border-' . cu_shortcode_box_translate_class($color);
+  }
   $classes[] = !empty($class) ? explode(' ', $class) : NULL;
   $classes = trim(implode(' ', $classes));
-  $content = $box_title . '<div class="box-content clearfix">' . $content . '</div>';
+  $content = $box_title . '<div class="box-content padding clearfix">' . $content . '</div>';
   return '<' . $tag . ' class="' . $classes . '">' . $content . '</' . $tag . '>';
+}
+
+function cu_shortcode_box_translate_class($color) {
+  $colors = array(
+    'lightgray' => 'gray-light',
+    'darkgray' => 'gray-dark',
+  );
+  if (!empty($colors[$color])) {
+    return $colors[$color];
+  }
+  else {
+    return $color;
+  }
 }
 
 /**

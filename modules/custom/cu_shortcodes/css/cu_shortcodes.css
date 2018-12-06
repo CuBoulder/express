@@ -74,7 +74,20 @@ blockquote.blockquote-icon > i.blockquote-icon { font-size: 400%; position: abso
 
 .icon-wrapper-square.fa-5x, .icon-wrapper-rounded.fa-5x, .icon-wrapper-circle.fa-5x, .icon-wrapper-ring.fa-5x { width: 150px; height: 150px; line-height: 150px; }
 
-.cu-box p:last-child { margin-bottom: none; }
+@media all and (min-width: 768px) { .cu-box.float-right { width: 40%; margin: 0 0 20px 20px; float: right; }
+  .cu-box.float-left { width: 40%; margin: 0 20px 20px 0; float: left; } }
+.cu-box .box-content { padding-top: 10px; }
+.cu-box .box-content p:last-child { margin-bottom: none; }
+.cu-box.border-black { border: 1px solid #000; }
+.cu-box.border-black .box-title { border-bottom: 1px solid #000; }
+.cu-box.border-white { border: 1px solid #fff; }
+.cu-box.border-white .box-title { border-bottom: 1px solid #fff; }
+.cu-box.border-gray-dark { border: 1px solid #424242; }
+.cu-box.border-gray-dark .box-title { border-bottom: 1px solid #424242; }
+.cu-box.border-gray-light { border: 1px solid #eee; }
+.cu-box.border-gray-light .box-title { border-bottom: 1px solid #eee; }
+.cu-box .box-title { font-weight: bold; padding-bottom: 10px; }
+.cu-box.filled .box-title { background: rgba(128, 128, 128, 0.15); }
 
 .anchors { display: none; }
 

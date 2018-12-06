@@ -285,9 +285,57 @@ a:hover .icon-color-gold.icon-wrapper-circle {
   line-height:150px;
 }
 
+@media all and (min-width:768px) {
+  .cu-box.float-right {
+    width:40%;
+    margin:0 0 20px 20px;
+    float: right;
+  }
+  .cu-box.float-left {
+    width:40%;
+    margin:0 20px 20px 0;
+    float: left;
+  }
+}
 
-.cu-box p:last-child {
-  margin-bottom: none;
+.cu-box {
+  .box-content {
+    padding-top:10px;
+  }
+  .box-content p:last-child {
+    margin-bottom: none;
+  }
+  &.border-black {
+    border:1px solid #000;
+    .box-title {
+      border-bottom:1px solid #000;
+    }
+  }
+  &.border-white {
+    border:1px solid #fff;
+    .box-title {
+      border-bottom:1px solid #fff;
+    }
+  }
+  &.border-gray-dark {
+    border:1px solid #424242;
+    .box-title {
+      border-bottom:1px solid #424242;
+    }
+  }
+  &.border-gray-light {
+    border:1px solid #eee;
+    .box-title {
+      border-bottom:1px solid #eee;
+    }
+  }
+  .box-title {
+    font-weight: bold;
+    padding-bottom: 10px;
+  }
+  &.filled .box-title {
+    background:rgba(128,128,128,.15);
+  }
 }
 .anchors {
   display: none;
