@@ -2148,7 +2148,7 @@ html.js input.throbbing { background-image: url(../images/throbber.gif); backgro
 
 .express-site-type-sport_club .site-name-wrapper { background-image: url(../images/cu-buffs-logo.png); background-repeat: no-repeat; background-size: 55px 40px; background-position: left center; padding-left: 65px; }
 
-#navigation { position: re; }
+#navigation { position: relative; }
 
 .navigation-wrapper li.mega-menu-link .mega-menu-wrapper { position: absolute; top: 100%; z-index: 100; width: 100%; }
 li.mega-menu-link .mega-menu-wrapper { display: none; }
