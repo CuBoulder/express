@@ -211,6 +211,7 @@ ul.list-style-linear {
   list-style: none;
   overflow: hidden;
   & > li {
+    list-style: none;
     float:left;
     padding-left: $spacing;
   }
@@ -224,6 +225,7 @@ ul.list-style-linear-dots {
   list-style: none;
   overflow: hidden;
   & > li {
+    list-style: none;
     float:left;
     padding-left:8px;
   }

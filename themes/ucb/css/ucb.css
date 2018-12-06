@@ -532,11 +532,11 @@ ul.list-menu a.active { filter: grayscale(100%); font-weight: bold; }
 ul.list-menu ul { margin-bottom: 0; }
 
 ul.list-style-linear { margin: 0 0 20px 0; padding: 0; list-style: none; overflow: hidden; }
-ul.list-style-linear > li { float: left; padding-left: 20px; }
+ul.list-style-linear > li { list-style: none; float: left; padding-left: 20px; }
 ul.list-style-linear > li:first-child { padding-left: 0; }
 
 ul.list-style-linear-dots { margin: 0 0 20px 0; padding: 0; list-style: none; overflow: hidden; }
-ul.list-style-linear-dots > li { float: left; padding-left: 8px; }
+ul.list-style-linear-dots > li { list-style: none; float: left; padding-left: 8px; }
 ul.list-style-linear-dots > li:first-child { padding-left: 0; }
 ul.list-style-linear-dots > li:before { content: "•"; padding-right: 8px; }
 ul.list-style-linear-dots > li:first-child:before { content: none; padding: 0; }
