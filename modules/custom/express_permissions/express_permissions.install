@@ -39,3 +39,10 @@ function express_permissions_update_7006() {
 function express_permissions_update_7007() {
   secure_permissions_rebuild();
 }
+
+/**
+ * Rebuild permissions for edit_only for 2.9.7.
+ */
+function express_permissions_update_7008() {
+  secure_permissions_rebuild();
+}

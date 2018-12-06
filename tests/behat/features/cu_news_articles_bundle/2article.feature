@@ -134,14 +134,14 @@ And I am on "admin/content"
 And I follow "Lunch is served at the Center for Community"
 Then I should see the link "View"
 # HIDE THE REST FOR NOW UNTIL PERMISSIONS ARE FIXED. 
-# And I should see the link "Edit"
-# And I should not see the link "Edit Layout"
+And I should see the link "Edit"
+And I should not see the link "Edit Layout"
 # And I should see the link "Revisions"
-# And I should see the link "Clear Page Cache"
-# When I follow "Edit"
-# Then I should see "This document is now locked against simultaneous editing."
-# And I should not see an "#edit-delete" element
-# And I press "Cancel edit"
+And I should see the link "Clear Page Cache"
+When I follow "Edit"
+Then I should see "This document is now locked against simultaneous editing."
+But I should not see an "#edit-delete" element
+And I press "Cancel edit"
 
 # EDIT MY CONTENT: ALL OTHER NODES 
 Scenario: Node Access - EditMyContent can not edit Article nodes

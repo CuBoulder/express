@@ -377,7 +377,8 @@ function express_layout_page_alter(&$page) {
 
           // Check to see if there are any callouts in the content.
           // Additional padding is added if true.
-          $markup = $page['content']['system_main']['nodes'][$node->nid];
+          $markup = $page['content']['system_main']['nodes'][$node->nid]['body'];
+          //unset($page['content']['system_main']['nodes'][$node->nid]['#node']);
           $markup = render($markup);
           if (strpos($markup, 'feature-layout-callout') !== FALSE) {
             $classes[] = 'feature-layout-wrapper-has-callouts';
