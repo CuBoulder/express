@@ -397,9 +397,9 @@ $border: #e7e7e7;
 .page-title-image-background-white #page-title-image-wrapper h1 {
   //background-color: #f5f5f5;
 }
-.exbd-style-dark-gray.exbd-icon-position-default,
-.exbd-style-light-gray.exbd-icon-position-default,
-.exbd-style-lightblue.exbd-icon-position-default,
+.exbd-style-gray-dark.exbd-icon-position-default,
+.exbd-style-gray-light.exbd-icon-position-default,
+.exbd-style-blue-light.exbd-icon-position-default,
 .exbd-style-tan.exbd-icon-position-default,
 .exbd-style-outline.exbd-icon-position-default
  {
@@ -434,8 +434,13 @@ $border: #e7e7e7;
 .blockgray,
 .blockdarkgray,
 .blockoutline {
+  .exbd-block-wrapper > & {
+    margin-top:45px;
+    padding-top:1px;
+  }
+
   &.has-block-title {
-    padding-top:25px;
+    //padding-top:25px;
   }
   position: relative;
   h2.block-title {
