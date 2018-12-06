@@ -26,8 +26,8 @@ body { background-color: #424242; }
 
 #navigation .links a { line-height: 60px; }
 
-#navigation { overflow: visible; position: relative; padding: 0 20px; }
-#navigation .nav-inner { position: relative; width: 100%; z-index: 3; -webkit-box-shadow: 0 3px 1px rgba(0, 0, 0, 0.08); -moz-box-shadow: 0 3px 1px rgba(0, 0, 0, 0.08); box-shadow: 0 3px 1px rgba(0, 0, 0, 0.08); margin-bottom: -30px; }
+#navigation { overflow: visible; position: relative; padding: 1px 20px; }
+#navigation .nav-inner { position: relative; width: 100%; z-index: 3; -webkit-box-shadow: 0 3px 1px rgba(0, 0, 0, 0.08); -moz-box-shadow: 0 3px 1px rgba(0, 0, 0, 0.08); box-shadow: 0 3px 1px rgba(0, 0, 0, 0.08); margin-bottom: -20px; }
 
 #navigation ul.action-menu { margin: 0 5px; }
 #navigation ul.action-menu a { margin: 18px 5px; }

@@ -103,13 +103,13 @@ body {
   //height:30px;
   overflow: visible;
   position: relative;
-  padding: 0 20px;
+  padding: 1px 20px;
   .nav-inner {
     position: relative;
     width:100%;
     z-index: 3;
     @include rgbashadow(0, 3px, 1px, #000, .08);
-    margin-bottom: -30px;
+    margin-bottom: -20px;
   }
 }
 #navigation ul.action-menu {
