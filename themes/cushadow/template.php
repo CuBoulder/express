@@ -23,7 +23,7 @@ function cushadow_preprocess_html(&$vars) {
 
 function cushadow_preprocess_region(&$vars) {
   if ($vars['region'] == 'branding') {
-    $vars['logo_color'] = 'white';
+    $vars['logo_color'] = 'black';
   }
   $vars['classes_array'][]='layout-boxed';
 }
