@@ -1,9 +1,9 @@
-@import "../../expressbase/scss/modules/_global.scss";
-@import "../../expressbase/scss/modules/_colors.scss";
+@import "../../ucb/scss/modules/_global.scss";
+@import "../../ucb/scss/modules/_colors.scss";
 
 
 body {
-  background-color: $bg_dark1;
+  background-color: $black;
   padding-bottom: 20px;
 }
 .layout-wide #backstretch {
@@ -50,7 +50,7 @@ body {
   line-height: 60px;
 }
 #main-menu-wrapper {
-  background-color: $bg_dark1;
+  background-color: $gray-dark;
   a {
     color:#ccc;
     font-size: 90%;
@@ -100,7 +100,7 @@ ul#action-menu a {
   }
 }
 #page-title-wrapper {
-  background-color: $bg_dark2;
+  background-color: $gray-dark;
   color:#fff;
   padding:20px;
   a {
@@ -138,25 +138,14 @@ ul#action-menu a {
   background-color: #fff;
 }
 .after-content2-wrapper {
-  background-color: #fafafa;
   border-top:1px solid #f7f7f7;
-  padding: 40px 0 20px;
 }
-.footer-section {
-  background-color: $bg_dark2;
-  color:#fff;
-  a {
-    color: $cugold;
-  }
-  a:hover {
-    color:#fff;
-  }
-}
-.footer-wrapper {
-  padding:40px 0 20px;
-}
-.site-info-wrapper {
-  background-color: $bg_dark1;
+.after-content-wrapper,
+.after-content2-wrapper,
+.footer-wrapper,
+.site-info-wrapper  {
+  padding-top: 40px;
+  padding-bottom: 20px;
 }
 
 .footer-menu {
