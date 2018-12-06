@@ -1,5 +1,11 @@
 @import "../../ucb/scss/modules/_colors.scss";
 @import "../../ucb/scss/modules/_global.scss";
+
+
+.express-messages .express-message:first-child {
+  margin-top: 40px;
+}
+
 body {
   background-color: $gray-dark;
 }

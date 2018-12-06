@@ -1,3 +1,5 @@
+.express-messages .express-message:first-child { margin-top: 40px; }
+
 body { background-color: #424242; }
 
 #backstretch { display: none; }
