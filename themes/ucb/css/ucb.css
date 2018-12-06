@@ -500,7 +500,7 @@ ul.list-style-underline > li { list-style: none; border-bottom: 1px solid rgba(1
 
 ul.list-style-border { list-style: none; list-style-image: none; padding-left: 0; border-top: 1px solid rgba(128, 128, 128, 0.333); }
 
-ul.list-style-border > li { list-style: none; border: 1px solid rgba(128, 128, 128, 0.333); border-top: none; padding: 10px; }
+ul.list-style-border > li { list-style: none; border: 1px solid rgba(128, 128, 128, 0.333); border-top: none; padding: 10px; margin-bottom: 0; }
 
 ul.list-style-icon-1, ul.list-style-icon-2, ul.list-style-icon-3, ul.list-style-icon-4, ul.list-style-icon-5, ul.list-style-icon-6, ul.list-style-icon-check, ul.list-style-icon-checkbox, ul.list-style-icon-angle-double, ul.list-style-icon-circle-arrow, ul.list-style-icon-star, ul.list-style-icon-finger { list-style: none; list-style-image: none; overflow: hidden; }
 ul.list-style-icon-1 > li, ul.list-style-icon-2 > li, ul.list-style-icon-3 > li, ul.list-style-icon-4 > li, ul.list-style-icon-5 > li, ul.list-style-icon-6 > li, ul.list-style-icon-check > li, ul.list-style-icon-checkbox > li, ul.list-style-icon-angle-double > li, ul.list-style-icon-circle-arrow > li, ul.list-style-icon-star > li, ul.list-style-icon-finger > li { list-style: none !important; list-style-image: none !important; position: relative; }
