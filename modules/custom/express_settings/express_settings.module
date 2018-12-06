@@ -387,25 +387,15 @@ function express_settings_site_name_form($form, &$form_state) {
     '#description' => 'The name of your website.',
   );
 
-  $form['express_site_affiliation'] = array(
-    '#tree' => TRUE,
-
-    '#type' => 'link_field',
-    '#title' => 'Site Affiliation',
-    '#description' => 'A unit or department your website is part of (optional).',
-    '#default_value' => variable_get('express_site_affiliation'),
-
-    // New properties.
-    '#title_maxlength' => 30,
-    '#attributes' => array(
-       'target' => LINK_TARGET_USER,
-    ),
-
-    // Required properties, if omitted, php notices are thrown.
-    '#delta' => 0,
-    '#language' => 'und',
-    '#field_parents' => array(),
-    '#field_name' => 'link_field',
+  $form['express_site_affiliation_title'] = array(
+    '#title' => t('Site Affiliation Title'),
+    '#type' => 'textfield',
+    '#default_value' => variable_get('express_site_affiliation_title', ''),
+  );
+  $form['express_site_affiliation_url'] = array(
+    '#title' => t('Site Affiliation URL'),
+    '#type' => 'textfield',
+    '#default_value' => variable_get('express_site_affiliation_url', ''),
   );
   // Let system_settings_form_submit run first to variable_set vars.
   $form = system_settings_form($form);
