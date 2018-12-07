@@ -392,6 +392,16 @@ function express_settings_site_name_form($form, &$form_state) {
     '#required' => FALSE,
   );
 
+  $form['express_site_affiliation_title'] = array(
+    '#title' => t('Site Affiliation Title'),
+    '#type' => 'textfield',
+    '#default_value' => variable_get('express_site_affiliation_title', ''),
+  );
+  $form['express_site_affiliation_url'] = array(
+    '#title' => t('Site Affiliation URL'),
+    '#type' => 'textfield',
+    '#default_value' => variable_get('express_site_affiliation_url', ''),
+
   // Let system_settings_form_submit run first to variable_set vars.
   $form = system_settings_form($form);
   $form['#submit'][] = 'express_settings_site_name_form_submit';
