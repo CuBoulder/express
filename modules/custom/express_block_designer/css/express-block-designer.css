@@ -1,4 +1,3 @@
-/* Backgrounds & Borders */
 /* Icon Colors */
 /* Other colors */
 ul.tabs--primary li a.block-designer:before { content: "\f1fc"; }
@@ -72,13 +71,21 @@ ul.tabs--primary li a.block-designer:before { content: "\f1fc"; }
 #edit-exbd-style label[for='edit-exbd-style-white'] { height: 130px; display: inline-block; }
 #edit-exbd-style label[for='edit-exbd-style-white']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #000; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: #ffffff; }
 #edit-exbd-style label[for='edit-exbd-style-light-gray'] { height: 130px; display: inline-block; }
-#edit-exbd-style label[for='edit-exbd-style-light-gray']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #000; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: #f4f4f4; }
+#edit-exbd-style label[for='edit-exbd-style-light-gray']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #000; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: #EEEEEE; }
 #edit-exbd-style label[for='edit-exbd-style-dark-gray'] { height: 130px; display: inline-block; }
-#edit-exbd-style label[for='edit-exbd-style-dark-gray']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #fff; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: #272727; }
+#edit-exbd-style label[for='edit-exbd-style-dark-gray']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #fff; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: #424242; }
 #edit-exbd-style label[for='edit-exbd-style-tan'] { height: 130px; display: inline-block; }
-#edit-exbd-style label[for='edit-exbd-style-tan']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #000; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: #fffbf0; }
+#edit-exbd-style label[for='edit-exbd-style-tan']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #000; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: #f1ebd9; }
 #edit-exbd-style label[for='edit-exbd-style-lightblue'] { height: 130px; display: inline-block; }
-#edit-exbd-style label[for='edit-exbd-style-lightblue']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #000; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: #EBF7FF; }
+#edit-exbd-style label[for='edit-exbd-style-lightblue']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #000; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: #E1F5FE; }
+#edit-exbd-style label[for='edit-exbd-style-blue-medium'] { height: 130px; display: inline-block; }
+#edit-exbd-style label[for='edit-exbd-style-blue-medium']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #fff; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: #4FC3F7; }
+#edit-exbd-style label[for='edit-exbd-style-blue-dark'] { height: 130px; display: inline-block; }
+#edit-exbd-style label[for='edit-exbd-style-blue-dark']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #fff; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: #01579B; }
+#edit-exbd-style label[for='edit-exbd-style-green-light'] { height: 130px; display: inline-block; }
+#edit-exbd-style label[for='edit-exbd-style-green-light']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #000; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: #DCEDC8; }
+#edit-exbd-style label[for='edit-exbd-style-brick'] { height: 130px; display: inline-block; }
+#edit-exbd-style label[for='edit-exbd-style-brick']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; color: #fff; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; background-color: #ae5a39; }
 #edit-exbd-style label[for='edit-exbd-style-outline'] { height: 130px; display: inline-block; }
 #edit-exbd-style label[for='edit-exbd-style-outline']:after { display: flex; align-items: center; justify-content: center; content: 'Example Text'; content: ' '; height: 100px; position: absolute; bottom: 0; right: 10px; left: 10px; border: 1px solid rgba(128, 128, 128, 0.333); }
 #edit-exbd-style label[for='edit-exbd-style-underline'] { height: 130px; display: inline-block; }

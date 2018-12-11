@@ -1,17 +1,45 @@
+// Neutrals
+$white: #fff;
+$black: #000;
+$text-black: #111111;
+$gray-dark:#424242;
+$gray-light:#EEEEEE;
+$gray: $gray-light;
+
+
+
+// Brand
 $cugold: #cfb87c;
-$lightcugold: #f1dba3;
+$gold: $cugold;
+$gold-gray: #a6a6a6;
 
-$link_blue: #0277BD;
-$dark_link_blue: darken($link_blue, 5%);
-$light_link_blue: #76cff7;
-$blue: $link_blue;
+// Links
+$blue: #0277BD;
+$blue-contrast: darken($blue, 10);
 
-/* Backgrounds & Borders */
-$light_gray: #f4f4f4;
-$dark_gray: #272727;
-$light_blue: #EBF7FF;
-$tan: #fffbf0;
-$border_color: rgba(128,128,128,.333);;
+// Secondary
+$blue-dark: #01579B;
+$blue-medium:#4FC3F7;
+$blue-light:#E1F5FE;
+$gold-light:lighten($cugold, 25%);
+$tan: $gold-light;
+$green-light:#DCEDC8;
+$brick: #ae5a39;
+
+// Other
+$red:#B71C1C;
+$green:#2E7D32;
+$amber:#FFD740;
+
+$yellow:#FFF9C4;
+$red-light:#FFEBEE;
+
+$purple: #5E35B1;
+$orange: #FF9800;
+$brick: #ae5a39;
+
+// Utility
+$border: rgba(128,128,128,.333);
 
 /* Icon Colors */
 $iconRed: #C03D23;
