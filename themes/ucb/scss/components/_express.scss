@@ -3,6 +3,13 @@
 @import "modules/functions";
 
 /**
+ * Contextual Links
+ */
+ul.contextual-links li a:link,
+ul.contextual-links li a:visited {
+  text-decoration: none !important;
+}
+/**
  * Express/Drupal specific styles
  */
 .section {
