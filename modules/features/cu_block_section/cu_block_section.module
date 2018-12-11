@@ -285,5 +285,10 @@ function cu_block_section_bg_color_translate($color) {
     'tan' => 'tan',
     'light_blue' => 'blue-light',
   );
-  return $colors[$color];
+  if (!empty($colors[$color])) {
+    return $colors[$color];
+  }
+  else {
+    return $color;
+  }
 }
