@@ -113,6 +113,10 @@ function cu_hero_unit_bg_color_options() {
     'gold' => 'Gold',
     'tan' => 'Tan',
     'light_blue' => 'Light Blue',
+    'blue-medium' => 'Medium Blue',
+    'blue-dark' => 'Dark Blue',
+    'green-light' => 'Light Green',
+    'brick' => 'Brick',
   );
   return $options;
 }
@@ -127,7 +131,12 @@ function cu_hero_unit_bg_color_translate($color) {
     'tan' => 'tan',
     'light_blue' => 'blue-light',
   );
-  return $colors[$color];
+  if (!empty($colors[$color])) {
+    return $colors[$color];
+  }
+  else {
+    return $color;
+  }
 }
 
 function cu_hero_unit_button_class_translate($color) {
