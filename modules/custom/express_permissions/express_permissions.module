@@ -231,8 +231,6 @@ function express_permissions_secure_permissions($role) {
       'edit users with role access_manager',
       'edit users with role configuration_manager',
       'execute node_assign_owner_action',
-      'execute node_make_sticky_action',
-      'execute node_make_unsticky_action',
       'execute node_promote_action',
       'execute node_publish_action',
       'execute node_unpromote_action',
@@ -373,8 +371,6 @@ function express_permissions_secure_permissions($role) {
       'edit own file content',
       'edit own page content',
       'execute node_assign_owner_action',
-      'execute node_make_sticky_action',
-      'execute node_make_unsticky_action',
       'execute node_promote_action',
       'execute node_publish_action',
       'execute node_unpromote_action',
@@ -514,8 +510,6 @@ function express_permissions_secure_permissions($role) {
       'edit own file content',
       'edit own page content',
       'execute node_assign_owner_action',
-      'execute node_make_sticky_action',
-      'execute node_make_unsticky_action',
       'execute node_promote_action',
       'execute node_publish_action',
       'execute node_unpromote_action',
@@ -637,8 +631,6 @@ function express_permissions_secure_permissions($role) {
       'edit own file content',
       'edit own page content',
       'execute node_assign_owner_action',
-      'execute node_make_sticky_action',
-      'execute node_make_unsticky_action',
       'execute node_promote_action',
       'execute node_publish_action',
       'execute node_unpromote_action',
@@ -742,8 +734,6 @@ function express_permissions_secure_permissions($role) {
       'edit users with role access_manager',
       'edit users with role configuration_manager',
       'execute node_assign_owner_action',
-      'execute node_make_sticky_action',
-      'execute node_make_unsticky_action',
       'execute node_promote_action',
       'execute node_publish_action',
       'execute node_unpromote_action',
@@ -1059,7 +1049,6 @@ function express_permissions_form_user_admin_permissions_alter(&$form, &$form_st
   }
 
   // Add some css to make the permissions table headers smaller.
-  // @TODO: fix to work with sticky header
   drupal_add_css(drupal_get_path('module','express_permissions') . '/css/express-permissions.css');
 }
 
