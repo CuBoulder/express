@@ -199,6 +199,7 @@ dependencies[] = context_sitewide_public
 dependencies[] = field_reference_delete
 dependencies[] = express_block_designer
 dependencies[] = express_block_designer_menu
+dependencies[] = scheduler
 
 ; ============ FEATURE EXPORTS ============
 dependencies[] = express_linkit_profiles

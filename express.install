@@ -196,3 +196,12 @@ function express_update_7005() {
   variable_set('express_permissions_owner_cap', 5);
 }
 
+/**
+ * Express 2.9.10 update.
+ *
+ * Add option for scheduling content publishing
+ */
+function express_update_7006() {
+  // @TODO: set default field config values. Content type specific settings are captured in features
+  module_enable(array('scheduler'));
+}
