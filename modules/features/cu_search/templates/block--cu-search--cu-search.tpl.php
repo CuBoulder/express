@@ -50,7 +50,6 @@ $active_configs = $configs[$active_option];
           <ul class="inline inline-menu">
             <li><a href="https://calendar.colorado.edu">Events Calendar</a></li>
             <li><a href="https://www.colorado.edu/map">Campus Map</a></li>
-            <li><a href="https://campus-directory.colorado.edu">Directory</a></li>
           </ul>
 
         </div>
