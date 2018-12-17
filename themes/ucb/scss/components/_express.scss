@@ -161,3 +161,17 @@ html.js input.throbbing {
    font-size: 75%;
    line-height: 1;
  }
+
+ // Content Regions
+ @media screen and (min-width:$breakpoint_medium) {
+  .region-content-sidebar-right {
+     width: 50%;
+    float: right;
+    padding-left: 20px;
+  }
+  .region-content-sidebar-left {
+    width: 50%;
+    float: left;
+    padding-right: 20px;
+  }
+}
