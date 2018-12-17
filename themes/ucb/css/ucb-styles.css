@@ -1270,7 +1270,7 @@ a.text-color-white:link, a.text-color-white:visited, a.text-color-white:hover, a
 
 .element-invisible { border: 0; height: 1px; overflow: hidden; padding: 0; position: absolute !important; width: 1px; white-space: nowrap; clip: rect(1px 1px 1px 1px); clip: rect(1px, 1px, 1px, 1px); }
 
-.clearfloats:after { content: ""; display: table; clear: both; }
+.clearfloats:after, .clear:after { content: ""; display: table; clear: both; }
 
 .display-inline { display: inline; }
 

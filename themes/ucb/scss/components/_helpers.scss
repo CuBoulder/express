@@ -279,7 +279,8 @@ $directions: (
 .element-invisible {
   @include element-invisible;
 }
-.clearfloats {
+.clearfloats,
+.clear {
   @include clearfloats;
 }
 
