@@ -16,7 +16,8 @@
     }
     // Background color with adjusted text and link colors.
     .background-#{$name},
-    .exbd-block.exbd-style-#{$name} {
+    .exbd-block.exbd-style-#{$name},
+    .exbd-block .exbd-block.exbd-style-#{$name} {
       background-color: $color;
       color: set-text-color($color);
       a:link,
