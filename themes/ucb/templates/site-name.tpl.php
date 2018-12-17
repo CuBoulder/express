@@ -28,23 +28,23 @@
   // Get affilation saved settings.
   $site_type = variable_get('express_site_type', NULL);
   $affilation_enable = variable_get('cu_affiliation_enable', 0);
-  $affilation = variable_get('cu_site_affiliation_options', NULL);
+  $affiliation = variable_get('cu_site_affiliation_options', NULL);
   // Null title and url.
   $affiliation_title = NULL;
   $affilation_url = NULL;
   if ($site_type && ucb_affiliation($site_type)) {
-    $affilation = ucb_affiliation($site_type);
-    $affiliation_title = $affilation['label'];
-    $affiliation_url = $affilation['url'];
+    $affiliation = ucb_affiliation($site_type);
+    $affiliation_title = $affiliation['label'];
+    $affiliation_url = $affiliation['url'];
   }
-  elseif ($affilation == 'custom') {
+  elseif ($affiliation == 'custom') {
     $affiliation_title = variable_get('express_site_affiliation_title', NULL);
     $affiliation_url = variable_get('express_site_affiliation_url', NULL);
   }
-  elseif (!empty($affilation)) {
-    $affilation = cu_core_site_affiliation_options($affilation);
-    $affiliation_title = $affilation['label'];
-    $affiliation_url = $affilation['url'];
+  elseif (!empty($affiliation)) {
+    $affiliation = cu_core_site_affiliation_options($affiliation);
+    $affiliation_title = $affiliation['label'];
+    $affiliation_url = $affiliation['url'];
   }
 ?>
 
