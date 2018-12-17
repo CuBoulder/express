@@ -8,7 +8,9 @@
 
  @each $name, $color in $icon_colors {
 	 .icon-color-#{$name},
-	 .exbd-icon-color-#{$name} {
+	 .exbd-icon-color-#{$name},
+   a .icon-color-#{$name},
+   a .exbd-icon-color-#{$name} {
 		 color: $color;
 	 }
 	 // Icon Wrappers.

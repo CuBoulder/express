@@ -373,47 +373,51 @@ img.image-small[style*="float:right"], img.image-small[style*="float:left"] { ma
 .feature-layout-callout .image-square, .feature-layout-callout .image-small-thumbnail { width: 110px; }
 
 /** Icon styles */
-.icon-color-black, .exbd-icon-color-black { color: #000; }
+.icon-color-black, .exbd-icon-color-black, a .icon-color-black, a .exbd-icon-color-black { color: #000; }
 
 .icon-color-black.icon-wrapper-square, .icon-color-black.icon-wrapper-rounded, .icon-color-black.icon-wrapper-circle { background-color: #000; color: #fff; }
 
-.icon-color-white, .exbd-icon-color-white { color: #fff; }
+.icon-color-white, .exbd-icon-color-white, a .icon-color-white, a .exbd-icon-color-white { color: #fff; }
 
 .icon-color-white.icon-wrapper-square, .icon-color-white.icon-wrapper-rounded, .icon-color-white.icon-wrapper-circle { background-color: #fff; color: #111111; }
 
-.icon-color-gray, .exbd-icon-color-gray { color: #808080; }
+.icon-color-gray, .exbd-icon-color-gray, a .icon-color-gray, a .exbd-icon-color-gray { color: #808080; }
 
 .icon-color-gray.icon-wrapper-square, .icon-color-gray.icon-wrapper-rounded, .icon-color-gray.icon-wrapper-circle { background-color: #808080; color: #111111; }
 
-.icon-color-gold, .exbd-icon-color-gold { color: #cfb87c; }
+.icon-color-light-gray, .exbd-icon-color-light-gray, a .icon-color-light-gray, a .exbd-icon-color-light-gray { color: #EEEEEE; }
+
+.icon-color-light-gray.icon-wrapper-square, .icon-color-light-gray.icon-wrapper-rounded, .icon-color-light-gray.icon-wrapper-circle { background-color: #EEEEEE; color: #111111; }
+
+.icon-color-gold, .exbd-icon-color-gold, a .icon-color-gold, a .exbd-icon-color-gold { color: #cfb87c; }
 
 .icon-color-gold.icon-wrapper-square, .icon-color-gold.icon-wrapper-rounded, .icon-color-gold.icon-wrapper-circle { background-color: #cfb87c; color: #111111; }
 
-.icon-color-blue, .exbd-icon-color-blue { color: #4FC3F7; }
+.icon-color-blue, .exbd-icon-color-blue, a .icon-color-blue, a .exbd-icon-color-blue { color: #4FC3F7; }
 
 .icon-color-blue.icon-wrapper-square, .icon-color-blue.icon-wrapper-rounded, .icon-color-blue.icon-wrapper-circle { background-color: #4FC3F7; color: #111111; }
 
-.icon-color-red, .exbd-icon-color-red { color: #B71C1C; }
+.icon-color-red, .exbd-icon-color-red, a .icon-color-red, a .exbd-icon-color-red { color: #B71C1C; }
 
 .icon-color-red.icon-wrapper-square, .icon-color-red.icon-wrapper-rounded, .icon-color-red.icon-wrapper-circle { background-color: #B71C1C; color: #fff; }
 
-.icon-color-yellow, .exbd-icon-color-yellow { color: #FFD740; }
+.icon-color-yellow, .exbd-icon-color-yellow, a .icon-color-yellow, a .exbd-icon-color-yellow { color: #FFD740; }
 
 .icon-color-yellow.icon-wrapper-square, .icon-color-yellow.icon-wrapper-rounded, .icon-color-yellow.icon-wrapper-circle { background-color: #FFD740; color: #111111; }
 
-.icon-color-green, .exbd-icon-color-green { color: #2E7D32; }
+.icon-color-green, .exbd-icon-color-green, a .icon-color-green, a .exbd-icon-color-green { color: #2E7D32; }
 
 .icon-color-green.icon-wrapper-square, .icon-color-green.icon-wrapper-rounded, .icon-color-green.icon-wrapper-circle { background-color: #2E7D32; color: #fff; }
 
-.icon-color-purple, .exbd-icon-color-purple { color: #5E35B1; }
+.icon-color-purple, .exbd-icon-color-purple, a .icon-color-purple, a .exbd-icon-color-purple { color: #5E35B1; }
 
 .icon-color-purple.icon-wrapper-square, .icon-color-purple.icon-wrapper-rounded, .icon-color-purple.icon-wrapper-circle { background-color: #5E35B1; color: #fff; }
 
-.icon-color-orange, .exbd-icon-color-orange { color: #FF9800; }
+.icon-color-orange, .exbd-icon-color-orange, a .icon-color-orange, a .exbd-icon-color-orange { color: #FF9800; }
 
 .icon-color-orange.icon-wrapper-square, .icon-color-orange.icon-wrapper-rounded, .icon-color-orange.icon-wrapper-circle { background-color: #FF9800; color: #111111; }
 
-.icon-color-brick, .exbd-icon-color-brick { color: #ae5a39; }
+.icon-color-brick, .exbd-icon-color-brick, a .icon-color-brick, a .exbd-icon-color-brick { color: #ae5a39; }
 
 .icon-color-brick.icon-wrapper-square, .icon-color-brick.icon-wrapper-rounded, .icon-color-brick.icon-wrapper-circle { background-color: #ae5a39; color: #fff; }
 
@@ -674,36 +678,6 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: rgba
 .block-icons-gold i.blockicon { color: #cfb87c; }
 
 .block-icons-blue i.blockicon { color: #0277BD; }
-
-.icon-color-blue, a .icon-color-blue { color: #4FC3F7; }
-
-.icon-color-green, a .icon-color-green { color: #2E7D32; }
-
-.icon-wrapper-circle.icon-color-green { background-color: #2E7D32; color: #fff; }
-
-.icon-color-orange, a .icon-color-orange { color: #FF9800; }
-
-.icon-wrapper-circle.icon-color-orange { background-color: #FF9800; color: #fff; }
-
-.icon-color-yellow, a .icon-color-yellow { color: #FFD740; }
-
-.icon-wrapper-circle.icon-color-yellow { background-color: #FFD740; color: #000; }
-
-.icon-color-red, a .icon-color-red { color: #B71C1C; }
-
-.icon-wrapper-circle.icon-color-red { background-color: #B71C1C; color: #fff; }
-
-.icon-color-purple, a .icon-color-purple { color: #5E35B1; }
-
-.icon-wrapper-circle.icon-color-purple { background-color: #5E35B1; color: #fff; }
-
-.icon-color-white, a .icon-color-white { color: #fff; }
-
-.icon-color-black, a .icon-color-black { color: #000; }
-
-.icon-color-gold, a .icon-color-gold { color: #cfb87c; }
-
-.icon-color-gray, a .icon-color-gray { color: #EEEEEE; }
 
 /* PAGE TITLE IMAGE */
 .has-title-image h1#page-title { display: none; }

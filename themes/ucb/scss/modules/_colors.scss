@@ -11,6 +11,8 @@ $gray-dark:#424242;
 $gray-light:#EEEEEE;
 $gray: $gray-light;
 
+
+
 // Brand
 $cugold: #cfb87c;
 $gold: $cugold;
@@ -122,6 +124,7 @@ $icon_colors: (
   "black" : $icon-black,
   "white" : $icon-white,
   "gray" : #808080,
+  "light-gray" : $gray-light,
   "gold" : $gold,
   "blue" : $icon-blue,
   "red" : $icon-red,
