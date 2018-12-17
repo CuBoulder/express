@@ -38,11 +38,6 @@ body { background-color: #424242; }
 
 #intro-wide-wrapper, #post-wide-wrapper { background-color: #fff; }
 
-.banner-dark .slider-wrapper { background-color: #333; color: #fff; }
-.banner-dark .slider-wrapper a:link, .banner-dark .slider-wrapper a:visited { color: #cfb87c; }
-
-.banner-light .slider-wrapper { background-color: #f2f2f2; }
-
 .page-title-image-wide { margin-top: 0; padding-top: 0; }
 
 .page-title-image-boxed { padding-top: 50px; }
