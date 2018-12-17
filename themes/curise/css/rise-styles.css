@@ -8,10 +8,10 @@ body { background-color: #424242; }
 
 #navigation-wrapper { z-index: 10; }
 
-.banner-dark #secondary-menu-wrapper { background-color: #333; color: #fff; }
+.banner-dark #secondary-menu-wrapper { background-color: #444; color: #fff; }
 .banner-dark #secondary-menu-wrapper a { color: #fff; }
 .banner-dark #secondary-menu-wrapper a:hover, .banner-dark #secondary-menu-wrapper a.active, .banner-dark #secondary-menu-wrapper a.active-trail { color: #cfb87c; }
-.banner-dark #main-menu-wrapper { background-color: #333; position: static; }
+.banner-dark #main-menu-wrapper { background-color: #444; position: static; }
 .banner-dark #main-menu-wrapper a { color: #333; font-weight: 600; }
 .banner-dark #main-menu-wrapper a:hover, .banner-dark #main-menu-wrapper a.active, .banner-dark #main-menu-wrapper a.active-trail { background-color: #cfb87c; color: #000; }
 .banner-dark #main-menu-wrapper a.home-link.active { background: transparent; color: #333; }
