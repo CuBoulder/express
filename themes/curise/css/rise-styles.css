@@ -55,7 +55,7 @@ body { background-color: #424242; }
   .top-content #slider-wrapper + #content-wrapper, .top-content #intro-wide-wrapper + #content-wrapper { padding-top: 20px; } }
 #page-title-image-section + #content-wrapper { padding-top: 0px; }
 
-#main-content-wrapper { padding: 0; }
+#main-content-wrapper { padding-top: 40px !important; }
 
 .after-content-wrapper { padding-top: 40px 0 20px; }
 
