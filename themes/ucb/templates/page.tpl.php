@@ -53,18 +53,7 @@
 
     <!-- NAVIGATION -->
     <div id="navigation-wrapper" class="navigation-wrapper section no-underline">
-      <!-- Secondary menu above main menu -->
-      <?php $secondary_menu = menu_secondary_menu(); ?>
-      <?php if (theme_get_setting('use_action_menu') == FALSE && !empty($secondary_menu)): ?>
-        <div id="secondary-menu-wrapper" class="section">
-          <div id="secondary-navigation" class="container">
-            <div class="secondary-nav-inner clearfix">
-              <?php print render($page['secondary_menu']); ?>
-            </div>
-          </div>
-        </div>
-        <!-- /Secondary menu above main menu -->
-      <?php endif; ?>
+
       <!-- Main menu -->
       <div id="main-menu-wrapper" class="section">
         <div id="navigation" class="container">
@@ -74,6 +63,19 @@
         </div>
       </div>
       <!-- /Main menu -->
+
+      <!-- Secondary menu under main menu -->
+      <?php $secondary_menu = menu_secondary_menu(); ?>
+      <?php if (theme_get_setting('use_action_menu') == FALSE && !empty($secondary_menu)): ?>
+        <div id="secondary-menu-wrapper" class="section">
+          <div id="secondary-navigation" class="container">
+            <div class="secondary-nav-inner clearfix">
+              <?php print render($page['secondary_menu']); ?>
+            </div>
+          </div>
+        </div>
+        <!-- /Secondary menu under main menu -->
+      <?php endif; ?>
     </div>
     <!-- /NAVIGATION -->
 

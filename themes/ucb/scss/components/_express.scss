@@ -12,6 +12,13 @@ ul.contextual-links li a:visited {
 /**
  * Express/Drupal specific styles
  */
+
+ // Navigation menu order
+ #navigation-wrapper {
+   display: flex;
+   flex-direction: column-reverse;
+ }
+
 .section {
   position: relative;
   z-index: inherit;

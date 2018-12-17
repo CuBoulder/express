@@ -2123,6 +2123,8 @@ a:active, a:focus { color: #B71C1C; text-decoration-color: rgba(183, 28, 28, 0.6
 ul.contextual-links li a:link, ul.contextual-links li a:visited { text-decoration: none !important; }
 
 /** Express/Drupal specific styles */
+#navigation-wrapper { display: flex; flex-direction: column-reverse; }
+
 .section { position: relative; z-index: inherit; }
 
 .layout-responsive .menu-toggle button { background: none; border: none; padding: 0; }
