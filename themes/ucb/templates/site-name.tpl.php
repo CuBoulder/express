@@ -27,7 +27,7 @@
 <?php
   // Get affilation saved settings.
   $site_type = variable_get('express_site_type', NULL);
-  $affilation_enable = variable_get('cu_affilation_enable', FALSE);
+  $affilation_enable = variable_get('cu_affiliation_enable', 0);
   $affilation = variable_get('cu_site_affiliation_options', NULL);
   // Null title and url.
   $affiliation_title = NULL;

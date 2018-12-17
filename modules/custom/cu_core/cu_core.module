@@ -317,9 +317,9 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
   unset($form['express_site_affiliation_url']);
 
   // Add an option for enabling the affilation display.
-  $form['cu_affilation_enable'] = array(
+  $form['cu_affiliation_enable'] = array(
     '#type' => 'checkbox',
-    '#default_value' => variable_get('cu_affilation_enable', 0),
+    '#default_value' => variable_get('cu_affiliation_enable', 0),
     '#title' => 'Display Affiliation',
     '#weight' => 2,
     '#access' => FALSE,
@@ -339,7 +339,7 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
     $form['affiliation']['#access'] = TRUE;
     $form['cu_site_affiliation_options']['#access'] = TRUE;
     $form['express_site_type']['#access'] = TRUE;
-    $form['cu_affilation_enable']['#access'] = TRUE;
+    $form['cu_affiliation_enable']['#access'] = TRUE;
   }
   // Show affiliation values for those who can't edit.
   else {
