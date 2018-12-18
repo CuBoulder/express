@@ -344,6 +344,9 @@ h3.supersize,
   font-size: 85%;
   margin:0;
   padding: 0;
+  @media screen and (max-width:$breakpoint_tablet) {
+    font-size: 75%;
+  }
 }
 
 // Emphasis

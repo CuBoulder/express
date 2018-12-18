@@ -667,6 +667,7 @@ strong { font-weight: bold; }
 .exbd-heading-style-supersize-bold > .block-inner > .exbd-block-title > .block-title { font-weight: 750; font-family: "Neue Helvetica W05", "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
 .breadcrumb { font-size: 85%; margin: 0; padding: 0; }
+@media screen and (max-width: 768px) { .breadcrumb { font-size: 75%; } }
 
 em { font-style: italic; }
 
