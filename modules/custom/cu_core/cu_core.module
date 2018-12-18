@@ -61,7 +61,7 @@ function cu_core_form_alter(&$form, $form_state, $form_id) {
   if (isset($form['type']) && isset($form['#node']) && $form['type']['#value'] .'_node_form' == $form_id) {
     unset($form['options']['promote']);
   }
-  if ($form['actions']['preview_changes']) {
+  if (isset($form['actions']['preview_changes'])) {
     $form['actions']['preview_changes']['#attributes']['class'][] = 'element-invisible';
   }
 }
