@@ -11,7 +11,7 @@ body { background-color: #333; }
 
 #secondary-navigation nav ul li a { padding: 0; }
 
-#secondary-navigation { background-color: #333; color: #ccc; font-weight: 600; }
+#secondary-navigation { color: #ccc; font-weight: 600; }
 #secondary-navigation a { display: inline-block; color: #ccc; padding: 0; margin-left: 15px; }
 #secondary-navigation a:hover, #secondary-navigation a:focus, #secondary-navigation a.active, #secondary-navigation a.active-trail { color: #cfb87c; }
 
