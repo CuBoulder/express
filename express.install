@@ -203,5 +203,5 @@ function express_update_7005() {
  */
 function express_update_7006() {
   // @TODO: set default field config values. Content type specific settings are captured in features
-  module_enable(array('scheduler'));
+  module_enable(array('scheduler', 'express_scheduler'));
 }

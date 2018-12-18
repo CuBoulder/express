@@ -1,0 +1,17 @@
+name = express_scheduler
+core = 7.x
+package = Express
+version = 7.x-1.0
+dependencies[] = ctools
+dependencies[] = strongarm
+features[ctools][] = strongarm:strongarm:1
+features[features_api][] = api:2
+features[variable][] = redirect_cron
+features[variable][] = scheduler_allow_date_only
+features[variable][] = scheduler_date_format
+features[variable][] = scheduler_date_only_format
+features[variable][] = scheduler_date_popup_minute_increment
+features[variable][] = scheduler_default_time
+features[variable][] = scheduler_extra_info
+features[variable][] = scheduler_field_type
+features[variable][] = scheduler_time_only_format
