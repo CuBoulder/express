@@ -17,10 +17,10 @@ body { background-color: #424242; }
 .banner-dark #main-menu-wrapper a.home-link.active { background: transparent; color: #333; }
 .banner-dark #main-menu-wrapper .nav-inner { background-color: #f7f7f7; }
 
-.banner-light #secondary-menu-wrapper { background-color: #f2f2f2; color: #666; }
+.banner-light #secondary-menu-wrapper { background-color: #eee; color: #666; }
 .banner-light #secondary-menu-wrapper a { color: #666; }
 .banner-light #secondary-menu-wrapper a:hover, .banner-light #secondary-menu-wrapper a.active, .banner-light #secondary-menu-wrapper a.active-trail { color: #202020; }
-.banner-light #main-menu-wrapper { background-color: #f2f2f2; position: static; }
+.banner-light #main-menu-wrapper { background-color: #eee; position: static; }
 .banner-light #main-menu-wrapper a { color: #fff; font-weight: 600; }
 .banner-light #main-menu-wrapper a:hover, .banner-light #main-menu-wrapper a.active, .banner-light #main-menu-wrapper a.active-trail { background-color: #cfb87c; color: #000; }
 .banner-light #main-menu-wrapper a.home-link.active { background: transparent; color: #cfb87c; }
