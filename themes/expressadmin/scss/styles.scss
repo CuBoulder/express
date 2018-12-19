@@ -157,6 +157,9 @@ ul.tabs--primary li a.results:before {
 ul.tabs--primary li a.locked-documents:before {
   content: "\f023";
 }
+ul.tabs--primary li a.scheduled:before {
+  content: "\f017";
+}
 ul.tabs--primary li a.shortcuts:before,
 h1.page-title.icon-shortcuts:before {
   content: "\f0c1";
