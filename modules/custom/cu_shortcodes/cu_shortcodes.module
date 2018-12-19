@@ -782,6 +782,7 @@ function cu_shortcodes_map($attrs, $content = NULL) {
     'type' => 1,
     'size' => 'small',
   ), $attrs));
+  $embed_size = $size;
   $size = 'map-' . check_plain($size);
   if ((strpos($content, 'maps.google.com') !== FALSE) || (strpos($content, 'google.com/map') !== FALSE) || (strpos($content, 'mapsengine.google.com') !== FALSE)){
     $mapurl = $content . "&amp;ie=UTF8&amp;output=embed";
@@ -790,24 +791,49 @@ function cu_shortcodes_map($attrs, $content = NULL) {
   elseif (strpos($content, 'google.com/fusiontables') !== FALSE) {
     $map = '<iframe width="100%" class="' . $size . '" src="' . $content . '"></iframe>';
   }
-  elseif ((strpos($content, 'myatlascms.com') !== FALSE) || (strpos($content, 'colorado.edu/map') !== FALSE) || (strpos($content, 'map.colorado.edu') !== FALSE)){
+  elseif ((strpos($content, 'myatlascms.com') !== FALSE) || (strpos($content, 'colorado.edu/map') !== FALSE) || (strpos($content, 'cms.concept3d.com') !== FALSE)){
     // Parse url
     $url = parse_url($content);
-    // Hide print link for embeded map
-    //$url['query'] .= '&ph=1';
-    // Close the sidebar on embeded maps
+    // Parse query parameter
+    if (!empty($url['query'])) {
+      parse_str($url['query'], $params);
+    }
+    // parse url fragments
     if (!empty($url['fragment'])) {
-      $url['fragment'] .= '?sbc';
+      parse_str($url['fragment'], $fragments);
+    }
+    if (!empty($params['amp;mrkIid'])) {
+      $marker = $params['amp;mrkIid'];
+    }
+    elseif (strpos($content, '!m/') !== FALSE) {
+      // REGEX!!!
+      $re1='.*?';	# Non-greedy match on filler
+      $re2='\\d+';	# Uninteresting: int
+      $re3='.*?';	# Non-greedy match on filler
+      $re4='(\\d+)';	# Integer Number 1
+
+      if ($c=preg_match_all ("/".$re1.$re2.$re3.$re4."/is", $content, $matches))
+      {
+          $int1=$matches[1][0];
+          $marker = $int1;
+      }
+    }
+    if (isset($marker)) {
+      $static = 'https://staticmap.concept3d.com/map/static-map/?map=336&loc=' . $marker;
+      $map_link = 'https://www.colorado.edu/map/?id=336#!m/' . $marker;
+
+      // Build static map markup
+      $map = '<a href="' . $map_link . '" id="map-embed-' . $marker . '" class="embed-map-static embed-map-size-' . $embed_size . '" style="background-image:url(' . $static . ');"><span class="embed-map-label">View location on the Campus Map</span></a>';
     }
     else {
-      $url['fragment'] = '?sbc';
+      $map = '<iframe class="' . $size . '" src="https://map.concept3d.com/?id=336&tbh#!sbc' . $url['fragment'] . '" id="map_frame" width="100%" height="100%" frameborder="0" scrolling="no" border="0" allow="geolocation"></iframe><a href="' . $content . '" class="embed-map-label">View Larger Map</a>';
+
+      //$map = '<!-- URL did not match concept 3d shortcode specifications -->';
     }
-    // Build the map url
-    $mapurl = cu_shortcodes_join_url($url, FALSE);
-    $map = '<iframe width="100%" class="' . $size . '" src="' . $mapurl . '"></iframe><br /><a href="' . $mapurl . '" class="map-link">View Larger Map</a>';
+
   }
   else {
-    $map = '';
+    $map = '<!-- URL did not match shortcode specifications -->';
   }
   return $map;
 }

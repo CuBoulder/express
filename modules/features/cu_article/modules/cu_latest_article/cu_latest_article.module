@@ -1,0 +1,123 @@
+<?php
+
+function cu_latest_article_menu() {
+  $items = array();
+
+  // Configuration
+  $items['admin/settings/news/latest-article-urls'] = array(
+    'title' => 'Latest Articles',
+    'description' => 'View urls for latest articles.',
+    'page callback' => 'cu_latest_article_urls',
+    'access arguments' => array('administer express settings'),
+  );
+
+
+  // Latest article, no term filter
+  $items['latest-article'] = array(
+    'page callback' => 'cu_latest_article_get',
+    'access callback' => TRUE,
+  );
+  // Latest article, wildcard - arguemnts will be overridden later
+  $items['latest-article/%'] = array(
+    'page callback' => 'drupal_not_found',
+    'access callback' => TRUE,
+  );
+  $items['latest-article/%/%'] = array(
+    'page callback' => 'cu_latest_article_get',
+    'page arguments' => array(1,2),
+    'access callback' => TRUE,
+  );
+
+  return $items;
+}
+
+function cu_latest_article_get($vocabulary = NULL, $term = NULL) {
+
+  // Return page not found if vocabulary isn't category or tags
+  $vocabularies = array(
+    'category',
+    'tags',
+  );
+  if ($vocabulary && !in_array($vocabulary, $vocabularies)) {
+    return drupal_not_found();
+  }
+
+  // get the term id to filter by
+  $term_path = $vocabulary . '/' . $term;
+  $term_path=drupal_get_normal_path($term_path);
+  $tid = basename($term_path);
+
+  // Query
+  $query = db_select('node', 'n');
+  $query->condition('n.type', 'article', '=');
+  $query->condition('n.status', 1, '=');
+  $query->orderBy('created', 'DESC');
+  $query->fields('n', array('nid'));
+  $query->range(0, 1);
+
+  if ($vocabulary == 'category') {
+    $query->join("field_data_field_article_categories", "cats", "n.nid = cats.entity_id");
+    $query->fields('cats', array('field_article_categories_tid'));
+    $query->condition('cats.field_article_categories_tid', $tid, '=');
+  }
+  if ($vocabulary == 'tags') {
+    $query->join("field_data_field_tags", "tags", "n.nid = tags.entity_id");
+    $query->fields('tags', array('field_tags_tid'));
+    $query->condition('tags.field_tags_tid', $tid, '=');
+  }
+  $result = $query->execute()->fetch();
+  if (!empty($result)) {
+    drupal_goto('node/' . $result->nid);
+  }
+
+  else {
+    return drupal_not_found();
+  }
+}
+
+
+function cu_latest_article_urls() {
+  $prefix = 'latest-article/';
+  $output = array();
+
+  // Get category terms
+  $name = 'category';
+  $vocabulary = taxonomy_vocabulary_machine_name_load($name);
+  $terms = taxonomy_get_tree($vocabulary->vid);
+  if (!empty($terms)) {
+    $urls = array();
+    foreach ($terms as $term) {
+      $term_path = taxonomy_term_uri($term);
+      $term_path = drupal_lookup_path('alias', $term_path['path']);
+      $term_link = url($prefix . $term_path, array('absolute' => TRUE));
+      $urls[] = l($term->name, $term_link);
+    }
+    $items = theme('item_list', array('items' => $urls));
+    $output['category']['#markup'] = $items;
+    $output['category']['#prefix'] = '<h2>Latest Article Categories</h2>';
+  }
+
+  // Get tag terms
+  $name = 'tags';
+  $vocabulary = taxonomy_vocabulary_machine_name_load($name);
+  $terms = taxonomy_get_tree($vocabulary->vid);
+  if (!empty($terms)) {
+    $urls = array();
+    foreach ($terms as $term) {
+      $term_path = taxonomy_term_uri($term);
+      $term_path = drupal_lookup_path('alias', $term_path['path']);
+      $term_link = url($prefix . $term_path, array('absolute' => TRUE));
+      $urls[] = l($term->name, $term_link);
+    }
+    $items = theme('item_list', array('items' => $urls));
+    $output['tags']['#markup'] = $items;
+    $output['tags']['#prefix'] = '<h2>Latest Article Tags</h2>';
+  }
+
+
+  return $output;
+}
+
+function cu_latest_article_settings_form_submit(&$form, &$form_state) {
+  variable_set('menu_rebuild_needed', TRUE);
+}

@@ -71,7 +71,7 @@ function google_tag_permission() {
  *   and drupal_flush_all_caches().
  */
 function google_tag_cron() {
-  google_tag_assets_create($count);
+  google_tag_assets_create();
 }
 
 /**
@@ -394,7 +394,7 @@ function _google_tag_role_check() {
 /**
  * Saves snippet files and data layer classes based on current settings.
  */
-function google_tag_assets_create(&$count) {
+function google_tag_assets_create() {
   module_load_include('inc', 'google_tag', 'includes/admin');
-  _google_tag_assets_create($count);
+  _google_tag_assets_create();
 }

@@ -1,0 +1,5 @@
+name = Latest Articles
+description = Provides urls to view the latest article, filterable by a single term from the category or tags vocabularies.
+core = 7.x
+package = CU-Article
+version = 7.x-1.0
