@@ -815,9 +815,9 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: rgba
 /** Layout styles */
 .layout-boxed .page { max-width: 1140px; margin: 0 auto; }
 
-.element-max-width { max-width: 1200px; }
+.element-max-width { max-width: 1500px; }
 
-.element-max-width-padding { max-width: 1160px; }
+.element-max-width-padding { max-width: 1460px; }
 
 .container { width: 100%; padding-right: 20px; padding-left: 20px; margin-right: auto; margin-left: auto; }
 
@@ -827,7 +827,8 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: rgba
 @media (min-width: 1200px) { .container { max-width: 1160px; }
   .container.container-small { max-width: 960; } }
 @media (min-width: 1500px) { .container { max-width: 1460px; }
-  .container.container-small { max-width: 960; } }
+  .container.container-small { max-width: 960; }
+  .container-full { max-width: 1500px; } }
 .layout-fixed .container { width: 1160px; max-width: none; }
 
 .container-fluid { width: 100%; padding-right: 20px; padding-left: 20px; margin-right: auto; margin-left: auto; }
@@ -859,25 +860,25 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: rgba
 .element-spacing { padding: 0 20px; }
 
 /* Max width classes for elements */
-.layout-responsive .element-max-width { max-width: 1200px; margin-right: auto; margin-left: auto; clear: both; }
+.layout-responsive .element-max-width { max-width: 1500px; margin-right: auto; margin-left: auto; clear: both; }
 .layout-responsive .element-max-width:after { content: ""; display: table; clear: both; }
 
-.layout-responsive .element-max-width-gutter, .layout-responsive .element-max-width-padding { max-width: 1160px; margin-right: auto; margin-left: auto; clear: both; }
+.layout-responsive .element-max-width-gutter, .layout-responsive .element-max-width-padding { max-width: 1460px; margin-right: auto; margin-left: auto; clear: both; }
 .layout-responsive .element-max-width-gutter:after, .layout-responsive .element-max-width-padding:after { content: ""; display: table; clear: both; }
 
-.layout-fixed .element-max-width { max-width: 1200px; margin-right: auto; margin-left: auto; clear: both; }
+.layout-fixed .element-max-width { max-width: 1500px; margin-right: auto; margin-left: auto; clear: both; }
 .layout-fixed .element-max-width:after { content: ""; display: table; clear: both; }
 
-.layout-fixed .element-max-width-gutter, .layout-fixed .element-max-width-padding { max-width: 1160px; margin-right: auto; margin-left: auto; clear: both; }
+.layout-fixed .element-max-width-gutter, .layout-fixed .element-max-width-padding { max-width: 1460px; margin-right: auto; margin-left: auto; clear: both; }
 .layout-fixed .element-max-width-gutter:after, .layout-fixed .element-max-width-padding:after { content: ""; display: table; clear: both; }
 
-.layout-responsive .container-max { margin-right: auto; margin-left: auto; max-width: 1200px; }
+.layout-responsive .container-max { margin-right: auto; margin-left: auto; max-width: 1500px; }
 .layout-responsive .container-max:after { content: ""; display: table; clear: both; }
 
-.layout-fixed .container-max { margin-right: auto; margin-left: auto; width: 1200px; }
+.layout-fixed .container-max { margin-right: auto; margin-left: auto; width: 1500px; }
 .layout-fixed .container-max:after { content: ""; display: table; clear: both; }
 
-.layout-fixed { min-width: 1200px; }
+.layout-fixed { min-width: 1500px; }
 
 .row { display: -ms-flexbox; display: flex; -ms-flex-wrap: wrap; flex-wrap: wrap; margin-right: -20px; margin-left: -20px; }
 

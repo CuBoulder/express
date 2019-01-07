@@ -65,6 +65,9 @@
   .container.container-small {
     max-width: 960;
   }
+  .container-full {
+    max-width: 1500px;
+  }
 }
 .layout-fixed {
   .container {
@@ -80,7 +83,6 @@
   margin-right: auto;
   margin-left: auto;
 }
-
 // Full width element
 
 .bleed {
