@@ -355,7 +355,7 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
     }
     // if it's custom, get the custom variables and format as a link.
     elseif ($saved_affiliation == 'custom') {
-      $saved_affiliation = l(variable_get('express_site_affiliation_title'), variable_get('express_site_affiliation_url'));
+      $saved_affiliation = variable_get('express_site_affiliation_url', NULL) ? l(variable_get('express_site_affiliation_title'), variable_get('express_site_affiliation_url')) : variable_get('express_site_affiliation_title');
     }
     // Otherwise, pass value to options function and format as a link.
     else {
