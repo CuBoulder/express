@@ -326,17 +326,19 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
   );
 
   // Only show custom field if select custom is chosen.
-  $form['affiliation']['#states'] = array(
-    'visible' => array(
-      'select[name="cu_site_affiliation_options"]' => array(
-        'value' => 'custom',
+  if (user_access('administer matchredirect')) {
+    $form['affiliation']['#states'] = array(
+      'visible' => array(
+        'select[name="cu_site_affiliation_options"]' => array(
+          'value' => 'custom',
+        ),
       ),
-    ),
-  );
+    );
+  }
 
   // Show affiliation fields if user has access to edit.
   // Reusing 'access site reports' so we don't need to run update perms.
-  if (user_access('access site reports')) {
+  if (user_access('administer matchredirect')) {
     $form['affiliation']['#access'] = TRUE;
     $form['cu_site_affiliation_options']['#access'] = TRUE;
     $form['express_site_type']['#access'] = TRUE;
@@ -347,13 +349,13 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
     // Get saved values.
     $site_type = variable_get('express_site_type', NULL);
     $saved_affiliation = variable_get('cu_site_affiliation_options', NULL);
-    if ($site_type) {
-      $affiliation = cu_core_site_affiliation_options($site_type);
+    if ($site_type && $affiliation = cu_core_site_affiliation_options($site_type)) {
+
       $saved_affiliation = l($affiliation['label'], $affiliation['url']);
     }
     // if it's custom, get the custom variables and format as a link.
     elseif ($saved_affiliation == 'custom') {
-      $saved_affiliation = l(variable_get('express_site_affiliation_title'), variable_get('express_site_affiliation_url'));
+      $saved_affiliation = variable_get('express_site_affiliation_url', NULL) ? l(variable_get('express_site_affiliation_title'), variable_get('express_site_affiliation_url')) : variable_get('express_site_affiliation_title');
     }
     // Otherwise, pass value to options function and format as a link.
     else {
@@ -362,11 +364,13 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
         $saved_affiliation = l($saved_affiliation['label'], $saved_affiliation['url']);
       }
     }
-    $form['affiliation_display'] = array(
-      '#type' => 'fieldset',
-      '#title' => 'Affiliation',
-    );
-    $form['affiliation_display']['affiliation_values']['#markup'] = $saved_affiliation;
+    if ($saved_affiliation) {
+      $form['affiliation_display'] = array(
+        '#type' => 'fieldset',
+        '#title' => 'Affiliation',
+      );
+      $form['affiliation_display']['affiliation_values']['#markup'] = $saved_affiliation;
+    }
   }
   // Custom Logos don't have affiliations
   if (variable_get('custom_white_logo', NULL) || variable_get('custom_black_logo', NULL)) {
