@@ -327,7 +327,6 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
 
   // Only show custom field if select custom is chosen.
   if (user_access('administer matchredirect')) {
-    drupal_set_message('x');
     $form['affiliation']['#states'] = array(
       'visible' => array(
         'select[name="cu_site_affiliation_options"]' => array(
@@ -365,11 +364,13 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
         $saved_affiliation = l($saved_affiliation['label'], $saved_affiliation['url']);
       }
     }
-    $form['affiliation_display'] = array(
-      '#type' => 'fieldset',
-      '#title' => 'Affiliation',
-    );
-    $form['affiliation_display']['affiliation_values']['#markup'] = $saved_affiliation;
+    if ($saved_affiliation) {
+      $form['affiliation_display'] = array(
+        '#type' => 'fieldset',
+        '#title' => 'Affiliation',
+      );
+      $form['affiliation_display']['affiliation_values']['#markup'] = $saved_affiliation;
+    }
   }
   // Custom Logos don't have affiliations
   if (variable_get('custom_white_logo', NULL) || variable_get('custom_black_logo', NULL)) {
