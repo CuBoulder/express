@@ -43,7 +43,7 @@ Examples:
 | developer       | "administrator" |
 
 
-#3 Fill out the lock form and lock out site owners and content editors
+#4 Fill out the lock form and lock out site owners and content editors
 Scenario: An administrator or developer should be able to lock content edits
   Given I am logged in as a user with the "administrator" role
   And I go to "admin/people/lock"
@@ -54,14 +54,14 @@ Scenario: An administrator or developer should be able to lock content edits
   When I press "Save configuration"
   Then I should see "Lock changes have been saved"
 
-#4 Try to edit a page as a site editor
+#5 Try to edit a page as a site editor
 Scenario: A site editor should not be able to edit content while lock persists
   Given I am logged in as a user with the "site_editor" role
   And I go to "node/1/edit"
   Then I should see "We have locked editing of content on this site."
   And the "#edit-title" element should have "disabled" in the "disabled" attribute
 
-#5 Try to edit a page as a site owner
+#6 Try to edit a page as a site owner
 Scenario: The local user 'site_owner' should be able to edit content while lock persists
 Given I am on "user"
 And I fill in "CU Login Name" with "site_owner"
