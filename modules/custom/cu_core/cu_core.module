@@ -326,17 +326,20 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
   );
 
   // Only show custom field if select custom is chosen.
-  $form['affiliation']['#states'] = array(
-    'visible' => array(
-      'select[name="cu_site_affiliation_options"]' => array(
-        'value' => 'custom',
+  if (user_access('administer matchredirect')) {
+    drupal_set_message('x');
+    $form['affiliation']['#states'] = array(
+      'visible' => array(
+        'select[name="cu_site_affiliation_options"]' => array(
+          'value' => 'custom',
+        ),
       ),
-    ),
-  );
+    );
+  }
 
   // Show affiliation fields if user has access to edit.
   // Reusing 'access site reports' so we don't need to run update perms.
-  if (user_access('access site reports')) {
+  if (user_access('administer matchredirect')) {
     $form['affiliation']['#access'] = TRUE;
     $form['cu_site_affiliation_options']['#access'] = TRUE;
     $form['express_site_type']['#access'] = TRUE;
@@ -347,8 +350,8 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
     // Get saved values.
     $site_type = variable_get('express_site_type', NULL);
     $saved_affiliation = variable_get('cu_site_affiliation_options', NULL);
-    if ($site_type) {
-      $affiliation = cu_core_site_affiliation_options($site_type);
+    if ($site_type && $affiliation = cu_core_site_affiliation_options($site_type)) {
+
       $saved_affiliation = l($affiliation['label'], $affiliation['url']);
     }
     // if it's custom, get the custom variables and format as a link.
