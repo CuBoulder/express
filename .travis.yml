@@ -6,7 +6,7 @@ git:
   depth: 1
 
 php:
-  - '7.1.26'
+  - '7.1.25'
 
 branches:
   only:
