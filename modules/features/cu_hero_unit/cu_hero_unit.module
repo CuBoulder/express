@@ -83,7 +83,7 @@ function cu_hero_unit_preprocess_entity(&$vars) {
     $classes_array[] = 'hero-align-' . render($vars['content']['field_hero_unit_text_align'][0]['#markup']);
     $classes_array[] = 'hero-text-' . render($vars['content']['field_hero_unit_text_color'][0]['#markup']);
     $bg_color = render($vars['content']['field_hero_unit_bg_color'][0]['#markup']);
-    $classes_array[] = 'background-' . cu_hero_unit_bg_color_translate($bg_color);
+    $classes_array[] = 'background-color-' . cu_hero_unit_bg_color_translate($bg_color);
     //$classes_array[] = 'buttons-color-' . render($vars['content']['field_hero_unit_link_color'][0]['#markup']);
     if (!empty($vars['field_hero_unit_overlay']) && $vars['field_hero_unit_overlay'][0]['value'] == 1) {
       $classes_array[] = 'hero-unit-overlay';
