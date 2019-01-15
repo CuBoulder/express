@@ -559,7 +559,7 @@ body { font-size: 17px; line-height: 1.5; font-family: "Neue Helvetica W01", "Ro
 /** Headings */
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { line-height: 1.3; margin: 0 0 10px 0; }
 
-#footer-section h1, #footer-section h2, #footer-section h3, #footer-section h4, #footer-section h5, #footer-section h6, #footer-section .h1, #footer-section .h2, #footer-section .h3, #footer-section .h4, #footer-section .h5, #footer-section .h6 { margin: 0 0 10px 0; }
+.footer-section h1, .footer-section h2, .footer-section h3, .footer-section h4, .footer-section h5, .footer-section h6, .footer-section .h1, .footer-section .h2, .footer-section .h3, .footer-section .h4, .footer-section .h5, .footer-section .h6 { margin: 0 0 10px 0; }
 
 h2, .h2 { font-size: 140%; }
 
@@ -593,12 +593,12 @@ h6, .h6 { font-size: 100%; }
 #after-content h5, #after-content .h5, #after-content-2 h5, #after-content-2 .h5 { font-size: 110%; }
 #after-content h6, #after-content .h6, #after-content-2 h6, #after-content-2 .h6 { font-size: 100%; }
 
-#footer-section { font-size: 90%; line-height: 1.5; }
-#footer-section h2, #footer-section .h2 { font-size: 140%; }
-#footer-section h3, #footer-section .h3 { font-size: 130%; }
-#footer-section h4, #footer-section .h4 { font-size: 120%; }
-#footer-section h5, #footer-section .h5 { font-size: 110%; }
-#footer-section h6, #footer-section .h6 { font-size: 100%; }
+.footer-section { font-size: 90%; line-height: 1.5; }
+.footer-section h2, .footer-section .h2 { font-size: 140%; }
+.footer-section h3, .footer-section .h3 { font-size: 130%; }
+.footer-section h4, .footer-section .h4 { font-size: 120%; }
+.footer-section h5, .footer-section .h5 { font-size: 110%; }
+.footer-section h6, .footer-section .h6 { font-size: 100%; }
 
 .node-view-mode-teaser h2, .node-view-mode-teaser h3 { font-size: 120%; }
 

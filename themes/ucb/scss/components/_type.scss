@@ -31,7 +31,7 @@ h1, h2, h3, h4, h5, h6,
     //text-decoration: none;
   }
 }
-#footer-section {
+.footer-section {
   h1, h2, h3, h4, h5, h6,
   .h1, .h2, .h3, .h4, .h5, .h6  {
     margin: 0 0 $spacing/2 0;
@@ -92,7 +92,7 @@ $heading-scale: 15;
   }
 }
 // Even smaller headings for footer section
-#footer-section {
+.footer-section {
   font-size:90%;
   line-height: 1.5;
   //$base-font-size: 75%;
