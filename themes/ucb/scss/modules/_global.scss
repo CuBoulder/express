@@ -98,6 +98,7 @@ $max_width: 1500px;
   }
   @else {
     $color2: darken($color, 5%);
+    $color2: scale-color($color, $lightness: -20%);
   }
   background-color: $color;
   background-image: -webkit-gradient(linear, left top, left bottom, from($color), to($color2));

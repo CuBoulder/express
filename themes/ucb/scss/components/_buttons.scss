@@ -44,8 +44,12 @@ a.button-ghost,
  &:hover,
  &:focus {
    background-color:darken($color, 3%);
+   background-color: scale-color($color, $lightness: -10%);
    @if ($color == $gold) {
      background-color:$gold-gray;
+   }
+   @elseif ($color == #000) {
+     background-color: scale-color($color, $lightness: 20%);
    }
    @include rgbashadow(0, 2px, 5px, #000000, .30);
  }
