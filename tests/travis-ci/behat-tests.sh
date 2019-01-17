@@ -2,8 +2,8 @@
 
 # Start server.
 cd ${ROOT_DIR}/drupal
-$HOME/.composer/vendor/bin/drush runserver 127.0.0.1:8057 > /dev/null 2>&1 &
-nc -zvv 127.0.0.1 8057; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8057..."; nc -zvv localhost 8057; out=$?; sleep 5; done
+$HOME/.composer/vendor/bin/drush runserver 127.0.0.1:8031 > /dev/null 2>&1 &
+nc -zvv 127.0.0.1 8031; out=$?; while [[ $out -ne 0 ]]; do echo "Retry hit port 8031..."; nc -zvv localhost 8031; out=$?; sleep 5; done
 earlyexit
 
 if [ "${BUNDLE_NAME}" != "null" ]; then
