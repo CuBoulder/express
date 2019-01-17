@@ -24,7 +24,7 @@ if [ ! "${SKIP_EXPRESS_TESTS}" ]; then
   earlyexit
 
   # Run JS Behat tests if merged into dev.
-#  ${ROOT_DIR}/drupal/profiles/express/tests/travis-ci/run-js-tests.sh
+  ${ROOT_DIR}/drupal/profiles/express/tests/travis-ci/run-js-tests.sh
   earlyexit
 
 fi
