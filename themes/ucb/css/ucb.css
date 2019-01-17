@@ -1294,7 +1294,7 @@ ul.inline.inline-menu li { margin: 0; padding: 0; }
 ul.inline.inline-menu li a { margin-right: 15px; }
 
 /** Typography styles */
-body { font-size: 17px; line-height: 1.5; font-family: "Neue Helvetica W01", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #111111; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-smoothing: antialiased; text-rendering: optimizeLegibility; font-style: normal; font-variant: normal; -webkit-text-size-adjust: none; }
+body { font-size: 16px; line-height: 1.5; font-family: "Neue Helvetica W01", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #111111; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; font-smoothing: antialiased; text-rendering: optimizeLegibility; font-style: normal; font-variant: normal; -webkit-text-size-adjust: none; }
 
 /** Headings */
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { line-height: 1.3; margin: 0 0 10px 0; }
