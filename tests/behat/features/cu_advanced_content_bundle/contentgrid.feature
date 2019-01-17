@@ -1,9 +1,9 @@
-@AdvContentBundle 
+@AdvContentBundle
 Feature: the Content Grid block
 In order to create interesting layouts of graphics and text
 As a user with the proper role
 I should be able to access and use the Content Grid Block
-  
+
 Scenario Outline: A user with the proper role can access the form for adding a content list block
   Given I am logged in as a user with the <role> role
   When I go to "block/add/feature-callout"
@@ -17,12 +17,12 @@ Scenario Outline: A user with the proper role can access the form for adding a c
   | site_owner      | "Create Content Grid block" |
   | administrator   | "Create Content Grid block" |
   | developer       | "Create Content Grid block" |
-  
+
 
 Scenario: An anonymous user can not access the form for adding a content list block
   Given I go to "block/add/feature-callout"
   Then I should see "Access denied"
-  
+
 Scenario: A user with the proper role should see a number of Grid Style options
 Given I am logged in as a user with the "site_owner" role
 And am on "block/add/feature-callout"
@@ -67,10 +67,10 @@ And I fill in "edit-field-callouts-und-1-field-callout-title-und-0-title" with "
 And fill in "edit-field-callouts-und-1-field-callout-text-und-0-value" with "Veggie ipsum dolor sit amet cucumber broccoli carrot stringbean"
 And I press "Save"
 Then I should see "Content Grid My Content Grid Title has been created."
-And I should see "Cupcake ipsum dolor sit amet ice cream carrot cake" 
+And I should see "Cupcake ipsum dolor sit amet ice cream carrot cake"
 And I should see "Veggie ipsum dolor sit amet cucumber broccoli carrot stringbean"
 
-@broken 
+@broken
 Scenario: An EditOnly can edit a Content Grid
 Given I am logged in as a user with the "edit_only" role
 And am on "block/my-content-grid-label/view"
