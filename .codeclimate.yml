@@ -22,5 +22,6 @@ exclude_paths:
 - "**.scss"
 - "libraries/"
 - "tests/"
+- "themes/"
 - "modules/contrib/"
 - "**.tpl.php"
