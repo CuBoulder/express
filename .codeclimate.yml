@@ -22,6 +22,7 @@ plugins:
 exclude_patterns:
 - "**.scss"
 - "libraries/"
+- "simplesaml/"
 - "tests/"
 # Removing themes due to symlinks.
 - "themes/"
