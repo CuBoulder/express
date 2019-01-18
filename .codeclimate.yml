@@ -8,13 +8,13 @@ plugins:
     checks:
       Controversial/Superglobals:
         enabled: false
-  phan:
-    enabled: true
-    config:
-      file_extensions: "php"
-    checks:
-      PhanUndeclaredFunction:
-        enabled: false
+#  phan:
+#    enabled: true
+#    config:
+#      file_extensions: "php"
+#    checks:
+#      PhanUndeclaredFunction:
+#        enabled: false
   phpcodesniffer:
     enabled: true
     config:
