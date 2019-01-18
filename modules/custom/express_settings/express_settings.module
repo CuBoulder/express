@@ -677,10 +677,10 @@ function express_settings_varnish_site_cache_form($form, &$form_state) {
     '#attributes' => array('class' => array('btn-warning')),
   );
 
-  if (date('H', $cache_varnish_last) == date('H', time())) {
-    $form['clear_varnish_cache']['#disabled'] = TRUE;
-    drupal_set_message(t('The whole Page Cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until @time.', array('@time' => date('h:i A', $cache_varnish_last + 3600))), 'warning');
-  }
+  // if (date('H', $cache_varnish_last) == date('H', time())) {
+  //   $form['clear_varnish_cache']['#disabled'] = TRUE;
+  //   drupal_set_message(t('The whole Page Cache was recently cleared. Because repeatedly clearing the cache can cause performance problems, it cannot be cleared again until @time.', array('@time' => date('h:i A', $cache_varnish_last + 3600))), 'warning');
+  // }
 
   return $form;
 }
