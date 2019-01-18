@@ -1,4 +1,5 @@
-engines:
+version: "2"
+plugins:
   phpmd:
     enabled: true
     config:
@@ -7,6 +8,10 @@ engines:
     checks:
       Controversial/Superglobals:
         enabled: false
+  phan:
+    enabled: true
+    config:
+      file_extensions: "php"
   phpcodesniffer:
     enabled: true
     config:
@@ -14,11 +19,7 @@ engines:
       encoding: utf-8
       standard: "Drupal"
       ignore_warnings: true
-ratings:
-  paths:
-  - "modules/custom"
-  - "modules/features"
-exclude_paths:
+exclude_patterns:
 - "**.scss"
 - "libraries/"
 - "tests/"
