@@ -381,10 +381,10 @@ function _varnish_terminal_run($commands) {
     foreach ($commands as $command) {
       if ($status = _varnish_execute_command($client, $command)) {
         $ret[$terminal][$command] = $status;
-        watchdog('varnish', 'Received status code @code running %command. Full response text: @status', array(
+        watchdog('varnish', 'Status code "@code"; Command - "%command"; Full message - @msg', array(
           '@code' => $status['code'],
           '%command' => $command,
-          '@status' => $status),
+          '@msg' => $status['msg']),
         WATCHDOG_INFO);
       }
     }
