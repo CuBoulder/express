@@ -379,14 +379,3 @@ function cu_users_update_7031() {
   module_load_install('cu_core');
   _set_external_invite_variables();
 }
-
-/**
- * Remove Owen Morrill as a user, if he exists.
- */
-function cu_users_update_7032() {
-  $user = user_load_by_name('owmo7772');
-  if($user){
-    user_delete($user->uid);
-  }
-  watchdog('cu_users', t('Removed owmo7772 from list of users, cheers.'));
-}
