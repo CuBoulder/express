@@ -47,31 +47,34 @@ body {
   }
 }
 #navigation .links a {
-  line-height: 60px;
+
 }
 #main-menu-wrapper {
   background-color: $gray-dark;
-  a {
-    color:#ccc;
-    font-size: 90%;
-    font-weight: 600;
-    &:hover {
-      background-color: #444;
-      color:#fff;
+  ul#main-menu {
+    & > li > a {
+      color:#ccc;
+      font-size: 90%;
+      font-weight: 600;
+      line-height: 60px;
+      &:hover {
+        background-color: #444;
+        color:#fff;
+      }
     }
-  }
-  a.active,
-  a.active-trail {
-    background-color: #333;
-    color:#fff;
-    &:hover {
+    & > li > a.active,
+    & > li > a.active-trail {
+      background-color: #333;
       color:#fff;
+      &:hover {
+        color:#fff;
+      }
     }
-  }
-  a.home-link,
-  a.home-link.active {
-    color:#ccc;
-    background-color: transparent;
+    & > li > a.home-link,
+    & > li > a.home-link.active {
+      color:#ccc;
+      background-color: transparent;
+    }
   }
 }
 ul#action-menu a {
@@ -81,6 +84,7 @@ ul#action-menu a {
 #navigation ul.action-menu {
   a {
     margin: 18px 5px;
+    color:#ccc;
   }
 }
 
