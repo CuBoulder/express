@@ -32,24 +32,35 @@ body {
 #main-menu-wrapper {
   background-color: #444;
 }
-#navigation {
-  a {
+#navigation ul#main-menu {
+  & > li > a {
     color:#fff;
     font-size: 90%;
     font-weight: 600;
   }
-  a:hover,
-  a:focus,
-  a.active,
-  a.active-trail {
+  & > li > a:hover,
+  & > li > a:focus,
+  & > li > a.active,
+  & > li > a.active-trail {
     background-color: #fff;
     color:#363839;
 
   }
-  a.home-link,
-  a.home-link.active {
+  & > li > a.home-link,
+  & > li > a.home-link.active {
     background-color: transparent;
     color:#fff;
+  }
+}
+#navigation ul#action-menu {
+  a {
+    color:#bbb;
+    &:hover,
+    &:focus,
+    &.active,
+    a.active-trail {
+      color:#fff;
+    }
   }
 }
 #secondary-navigation {
