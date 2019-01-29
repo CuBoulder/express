@@ -37,19 +37,21 @@ body {
     //background-repeat: repeat-x;
     //background-position: center center;
     position: static;
-    a {
-      color:#333;
-      font-weight: 600;
-    }
-    a:hover,
-    a.active,
-    a.active-trail {
-      background-color: $cugold;
-      color:#000;
-    }
-    a.home-link.active {
-      background: transparent;
-      color:#333;
+    ul#main-menu {
+      & > li > a {
+        color:#333;
+        font-weight: 600;
+      }
+      & > li > a:hover,
+      & > li > a.active,
+      & > li > a.active-trail {
+        background-color: $cugold;
+        color:#000;
+      }
+      & > li > a.home-link.active {
+        background: transparent;
+        color:#333;
+      }
     }
     nav {
       // margin: 0 -20px;
@@ -78,19 +80,21 @@ body {
     //background-repeat: repeat-x;
     //background-position: center center;
     position: static;
-    a {
-      color:#fff;
-      font-weight: 600;
-    }
-    a:hover,
-    a.active,
-    a.active-trail {
-      background-color: $cugold;
-      color:#000;
-    }
-    a.home-link.active {
-      background: transparent;
-      color:$cugold;
+    ul#main-menu {
+      & > li > a {
+        color:#fff;
+        font-weight: 600;
+      }
+      & > li > a:hover,
+      & > li > a.active,
+      & > li > a.active-trail {
+        background-color: $cugold;
+        color:#000;
+      }
+      & > li > a.home-link.active {
+        background: transparent;
+        color:$cugold;
+      }
     }
     nav {
       // margin: 0 -20px;
@@ -101,8 +105,8 @@ body {
   }
 }
 
-#navigation .links a {
-  line-height: 60px;
+#navigation ul#main-menu > li > a {
+  line-height: 40px;
 }
 
 #navigation {
@@ -121,7 +125,7 @@ body {
 #navigation ul.action-menu {
   margin: 0 5px;
   a {
-    margin: 18px 5px;
+    margin: 8px 5px;
   }
 }
 .layout-fixed {
