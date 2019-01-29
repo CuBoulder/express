@@ -42,27 +42,27 @@ body {
 }
 #navigation {
   ul#main-menu {
-    a {
+    & > li > a {
       color:#666;
       font-weight: 600;
       padding:0 12px;
       border-top:1px solid #e7e7e7;
     }
 
-    a:hover,
-    a.active,
-    a.active-trail {
+    & > li > a:hover,
+    & > li > a.active,
+    & > li > a.active-trail {
       border-top:1px solid #333;
       color:#222;
     }
   }
   ul#action-menu {
-    a {
+    & > li > a {
       color:#666;
     }
-    a:hover,
-    a.active,
-    a.active-trail {
+    & > li > a:hover,
+    & > li > a.active,
+    & > li > a.active-trail {
       color:#222;
     }
   }

@@ -16,10 +16,10 @@ body { background-color: #000; border-top: 4px solid #cfb87c; }
 
 #navigation { margin-top: -1px; }
 
-#navigation ul#main-menu a { color: #666; font-weight: 600; padding: 0 12px; border-top: 1px solid #e7e7e7; }
-#navigation ul#main-menu a:hover, #navigation ul#main-menu a.active, #navigation ul#main-menu a.active-trail { border-top: 1px solid #333; color: #222; }
-#navigation ul#action-menu a { color: #666; }
-#navigation ul#action-menu a:hover, #navigation ul#action-menu a.active, #navigation ul#action-menu a.active-trail { color: #222; }
+#navigation ul#main-menu > li > a { color: #666; font-weight: 600; padding: 0 12px; border-top: 1px solid #e7e7e7; }
+#navigation ul#main-menu > li > a:hover, #navigation ul#main-menu > li > a.active, #navigation ul#main-menu > li > a.active-trail { border-top: 1px solid #333; color: #222; }
+#navigation ul#action-menu > li > a { color: #666; }
+#navigation ul#action-menu > li > a:hover, #navigation ul#action-menu > li > a.active, #navigation ul#action-menu > li > a.active-trail { color: #222; }
 
 .intro-wide-wrapper, .post-wide-wrapper { background: #fff; }
 
@@ -33,7 +33,7 @@ body { background-color: #000; border-top: 4px solid #cfb87c; }
 
 .feature-layout-title-image a { color: #fff; }
 
-#page-title-wrapper { background: #111; background-color: #111; background-image: -webkit-gradient(linear, left top, left bottom, from(#111), to(#040404)); background-image: -webkit-linear-gradient(top, #111, #040404); background-image: -moz-linear-gradient(top, #111, #040404); background-image: -o-linear-gradient(top, #111, #040404); background-image: -ms-linear-gradient(top, #111, #040404); background-image: linear-gradient(top, #111, #040404); filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#FF111111', EndColorStr='#FF040404'); border-bottom: 4px solid #cfb87c; color: #fff; padding: 40px 20px; }
+#page-title-wrapper { background: #111; background-color: #111; background-image: -webkit-gradient(linear, left top, left bottom, from(#111), to(#0e0e0e)); background-image: -webkit-linear-gradient(top, #111, #0e0e0e); background-image: -moz-linear-gradient(top, #111, #0e0e0e); background-image: -o-linear-gradient(top, #111, #0e0e0e); background-image: -ms-linear-gradient(top, #111, #0e0e0e); background-image: linear-gradient(top, #111, #0e0e0e); filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#FF111111', EndColorStr='#FF0E0E0E'); border-bottom: 4px solid #cfb87c; color: #fff; padding: 40px 20px; }
 #page-title-wrapper a { color: #cfb87c; }
 
 h1#page-title-image-title { font-size: 140%; }
