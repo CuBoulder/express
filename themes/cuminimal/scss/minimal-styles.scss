@@ -39,24 +39,24 @@ body.layout-boxed {
   border-top: 1px solid $border;
 }
 #navigation .links a {
-  line-height: 60px;
+
 }
 ul#main-menu {
-  a {
+  & > li > a {
     color:#757575;
     font-weight: 600;
     border-top:4px solid #fff;
-
+    line-height: 60px;
   }
-  a:hover,
-  a:focus,
-  a.active,
-  a.active-trail {
+  & > li > a:hover,
+  & > li > a:focus,
+  & > li > a.active,
+  & > li > a.active-trail {
     border-top: 4px solid $border;
     color:#363636;
   }
-  a.home-link,
-  a.home-link.active {
+  & > li > a.home-link,
+  & > li > a.home-link.active {
     background-color: transparent;
     background-image: none;
     color:#858585;

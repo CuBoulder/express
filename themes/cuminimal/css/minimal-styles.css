@@ -16,11 +16,9 @@ body.layout-boxed { background: #e7e7e7; }
 
 #navigation nav { border-top: 1px solid rgba(128, 128, 128, 0.333); }
 
-#navigation .links a { line-height: 60px; }
-
-ul#main-menu a { color: #757575; font-weight: 600; border-top: 4px solid #fff; }
-ul#main-menu a:hover, ul#main-menu a:focus, ul#main-menu a.active, ul#main-menu a.active-trail { border-top: 4px solid rgba(128, 128, 128, 0.333); color: #363636; }
-ul#main-menu a.home-link, ul#main-menu a.home-link.active { background-color: transparent; background-image: none; color: #858585; border: none; border-top: 4px solid #fff; margin-bottom: 0; }
+ul#main-menu > li > a { color: #757575; font-weight: 600; border-top: 4px solid #fff; line-height: 60px; }
+ul#main-menu > li > a:hover, ul#main-menu > li > a:focus, ul#main-menu > li > a.active, ul#main-menu > li > a.active-trail { border-top: 4px solid rgba(128, 128, 128, 0.333); color: #363636; }
+ul#main-menu > li > a.home-link, ul#main-menu > li > a.home-link.active { background-color: transparent; background-image: none; color: #858585; border: none; border-top: 4px solid #fff; margin-bottom: 0; }
 
 #secondary-menu a { color: #757575; display: inline-block; border-bottom: 4px solid #fff; }
 #secondary-menu a:hover, #secondary-menu a:focus, #secondary-menu a.active, #secondary-menu a.active-trail { border-bottom: 4px solid rgba(128, 128, 128, 0.333); color: #363636; }
