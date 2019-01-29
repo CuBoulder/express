@@ -32,13 +32,10 @@ h2.secondary-menu-label { margin-left: 8px; }
 
 #main-menu-wrapper { background-color: #222; }
 
-#main-menu-wrapper ul#main-menu a { font-weight: 600; color: #fff; }
-
-#main-menu-wrapper ul#main-menu a:hover { background-color: #444; }
-
-#main-menu-wrapper ul#main-menu a.active, #main-menu-wrapper ul#main-menu a.active-trail { background-color: #cfb87c; color: #000; }
-
-#main-menu-wrapper ul#main-menu a.home-link, #main-menu-wrapper ul#main-menu a.home-link.active { background-color: transparent; color: #fff; }
+#main-menu-wrapper ul#main-menu > li > a { font-weight: 600; color: #fff; }
+#main-menu-wrapper ul#main-menu > li > a:hover { background-color: #444; }
+#main-menu-wrapper ul#main-menu > li > a.active, #main-menu-wrapper ul#main-menu > li > a.active-trail { background-color: #cfb87c; color: #000; }
+#main-menu-wrapper ul#main-menu > li > a.home-link, #main-menu-wrapper ul#main-menu > li > a.home-link.active { background-color: transparent; color: #fff; }
 
 ul.action-menu a { color: #fff; }
 
