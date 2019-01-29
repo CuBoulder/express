@@ -64,7 +64,7 @@ body {
 }
 #main-menu-wrapper #navigation #main-menu {
 
-  a {
+  & > li > a {
     color:#333;
     font-weight: 600;
     line-height: 60px;
@@ -73,7 +73,7 @@ body {
 
     }
   }
-  a:after {
+  & > li > a:before {
     position: absolute;
     bottom: 10px;
     left: 0;
@@ -86,18 +86,18 @@ body {
     background: transparent;
     height: 3px !important;
   }
-  a.active:after,
-  a.active-trail:after,
-  a:hover:after {
+  & > li > a.active:before,
+  & > li > a.active-trail:before,
+  & > li > a:hover:before {
     background-color:$cugold !important;
   }
-  a#home-link,
-  a#home-link.active {
+  & > li > a#home-link,
+  & > li > a#home-link.active {
     color:#363636;
     background-color: transparent;
   }
-  a#home-link:after,
-  a#home-link.active:after {
+  & > li > a#home-link:before,
+  & > li > a#home-link.active:before {
     background: transparent !important;
   }
 }
