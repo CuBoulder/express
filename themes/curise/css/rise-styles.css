@@ -15,6 +15,7 @@ body { background-color: #424242; }
 .banner-dark #main-menu-wrapper ul#main-menu > li > a { color: #333; font-weight: 600; }
 .banner-dark #main-menu-wrapper ul#main-menu > li > a:hover, .banner-dark #main-menu-wrapper ul#main-menu > li > a.active, .banner-dark #main-menu-wrapper ul#main-menu > li > a.active-trail { background-color: #cfb87c; color: #000; }
 .banner-dark #main-menu-wrapper ul#main-menu > li > a.home-link.active { background: transparent; color: #333; }
+.banner-dark #main-menu-wrapper ul#action-menu a { color: #333; }
 .banner-dark #main-menu-wrapper .nav-inner { background-color: #f7f7f7; }
 
 .banner-light #secondary-menu-wrapper { background-color: #eee; color: #666; }
@@ -24,6 +25,7 @@ body { background-color: #424242; }
 .banner-light #main-menu-wrapper ul#main-menu > li > a { color: #fff; font-weight: 600; }
 .banner-light #main-menu-wrapper ul#main-menu > li > a:hover, .banner-light #main-menu-wrapper ul#main-menu > li > a.active, .banner-light #main-menu-wrapper ul#main-menu > li > a.active-trail { background-color: #cfb87c; color: #000; }
 .banner-light #main-menu-wrapper ul#main-menu > li > a.home-link.active { background: transparent; color: #cfb87c; }
+.banner-light #main-menu-wrapper ul#action-menu a { color: #fff; }
 .banner-light #main-menu-wrapper .nav-inner { background-color: #333; }
 
 #navigation ul#main-menu > li > a { line-height: 40px; }
