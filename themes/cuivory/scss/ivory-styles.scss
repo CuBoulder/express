@@ -69,25 +69,28 @@ body.layout-wide {
   @include gradient(#fafafa, #f1f1f1);
 }
 
-ul#action-menu a {
-  color:#757575;
-  //font-weight: bold;
-  border: none;
-  &:hover,
-  &:focus {
-    color:#333;
+ul#action-menu {
+  & > li > a {
+    color:#757575;
+    //font-weight: bold;
+    border: none;
+
+    &:hover,
+    &:focus {
+      color:#333;
+    }
   }
 }
 
 ul#main-menu {
-  a {
+  & > li >a {
     color:#656565;
     border-left:1px solid $border;
   }
-  a:hover,
-  a:focus,
-  a.active,
-  a.active-trail {
+  & > li > a:hover,
+  & > li > a:focus,
+  & > li > a.active,
+  & > li > a.active-trail {
     color:#fff;
     @include gradient(lighten(#333, 10%), #333);
     border-bottom: 1px solid #333;
