@@ -66,6 +66,17 @@ body {
       color: #ccc;
     }
   }
+  ul#action-menu {
+    & > li > a {
+      color:#ccc;
+    }
+    & > li > a.active,
+    & > li > a.active-trail,
+    & > li > a:hover,
+    & > li > a:focus {
+      color:$cugold;
+    }
+  }
 }
 .slider-wrapper {
   background-color: #171717;
