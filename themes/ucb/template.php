@@ -751,6 +751,7 @@ function ucb_home_icon(&$vars, $menu) {
         $vars[$menu][$key]['html'] = TRUE;
         $vars[$menu][$key]['title'] = '<i class="fa fa-home"></i><span class="element-invisible">Home</span>';
         $vars[$menu][$key]['attributes']['id'] = 'home-link';
+        $vars[$menu][$key]['attributes']['class'][] = 'home-link';
       }
     }
   }

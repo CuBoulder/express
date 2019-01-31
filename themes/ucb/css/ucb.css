@@ -1209,8 +1209,11 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: rgba
 #secondary-navigation h2.secondary-menu-label { display: inline; font-size: 100%; font-weight: 600; }
 
 /* Action menu, or inline secondary menu */
-#navigation ul.action-menu { float: right; margin: 0 0 0 20px; font-size: 85%; }
-#navigation ul.action-menu a { line-height: 24px; margin: 8px 5px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding: 0 5px; border: none; white-space: nowrap; font-family: Arial, Helvetica, sans-serif; }
+#navigation .action-menu-wrapper { flex-shrink: 0; }
+
+#navigation ul.action-menu { margin: 0; font-size: 85%; }
+#navigation ul.action-menu li { padding: 0; }
+#navigation ul.action-menu a { line-height: 24px; margin: 8px 5px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding: 0 5px; border: none; white-space: nowrap; font-family: Arial, Helvetica, sans-serif; display: inline-block; }
 
 .action-blue ul#action-menu a { background-color: #0277BD; color: #fff; transition: -webkit-box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease; transition: -moz-box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease; transition: box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease; -webkit-box-shadow: 0 0px 3px rgba(0, 0, 0, 0.24); -moz-box-shadow: 0 0px 3px rgba(0, 0, 0, 0.24); box-shadow: 0 0px 3px rgba(0, 0, 0, 0.24); }
 .action-blue ul#action-menu a:hover, .action-blue ul#action-menu a:focus { background-color: #026dae; -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); color: #fff; }
@@ -1272,8 +1275,8 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: rgba
 #mobile-menu > ul, #mobile-menu > ul > li { list-style: none; list-style-image: none; margin: 0; padding: 0; }
 #mobile-menu > ul > li > a { display: block; padding: 10px 20px; }
 
-#navigation .links > li, #navigation .menu > li { margin: 0; padding: 0; }
-#navigation .links > li > a, #navigation .menu > li > a { display: block; float: left; padding: 0 12px; line-height: 40px; }
+#navigation #main-menu > li { margin: 0; padding: 0; }
+#navigation #main-menu > li > a { display: block; float: left; padding: 0 12px; line-height: 40px; }
 
 /* Menu Icons - for block menus, not main, secondary, footer menus */
 .menu-icon-text { display: block; }
@@ -2131,6 +2134,7 @@ html.js input.throbbing { background-image: url(../images/throbber.gif); backgro
 .express-site-type-sport_club .site-name-wrapper { background-image: url(../images/cu-buffs-logo.png); background-repeat: no-repeat; background-size: 55px 40px; background-position: left center; padding-left: 65px; }
 
 #navigation { position: relative; }
+#navigation nav { display: flex; flex-direction: row; justify-content: space-between; }
 
 .navigation-wrapper li.mega-menu-link .mega-menu-wrapper { position: absolute; top: 100%; z-index: 100; width: 100%; }
 li.mega-menu-link .mega-menu-wrapper { display: none; }

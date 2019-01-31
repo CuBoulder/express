@@ -97,10 +97,16 @@
   }
 }
 /* Action menu, or inline secondary menu */
+#navigation .action-menu-wrapper {
+  flex-shrink: 0;
+}
 #navigation ul.action-menu {
-  float: right;
-  margin:0 0 0 20px;
+  //float: right;
+  margin:0;
   font-size: 85%;
+  li {
+    padding:0;
+  }
   a {
     line-height: 24px;
     margin: 8px 5px;
@@ -111,6 +117,7 @@
     border: none;
     white-space: nowrap;
     font-family: Arial, Helvetica, sans-serif;
+    display: inline-block;
   }
 }
 
@@ -334,8 +341,7 @@
   }
 }
 
-#navigation .links,
-#navigation .menu {
+#navigation #main-menu {
   & > li {
     margin: 0;
     padding: 0;
