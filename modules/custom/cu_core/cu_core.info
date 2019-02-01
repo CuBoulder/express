@@ -17,6 +17,7 @@ dependencies[] = realname
 dependencies[] = elysia_cron
 dependencies[] = cu_elysia_cron
 dependencies[] = cu_search
+dependencies[] = cu_advagg
 dependencies[] = google_cse
 dependencies[] = google_tag
 dependencies[] = cu_update_ping
