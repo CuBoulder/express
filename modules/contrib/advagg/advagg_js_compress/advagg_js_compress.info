@@ -1,0 +1,15 @@
+name = AdvAgg Compress Javascript
+description = Compress Javascript with a 3rd party compressor; JSMin+, JSMin c ext, JShrink, and JSqueeze currently.
+package = Advanced CSS/JS Aggregation
+core = 7.x
+dependencies[] = advagg
+recommends[] = libraries
+
+configure = admin/config/development/performance/advagg/js-compress
+
+; Information added by Drupal.org packaging script on 2018-03-20
+version = "7.x-2.33"
+core = "7.x"
+project = "advagg"
+datestamp = "1521515592"
+
