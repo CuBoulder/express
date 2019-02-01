@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the  feature.
+ */
+
+include_once 'cu_advagg.features.inc';
