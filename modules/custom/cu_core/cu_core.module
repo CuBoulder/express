@@ -336,7 +336,7 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
 
   // Show affiliation fields if user has access to edit.
   // Reusing 'access site reports' so we don't need to run update perms.
-  if (user_access('access site reports')) {
+  if (user_access('access extended role assignment')) {
     $form['affiliation']['#access'] = TRUE;
     $form['cu_site_affiliation_options']['#access'] = TRUE;
     $form['express_site_type']['#access'] = TRUE;
