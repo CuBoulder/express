@@ -61,3 +61,4 @@
     ?>
   </div>
 <?php endif; ?>
+<div id="print-site-name"><?php print check_plain($site_name); ?></div>
