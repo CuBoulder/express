@@ -1,0 +1,108 @@
+* { height: auto; }
+
+body { font-family: "Helvetica-Neue", Helvetica, Arial, sans-serif; font-size: 12pt; margin: 1em; background-color: #fff; line-height: 1.4; }
+
+/* BRANDING */
+.brand-logo img { display: block; width: 240px; height: auto; margin-bottom: 1em; }
+
+.site-name { display: none; }
+
+#print-site-name { font-size: 18pt; padding-bottom: .5em; margin-bottom: .5em; border-bottom: 1px solid #757575; }
+
+.print-breadcrumb { text-align: right; font-size: 10pt; display: none; }
+
+.print-hr { border: 0; height: 1px; width: 100%; color: #757575; background-color: #757575; }
+
+th { text-align: left; /* LTR */ color: #006; border-bottom: 1px solid #ccc; }
+
+tr.odd { background-color: #ddd; }
+
+tr.even { background-color: #fff; }
+
+td { padding: 5px; }
+
+#menu { visibility: hidden; }
+
+a:link { color: #0277BD; }
+
+a:visited { color: #0277BD; }
+
+a:hover { color: #0277BD; }
+
+a:link img, a:visited img { border: 0; }
+
+.print-footnote { font-size: xx-small; }
+
+img.print-logo { border: 0; }
+
+.print-message { border: medium dotted blue; padding: 1em; }
+
+.print-source_url { font-size: small; }
+
+.print-links { font-size: small; }
+
+.print-footer { text-align: center; }
+
+.clearfix:before, .clearfix:after { content: " "; display: table; }
+
+.clearfix:after { clear: both; }
+
+/* HIDE FROM PRINTING */
+.hide-print, #mobile-menu-toggle, #toggle, #alerts-wide-wrapper, #search, .search-toggle-wrapper, #secondary-menu-wrapper, #main-menu-wrapper, #mobile-navigation-wrapper, .sidebar, #after-content-wrapper, #after-content2-wrapper, #footer-wrapper, #footer-menu-wrapper, #backstretch, #breadcrumb, .breadcrumb-wrapper, #logo, #site-slogan, #skip-link, .element-invisible, #slider-wrapper, iframe, img.beboulder, #cu_back_to_top, a.print-link, .custom-logo, .cu-share-sidebar, .cu-share-inline-mobile, #cu-feedback, #cu-footer .required-links, #sticky-menu { display: none !important; }
+
+#site-information-wrapper { padding-top: 20px; border-top: 1px solid #aaa; font-size: 80%; }
+#site-information-wrapper a { text-decoration: none; }
+#site-information-wrapper h2 { margin: 0; font-size: 100%; }
+#site-information-wrapper p { margin-top: 0; }
+
+#footer-section .block { display: none; }
+
+#footer-section .cu-boulder-block { display: block; }
+
+#content-wrapper h1 { font-size: 24pt; margin: 0; padding: 0; }
+#content-wrapper h2 { font-size: 21pt; }
+#content-wrapper h3 { font-size: 18pt; }
+#content-wrapper h4 { font-size: 17pt; }
+#content-wrapper h5 { font-size: 16pt; }
+#content-wrapper h6 { font-size: 15pt; margin: 0; padding: 0; }
+
+.ui-accordion-content, .expand-content, .small-expand-content { display: block !important; }
+
+#footer-section h2 { font-size: 100%; font-weight: bold; margin: 0; }
+
+/* IMAGES */
+.field-type-text-with-summary img, .field-type-text-long img { max-width: 100%; }
+
+.field-type-text-with-summary img[style="float:left"], .field-type-text-long img[style="float:left"] { float: left !important; margin: 0 20px 20px 0; }
+
+.field-type-text-with-summary img[style="float:right"], .field-type-text-long img[style="float:right"] { float: right !important; margin: 0 0 20px 20px; }
+
+/* CONTENT SIDEBARS */
+.region-content-sidebar-right, .region-content-sidebar-left { width: 33%; border: 1px solid #aaa; padding: 20px; float: right; margin: 0 0 20px 20px; }
+
+.image-caption { font-size: 80%; line-height: 120%; display: table; margin-bottom: 20px; }
+
+.image-caption-right { float: right; margin-left: 20px; }
+
+.image-caption-left { float: left; margin-right: 20px; }
+
+.image-caption p { display: table-caption; caption-side: bottom; padding: 5px 10px; background: #f0f0f0; margin: 0; }
+
+div.image-caption p:first-child { display: block; margin: 0; padding: 0; }
+
+.image-caption p:last-child { margin-bottom: 0; }
+
+.image-caption img { display: block; float: none; width: 100%; height: auto; max-width: 100%; margin-bottom: 0px; }
+
+/* DRUPAL STUFF IF YOU"RE LOGGED IN */
+#navbar-administration, #toolbar, #environment-indicator, ul.primary, .contextual-links-wrapper, ul.contextual-links { display: none !important; }
+
+/* LIVECHAT */
+#livechat-compact-container { display: none !important; }
+
+/* Block Sections & Heroes */
+.block-section, .hero-unit { background-image: none !important; background-color: #eee; color: #000 !important; }
+
+a.button { background-color: #0277BD; color: #fff; padding: 4px 10px; display: inline-block; text-decoration: none; }
+
+/*# sourceMappingURL=ucb-print.css.map */
