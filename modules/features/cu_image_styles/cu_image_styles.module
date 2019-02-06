@@ -165,7 +165,7 @@ function cu_image_styles_image_default_styles() {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => 300,
+          'width' => 375,
           'height' => '',
           'upscale' => 1,
         ),
@@ -449,7 +449,7 @@ function cu_image_styles_image_styles_alter(&$styles) {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => 1200,
+          'width' => 1500,
           'height' => '',
           'upscale' => 1,
         ),
@@ -471,7 +471,7 @@ function cu_image_styles_image_styles_alter(&$styles) {
         'module' => 'image',
         'name' => 'image_scale',
         'data' => array(
-          'width' => 600,
+          'width' => 750,
           'height' => '',
           'upscale' => 1,
         ),
