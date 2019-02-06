@@ -321,7 +321,7 @@
       <?php if (isset($footer_menu) && !empty($footer_menu)): ?>
         <div id="footer-menu-wrapper" class="section footer-menu-wrapper <?php print $footer_menu_color; ?>">
           <div id="footer-navigation" class="container">
-            <div class="nav-inner col-lg-12 col-md-12 clearfix">
+            <div class="clearfix">
               <nav id="footer-menu">
               <?php print theme('ucb_footer_menu_links', array('links' => $footer_menu, 'attributes' => array('id' => 'footer-menu-links', 'class' => array('links', 'inline-menu', 'clearfix')), 'heading' => array('text' => t('Footer menu'),'level' => 'h2','class' => array('element-invisible')))); ?>
               </nav>
