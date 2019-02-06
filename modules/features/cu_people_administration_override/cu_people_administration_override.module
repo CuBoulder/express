@@ -36,3 +36,19 @@ function cu_people_administration_override_theme_registry_alter(&$theme_registry
     }
   }
 }
+
+/**
+ * Implements hook_views_post_render().
+ *
+ * We're not able to properly alter role names via pre render or alter.
+ * Drupal let's us find and replace in the post render.
+ * We have to wait until everything is loaded to make this change.
+ */
+function cu_people_administration_override_views_post_render(&$view, &$output, &$cache) {
+  if ($view->name === 'cu_people_administration_override_view') {
+    $role_info = express_permissions_role_settings($type = NULL, $exclude = array());
+    foreach ($role_info['names'] as $key => $name) {
+      $output = str_replace($key . '</li>', $name['label'] . '</li>', $output);
+    }
+  }
+}

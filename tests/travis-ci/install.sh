@@ -11,14 +11,16 @@ earlyexit
 
 # Build Codebase.
 cd $ROOT_DIR
-drush dl drupal-7.59
-mkdir drupal && mv drupal-7.59/* drupal/
+drush dl drupal-7.63
+mkdir drupal && mv drupal-7.63/* drupal/
 mkdir profiles && mv express drupal/profiles/
 
 # Harden Codebase.
 cd $ROOT_DIR/drupal/modules
 rm -rf php aggregator blog book color contact translation dashboard forum locale openid overlay poll rdf search statistics toolbar tracker trigger
 earlyexit
+
+# Apply Patches.
 
 # Setup files.
 mkdir -p $ROOT_DIR/drupal/sites/default/files/styles/preview/public/gallery/ && chmod -R 777 $ROOT_DIR/drupal/sites

@@ -149,38 +149,21 @@ The block System help was assigned to the invalid region help and has been disab
  */
 function _set_external_invite_variables() {
   // Set core invite roles.
-  $site_owner_role = user_role_load_by_name('site_owner');
-  $site_editor_role = user_role_load_by_name('site_editor');
-  $content_editor_role = user_role_load_by_name('content_editor');
-  $edit_my_content_role = user_role_load_by_name('edit_my_content');
-
-  variable_set('user_external_invite_core_roles', array(
-    $edit_my_content_role->rid,
-    $content_editor_role->rid,
-    $site_editor_role->rid,
-    $site_owner_role->rid,
-  ));
+  $core_roles = express_permissions_role_settings(array('core'));
+  $core_role_ids = array();
+  foreach ($core_roles['rid'] as $rid => $role) {
+    $core_role_ids[] = $rid;
+  }
+  variable_set('user_external_invite_core_roles', $core_role_ids);
 
   // Set Content Editor as the default role to invite.
-  variable_set('user_external_invite_default_role', $content_editor_role->rid);
+  variable_set('user_external_invite_default_role', $core_roles['names']['content_editor']['rid']);
 
   // Set addon invite roles.
-  $addon_roles_array = [];
-  $access_manager_role = user_role_load_by_name('access_manager');
-  $addon_roles_array[] = $access_manager_role->rid;
-  $configuration_manager_role = user_role_load_by_name('configuration_manager');
-  $addon_roles_array[] = $configuration_manager_role->rid;
-
-  // Set form_manager role if it exists.
-  if (module_exists('cu_forms_bundle')) {
-    $form_manager_role = user_role_load_by_name('form_manager');
-    $addon_roles_array[] = $form_manager_role->rid;
-  }
-
-  // Set campaign_manager role if it exists.
-  if (module_exists('cu_digital_campaign_bundle')) {
-    $campaign_manager_role = user_role_load_by_name('campaign_manager');
-    $addon_roles_array[] = $campaign_manager_role->rid;
+  $addon_roles = express_permissions_role_settings(array('core_addon'));
+  $addon_roles_array = array();
+  foreach ($addon_roles['rid'] as $rid => $role) {
+    $addon_roles_array[] = $rid;
   }
 
   variable_set('user_external_invite_addon_roles', $addon_roles_array);
@@ -984,9 +967,9 @@ function cu_core_update_7042() {
   }
 }
 
-/*
-* Updating site and web emails to prepare for new infrastructure smtp configuration
-*/
+/**
+ * Updating site and web emails to prepare for new infrastructure smtp configuration
+ */
 function cu_core_update_7043() {
    variable_set('webform_default_from_address', 'webexpress_noreply@colorado.edu');
    variable_set('site_mail', 'webexpress_noreply@colorado.edu');
@@ -1057,6 +1040,48 @@ function cu_core_update_7052() {
 function cu_core_update_7053() {
   module_enable(array('google_tag'));
   variable_set('google_tag_container_id', 'GTM-M3DX2QP');
+}
+
+/**
+ * Disable role_delegation for 3.0.0 release.
+ */
+function cu_core_update_7054() {
+  module_disable(array('role_delegation'));
+  drupal_uninstall_modules(array('role_delegation'), $uninstall_dependents = FALSE);
+}
+
+/**
+ * Enable unpublished_404, r4032login for 2.9.7.
+ */
+function cu_core_update_7055() {
+  module_enable(array('unpublished_404', 'r4032login'));
+}
+
+/**
+ * Set stringoverrides correctly.
+ */
+function cu_core_update_7056() {
+  $locale_custom_strings_en[''] = array(
+    'Each menu has a corresponding block that is managed on the <a href="@blocks">Blocks administration page</a>.' => 'Each menu has a corresponding block which can be placed in a content region.',
+    'Set and configure the default theme for your website.  Alternative <a href="@themes">themes</a> are available.' => 'Set and configure the default theme for your website.',
+    'The menu module allows on-the-fly creation of menu links in the content authoring forms. To configure these settings for a particular content type, visit the <a href="@content-types">Content types</a> page, click the <em>edit</em> link for the content type, and go to the <em>Menu settings</em> section.' => 'The menu module allows on-the-fly creation of menu links.',
+  );
+  variable_set('locale_custom_strings_en', $locale_custom_strings_en);
+}
+
+/**
+ * Update external invites for 2.9.7.
+ */
+function cu_core_update_7057() {
+  // Set default variables for user_external_invite.
+  _set_external_invite_variables();
+}
+
+/**
+ * Revert features for 2.9.10
+ */
+function cu_core_update_7058() {
+  cu_core_revert_features();
 }
 
 /**

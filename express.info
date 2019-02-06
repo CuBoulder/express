@@ -3,7 +3,7 @@ name = "Express"
 description = "Express installation profile"
 exclusive = "1"
 core = "7.x"
-version = 7.x-2.9
+version = 7.x-2.10
 
 ; ----------
 ; Dependencies
@@ -97,7 +97,7 @@ dependencies[] = cu_profile_module_manager
 
 ; ============ CU AUTHENTICATION AND PERMISSIONS ============
 dependencies[] = administerusersbyrole
-dependencies[] = role_delegation
+;dependencies[] = role_delegation
 dependencies[] = chain_menu_access
 ; Enabled after everything else to speed up install
 ; dependencies[] = cu_users
@@ -199,6 +199,8 @@ dependencies[] = context_sitewide_public
 dependencies[] = field_reference_delete
 dependencies[] = express_block_designer
 dependencies[] = express_block_designer_menu
+dependencies[] = express_scheduler
+dependencies[] = scheduler
 
 ; ============ FEATURE EXPORTS ============
 dependencies[] = express_linkit_profiles
