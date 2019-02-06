@@ -319,10 +319,10 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
   unset($form['express_site_affiliation_title']);
   unset($form['express_site_affiliation_url']);
 
-  // Add an option for enabling the affilation display.
-  $form['cu_affilation_enable'] = array(
+  // Add an option for enabling the affiliation display.
+  $form['cu_affiliation_enable'] = array(
     '#type' => 'checkbox',
-    '#default_value' => variable_get('cu_affilation_enable', 0),
+    '#default_value' => variable_get('cu_affiliation_enable', 0),
     '#title' => 'Display Affiliation',
     '#weight' => 2,
     '#access' => FALSE,
@@ -339,11 +339,12 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
 
   // Show affiliation fields if user has access to edit.
   // Reusing 'access site reports' so we don't need to run update perms.
-  if (user_access('access site reports')) {
+
+  if (user_access('access extended role assignment')) {
     $form['affiliation']['#access'] = TRUE;
     $form['cu_site_affiliation_options']['#access'] = TRUE;
     $form['express_site_type']['#access'] = TRUE;
-    $form['cu_affilation_enable']['#access'] = TRUE;
+    $form['cu_affiliation_enable']['#access'] = TRUE;
   }
   // Show affiliation values for those who can't edit.
   else {
@@ -351,8 +352,8 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
     $site_type = variable_get('express_site_type', NULL);
     $saved_affiliation = variable_get('cu_site_affiliation_options', NULL);
     if ($site_type) {
-      $affilation = cu_core_site_affiliation_options($site_type);
-      $saved_affiliation = l($affilation['label'], $affilation['url']);
+      $affiliation = cu_core_site_affiliation_options($site_type);
+      $saved_affiliation = l($affiliation['label'], $affiliation['url']);
     }
     // if it's custom, get the custom variables and format as a link.
     elseif ($saved_affiliation == 'custom') {
