@@ -77,10 +77,30 @@ function expressbase_preprocess_html(&$vars) {
 
   // Build title array
   // Add Campus name to title
+  // Check to see if the is the homepage
+  $site_name = variable_get('site_name', '');
   $slogan_title = variable_get('site_slogan_title', 'University of Colorado Boulder');
-  $vars['head_title_array']['slogan'] = $slogan_title;
-  if (isset($vars['head_title'])) {
-    $vars['head_title'] .= ' | University of Colorado Boulder';
+  if ( $site_name == 'University of Colorado Boulder') {
+    // This is the homepage, we don't need to add the slogan.
+  }
+  else {
+    if (drupal_is_front_page()) {
+      // If it's the front page it should just be site name | slogan
+      $vars['head_title'] = $site_name . ' | ' . $slogan_title;
+    }
+    else {
+      // Otherwise it should be page name | site name | slogan
+      // Get current head title value and copy it to a new variables
+      // Check to see if slogan might already be at the end, it not add it.
+      $meta_head_title = $vars['head_title'];
+      $meta_head_title_array = explode(' | ', $meta_head_title);
+      $last_title = end($meta_head_title_array);
+      if ($last_title != $slogan_title) {
+        $meta_head_title_array[] = $slogan_title;
+        $vars['head_title'] = join(' | ', $meta_head_title_array);
+      }
+    }
+
   }
 
   // set classes for theme configs
