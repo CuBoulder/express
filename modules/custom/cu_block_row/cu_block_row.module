@@ -154,6 +154,10 @@ function cu_block_row_secure_permissions($role) {
       'edit any block_row bean',
       'view any block_row bean',
     ),
+    'edit_only' => array(
+      'edit any block_row bean',
+      'view any block_row bean',
+    ),
     'content_editor' => array(
       'create any block_row bean',
       'delete any block_row bean',
@@ -161,6 +165,12 @@ function cu_block_row_secure_permissions($role) {
       'view any block_row bean',
     ),
     'developer' => array(
+      'create any block_row bean',
+      'delete any block_row bean',
+      'edit any block_row bean',
+      'view any block_row bean',
+    ),
+    'site_editor' => array(
       'create any block_row bean',
       'delete any block_row bean',
       'edit any block_row bean',

@@ -18,17 +18,17 @@ function ldap_help_examples() {
   drupal_add_library('system', 'drupal.collapse');
   $sample_ldaps = array(
    'activedirectory' => 'activedirectory1',
-   'openldap' =>  'openldap1',
+   'openldap' => 'openldap1',
   );
 
 
   $form = array();
-  foreach ($sample_ldaps as  $ldap_type =>  $sample_ldap_id) {
+  foreach ($sample_ldaps as  $ldap_type => $sample_ldap_id) {
 
     $sample_ldap_id = $sample_ldaps[$ldap_type];
     $test_functions->populateFakeLdapServerData(LDAP_TEST_LDAP_NAME, $sample_ldap_id);
     $data = $test_functions->data['ldap_servers'][$sample_ldap_id]['ldap'];
-    $form[$sample_ldap_id] =  array(
+    $form[$sample_ldap_id] = array(
         '#type' => 'fieldset',
         '#title' => $ldap_type,
         '#description' => '',
@@ -37,7 +37,7 @@ function ldap_help_examples() {
         '#collapsed' => TRUE,
       );
     foreach (array('people', 'groups') as $ou) {
-      $form[$sample_ldap_id][$ou] =  array(
+      $form[$sample_ldap_id][$ou] = array(
         '#type' => 'fieldset',
         '#title' => "ou=$ou",
         '#description' => '',
@@ -62,14 +62,14 @@ function ldap_help_examples() {
           $li[]  = theme('item_list', array('items' => $values , 'type' => 'ul', 'title' => $attr));
         }
       }
-      $form[$sample_ldap_id][$ou][$dn] =  array(
+      $form[$sample_ldap_id][$ou][$dn] = array(
         '#type' => 'fieldset',
         '#attributes' => array('class' => array('collapsible', 'collapsed')),
         '#title' => $dn,
         '#collapsible' => TRUE,
         '#collapsed' => TRUE,
       );
-      $form[$sample_ldap_id][$ou][$dn][] =  array(
+      $form[$sample_ldap_id][$ou][$dn][] = array(
         '#markup' => theme('item_list', array('items' => $li , 'type' => 'ul', 'title' => '')),
       );
 

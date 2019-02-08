@@ -84,7 +84,15 @@ function uuid_entities_features_export_render($module_name, $components, $export
       }
       // We unset some common timestamp properties, since those will change and
       // constantly leave the feature overidden.
-      $keys = array('created', 'updated', 'changed', 'revision_timestamp', 'timestamp', 'stamp', 'current');
+      $keys = array(
+        'created',
+        'updated',
+        'changed',
+        'revision_timestamp',
+        'timestamp',
+        'stamp',
+        'current',
+      );
       foreach ($keys as $key) {
         if (isset($entity->{$key})) {
           unset($entity->{$key});
@@ -121,7 +129,10 @@ function uuid_entities_features_export_render($module_name, $components, $export
       }
       uuid_entities_features_clean($entity);
 
-      // Convert entities to array to avoid having them in JSON, returned from standard implementation of $entity->export().
+      /*
+       * Convert entities to array to avoid having them in JSON, returned
+       * from standard implementation of $entity->export().
+       */
       if (is_object($entity) && method_exists($entity, 'export')) {
         $entity = get_object_vars($entity);
       }
@@ -157,6 +168,7 @@ function uuid_entities_rebuild($module_name = '', $op = 'rebuild') {
     foreach ($entities as $plan_name => $entities) {
       // Let other modules do things before default entities are created.
       module_invoke_all("uuid_entities_pre_$op", $plan_name);
+      drupal_alter("uuid_entities_pre_$op", $entities, $plan_name);
       foreach ($entities as $entity) {
         entity_uuid_save($entity->__metadata['type'], $entity);
       }

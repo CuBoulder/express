@@ -151,10 +151,26 @@ function elysia_cron_admin_page() {
   $output .= '<br />';
 
   $legend_icons = array(
-    'idle' => theme('image', array('path' => $ipath . 'idle.png')),
-    'waiting' => theme('image', array('path' => $ipath . 'waiting.png')),
-    'running' => theme('image', array('path' => $ipath . 'running.png')),
-    'disabled' => theme('image', array('path' => $ipath . 'disabled.png')),
+    'idle' => theme('image', array(
+      'path' => $ipath . 'idle.png',
+      'alt' => t('Idle'),
+      'title' => t('Idle'),
+    )),
+    'waiting' => theme('image', array(
+      'path' => $ipath . 'waiting.png',
+      'alt' => t('Waiting for execution'),
+      'title' => t('Waiting for execution'),
+    )),
+    'running' => theme('image', array(
+      'path' => $ipath . 'running.png',
+      'alt' => t('Running'),
+      'title' => t('Running'),
+    )),
+    'disabled' => theme('image', array(
+      'path' => $ipath . 'disabled.png',
+      'alt' => t('Disabled'),
+      'title' => t('Disabled'),
+    )),
   );
   $output .= theme('table', array(
     'header' => array(t('Legend')),
@@ -187,6 +203,7 @@ function elysia_cron_settings_form() {
   elysia_cron_initialize();
 
   $form = array();
+  $form['#attached']['js'][] = drupal_get_path('module', 'elysia_cron') . '/js/elysia_cron.js';
 
   $form['prefix_1'] = array(
     '#type' => 'fieldset',
@@ -546,12 +563,6 @@ EOT
 function theme_elysia_cron_settings_form(array &$variables) {
   $form = &$variables['form'];
 
-  $output = '<script type="text/javascript"><!--' . "\n" .
-    'function _ec_select(key, select) { if (select.value == \'custom\') {' .
-      '$ = jQuery; $("#_ec_select_"+key).hide();$("#_ec_custom_"+key).show();$("#_ec_custom_"+key).focus();' .
-    '}}' .
-    "\n" . '--></script>';
-
   $coutput = '<table>';
 
   $i = 0;
@@ -579,7 +590,8 @@ function theme_elysia_cron_settings_form(array &$variables) {
     $form['single_job'][$c]['_elysia_cron_seljob_rule_' . $key]['#suffix'] = '</span>';
     $form['single_job'][$c]['_elysia_cron_seljob_rule_' . $key]['#title'] = NULL;
     $form['single_job'][$c]['_elysia_cron_seljob_rule_' . $key]['#description'] = NULL;
-    $form['single_job'][$c]['_elysia_cron_seljob_rule_' . $key]['#attributes']['onchange'] = '_ec_select(\'' . $key . '\', this)';
+    $form['single_job'][$c]['_elysia_cron_seljob_rule_' . $key]['#attributes']['class'][] = 'ec-select';
+    $form['single_job'][$c]['_elysia_cron_seljob_rule_' . $key]['#attributes']['data-key'] = $key;
 
     $form['single_job'][$c]['_elysia_cron_job_weight_' . $key]['#title'] = NULL;
     $form['single_job'][$c]['_elysia_cron_job_weight_' . $key]['#description'] = NULL;
@@ -631,7 +643,7 @@ function theme_elysia_cron_settings_form(array &$variables) {
 
   $form['channels']['#children'] = $coutput;
 
-  return $output . drupal_render_children($form);
+  return drupal_render_children($form);
 }
 
 /**

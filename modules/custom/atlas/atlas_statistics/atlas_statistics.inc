@@ -54,48 +54,29 @@ function atlas_statistics_atlas_statistics() {
 
   // List users.
   $users = entity_load('user');
-  $usernames = array();
-  $useremails = array();
+  $user_roles = [
+    'access_manager',
+    'campaign_manager',
+    'configuration_manager',
+    'content_editor',
+    'edit_my_content',
+    'form_manager',
+    'site_editor',
+    'site_owner',
+  ];
   foreach ($users as $user_id => $user) {
     // Make sure username and email exist before putting them in the array.
     // Removes user 0 (aka Anonymous).
-    if ($user->name) {
-      $usernames[] = $user->name;
-      if (in_array('site_owner', $user->roles)) {
-        $usernames_site_contact[] = $user->name;
-      }
-      if (in_array('content_editor', $user->roles)) {
-        $usernames_content_editor[] = $user->name;
-      }
-      if (in_array('edit_my_content', $user->roles)) {
-        $usernames_edit_my_content[] = $user->name;
-      }
-    }
-    if ($user->mail) {
-      $useremails[] = $user->mail;
-      if (in_array('site_owner', $user->roles)) {
-        $useremails_site_contact[] = $user->mail;
-      }
-      if (in_array('content_editor', $user->roles)) {
-        $useremails_content_editor[] = $user->mail;
-      }
-      if (in_array('edit_my_content', $user->roles)) {
-        $useremails_edit_my_content[] = $user->mail;
+    if ($user->name && $user->mail) {
+      foreach ($user_roles as $role) {
+        if (in_array($role, $user->roles, FALSE)) {
+          $statistics_data['users']['username'][$role][] = $user->name;
+          $statistics_data['users']['email_address'][$role][] = $user->mail;
+          $statistics_data['users']['counts'][$role]++;
+        }
       }
     }
   }
-
-  $statistics_data['users']['username']['site_contact'] = $usernames_site_contact;
-  $statistics_data['users']['username']['content_editor'] = $usernames_content_editor;
-  $statistics_data['users']['username']['edit_my_content'] = $usernames_edit_my_content;
-
-  $statistics_data['users']['email_address']['site_contact'] = $useremails_site_contact;
-  $statistics_data['users']['email_address']['content_editor'] = $useremails_content_editor;
-  $statistics_data['users']['email_address']['edit_my_content'] = $useremails_edit_my_content;
-  
-  $statistics_data['users']['counts']['site_contact'] = count($usernames_site_contact);
-  $statistics_data['users']['counts']['content_editor'] = count($usernames_content_editor);
-  $statistics_data['users']['counts']['edit_my_content'] = count($usernames_edit_my_content);
 
   // Add report of overridden features if the module is enabled and there are
   // overridden features.
@@ -106,13 +87,46 @@ function atlas_statistics_atlas_statistics() {
 
   // Returns system status boolean and resolves to TRUE or FALSE.
   module_load_include('inc', 'system', 'system.admin');
-  $statistics_data['drupal_system_status'] = (system_status(TRUE)) ? TRUE : FALSE;
-
-  // If webform is enabled then gather its statistics.
-  $webform_stats = _atlas_statistics_get_webform_statistics();
-  if (module_exists('webform')) {
-    $statistics_data['webforms'] = $webform_stats;
+  if (system_status(TRUE)) {
+    $statistics_data['drupal_system_status'] = TRUE;
+    watchdog(
+      'atlas_statistics',
+      'System Status is True | %requirements',
+      array(
+        '%requirements' => _atlas_drush_core_requirements()
+      ),
+      WATCHDOG_WARNING,
+      NULL
+    );
   }
+  else {
+    $statistics_data['drupal_system_status'] = FALSE;
+  }
+
+
+
+  // Get role ids to search for in query.
+  $role_ids = [];
+  $user_roles = [
+    'access_manager',
+    'campaign_manager',
+    'configuration_manager',
+    'content_editor',
+    'edit_my_content',
+    'form_manager',
+    'site_editor',
+    'site_owner',
+  ];
+  foreach ($user_roles as $val) {
+    $temp_role = user_role_load_by_name($val);
+    if (isset($temp_role->rid)) {
+      $role_ids[] = $temp_role->rid;
+    }
+  }
+
+  // Add last login of any user.
+  $last_login = db_query('SELECT MAX(login) FROM users INNER JOIN users_roles ON users.uid=users_roles.uid WHERE rid IN (:roles) AND login > 1', [':roles' => $role_ids])->fetchCol('login');
+  $statistics_data['days_since_last_login'] = is_array($last_login) && is_numeric($last_login[0]) ? floor((time() - $last_login[0]) / (60*60*24)) : '-1';
 
   return $statistics_data;
 }
@@ -146,39 +160,6 @@ function _atlas_statistics_get_features_statuses() {
 }
 
 /**
- * Get count of total submissions, active forms, and inactive forms.
- *
- * @return array
- *   An array of webform statistics.
- */
-function _atlas_statistics_get_webform_statistics() {
-  $webform_stats = array(
-    'total_submissions' => 0,
-    'active_forms' => 0,
-    'inactive_forms' => 0,
-  );
-
-  // Load all webforms.
-  $webforms = node_load_multiple(array(), array(
-    'type' => 'webform',
-  ));
-
-  // Loop through webforms and tally the statistic totals.
-  module_load_include('inc', 'webform', 'includes/webform.submissions');
-  foreach ($webforms as $webform) {
-    // Tally submission count.
-    $webform_stats['total_submissions'] += webform_get_submission_count($webform->nid);
-
-    // Set active/inactive bit and tally.
-    $is_active = atlas_statistics_webform_is_active($webform->nid);
-    $webform_stats['active_forms'] += $is_active == TRUE ? 1 : 0;
-    $webform_stats['inactive_forms'] += $is_active == FALSE ? 1 : 0;
-  }
-
-  return $webform_stats;
-}
-
-/**
  * Determines if the webform is active based upon the date of last submission.
  *
  * @param int $nid
@@ -200,4 +181,42 @@ function atlas_statistics_webform_is_active($nid, $date = '13 months ago') {
     $last_submission = end($submissions);
     return $last_submission->submitted > strtotime($date);
   }
+}
+
+/**
+ * Replicate functionality of https://github.com/drush-ops/drush/blob/8.x/commands/core/core.drush.inc#L797
+ */
+function _atlas_drush_core_requirements() {
+  $return_string = NULL;
+  include_once DRUPAL_ROOT . '/includes/install.inc';
+  $severities = array(
+    REQUIREMENT_INFO => t('Info'),
+    REQUIREMENT_OK => t('OK'),
+    REQUIREMENT_WARNING => t('Warning'),
+    REQUIREMENT_ERROR => t('Error'),
+  );
+  drupal_load_updates();
+  $requirements = module_invoke_all('requirements', 'runtime');
+  // If a module uses "$requirements[] = " instead of
+  // "$requirements['label'] = ", then build a label from
+  // the title.
+
+  foreach($requirements as $key => $info) {
+    if (is_numeric($key)) {
+      unset($requirements[$key]);
+      $new_key = strtolower(str_replace(' ', '_', $info['title']));
+      $requirements[$new_key] = $info;
+    }
+  }
+  ksort($requirements);
+  $min_severity = 2;
+  foreach($requirements as $key => $info) {
+    $severity = array_key_exists('severity', $info) ? $info['severity'] : -1;
+    $requirements[$key]['sid'] = $severity;
+    $requirements[$key]['severity'] = $severities[$severity];
+    if ($severity >= $min_severity) {
+      $return_string .= $requirements[$key]['title'] . ' - ' . $requirements[$key]['value'] . ' | ';
+    }
+  }
+  return $return_string;
 }

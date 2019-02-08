@@ -1,0 +1,14 @@
+<?php
+/**
+ * @file
+ * Code for the express_scheduler feature.
+ */
+
+include_once 'express_scheduler.features.inc';
+
+function express_scheduler_form_alter(&$form, &$form_state, $form_id) {
+  if (!empty($form['#node_edit_form']) && user_access('schedule publishing of nodes')) {
+    $tomorrow = date("Y-m-d", strtotime('tomorrow'));
+    $form['scheduler_settings']['publish_on']['#description'] = 'Format: ' . $tomorrow . '. Content will be published before 4AM on this date. Times will vary based the background task schedule.';
+  }
+}

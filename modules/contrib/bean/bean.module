@@ -837,8 +837,7 @@ function bean_view(Bean $bean, $view_mode = 'default', $langcode = NULL) {
 function bean_view_callback($entities, $view_mode, $langcode, $entity_type) {
   $render = array();
   foreach($entities as $key => $entity) {
-    $id = entity_id($entity_type, $entity);
-    $render[$entity_type][$id] = bean_view($entity, $view_mode, $langcode);
+    $render[$entity_type][$key] = bean_view($entity, $view_mode, $langcode);
   }
   return $render;
 }

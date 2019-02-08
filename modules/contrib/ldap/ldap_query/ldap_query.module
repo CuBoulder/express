@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @file
+ */
+
 define('LDAP_QUERY_MENU_BASE_PATH', 'admin/config/people/ldap');
 define('LDAP_QUERY_INDEX_BASE_PATH', 'admin/config/people/ldap/query');
 define('LDAP_QUERY_MENU_BASE_PATH_PARTS', 4); // for argument offsets
