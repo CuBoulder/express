@@ -150,58 +150,5 @@ function express_install() {
 }
 
 /**
- * Express 2.0.1 Updates.
+ * Express 3.0.0 Updates.
  */
-function express_update_7001() {
-  // Registry rebuild due to contrib module updates.
-  registry_rebuild();
-}
-
-/**
- * Express 2.2.7 Updates
- *
- * Enable express_version.
- */
-function express_update_7002() {
-  module_enable(array('express_version'));
-}
-
-/**
- * Express 2.3.0 update.
- *
- * Enable field_reference_delete module.
- */
-function express_update_7003() {
-  // Enable module.
-  module_enable(array('field_reference_delete'));
-}
-
-/**
- * Express 2.6.0 update.
- *
- * Enable cu_elysia_cron module.
- */
-function express_update_7004() {
-  // Enable module.
-  module_enable(array('cu_elysia_cron'));
-  secure_permissions_rebuild();
-}
-
-/**
- * Express 2.9.0 update.
- *
- * Limit Site Owners to 5
- */
-function express_update_7005() {
-  variable_set('express_permissions_owner_cap', 5);
-}
-
-/**
- * Express 2.9.10 update.
- *
- * Add option for scheduling content publishing
- */
-function express_update_7006() {
-  // @TODO: set default field config values. Content type specific settings are captured in features
-  module_enable(array('scheduler', 'express_scheduler'));
-}
