@@ -226,7 +226,7 @@ input[type=submit]:focus, form button:focus { outline: #2E7D32 solid 2px; }
 
 input[type=reset]:focus { outline: #B71C1C solid 2px; }
 
-fieldset { padding: 10px; border: 1px solid rgba(128, 128, 128, 0.333); }
+fieldset { padding: 10px; border: 1px solid rgba(128, 128, 128, 0.333); min-width: auto; }
 fieldset legend { font-weight: bold; font-size: 120%; padding: 0 10px; }
 
 form label { font-weight: bold; display: block; }
