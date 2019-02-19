@@ -61,6 +61,9 @@ function cu_core_form_alter(&$form, $form_state, $form_id) {
   if (isset($form['type']) && isset($form['#node']) && $form['type']['#value'] .'_node_form' == $form_id) {
     unset($form['options']['promote']);
   }
+  if (isset($form['actions']['preview_changes'])) {
+    $form['actions']['preview_changes']['#attributes']['class'][] = 'element-invisible';
+  }
 }
 
 /**
@@ -316,7 +319,7 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
   unset($form['express_site_affiliation_title']);
   unset($form['express_site_affiliation_url']);
 
-  // Add an option for enabling the affilation display.
+  // Add an option for enabling the affiliation display.
   $form['cu_affiliation_enable'] = array(
     '#type' => 'checkbox',
     '#default_value' => variable_get('cu_affiliation_enable', 0),
@@ -347,8 +350,8 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
     $site_type = variable_get('express_site_type', NULL);
     $saved_affiliation = variable_get('cu_site_affiliation_options', NULL);
     if ($site_type) {
-      $affilation = cu_core_site_affiliation_options($site_type);
-      $saved_affiliation = l($affilation['label'], $affilation['url']);
+      $affiliation = cu_core_site_affiliation_options($site_type);
+      $saved_affiliation = l($affiliation['label'], $affiliation['url']);
     }
     // if it's custom, get the custom variables and format as a link.
     elseif ($saved_affiliation == 'custom') {
@@ -367,14 +370,6 @@ function cu_core_form_express_settings_site_name_form_alter(&$form, &$form_state
     );
     $form['affiliation_display']['affiliation_values']['#markup'] = $saved_affiliation;
   }
-  // Custom Logos don't have affiliations
-  if (variable_get('custom_white_logo', NULL) || variable_get('custom_black_logo', NULL)) {
-    $form['affiliation']['#access'] = FALSE;
-    $form['cu_site_affiliation_options']['#access'] = FALSE;
-    $form['cu_affilation_enable']['#access'] = FALSE;
-    drupal_set_message('Affiliation options are hidden because a custom logo is being used.', 'warning');
-  }
-
 }
 
 // Array of affiliate organizations.
@@ -402,7 +397,7 @@ function cu_core_site_affiliation_options($option = NULL) {
     ),
     'college_media_communication_information' => array(
       'url' => 'https://www.colorado.edu/cmci',
-      'label' => 'College of Media, Communication and Information',
+      'label' => 'College of Media, Communication & Information',
     ),
     'college_music' => array(
       'url' => 'https://www.colorado.edu/music',
@@ -424,17 +419,9 @@ function cu_core_site_affiliation_options($option = NULL) {
       'url' => 'https://www.colorado.edu/libraries',
       'label' => 'University Libraries',
     ),
-    'academic_affairs_budget_finance' => array(
-      'url' => 'https://www.colorado.edu/',
-      'label' => 'Academic Affairs Budget & Finance',
-    ),
     'biofrontiers_institute' => array(
       'url' => 'https://www.colorado.edu/biofrontiers',
       'label' => 'Biofrontiers Institute',
-    ),
-    'budget_planning' => array(
-      'url' => 'https://www.colorado.edu/',
-      'label' => 'Office of Budget & Planning',
     ),
     'diversity_equity_engagement' => array(
       'url' => 'https://www.colorado.edu/odece',
@@ -453,7 +440,7 @@ function cu_core_site_affiliation_options($option = NULL) {
       'label' => 'Research & Innovation Office',
     ),
     'strategic_initiatives' => array(
-      'url' => 'https://www.colorado.edu/',
+      'url' => 'https://www.colorado.edu/osi',
       'label' => 'Office of Strategic Initiatives',
     ),
     'student_affairs' => array(
@@ -461,42 +448,40 @@ function cu_core_site_affiliation_options($option = NULL) {
       'label' => 'Division of Student Affairs',
     ),
     'undergraduate_education' => array(
-      'url' => 'https://www.colorado.edu/',
+      'url' => '',
       'label' => 'Office of Undergraduate Education',
     ),
-
-
     'enrollment_management' => array(
-      'url' => 'https://www.colorado.edu/',
-      'label' => 'Office of Enrollment Management',
+      'url' => '',
+      'label' => 'Part of Enrollment Management',
     ),
     'finance_business_strategy' => array(
-      'url' => 'https://www.colorado.edu/',
-      'label' => 'Office of Finance & Business Strategy',
+      'url' => 'https://www.colorado.edu/fbs',
+      'label' => 'Part of Finance & Business Strategy',
     ),
     'human_resources' => array(
-      'url' => 'https://www.colorado.edu/',
+      'url' => 'https://www.colorado.edu/hr',
       'label' => 'Department of Human Resources',
     ),
     'information_technology' => array(
-      'url' => 'https://www.colorado.edu/',
+      'url' => 'https://oit.colorado.edu/',
       'label' => 'Office of Information Technology',
     ),
-    'infrastructure_sustainabi;ity' => array(
-      'url' => 'https://www.colorado.edu/',
-      'label' => 'Office of Infrastructure & Sustainability',
+    'infrastructure_sustainability' => array(
+      'url' => 'https://www.colorado.edu/infrastructure-sustainability',
+      'label' => 'Part of Infrastructure & Sustainability',
     ),
     'institutional_equity' => array(
-      'url' => 'https://www.colorado.edu/',
+      'url' => 'https://www.colorado.edu/oiec',
       'label' => 'Office of Institutional Equity',
     ),
     'integrity_safety_compliance' => array(
-      'url' => 'https://www.colorado.edu/',
+      'url' => '',
       'label' => 'Office of Integrity, Safety & Compliance',
     ),
     'strategic_relations_communication' => array(
       'url' => 'https://www.colorado.edu/strategicrelations',
-      'label' => 'Office of Strategic Relations & Communications',
+      'label' => 'Part of Strategic Relations & Communications',
     ),
   );
 

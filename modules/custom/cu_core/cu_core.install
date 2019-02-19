@@ -1078,7 +1078,7 @@ function cu_core_update_7057() {
 }
 
 /**
- * Revert features for 2.10
+ * Revert features for 2.9.10
  */
 function cu_core_update_7058() {
   cu_core_revert_features();

@@ -58,7 +58,7 @@ I should be able to create, edit, and delete Basic Pages
   And I should see "Lorem ipsum dolor sit amet"
  
   # 2.1) CHANGE AUTHOR OF THE PAGE NODE
-  @javascript
+  @broken
   Scenario: Node functionality - Change Authorship of node on admin/content
     Given I am logged in as a user with the "developer" role
     And I am on "admin/content"
