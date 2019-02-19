@@ -157,7 +157,7 @@ function cu_block_section_preprocess_entity(&$vars) {
     $vars['parallax_data'] = '';
     $classes[] = 'block-section';
     $classes[] = 'block-section-text-' . $vars['field_hero_unit_text_color'][0]['value'];
-    $classes[] = 'block-section-background-' . $vars['field_hero_unit_bg_color'][0]['value'];
+    $classes[] = 'background-color-' . cu_block_section_bg_color_translate($vars['field_hero_unit_bg_color'][0]['value']);
     $classes[] = !empty($vars['field_block_section_bg_effect']) ? 'block-section-bg-effect-' . $vars['field_block_section_bg_effect'][0]['value'] : 'block-section-bg-effect-fixed';
 
     // Overlay
@@ -272,5 +272,23 @@ function cu_block_section_bg_effect_options() {
 function cu_block_section_field_widget_form_alter(&$element, &$form_state, $context)	{
   if (!empty($element['#bundle']) && $element['#bundle'] == 'block_section' && $element['#field_name'] == 'field_blocks_section_blocks') {
     express_layout_format_ief($element);
+  }
+}
+
+function cu_block_section_bg_color_translate($color) {
+  $colors = array(
+    'white' => 'white',
+    'gray' => 'gray-light',
+    'black' => 'black',
+    'dark_gray' => 'gray-dark',
+    'gold' => 'gold',
+    'tan' => 'tan',
+    'light_blue' => 'blue-light',
+  );
+  if (!empty($colors[$color])) {
+    return $colors[$color];
+  }
+  else {
+    return $color;
   }
 }

@@ -1,0 +1,243 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+/**
+ * List styles
+ */
+
+ol {
+  list-style: decimal;
+}
+ul {
+  list-style: disc;
+}
+ul, ol {
+  ul, ol {
+    margin-bottom: 0;
+  }
+}
+.item-list,
+.field-type-text-with-summary,
+.field-type-text-long {
+  ul li {
+    list-style: disc;
+    margin-bottom:10px;
+  }
+  ul ul li,
+  ul ul ul ul li,
+  ul ul ul ul ul ul li {
+    list-style: circle;
+  }
+  ul ul ul li,
+  ul ul ul ul ul li,
+  ul ul ul ul ul ul ul li {
+    list-style: disc;
+  }
+  ul ul,
+  ol ol {
+    margin:10px 0 0 0;
+
+  }
+  ol li {
+    margin: 0 0 10px 0;
+  }
+}
+
+
+.node ol,
+.node ul,
+ul,
+ol {
+  padding-left: 1.5em;
+}
+
+.node ul.inline,
+.node ol.inline,
+ul.inline,ol.inline {
+  padding-left: 0;
+}
+
+ul.list-style-none,
+ul.list-style-nobullet,
+ul.unstyled {
+  list-style: none;
+  list-style-image: none;
+  padding-left: 0;
+}
+ul.list-style-none > li,
+ul.list-style-nobullet > li,
+ul.unstyled li {
+  list-style: none;
+  list-style-image: none;
+}
+
+ul.list-style-underline > li {
+  list-style: none;
+}
+
+ul.list-style-underline {
+  list-style: none;
+  list-style-image: none;
+  padding-left: 0;
+}
+ul.list-style-underline > li {
+  list-style: none;
+  border-bottom: 1px solid $border;
+  padding-bottom: 10px;
+  margin-bottom:10px;
+}
+ul.list-style-border {
+  list-style: none;
+  list-style-image: none;
+  padding-left: 0;
+  border-top: 1px solid $border;
+}
+ul.list-style-border > li {
+  list-style: none;
+  border: 1px solid $border;
+  border-top: none;
+  padding: 10px;
+  margin-bottom:0;
+}
+ul.list-style-icon-1,
+ul.list-style-icon-2,
+ul.list-style-icon-3,
+ul.list-style-icon-4,
+ul.list-style-icon-5,
+ul.list-style-icon-6,
+ul.list-style-icon-check,
+ul.list-style-icon-checkbox,
+ul.list-style-icon-angle-double,
+ul.list-style-icon-circle-arrow,
+ul.list-style-icon-star,
+ul.list-style-icon-finger {
+  list-style: none;
+  list-style-image: none;
+  overflow: hidden;
+  > li {
+    list-style: none !important;
+    list-style-image: none !important;
+    position: relative;
+  }
+  li:before {
+    font-family: $fontawesome;
+    position: absolute;
+    top:0;
+    left:-20px;
+    color:$cugold;
+  }
+}
+// check icon
+ul.list-style-icon-1,
+ul.list-style-icon-check {
+  & > li:before {
+    content: '\f00c';
+    font-weight: 900;
+  }
+}
+// checkbox icon
+ul.list-style-icon-2,
+ul.list-style-icon-checkbox {
+  & > li:before {
+    content: '\f14a';
+    font-weight: 900;
+  }
+}
+// angle icon
+ul.list-style-icon-3,
+ul.list-style-icon-angle-double {
+  & > li:before {
+    content: '\f101';
+    font-weight: 900;
+  }
+}
+// arrow icon
+ul.list-style-icon-4,
+ul.list-style-icon-circle-arrow {
+  & > li:before {
+    content: '\f0a9';
+    font-weight: 900;
+  }
+}
+// star icon
+ul.list-style-icon-5,
+ul.list-style-icon-star {
+  & > li:before {
+    content: '\f005';
+    font-weight: 900;
+  }
+}
+// hand icon
+ul.list-style-icon-6,
+ul.list-style-icon-finger {
+  & > li:before {
+    content: '\f0a4';
+    font-weight: 900;
+  }
+}
+
+/* ORDERED LIST STYLES */
+ol.list-style-alpha-upper, ol.list-style-alpha-upper > li {
+  list-style: upper-alpha;
+}
+ol.list-style-alpha-lower, ol.list-style-alpha-lower > li {
+  list-style: lower-alpha;
+}
+ol.list-style-roman-upper, ol.list-style-roman-upper > li {
+  list-style: upper-roman;
+}
+ol.list-style-roman-lower, ol.list-style-roman-lower > li {
+  list-style: lower-roman;
+}
+
+ul.list-menu {
+  a {
+    display: block;
+    &.active {
+      filter: grayscale(100%);
+      font-weight:bold;
+    }
+  }
+  ul {
+    margin-bottom: 0;
+  }
+}
+
+// Linear Lists
+ul.list-style-linear {
+  margin: 0 0 $spacing 0;
+  padding:0;
+  list-style: none;
+  overflow: hidden;
+  & > li {
+    list-style: none;
+    float:left;
+    padding-left: $spacing;
+  }
+  & > li:first-child {
+    padding-left: 0;
+  }
+}
+ul.list-style-linear-dots {
+  margin: 0 0 $spacing 0;
+  padding:0;
+  list-style: none;
+  overflow: hidden;
+  & > li {
+    list-style: none;
+    float:left;
+    padding-left:8px;
+  }
+  & > li:first-child {
+    padding-left: 0;
+  }
+  & > li:before {
+    content: "•";
+    padding-right:8px;
+  }
+  & > li:first-child:before {
+    content: none;
+    padding: 0;
+  }
+}

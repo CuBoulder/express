@@ -45,6 +45,19 @@ $padding: 20px;
   clear:both;
 }
 
+.layout-responsive.layout-fluid {
+  .element-max-width,
+  .element-max-width-padding,
+  .container-max {
+    max-width:none;
+  }
+  @media screen and (min-width:1200px) {
+    .top-content-wrapper {
+      font-size:110%;
+    }
+  }
+}
+
 .container {
   padding-right: $padding;
   padding-left: $padding;

@@ -1,27 +1,27 @@
-@import "../../expressbase/scss/modules/_global.scss";
-@import "../../expressbase/scss/modules/_colors.scss";
+@import "../../ucb/scss/modules/_global.scss";
+@import "../../ucb/scss/modules/_colors.scss";
 
 body {
   background: none;
-  background-color: $bg_dark2;
+  background-color: #000;
   background-color: #f2f2f2;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
 }
 @media screen and (min-width:960px) {
-  #page-wrapper {
+  .page-wrapper {
     padding:20px 0;
   }
 }
-#page {
+.page {
   @include rgbashadow(0,0,80px,#000,.25);
 }
-.layout-fixed #page {
-  width:1200px;
+.layout-fixed .page {
+  width:1500px;
   margin: 0 auto;
 }
-.layout-responsive #page {
+.layout-responsive .page {
   width:auto;
   max-width: 1200px;
   margin: 0 auto;
@@ -32,24 +32,35 @@ body {
 #main-menu-wrapper {
   background-color: #444;
 }
-#navigation {
-  a {
+#navigation ul#main-menu {
+  & > li > a {
     color:#fff;
     font-size: 90%;
     font-weight: 600;
   }
-  a:hover,
-  a:focus,
-  a.active,
-  a.active-trail {
+  & > li > a:hover,
+  & > li > a:focus,
+  & > li > a.active,
+  & > li > a.active-trail {
     background-color: #fff;
     color:#363839;
 
   }
-  a.home-link,
-  a.home-link.active {
+  & > li > a.home-link,
+  & > li > a.home-link.active {
     background-color: transparent;
     color:#fff;
+  }
+}
+#navigation ul#action-menu {
+  a {
+    color:#bbb;
+    &:hover,
+    &:focus,
+    &.active,
+    a.active-trail {
+      color:#fff;
+    }
   }
 }
 #secondary-navigation {
@@ -66,42 +77,23 @@ body {
   }
 }
 .top-content {
-  background-color: $bg_dark2;
+  background-color: #000;
 }
 .slider-wrapper {
-  background-color: $bg_dark2;
   padding: 20px;
-  color:#fff;
-  a {
-    color:$cugold;
-  }
-  a:hover {
-    color:#fff;
-  }
+
 }
 .slider {
   padding:20px 0;
 }
-.content-wrapper,
-.after-content-wrapper {
-  background-color: #fff;
-}
-.after-content2-wrapper {
-  background-color: #f7f7f7;
-  padding:40px 0 20px;
-}
-.footer {
-  padding: 40px 0 20px;
-}
-.footer-section {
-  background-color: $bg_dark1;
-  color:#fff;
-  a {
-    color:$cugold;
-  }
-  a:hover {
-    color:#fff;
-  }
+
+
+.after-content-wrapper,
+.after-content2-wrapper,
+.footer-wrapper,
+.site-info-wrapper  {
+  padding-top: 40px;
+  padding-bottom: 20px;
 }
 
 // Subnav

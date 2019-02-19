@@ -1,0 +1,260 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+nav {
+  position: relative;
+}
+
+/* Responsive Navigation Bar */
+
+.ucb-navbar {
+  background:$gray-light;
+  //padding:5px 10px;
+  display:flex;
+  flex-direction:column;
+  //align-items:center;
+  ul {
+    display:none;
+    flex-direction:column;
+  }
+  ul {
+    list-style:none;
+    margin:0;
+    padding:0;
+    li {
+      margin:0;
+      padding:0;
+    }
+    ul {
+     display:none;
+    }
+  }
+  a:link, a:visited,
+  label {
+    display:block;
+    padding:10px;
+    color: $gray-dark !important;
+    text-decoration:none;
+    &.active {
+      color: $black !important;
+      font-weight:bold;
+    }
+  }
+  a:hover {
+    color: $black !important;
+    background:rgba(#808080, .166);
+  }
+  input[type=checkbox] {
+    display:none;
+  }
+  input[type=checkbox]:checked ~ ul {
+    display:flex;
+  }
+
+  @media screen and (min-width:$breakpoint_large) {
+    & > ul {
+      display:flex;
+      flex-direction:row;
+    }
+    & > label {
+      display:none;
+    }
+  }
+
+  // Dark Navigation Bar
+  &.ucb-navbar-dark {
+    background: $gray-dark;
+    a:link,
+    a:visited,
+    label {
+      color: $gray-light !important;
+      &.active {
+        color: $white !important;
+        font-weight: bold;
+      }
+    }
+    a:hover {
+      color: $white !important;
+      background:rgba(#808080, .333);
+    }
+  }
+}
+
+/* Vertical Responsive Navigation */
+.ucb-navbar-vertical {
+  flex-direction:column;
+  & > ul {
+    display: none;
+    flex-direction:column !important;
+  }
+  input[type=checkbox] {
+    display:none;
+  }
+  input[type=checkbox]:checked ~ ul {
+    display:flex;
+  }
+  label {
+    display: block;
+  }
+
+  @media screen and (min-width:$breakpoint_medium) {
+    & > ul {
+      display:flex;
+    }
+    & > label {
+      display:none;
+    }
+  }
+  &.ucb-navbar-vertical-dark {
+    label {
+      background: $gray-dark;
+      padding:10px;
+      color:$white;
+    }
+  }
+}
+
+/* UCB Flex Navigation */
+
+
+ul.ucb-flexnav.ucb-flexnav-column {
+  flex-direction:column !important;
+}
+ul.ucb-flexnav {
+  list-style:none;
+  margin:0 0 20px 0;
+  padding: 0;
+  display:flex;
+  flex-direction:column;
+  flex-wrap:nowrap;
+  width:100%;
+  @media screen and (min-width:$breakpoint_medium) {
+    & {
+      flex-direction:row;
+    }
+  }
+  li {
+    flex-grow:1;
+    display:flex;
+    align-items:center;
+    margin:0;
+    padding:0;
+  }
+  a:link, a:visited {
+    display:flex;
+    padding: 5px 10px;
+    background:$gray-light;
+    color:$black;
+    text-decoration:none;
+    border:1px solid darken($gray-light, 10);
+    margin-right:-1px;
+    margin-bottom:-1px;
+    text-align:center;
+    flex-grow:1;
+    align-content:center;
+
+    height:100%;
+    align-items:center;
+    justify-content:center;
+    &:hover {
+      background:darken($gray-light, 10);
+    }
+    &:focus {
+      position: relative;
+    }
+  }
+  &.ucb-flexnav-dark {
+    a:link, a:visited {
+      background: $gray-dark;
+      color:$white;
+      border:1px solid lighten($gray-dark, 10);
+    }
+    a:hover {
+      background: lighten($gray-dark, 10);
+    }
+  }
+}
+
+/* UCB Vertical Navigation */
+$nav_border: rgba(128,128,128,.166);
+ul.ucb-vnav {
+  list-style: none;
+  margin: 0 0 20px 0;
+  padding: 0;
+  border-top:1px solid $nav_border;
+  ul, li {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  a,
+  label {
+    display: block;
+    padding: 10px;
+  }
+  a:link,
+  a:visited,
+  label {
+    color:$black;
+  }
+  a:hover {
+    background: $nav_border;
+  }
+  & > li {
+    display: block;
+    border-bottom:1px solid $nav_border;
+  }
+  & ul a {
+    font-size: 85%;
+  }
+  & ul a {
+    padding-left:25px;
+  }
+  & ul ul a {
+    padding-left:40px;
+  }
+  & ul ul ul a {
+    padding-left:55px;
+  }
+  & ul ul ul ul a {
+    padding-left:70px;
+  }
+  &.ucb-vnav-dark {
+    background: $gray-dark;
+    a:link,
+    a:visited,
+    label {
+      color:$white;
+    }
+
+  }
+  a.active {
+    font-weight:bold;
+    background: $nav_border;
+  }
+}
+
+// Breadcrums
+nav ol.breadcrumbs {
+  list-style: none;
+  margin:0;
+  padding:0;
+  li {
+    display: inline;
+    margin: 0;
+    padding:0;
+    &:after {
+      font-weight: 900;
+      font-family: $fontawesome;
+      padding: 0 5px 0 8px;
+      content: "\f105";
+      opacity: .6;
+    }
+    &:last-child:after {
+      content:none;
+      padding:0
+    }
+
+  }
+}

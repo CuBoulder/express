@@ -7,7 +7,7 @@
 
 .block-section-overlay.block-section-text-white:after { background: rgba(0, 0, 0, 0.5); }
 
-.block-section-overlay.block-section-text-black:after { background: rgba(255, 255, 255, 0.5); }
+.block-section-overlay.block-section-text-black:after { background: rgba(255, 255, 255, 0.65); }
 
 .block-section-text-white { color: #fff; }
 

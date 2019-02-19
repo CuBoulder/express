@@ -1,0 +1,140 @@
+//
+// Global variables and mixins
+//
+
+// Fonts/Type
+$base_font: "Neue Helvetica W01", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$base_font_condensed: "Neue Helvetica W05", "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$base_font_size: 16px;
+
+$fontawesome: "Font Awesome 5 Free", "FontAwesome";
+
+// Breakpoints
+$breakpoint_xs: 0px;
+$breakpoint_small: 576px;
+$breakpoint_medium: 768px;
+$breakpoint_tablet: $breakpoint_medium;
+$breakpoint_large: 992px;
+$breakpoint_desktop: $breakpoint_large;
+$breakpoint_xlarge: 1140px;
+
+// Rounded Corners/Border Radius
+$radius_small: 3px;
+$radius_medium: 5px;
+$radius_large: 7px;
+$radius_none: 0px;
+
+// Spacing
+$spacing: 20px;
+$gutter: $spacing * 2;
+
+// Max Width
+$max_width: 1500px;
+
+// element-invisible improved and more robust
+@mixin element-invisible {
+  border: 0;
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  white-space: nowrap;
+}
+
+// Clear floats
+@mixin clearfloats {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+@mixin clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+// Shadow hover transition
+@mixin shadowtransition {
+  transition: -webkit-box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
+  transition: -moz-box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
+  transition: box-shadow 0.5s ease, background-color 0.5s ease, color 0.5s ease;
+}
+
+//
+// element-invisible improved and more robust
+//
+@mixin element-invisible {
+  border: 0;
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  width: 1px;
+  white-space: nowrap;
+  clip: rect(1px 1px 1px 1px);
+  clip: rect(1px, 1px, 1px, 1px);
+}
+//
+// Clear floats
+//
+@mixin clearfloats {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+//
+// Gradient
+//
+@mixin gradient($color, $color2:false) {
+  @if $color2 {
+
+  }
+  @else {
+    $color2: darken($color, 5%);
+    $color2: scale-color($color, $lightness: -20%);
+  }
+  background-color: $color;
+  background-image: -webkit-gradient(linear, left top, left bottom, from($color), to($color2));
+  background-image: -webkit-linear-gradient(top, $color, $color2);
+  background-image: -moz-linear-gradient(top, $color, $color2);
+  background-image: -o-linear-gradient(top, $color, $color2);
+  background-image: -ms-linear-gradient(top, $color, $color2);
+  background-image: linear-gradient(top, $color, $color2);
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#{ie_hex_str($color)}', EndColorStr='#{ie_hex_str($color2)}');
+}
+
+//
+// Drop Shadow
+//
+@mixin rgbashadow($x, $y, $blur, $rgb, $transparency) {
+  -webkit-box-shadow: $x $y $blur rgba($rgb, $transparency);
+  -moz-box-shadow:    $x $y $blur rgba($rgb, $transparency);
+  box-shadow:         $x $y $blur rgba($rgb, $transparency);
+}
+
+//
+// Border Outline
+//
+@mixin border_outline($color, $stroke) {
+  border:$stroke solid $color;
+}
+
+//
+// Rounded Corners
+//
+@mixin rounded($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  border-radius: $radius;
+  // keeps background from busting out of border
+  -webkit-background-clip: padding-box;
+  -moz-background-clip: padding;
+  background-clip: padding-box;
+}
