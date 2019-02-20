@@ -1,0 +1,8 @@
+<?php
+
+/**
+ * Rebuild permissions to add helpscout permissions for all express roles.
+ */
+function cu_helpscout_update_7001() {
+  secure_permissions_rebuild();
+}

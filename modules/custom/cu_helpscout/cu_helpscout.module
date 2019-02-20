@@ -125,17 +125,32 @@ function cu_helpscout_secure_permissions($role) {
       'administer helpscout beacon',
     ),
     'content_editor' => array(
-      // 'use helpscout beacon',
+      'use helpscout beacon',
     ),
     'developer' => array(
       'use helpscout beacon',
       'administer helpscout beacon',
     ),
     'site_editor' => array(
-      // 'use helpscout beacon',
+      'use helpscout beacon',
     ),
     'site_owner' => array(
-      // 'use helpscout beacon',
+      'use helpscout beacon',
+    ),
+    'configuration_manager' => array(
+      'use helpscout beacon',
+    ),
+    'access_manager' => array(
+      'use helpscout beacon',
+    ),
+    'campaign_manager' => array(
+      'use helpscout beacon',
+    ),
+    'edit_my_content' => array(
+      'use helpscout beacon',
+    ),
+    'edit_only' => array(
+      'use helpscout beacon',
     ),
   );
 
