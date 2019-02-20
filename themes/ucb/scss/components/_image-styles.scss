@@ -95,6 +95,18 @@ img.image-small[style*="float:left"] {
     }
   }
 }
+.node-view-mode-sidebar {
+  img.image-square,
+  img.image-square_thumbnail,
+  img.image-small_thumbnail,
+  img.image-small {
+    margin-bottom: 0;
+    float: left;
+    margin: 0 10px 10px 0;
+    width: 50px;
+    height: auto;
+  }
+}
 
 .image-small-square-thumbnail {
   float:left;
