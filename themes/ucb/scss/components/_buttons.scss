@@ -174,17 +174,26 @@ $colors: (
 }
 
 // Ghost buttons
-.button-ghost {
+.button-ghost,
+a.button-ghost {
   display: inline-block;
   padding:5px 10px;
   font-weight:bold;
   font-family: $base_font;
   margin-bottom: 5px;
   text-decoration: none;
-
+  background-color:transparent;
+  @include rounded($radius: 0px);
+  color: $blue !important;
+  border:1px solid $blue;
+  &:hover {
+    background: $blue;
+    color: #fff !important;
+  }
 }
 @each $name, $color in $colors {
   .button-ghost.button-ghost-#{$name},
+  a.button-ghost.button-ghost-#{$name},
   .buttons-color-outline-#{$name} a,
   .buttons-color-outline-#{$name} a.button {
     border:1px solid $color;

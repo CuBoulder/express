@@ -16,6 +16,8 @@
     }
     // Background color with adjusted text and link colors.
     .background-#{$name},
+    .ucb-colors .background-#{$name},
+    .nested-colors .background-#{$name},
     .exbd-block.exbd-style-#{$name},
     .exbd-block .exbd-block.exbd-style-#{$name} {
       background-color: $color;
@@ -52,6 +54,22 @@
       }
       &.background-transparent {
         background-color: rgba($color, .7);
+      }
+      a.button-ghost {
+        color: set-text-color($color) !important;
+        border:1px solid set-text-color($color);
+        $background: invert(set-text-color($color));
+        @if (lightness($color) > 40) {
+          background: rgba($background, .15);
+        }
+        @else {
+          background: rgba($background, .15);
+        }
+        &:hover {
+          $hover: invert(set-text-color($color));
+          color: $hover !important;
+          background: set-text-color($color);
+        }
       }
     }
     .exbd-block.exbd-style-#{$name} {
