@@ -24,6 +24,8 @@ ul.contextual-links li a:visited {
  #navigation-wrapper {
    display: flex;
    flex-direction: column-reverse;
+   // Make sure navigation elements will be above other elements.
+   z-index:100;
  }
 
 .section {
