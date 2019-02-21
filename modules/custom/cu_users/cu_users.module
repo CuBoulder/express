@@ -22,7 +22,6 @@ function cu_users_get_users($type = 'all') {
     'kere7580' => 'Kevin.Reynen@Coloardo.EDU',
     'jafu6031' => 'James.W.Fuller@Colorado.EDU',
     'alfi2595' => 'alexander.finnarn@colorado.edu',
-    'owmo7772' => 'owen.morrill@colorado.edu',
     'jeor0980' => 'Jesus.OrtizTovar@colorado.edu',
     'osr-test-sis' => 'osr-test-sis@colorado.edu',
   );
@@ -47,9 +46,38 @@ function cu_users_get_users($type = 'all') {
     'osr-test-edit-own' => 'osr-test-edit-own@colorado.edu',
   );
 
-  $user_array['all'] = array_merge($user_array['developer'], $user_array['administrator'], $user_array['site_owner'], $user_array['content_editor'], $user_array['edit_my_content']);
+  $user_array['site_editor'] = array(
+    'osr-test-site-editor' => 'osr-test-site-editor@colorado.edu',
+  );
+
+  $user_array['edit_only'] = array(
+    'osr-test-edit-only' => 'osr-test-edit-only@colorado.edu',
+  );
+
+  $user_array['access_manager'] = array(
+    'osr-test-access-mgr' => 'osr-test-access-mgr@colorado.edu',
+  );
+
+  $user_array['configuration_manager'] = array(
+    'osr-test-config-mgr' => 'osr-test-config-mgr@colorado.edu',
+  );
+
+  $user_array['roles'] = array();
+
+  foreach ($user_array as $key => $user) {
+    foreach ($user as $name => $email) {
+      $user_array['roles'][$name] = $key;
+    }
+  }
+
+  $user_array['all'] = array_merge($user_array['developer'], $user_array['administrator'], $user_array['site_owner'], $user_array['content_editor'], $user_array['edit_my_content'], $user_array['site_editor'], $user_array['edit_only'], $user_array['access_manager'], $user_array['configuration_manager']);
 
   return $user_array[$type];
+}
+
+function cu_users_get_user_role ($user) {
+  $user_list = cu_users_get_users('roles');
+  return $user_list[$user];
 }
 
 /**
@@ -87,6 +115,47 @@ function cu_users_help($path, $arg) {
   }
 }
 
+function cu_users_menu() {
+  $items = array();
+
+  $items['user/%user/authored'] = array(
+    'title' => 'Authored Content',
+    'page callback' => 'cu_users_user_authored_content',
+    'page arguments' => array('user_profile_form', 1),
+    'access arguments' => array('access users overview'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
+  );
+  $items['user/%user/edited'] = array(
+    'title' => 'Edited Content',
+    'page callback' => 'cu_users_user_edited_content',
+    'page arguments' => array('user_profile_form', 1),
+    'access arguments' => array('access users overview'),
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
+  );
+
+  return $items;
+}
+
+/**
+ * Callback function for edited dashboard.
+ */
+function cu_users_user_edited_content($user) {
+  $output = views_embed_view('authored_content', 'block_2');
+
+  return $output;
+}
+
+/**
+ * Callback function for authored dashboard.
+ */
+function cu_users_user_authored_content($user) {
+  $output = views_embed_view('authored_content', 'block_1');
+
+  return $output;
+}
+
 /**
  * Implements hook_menu_alter().
  */
@@ -95,7 +164,22 @@ function cu_users_menu_alter(&$items) {
   $items['admin/config']['access arguments'] = array('access configuration administration');
   $items['admin/structure/block']['access callback'] = 'user_access';
   $items['admin/structure/block']['access arguments'] = array('access configuration administration');
+
+  $items['admin/people/invite']['title'] = t('Invite New Users');
+
+  $items['user/%user/roles']['page arguments'] = array('cu_users_roles_form', 1);
 }
+
+/**
+ * Implements hook_admin_paths().
+ * Set edit layout paths to be admin paths.
+ */
+ function cu_users_admin_paths() {
+   $paths = array(
+     'user/*' => TRUE,
+   );
+   return $paths;
+ }
 
 /**
  * Implements hook_permission().
@@ -236,19 +320,10 @@ function cu_users_user_presave(&$edit, $account, $category) {
 
   // Need to get the role IDs to compare later.
   // The roles are ordered from lowest to highest permission level.
+  $core_roles = express_permissions_role_settings(array('core'));
   $core_role_ids = [];
-  $core_roles = [
-    'edit_my_content',
-    'edit_only',
-    'content_editor',
-    'site_editor',
-    'site_owner',
-  ];
-  foreach ($core_roles as $val) {
-    $temp_role = user_role_load_by_name($val);
-    if (isset($temp_role->rid)) {
-      $core_role_ids[$temp_role->rid] = $temp_role->name;
-    }
+  foreach ($core_roles['rid'] as $rid => $role) {
+    $core_role_ids[$rid] = $role['label'];
   }
 
   // Loop through roles being saved on user and reduce them to the highest permissioned role.
@@ -360,10 +435,10 @@ function cu_users_ldap_email_lookup($email) {
  * Implements hook_form_FORM_ID_alter().
  */
 function cu_users_form_user_external_invite_form_alter(&$form, &$form_state, $form_id) {
-
   // Theme role fields
   $form['core_rid']['#theme'] = 'express_roles';
   $form['addon_rids']['#theme'] = 'express_roles';
+
   asort($form['addon_rids']['#options']);
 
   // Add javascript validation
@@ -379,115 +454,92 @@ function cu_users_form_user_external_invite_form_alter(&$form, &$form_state, $fo
 
 /**
  * Implements hook_form_FORM_ID_alter().
+ *
+ * Hide role fields.
  */
 function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
-
+  global $user;
+  $account = $form['#user'];
   $core_rids = variable_get('user_external_invite_core_roles', []);
   if (empty($core_rids)) {
-    drupal_set_message(t('Your site is not yet configured to invite users. Contact the site administrator to configure the invite feature.'), 'status');
+    drupal_set_message(t('Your site is not yet configured to edit user roles. Contact the site administrator to configure this.'), 'status');
   }
-  else {
 
-
-    if (!user_access('access extended role assignment') && user_access('access users overview')) {
-
-      $core_role_options = [];
-      foreach ($core_rids as $val) {
-        if ($val) {
-          $core_role_options[$val] = _user_external_invite_role_name_from_rid($val);
-        }
-      }
-
-      $addon_rids = variable_get('user_external_invite_addon_roles', []);
-      $addon_role_options = [];
-      foreach ($addon_rids as $val) {
-        if ($val) {
-          $addon_role_options[$val] = _user_external_invite_role_name_from_rid($val);
-        }
-      }
-
-      asort($addon_role_options);
-
-
-
-      // Roles is default role field
-      if (!empty($form['account']['roles'])) {
-        $core_role_options = array_intersect_key($core_role_options, $form['account']['roles']['#options']);
-
-        $addon_role_options = array_intersect_key($addon_role_options, $form['account']['roles']['#options']);
-
-        unset($form['account']['roles']);
-      }
-      // Role Change is added from role delegation
-      if (!empty($form['account']['roles_change'])) {
-        $core_role_options = array_intersect_key($core_role_options, $form['account']['roles_change']['#options']);
-
-        $addon_role_options = array_intersect_key($addon_role_options, $form['account']['roles_change']['#options']);
-
-        unset($form['account']['roles_change']);
-      }
-
-      $form['save_role_types'] = array(
-        '#type' => 'hidden',
-        '#value' => 1,
-      );
-
-      // Get saved roles and intersect with core role options.
-      $saved_core = array_intersect_key($core_role_options, $form['#user']->roles);
-      $form['account']['core_roles'] = array(
-        '#title' => 'Core Role',
-        '#type' => 'radios',
-        '#options' => $core_role_options,
-        '#theme' => 'express_roles',
-        '#default_value' => key($saved_core),
-      );
-
-      // Get saved roles and intersect with addon role options.
-      $saved_addon = array_intersect_key($addon_role_options, $form['#user']->roles);
-      $form['account']['addon_roles'] = array(
-        '#title' => 'Add-on Roles',
-        '#type' => 'checkboxes',
-        '#options' => $addon_role_options,
-        '#theme' => 'express_roles',
-        '#default_value' => array_keys($saved_addon),
-      );
-      $form['#submit'][] = 'cu_users_save_user_roles';
-
-      // Add javascript validation.
-      // Removing the js popup for now.
-      // $rids = cu_users_elevated_roles();
-      // drupal_add_js(array('elevatedRoles' => $rids), 'setting');
-      // drupal_add_js(drupal_get_path('module', 'cu_users') . '/js/cu-users.js');
+  $core_role_options = [];
+  foreach ($core_rids as $val) {
+    if ($val) {
+      $core_role_options[$val] = _user_external_invite_role_name_from_rid($val);
     }
+  }
+
+  $addon_rids = variable_get('user_external_invite_addon_roles', []);
+  $addon_role_options = [];
+  foreach ($addon_rids as $val) {
+    if ($val) {
+      $addon_role_options[$val] = _user_external_invite_role_name_from_rid($val);
+    }
+  }
+  asort($addon_role_options);
+
+  $so = user_role_load_by_name('site_owner');
+  $am = user_role_load_by_name('access_manager');
+  if (user_has_role($so->rid, $user) || user_has_role($am->rid, $user)) {
+    $form['account']['roles']['#access'] = TRUE;
+    $form['account']['roles_change']['#access'] = FALSE;
+    $form['account']['pass']['#access'] = FALSE;
+    $form['redirect']['#access'] = FALSE;
+    $form['timezone']['#access'] = FALSE;
+    $form['field_ldap_display_name']['#access'] = FALSE;
+    $form['field_ldap_last_name']['#access'] = FALSE;
+    $form['field_ldap_primary_affiliation']['#access'] = FALSE;
+    $form['account']['mail']['#disabled'] = TRUE;
+
+    $saved_core = array_intersect_key($core_role_options, $account->roles);
+    $form['account']['roles'] = array(
+      '#type' => 'fieldset',
+      '#title' => t('User Roles'),
+    );
+    $form['account']['roles']['core_rid'] = array(
+      '#title' => 'Core Role',
+      '#type' => 'radios',
+      '#options' => $core_role_options,
+      '#theme' => 'express_roles',
+      '#default_value' => key($saved_core),
+      '#required' => TRUE,
+    );
+    $saved_addon = array_intersect_key($addon_role_options, $account->roles);
+    $form['account']['roles']['addon_rids'] = array(
+      '#title' => 'Add-on Roles',
+      '#type' => 'checkboxes',
+      '#options' => $addon_role_options,
+      '#theme' => 'express_roles',
+      '#default_value' => array_keys($saved_addon),
+    );
+    $form['#submit'][] = 'cu_users_roles_form_submit';
   }
 }
 
 /**
- * Submit function for cu_users_form_user_profile_form_alter().
+ * Sumit function for cu_users_roles_form().
  */
-function cu_users_save_user_roles(&$form, &$form_state) {
-  if (!empty($form_state['values']['save_role_types'])) {
-
-    // Get the submitted values from the role types.
-    $core_roles = !empty($form_state['values']['core_roles']) ? $form_state['values']['core_roles'] : NULL;
-    $addon_roles = $form_state['values']['addon_roles'];
-
-    // Addon roles accept multiple values so it's already an array.
-    $roles = !empty($addon_roles) ? $addon_roles : array();
-    // Add submitted core roles
-    if ($core_roles) {
-      $roles[] = $core_roles;
-    }
-    // Put the submitted role values into the format Drupal wants.
-    $saved_roles = array();
-    foreach($roles as $rid) {
-      $saved_roles[$rid] = $rid;
-    }
-    // Add role values to the user object and save.
-    $user = $form['#user'];
-    $user->roles = $saved_roles;
-    user_save($user);
+function cu_users_roles_form_submit($form, &$form_state) {
+  $id = $form_state['values']['uid'];
+  $account = user_load($id);
+  $roles = array();
+  if (!empty($form_state['values']['core_rid'])) {
+    $rid = $form_state['values']['core_rid'];
+    $roles[$rid] = $rid;
   }
+  if (!empty($form_state['values']['addon_rids'])) {
+    foreach ($form_state['values']['addon_rids'] as $role_id => $value) {
+      if ($value) {
+        $roles[$role_id] = $role_id;
+      }
+    }
+  }
+  $form_state['redirect'] = 'user/' . $id;
+  user_save($account, array('roles' => $roles));
+  drupal_set_message("$account->name has been updated.", 'status');
 }
 
 /**
@@ -509,6 +561,12 @@ function cu_user_express_roles($element) {
   $output = array();
   foreach ($element['form']['#options'] as $key => $option) {
     $output[$key] = $element['form'][$key];
+    if ($output[$key]['#title'] == 'Content Editor') {
+      $output[$key]['#title']  = 'Content Editor (deprecated)';
+    }
+    if ($output[$key]['#title'] == 'Edit Only') {
+      $output[$key]['#title']  = 'Content Editor (edit only)';
+    }
     $output[$key]['#prefix'] = '<div class="cu-role-wrapper">';
     if (cu_user_role_descriptions($option)) {
       $output[$key]['#suffix'] = '<div class="cu-role-description">' . cu_user_role_descriptions($option) . '</div></div>';
@@ -544,10 +602,12 @@ function cu_user_role_type_descriptions($type) {
  * Provides role descriptions.
  */
 function cu_user_role_descriptions($role) {
+  // Content Editor role names are still in the original machine name alters at this point.  The title change in cu_user_express_roles happens later
   $descriptions = array(
     'Site Owner' => 'Main authority/contact for the website. All site access permissions. Limited to 3 people. Held responsible for the website adhering to university policies.',
     'Site Editor' => 'Main site builder. Full access to website content and layout tools. Trusted user responsible for the day-to-day maintenance and building of the website. Can receive elevated add-on roles.',
-    'Content Editor' => 'Edit only access. A basic role limited to content edits/updates for existing content. Can’t delete or add content, blocks or layouts.',
+    'Content Editor' => 'This role will be changing. The role originally had full edit access to add and/or delete all content as well as layout tools.<br><br>It will be demoted to Edit Only access. Site owners need to determine if a user with Content Editor should be in the new updated version or promoted to Site Editor.',
+    'Edit Only' => 'Edit only access. A basic role limited to content edits/updates for existing content. Can’t delete or add content, blocks or layouts.',
     'Edit My Content' => 'Page specific access. A basic role limited to content edits/updates for specific pages. Can receive limited add-on roles.',
     'Access Manager' => 'Can assign up to three site users to help manage users and roles on a site. This role will grant access to:
     <ul class="bullet-list">
@@ -708,11 +768,16 @@ function cu_users_override_external_invite_submit(&$form, &$form_state) {
   if (!empty($emails)) {
     foreach ($emails as $email) {
       $output = cu_users_ldap_email_lookup($email);
-      $parts = explode("@", $output[0]['cuedupersonemailhome'][0]);
-      $username = $parts[0];
-      $ldap_mail_return = strtolower($output[0]['mail'][0]);
+      $ldap_mail_return = '';
 
-      if (!empty($output) && !empty($ldap_mail_return) && $email == $ldap_mail_return) {
+      // $output can be an array with $output['count'] as the only key.
+      if (isset($output[0])) {
+        $parts = explode("@", $output[0]['cuedupersonemailhome'][0]);
+        $username = $parts[0];
+        $ldap_mail_return = strtolower($output[0]['mail'][0]);
+      }
+
+      if (!empty($output) && !empty($ldap_mail_return) && $email === $ldap_mail_return) {
         // Check to see if the user already exists before trying to create them
         $account = user_load_by_name($username);
         if (isset($account)) {
@@ -728,9 +793,13 @@ function cu_users_override_external_invite_submit(&$form, &$form_state) {
             ),
           );
 
-          // The first parameter is sent blank so a new user is created.
-          user_save('', $new_user);
-          watchdog('cu_users', 'Invite created an account for %user', array('%user' => $username));
+          try {
+            // The first parameter is sent blank so a new user is created.
+            user_save('', $new_user);
+            watchdog('cu_users', 'Invite created an account for %user', array('%user' => $username));
+          } catch (Exception $exception) {
+            watchdog('cu_users', $exception->getMessage(), WATCHDOG_ERROR);
+          }
         }
       }
     }
@@ -741,5 +810,39 @@ function cu_users_username_alter(&$name, $account) {
   $all = cu_users_get_users($type = 'all');
   if (array_key_exists($account->name, $all)) {
     $name = $name . ' (Web Express Team)';
+  }
+}
+
+/**
+ * Implements hook_user_login().
+ * Assign appropriate role to web express team user
+ */
+function cu_users_user_login(&$edit, $account)
+{
+  // Grab username
+  $user_name = $account->name;
+  // Grab list of all users in web express team
+  $all = cu_users_get_users($type = 'all');
+  // Check that user that logged in in web express team list
+  if (array_key_exists($user_name, $all)) {
+    // Grab role name string that user should have
+    $account_role = cu_users_get_user_role($user_name);
+    // Grab role name id
+    $account_role_object_id = user_role_load_by_name($account_role)->rid;
+    // See if user has role that is defined in code
+    if (!array_key_exists($account_role_object_id, $account->roles)) {
+      // If user doesn't have the role they should, append the role to the existing role array
+      $account->roles += array($account_role_object_id => $account_role);
+      user_save($account);
+    }
+  }
+}
+
+function cu_users_mail_alter(&$message) {
+  if ($message['id'] == 'user_external_invite_user_external_invite_sent' || $message['id'] == 'user_external_invite_user_external_invite_token') {
+    $role_names = ['Content Editor', 'Edit Only'];
+    $edited_role_names = ['Content Editor (deprecated)', 'Content Editor (edit only)'];
+    $str = str_replace($role_names, $edited_role_names, $message['body'][0]);
+    $message['body'][0] = $str;
   }
 }

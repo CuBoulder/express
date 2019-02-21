@@ -43,6 +43,11 @@ function cu_people_bundle_secure_permissions($role) {
     'authenticated user' => array(
       'view any people_list_block bean',
     ),
+    'edit_only' => array(
+      'edit any people_list_block bean',
+      'edit any people_list_page content',
+      'edit any person content',
+    ),
     'content_editor' => array(
       'administer department vocabulary terms',
       'administer people_filter_1 vocabulary terms',

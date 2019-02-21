@@ -25,3 +25,10 @@ function cusimple_preprocess_html(&$vars) {
   $layout = theme_get_setting('layout_style', 'cusimple') ? theme_get_setting('layout_style', 'cusimple') : 'layout-wide';
   $vars['classes_array'][]=$layout;
 }
+
+function cusimple_preprocess_region(&$vars) {
+  if ($vars['region'] == 'branding') {
+    $vars['logo_color'] = 'white';
+  }
+
+}

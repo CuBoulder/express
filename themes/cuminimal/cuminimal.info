@@ -2,7 +2,7 @@ name = 'Minimal'
 screenshot = screenshot.png
 engine = phptemplate
 core = 7.x
-base theme = 'expressbase'
+base theme = 'ucb'
 
 stylesheets[screen][] = css/minimal-styles.css
 
@@ -31,3 +31,9 @@ regions[content_bottom] = 'Content Bottom'
 
 
 settings[layout_style] = 'layout-wide'
+
+; Region background colors
+settings[slider_class] = 'background-white'
+settings[after_content2_class] = 'background-white'
+settings[footer_section_class] = 'background-white'
+settings[site_info_class] = 'background-gray-900'

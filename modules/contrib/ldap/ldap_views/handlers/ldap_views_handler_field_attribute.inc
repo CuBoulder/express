@@ -6,6 +6,7 @@
  *
  * Defines a new class field handler for a default ldap field
  */
+
 class ldap_views_handler_field_attribute extends ldap_views_handler_field {
 
 

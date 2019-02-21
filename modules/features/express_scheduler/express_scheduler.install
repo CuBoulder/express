@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * @file
+ * Set up some things on install.
+ */
+
+/**
+* Implements hook_install().
+*/
+function express_scheduler_install() {
+  // Set the weight to 9
+  db_update('system')
+    ->fields(array('weight' => 99))
+    ->condition('type', 'module')
+    ->condition('name', 'express_scheduler')
+    ->execute();
+}

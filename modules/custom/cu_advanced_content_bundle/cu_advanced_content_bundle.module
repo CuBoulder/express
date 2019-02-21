@@ -206,6 +206,12 @@ function cu_advanced_content_bundle_secure_permissions($role) {
       'view any video_reveal bean',
       'view any feature_callout bean',
     ),
+    'edit_only' => array(
+      'edit any video_reveal bean',
+      'view any video_reveal bean',
+      'edit any feature_callout bean',
+      'view any feature_callout bean',
+    ),
     'content_editor' => array(
       'create any video_reveal bean',
       'delete any video_reveal bean',

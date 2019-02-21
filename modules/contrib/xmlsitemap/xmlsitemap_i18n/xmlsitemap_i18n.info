@@ -4,12 +4,10 @@ package = XML sitemap
 core = 7.x
 dependencies[] = xmlsitemap
 dependencies[] = i18n
-files[] = xmlsitemap_i18n.module
 files[] = xmlsitemap_i18n.test
 
-; Information added by Drupal.org packaging script on 2016-05-25
-version = "7.x-2.3"
+; Information added by Drupal.org packaging script on 2018-10-09
+version = "7.x-2.6"
 core = "7.x"
 project = "xmlsitemap"
-datestamp = "1464191061"
-
+datestamp = "1539120486"

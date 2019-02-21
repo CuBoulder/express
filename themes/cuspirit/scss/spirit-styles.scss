@@ -2,7 +2,8 @@
 @import "../../expressbase/scss/modules/_global.scss";
 
 body {
-  background-color: #1a1a1a;
+  //background-color: #1a1a1a;
+  background:#000;
 }
 .layout-boxed {
   background-color: #f7f7f7;
@@ -41,7 +42,7 @@ a:hover {
 }
 .slider-wrapper {
   background-color: $bg_dark1;
-  padding: 20px;
+  padding: 20px 0;
   color: #fff;
   a {
     color: $cugold;
@@ -54,21 +55,26 @@ a:hover {
   background: #fff;
   @include rgbashadow(0, 2px, 5px, #000000, .10);
   #navigation ul#main-menu {
-    a:link,
-    a:visited {
+
+    & > li > a:link,
+    & > li > a:visited {
       color:#333;
       line-height: 64px;
       font-weight: 600;
       border-right:1px solid #d7d7d7;
       padding:0 12px;
     }
-    a:hover,
-    a.active,
-    a.active-trail {
+    & > li > a:hover,
+    & > li > a:focus {
+      background-color:#eee;
+      color:#333;
+    }
+    & > li > a.active,
+    & > li > a.active-trail {
       background-color: $cugold;
       color:#000;
     }
-    a.home-link.active {
+    & > li > a.home-link.active {
       background: transparent;
     }
   }
@@ -119,22 +125,22 @@ ul#action-menu {
   padding: 40px 0 20px;
 }
 .after-content2-wrapper {
-  background-color: #f9f9f9;
+  //background-color: #f9f9f9;
   padding: 40px 0 20px;
 }
-.footer-section {
+.footer-section1 {
   background-color: #1a1a1a;
   color:#fff;
   a:link,
   a:visited {
-    color:$cugold;
+    //color:$cugold;
   }
   a:hover {
     color:#fff;
   }
 }
 .footer-wrapper {
-  background-color: #272727;
+  //background-color: #272727;
   padding: 40px 0 20px;
 }
 .site-info-wrapper {
@@ -171,7 +177,8 @@ $border: #e7e7e7;
 #block-menu-block-site-navigation-menus-1,
 #block-menu-block-site-navigation-menus-2,
 #block-menu-block-site-navigation-menus-3,
-#section-navigation {
+#section-navigation,
+.block-menu-block {
   background-color: #fff;
   $indent: 10px;
 
@@ -271,7 +278,7 @@ $border: #e7e7e7;
   background-color: #f2f2f2;
 }
 #mobile-menu {
-  ul a {
+  & > ul > li > a {
     border-bottom: 1px solid $border_color;
     color: #656565;
     &.active-trail,

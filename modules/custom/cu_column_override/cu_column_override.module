@@ -77,46 +77,13 @@ function cu_column_override_preprocess_page(&$page) {
   // Check for the active theme reaction.
   if ($plugin = context_get_plugin('reaction', 'column_override')) {
     if ($column_override = $plugin->execute()) {
-
-
-    }
-  }
-}
-function cu_column_override_preprocess_block(&$vars) {
-
-  if ($plugin = context_get_plugin('reaction', 'column_override')) {
-    if ($column_override = $plugin->execute()) {
-      $block_counter = &drupal_static(__FUNCTION__, array());
-      $vars['block'] = $vars['elements']['#block'];
-      // All blocks get an independent counter for each region.
-      if (!isset($block_counter[$vars['block']->region])) {
-        $block_counter[$vars['block']->region] = -1;
-      }
-      // Same with zebra striping.
-      $vars['block_id'] = $block_counter[$vars['block']->region]++;
-
-      switch ($vars['block']->region) {
-
-        case 'after_content':
-          if ($column_override['column_override_after_content_columns'] != 'no-change') {
-            $columns = $column_override['column_override_after_content_columns'];
-            $vars['column_override'] = $columns;
-          }
-          break;
-
-        case 'lower':
-          if ($column_override['column_override_after_content_2_columns'] != 'no-change') {
-            $columns = $column_override['column_override_after_content_2_columns'];
-            $vars['column_override'] = $columns;
-          }
-          break;
-
-        case 'footer':
-          if ($column_override['column_override_footer_columns'] != 'no-change') {
-            $columns = $column_override['column_override_footer_columns'];
-            $vars['column_override'] = $columns;
-          }
-          break;
+      $regions = array(
+        'after_content' => 'column_override_after_content_columns',
+        'lower' => 'column_override_after_content_2_columns',
+        'footer' => 'column_override_footer_columns',
+      );
+      foreach ($regions as $region => $key) {
+        $page['page'][$region]['#column_override'] = $column_override[$key];
       }
     }
   }

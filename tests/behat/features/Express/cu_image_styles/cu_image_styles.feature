@@ -14,7 +14,7 @@ Scenario Outline: Image styles should be the correct dimensions
   | large_square_thumbnail    | "Focal Point Scale And Crop 600x600"      |
   | large_wide_thumbnail      | "Focal Point Scale And Crop 600x300"      |
   | preview                   | "Scale 240x240 (upscaling allowed)"       |
-  | small                     | "Scale width 300 (upscaling allowed)"     |
+  | small                     | "Scale width 375 (upscaling allowed)"     |
   | small_thumbnail           | "Scale width 100"                         |
   | square                    | "Focal Point Scale And Crop 180x180"      |
   | square_thumbnail          | "Focal Point Scale And Crop 180x180"      |
@@ -24,6 +24,6 @@ Scenario Outline: Image styles should be the correct dimensions
   | el_hero                   | "Scale width 1500 (upscaling allowed)"    |
   | focal_point_preview       | "Scale width 250 (upscaling allowed)"     |
   | thumbnail                 | "Scale 100x100 (upscaling allowed)"       |
-  | medium                    | "Scale width 600 (upscaling allowed)"     |
-  | large                     | "Scale width 1200 (upscaling allowed)"    |
+  | medium                    | "Scale width 750 (upscaling allowed)"     |
+  | large                     | "Scale width 1500 (upscaling allowed)"    |
   | linkit_thumb              | "Scale 50x50"                             |

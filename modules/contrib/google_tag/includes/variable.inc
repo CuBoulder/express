@@ -113,9 +113,26 @@ function _google_tag_variable_info_path($options) {
  * Implements hook_variable_info().
  */
 function _google_tag_variable_info_role($options) {
+  global $language;
+
   // Gather data.
-  $roles = array_map('check_plain', user_roles());
-  $roles = drupal_map_assoc($roles);
+  // Set language code to default to prevent role names from being translated.
+  // Use role name in default language as array key as this matches the values
+  // attached to global user object (used when evaluating role condition). Set
+  // display value to translated role name.
+  // @todo This points out core would benefit from a $translate parameter to
+  // user_roles() to indicate whether to translate the role names. This would be
+  // used on the role and permission listing pages to consistently translate all
+  // roles not just the anonymous and authenticated roles.
+  $language_keep = $language->language;
+  $language->language = 'en';
+  $roles = user_roles();
+  $language->language = $language_keep;
+  foreach ($roles as $rid => $role) {
+    // Set display value to translated role name.
+    $roles[$role] = t($role);
+    unset($roles[$rid]);
+  }
 
   // Build variables.
   $variables['google_tag_role_toggle'] = array(
@@ -402,7 +419,8 @@ function _google_tag_validate_listed_classes($variable, $options, $element, $for
 
   $keys = array('google_tag_whitelist_classes', 'google_tag_blacklist_classes');
   $variables = isset($form['#variable_edit_form']) ? $form['#variable_edit_form'] : array();
-  if (!empty(array_diff($keys, $variables))) {
+  $items = array_diff($keys, $variables);
+  if (!empty($items)) {
     // Need both variables on form to validate.
     form_set_error('google_tag_include_classes', t('To validate listed classes, include the whitelist and blacklist variables in the realm variables.'));
     return;

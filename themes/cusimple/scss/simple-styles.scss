@@ -1,8 +1,9 @@
-@import "../../expressbase/scss/modules/_colors.scss";
-@import "../../expressbase/scss/modules/_global.scss";
+@import "../../ucb/scss/modules/_colors.scss";
+@import "../../ucb/scss/modules/_global.scss";
+
 
 body {
-  background-color: $bg_dark2;
+  background-color: #000;
 }
 .layout-wide #backstretch {
   display: none;
@@ -27,6 +28,10 @@ body {
   //margin:0 40px;
   background-color: #333;
 }
+#intro-wide-wrapper {
+  background: #fff;
+  padding-bottom: 20px;
+}
 #main {
   padding-top: 0;
 }
@@ -34,11 +39,11 @@ body {
   padding: 10px 0px;
 }
 .after-content-wrapper {
-  padding: 0;
+  //padding: 0;
 }
-.after-content,
-.after-content-2,
-.footer,
+.after-content-wrapper,
+.after-content2-wrapper,
+.footer-wrapper,
 .site-info-wrapper {
   padding:40px 0px 20px;
 }
@@ -103,20 +108,20 @@ h2.secondary-menu-label {
 #main-menu-wrapper nav.region-menu {
   @include gradient($color: #363636, $color2: #161616);
 }
-#main-menu-wrapper ul#main-menu a, {
+#main-menu-wrapper ul#main-menu > li > a, {
   font-weight: 600;
   color: #fff;
 }
-#main-menu-wrapper ul#main-menu a:hover {
+#main-menu-wrapper ul#main-menu > li > a:hover {
   @include gradient($color: $cugold);
   color: #000;
 }
-#main-menu-wrapper ul#main-menu a.active,
-#main-menu-wrapper ul#main-menu a.active-trail {
+#main-menu-wrapper ul#main-menu > li > a.active,
+#main-menu-wrapper ul#main-menu > li > a.active-trail {
   @include gradient($color: $cugold);
   color: #000;
 }
-#main-menu-wrapper ul#action-menu a {
+#main-menu-wrapper ul#action-menu > li > a {
   color:#fff;
 }
 
@@ -127,7 +132,6 @@ h2.secondary-menu-label {
 }
 
 .slider-wrapper {
-  background-color: $light_gray;
   padding:20px;
 }
 .content-wrapper,
@@ -139,43 +143,9 @@ h2.secondary-menu-label {
 // Footer
 .post-wide-wrapper + #after-content-wrapper {
 }
-.after-content2-wrapper {
-  background-color: $light_gray;
-}
-.after-content2-wrapper {
-  a:link,
-  a:visited {
-    color:$dark_link_blue;
-  }
-  a:hover,
-  a:focus {
-    color:$red;
-  }
-}
 
-.footer-section {
-  background-color: $bg_dark1;
-  color: #fff;
-  .block-menu ul.menu a {
-    border-bottom-color: #555;
-  }
-}
-.footer-section a,
-.footer-section a.active,
-.footer-section a.active-trail {
-  color:$cugold;
-}
-.footer-section a:hover {
-  color:#fff;
-}
-.footer-wrapper {
-  background-color: $bg_dark1;
-}
-.site-info-wrapper {
-  background-color: $bg_dark2;
-  padding: 40px 0 20px;
-  font-size: 90%;
-}
+
+
 
 // Mobile Menu
 #mobile-navigation-wrapper{
@@ -300,4 +270,9 @@ $border: #e7e7e7;
     color:$activeFG;
     font-weight: 600;
   }
+}
+
+/* New Branding */
+.brand-bar {
+  background: #000;
 }

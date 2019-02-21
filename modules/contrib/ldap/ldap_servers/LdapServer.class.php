@@ -13,17 +13,17 @@
  * TODO describe preconditions for ldap_entry
  */
 function pretty_print_ldap_entry($ldap_entry) {
-  $m=array();
-  for ($i=0; $i < $ldap_entry['count']; $i++) {
-    $k=$ldap_entry[$i];
-    $v=$ldap_entry[$k];
+  $m = array();
+  for ($i = 0; $i < $ldap_entry['count']; $i++) {
+    $k = $ldap_entry[$i];
+    $v = $ldap_entry[$k];
     if(is_array($v)) {
-      $m2=array();
-      $max=$v['count']>3 ? 3 : $v['count'];
-      for ($j=0; $j < $max; $j++) {
+      $m2 = array();
+      $max = $v['count'] > 3 ? 3 : $v['count'];
+      for ($j = 0; $j < $max; $j++) {
 	$m2[] = $v[$j];
       }
-      $v="(".join(", ", $m2).")";
+      $v = "(".join(", ", $m2).")";
     }
     $m[] = $k . ": " . $v;
   }
@@ -106,9 +106,11 @@ class LdapServer {
   public $connection;
 
 
-
-
-  // direct mapping of db to object properties
+  /**
+   * Direct mapping of db to object properties
+   *
+   * @return array
+   */
   public static function field_to_properties_map() {
     return array(
     'sid' => 'sid',
@@ -144,7 +146,7 @@ class LdapServer {
     'grp_memb_attr_match_user_attr' => 'groupMembershipsAttrMatchingUserAttr',
     'grp_derive_from_dn' => 'groupDeriveFromDn',
     'grp_derive_from_dn_attr' => 'groupDeriveFromDnAttr',
-    'grp_test_grp_dn' =>  'groupTestGroupDn',
+    'grp_test_grp_dn' => 'groupTestGroupDn',
     'grp_test_grp_dn_writeable' => 'groupTestGroupDnWriteable',
 
     'search_pagination' => 'searchPagination',
@@ -156,8 +158,10 @@ class LdapServer {
 
   /**
    * Constructor Method
+   *
+   * @param $sid
    */
-  function __construct($sid) {
+  public function __construct($sid) {
     if (!is_scalar($sid)) {
       return;
     }
@@ -176,7 +180,7 @@ class LdapServer {
     else {
       $select = db_select('ldap_servers')
         ->fields('ldap_servers')
-        ->condition('ldap_servers.sid',  $sid)
+        ->condition('ldap_servers.sid', $sid)
         ->execute();
       foreach ($select as $record) {
         if ($record->sid == $sid) {
@@ -204,7 +208,11 @@ class LdapServer {
   }
 
   /**
-   * this method sets properties that don't directly map from db record.  it is split out so it can be shared with ldapServerTest.class.php
+   * This method sets properties that don't directly map from db record.
+   *
+   * It is split out so it can be shared with ldapServerTest.class.php
+   *
+   * @param $bindpw
    */
   protected function initDerivedProperties($bindpw) {
 
@@ -223,7 +231,7 @@ class LdapServer {
         $this->basedn = array();
         $token = is_scalar($basedn_unserialized) ? $basedn_unserialized : print_r($basedn_unserialized, TRUE);
         debug("basednb desearialization error". $token);
-        watchdog('ldap_server', 'Failed to deserialize LdapServer::basedn of !basedn', array('!basedn' => $token), WATCHDOG_ERROR);
+        watchdog('ldap_servers', 'Failed to deserialize LdapServer::basedn of !basedn', array('!basedn' => $token), WATCHDOG_ERROR);
       }
 
     }
@@ -234,6 +242,16 @@ class LdapServer {
 
     if ($bindpw) {
       $this->bindpw = ($bindpw == '') ? '' : ldap_servers_decrypt($bindpw);
+    }
+
+    $bind_overrides = variable_get('ldap_servers_overrides', []);
+    if (isset($bind_overrides[$this->sid])) {
+      if (isset($bind_overrides[$this->sid]['binddn'])) {
+        $this->binddn = $bind_overrides[$this->sid]['binddn'];
+      }
+      if (isset($bind_overrides[$this->sid]['bindpw'])) {
+        $this->bindpw = $bind_overrides[$this->sid]['bindpw'];
+      }
     }
 
     $this->paginationEnabled = (boolean)(ldap_servers_php_supports_pagination() && $this->searchPagination);
@@ -247,32 +265,34 @@ class LdapServer {
     $this->groupGroupEntryMembershipsConfigured = ($this->groupMembershipsAttrMatchingUserAttr && $this->groupMembershipsAttr);
     $this->groupUserMembershipsConfigured = ($this->groupUserMembershipsAttrExists && $this->groupUserMembershipsAttr);
   }
+
   /**
    * Destructor Method
    */
-  function __destruct() {
+  public function __destruct() {
     // Close the server connection to be sure.
     $this->disconnect();
   }
 
-
   /**
    * Invoke Method
    */
-  function __invoke() {
+  public function __invoke() {
     $this->connect();
     $this->bind();
   }
 
-
-
   /**
    * Connect Method
    */
-  function connect() {
+  public function connect() {
+    if (!function_exists('ldap_connect')) {
+      watchdog('ldap_servers', 'PHP LDAP extension not found, aborting.');
+      return LDAP_NOT_SUPPORTED;
+    }
 
     if (!$con = ldap_connect($this->address, $this->port)) {
-      watchdog('user', 'LDAP Connect failure to ' . $this->address . ':' . $this->port);
+      watchdog('ldap_servers', 'LDAP Connect failure to ' . $this->address . ':' . $this->port);
       return LDAP_CONNECT_ERROR;
     }
 
@@ -283,20 +303,20 @@ class LdapServer {
     if ($this->tls) {
       ldap_get_option($con, LDAP_OPT_PROTOCOL_VERSION, $vers);
       if ($vers == -1) {
-        watchdog('user', 'Could not get LDAP protocol version.');
+        watchdog('ldap_servers', 'Could not get LDAP protocol version.');
         return LDAP_PROTOCOL_ERROR;
       }
       if ($vers != 3) {
-        watchdog('user', 'Could not start TLS, only supported by LDAP v3.');
+        watchdog('ldap_servers', 'Could not start TLS, only supported by LDAP v3.');
         return LDAP_CONNECT_ERROR;
       }
       elseif (!function_exists('ldap_start_tls')) {
-        watchdog('user', 'Could not start TLS. It does not seem to be supported by this PHP setup.');
+        watchdog('ldap_servers', 'Could not start TLS. It does not seem to be supported by this PHP setup.');
         return LDAP_CONNECT_ERROR;
       }
       elseif (!ldap_start_tls($con)) {
-        $msg =  t("Could not start TLS. (Error %errno: %error).", array('%errno' => ldap_errno($con), '%error' => ldap_error($con)));
-        watchdog('user', $msg);
+        $msg = t("Could not start TLS. (Error %errno: %error).", array('%errno' => ldap_errno($con), '%error' => ldap_error($con)));
+        watchdog('ldap_servers', $msg);
         return LDAP_CONNECT_ERROR;
       }
     }
@@ -318,11 +338,11 @@ class LdapServer {
    * @return
    *   Result of bind; TRUE if successful, FALSE otherwise.
    */
-  function bind($userdn = NULL, $pass = NULL, $anon_bind = FALSE) {
+  public function bind($userdn = NULL, $pass = NULL, $anon_bind = FALSE) {
 
     // Ensure that we have an active server connection.
     if (!$this->connection) {
-      watchdog('ldap', "LDAP bind failure for user %user. Not connected to LDAP server.", array('%user' => $userdn));
+      watchdog('ldap_servers', "LDAP bind failure for user %user. Not connected to LDAP server.", array('%user' => $userdn));
       return LDAP_CONNECT_ERROR;
     }
 
@@ -332,7 +352,7 @@ class LdapServer {
     if ($anon_bind === TRUE) {
       if (@!ldap_bind($this->connection)) {
         if ($this->detailedWatchdogLog) {
-          watchdog('ldap', "LDAP anonymous bind error. Error %errno: %error", array('%errno' => ldap_errno($this->connection), '%error' => ldap_error($this->connection)));
+          watchdog('ldap_servers', "LDAP anonymous bind error. Error %errno: %error", array('%errno' => ldap_errno($this->connection), '%error' => ldap_error($this->connection)));
         }
         return ldap_errno($this->connection);
       }
@@ -347,12 +367,12 @@ class LdapServer {
       }
 
       if (drupal_strlen($pass) == 0 || drupal_strlen($userdn) == 0) {
-        watchdog('ldap', "LDAP bind failure for user userdn=%userdn, pass=%pass.", array('%userdn' => $userdn, '%pass' => $pass));
+        watchdog('ldap_servers', "LDAP bind failure for user userdn=%userdn, pass=%pass.", array('%userdn' => $userdn, '%pass' => $pass));
         return LDAP_LOCAL_ERROR;
       }
       if (@!ldap_bind($this->connection, $userdn, $pass)) {
         if ($this->detailedWatchdogLog) {
-          watchdog('ldap', "LDAP bind failure for user %user. Error %errno: %error", array('%user' => $userdn, '%errno' => ldap_errno($this->connection), '%error' => ldap_error($this->connection)));
+          watchdog('ldap_servers', "LDAP bind failure for user %user. Error %errno: %error", array('%user' => $userdn, '%errno' => ldap_errno($this->connection), '%error' => ldap_error($this->connection)));
         }
         return ldap_errno($this->connection);
       }
@@ -364,10 +384,10 @@ class LdapServer {
   /**
    * Disconnect (unbind) from an active LDAP server.
    */
-  function disconnect() {
+  public function disconnect() {
     if (!$this->connection) {
       // never bound or not currently bound, so no need to disconnect
-      //watchdog('ldap', 'LDAP disconnect failure from '. $this->server_addr . ':' . $this->port);
+      //watchdog('ldap_servers', 'LDAP disconnect failure from '. $this->server_addr . ':' . $this->port);
     }
     else {
       ldap_unbind($this->connection);
@@ -375,6 +395,9 @@ class LdapServer {
     }
   }
 
+  /**
+   *
+   */
   public function connectAndBindIfNotAlready() {
     if (! $this->connection) {
       $this->connect();
@@ -382,19 +405,17 @@ class LdapServer {
     }
   }
 
-/**
- * does dn exist for this server?
- * [ ] Finished
- * [ ] Test Coverage.  Test ID:
- * [ ] Case insensitive
- *
- * @param string $dn
- * @param enum $return = 'boolean' or 'ldap_entry'
- * @param array $attributes in same form as ldap_read $attributes parameter
- *
- * @param return FALSE or ldap entry array
- */
-  function dnExists($dn, $return = 'boolean', $attributes = NULL) {
+  /**
+   * does dn exist for this server?
+   *
+   *
+   * @param string $dn
+   * @param enum $return = 'boolean' or 'ldap_entry'
+   * @param array $attributes in same form as ldap_read $attributes parameter
+   *
+   * @return bool|array
+   */
+  public function dnExists($dn, $return = 'boolean', $attributes = NULL) {
 
     $params = array(
       'base_dn' => $dn,
@@ -435,19 +456,16 @@ class LdapServer {
     return ldap_count_entries($this->connection, $ldap_result);
   }
 
-
-
   /**
    * create ldap entry.
    *
    * @param array $attributes should follow the structure of ldap_add functions
    *   entry array: http://us.php.net/manual/en/function.ldap-add.php
-        $attributes["attribute1"] = "value";
-        $attributes["attribute2"][0] = "value1";
-        $attributes["attribute2"][1] = "value2";
+   *     $attributes["attribute1"] = "value";
+   *     $attributes["attribute2"][0] = "value1";
+   *     $attributes["attribute2"][1] = "value2";
    * @return boolean result
    */
-
   public function createLdapEntry($attributes, $dn = NULL) {
 
     if (!$this->connection) {
@@ -470,24 +488,31 @@ class LdapServer {
     if (!$result) {
       $error = "LDAP Server ldap_add(%dn) Error Server ID = %sid, LDAP Err No: %ldap_errno LDAP Err Message: %ldap_err2str ";
       $tokens = array('%dn' => $dn, '%sid' => $this->sid, '%ldap_errno' => ldap_errno($this->connection), '%ldap_err2str' => ldap_err2str(ldap_errno($this->connection)));
-      watchdog('ldap_server', $error, $tokens, WATCHDOG_ERROR);
+      watchdog('ldap_servers', $error, $tokens, WATCHDOG_ERROR);
     }
 
     return $result;
   }
 
-
-
-/**
- * given 2 ldap entries, old and new, removed unchanged values to avoid security errors and incorrect date modifieds
- *
- * @param ldap entry array $new_entry in form <attribute> => <value>
- * @param ldap entry array $old_entry in form <attribute> => array('count' => N, array(<value>,...<value>
- *
- * @return ldap array with no values that have NOT changed
- */
-
-  static public function removeUnchangedAttributes($new_entry, $old_entry) {
+  /**
+   * Compares 2 LDAP entries and returns the difference.
+   *
+   * Given 2 ldap entries, old and new, removes unchanged values to avoid
+   * security errors and incorrect date modified.
+   *
+   * @param array $new_entry
+   *   LDAP entry array in form <attribute> => <value>, or
+   *   <attribute> => array(<value1>, <value2>, ...).
+   * @param array $old_entry
+   *   LDAP entry in form <attribute> =>
+   *   array('count' => N, <value1>, <value2>, ...).
+   *
+   * @return array
+   *   The $new_entry with unchanged attributes removed.
+   *
+   * @see \LdapServer::modifyLdapEntry()
+   */
+  public static function removeUnchangedAttributes($new_entry, $old_entry) {
 
     foreach ($new_entry as $key => $new_val) {
       $old_value = FALSE;
@@ -513,12 +538,9 @@ class LdapServer {
         unset($new_entry[$key]); // don't change values that aren't changing to avoid false permission constraints
       }
     }
+
     return $new_entry;
   }
-
-
-
-
 
   /**
    * modify attributes of ldap entry
@@ -526,14 +548,13 @@ class LdapServer {
    * @param string $dn DN of entry
    * @param array $attributes should follow the structure of ldap_add functions
    *   entry array: http://us.php.net/manual/en/function.ldap-add.php
-        $attributes["attribute1"] = "value";
-        $attributes["attribute2"][0] = "value1";
-        $attributes["attribute2"][1] = "value2";
-
-    @return TRUE on success FALSE on error
+   *     $attributes["attribute1"] = "value";
+   *     $attributes["attribute2"][0] = "value1";
+   *     $attributes["attribute2"][1] = "value2";
+   *
+   * @return TRUE on success FALSE on error
    */
-
-  function modifyLdapEntry($dn, $attributes = array(), $old_attributes = FALSE) {
+  public function modifyLdapEntry($dn, $attributes = array(), $old_attributes = FALSE) {
 
     $this->connectAndBindIfNotAlready();
 
@@ -542,13 +563,13 @@ class LdapServer {
       if (!$result) {
         $error = "LDAP Server ldap_read(%dn) in LdapServer::modifyLdapEntry() Error Server ID = %sid, LDAP Err No: %ldap_errno LDAP Err Message: %ldap_err2str ";
         $tokens = array('%dn' => $dn, '%sid' => $this->sid, '%ldap_errno' => ldap_errno($this->connection), '%ldap_err2str' => ldap_err2str(ldap_errno($this->connection)));
-        watchdog('ldap_server', $error, $tokens, WATCHDOG_ERROR);
+        watchdog('ldap_servers', $error, $tokens, WATCHDOG_ERROR);
         return FALSE;
       }
 
       $entries = ldap_get_entries($this->connection, $result);
       if (is_array($entries) && $entries['count'] == 1) {
-        $old_attributes =  $entries[0];
+        $old_attributes = $entries[0];
       }
     }
 
@@ -577,7 +598,7 @@ class LdapServer {
         if (!$result) {
           $error = "LDAP Server ldap_mod_del(%dn) in LdapServer::modifyLdapEntry() Error Server ID = %sid, LDAP Err No: %ldap_errno LDAP Err Message: %ldap_err2str ";
           $tokens = array('%dn' => $dn, '%sid' => $this->sid, '%ldap_errno' => ldap_errno($this->connection), '%ldap_err2str' => ldap_err2str(ldap_errno($this->connection)));
-          watchdog('ldap_server', $error, $tokens, WATCHDOG_ERROR);
+          watchdog('ldap_servers', $error, $tokens, WATCHDOG_ERROR);
           return FALSE;
         }
       }
@@ -598,7 +619,7 @@ class LdapServer {
       if (!$result) {
         $error = "LDAP Server ldap_modify(%dn) in LdapServer::modifyLdapEntry() Error Server ID = %sid, LDAP Err No: %ldap_errno LDAP Err Message: %ldap_err2str ";
         $tokens = array('%dn' => $dn, '%sid' => $this->sid, '%ldap_errno' => ldap_errno($this->connection), '%ldap_err2str' => ldap_err2str(ldap_errno($this->connection)));
-        watchdog('ldap_server', $error, $tokens, WATCHDOG_ERROR);
+        watchdog('ldap_servers', $error, $tokens, WATCHDOG_ERROR);
         return FALSE;
       }
     }
@@ -614,7 +635,6 @@ class LdapServer {
    *
    * @return boolean result per ldap_delete
    */
-
   public function delete($dn) {
     if (!$this->connection) {
       $this->connect();
@@ -624,7 +644,7 @@ class LdapServer {
     if (!$result) {
       $error = "LDAP Server delete(%dn) in LdapServer::delete() Error Server ID = %sid, LDAP Err No: %ldap_errno LDAP Err Message: %ldap_err2str ";
       $tokens = array('%dn' => $dn, '%sid' => $this->sid, '%ldap_errno' => ldap_errno($this->connection), '%ldap_err2str' => ldap_err2str(ldap_errno($this->connection)));
-      watchdog('ldap_server', $error, $tokens, WATCHDOG_ERROR);
+      watchdog('ldap_servers', $error, $tokens, WATCHDOG_ERROR);
     }
     return $result;
   }
@@ -640,12 +660,10 @@ class LdapServer {
    *
    * @remaining params mimick ldap_search() function params
    *
-   * @return
-   *   An array of matching entries->attributes (will have 0
-   *   elements if search returns no results),
-   *   or FALSE on error on any of the basedn queries
+   * @return array
+   *   An array of matching entries->attributes (will have 0 elements if search
+   *   returns no results), or FALSE on error on any of the basedn queries.
    */
-
   public function searchAllBaseDns(
     $filter,
     $attributes = array(),
@@ -678,15 +696,15 @@ class LdapServer {
 
   }
 
-
   /**
    * Perform an LDAP search.
+   *
    * @param string $basedn
    *   The search base. If NULL, we use $this->basedn. should not be esacaped
-   *
    * @param string $filter
-   *   The search filter. such as sAMAccountName=jbarclay.  attribute values (e.g. jbarclay) should be esacaped before calling
-
+   *   The search filter. such as sAMAccountName=jbarclay.  attribute values
+   * (e.g. jbarclay) should be esacaped before calling
+   *
    * @param array $attributes
    *   List of desired attributes. If omitted, we only return "dn".
    *
@@ -697,8 +715,7 @@ class LdapServer {
    *   elements if search returns no results),
    *   or FALSE on error.
    */
-
-  function search($base_dn = NULL, $filter, $attributes = array(),
+  public function search($base_dn = NULL, $filter, $attributes = array(),
     $attrsonly = 0, $sizelimit = 0, $timelimit = 0, $deref = NULL, $scope = LDAP_SCOPE_SUBTREE) {
 
      /**
@@ -707,7 +724,6 @@ class LdapServer {
       * -- wait for php 5.4? https://svn.php.net/repository/php/php-src/tags/php_5_4_0RC6/NEWS (ldap_control_paged_result
       * -- http://sgehrig.wordpress.com/2009/11/06/reading-paged-ldap-results-with-php-is-a-show-stopper/
       */
-
 
     if ($base_dn == NULL) {
       if (count($this->basedn) == 1) {
@@ -718,7 +734,7 @@ class LdapServer {
       }
     }
 
-    $attr_display =  is_array($attributes) ? join(',', $attributes) : 'none';
+    $attr_display = is_array($attributes) ? join(',', $attributes) : 'none';
     $query = 'ldap_search() call: ' . join(",\n", array(
       'base_dn: ' . $base_dn,
       'filter = ' . $filter,
@@ -731,7 +747,7 @@ class LdapServer {
       )
     );
     if ($this->detailed_watchdog_log) {
-      watchdog('ldap_server', $query, array());
+      watchdog('ldap_servers', $query, array());
     }
 
     // When checking multiple servers, there's a chance we might not be connected yet.
@@ -765,10 +781,10 @@ class LdapServer {
         return (is_array($entries)) ? $entries : FALSE;
       }
       elseif ($this->ldapErrorNumber()) {
-        $watchdog_tokens =  array('%basedn' => $ldap_query_params['base_dn'], '%filter' => $ldap_query_params['filter'],
+        $watchdog_tokens = array('%basedn' => $ldap_query_params['base_dn'], '%filter' => $ldap_query_params['filter'],
           '%attributes' => print_r($ldap_query_params['attributes'], TRUE), '%errmsg' => $this->errorMsg('ldap'),
           '%errno' => $this->ldapErrorNumber());
-        watchdog('ldap', "LDAP ldap_search error. basedn: %basedn| filter: %filter| attributes:
+        watchdog('ldap_servers', "LDAP ldap_search error. basedn: %basedn| filter: %filter| attributes:
           %attributes| errmsg: %errmsg| ldap err no: %errno|", $watchdog_tokens);
         return FALSE;
       }
@@ -778,7 +794,6 @@ class LdapServer {
     }
   }
 
-
   /**
    * execute a paged ldap query and return entries as one aggregated array
    *
@@ -786,16 +801,16 @@ class LdapServer {
    *   a particular set of pages is desired
    *
    * @param array $ldap_query_params of form:
-      'base_dn' => base_dn,
-      'filter' =>  filter,
-      'attributes' => attributes,
-      'attrsonly' => attrsonly,
-      'sizelimit' => sizelimit,
-      'timelimit' => timelimit,
-      'deref' => deref,
-      'scope' => scope,
-
-      (this array of parameters is primarily passed on to ldapQuery() method)
+   *   'base_dn' => base_dn,
+   *   'filter' =>  filter,
+   *   'attributes' => attributes,
+   *   'attrsonly' => attrsonly,
+   *   'sizelimit' => sizelimit,
+   *   'timelimit' => timelimit,
+   *   'deref' => deref,
+   *   'scope' => scope,
+   *
+   *   (this array of parameters is primarily passed on to ldapQuery() method)
    *
    * @return array of ldap entries or FALSE on error.
    *
@@ -803,13 +818,12 @@ class LdapServer {
   public function pagedLdapQuery($ldap_query_params) {
 
     if (!($this->searchPagination && $this->paginationEnabled)) {
-      watchdog('ldap', "LDAP server pagedLdapQuery() called when functionality not available in php install or
+      watchdog('ldap_servers', "LDAP server pagedLdapQuery() called when functionality not available in php install or
         not enabled in ldap server configuration.  error. basedn: %basedn| filter: %filter| attributes:
          %attributes| errmsg: %errmsg| ldap err no: %errno|", $watchdog_tokens);
       RETURN FALSE;
     }
 
-    $paged_entries = array();
     $page_token = '';
     $page = 0;
     $estimated_entries = 0;
@@ -831,10 +845,10 @@ class LdapServer {
           $aggregated_entries_count = count($aggregated_entries);
         }
         elseif ($this->ldapErrorNumber()) {
-          $watchdog_tokens =  array('%basedn' => $ldap_query_params['base_dn'], '%filter' => $ldap_query_params['filter'],
+          $watchdog_tokens = array('%basedn' => $ldap_query_params['base_dn'], '%filter' => $ldap_query_params['filter'],
             '%attributes' => print_r($ldap_query_params['attributes'], TRUE), '%errmsg' => $this->errorMsg('ldap'),
             '%errno' => $this->ldapErrorNumber());
-          watchdog('ldap', "LDAP ldap_search error. basedn: %basedn| filter: %filter| attributes:
+          watchdog('ldap_servers', "LDAP ldap_search error. basedn: %basedn| filter: %filter| attributes:
             %attributes| errmsg: %errmsg| ldap err no: %errno|", $watchdog_tokens);
           RETURN FALSE;
         }
@@ -850,7 +864,7 @@ class LdapServer {
         // false positive error thrown.  do not set result limit error when $sizelimit specified
       }
       elseif ($this->hasError()) {
-        watchdog('ldap_server', 'ldap_control_paged_result_response() function error. LDAP Error: %message, ldap_list() parameters: %query',
+        watchdog('ldap_servers', 'ldap_control_paged_result_response() function error. LDAP Error: %message, ldap_list() parameters: %query',
           array('%message' => $this->errorMsg('ldap'), '%query' => $ldap_query_params['query_display']),
           WATCHDOG_ERROR);
       }
@@ -880,7 +894,7 @@ class LdapServer {
    *
    * @return array of ldap entries
    */
-  function ldapQuery($scope, $params) {
+  public function ldapQuery($scope, $params) {
 
     $this->connectAndBindIfNotAlready();
 
@@ -892,7 +906,7 @@ class LdapServer {
           // false positive error thrown.  do not return result limit error when $sizelimit specified
         }
         elseif ($this->hasError()) {
-          watchdog('ldap_server', 'ldap_search() function error. LDAP Error: %message, ldap_search() parameters: %query',
+          watchdog('ldap_servers', 'ldap_search() function error. LDAP Error: %message, ldap_search() parameters: %query',
             array('%message' => $this->errorMsg('ldap'), '%query' => $params['query_display']),
             WATCHDOG_ERROR);
         }
@@ -905,7 +919,7 @@ class LdapServer {
           // false positive error thrown.  do not result limit error when $sizelimit specified
         }
         elseif ($this->hasError()) {
-          watchdog('ldap_server', 'ldap_read() function error.  LDAP Error: %message, ldap_read() parameters: %query',
+          watchdog('ldap_servers', 'ldap_read() function error.  LDAP Error: %message, ldap_read() parameters: %query',
             array('%message' => $this->errorMsg('ldap'), '%query' => @$params['query_display']),
             WATCHDOG_ERROR);
         }
@@ -918,7 +932,7 @@ class LdapServer {
           // false positive error thrown.  do not result limit error when $sizelimit specified
         }
         elseif ($this->hasError()) {
-          watchdog('ldap_server', 'ldap_list() function error. LDAP Error: %message, ldap_list() parameters: %query',
+          watchdog('ldap_servers', 'ldap_list() function error. LDAP Error: %message, ldap_list() parameters: %query',
             array('%message' => $this->errorMsg('ldap'), '%query' => $params['query_display']),
             WATCHDOG_ERROR);
         }
@@ -931,14 +945,17 @@ class LdapServer {
    * @param array $dns Mixed Case
    * @return array $dns Lower Case
    */
-
   public function dnArrayToLowerCase($dns) {
     return array_keys(array_change_key_case(array_flip($dns), CASE_LOWER));
   }
 
   /**
-   * @param binary or string $puid as returned from ldap_read or other ldap function
+   * userUserEntityFromPuid.
    *
+   * @param string $puid
+   *   Binary or string as returned from ldap_read or other ldap function.
+   *
+   * @return mixed
    */
   public function userUserEntityFromPuid($puid) {
 
@@ -959,8 +976,8 @@ class LdapServer {
       }
       else {
         $uids = join(',', $uids);
-        $tokens = array('%uids' => $uids, '%puid' => $puid, '%sid' =>  $this->sid, '%ldap_user_puid_property' =>  $this->unique_persistent_attr);
-        watchdog('ldap_server', 'multiple users (uids: %uids) with same puid (puid=%puid, sid=%sid, ldap_user_puid_property=%ldap_user_puid_property)', $tokens, WATCHDOG_ERROR);
+        $tokens = array('%uids' => $uids, '%puid' => $puid, '%sid' => $this->sid, '%ldap_user_puid_property' => $this->unique_persistent_attr);
+        watchdog('ldap_servers', 'multiple users (uids: %uids) with same puid (puid=%puid, sid=%sid, ldap_user_puid_property=%ldap_user_puid_property)', $tokens, WATCHDOG_ERROR);
         return FALSE;
       }
     }
@@ -970,7 +987,13 @@ class LdapServer {
 
   }
 
-  function userUsernameToLdapNameTransform($drupal_username, &$watchdog_tokens) {
+  /**
+   * @param $drupal_username
+   * @param $watchdog_tokens
+   *
+   * @return string
+   */
+  public function userUsernameToLdapNameTransform($drupal_username, &$watchdog_tokens) {
     if ($this->ldapToDrupalUserPhp && module_exists('php')) {
       global $name;
       $old_name_value = $name;
@@ -983,7 +1006,7 @@ class LdapServer {
       $watchdog_tokens['%ldap_username'] = $ldap_username;
       $name = $old_name_value;  // important because of global scope of $name
       if ($this->detailedWatchdogLog) {
-        watchdog('ldap_server', '%drupal_user_name tansformed to %ldap_username by applying code <code>%code</code>', $watchdog_tokens, WATCHDOG_DEBUG);
+        watchdog('ldap_servers', '%drupal_user_name tansformed to %ldap_username by applying code <code>%code</code>', $watchdog_tokens, WATCHDOG_DEBUG);
       }
     }
     else {
@@ -1001,10 +1024,13 @@ class LdapServer {
   }
 
 
- /**
-   * @param ldap entry array $ldap_entry
+  /**
+   * userUsernameFromLdapEntry.
    *
-   * @return string user's username value
+   * @param array $ldap_entry
+   *
+   * @return string
+   *   user's username value
    */
   public function userUsernameFromLdapEntry($ldap_entry) {
 
@@ -1022,10 +1048,13 @@ class LdapServer {
     return $accountname;
   }
 
- /**
-   * @param string $dn ldap dn
+  /**
+   * userUsernameFromDn.
    *
-   * @return mixed string user's username value of FALSE
+   * @param string $dn
+   *
+   * @return mixed
+   *   string user's username value of FALSE
    */
   public function userUsernameFromDn($dn) {
 
@@ -1060,83 +1089,96 @@ class LdapServer {
   }
 
 	/**
-	 * @param ldap entry array $ldap_entry
+	 * @param array $ldap_entry
 	 *
-	 * @return drupal file object image user's thumbnail or FALSE if none present or ERROR happens.
+	 * @return object|bool
+   *   Drupal file object image user's thumbnail or FALSE if none present or
+   *   ERROR happens.
 	 */
 	public function userPictureFromLdapEntry($ldap_entry, $drupal_username = FALSE) {
 		if ($ldap_entry && $this->picture_attr) {
 			//Check if ldap entry has been provisioned.
 
-			$thumb = isset($ldap_entry[$this->picture_attr][0]) ? $ldap_entry[$this->picture_attr][0] : FALSE;
-			if(!$thumb){
+			$image_data = isset($ldap_entry[$this->picture_attr][0]) ? $ldap_entry[$this->picture_attr][0] : FALSE;
+			if (!$image_data) {
 				return FALSE;
 			}
 
-			//Create md5 check.
-			$md5thumb = md5($thumb);
+			$md5thumb = md5($image_data);
 
 			/**
-			 * If existing account already has picture check if it has changed if so remove old file and create the new one
-		   * If picture is not set but account has md5 something is wrong exit.
+			 * If the existing account already has picture check if it has changed. If
+       * so remove the old file and create the new one. If a picture is not set
+       * but the account has an md5 hash, something is wrong and we exit.
 			 */
 			if ($drupal_username && $account = user_load_by_name($drupal_username)) {
-        if ($account->uid == 0 || $account->uid == 1){
+        if ($account->uid == 0 || $account->uid == 1) {
           return FALSE;
         }
-        if (isset($account->picture)){
-          // Check if image has changed
-          if (isset($account->data['ldap_user']['init']['thumb5md']) && $md5thumb === $account->data['ldap_user']['init']['thumb5md']){
-            //No change return same image
+        if (isset($account->picture)) {
+          // Check if image has changed.
+          if (isset($account->data['ldap_user']['init']['thumb5md']) && $md5thumb === $account->data['ldap_user']['init']['thumb5md']) {
+            // No change, return same image.
+            $account->picture->md5Sum = $md5thumb;
             return $account->picture;
           }
           else {
-            //Image is different check wether is obj/str and remove fileobject
-            if (is_object($account->picture)){
+            // Image is different, remove file object.
+            if (is_object($account->picture)) {
               file_delete($account->picture, TRUE);
             }
-            elseif (is_string($account->picture)){
+            elseif (is_string($account->picture)) {
               $file = file_load(intval($account->picture));
               file_delete($file, TRUE);
             }
           }
         }
         elseif (isset($account->data['ldap_user']['init']['thumb5md'])) {
-          watchdog('ldap_server', "Some error happened during thumbnailPhoto sync");
+          watchdog('ldap_servers', "Some error happened during thumbnailPhoto sync.");
           return FALSE;
         }
       }
-			//Create tmp file to get image format.
-			$filename = uniqid();
-			$fileuri = file_directory_temp() .'/'. $filename;
-			$size = file_put_contents($fileuri, $thumb);
-			$info = image_get_info($fileuri);
-			unlink($fileuri);
-			// create file object
-			$file = file_save_data($thumb, 'public://' . variable_get('user_picture_path') .'/'. $filename .'.'. $info['extension']);
-			$file->md5Sum = $md5thumb;
-			// standard Drupal validators for user pictures
-			$validators = array(
-					'file_validate_is_image' => array(),
-					'file_validate_image_resolution' => array(variable_get('user_picture_dimensions', '85x85')),
-					'file_validate_size' => array(variable_get('user_picture_file_size', '30') * 1024),
-			);
-			$errors = file_validate($file ,$validators);
-			if (empty($errors)) {
-				return $file;
-			}
-      else {
-				foreach ($errors as $err => $err_val){
-					watchdog('ldap_server', "Error storing picture: %$err", array("%$err" => $err_val), WATCHDOG_ERROR);
-				}
-				return FALSE;
-			}
-		}
+      return $this->savePictureData($image_data, $md5thumb);
+    }
+    return FALSE;
 	}
 
 
   /**
-   * @param ldap entry array $ldap_entry
+   * @param $image_data
+   * @param $md5thumb
+   */
+  private function savePictureData($image_data, $md5thumb) {
+    //Create tmp file to get image format.
+    $filename = uniqid();
+    $fileuri = file_directory_temp() . '/' . $filename;
+    $size = file_put_contents($fileuri, $image_data);
+    $info = image_get_info($fileuri);
+    unlink($fileuri);
+    // create file object
+    $file = file_save_data($image_data, file_default_scheme() . '://' . variable_get('user_picture_path') . '/' . $filename . '.' . $info['extension']);
+    $file->md5Sum = $md5thumb;
+    // standard Drupal validators for user pictures
+    $validators = [
+      'file_validate_is_image' => [],
+      'file_validate_image_resolution' => [variable_get('user_picture_dimensions', '85x85')],
+      'file_validate_size' => [variable_get('user_picture_file_size', '30') * 1024],
+    ];
+    $errors = file_validate($file, $validators);
+    if (empty($errors)) {
+      return $file;
+    }
+    else {
+      foreach ($errors as $err => $err_val) {
+        watchdog('ldap_servers', "Error storing picture: %error", ["%error" => $err_val], WATCHDOG_ERROR);
+      }
+      return FALSE;
+    }
+  }
+
+
+  /**
+   * @param array $ldap_entry
    *
    * @return string user's PUID or permanent user id (within ldap), converted from binary, if applicable
    */
@@ -1159,7 +1201,7 @@ class LdapServer {
     }
   }
 
-   /**
+  /**
    *  @param mixed $user
    *    - drupal user object (stdClass Object)
    *    - ldap entry of user (array)
@@ -1167,7 +1209,7 @@ class LdapServer {
    *    - drupal username of user (string)
    *
    *  @return array $ldap_user_entry (with top level keys of 'dn', 'mail', 'sid' and 'attr' )
-  */
+   */
   public function user_lookup($user) {
     return $this->userUserToExistingLdapEntry($user);
   }
@@ -1206,7 +1248,7 @@ class LdapServer {
    *   'attr' => single ldap entry array in form returned from ldap_search() extension, e.g.
    *   'dn' => dn of entry
    */
-  function userUserNameToExistingLdapEntry($drupal_user_name, $ldap_context = NULL) {
+  public function userUserNameToExistingLdapEntry($drupal_user_name, $ldap_context = NULL) {
 
     $watchdog_tokens = array('%drupal_user_name' => $drupal_user_name);
     $ldap_username = $this->userUsernameToLdapNameTransform($drupal_user_name, $watchdog_tokens);
@@ -1252,7 +1294,7 @@ class LdapServer {
       else {
         if ($this->bind_method == LDAP_SERVERS_BIND_METHOD_ANON_USER) {
           $result = array(
-            'dn' =>  $match['dn'],
+            'dn' => $match['dn'],
             'mail' => $this->userEmailFromLdapEntry($match),
             'attr' => $match,
             'sid' => $this->sid,
@@ -1275,7 +1317,7 @@ class LdapServer {
       foreach ($match[$name_attr] as $value) {
         if (drupal_strtolower(trim($value)) == drupal_strtolower($ldap_username)) {
           $result = array(
-            'dn' =>  $match['dn'],
+            'dn' => $match['dn'],
             'mail' => $this->userEmailFromLdapEntry($match),
             'attr' => $match,
             'sid' => $this->sid,
@@ -1305,8 +1347,6 @@ class LdapServer {
     // so make sure in_array() is case insensitive
     return (is_array($group_dns) && in_array(drupal_strtolower($group_dn), $this->dnArrayToLowerCase($group_dns)));
   }
-
-
 
   /**
    * NOT TESTED
@@ -1475,7 +1515,7 @@ class LdapServer {
 
   }
 
-/**
+  /**
    *   NOT IMPLEMENTED
    * recurse through all child groups and add members.
    *
@@ -1488,7 +1528,6 @@ class LdapServer {
    * @param int $max_levels as max recursion allowed
    *
    */
-
   public function groupMembersResursive($current_member_entries, &$all_member_dns, &$tested_group_ids, $level, $max_levels, $object_classes = FALSE) {
 
     if (!$this->groupGroupEntryMembershipsConfigured || !is_array($current_member_entries) || count($current_member_entries) == 0) {
@@ -1523,7 +1562,7 @@ class LdapServer {
           };
           $ors = array();
           foreach ($member_ids as $i => $member_id) {
-            $ors[] =  $this->groupMembershipsAttr . '=' . ldap_pear_escape_filter_value($member_id); // @todo this would be replaced by query template
+            $ors[] = $this->groupMembershipsAttr . '=' . ldap_pear_escape_filter_value($member_id); // @todo this would be replaced by query template
           }
 
           if (count($ors)) {
@@ -1548,7 +1587,6 @@ class LdapServer {
   }
 
 
- /**
   /**
    *  get list of all groups that a user is a member of.
    *
@@ -1569,7 +1607,6 @@ class LdapServer {
    *
    *  @return array of groups dns in mixed case or FALSE on error
    */
-
   public function groupMembershipsFromUser($user, $return = 'group_dns', $nested = NULL) {
 
     $group_dns = FALSE;
@@ -1618,7 +1655,6 @@ class LdapServer {
    *
    *  @return array of group dns
    */
-
   public function groupUserMembershipsFromUserAttr($user, $nested = NULL) {
 
     if (!$this->groupUserMembershipsConfigured) {
@@ -1656,13 +1692,13 @@ class LdapServer {
         else {
           $member_value = ldap_servers_get_first_rdn_value_from_dn($member_group_dn, $this->groupMembershipsAttrMatchingUserAttr);
         }
-        $ors[] =  $this->groupMembershipsAttr . '=' . ldap_pear_escape_filter_value($member_value);
+        $ors[] = $this->groupMembershipsAttr . '=' . ldap_pear_escape_filter_value($member_value);
       }
     }
 
     if ($nested && count($ors)) {
       $count = count($ors);
-      for ($i=0; $i < $count; $i=$i+LDAP_SERVER_LDAP_QUERY_CHUNK) { // only 50 or so per query
+      for ($i = 0; $i < $count; $i = $i + LDAP_SERVER_LDAP_QUERY_CHUNK) { // only 50 or so per query
         $current_ors = array_slice($ors, $i, LDAP_SERVER_LDAP_QUERY_CHUNK);
         $or = '(|(' . join(")(", $current_ors) . '))';  // e.g. (|(cn=group1)(cn=group2)) or   (|(dn=cn=group1,ou=blah...)(dn=cn=group2,ou=blah...))
         $query_for_parent_groups = '(&(objectClass=' . $this->groupObjectClass . ')' . $or . ')';
@@ -1758,7 +1794,6 @@ class LdapServer {
    *
    * @return FALSE for error or misconfiguration, otherwise TRUE.  results are passed by reference.
    */
-
   public function groupMembershipsFromEntryRecursive($current_group_entries, &$all_group_dns, &$tested_group_ids, $level, $max_levels) {
 
     if (!$this->groupGroupEntryMembershipsConfigured || !is_array($current_group_entries) || count($current_group_entries) == 0) {
@@ -1777,21 +1812,21 @@ class LdapServer {
         $member_id = ldap_servers_get_first_rdn_value_from_dn($group_entry['dn'], $this->groupMembershipsAttrMatchingUserAttr);
 	if(!$member_id) {
 	  if ($this->detailed_watchdog_log) {
-	     watchdog('ldap_server', 'group_entry: %ge', array('%ge'=>pretty_print_ldap_entry($group_entry)));
+	     watchdog('ldap_servers', 'group_entry: %ge', array('%ge' => pretty_print_ldap_entry($group_entry)));
 	  }
 	  // group not identified by simple checks yet!
 
 	  // examine the entry and see if it matches the configured groupObjectClass
-	  $goc=$group_entry['objectclass']; // TODO do we need to ensure such entry is there?
+	  $goc = $group_entry['objectclass']; // TODO do we need to ensure such entry is there?
 	  if(is_array($goc)) {              // TODO is it always an array?
 	    foreach($goc as $g) {
-	      $g=drupal_strtolower($g);
+	      $g = drupal_strtolower($g);
 	      if($g == $this->groupObjectClass) {
 		// found a group, current user must be member in it - so:
 		if ($this->detailed_watchdog_log) {
-		  watchdog('ldap_server', 'adding %mi', array('%mi'=>$member_id));
+		  watchdog('ldap_servers', 'adding %mi', array('%mi' => $member_id));
 		}
-		$member_id=$group_entry['dn'];
+		$member_id = $group_entry['dn'];
 		break;
 	      }
 	    }
@@ -1803,13 +1838,13 @@ class LdapServer {
         $tested_group_ids[] = $member_id;
         $all_group_dns[] = $group_entry['dn'];
         // add $group_id (dn, cn, uid) to query
-        $ors[] =  $this->groupMembershipsAttr . '=' .  ldap_pear_escape_filter_value($member_id);
+        $ors[] = $this->groupMembershipsAttr . '=' .  ldap_pear_escape_filter_value($member_id);
       }
     }
 
     if ($level < $max_levels && count($ors)) {
       $count = count($ors);
-      for ($i=0; $i < $count; $i=$i+LDAP_SERVER_LDAP_QUERY_CHUNK) { // only 50 or so per query
+      for ($i = 0; $i < $count; $i = $i + LDAP_SERVER_LDAP_QUERY_CHUNK) { // only 50 or so per query
         $current_ors = array_slice($ors, $i, LDAP_SERVER_LDAP_QUERY_CHUNK);
         $or = '(|(' . join(")(", $current_ors) . '))';  // e.g. (|(cn=group1)(cn=group2)) or   (|(dn=cn=group1,ou=blah...)(dn=cn=group2,ou=blah...))
         $query_for_parent_groups = '(&(objectClass=' . $this->groupObjectClass . ')' . $or . ')';
@@ -1827,8 +1862,8 @@ class LdapServer {
   }
 
 
- /**
-   *  get "groups" from derived from DN.  Has limited usefulness
+  /**
+   * Get "groups" from derived from DN.  Has limited usefulness
    *
    *  @param mixed
    *    - drupal user object (stdClass Object)

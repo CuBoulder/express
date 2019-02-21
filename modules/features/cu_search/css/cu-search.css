@@ -1,5 +1,4 @@
-.cu-search-box .search-form-wrapper { display: flex; flex-direction: column-reverse; }
-
+@charset "UTF-8";
 .search-options { display: flex; flex-direction: row; flex-wrap: wrap; font-size: 85%; }
 
 .search-options .search-option:not(:first-child) { margin-left: 15px; }
@@ -68,3 +67,7 @@
 .additional-cse-config { border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; }
 
 #block-google-cse-google-cse h2.block-title { display: none; }
+
+.cu-search-box .campus-links ul.inline.inline-menu a { margin-right: 0; }
+.cu-search-box .campus-links ul.inline.inline-menu li:before { content: ' • '; }
+.cu-search-box .campus-links ul.inline.inline-menu li:first-child:before { content: none; }

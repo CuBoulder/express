@@ -6,10 +6,9 @@
  */
 function ucb_on_prem_hosting_install() {
   module_disable(array(
-    'memcache',
     'ng_hosting'
   ));
-  drupal_uninstall_modules($module_list = array('memcache','ng_hosting'), $uninstall_dependents = FALSE);
+  drupal_uninstall_modules($module_list = array('ng_hosting'), $uninstall_dependents = FALSE);
 
   // Configure SMTP settings
   // Don't need to worry about uninstall, SMTP module takes care of these variables.
@@ -25,4 +24,13 @@ function ucb_on_prem_hosting_install() {
   variable_set('smtp_username', 'webexpress_noreply');
   variable_set('smtp_debugging', 2);
   variable_set('smtp_deliver', 1);
+  variable_set('date_default_timezone', 'America/Denver');
+}
+
+
+/**
+ * Set timezone due to server change
+ */
+function ucb_on_prem_hosting_update_7001() {
+  variable_set('date_default_timezone', 'America/Denver');
 }

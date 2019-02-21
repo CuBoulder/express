@@ -25,7 +25,8 @@ Examples:
 Scenario: Access - An anonymous user should not be able to set site name
   When I am on "admin/theme/block-designer"
   Then I should see "Access denied"
-  
+
+
 Scenario Outline: Access - only Devs, Admins, SOs and ConMgrs can add a Block Design
 Given I am logged in as a user with the <role> role
 When I go to "admin/theme/block-designer/add"
@@ -49,7 +50,7 @@ Examples:
  
 Scenario: Functionality - A simple block theme can be created
   Given  I am logged in as a user with the "site_owner" role
-   When I am on "admin/theme/block-designer/add"
+  When I am on "admin/theme/block-designer/add"
   And I fill in "edit-block-theme-name" with "Simple Outline Block"
   And I select "outline" from "exbd_style"
   And I press "edit-submit"

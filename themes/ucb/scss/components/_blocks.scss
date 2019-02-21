@@ -1,0 +1,32 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+/**
+ * Block styles
+ */
+
+.block {
+  margin-bottom: 20px;
+}
+.region-post-title {
+  .block:last-child {
+    margin-bottom: 0;
+  }
+  .block-express-layout {
+    .block:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+.intro-wide-wrapper,
+.post-title-wide-wrapper,
+.post-wide-wrapper {
+  .block {
+    margin-bottom: 0;
+  }
+}
+#block-system-main,
+.block-express-layout {
+  margin-bottom: 0;
+}

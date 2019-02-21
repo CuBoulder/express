@@ -91,6 +91,7 @@ function cu_social_links_preprocess_entity(&$vars) {
       if (isset($link_name, $link_url, $link_type)) {
         $icon_classes = array(
           'socicon',
+          'socicon-' . $link_type,
           'soc-' . $link_type,
         );
 
@@ -171,7 +172,7 @@ function cu_social_links_types() {
     'myspace' => 'MySpace',
     'email' => 'Email',
     'blogger' => 'Blogger',
-    'vine' => 'Vine',
+    'snapchat' => 'Snapchat',
   );
   return $types;
 }

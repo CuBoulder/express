@@ -122,12 +122,18 @@ function user_external_invite_pending_invites_form($form, &$form_state) {
 
   while ($r = $pending->fetchObject()) {
     $inviter = user_load($r->uid);
-    $addon_roles = array_map(function($val) { return _user_external_invite_role_name_from_rid($val); }, unserialize($r->addon_rids));
+    $addon_roles = 'N/A';
+    if (isset($r->addon_rids)) {
+      $addon_roles = array_map(function($val) {
+        return _user_external_invite_role_name_from_rid($val);
+      }, unserialize($r->addon_rids));
+      $addon_roles = implode(', ', $addon_roles);
+    }
     $rows[] = array(
       'id' => $r->id,
       'mail' => $r->mail,
       'core_role' => _user_external_invite_role_name_from_rid($r->core_rid),
-      'addon_roles' => implode(', ', $addon_roles) ?? 'N/A',
+      'addon_roles' =>  $addon_roles,
       'expire' => format_date($r->expire, 'short'),
       'inviter' => $inviter->mail,
       'status' => $r->status,
@@ -426,7 +432,7 @@ function _user_external_invite_site_name() {
 /**
  * Sends invitation email with token login link.
  */
-function _user_external_invite_send_invite_mail($core_rid, $addon_rids, $mail, $expire, $hash, $uid) {
+function _user_external_invite_send_invite_mail($core_rid, $addon_rids = array(), $mail, $expire, $hash, $uid) {
   $from = _user_external_invite_from_email();
   $link = url('user-external/accept-invite', array(
     'query' => array(
@@ -436,15 +442,11 @@ function _user_external_invite_send_invite_mail($core_rid, $addon_rids, $mail, $
     'absolute' => TRUE,
   ));
   $core_role_name = _user_external_invite_role_name_from_rid($core_rid);
-  $addon_role_names = array_map(function($val) {
-    _user_external_invite_role_name_from_rid($val);
-  }, $addon_rids);
   $site_name = _user_external_invite_site_name();
   $params = array(
     'token' => $hash,
     'rid' => $core_rid,
     'core_role_name' => $core_role_name,
-    'addon_role_names' => implode(',', $addon_role_names),
     'expire' => $expire,
     'link' => $link,
     'uid' => $uid,
@@ -454,6 +456,13 @@ function _user_external_invite_send_invite_mail($core_rid, $addon_rids, $mail, $
       array('ext-invite' => _user_external_invite_load_entity($mail))),
   );
 
+  if (!empty($addon_rids)) {
+    $addon_names = array_map(function($val) {
+      _user_external_invite_role_name_from_rid($val);
+    }, $addon_rids);
+    $params['addon_role_names'] = implode(',', $addon_names);
+  }
+
   // Send mail to user who was invited.
   drupal_mail('user_external_invite', 'user_external_invite_token', $mail, language_default(), $params, $from, TRUE);
 }
@@ -461,26 +470,28 @@ function _user_external_invite_send_invite_mail($core_rid, $addon_rids, $mail, $
 /**
  * Sends accepted invitation email with login link and extra help.
  */
-function _user_external_invite_send_invite_accepted_mail($core_rid, $mail) {
-  $from = _user_external_invite_from_email();
-  $link = url('user/login', array(
-    'absolute' => TRUE,
-  ));
+function _user_external_invite_send_invite_accepted_mail($core_rid, $addon_rids, $inviter_uid, $user_mail) {
+  // Login link moved to a "[site:login-url]" token.
+  $from = _user_external_invite_from_email($inviter_uid);
   $core_role_name = _user_external_invite_role_name_from_rid($core_rid);
-  $addon_role_names = array_map(function($val) {
-    _user_external_invite_role_name_from_rid($val);
-  }, $addon_rids);
   $site_name = _user_external_invite_site_name();
   $params = array(
-    'rid' => $rid,
-    'role_name' => $role_name,
-    'link' => $link,
+    'rid' => $core_rid,
+    'core_role_name' => $core_role_name,
     'site_name' => $site_name,
     'subject' => t('Access confirmation for the !site_name website', array('!site_name' => $site_name)),
     'body' => token_replace(variable_get('user_external_invite_accepted_confirmation_template'),
-      array('ext-invite' => _user_external_invite_load_entity($mail))),
+      array('ext-invite' => _user_external_invite_load_entity($user_mail))),
   );
-  drupal_mail('user_external_invite', 'user_external_invite_accepted', $mail, language_default(), $params, $from, TRUE);
+
+  if (!empty($addon_rids)) {
+    $addon_names = array_map(function($val) {
+      _user_external_invite_role_name_from_rid($val);
+    }, $addon_rids);
+    $params['addon_role_names'] = implode(',', $addon_names);
+  }
+
+  drupal_mail('user_external_invite', 'user_external_invite_accepted', $user_mail, language_default(), $params, $from, TRUE);
 }
 
 /**
@@ -493,21 +504,29 @@ function _user_external_invite_send_invite_accepted_mail($core_rid, $mail) {
  * @param int $rid
  *   Role id that was granted.
  */
-function _user_external_invite_send_inviter_confirmation($uid, $mail, $rid) {
-  $account = user_load($uid);
-  $from = _user_external_invite_from_email();
-  $role_name = _user_external_invite_role_name_from_rid($rid);
+function _user_external_invite_send_inviter_confirmation($core_rid, $addon_rids, $inviter_uid, $user_mail) {
+  $from = _user_external_invite_from_email($inviter_uid);
+  $inviter = user_load($inviter_uid);
+  $core_role_name = _user_external_invite_role_name_from_rid($core_rid);
   $site_name = _user_external_invite_site_name();
   $params = array(
-    'rid' => $rid,
-    'role_name' => $role_name,
+    'rid' => $core_rid,
+    'core_role_name' => $core_role_name,
     'site_name' => $site_name,
-    'invite' => $mail,
+    'invite' => $user_mail,
     'subject' => t('Access request confirmation'),
     'body' => token_replace(variable_get('user_external_invite_accepted_template'),
-      array('ext-invite' => _user_external_invite_load_entity($mail))),
+      array('ext-invite' => _user_external_invite_load_entity($user_mail))),
   );
-  drupal_mail('user_external_invite', 'user_external_invite_confirmation', $account->mail, language_default(),
+
+  if (!empty($addon_rids)) {
+    $addon_names = array_map(function($val) {
+      _user_external_invite_role_name_from_rid($val);
+    }, $addon_rids);
+    $params['addon_role_names'] = implode(',', $addon_names);
+  }
+
+  drupal_mail('user_external_invite', 'user_external_invite_confirmation', $inviter->mail, language_default(),
     $params, $from, TRUE);
 }
 
@@ -559,7 +578,7 @@ function user_external_invite_accept_invite() {
       global $user;
 
       // We're checking the email here since the user might not be created when invited.
-      if ($user->mail !== $_GET['mail']) {
+      if (strtolower($user->mail) !== strtolower($_GET['mail'])) {
         drupal_set_message(t('The email ":email" does not match the current user ":username". The invite role was not granted. ', array(':email' => $_GET['mail'], ':username' => $user->name)), 'error');
       } else {
         // Grant the invite if it is for the logged in user.
@@ -622,10 +641,10 @@ function user_external_invite_grant_invite($key, $mail, $account) {
     }
 
     // Send acceptance email.
-    _user_external_invite_send_invite_accepted_mail($invite['core_rid'], $account->mail);
+    _user_external_invite_send_invite_accepted_mail($invite['core_rid'], $addon_rids, $invite['uid'], $invite['mail']);
 
     // Send email to inviter.
-    _user_external_invite_send_inviter_confirmation($invite['uid'], $invite['mail'], $invite['core_rid']);
+    _user_external_invite_send_inviter_confirmation($invite['core_rid'], $addon_rids, $invite['uid'], $invite['mail']);
 
     // Once granted, change status of invite in database.
     _user_external_invite_change_invite_status($mail, 'Granted');
@@ -759,6 +778,10 @@ function user_external_invite_token_info() {
     'name' => t('Invitation Link'),
     'description' => t('Returns the link with query string for this invite'),
   );
+  $info['invite_login_link'] = array(
+    'name' => t('Invitation Login Link'),
+    'description' => t('Returns the link where users go to login'),
+  );
   $info['invite_core_role'] = array(
     'name' => t('Invitation Core Role'),
     'description' => t('Returns the core role for the invite'),
@@ -807,9 +830,19 @@ function user_external_invite_tokens($type, $tokens, array $data = array(), arra
           break;
 
         case 'invite_addon_roles':
+          $addon_role_names = '';
           $addon_rids = !empty(unserialize($data['ext-invite']->addon_rids)) ? unserialize($data['ext-invite']->addon_rids) : [];
-          $addon_role_names = array_map(function($val) { return _user_external_invite_role_name_from_rid($val); }, $addon_rids);
-          $replacements[$original] = implode(', ', $addon_role_names);
+          $addon_roles = array_map(function($val) { return _user_external_invite_role_name_from_rid($val); }, $addon_rids);
+          if ($addon_roles) {
+           $addon_role_names = ', '. implode(', ', $addon_roles);
+          }
+          $replacements[$original] = $addon_role_names;
+          break;
+
+        case 'invite_login_link':
+          global $base_url;
+          $uri = variable_get('user_external_invite_login_link', 'user');
+          $replacements[$original] = "$base_url/$uri";
           break;
 
         case 'invite_link':

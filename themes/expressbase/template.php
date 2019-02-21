@@ -30,6 +30,8 @@ function expressbase_css_alter(&$css) {
  * Implements theme_preprocess_html.
  */
 function expressbase_preprocess_html(&$vars) {
+
+
   global $base_url;
   // Add web fonts from fonts.com
   $element = array(
@@ -77,10 +79,30 @@ function expressbase_preprocess_html(&$vars) {
 
   // Build title array
   // Add Campus name to title
+  // Check to see if the is the homepage
+  $site_name = variable_get('site_name', '');
   $slogan_title = variable_get('site_slogan_title', 'University of Colorado Boulder');
-  $vars['head_title_array']['slogan'] = $slogan_title;
-  if (isset($vars['head_title'])) {
-    $vars['head_title'] .= ' | University of Colorado Boulder';
+  if ( $site_name == 'University of Colorado Boulder') {
+    // This is the homepage, we don't need to add the slogan.
+  }
+  else {
+    if (drupal_is_front_page()) {
+      // If it's the front page it should just be site name | slogan
+      $vars['head_title'] = $site_name . ' | ' . $slogan_title;
+    }
+    else {
+      // Otherwise it should be page name | site name | slogan
+      // Get current head title value and copy it to a new variables
+      // Check to see if slogan might already be at the end, it not add it.
+      $meta_head_title = $vars['head_title'];
+      $meta_head_title_array = explode(' | ', $meta_head_title);
+      $last_title = end($meta_head_title_array);
+      if ($last_title != $slogan_title) {
+        $meta_head_title_array[] = $slogan_title;
+        $vars['head_title'] = join(' | ', $meta_head_title_array);
+      }
+    }
+
   }
 
   // set classes for theme configs
@@ -303,6 +325,18 @@ function expressbase_image_style(&$vars) {
  */
 function expressbase_breadcrumb($vars = NULL) {
   $breadcrumb = !empty($vars['breadcrumb']) ? $vars['breadcrumb'] : drupal_get_breadcrumb();
+  // Clear breadcrumbs if they are at the top level.
+  if (count($breadcrumb) < 2) {
+    $breadcrumb = array();
+  }
+  else {
+    $breadcrumb = array_map(
+       function ($el) {
+          return "<span class=\"breadcrumb\">{$el}</span>";
+       },
+       $breadcrumb
+    );
+  }
   $theme = variable_get('theme_default','');
   if (!empty($breadcrumb) && theme_get_setting('use_breadcrumbs', $theme)) {
     // Replace the Home breadcrumb with a Home icon
@@ -312,7 +346,7 @@ function expressbase_breadcrumb($vars = NULL) {
     // Provide a navigational heading to give context for breadcrumb links to
     // screen-reader users. Make the heading invisible with .element-invisible.
     $output = '<h2 class="element-invisible">' . t('Breadcrumb') . '</h2>';
-    $output .= '<div class="breadcrumb">' . implode(' <i class="fa fa-angle-right"></i> ', $breadcrumb) . '</div>';
+    $output .= '<div class="breadcrumbs">' . implode('', $breadcrumb) . '</div>';
     return $output;
   }
 }
@@ -792,6 +826,10 @@ function expressbase_theme(&$existing, $type, $theme, $path) {
   $template_dir = drupal_get_path('theme', 'expressbase') . '/templates';
   $registry['page_title_image'] = array(
     'template' => 'page-title-image',
+    'path' => $template_dir,
+  );
+  $registry['site_name'] = array(
+    'template' => 'site-name',
     'path' => $template_dir,
   );
   return $registry;

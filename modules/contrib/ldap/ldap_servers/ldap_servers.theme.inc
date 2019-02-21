@@ -34,7 +34,7 @@ function theme_ldap_servers_list($variables) {
   }
   if (count($ldap_servers)) {
     foreach ($ldap_servers as $sid => $ldap_server ) {
-      $row =  array(
+      $row = array(
         $ldap_server->name,
         $ldap_server->ldap_type,
         ($ldap_server->status == 1) ? "Yes" : "No",
@@ -140,7 +140,7 @@ function theme_ldap_server_ldap_entry_table($variables) {
         else {
           $token = "";
         }
-        $rows[] = array('data' => array($key, $i, $value2, $token));
+        $rows[] = array('data' => array($key, $i, ldap_servers_string_binary_check($value2), $token));
       }
     }
   }

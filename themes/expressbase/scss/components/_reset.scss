@@ -60,3 +60,24 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+/*
+  A simple CSS preset to enable box-sizing, set some text rendering options to decrease the differences between browsers, and set a couple of nice defaults.
+*/
+
+* {
+  box-sizing: border-box;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-kerning: auto;
+}
+
+html {
+  font-family: sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+}

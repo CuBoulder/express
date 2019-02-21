@@ -11,6 +11,9 @@
 .layout-fixed .element-max-width-gutter, .layout-fixed .element-max-width-padding { max-width: 1160px; margin-right: auto; margin-left: auto; clear: both; }
 .layout-fixed .element-max-width-gutter:after, .layout-fixed .element-max-width-padding:after { content: ""; display: table; clear: both; }
 
+.layout-responsive.layout-fluid .element-max-width, .layout-responsive.layout-fluid .element-max-width-padding, .layout-responsive.layout-fluid .container-max { max-width: none; }
+@media screen and (min-width: 1200px) { .layout-responsive.layout-fluid .top-content-wrapper { font-size: 110%; } }
+
 .container { padding-right: 20px; padding-left: 20px; margin-right: auto; margin-left: auto; }
 
 @media (min-width: 768px) { .container { width: 750px; } }
