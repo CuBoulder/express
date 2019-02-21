@@ -35,3 +35,10 @@ function cu_search_update_7003() {
     variable_set('cu_search_options', array('this' => 'this'));
   }
 }
+
+/**
+ * Set attribute to have search links open in same window.
+ */
+function cu_search_update_7004() {
+  variable_set('google_cse_tag_attributes', 'gname="google_cse" linkTarget="_top"');
+}
