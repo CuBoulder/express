@@ -2,23 +2,11 @@
 
 function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $collection = NULL) {
 
-
-
   $output = array();
   $types = array('addon_bundles', 'request_bundles', 'beta_bundles', 'admin_bundles');
 
   // Get bundles that are available.
   $bundles = profile_module_manager_get_bundles($status = 'all');
-
-  // Get addon bundles (code that is not part of the profile).
-  $atlas_id = variable_get('atlas_id', NULL);
-  if ($atlas_id) {
-    $query = 'where={"meta.code_type":"module"}';
-    $addon_bundles = atlas_api_request('code', $query);
-    // TODO
-    // Format this array to be the same as $bundles and merge them together.
-  }
-
 
   // Filter bundles.
   // Check for enabled/disabled.
