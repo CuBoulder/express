@@ -441,21 +441,24 @@ function cu_shortcodes_button($attrs, $content = NULL) {
         'color' => '',
         'icon' => '',
         'size' => '',
+        'id' => NULL,
       ), $attrs));
+  // Add button classes.
   $classes = array();
   $classes[] = 'button';
   $classes[] = $size ? 'button-' . $size : '';
   if ($style == 'full') {
     $classes[] = 'button-full';
   }
-
   $classes[] = $color ? 'button-' . $color : 'button-white';
+  // Add button attributes to array.
+  $attributes['class'] = $classes;
+  // Only add ID if ID exists.
+  if ($id) { $attributes['id'] = $id; }
 
   $content = $icon ? '<i class="fa ' . $icon . '"></i> ' . $content : $content;
   return l($content, $url, array(
-      'attributes' => array(
-        'class' => $classes,
-      ),
+      'attributes' => $attributes,
       'html' => TRUE,
     )
   );
