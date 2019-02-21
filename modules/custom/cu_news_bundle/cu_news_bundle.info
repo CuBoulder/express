@@ -10,3 +10,4 @@ dependencies[] = cu_article_slider
 dependencies[] = cu_latest_article
 
 bundle_cache_clear = 1
+bundle_group = addon_bundles

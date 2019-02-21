@@ -45,17 +45,6 @@ function profile_module_manager_menu() {
       'weight' => -10
     );
 
-    $items['admin/settings/bundles/list/admin'] = array(
-      'title' => 'Admin',
-      'type' => MENU_LOCAL_TASK,
-      'description' => 'Add and request additional bundles',
-      'page callback' => 'profile_module_manager_admin_page',
-      'file' => 'profile_module_manager.admin.inc',
-      //'page arguments' => array(1),
-      'access arguments' => array('enable admin bundles'),
-      'weight' => 100
-    );
-
     $items['admin/settings/bundles/list/enable/%'] = array(
       'title' => 'Enable Bundle',
       'description' => 'Enable a bundle.',
@@ -93,17 +82,17 @@ function profile_module_manager_menu() {
  */
 function profile_module_manager_permission() {
   return array(
-    'enable module bundles' => array(
-      'title' => t('Enable Module Bundles'),
-      'description' => t('Enable modules in bundles without administer modules permission.'),
+    'enable addons_bundles' => array(
+      'title' => t('Enable Addon Bundles'),
+      'description' => t('Enable modules in addon bundles without administer modules permission.'),
     ),
-    'enable admin bundles' => array(
+    'enable admin_bundles' => array(
       'title' => t('Enable Admin Bundles'),
       'description' => t('Enable modules in admin bundles without administer modules permission.'),
     ),
     'configure profile module manager' => array(
       'title' => t('Configure Profile Module Manager'),
-      'description' => t('Manage hidden bundles and access to UI.'),
+      'description' => t('Manage all bundles and access to UI.'),
     ),
   );
 }

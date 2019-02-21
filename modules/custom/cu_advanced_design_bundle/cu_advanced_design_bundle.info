@@ -11,3 +11,5 @@ dependencies[] = cu_title_image
 
 bundle_cache_clear = 1
 bundle_context_clear = 1
+
+bundle_group = addon_bundles

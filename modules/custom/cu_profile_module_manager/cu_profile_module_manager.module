@@ -305,7 +305,7 @@ function cu_profile_module_manager_request_page() {
  */
 function cu_profile_module_manager_permission() {
   return array(
-    'enable request bundles' => array(
+    'enable request_bundles' => array(
       'title' => t('Enable Request Bundles'),
       'description' => t('Enable modules that require a user to request them.'),
     ),
@@ -317,11 +317,14 @@ function cu_profile_module_manager_permission() {
  */
 function cu_profile_module_manager_secure_permissions($role) {
   $permissions = array(
+    'site_owner' => array(
+      'enable addon_bundles',
+    ),
     'administrator' => array(
-      'enable request bundles',
+      'enable request_bundles',
     ),
     'developer' => array(
-      'enable request bundles',
+      'enable request_bundles',
     ),
   );
 

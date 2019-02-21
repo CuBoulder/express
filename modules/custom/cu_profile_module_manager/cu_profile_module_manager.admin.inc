@@ -3,10 +3,12 @@
 function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $collection = NULL) {
 
   $output = array();
+
+  // @TODO - types should be determined by what's returned... not defined in code
   $types = array('addon_bundles', 'request_bundles', 'beta_bundles', 'admin_bundles');
 
   // Get bundles that are available.
-  $bundles = profile_module_manager_get_bundles($status = 'all');
+  $bundles = profile_module_manager_get_bundles('all');
 
   // Filter bundles.
   // Check for enabled/disabled.
@@ -46,6 +48,7 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
     // Get content from .info file.
     $info_file = str_replace(".module", ".info", $bundle->filename);
     $info = drupal_parse_info_file($info_file);
+
     $type = !empty($info['bundle_group']) ? $info['bundle_group'] : NULL;
 
     // Build variables array for theming.
@@ -58,11 +61,10 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
 
     $variables['enabled'] = module_exists($key) ? 1 : 0;
 
-
     // Only users with the "enable request bundles" permission can
     // directly enable request bundles.
     // All other users have a request submitted to support email for follow up.
-    if ((!empty($info['bundle_group']) && $info['bundle_group'] == 'request_bundles') && !user_access('enable request bundles')) {
+    if ($type == 'request_bundles' && !user_access('enable request_bundles')) {
       $variables['enable_url'] = 'admin/settings/bundles/list/request/' . $name;
       $variables['enable_text'] = 'Request';
     }
@@ -70,6 +72,7 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
       $variables['enable_url'] = 'admin/settings/bundles/list/confirm/' . $bundle->name;
       $variables['enable_text'] = 'Install';
     }
+
     // Demo url
     if (!empty($info['project_demo_url'])) {
       $variables['demo_url'] = $info['project_demo_url'];
@@ -88,18 +91,26 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
         $variables['bundle_classes'][] = 'set-excluded';
       }
     }
-    // Don't add admin bundles if user can't enable them.
-    if (
-      (empty($info['bundle_group']))
-      || (!empty($info['bundle_group']) && $info['bundle_group'] != 'admin_bundles')
-      || user_access('enable admin bundles')
-    ) {
 
-      $output['bundles']['list'][$name_lc]['#markup'] = theme('express_bundle', $variables);
+    // Don't display bundles the user doesn't have permission to enable
+    switch ($type) {
+      case NULL:
+        if (user_access('enable admin_bundles')) {
+          $output['bundles']['list'][$name_lc]['#markup'] = theme('express_bundle', $variables);
+        }
+      break;
+      case 'admin_bundles':
+        if (user_access('enable admin_bundles')) {
+          $output['bundles']['list'][$name_lc]['#markup'] = theme('express_bundle', $variables);
+        }
+      break;
+      default:
+        $output['bundles']['list'][$name_lc]['#markup'] = theme('express_bundle', $variables);
     }
   }
   // Sort bundles alphabetically
   ksort($output['bundles']['list']);
+
   return $output;
 }
 

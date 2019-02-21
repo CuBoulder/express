@@ -7,3 +7,4 @@ project_demo_url = http://www.colorado.edu/webcentral/node/678
 dependencies[] = people_content_type
 
 bundle_cache_clear = 1
+bundle_group = addon_bundles
