@@ -368,6 +368,9 @@ img.image-small[style*="float:right"], img.image-small[style*="float:left"] { ma
 
 @media all and (min-width: 960px) { .image-square, .image-square_thumbnail { float: left; width: 100px; height: 100px; margin: 0 10px 10px 0; }
   .sidebar .image-square, .sidebar .image-square_thumbnail { width: 65px; height: 65px; } }
+.node-view-mode-sidebar img.image-square, .node-view-mode-sidebar img.image-square_thumbnail, .node-view-mode-sidebar img.image-small_thumbnail, .node-view-mode-sidebar img.image-small { margin-bottom: 0; float: left; margin: 0 10px 10px 0; width: 50px; height: auto; }
+@media all and (min-width: 960px) { .node-view-mode-sidebar img.image-square, .node-view-mode-sidebar img.image-square_thumbnail, .node-view-mode-sidebar img.image-small_thumbnail, .node-view-mode-sidebar img.image-small { width: 75px; } }
+
 .image-small-square-thumbnail { float: left; width: 70px; height: 70px; margin: 0 10px 10px 0; }
 
 .feature-layout-callout .image-square, .feature-layout-callout .image-small-thumbnail { width: 110px; }
