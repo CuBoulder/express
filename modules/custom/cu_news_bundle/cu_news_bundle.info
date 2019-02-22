@@ -7,5 +7,6 @@ project_demo_url = http://www.colorado.edu/webcentral/node/676
 dependencies[] = cu_article
 dependencies[] = cu_related_articles
 dependencies[] = cu_article_slider
+dependencies[] = cu_latest_article
 
 bundle_cache_clear = 1

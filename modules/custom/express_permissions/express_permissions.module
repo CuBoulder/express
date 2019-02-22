@@ -267,6 +267,8 @@ function express_permissions_secure_permissions($role) {
       'view warning messages',
       'view error messages',
       'administer cache settings',
+      'administer permissions',
+      'administer users',
       'configure profile module manager',
       'view unused beans',
       'diff view changes',
