@@ -154,9 +154,6 @@ function cu_block_section_preprocess_entity(&$vars) {
 
     // CSS Classes
 
-    dpm($vars['field_block_section_content_bg']);
-
-
     $classes = array();
     $vars['parallax_data'] = '';
     $classes[] = 'block-section';
