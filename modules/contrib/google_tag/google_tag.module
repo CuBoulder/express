@@ -280,7 +280,12 @@ function google_tag_realm_values() {
  *   TRUE if the conditions are met; FALSE otherwise.
  */
 function google_tag_insert_snippet() {
-  $id = variable_get('google_tag_container_id', '');
+  $google_tag_client_container_id = variable_get('google_tag_client_container_id'), FALSE);
+  if ($_ENV['OSR_ENV'] == 'test' && $google_tag_client_container_id) {
+    $id = $google_tag_client_container_id;
+  } else {
+    $id = variable_get('google_tag_container_id', '');
+  }
 
   if (empty($id)) {
     // No container ID.
