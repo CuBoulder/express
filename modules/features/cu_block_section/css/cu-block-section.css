@@ -31,14 +31,16 @@
 
 .block-section-background-light_blue { background-color: #EBF7FF; }
 
-.block-section-text-white .block-section-content-bg-visible { padding: 20px; background: rgba(0, 0, 0, 0.75); }
-.block-section-text-white .block-section-content-bg-solid { padding: 20px; background: #000; }
+.block-section-text-white .block-section-content-bg-visible { padding: 20px; }
+.block-section-text-white .block-section-content-bg-visible.background-black { background: rgba(0, 0, 0, 0.75); }
+.block-section-text-white .block-section-content-bg-solid { padding: 20px; }
 .block-section-text-white a:link, .block-section-text-white a:visited { color: #cfb87c; }
 .block-section-text-white a:hover { color: #fff; }
 
-.block-section-text-black .block-section-content-bg-visible { padding: 20px; background: rgba(255, 255, 255, 0.85); }
+.block-section-text-black .block-section-content-bg-visible { padding: 20px; }
+.block-section-text-black .block-section-content-bg-visible.background-white { background: rgba(255, 255, 255, 0.85); }
 
-.block-section-text-black .block-section-content-bg-solid { padding: 20px; background: #fff; }
+.block-section-text-black .block-section-content-bg-solid { padding: 20px; }
 
 #zone-intro .block-section-content .grid-1, .container-12 .block-section-content .grid-1, .block-section-content .grid-1 { width: 6.333%; display: inline; float: left; position: relative; margin-left: 1%; margin-right: 1%; }
 #zone-intro .block-section-content .grid-2, .container-12 .block-section-content .grid-2, .block-section-content .grid-2 { width: 14.667%; display: inline; float: left; position: relative; margin-left: 1%; margin-right: 1%; }
