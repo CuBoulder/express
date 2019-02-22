@@ -482,7 +482,8 @@ function cu_users_form_user_profile_form_alter(&$form, &$form_state, $form_id) {
   asort($addon_role_options);
 
   $so = user_role_load_by_name('site_owner');
-  if (user_has_role($so->rid, $user)) {
+  $am = user_role_load_by_name('access_manager');
+  if (user_has_role($so->rid, $user) || user_has_role($am->rid, $user)) {
     $form['account']['roles']['#access'] = TRUE;
     $form['account']['roles_change']['#access'] = FALSE;
     $form['account']['pass']['#access'] = FALSE;
