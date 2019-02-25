@@ -1215,10 +1215,11 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: rgba
 /* Secondary Navigation */
 #secondary-navigation { font-size: 80%; }
 #secondary-navigation:after { content: ""; display: table; clear: both; }
-#secondary-navigation nav { float: right; }
+#secondary-navigation nav { float: right; align-items: center; overflow: hidden; }
+#secondary-navigation nav > * { float: left; line-height: 1; }
 #secondary-navigation nav ul li { display: inline; list-style: none; list-style-image: none; margin: 0; padding: 0; }
 #secondary-navigation nav ul li a { padding: 0 10px; }
-#secondary-navigation h2.secondary-menu-label { display: inline; font-size: 100%; font-weight: 600; }
+#secondary-navigation h2.secondary-menu-label { display: inline; font-size: 100%; font-weight: 600; margin: 0; }
 
 /* Action menu, or inline secondary menu */
 #navigation .action-menu-wrapper { flex-shrink: 0; }
