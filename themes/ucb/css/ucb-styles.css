@@ -442,7 +442,7 @@ ul.primary li a.revisions:before { content: "\f0c5"; }
 .more-link:after, .summary-more-link:after { display: none; }
 
 /** Image styles */
-img { max-width: 100%; height: auto; min-width: 50px; }
+img { max-width: 100%; height: auto; }
 
 @media screen and (min-width: 0px) { img.image-xs-25 { max-width: 25%; }
   img.image-xs-33 { max-width: 33%; }
