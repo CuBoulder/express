@@ -17,7 +17,7 @@
         // Set some variables for the different pieces at play.
         var $indicator = $(this);
         var $img = $(this).siblings('img');
-        var focalPointID = $(this).attr('id');
+        var focalPointID = Drupal.checkPlain($(this).attr('id'));
         var $field = $('.focal-point[data-focal-point-id="' + focalPointID + '"]', context);
         var $previewLink = $('.focal-point-preview-link[data-focal-point-id="' + focalPointID + '"]', context);
 
