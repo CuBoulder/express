@@ -1259,7 +1259,7 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: rgba
 
 #footer-menu-wrapper { font-size: 90%; padding: 0; font-weight: bold; }
 
-.footer-menu-gray { background-color: #333; }
+.footer-menu-gray { background-color: #272727; }
 
 .footer-menu-gray ul#footer-menu-links a, .footer-menu-gray ul#footer-menu-links a.active, .footer-menu-gray ul#footer-menu-links a.active-trail { color: #fff; margin-right: 20px; }
 .footer-menu-gray ul#footer-menu-links a:hover, .footer-menu-gray ul#footer-menu-links a:focus, .footer-menu-gray ul#footer-menu-links a.active:hover, .footer-menu-gray ul#footer-menu-links a.active:focus, .footer-menu-gray ul#footer-menu-links a.active-trail:hover, .footer-menu-gray ul#footer-menu-links a.active-trail:focus { color: #cfb87c; }
