@@ -6,9 +6,8 @@ dependencies[] = views
 
 files[] = views_accordion_style_plugin.inc
 
-; Information added by Drupal.org packaging script on 2015-01-29
-version = "7.x-1.1"
+; Information added by Drupal.org packaging script on 2018-12-08
+version = "7.x-1.2"
 core = "7.x"
 project = "views_accordion"
-datestamp = "1422545700"
-
+datestamp = "1544299988"
