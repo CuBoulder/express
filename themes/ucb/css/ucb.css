@@ -348,7 +348,7 @@ img.image-lg-align-left, img.image-lg-align-right, img.image-lg-align-left-small
 img.circular { border-radius: 100%; }
 
 /** Image styles */
-img { display: block; max-width: 100%; height: auto; }
+img { display: inline-block; max-width: 100%; height: auto; }
 
 p[style*="text-align:center"] img { display: inline-block; }
 
@@ -640,7 +640,7 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: rgba
 
 .ui-accordion .ui-accordion-header .ui-icon:before { content: "\f002 "; /* this is the Unicode for the icon */ font-family: FontAwesome; /* font family is included in Canvas Framework */ margin-right: .5em; }
 
-.ui-accordion h3.ui-accordion-header a, .ui-accordion .ui-accordion-header a, .expand-set a.expand-title { display: block; background-image: none; background-color: transparent; padding: 10px 10px 10px 0px; border: none; text-decoration: none; }
+.ui-accordion h3.ui-accordion-header a, .ui-accordion .ui-accordion-header a, .expand-set a.expand-title { display: flex; flex-direction: row; background-image: none; background-color: transparent; padding: 10px 10px 10px 0px; border: none; text-decoration: none; }
 .ui-accordion h3.ui-accordion-header a:before, .ui-accordion .ui-accordion-header a:before, .expand-set a.expand-title:before { content: "\f0fe"; font-family: FontAwesome; margin-right: 5px; margin-left: 1px; font-weight: normal !important; }
 
 .expand-set a.expand-title { font-size: 110%; }
@@ -2148,7 +2148,7 @@ body { margin: 0; padding: 0; }
 
 a:link, a:visited { color: #0277BD; transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease; text-decoration: none; text-decoration-color: rgba(2, 119, 189, 0.65); -webkit-text-decoration-color: rgba(2, 119, 189, 0.65); }
 a:hover { color: #B71C1C; text-decoration-color: rgba(183, 28, 28, 0.65); -webkit-text-decoration-color: rgba(183, 28, 28, 0.65); }
-a:active, a:focus { color: #B71C1C; text-decoration-color: rgba(183, 28, 28, 0.65); -webkit-text-decoration-color: rgba(183, 28, 28, 0.65); }
+a:active { color: #B71C1C; text-decoration-color: rgba(183, 28, 28, 0.65); -webkit-text-decoration-color: rgba(183, 28, 28, 0.65); }
 
 /** Print Only */
 #print-site-name { display: none; }
