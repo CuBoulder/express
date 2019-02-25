@@ -252,7 +252,8 @@ hr {
 .ui-accordion h3.ui-accordion-header a,
 .ui-accordion .ui-accordion-header a,
 .expand-set a.expand-title {
-  display: block;
+  display: flex;
+  flex-direction: row;
   background-image: none;
   background-color: transparent;
   padding:10px 10px 10px 0px;
