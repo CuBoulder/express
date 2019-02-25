@@ -13,7 +13,7 @@ body { background-color: #000; padding-bottom: 20px; }
 #secondary-menu-wrapper a { display: inline-block; color: #fff; }
 #secondary-menu-wrapper a:hover, #secondary-menu-wrapper a:focus, #secondary-menu-wrapper a.active, #secondary-menu-wrapper a.active-trail { color: #fff; background-color: #444; }
 
-#main-menu-wrapper { background-color: #424242; }
+#main-menu-wrapper { background-color: #222; }
 #main-menu-wrapper ul#main-menu > li > a { color: #ccc; font-size: 90%; font-weight: 600; line-height: 60px; }
 #main-menu-wrapper ul#main-menu > li > a:hover { background-color: #444; color: #fff; }
 #main-menu-wrapper ul#main-menu > li > a.active, #main-menu-wrapper ul#main-menu > li > a.active-trail { background-color: #333; color: #fff; }
@@ -30,7 +30,7 @@ ul#action-menu a { line-height: 20px; margin: 20px 0 20px 10px; }
 .slider-wrapper a { color: #cfb87c; }
 .slider-wrapper a:hover { color: #fff; }
 
-#page-title-wrapper { background-color: #424242; color: #fff; padding: 20px; }
+#page-title-wrapper { background-color: #171717; color: #fff; padding: 20px; }
 #page-title-wrapper a { color: #cfb87c; }
 #page-title-wrapper a:hover { color: #fff; }
 #page-title-wrapper h1 { margin-bottom: 0; }
