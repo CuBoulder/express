@@ -1392,6 +1392,6 @@ body { margin: 0; padding: 0; }
 
 a:link, a:visited { color: #0277BD; transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease; text-decoration: none; text-decoration-color: rgba(2, 119, 189, 0.65); -webkit-text-decoration-color: rgba(2, 119, 189, 0.65); }
 a:hover { color: #B71C1C; text-decoration-color: rgba(183, 28, 28, 0.65); -webkit-text-decoration-color: rgba(183, 28, 28, 0.65); }
-a:active, a:focus { color: #B71C1C; text-decoration-color: rgba(183, 28, 28, 0.65); -webkit-text-decoration-color: rgba(183, 28, 28, 0.65); }
+a:active { color: #B71C1C; text-decoration-color: rgba(183, 28, 28, 0.65); -webkit-text-decoration-color: rgba(183, 28, 28, 0.65); }
 
 /*# sourceMappingURL=ucb-styles.css.map */
