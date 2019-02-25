@@ -348,7 +348,7 @@ img.image-lg-align-left, img.image-lg-align-right, img.image-lg-align-left-small
 img.circular { border-radius: 100%; }
 
 /** Image styles */
-img { display: block; max-width: 100%; height: auto; min-width: 50px; }
+img { display: inline-block; max-width: 100%; height: auto; min-width: 50px; }
 
 p[style*="text-align:center"] img { display: inline-block; }
 
