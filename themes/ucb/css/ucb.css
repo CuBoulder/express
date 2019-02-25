@@ -2204,5 +2204,6 @@ a.mega-menu-link:after { content: '\f107'; font-family: "Font Awesome 5 Free", "
 
 @media screen and (min-width: 768px) { .region-content-sidebar-right { width: 50%; float: right; padding-left: 20px; }
   .region-content-sidebar-left { width: 50%; float: left; padding-right: 20px; } }
+.cu-box { overflow: hidden; }
 
 /*# sourceMappingURL=ucb.css.map */
