@@ -58,7 +58,7 @@ body { background-color: #424242; }
 
 #after-content2-wrapper { background-color: #f2f2f2; padding: 40px 0 20px; }
 
-.footer-menu-wrapper { background-color: transparent; position: relative; }
+.footer-menu-wrapper { position: relative; }
 .footer-menu-wrapper .footer-navigation { margin-bottom: -30px; border-bottom: 2px solid #333; }
 .footer-menu-wrapper a { line-height: 40px; }
 
