@@ -8,6 +8,6 @@ dependencies[] = photo_gallery
 bundle_group = addon_bundles
 
 bundle_roles[] = developer
-bundle_roles[] = admin
+bundle_roles[] = administrator
 bundle_roles[] = site_owner
 bundle_roles[] = configuration_manager
