@@ -71,6 +71,13 @@ function profile_module_manager_menu() {
     'file' => 'profile_module_manager.admin.inc',
     'access arguments' => array('configure profile module manager'),
   );
+  $items['admin/settings/bundles/list/request/%'] = array(
+    'title' => 'Bundle Request',
+    'type' => MENU_CALLBACK,
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('profile_module_manager_request_bundle_form',5),
+    'access arguments' => array('enable module bundles'),
+  );
 
   return $items;
 }
@@ -82,13 +89,13 @@ function profile_module_manager_menu() {
  */
 function profile_module_manager_permission() {
   return array(
-    'enable addons_bundles' => array(
-      'title' => t('Enable Addon Bundles'),
-      'description' => t('Enable modules in addon bundles without administer modules permission.'),
+    'enable module bundles' => array(
+      'title' => t('Enable Module Bundles'),
+      'description' => t('Enable module bundles without administer modules permission.'),
     ),
-    'enable admin_bundles' => array(
-      'title' => t('Enable Admin Bundles'),
-      'description' => t('Enable modules in admin bundles without administer modules permission.'),
+   'skip bundle request step' => array(
+      'title' => t('Enable Module Bundles'),
+      'description' => t('Enable module bundles without administer modules permission.'),
     ),
     'configure profile module manager' => array(
       'title' => t('Configure Profile Module Manager'),
@@ -157,14 +164,18 @@ function profile_module_manager_add_to_ignore($new_ignore) {
  */
 function profile_module_manager_get_bundles($status = 'all') {
   if ($status == 'all') {
-    $bundles = db_query("SELECT name, filename FROM {system} WHERE type = 'module' ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
+    $bundles = db_query("SELECT name, filename, status FROM {system} WHERE type = 'module' ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
   }
   if ($status == 'enabled') {
-    $bundles = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
+    $bundles = db_query("SELECT name, filename, status FROM {system} WHERE type = 'module' AND status = 1 ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
   }
 
   foreach ($bundles as $key => $bundle) {
     if (!strpos($bundle->name, '_bundle')) {
+      unset($bundles[$key]);
+    }
+    // @TODO find a better way to handle admin bundles
+    if (strpos($bundle->name, '_admin_bundle')) {
       unset($bundles[$key]);
     }
   }
@@ -356,4 +367,90 @@ function profile_module_manager_theme(&$existing, $type, $theme, $path) {
     'render element' => 'elements',
   );
   return $registry;
+}
+
+
+function profile_module_manager_user_has_role($roles) {
+    //checks if user has role/roles
+    return !!count(array_intersect(is_array($roles)? $roles : array($roles), array_values($GLOBALS['user']->roles)));
+};
+
+// @TODO: Make configurable
+/**
+ * Implements hook_form().
+ *
+ * Form for requesting a bundle.
+ * This emails the request to a support email account for follow up.
+ */
+function profile_module_manager_request_bundle_form($form, &$form_state, $name) {
+  $form = array();
+  $name = check_plain($name);
+  $form['confirmation'] = array(
+    '#type' => 'markup',
+    '#markup' => "<p>Are you sure you want to request the $name bundle be added to your site?</p>",
+  );
+  $form['bundle'] = array(
+    '#type' => 'hidden',
+    '#value' => $name,
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Request Bundle',
+    '#submit' => array(
+      'profile_module_manger_send_request',
+      'profile_module_manager_request_bundle_form_submit'
+    ),
+  );
+
+
+  $form['cancel'] = array(
+    '#type' => 'submit',
+    '#value' => 'Cancel',
+    '#submit' => array('profile_module_manager_request_bundle_form_cancel')
+  );
+
+  return $form;
+}
+
+/**
+ * Email function to send support email when a bundle has been requested.
+ */
+function profile_module_manger_send_request($form, &$form_state) {
+  global $base_url;
+  global $user;
+  $site_name = variable_get('site_name', 'Site name missing');
+  $request_email = variable_get('cu_request_bundle_email', 'websupport@colorado.edu');
+
+  // @TODO - What is happening here?
+  if ($user) {
+    $user = user_load($user->uid);
+    $from = $user->mail;
+    $site_name = variable_get('site_name', '');
+    $name = isset($user->realname) ? $user->realname : $user->name;
+    $bundle = $form_state['values']['bundle'];
+    $body = "$name ($from) has requested the $bundle for the $site_name website ($base_url)";
+    $params = array(
+      'subject' => t('Bundle Request - ' . $bundle),
+      'body' => $body,
+    );
+    drupal_mail('profile_module_manger', 'profile_module_manger_request_bundle', $request_email, language_default(), $params, $from, TRUE);
+    //drupal_set_message($body);
+  }
+}
+
+/**
+ * Submit function for cu_profile_module_manager_request_bundle_form().
+ *
+ * Notify user that request has been submitted and return them to bundle list.
+ */
+function profile_module_manager_request_bundle_form_submit($form, &$form_state) {
+  drupal_set_message('Your bundle request has been sent.');
+  drupal_goto('admin/settings/bundles/list');
+}
+
+/**
+ * Cancel function for bundle request form.
+ */
+function profile_module_manager_request_bundle_form_cancel($form, &$form_state) {
+  drupal_goto('admin/settings/bundles/list');
 }

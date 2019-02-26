@@ -4,32 +4,30 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
 
   $output = array();
 
-  // @TODO - types should be determined by what's returned... not defined in code
-  $types = array('addon_bundles', 'request_bundles', 'beta_bundles', 'admin_bundles');
-
-  // Get bundles that are available.
+  // Get all bundles
   $bundles = profile_module_manager_get_bundles('all');
 
-  // Filter bundles.
-  // Check for enabled/disabled.
+  // Filter bundle list based on whether we are displaying for enabled or avaiable.
   foreach ($bundles as $key => $bundle) {
-    if($enabled) {
-      if (!module_exists($key)) {
-        unset($bundles[$key]);
-      }
+    if($enabled != $bundle->status) {
+      unset($bundles[$key]);
     }
-    else {
-      if (module_exists($key)) {
-        unset($bundles[$key]);
-      }
+  }
+
+  if (count($bundles) == 0) {
+    if ($enabled) {
+      drupal_set_message(t("None of the available bundles have been enabled. Click the Available tab to see the list of bundles you can enable or request."), 'warning');
+    } else {
+      drupal_set_message(t("All available bundles have already been enabled."), 'warning');
     }
+    return $output;
   }
 
   $output['bundles'] = array();
   $output['bundles']['#prefix'] = '<div class="express-cards">';
   $output['bundles']['#suffix'] = '</div>';
 
-
+  // @TODO - do we need this?
   // Highlighted set?
   $set = isset($_GET['set']) ? check_plain($_GET['set']) : NULL;
   $highlight = isset($_GET['highlight']) ? check_plain($_GET['highlight']) : NULL;
@@ -41,8 +39,7 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
     $set = explode(',',$highlight);
   }
 
-
-  // Loop through bundles.
+  // Loop through bundles and evaluate how they should be displayed
   foreach ($bundles as $key => $bundle) {
 
     // Get content from .info file.
@@ -50,6 +47,9 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
     $info = drupal_parse_info_file($info_file);
 
     $type = !empty($info['bundle_group']) ? $info['bundle_group'] : NULL;
+
+
+    $request = !empty($info['bundle_request']) ? $info['bundle_request'] : 0;
 
     // Build variables array for theming.
     $variables = array();
@@ -59,12 +59,12 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
     $variables['name'] = $name;
     $variables['description'] = (isset($info['description']) ? $info['description'] : 'No description available.');
 
-    $variables['enabled'] = module_exists($key) ? 1 : 0;
+    //$variables['enabled'] = module_exists($key) ? 1 : 0;
 
-    // Only users with the "enable request bundles" permission can
+    // Users with the "skip bundle request step" permission can enable these
     // directly enable request bundles.
     // All other users have a request submitted to support email for follow up.
-    if ($type == 'request_bundles' && !user_access('enable request_bundles')) {
+    if ($request && !user_access('skip bundle request step')) {
       $variables['enable_url'] = 'admin/settings/bundles/list/request/' . $name;
       $variables['enable_text'] = 'Request';
     }
@@ -78,6 +78,7 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
       $variables['demo_url'] = $info['project_demo_url'];
     }
 
+    // @TODO - Change to use role
     // Add classes for bundle status, group, etc.
     $variables['bundle_classes'][] = module_exists($key) ? 'express-bundle-enabled' : 'express-bundle-disabled';
     $variables['bundle_classes'][] = (isset($info['bundle_group']) ? str_replace('_', '-', $info['bundle_group']) : 'no-bundle-group');
@@ -92,21 +93,10 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
       }
     }
 
-    // Don't display bundles the user doesn't have permission to enable
-    switch ($type) {
-      case NULL:
-        if (user_access('enable admin_bundles')) {
-          $output['bundles']['list'][$name_lc]['#markup'] = theme('express_bundle', $variables);
-        }
-      break;
-      case 'admin_bundles':
-        if (user_access('enable admin_bundles')) {
-          $output['bundles']['list'][$name_lc]['#markup'] = theme('express_bundle', $variables);
-        }
-      break;
-      default:
-        $output['bundles']['list'][$name_lc]['#markup'] = theme('express_bundle', $variables);
+    if (isset($info['bundle_roles']) && profile_module_manager_user_has_role($info['bundle_roles'])) {
+      $output['bundles']['list'][$name_lc]['#markup'] = theme('express_bundle', $variables);
     }
+
   }
   // Sort bundles alphabetically
   ksort($output['bundles']['list']);

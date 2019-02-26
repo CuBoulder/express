@@ -12,22 +12,6 @@
  */
 function cu_profile_module_manager_menu() {
 
-  $items['admin/settings/bundles/list/atlas/%/confirm'] = array(
-    'title' => 'Confirm Atlas code request',
-    'type' => MENU_CALLBACK,
-    'description' => 'Atlas confirmation.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('cu_profile_module_manager_atlas_request_form'),
-    'access arguments' => array('enable module bundles'),
-  );
-  $items['admin/settings/bundles/list/atlas/%/add'] = array(
-    'title' => 'Confirm Atlas code request',
-    'type' => MENU_CALLBACK,
-    'description' => 'Atlas confirmation.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('cu_profile_module_manager_atlas_add_asset_form'),
-    'access arguments' => array('enable module bundles'),
-  );
   $items['admin/settings/bundles/list/available'] = array(
     'title' => 'Available',
     'type' => MENU_LOCAL_TASK,
@@ -37,14 +21,6 @@ function cu_profile_module_manager_menu() {
     'page arguments' => array(FALSE, NULL, NULL),
     'access arguments' => array('enable module bundles'),
     'weight' => 10,
-  );
-  $items['admin/settings/bundles/list/request/%'] = array(
-    'title' => 'Bundle Request',
-    'type' => MENU_CALLBACK,
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('cu_profile_module_manager_request_bundle_form',5),
-    'access arguments' => array('enable module bundles'),
-    'file' => 'cu_profile_module_manager.admin.inc',
   );
 
   return $items;
@@ -300,17 +276,6 @@ function cu_profile_module_manager_request_page() {
   }
 }
 
-/**
- * Implements hook_permission.
- */
-function cu_profile_module_manager_permission() {
-  return array(
-    'enable request_bundles' => array(
-      'title' => t('Enable Request Bundles'),
-      'description' => t('Enable modules that require a user to request them.'),
-    ),
-  );
-}
 
 /**
  * Implements hook_secure_permissions.
@@ -318,60 +283,22 @@ function cu_profile_module_manager_permission() {
 function cu_profile_module_manager_secure_permissions($role) {
   $permissions = array(
     'site_owner' => array(
-      'enable addon_bundles',
+      'enable module bundles',
+    ),
+    'configuration_manager' => array(
+      'enable module bundles',
     ),
     'administrator' => array(
-      'enable request_bundles',
+      'enable module bundles',
+      'skip bundle request step',
     ),
     'developer' => array(
-      'enable request_bundles',
+      'enable module bundles',
+      'skip bundle request step',
     ),
   );
 
   if (isset($permissions[$role])) {
     return $permissions[$role];
   }
-}
-
-function cu_profile_module_manager_beta_page() {
-  /* Variables and whatnot--no form elements. */
-  global $base_path;
-
-  if (variable_get('profile_module_manager_disable_enabling_atlas_bundles', 0) == 1) {
-    $output = '<p>' . variable_get('profile_module_manager_disable_enabling_text', 'Bundles are not available at this time. Contact websupport@colorado.edu for questions regarding this.') . '</p>';
-    return $output;
-  }
-
-  $atlas_id = variable_get('atlas_id', NULL);
-  $site_array = atlas_api_request('sites', $atlas_id);
-  if (isset($site_array['code']['package'])) {
-    $packages_array = $site_array['code']['package'];
-  } else {
-    $packages_array = array();
-  }
-}
-
-/**
- * Email function to send support email when a bundle has been requested.
- */
-function cu_profile_module_manger_send_request($form, &$form_state) {
-  global $base_url;
-  global $user;
-  $site_name = variable_get('site_name', 'Site name missing');
-  $request_email = variable_get('cu_request_bundle_email', 'websupport@colorado.edu');
-
-  if ($user) {
-    $user = user_load($user->uid);
-    $from = $user->mail;
-    $site_name = variable_get('site_name', '');
-    $name = isset($user->realname) ? $user->realname : $user->name;
-    $bundle = $form_state['values']['bundle'];
-    $body = "$name ($from) has requested the $bundle for the $site_name website ($base_url)";
-    $params = array(
-      'subject' => t('Web Express Bundle Request - ' . $bundle),
-      'body' => $body,
-    );
-    drupal_mail('cu_profile_module_manger', 'cu_profile_module_manger_request_bundle', $request_email, language_default(), $params, $from, TRUE);
-    //drupal_set_message($body);
-}
 }
