@@ -175,6 +175,7 @@ function profile_module_manager_get_bundles($status = 'all') {
       unset($bundles[$key]);
     }
     // @TODO find a better way to handle admin bundles
+    // causes problems in admin/reports/status with profile_module_manager_build_ideal
     if (strpos($bundle->name, '_admin_bundle')) {
       unset($bundles[$key]);
     }
@@ -376,6 +377,7 @@ function profile_module_manager_user_has_role($roles) {
 };
 
 // @TODO: Make configurable
+
 /**
  * Implements hook_form().
  *
@@ -421,21 +423,16 @@ function profile_module_manger_send_request($form, &$form_state) {
   $site_name = variable_get('site_name', 'Site name missing');
   $request_email = variable_get('cu_request_bundle_email', 'websupport@colorado.edu');
 
-  // @TODO - What is happening here?
-  if ($user) {
-    $user = user_load($user->uid);
-    $from = $user->mail;
-    $site_name = variable_get('site_name', '');
-    $name = isset($user->realname) ? $user->realname : $user->name;
-    $bundle = $form_state['values']['bundle'];
-    $body = "$name ($from) has requested the $bundle for the $site_name website ($base_url)";
-    $params = array(
-      'subject' => t('Bundle Request - ' . $bundle),
-      'body' => $body,
-    );
-    drupal_mail('profile_module_manger', 'profile_module_manger_request_bundle', $request_email, language_default(), $params, $from, TRUE);
-    //drupal_set_message($body);
-  }
+  $from = $user->mail;
+  $site_name = variable_get('site_name', '');
+  $name = isset($user->realname) ? $user->realname : $user->name;
+  $bundle = $form_state['values']['bundle'];
+  $body = "$name ($from) has requested the $bundle for the $site_name website ($base_url)";
+  $params = array(
+    'subject' => t('Bundle Request - ' . $bundle),
+    'body' => $body,
+  );
+  drupal_mail('profile_module_manger', 'profile_module_manger_request_bundle', $request_email, language_default(), $params, $from, TRUE);
 }
 
 /**
