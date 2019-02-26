@@ -2187,7 +2187,8 @@ html.js input.throbbing { background-image: url(../images/throbber.gif); backgro
 #cu-footer a.cu-boulder-homepage-link { color: #cfb87c; text-decoration: none; }
 #cu-footer a.cu-boulder-homepage-link:hover { color: #fff; }
 
-.express-site-type-sport_club .site-name-wrapper { background-image: url(../images/cu-buffs-logo.png); background-repeat: no-repeat; background-size: 55px 40px; background-position: left center; padding-left: 65px; }
+.express-site-type-sport_club .site-name-wrapper { background-image: url(../images/cu-buffs-logo.png); background-repeat: no-repeat; background-position: left center; background-size: 30px 22px; padding-left: 40px; min-height: 22px; }
+@media screen and (min-width: 768px) { .express-site-type-sport_club .site-name-wrapper { background-size: 45px 33px; padding-left: 55px; min-height: 33px; } }
 
 #navigation { position: relative; }
 #navigation nav { display: flex; flex-direction: row; justify-content: space-between; }
