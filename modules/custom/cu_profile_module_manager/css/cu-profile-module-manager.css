@@ -1,5 +1,7 @@
 .express-bundle h2 { font-size: 100%; margin: 0; padding: 0; }
 .express-bundle h2:before { content: '\f1e6'; font-family: FontAwesome; margin-right: 5px; opacity: .5; }
+.express-bundle.express-bundle-request.express-bundle-disabled h2:before { content: '\f023'; }
+.express-bundle.express-bundle-disabled h2:before { content: '\f055'; }
 .express-bundle.admin-bundles h2:before { content: '\f071'; color: red; opacity: 1; }
 .express-bundle.request-bundles h2:before { content: '\f023'; }
 .express-bundle .content { display: flex; flex-direction: column; flex-grow: 1; }

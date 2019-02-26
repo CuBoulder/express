@@ -12,6 +12,16 @@
     }
 
   }
+  &.express-bundle-request.express-bundle-disabled {
+    h2:before {
+      content: '\f023';
+    }
+  }
+  &.express-bundle-disabled {
+    h2:before {
+      content:'\f055';
+    }
+  }
   &.addon-bundles h2:before {
     // content: '\f055';
 

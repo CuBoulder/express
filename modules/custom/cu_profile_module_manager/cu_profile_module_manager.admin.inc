@@ -63,7 +63,7 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
 
     // Add classes for bundle group
     $variables['bundle_classes'][] = ($bundle->status) ? 'express-bundle-enabled' : 'express-bundle-disabled';
-    $variables['bundle_classes'][] = (isset($info['bundle_group']) ? str_replace('_', '-', $info['bundle_group']) : 'no-bundle-group');
+    $variables['bundle_classes'][] = $request ? 'express-bundle-request' : 'express-bundle-install';
 
     if (isset($info['bundle_roles']) && profile_module_manager_user_has_role($info['bundle_roles'])) {
       $output['bundles']['list'][$name_lc]['#markup'] = theme('express_bundle', $variables);
@@ -75,6 +75,3 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
 
   return $output;
 }
-
-
-
