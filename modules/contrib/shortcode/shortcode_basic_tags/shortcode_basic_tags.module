@@ -619,8 +619,8 @@ function shortcode_basic_tags_shortcode_item($attrs, $text) {
 
   return theme('shortcode_item',
     array(
-      'text' => check_plain($text),
-      'id' => check_plain($attrs['id']),
+      'text' => $text,
+      'id' => drupal_html_id($attrs['id']),
       'class' => shortcode_add_class($attrs['class']),
       'type' => $type,
       'style' => $attrs['style'],
@@ -735,7 +735,7 @@ function shortcode_basic_tags_shortcode_clear($attrs, $text) {
   return theme('shortcode_clear',
     array(
       'text' => check_plain($text),
-      'id' => check_plain($attrs['id']),
+      'id' => drupal_html_id($attrs['id']),
       'class' => $class,
       'type' => $type,
       'style' => check_plain($attrs['style']),

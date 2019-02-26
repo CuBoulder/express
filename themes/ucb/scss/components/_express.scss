@@ -192,8 +192,6 @@ html.js input.throbbing {
 }
 
 /* generic view modes */
-
-
 .node-view-mode-teaser {
   margin-bottom:20px;
   border-bottom:1px solid $border;
@@ -235,4 +233,8 @@ html.js input.throbbing {
   margin-bottom:20px;
   border-bottom:1px solid $border;
   padding-bottom: 20px;
+}
+
+.cu-box {
+  overflow:hidden;
 }

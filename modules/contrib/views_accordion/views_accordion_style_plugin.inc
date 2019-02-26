@@ -55,9 +55,10 @@ class views_accordion_style_plugin extends views_plugin_style {
     // Setup our array of options for choosing which row should start opened (row-start-open).
     $rsopen_options = array();
     for ($i = 1; $i <= $maxitems; $i++) {
-      $rsopen_options[] = t('Row ') . $i;
+      $rsopen_options[] = t('Row') . $i;
     }
     $rsopen_options['none'] = t('None');
+    $rsopen_options['random'] = t('Random');
 
     $animated_options = array(
       'none' => t('None'),
@@ -213,13 +214,15 @@ class views_accordion_style_plugin extends views_plugin_style {
    */
   public function render() {
     $output = '';
+    $row_plugin_option = $this->display->handler->get_option('row_plugin');
     // Prevent errors if users select content instead of fields as row style.
     // This forces them to use field as row style, no other way that I can think of.
-    if (parent::uses_fields()) {
+    if ($row_plugin_option == 'fields') {
       $output = parent::render();
     }
     else {
-      drupal_set_message('Views accordion requires Fields as row style', 'error');
+      drupal_set_message(t('Views accordion requires Fields as row style, but the view <em>@view</em> is configured with <em>@row_plugin_option</em> as a row style.', array('@view' => $this->view->name, '@row_plugin_option' => $row_plugin_option)), 'error');
+      return;
     }
 
     if ($this->options['disableifone'] == '1') {
@@ -249,8 +252,12 @@ class views_accordion_style_plugin extends views_plugin_style {
     // we do it here so we dont have it run once every group.
     $view_settings['collapsible'] = $this->options['collapsible'];
 
-    // The +0 forces it to add it as an integrer instead of a string - ugly hack?
-    $view_settings['rowstartopen'] = ($this->options['row-start-open'] == 'none') ? FALSE : $this->options['row-start-open'] + 0;
+    if ($this->options['row-start-open'] == 'random') {
+      $view_settings['rowstartopen'] = 'random';
+    }
+    else {
+      $view_settings['rowstartopen'] = ($this->options['row-start-open'] == 'none') ? FALSE : (int) $this->options['row-start-open'];
+    }
     $view_settings['animated'] = ($this->options['animated'] == 'none') ? FALSE : $this->options['animated'];
     $view_settings['autoheight'] = $this->options['autoheight'];
     $view_settings['event'] = $this->options['event'];
@@ -264,7 +271,7 @@ class views_accordion_style_plugin extends views_plugin_style {
     $view_settings['viewname'] = $this->view->name;
     $view_settings['usegroupheader'] = $view_settings['grouping'] ? $this->options['use-grouping-header'] : 0;
 
-    $accordion_id = 'views-accordion-' . $this->view->name .'-' . $this->view->current_display;
+    $accordion_id = 'views-accordion-' . $this->view->name . '-' . $this->view->current_display;
 
     if ($view_settings['usegroupheader'] == 1) {
       $view_settings['header'] = 'h3.' . $accordion_id . '-header';
