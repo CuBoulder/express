@@ -329,6 +329,12 @@ a:hover .icon-color-gold.icon-wrapper-circle {
       border-bottom:1px solid #eee;
     }
   }
+  &.border-white {
+    border:1px solid rgba(128, 128, 128, 0.15);
+    .box-title {
+      border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+    }
+  }
   .box-title {
     font-weight: bold;
     padding-bottom: 10px;
