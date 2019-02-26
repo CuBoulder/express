@@ -781,7 +781,7 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: rgba
 
 .feature-layout-title-image .author-meta a:hover { color: #fff; }
 
-#search { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 100; background: rgba(0, 0, 0, 0.85); color: #fff; }
+#search { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 200; background: rgba(0, 0, 0, 0.85); color: #fff; }
 #search h2:before { content: '\f002'; font-family: FontAwesome; margin-right: 5px; }
 #search #search-inner { height: 100%; display: flex; align-items: center; padding: 20px 0; }
 #search .search-form { position: relative; }
