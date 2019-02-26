@@ -645,45 +645,49 @@ function cu_shortcodes_countup_tips($format, $long) {
 /**
  * Expand shortcodes.
  */
-function cu_shortcodes_expand($attrs, $content = NULL) {
-  extract(shortcode_attrs(array(
-        'type'       => 1,
-        'title' => '',
-        'style' => 'large',
-      ), $attrs));
-  $id = 'expand-' . drupal_html_id(rand(1000, 100000));
-  if ($style == 'small') {
-    $expand_title = $title ? '<a href="#' . $id . '" class="small-expand-title" aria-expanded="false">' . $title . '&nbsp;<i class="fa fa-plus-square"></i></a>' : '';
-    $classes = array();
-    $tag = 'div';
-    $classes[] = !empty($class) ? explode(' ', $class) : NULL;
-    $classes = trim(implode(' ', $classes));
-    $content = $expand_title . '<div id="' . $id . '" class="small-expand-content">' . $content . '</div>';
-    return '<' . $tag . ' class="small-expand-set">' . $content . "</$tag>";
-  } elseif ($style == 'tooltip') {
-    $expand_title = $title ? '<a href="#' . $id . '" class="tooltip-expand-title tipid-' . $id . '" aria-expanded="false">' . $title . '&nbsp;<i class="fa fa-plus-square"></i></a>' : '';
-    $classes = array();
-    $tag = 'span';
-    $classes[] = !empty($class) ? explode(' ', $class) : NULL;
-    $classes = trim(implode(' ', $classes));
-    $content = $expand_title . '<span id="' . $id . '" class="tooltip-expand-content"><span class="tooltip-inner">' . $content . '<br /><a href="#' . $id . '" class="close-tip" rel="tipid-' . $id . '"><i class="fa fa-times"></i></a></span></span>';
-    return '<' . $tag . ' class="tooltip-expand-set">' . $content . "</$tag>";
-  } else {
-    $expand_title = $title ? '<a href="#' . $id . '" class="expand-title expand-trigger" aria-expanded="false" ><span>' . $title . '</span></a>' : '';
-    $classes = array();
-    $tag = 'div';
-    $classes[] = !empty($class) ? explode(' ', $class) : NULL;
-    $classes = trim(implode(' ', $classes));
-    $content = $expand_title . '<div id="' . $id . '" class="expand-content">' . $content . '</div>';
-    return '<' . $tag . ' class="expand-set">' . $content . "</$tag>";
-  }
-}
+ function cu_shortcodes_expand($attrs, $content = NULL) {
+   extract(shortcode_attrs(array(
+         'type'       => 1,
+         'title' => '',
+         'style' => 'large',
+         'heading' => 'div',
+       ), $attrs));
+   $allowed_headings = array('h2','h3','h4','h5','h6','div');
+   $heading = in_array($heading, $allowed_headings) ? $heading : 'div';
+   $id = 'expand-' . drupal_html_id(rand(1000, 100000));
+   if ($style == 'small') {
+     $expand_title = $title ? '<a href="#' . $id . '" class="small-expand-title" aria-expanded="false">' . $title . '&nbsp;<i class="fa fa-plus-square"></i></a>' : '';
+     $classes = array();
+     $tag = 'div';
+     $classes[] = !empty($class) ? explode(' ', $class) : NULL;
+     $classes = trim(implode(' ', $classes));
+     $content = $expand_title . '<div id="' . $id . '" class="small-expand-content">' . $content . '</div>';
+     return '<' . $tag . ' class="small-expand-set">' . $content . "</$tag>";
+   } elseif ($style == 'tooltip') {
+     $expand_title = $title ? '<a href="#' . $id . '" class="tooltip-expand-title tipid-' . $id . '" aria-expanded="false">' . $title . '&nbsp;<i class="fa fa-plus-square"></i></a>' : '';
+     $classes = array();
+     $tag = 'span';
+     $classes[] = !empty($class) ? explode(' ', $class) : NULL;
+     $classes = trim(implode(' ', $classes));
+     $content = $expand_title . '<span id="' . $id . '" class="tooltip-expand-content"><span class="tooltip-inner">' . $content . '<br /><a href="#' . $id . '" class="close-tip" rel="tipid-' . $id . '"><i class="fa fa-times"></i></a></span></span>';
+     return '<' . $tag . ' class="tooltip-expand-set">' . $content . "</$tag>";
+   } else {
+     $expand_title = $title ? '<' . $heading . '><a href="#' . $id . '" class="expand-title expand-trigger" aria-expanded="false" ><span>' . $title . '</span></a></' . $heading . '>' : '';
+     $classes = array();
+     $tag = 'div';
+     $classes[] = !empty($class) ? explode(' ', $class) : NULL;
+     $classes = trim(implode(' ', $classes));
+     $content = $expand_title . '<div id="' . $id . '" class="expand-content">' . $content . '</div>';
+     return '<' . $tag . ' class="expand-set">' . $content . "</$tag>";
+   }
+ }
+
 
 /**
  * Expand tips.
  */
 function cu_shortcodes_expand_tips($format, $long) {
-  $output = '[expand title="Title goes here"]your content here[/expand]';
+  $output = '[expand title="Title goes here" heading="h2/h3/h4/h5/h6/div"]your content here[/expand]';
   return $output;
 }
 
