@@ -1,5 +1,5 @@
 <div id="block-section-<?php print $bean->bid; ?>" class="<?php print $block_section_classes; ?> ucb-colors" <?php print $parallax_data; ?>>
-  <div class="block-section-content-wrapper clearfix element-max-width-padding">
+  <div class="block-section-content-wrapper clearfix container">
     <div class="clearfix block-section-content <?php print $content_bg_classes; ?>">
       <?php print render($content['blocks']); ?>
     </div>
