@@ -197,7 +197,50 @@ html.js input.throbbing {
   }
 }
 
-// Box shortcode
+/* generic view modes */
+.node-view-mode-teaser {
+  margin-bottom:20px;
+  border-bottom:1px solid $border;
+  padding-bottom: 20px;
+}
+.node-view-mode-teaser-content {
+  overflow: hidden;
+}
+.node-view-mode-title a {
+  display: block;
+  padding: 5px 0;
+}
+.node-summary {
+  padding:5px 0 20px;
+}
+.node-summary .more-link {
+  white-space: nowrap;
+}
+.node-summary .more-link:before {
+  content: " ";
+}
+
+.node-view-mode-sidebar {
+  margin-bottom: 10px;
+  padding-bottom:10px;
+  border-bottom:1px solid $border;
+}
+.list-node-list li:last-child .node-view-mode-sidebar {
+  border: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.node-view-mode-sidebar-content {
+  @include clearfloats;
+  overflow: hidden;
+}
+.node-view-mode-embed {
+  margin-bottom:20px;
+  border-bottom:1px solid $border;
+  padding-bottom: 20px;
+}
+
 .cu-box {
   overflow:hidden;
 }
