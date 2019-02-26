@@ -118,9 +118,15 @@ html.js input.throbbing {
  .express-site-type-sport_club .site-name-wrapper {
    background-image:url(../images/cu-buffs-logo.png);
    background-repeat:no-repeat;
-   background-size: 55px 40px;
    background-position: left center;
-   padding-left:65px;
+   background-size: 30px 22px;
+   padding-left:40px;
+   min-height: 22px;
+   @media screen and (min-width: 768px) {
+     background-size: 45px 33px;
+     padding-left:55px;
+     min-height: 33px;
+   }
  }
 
  // Mega Menu
