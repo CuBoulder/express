@@ -186,7 +186,7 @@ $conf['ad_authentication'] = array(
             'prov_events' => array(LDAP_USER_EVENT_CREATE_LDAP_ENTRY, LDAP_USER_EVENT_SYNCH_TO_LDAP_ENTRY),
           ),
           '[cn]' => array(
-            'sid' =>  'activedirectory1',
+            'sid' => 'activedirectory1',
             'ldap_attr' => '[cn]',
             'user_attr' => '[property.name]',
             'convert' => 0,

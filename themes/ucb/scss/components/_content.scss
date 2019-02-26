@@ -1,0 +1,35 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+/**
+ * Content styles
+ */
+.node-teaser,
+.view-mode-teaser,
+.node-view-mode-teaser {
+  border-bottom: 1px solid $border;
+  margin-bottom: $spacing;
+  padding-bottom: $spacing;
+}
+.node-teaser-content,
+.node-view-mode-teaser-content,
+.view-mode-teaser-content,
+.teaser-content {
+  overflow: hidden;
+}
+
+.node-view-mode-sidebar-content {
+  a {
+    //text-decoration: none;
+  }
+}
+
+// More Links
+.more-link,
+.summary-more-link {
+  // text-decoration: none;
+  &:after {
+    display: none;
+  }
+}

@@ -175,7 +175,10 @@ function cu_feature_callout_preprocess_entity(&$vars) {
     $children = element_children($vars['content']['field_callouts']);
     $i = 0;
     $column_count = 1;
-    $callout_items = array_intersect_key($vars['content']['field_callouts'], element_children($vars['content']['field_callouts']));
+    $callout_items = array();
+    if (!empty($vars['content']['field_callouts']) && !empty($vars['content']['field_callouts']['#items'])) {
+      $callout_items = array_intersect_key($vars['content']['field_callouts'], element_children($vars['content']['field_callouts']));
+    }
     $total_items = count($callout_items);
 
     // Theme suggestions for styles

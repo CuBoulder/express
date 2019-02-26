@@ -1,0 +1,216 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+/**
+ * Button styles
+ */
+
+// Base button styles
+
+@mixin button_default {
+  background-color: $blue;
+  color: #fff !important;
+  display: inline-block;
+  padding:5px 10px;
+  font-weight:bold;
+  transition: background-color 0.5s ease;
+  margin-bottom: 5px;
+  text-decoration: none !important;
+  @include rounded($radius: $radius_small);
+  @include rgbashadow(0, 1px, 2px, #000000, .20);
+  @include shadowtransition;
+}
+
+a.button,
+.button,
+a.button-ghost,
+.button-ghost {
+  @include button_default;
+  &.button-full,
+  &.button-block {
+    display: block;
+    text-align: center;
+  }
+}
+
+
+@mixin button($color) {
+ background-color: $color;
+ color: set-text-color($color) !important;
+ @if ($color == #fff) {
+   border:1px solid #e0e0e0;
+ }
+ &:hover,
+ &:focus {
+   background-color:darken($color, 3%);
+   background-color: scale-color($color, $lightness: -10%);
+   @if ($color == $gold) {
+     background-color:$gold-gray;
+   }
+   @elseif ($color == #000) {
+     background-color: scale-color($color, $lightness: 20%);
+   }
+   @include rgbashadow(0, 2px, 5px, #000000, .30);
+ }
+ &:active {
+   @include rgbashadow(0, 3px, 15px, #000000, .35);
+ }
+}
+
+// Button colors
+$colors: (
+  "blue": $blue,
+  "white": $white,
+  "gray-dark": $gray-dark,
+  "gray-light": $gray-light,
+  "gray": $gray-light,
+  "black":$black,
+  "gold": $gold,
+);
+// Create buttons from colors
+@each $name, $color in $colors {
+  .button.button-#{$name},
+  .buttons-color-#{$name} a,
+  .buttons-color-#{$name} a.button {
+    @include button_default;
+    @include button($color);
+  }
+}
+
+// Button sizes
+.button.button-large,
+.button-ghost.button-large {
+  font-size: 125%;
+  //padding:8px 12px;
+}
+.button.button-small,
+.button-ghost.button-small {
+  font-size: 85%;
+  padding: 1px 6px;
+}
+
+// Button groups
+.buttongroup {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  //@include rounded($radius: $radius_small);
+  a.button {
+    display: block;
+    @include rounded($radius: 0px);
+    text-align: center;
+    font-weight: bold;
+  }
+}
+@media screen and (min-width:768px) {
+  .buttongroup .button-group-content {
+    display: flex;
+    position: relative;
+    & > br {
+      display: none;
+    }
+    a.button {
+      flex-grow: 1;
+      @include rounded($radius: 0px);
+      text-align: center;
+      vertical-align: middle;
+      border-style: solid;
+      position: relative;
+      border:none;
+      overflow: hidden;
+      width:100%;
+      margin-bottom: 0;
+    }
+    a.button:after {
+      bottom: 0;
+      content: "";
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 0;
+      -webkit-box-shadow: 0px 0 1px 0 rgba(0, 0, 0, 0.25) inset;
+      box-shadow: 0px 0 1px 0 rgba(0, 0, 0, 0.25) inset;
+    }
+  }
+}
+.buttongroup-size-small {
+  font-size: 85%;
+  a.button {
+    padding:2px 5px;
+  }
+}
+.buttongroup-size-large {
+  font-size: 115%;
+  a.button {
+    padding: 20px;
+    font-weight: bold;
+  }
+}
+
+// Create button groups from colors
+@each $name, $color in $colors {
+  .buttongroup-color-#{$name} {
+    background-color: darken($color, 10%);
+    a.button {
+      @include button($color);
+    }
+  }
+}
+
+// Give buttons
+.cu-give-button-dark {
+  @include button_default;
+  @include button($gray_dark);
+}
+.cu-give-button-light {
+  @include button_default;
+  @include button($gray_light);
+}
+.cu-give-button-gold {
+  @include button_default;
+  @include button($gold);
+}
+
+// Ghost buttons
+.button-ghost,
+a.button-ghost {
+  display: inline-block;
+  padding:5px 10px;
+  font-weight:bold;
+  font-family: $base_font;
+  margin-bottom: 5px;
+  text-decoration: none;
+  background-color:transparent;
+  @include rounded($radius: 0px);
+  color: $blue !important;
+  border:1px solid $blue;
+  &:hover {
+    background: $blue;
+    color: #fff !important;
+  }
+}
+@each $name, $color in $colors {
+  .button-ghost.button-ghost-#{$name},
+  a.button-ghost.button-ghost-#{$name},
+  .buttons-color-outline-#{$name} a,
+  .buttons-color-outline-#{$name} a.button {
+    border:1px solid $color;
+    @include rounded($radius: 0px);
+    color: $color !important;
+    text-decoration: none;
+    @if (lightness($color) > 40) {
+      background: rgba(#000, .15);
+    }
+    @else {
+      background: rgba(#FFF, .15);
+    }
+    &:hover,
+    &:active,
+    &:focus {
+      background: $color;
+      color: set-text-color($color) !important;
+    }
+  }
+}

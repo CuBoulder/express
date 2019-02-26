@@ -95,10 +95,12 @@ function cu_block_section_preprocess_entity(&$vars) {
   $bundle = $vars['elements']['#bundle'];
   $output = '';
   // Only preprocess block section beans.
-  if ($entity_type == 'bean' && $bundle == 'block_section') {
-    foreach ($vars['bean']->field_blocks_section_blocks[LANGUAGE_NONE] as $item) {
-      $bean = _cu_block_section_rerender($item);
-      $output .= render($bean);
+  if ($entity_type === 'bean' && $bundle === 'block_section') {
+    if (isset($vars['bean']->field_blocks_section_blocks[LANGUAGE_NONE])) {
+      foreach ($vars['bean']->field_blocks_section_blocks[LANGUAGE_NONE] as $item) {
+        $bean = _cu_block_section_rerender($item);
+        $output .= render($bean);
+      }
     }
     $vars['content']['blocks'] = $output;
 
@@ -151,11 +153,12 @@ function cu_block_section_preprocess_entity(&$vars) {
     $block_section_bg_effect = !empty($vars['content']['field_block_section_bg_effect']) ? 'block-section-bg-effect-' . $vars['content']['field_block_section_bg_effect'][0]['#markup'] : 'block-section-bg-effect-fixed';
 
     // CSS Classes
+
     $classes = array();
     $vars['parallax_data'] = '';
     $classes[] = 'block-section';
     $classes[] = 'block-section-text-' . $vars['field_hero_unit_text_color'][0]['value'];
-    $classes[] = 'block-section-background-' . $vars['field_hero_unit_bg_color'][0]['value'];
+    $classes[] = 'background-' . cu_block_section_bg_color_translate($vars['field_hero_unit_bg_color'][0]['value']);
     $classes[] = !empty($vars['field_block_section_bg_effect']) ? 'block-section-bg-effect-' . $vars['field_block_section_bg_effect'][0]['value'] : 'block-section-bg-effect-fixed';
 
     // Overlay
@@ -171,10 +174,19 @@ function cu_block_section_preprocess_entity(&$vars) {
       $classes[] = 'parallax-window';
       $vars['parallax_data'] = "data-parallaxie='{\"speed\": 1}'";
     }
+
+    // Content Background
+    if ($vars['field_block_section_content_bg'][0]['value'] != 'hidden') {
+      $text_color = $vars['field_hero_unit_text_color'][0]['value'];
+      $content_bg_classes[] = ($text_color == 'black') ? 'background-white' : 'background-black';
+      $content_bg_classes[] = 'block-section-content-bg-' . $vars['field_block_section_content_bg'][0]['value'];
+      $vars['content_bg_classes'] = join(' ', $content_bg_classes);
+    }
+    else {
+      $vars['content_bg_classes'] = '';
+    }
+
     $vars['block_section_classes'] = join(' ', $classes);
-
-
-
 
 
     if (theme_get_setting('alpha_responsive', variable_get('theme_default'))) {
@@ -270,5 +282,23 @@ function cu_block_section_bg_effect_options() {
 function cu_block_section_field_widget_form_alter(&$element, &$form_state, $context)	{
   if (!empty($element['#bundle']) && $element['#bundle'] == 'block_section' && $element['#field_name'] == 'field_blocks_section_blocks') {
     express_layout_format_ief($element);
+  }
+}
+
+function cu_block_section_bg_color_translate($color) {
+  $colors = array(
+    'white' => 'white',
+    'gray' => 'gray-light',
+    'black' => 'black',
+    'dark_gray' => 'gray-dark',
+    'gold' => 'gold',
+    'tan' => 'tan',
+    'light_blue' => 'blue-light',
+  );
+  if (!empty($colors[$color])) {
+    return $colors[$color];
+  }
+  else {
+    return $color;
   }
 }

@@ -20,3 +20,10 @@ function cushadow_preprocess_html(&$vars) {
 
   $vars['classes_array'][]='banner-black';
 }
+
+function cushadow_preprocess_region(&$vars) {
+  if ($vars['region'] == 'branding') {
+    $vars['logo_color'] = 'black';
+  }
+  $vars['classes_array'][]='layout-boxed';
+}

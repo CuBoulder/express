@@ -13,68 +13,16 @@ ul.tabs--primary li a.block-designer:before {
   }
   // Block Styles
 
-  &.exbd-style-white {
-    & > .block-inner {
-      @include block(#fff);
-      color: $text;
-      a:link, a:visited {
-        color:$blue;
-      }
-    }
-  }
 
-  &.exbd-style-light-gray {
-    & > .block-inner {
-      @include block($light_gray);
-      color: $text;
-      a:link, a:visited {
-        color:$dark_link_blue;
-      }
-    }
-  }
   &.exbd-style-outline {
-    & > .block-inner {
-      @include block($color: transparent);
-      border:1px solid $border_color;
-    }
+    @include block($color: transparent);
+    border:1px solid $border
   }
   &.exbd-style-underline {
-    & > .block-inner {
-      border-bottom:1px solid $border_color;
-      padding:0 0 20px 0;
-    }
+    border-bottom:1px solid $border;
+    padding:0 0 20px 0;
   }
-  &.exbd-style-dark-gray {
-    & > .block-inner {
-      @include block($dark_gray);
-      color:#fff;
-      a:link, a:visited {
-        color:$cugold;
-      }
-      a:hover,
-      a:active {
-        color:#ddd;
-      }
-    }
-  }
-  &.exbd-style-lightblue {
-    & > .block-inner {
-      @include block($light_blue);
-      color: $text;
-      a:link, a:visited {
-        color:$dark_link_blue;
-      }
-    }
-  }
-  &.exbd-style-tan {
-    & > .block-inner {
-      @include block($tan);
-      color:$text;
-      a:link, a:visited {
-        color:$dark_link_blue;
-      }
-    }
-  }
+
   // Heading alignment
   &.exbd-heading-align-centered > .block-inner > .exbd-block-title {
     text-align: center;
@@ -340,22 +288,34 @@ ul.tabs--primary li a.block-designer:before {
      @include styleRadio('White', #ffffff, null, null);
    }
    label[for='edit-exbd-style-light-gray'] {
-     @include styleRadio('Light Gray', $light_gray, null, null);
+     @include styleRadio('Light Gray', $gray-light, null, null);
    }
 
    label[for='edit-exbd-style-dark-gray'] {
-     @include styleRadio('Dark Gray', $dark_gray, null, null);
+     @include styleRadio('Dark Gray', $gray-dark, null, null);
    }
    label[for='edit-exbd-style-tan'] {
      @include styleRadio('Tan', $tan, null, null);
    }
    label[for='edit-exbd-style-lightblue'] {
-     @include styleRadio('Light Blue', $light_blue, null, null);
+     @include styleRadio('Light Blue', $blue-light, null, null);
+   }
+   label[for='edit-exbd-style-blue-medium'] {
+     @include styleRadio('Light Blue', $blue-medium, null, null);
+   }
+   label[for='edit-exbd-style-blue-dark'] {
+     @include styleRadio('Light Blue', $blue-dark, null, null);
+   }
+   label[for='edit-exbd-style-green-light'] {
+     @include styleRadio('Light Blue', $green-light, null, null);
+   }
+   label[for='edit-exbd-style-brick'] {
+     @include styleRadio('Light Blue', $brick, null, null);
    }
    label[for='edit-exbd-style-outline'] {
-     @include styleRadio(null, null, $border_color, null);
+     @include styleRadio(null, null, $border, null);
    }
    label[for='edit-exbd-style-underline'] {
-     @include styleRadio(null, null, null, $border_color);
+     @include styleRadio(null, null, null, $border);
    }
 }

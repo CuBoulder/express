@@ -1,0 +1,44 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+/**
+ * Global styles
+ */
+
+// apply a natural box layout model to all elements
+ html {
+   box-sizing: border-box;
+ }
+ body {
+   margin: 0;
+   padding: 0;
+ }
+ .page {
+   background:#fff;
+ }
+ *, *:before, *:after {
+   box-sizing: inherit;
+ }
+
+// Link styles
+a {
+  &:link,
+  &:visited {
+    color: $blue;
+    transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    text-decoration:none;
+    text-decoration-color: rgba($blue, .65);
+    -webkit-text-decoration-color: rgba($blue, .65);
+  }
+  &:hover {
+    color: $red;
+    text-decoration-color: rgba($red, .65);
+    -webkit-text-decoration-color: rgba($red, .65);
+  }
+  &:active {
+    color: $red;
+    text-decoration-color: rgba($red, .65);
+    -webkit-text-decoration-color: rgba($red, .65);
+  }
+}

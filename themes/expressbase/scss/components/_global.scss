@@ -19,8 +19,16 @@ html {
 #alerts .block {
   margin: 0;
 }
-#site-info-wrapper {
+#site-info {
   padding-top: 20px;
+  background-color: inherit;
+}
+#site-info-wrapper {
+  background: inherit;
+
+  background-size: cover;
+  background-position: center center;
+  padding-top: 0;
 }
 
 .layout-responsive .maxwidth {
@@ -224,4 +232,13 @@ html {
 /* Required Links */
 .required-links {
   font-size: 85%;
+}
+
+.breakout-full-width {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
 }

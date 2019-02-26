@@ -4,8 +4,8 @@
  * @file
  * Give us money.
  */
- 
- 
+
+
 /**
  * Implements hook_menu().
  */
@@ -61,9 +61,9 @@ function cu_give_buttons_give($attrs, $content = NULL) {
   if ($style == 'full') {
     $classes[] = 'button-full';
   }
-  
-  $classes[] = 'cu-give-button-' . $color;
-  
+  $classes[] = ($color == 'gold') ? 'button-gold' : 'button-gray-' . $color;
+  //$classes[] = 'cu-give-button-' . $color;
+
   $content = '<i class="icon-cu"></i> ' . $content;
   return l($content, $url, array(
     'attributes' => array(

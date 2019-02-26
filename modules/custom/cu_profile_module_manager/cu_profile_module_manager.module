@@ -12,26 +12,6 @@
  */
 function cu_profile_module_manager_menu() {
 
-  $items['admin/settings/bundles/list/atlas/%/confirm'] = array(
-    'title' => 'Confirm Atlas code request',
-    'type' => MENU_CALLBACK,
-    'description' => 'Atlas confirmation.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('cu_profile_module_manager_atlas_request_form'),
-    'access arguments' => array('enable module bundles'),
-  );
-
-  $items['admin/settings/bundles/list/atlas/%/add'] = array(
-    'title' => 'Confirm Atlas code request',
-    'type' => MENU_CALLBACK,
-    'description' => 'Atlas confirmation.',
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('cu_profile_module_manager_atlas_add_asset_form'),
-    'access arguments' => array('enable module bundles'),
-  );
-
-
-
   $items['admin/settings/bundles/list/available'] = array(
     'title' => 'Available',
     'type' => MENU_LOCAL_TASK,
@@ -43,18 +23,12 @@ function cu_profile_module_manager_menu() {
     'weight' => 10,
   );
 
-  $items['admin/settings/bundles/list/request/%'] = array(
-    'title' => 'Bundle Request',
-    'type' => MENU_CALLBACK,
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('cu_profile_module_manager_request_bundle_form',5),
-    'access arguments' => array('enable module bundles'),
-    'file' => 'cu_profile_module_manager.admin.inc',
-  );
-
   return $items;
 }
 
+/**
+ * Implementes hook_menu_alter().
+ */
 function cu_profile_module_manager_menu_alter(&$items) {
   $items['admin/settings/bundles/list']['page callback'] = 'cu_profile_module_manager_bundles';
   $items['admin/settings/bundles/list']['page arguments'] = array(TRUE, NULL, NULL);
@@ -62,8 +36,6 @@ function cu_profile_module_manager_menu_alter(&$items) {
   $items['admin/settings/bundles/list']['file'] = 'cu_profile_module_manager.admin.inc';
   $items['admin/settings/bundles/list']['title'] = 'Bundles';
   $items['admin/settings/bundles/list/core']['title'] = 'Installed';
-
-
 }
 
 /**
@@ -80,256 +52,24 @@ function cu_profile_module_manager_theme() {
   return $registry;
 }
 
-
-
-/**
- * Implements hook_form().
- *
- * @param $form
- * @param $form_state
- * @return mixed
- */
-function cu_profile_module_manager_atlas_request_form($form, &$form_state) {
-  $form = array();
-  preg_match('/^[a-zA-Z0-9_]*/', arg(5), $module);
-  $package = _get_code_options($type = 'module', $name = $module[0]);
-
-  $form['atlas_asset'] = array(
-    '#title' => t('Atlas asset being requested.'),
-    '#markup' => t('Are you sure you want to add this bundle? <br><strong>') . arg(5) . '</strong>',
-  );
-  $form['atlas_package_to_add'] = array(
-    '#type' => 'hidden',
-    '#value' => array(
-      key($package) => key($package),
-    ),
-  );
-
-  $form['#validate'][] = 'cu_profile_module_manager_validate_atlas_request';
-  $form['#submit'][] = 'cu_profile_module_manager_atlas_request_submit';
-
-  return system_settings_form($form);
-}
-
-/**
- * Implements hook_validate_form().
- *
- * @param $form
- * @param $form_state
- */
-function cu_profile_module_manager_validate_atlas_request($form, &$form_state) {
-  $atlas_id = variable_get('atlas_id', FALSE);
-  $site_array = atlas_api_request('sites', $atlas_id);
-  if (variable_get('atlas_path') == $site_array['sid'] && $site_array['pool'] != 'poolb-homepage' && (variable_get('atlas_status') == 'launching' || variable_get('atlas_status') == 'launched')) {
-    form_set_error('atlas_path', t('You cannot launch a site at it\'s \'p1\' URL.'));
-  }
-  if (variable_get('atlas_status') == 'available') {
-    form_set_error('atlas_status', t('You cannot make any changes to a site while it is in the \'Available\' state.'));
-  }
-}
-
-/**
- * Submit function for cu_profile_module_manager_atlas_request_form().
- *
- * @param $form
- * @param $form_state
- */
-function cu_profile_module_manager_atlas_request_submit($form, &$form_state) {
-  $atlas_id = variable_get('atlas_id', NULL);
-  $site_array = atlas_api_request('sites', $atlas_id);
-
-  // Setup empty array for data that is changing.
-  $request_data = array();
-
-  // If the atlas form has been saved and set, then merge our arrays. Otherwise, override the non-existent array.
-  if (isset($form_state['values']['atlas_package_to_add']) && isset($site_array['code']['package'])) {
-    $package_array = $site_array['code']['package'];
-    $add_package = $form_state['values']['atlas_package_to_add'];
-    $all_together_now = array_merge($package_array, $add_package);
-    $request_data['code']['package'] = $all_together_now;
-  } if (isset($form_state['values']['atlas_package_to_add']) && !isset($site_array['code']['package'])) {
-    $add_package = $form_state['values']['atlas_package_to_add'];
-    $request_data['code']['package'] = $add_package;
-  }
-
-  // We only want to send a patch if something has changed.
-  if (!empty($request_data)) {
-    // Set the etag from the form.
-    $request_data['_etag'] = $site_array['_etag'];
-    atlas_api_request('sites', $atlas_id, 'PATCH', $request_data);
-    $form_state['redirect'] = 'admin/settings/bundles/list';
-  }
-  else {
-    drupal_set_message(t('No data was changed.'), 'warning');
-  }
-}
-
-/**
- * @param $hash
- * @param $name
- * @return mixed|string
- */
-function curl_github_info($hash, $name) {
-  if (variable_get('github_info')) {
-    // Great!
-  } else {
-    variable_set('github_info', array());
-  }
-
-  $github_info = variable_get('github_info');
-
-  if (!isset($github_info[$name])) {
-    $data = @file_get_contents('https://github.com/CuBoulder/' . $name . '/blob/' . $hash . '/' . $name . '.info');
-
-    if (strpos($data, 'description = ')) {
-      $start = strpos($data, 'description = ');
-      $start = $start + 14;
-      $end = strpos($data, 'core = ', $start);
-      $output = html_entity_decode(substr($data, $start, ($end - $start)));
-      $github_info[$name] = $output;
-
-      // Shave it for later.
-      variable_set('github_info', $github_info);
-    } else {
-      $output = 'For information on this and other bundles that require a request, visit <a href="http://colorado.edu/webcentral">Webcentral\'s page about bundle requests.</a>';
-    }
-  } else {
-    $output = $github_info[$name];
-  }
-
-  return $output;
-}
-
-/**
- * Addon bundle page.
- *
- * @return array
- */
-function cu_profile_module_manager_addon_page() {
-  /* Variables and whatnot--no form elements. */
-  global $base_path;
-
-  $atlas_id = variable_get('atlas_id', NULL);
-
-  drupal_add_css(drupal_get_path('module', 'cu_profile_module_manager') . '/css/cu-profile-module-manager.css', array('group' => CSS_DEFAULT));
-
-  // Get code packages from atlas.
-  $query = 'where={"meta.code_type":"module"}';
-  $packages = atlas_api_request('code', $query);
-  $output = array(
-    'description' => array(
-      '#type' => 'markup',
-      '#markup' => '<p>These are bundles that can be added at any time by site owners. Once you add the bundle,
-                    you will receive an email when it has finished downloading. Once downloaded, the bundle will
-                    be available to enable.</p><p>If you have any questions or concerns, contact Web Support for help.</p>',
-    ),
-  );
-
-  $site_array = atlas_api_request('sites', $atlas_id);
-  if (isset($site_array['code']['package'])) {
-    $packages_array = $site_array['code']['package'];
-  } else {
-    $packages_array = array();
-  }
-
-  foreach ($packages['_items'] as $package) {
-    $name = (isset($package['meta']['name']) ? $package['meta']['name'] : '');
-    $label = (isset($package['meta']['label']) ? $package['meta']['label'] : '');
-    $id = (isset($package['_id']) ? $package['_id'] : '');
-    $hash = (isset($package['commit_hash']) ? $package['commit_hash'] : '');
-
-    $tags = array();
-    if (!empty($package['meta']['tag'])) {
-      foreach ($package['meta']['tag'] as $tag) {
-        $tags[] = $tag;
-      }
-    }
-
-    $enabled = module_exists($name) ? 1 : 0;
-
-    if (isset($tag) && isset($label) && isset($name) && in_array('addon_bundles', $tags) && !in_array($id, $packages_array)) {
-      $response = curl_github_info($hash, $name);
-      $output[] = array(
-        'atlas_item' => array(
-          '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>' . $response . '</p><br><a href="' . $base_path . 'admin/settings/bundles/list/atlas/' . $name . '/confirm" id="' . $id . '" class="pmm-actions btn btn-primary"><i class="fa fa-plus-circle"></i> Add bundle</a></div>',
-        ),
-      );
-    }
-
-    if (isset($tag) && isset($label) && isset($name) && in_array('addon_bundles', $tags) && in_array($id, $packages_array) && $enabled == FALSE) {
-      // Is NOT enabled.
-      $response = curl_github_info($hash, $name);
-      $output[] = array(
-        'atlas_item' => array(
-          '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle"><h2>' . $label . '</h2><br><p>' . $response . '</p><br><a href="' . $base_path . 'admin/settings/bundles/list/confirm/' . $name . '" id="' . $id . '" class="pmm-actions btn btn-info"><i class="fa fa-plus-circle"></i> Enable</a></div>',
-        ),
-      );
-    }
-
-    if (isset($tag) && isset($label) && isset($name) && in_array('addon_bundles', $tags) && in_array($id, $packages_array) && $enabled == TRUE) {
-      // Is enabled.
-      $response = curl_github_info($hash, $name);
-      $output[] = array(
-        'atlas_item' => array(
-          '#type' => 'markup',
-          '#markup' => '<div class="bundle-enable atlas-add-bundle bundle-ready"><h2>' . $label . '</h2><br><p>' . $response . '</p><br><span class="pmm-actions btn btn-info" disabled ><i class="fa fa-check-circle"></i> Ready to use</span></div>',
-        ),
-      );
-    }
-  }
-  return $output;
-}
-
-/**
- * Email function to send support email when a bundle has been requested.
- */
-function cu_profile_module_manger_send_request($form, &$form_state) {
-  global $base_url;
-  global $user;
-  $site_name = variable_get('site_name', 'Site name missing');
-  $request_email = variable_get('cu_request_bundle_email', 'websupport@colorado.edu');
-
-  if ($user) {
-    $user = user_load($user->uid);
-    $from = $user->mail;
-    $site_name = variable_get('site_name', '');
-    $name = isset($user->realname) ? $user->realname : $user->name;
-    $bundle = $form_state['values']['bundle'];
-    $body = "$name ($from) has requested the $bundle for the $site_name website ($base_url)";
-    $params = array(
-      'subject' => t('Web Express Bundle Request - ' . $bundle),
-      'body' => $body,
-    );
-    drupal_mail('cu_profile_module_manger', 'cu_profile_module_manger_request_bundle', $request_email, language_default(), $params, $from, TRUE);
-    //drupal_set_message($body);
-  }
-}
-
-/**
- * Implements hook_permission.
- */
-function cu_profile_module_manager_permission() {
-  return array(
-    'enable request bundles' => array(
-      'title' => t('Enable Request Bundles'),
-      'description' => t('Enable modules that require a user to request them.'),
-    ),
-  );
-}
-
 /**
  * Implements hook_secure_permissions.
  */
 function cu_profile_module_manager_secure_permissions($role) {
-
   $permissions = array(
+    'site_owner' => array(
+      'enable module bundles',
+    ),
+    'configuration_manager' => array(
+      'enable module bundles',
+    ),
     'administrator' => array(
-      'enable request bundles',
+      'enable module bundles',
+      'skip bundle request step',
     ),
     'developer' => array(
-      'enable request bundles',
+      'enable module bundles',
+      'skip bundle request step',
     ),
   );
 

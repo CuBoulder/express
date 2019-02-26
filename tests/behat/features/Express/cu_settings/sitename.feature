@@ -30,10 +30,8 @@ Scenario: An anonymous user should not be able to set site name
 Scenario: When Site Name is populated, it shows up on the homepage
   Given I am logged in as a user with the "site_owner" role
   And am on "admin/settings/site-configuration/site-name"
-  And fill in "edit-site-name-1" with "New Site Title"
-  And fill in "edit-site-name-2" with "Second Line"
+  And fill in "edit-site-name" with "New Site Title"
   When I press "Save"
   Then I should see "The configuration options have been saved"
   And I go to "/"
-  Then I should see a ".site-name-two-lines" element
-  And I should see "New Site Title Second Line"
+  Then I should see "New Site Title"

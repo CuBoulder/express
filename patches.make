@@ -27,17 +27,11 @@ projects[linkchecker][patch][] = https://www.drupal.org/files/integration-indepe
 ; @see https://cuboulder.atlassian.net/browse/FIT-1879 and https://www.drupal.org/node/1809958
 projects[views][patch][] = https://www.drupal.org/files/issues/views-undefined_var_ajax_exposed_filter-1809958-37.patch
 
-; @see https://cuboulder.atlassian.net/browse/FIT-1834
-projects[bean][patch][] = https://www.drupal.org/files/issues/bean-watchdog_logging-2714693-5-7.x.patch
-
 ; @see https://cuboulder.atlassian.net/browse/FIT-1910
 projects[insert][patch][] = modules/contrib/insert/insert-pathologic.patch
 
 ; @see https://cuboulder.atlassian.net/browse/FIT-1474
 projects[field_reference_delete][patch][] = https://www.drupal.org/files/issues/bulk-delete-using-drush-2772589-2.patch
-
-; @see https://github.com/CuBoulder/express/issues/1726
-projects[ldap_servers][patch][] = "https://www.drupal.org/files/issues/2929976-ldap_server_include_files-2.patch"
 
 ; @see https://github.com/CuBoulder/express/issues/1120
 projects[quicktabs][patch][] = "https://www.drupal.org/files/issues/alpha-blocks-2883516-7-2.patch"
@@ -54,6 +48,5 @@ projects[views_slideshow][patch][] = "https://www.drupal.org/files/issues/drush-
 ; This is currently in the dev branch waiting for 3.5 release.
 projects[video_filter][patch][] = https://www.drupal.org/files/issues/video_filter-aspect-ratio-2749297-2-D7.patch
 
-; @see https://github.com/CuBoulder/express/issues/2498
-; Without this, varnish won't clear on save
-projects[varnish][patch][] = https://www.drupal.org/files/issues/varnish-2944565-issue.patch
+; @see https://github.com/CuBoulder/express/issues/1679
+projects[video_filter][patch][] = https://www.drupal.org/files/issues/video_filter-2763737-8.patch

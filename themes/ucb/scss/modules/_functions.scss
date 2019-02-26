@@ -1,0 +1,77 @@
+@import "modules/colors";
+
+//
+// Functions
+//
+
+@mixin font-size($value : 15) {
+  font−size: ($value / 10) + rem;
+}
+
+@function set-text-color($color) {
+  $r: red($color);
+  $g: green($color);
+  $b: blue($color);
+
+  $yiq: (($r*299) + ($g*587) + ($b*114))/1000;
+  @if ($yiq >= 128) {
+    @return $text-black; // Lighter backgorund, return dark color
+  } @else {
+    @return #fff; // Darker background, return light color
+  }
+}
+
+@function set-link-color($color) {
+  $r: red($color);
+  $g: green($color);
+  $b: blue($color);
+
+  $yiq: (($r*299) + ($g*587) + ($b*114))/1000;
+
+  @if ($color == $cugold) {
+    @return #444;
+  }
+  @else if (lightness($color) == 100%) {
+    @return $blue;
+  }
+  @else if ($yiq >= 220) {
+    @return $blue-dark;
+  }
+  @else if ($yiq >= 128) {
+    @return darken($blue-contrast, 5); // Lighter backgorund, return dark color
+  }
+  // Color is probably dark at this point.
+  // Return gold if image has no color/saturation = 0
+  // Or return a light gray
+  @else {
+    @if (saturation($color) > 0) {
+      @return #ddd;
+    }
+    @else {
+      @return $gold; // Darker background, return light color
+    }
+  }
+}
+
+@function set-link-hover-color($color) {
+  $r: red($color);
+  $g: green($color);
+  $b: blue($color);
+
+  $yiq: (($r*299) + ($g*587) + ($b*114))/1000;
+
+  @if ($color == $cugold) {
+    @return $black;
+  }
+  @else if (lightness($color) == 100%) {
+    @return $red;
+  }
+  @else if ($yiq >= 220) {
+    @return $red;
+  }
+  @else if ($yiq >= 128) {
+    @return darken($red, 5); // Lighter backgorund, return dark color
+  } @else {
+    @return #fff; // Darker background, return light color
+  }
+}

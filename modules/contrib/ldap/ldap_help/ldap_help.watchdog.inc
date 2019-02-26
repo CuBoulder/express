@@ -5,9 +5,10 @@
  * The ldap_help watchdog is just a filtered watchdog summary.
  *
  */
+
 function ldap_help_watchdog() {
 
-  $path =  drupal_get_path("module", "ldap_help");
+  $path = drupal_get_path("module", "ldap_help");
   $_content = "";
   if (module_exists('dblog')) {
     include_once(drupal_get_path('module', 'dblog') . '/dblog.admin.inc');

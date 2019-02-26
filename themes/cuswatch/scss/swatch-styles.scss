@@ -1,9 +1,9 @@
-@import "../../expressbase/scss/modules/_global.scss";
-@import "../../expressbase/scss/modules/_colors.scss";
+@import "../../ucb/scss/modules/_global.scss";
+@import "../../ucb/scss/modules/_colors.scss";
 
 
 body {
-  background-color: $bg_dark1;
+  background-color: $black;
   padding-bottom: 20px;
 }
 .layout-wide #backstretch {
@@ -47,31 +47,34 @@ body {
   }
 }
 #navigation .links a {
-  line-height: 60px;
+
 }
 #main-menu-wrapper {
-  background-color: $bg_dark1;
-  a {
-    color:#ccc;
-    font-size: 90%;
-    font-weight: 600;
-    &:hover {
-      background-color: #444;
-      color:#fff;
+  background-color: #222;
+  ul#main-menu {
+    & > li > a {
+      color:#ccc;
+      font-size: 90%;
+      font-weight: 600;
+      line-height: 60px;
+      &:hover {
+        background-color: #444;
+        color:#fff;
+      }
     }
-  }
-  a.active,
-  a.active-trail {
-    background-color: #333;
-    color:#fff;
-    &:hover {
+    & > li > a.active,
+    & > li > a.active-trail {
+      background-color: #333;
       color:#fff;
+      &:hover {
+        color:#fff;
+      }
     }
-  }
-  a.home-link,
-  a.home-link.active {
-    color:#ccc;
-    background-color: transparent;
+    & > li > a.home-link,
+    & > li > a.home-link.active {
+      color:#ccc;
+      background-color: transparent;
+    }
   }
 }
 ul#action-menu a {
@@ -81,6 +84,7 @@ ul#action-menu a {
 #navigation ul.action-menu {
   a {
     margin: 18px 5px;
+    color:#ccc;
   }
 }
 
@@ -100,7 +104,7 @@ ul#action-menu a {
   }
 }
 #page-title-wrapper {
-  background-color: $bg_dark2;
+  background-color: #171717;
   color:#fff;
   padding:20px;
   a {
@@ -138,25 +142,14 @@ ul#action-menu a {
   background-color: #fff;
 }
 .after-content2-wrapper {
-  background-color: #fafafa;
   border-top:1px solid #f7f7f7;
-  padding: 40px 0 20px;
 }
-.footer-section {
-  background-color: $bg_dark2;
-  color:#fff;
-  a {
-    color: $cugold;
-  }
-  a:hover {
-    color:#fff;
-  }
-}
-.footer-wrapper {
-  padding:40px 0 20px;
-}
-.site-info-wrapper {
-  background-color: $bg_dark1;
+.after-content-wrapper,
+.after-content2-wrapper,
+.footer-wrapper,
+.site-info-wrapper  {
+  padding-top: 40px;
+  padding-bottom: 20px;
 }
 
 .footer-menu {

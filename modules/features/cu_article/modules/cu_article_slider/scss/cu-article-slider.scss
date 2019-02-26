@@ -84,7 +84,7 @@
     background: #757575;
   }
 }
-.article-slider-node {
+.article-slider .article-slider-node {
   width:100%;
   @media screen and (min-width:768px) {
     & {
@@ -116,7 +116,8 @@
 
     padding-top: 50px;
     @include gradient($color: rgba(0,0,0,0), $color2: rgba(0,0,0,.85));
-    a {
+    a:link,
+    a:visited, {
       display: block;
       padding:10px;
       color:#fff;

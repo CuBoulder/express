@@ -1,0 +1,138 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+/**
+ * Image styles
+ */
+img {
+ max-width:100%;
+ height: auto;
+}
+
+// Responsive classes: img.image-md-66 - image is 66% on medium breakpoint
+$breakpoints: (
+  "xs" : $breakpoint_xs,
+  "sm" : $breakpoint_small,
+  "md" : $breakpoint_medium,
+  "lg" : $breakpoint_large,
+);
+$widths: (
+  25,
+  33,
+  50,
+  66,
+  75,
+  100,
+);
+@each $breakpoint, $value in $breakpoints {
+  @media screen and (min-width: $value) {
+    @each $width in $widths {
+      img.image-#{$breakpoint}-#{$width} {
+        max-width:$width * 1%;
+      }
+    }
+  }
+}
+
+// Image % widths
+@each $width in $widths {
+  img.image-#{$width} {
+    max-width:$width * 1%;
+  }
+}
+
+//Image px widths
+$widths: (
+  50,
+  75,
+  100,
+  150,
+  200,
+);
+
+@each $breakpoint, $value in $breakpoints {
+  @media screen and (min-width: $value) {
+    @each $width in $widths {
+      img.image-#{$breakpoint}-#{$width}px {
+        width:#{$width}px ;
+      }
+    }
+  }
+}
+@each $width in $widths {
+  img.image-#{$width}px {
+    width:#{$width}px ;
+  }
+}
+
+
+img.image-full {
+  width:100% !important;
+  max-width: none;
+  display: block !important;
+}
+img.image-block {
+  display: block;
+}
+
+img.image-inline {
+  display: inline-block;
+}
+
+// Image alignment
+.image-align-left {
+  float:left;
+  margin: 0 $spacing $spacing 0;
+}
+.image-align-right {
+  float:right;
+  margin: 0 0 $spacing $spacing;
+}
+.image-align-left-small {
+  float:left;
+  margin: 0 $spacing/2 $spacing/2 0;
+}
+.image-align-right-small {
+  float:right;
+  margin: 0 0 $spacing/2 $spacing/2;
+}
+@each $breakpoint, $value in $breakpoints {
+  img.image-#{$breakpoint}-align-left,
+  img.image-#{$breakpoint}-align-right,
+  img.image-#{$breakpoint}-align-left-small,
+  img.image-#{$breakpoint}-align-right-small {
+    float:none;
+  }
+}
+
+
+@each $breakpoint, $value in $breakpoints {
+  @media screen and (min-width: $value) {
+    img.image-#{$breakpoint}-align-left {
+      float:left;
+      margin: 0 $spacing $spacing 0;
+    }
+    img.image-#{$breakpoint}-align-right {
+      float:right;
+      margin: 0 0 $spacing $spacing;
+    }
+    img.image-#{$breakpoint}-align-left-small {
+      float:left;
+      margin: 0 $spacing/2 $spacing/2 0;
+    }
+    img.image-#{$breakpoint}-align-right-small {
+      float:right;
+      margin: 0 0 $spacing/2 $spacing/2;
+    }
+    img.image-#{$breakpoint}-align-none {
+      float: none;
+    }
+  }
+}
+
+// Circle Images
+// Source image should be a square
+img.circular {
+  border-radius: 100%;
+}

@@ -81,7 +81,7 @@ function cu_share_output(&$page) {
       // Build sharing url
       $url = $share_service['url'] . urlencode($current_url);
       $output .= '<li class="social-share-item">';
-      $output .= '<a href="' . $url . '" target="_blank"><span class="socicon soc-' . $key . '"></span><span class="element-invisible">Share via ' . $share_service['name'] . '</span></a>';
+      $output .= '<a href="' . $url . '" target="_blank"><span class="socicon socicon-' . $key . ' . soc-' . $key . '"></span><span class="element-invisible">Share via ' . $share_service['name'] . '</span></a>';
       $output .= '</li>';
     }
   }
@@ -378,7 +378,7 @@ function cu_share_settings_form_submit($form, &$form_state) {
   // Save sharing position
   $position = $form_state['values']['cu_share_position'];
   variable_set('cu_share_position', $position);
-  
+
   //Display status message
   drupal_set_message(t('Social Share Settings have been saved.'), 'status');
 
@@ -459,7 +459,7 @@ function cu_share_block_view($delta = '') {
               // Build sharing url
               $url = $share_service['url'] . urlencode($current_url);
               $output .= '<li class="social-share-item">';
-              $output .= '<a href="' . $url . '" target="_blank"><span class="socicon soc-' . $key . '"></span><span class="element-invisible">Share via ' . $share_service['name'] . '</span></a>';
+              $output .= '<a href="' . $url . '" target="_blank"><span class="socicon socicon-' . $key . ' soc-' . $key . '"></span><span class="element-invisible">Share via ' . $share_service['name'] . '</span></a>';
               $output .= '</li>';
             }
           }

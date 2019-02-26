@@ -3,8 +3,8 @@ $blue: #0277BD;
 $border_color: #e0e0e0;
 
 .cu-search-box .search-form-wrapper {
-  display: flex;
-  flex-direction: column-reverse;
+  //display: flex;
+  //flex-direction: column;
 }
 .search-options {
   display: flex;
@@ -304,4 +304,20 @@ $border_color: #e0e0e0;
 
 #block-google-cse-google-cse h2.block-title {
   display: none;
+}
+
+// Campus Links
+.cu-search-box .campus-links ul.inline.inline-menu {
+  a {
+    margin-right: 0;
+
+
+  }
+  li:before {
+    content: ' • ';
+  }
+  li:first-child:before {
+    content:none;
+  }
+
 }

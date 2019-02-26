@@ -87,13 +87,23 @@ function atlas_statistics_atlas_statistics() {
 
   // Returns system status boolean and resolves to TRUE or FALSE.
   module_load_include('inc', 'system', 'system.admin');
-  $statistics_data['drupal_system_status'] = (system_status(TRUE)) ? TRUE : FALSE;
-
-  // If webform is enabled then gather its statistics.
-  $webform_stats = _atlas_statistics_get_webform_statistics();
-  if (module_exists('webform')) {
-    $statistics_data['webforms'] = $webform_stats;
+  if (system_status(TRUE)) {
+    $statistics_data['drupal_system_status'] = TRUE;
+    watchdog(
+      'atlas_statistics',
+      'System Status is True | %requirements',
+      array(
+        '%requirements' => _atlas_drush_core_requirements()
+      ),
+      WATCHDOG_WARNING,
+      NULL
+    );
   }
+  else {
+    $statistics_data['drupal_system_status'] = FALSE;
+  }
+
+
 
   // Get role ids to search for in query.
   $role_ids = [];
@@ -150,39 +160,6 @@ function _atlas_statistics_get_features_statuses() {
 }
 
 /**
- * Get count of total submissions, active forms, and inactive forms.
- *
- * @return array
- *   An array of webform statistics.
- */
-function _atlas_statistics_get_webform_statistics() {
-  $webform_stats = array(
-    'total_submissions' => 0,
-    'active_forms' => 0,
-    'inactive_forms' => 0,
-  );
-
-  // Load all webforms.
-  $webforms = node_load_multiple(array(), array(
-    'type' => 'webform',
-  ));
-
-  // Loop through webforms and tally the statistic totals.
-  module_load_include('inc', 'webform', 'includes/webform.submissions');
-  foreach ($webforms as $webform) {
-    // Tally submission count.
-    $webform_stats['total_submissions'] += webform_get_submission_count($webform->nid);
-
-    // Set active/inactive bit and tally.
-    $is_active = atlas_statistics_webform_is_active($webform->nid);
-    $webform_stats['active_forms'] += $is_active == TRUE ? 1 : 0;
-    $webform_stats['inactive_forms'] += $is_active == FALSE ? 1 : 0;
-  }
-
-  return $webform_stats;
-}
-
-/**
  * Determines if the webform is active based upon the date of last submission.
  *
  * @param int $nid
@@ -204,4 +181,42 @@ function atlas_statistics_webform_is_active($nid, $date = '13 months ago') {
     $last_submission = end($submissions);
     return $last_submission->submitted > strtotime($date);
   }
+}
+
+/**
+ * Replicate functionality of https://github.com/drush-ops/drush/blob/8.x/commands/core/core.drush.inc#L797
+ */
+function _atlas_drush_core_requirements() {
+  $return_string = NULL;
+  include_once DRUPAL_ROOT . '/includes/install.inc';
+  $severities = array(
+    REQUIREMENT_INFO => t('Info'),
+    REQUIREMENT_OK => t('OK'),
+    REQUIREMENT_WARNING => t('Warning'),
+    REQUIREMENT_ERROR => t('Error'),
+  );
+  drupal_load_updates();
+  $requirements = module_invoke_all('requirements', 'runtime');
+  // If a module uses "$requirements[] = " instead of
+  // "$requirements['label'] = ", then build a label from
+  // the title.
+
+  foreach($requirements as $key => $info) {
+    if (is_numeric($key)) {
+      unset($requirements[$key]);
+      $new_key = strtolower(str_replace(' ', '_', $info['title']));
+      $requirements[$new_key] = $info;
+    }
+  }
+  ksort($requirements);
+  $min_severity = 2;
+  foreach($requirements as $key => $info) {
+    $severity = array_key_exists('severity', $info) ? $info['severity'] : -1;
+    $requirements[$key]['sid'] = $severity;
+    $requirements[$key]['severity'] = $severities[$severity];
+    if ($severity >= $min_severity) {
+      $return_string .= $requirements[$key]['title'] . ' - ' . $requirements[$key]['value'] . ' | ';
+    }
+  }
+  return $return_string;
 }

@@ -2,6 +2,7 @@
   width: 1px;
   height: 1px;
   cursor: move;
+  position: absolute !important;
 }
 .focal-point-indicator:after {
   /*content: '⌖';*/

@@ -259,12 +259,14 @@ p.tags {
 }
 .article-teaser-meta a:link,
 .article-teaser-meta a:visited {
-  color:#666;
+  color:#666 !important;
   background-color: #e7e7e7;
   padding:3px;
   line-height: 100%;
   margin:0 5px 5px 0;
   font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .field-name-field-article-grid-more-link {

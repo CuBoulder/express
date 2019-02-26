@@ -1,7 +1,13 @@
-@import "../../expressbase/scss/modules/_colors.scss";
-@import "../../expressbase/scss/modules/_global.scss";
+@import "../../ucb/scss/modules/_colors.scss";
+@import "../../ucb/scss/modules/_global.scss";
+
+
+.express-messages .express-message:first-child {
+  margin-top: 40px;
+}
+
 body {
-  background-color: $bg_dark2;
+  background-color: $gray-dark;
 }
 #backstretch {
   display: none;
@@ -9,9 +15,12 @@ body {
 #page {
   position: relative;
 }
+#navigation-wrapper {
+  z-index: 5;
+}
 .banner-dark {
   #secondary-menu-wrapper {
-    background-color: #333;
+    background-color: #444;
     color:#fff;
     a {
       color:#fff;
@@ -23,27 +32,32 @@ body {
     }
   }
   #main-menu-wrapper {
-    background-color: #333;
+    background-color: #444;
     //background-image: url(../images/navBG.png);
     //background-repeat: repeat-x;
     //background-position: center center;
     position: static;
-    a {
-      color:#333;
-      font-weight: 600;
+    ul#main-menu {
+      & > li > a {
+        color:#333;
+        font-weight: 600;
+      }
+      & > li > a:hover,
+      & > li > a.active,
+      & > li > a.active-trail {
+        background-color: $cugold;
+        color:#000;
+      }
+      & > li > a.home-link.active {
+        background: transparent;
+        color:#333;
+      }
     }
-    a:hover,
-    a.active,
-    a.active-trail {
-      background-color: $cugold;
-      color:#000;
-    }
-    a.home-link.active {
-      background: transparent;
+    ul#action-menu a {
       color:#333;
     }
     nav {
-      margin: 0 -20px;
+      // margin: 0 -20px;
     }
     .nav-inner {
       background-color: #f7f7f7;
@@ -52,7 +66,7 @@ body {
 }
 .banner-light {
   #secondary-menu-wrapper {
-    background-color: #f2f2f2;
+    background-color: #eee;
     color:#666;
     a {
       color:#666;
@@ -64,27 +78,32 @@ body {
     }
   }
   #main-menu-wrapper {
-    background-color: #f2f2f2;
+    background-color: #eee;
     //background-image: url(../images/navBG.png);
     //background-repeat: repeat-x;
     //background-position: center center;
     position: static;
-    a {
+    ul#main-menu {
+      & > li > a {
+        color:#fff;
+        font-weight: 600;
+      }
+      & > li > a:hover,
+      & > li > a.active,
+      & > li > a.active-trail {
+        background-color: $cugold;
+        color:#000;
+      }
+      & > li > a.home-link.active {
+        background: transparent;
+        color:$cugold;
+      }
+    }
+    ul#action-menu a {
       color:#fff;
-      font-weight: 600;
-    }
-    a:hover,
-    a.active,
-    a.active-trail {
-      background-color: $cugold;
-      color:#000;
-    }
-    a.home-link.active {
-      background: transparent;
-      color:$cugold;
     }
     nav {
-      margin: 0 -20px;
+      // margin: 0 -20px;
     }
     .nav-inner {
       background-color: #333;
@@ -92,27 +111,27 @@ body {
   }
 }
 
-#navigation .links a {
-  line-height: 60px;
+#navigation ul#main-menu > li > a {
+  line-height: 40px;
 }
 
 #navigation {
   //height:30px;
   overflow: visible;
   position: relative;
-  padding: 0 20px;
+  padding: 1px 20px;
   .nav-inner {
     position: relative;
     width:100%;
     z-index: 3;
     @include rgbashadow(0, 3px, 1px, #000, .08);
-    margin-bottom: -30px;
+    margin-bottom: -20px;
   }
 }
 #navigation ul.action-menu {
   margin: 0 5px;
   a {
-    margin: 18px 5px;
+    margin: 8px 5px;
   }
 }
 .layout-fixed {
@@ -134,17 +153,7 @@ body {
   background-color: #fff;
   //@include rgbashadow(0, 3px, 1px, #000, .08);
 }
-.banner-dark .slider-wrapper {
-  //padding: 20px;
-  background-color: #333;
-  color:#fff;
-  a:link, a:visited {
-    color:$cugold;
-  }
-}
-.banner-light .slider-wrapper {
-  background-color: #f2f2f2;
-}
+
 #page-title-image-wrapper {
   //background-color: #f5f5f5;
 }
@@ -194,7 +203,7 @@ body {
   padding-top: 0px;
 }
 #main-content-wrapper {
-  padding:0;
+  padding-top: 40px !important;
 }
 #main {
   //background-color: #fff;
@@ -209,7 +218,6 @@ body {
   padding: 40px 0 20px;
 }
 .footer-menu-wrapper {
-  background-color: transparent;
   position: relative;
   .footer-navigation {
     margin-bottom: -30px;
@@ -230,22 +238,13 @@ body {
   }
 }
 .footer-section {
-  background-color: $bg_dark1;
-  color: #fff;
 
-  a {
-    color:$cugold;
-  }
-  a:hover {
-    color:#fff;
-  }
 }
 .footer-wrapper {
   padding-top: 40px;
   padding-bottom: 20px;
 }
 .site-info-wrapper {
-  background-color: $bg_dark2;
 }
 .footer-menu-wrapper + #site-info-wrapper {
   padding-top: 60px;
@@ -403,18 +402,18 @@ $border: #e7e7e7;
 .page-title-image-background-white #page-title-image-wrapper h1 {
   //background-color: #f5f5f5;
 }
-.exbd-style-dark-gray.exbd-icon-position-default,
-.exbd-style-light-gray.exbd-icon-position-default,
-.exbd-style-lightblue.exbd-icon-position-default,
+.exbd-style-gray-dark.exbd-icon-position-default,
+.exbd-style-gray-light.exbd-icon-position-default,
+.exbd-style-blue-light.exbd-icon-position-default,
 .exbd-style-tan.exbd-icon-position-default,
 .exbd-style-outline.exbd-icon-position-default
  {
   &.has-block-title {
-    padding-top:45px;
+    //padding-top:45px;
   }
   position: relative;
   h2.block-title {
-    margin-top:-45px;
+    //margin-top:-45px;
     padding:10px;
     @include rgbashadow(0, 1px, 5px, #000, .15);
     background: #fff;
@@ -431,42 +430,50 @@ $border: #e7e7e7;
     color:#fff;
   }
 }
-/*
+.exbd-block.exbd-style-outline,
+.exbd-block.exbd-style-gray-dark,
+.exbd-block.exbd-style-gray-light,
+.exbd-block.exbd-style-tan,
+.exbd-block.exbd-style-blue-light,
+.exbd-block.exbd-style-green-light,
+.exbd-block.exbd-style-blue-medium,
+.exbd-block.exbd-style-blue-dark,
+.exbd-block.exbd-style-brick,
 .blockgray,
 .blockdarkgray,
 .blockoutline {
+  .exbd-block-wrapper > &.has-block-title {
+    margin-top:45px;
+    padding-top:1px;
+  }
+
   &.has-block-title {
-    padding-top:45px;
+    //padding-top:25px;
   }
   position: relative;
   h2.block-title {
-    margin-top:-45px;
+    margin-top:-25px;
     padding:10px;
     @include rgbashadow(0, 1px, 5px, #000, .25);
-  }
-  .block-inner {
-    @include rgbashadow(0, 3px, 1px, #000, .08);
-  }
-}
-
-.blockgray,
-.blockdarkgray {
-  h2.block-title {
     background: #fff;
     color:#333;
   }
-}
-
-.blockoutline {
-  h2.block-title {
-    background: #333;
-    color:#fff;
+  .block-inner {
+    // @include rgbashadow(0, 3px, 1px, #000, .08);
   }
 }
-*/
+.exbd-block.exbd-style-tan,
+.exbd-block.exbd-style-outline,
+.blockoutline {
+  h2.block-title {
+    //background: #333;
+    //color:#fff;
+  }
+}
+
 
 #feature-layout-wrapper {
-  max-width: 1200px;
+  max-width: 1500px;
   margin:0 auto 20px;
   @include rgbashadow(0, 3px, 1px, #000, .08);
 }

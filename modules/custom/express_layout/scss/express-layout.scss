@@ -23,7 +23,7 @@
     clear:both;
     .layout-boxed &,
     .express-layout-boxed & {
-      max-width:1200px;
+      max-width:1140px;
       margin: 0 auto;
       left:-20px;
       right: auto;
@@ -49,4 +49,8 @@
 .feature-layout-hero-wrapper img.image-hero {
   max-width: none;
   width: 100%;
+  .layout-boxed & {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
 }

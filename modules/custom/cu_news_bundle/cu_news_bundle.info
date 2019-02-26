@@ -1,5 +1,5 @@
 name = News and Articles
-description = Implement blog-type functionality to your site for timely and changing information. Content can be cross-referenced and categorized by tags and is sorted by newest appearing on top. Display articles via an article list page, or place in an article grid, slider or list blocks.
+description = Implement blog-type functionality for timely and changing information. Content can be cross-referenced and categorized by tags and is sorted by newest appearing on top. Display articles via an article list page, or place in an article grid, slider or list blocks.
 core = 7.x
 package = CU-News and Articles
 project_demo_url = http://www.colorado.edu/webcentral/node/676
@@ -7,5 +7,12 @@ project_demo_url = http://www.colorado.edu/webcentral/node/676
 dependencies[] = cu_article
 dependencies[] = cu_related_articles
 dependencies[] = cu_article_slider
+dependencies[] = cu_latest_article
 
 bundle_cache_clear = 1
+bundle_group = addon_bundles
+
+bundle_roles[] = developer
+bundle_roles[] = administrator
+bundle_roles[] = site_owner
+bundle_roles[] = configuration_manager
