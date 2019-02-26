@@ -201,6 +201,7 @@ dependencies[] = express_block_designer
 dependencies[] = express_block_designer_menu
 dependencies[] = express_scheduler
 dependencies[] = scheduler
+dependencies[] = agrcache
 
 ; ============ FEATURE EXPORTS ============
 dependencies[] = express_linkit_profiles
