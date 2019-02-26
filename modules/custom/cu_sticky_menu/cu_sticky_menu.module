@@ -38,8 +38,10 @@ function cu_sticky_menu_preprocess_html(&$variables) {
     $variables['page']['page_top']['sticky_menu']['#access'] = TRUE;
       $logo = theme_get_setting('logo');
       $site_name = variable_get('site_name', '');
+      global $base_url;
+      $logo = $base_url . '/' . drupal_get_path('theme', 'ucb') . '/images/cu-boulder-logo-text-white.svg';
       $variables['page']['page_top']['sticky_menu']['#markup'] = '<div id="sticky-menu" class="clearfix shadow-large">
-        <img src="https://d7.lndo.site/profiles/express/themes/ucb/images/cu-boulder-logo-text-white.svg" alt="University of Colorado Boulder"/>
+        <img src="' . $logo . '" alt="University of Colorado Boulder"/>
         <div class="sticky-menu-inner">
           <div class="sticky-menu-site-name">
             <a href="' . $base_url . '"><span class="site-name clearfix">' . strip_tags($site_name) . '</span></a>

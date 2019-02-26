@@ -36,8 +36,7 @@ a {
     text-decoration-color: rgba($red, .65);
     -webkit-text-decoration-color: rgba($red, .65);
   }
-  &:active,
-  &:focus {
+  &:active {
     color: $red;
     text-decoration-color: rgba($red, .65);
     -webkit-text-decoration-color: rgba($red, .65);

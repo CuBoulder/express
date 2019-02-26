@@ -83,6 +83,12 @@
   @include clearfix();
   nav {
     float: right;
+    align-items: center;
+    overflow:hidden;
+    & > * {
+      float:left;
+      line-height: 1;
+    }
     ul li {
       display: inline;
       list-style: none;
@@ -99,6 +105,7 @@
     display: inline;
     font-size: 100%;
     font-weight: 600;
+    margin: 0;
   }
 }
 /* Action menu, or inline secondary menu */
@@ -255,7 +262,7 @@
 #footer-menu-links {
 }
 .footer-menu-gray {
-  background-color: #333;
+  background-color: #272727;
 }
 .footer-menu-gray ul#footer-menu-links {
   a,

@@ -153,11 +153,12 @@ function cu_block_section_preprocess_entity(&$vars) {
     $block_section_bg_effect = !empty($vars['content']['field_block_section_bg_effect']) ? 'block-section-bg-effect-' . $vars['content']['field_block_section_bg_effect'][0]['#markup'] : 'block-section-bg-effect-fixed';
 
     // CSS Classes
+
     $classes = array();
     $vars['parallax_data'] = '';
     $classes[] = 'block-section';
     $classes[] = 'block-section-text-' . $vars['field_hero_unit_text_color'][0]['value'];
-    $classes[] = 'background-color-' . cu_block_section_bg_color_translate($vars['field_hero_unit_bg_color'][0]['value']);
+    $classes[] = 'background-' . cu_block_section_bg_color_translate($vars['field_hero_unit_bg_color'][0]['value']);
     $classes[] = !empty($vars['field_block_section_bg_effect']) ? 'block-section-bg-effect-' . $vars['field_block_section_bg_effect'][0]['value'] : 'block-section-bg-effect-fixed';
 
     // Overlay
@@ -173,10 +174,19 @@ function cu_block_section_preprocess_entity(&$vars) {
       $classes[] = 'parallax-window';
       $vars['parallax_data'] = "data-parallaxie='{\"speed\": 1}'";
     }
+
+    // Content Background
+    if ($vars['field_block_section_content_bg'][0]['value'] != 'hidden') {
+      $text_color = $vars['field_hero_unit_text_color'][0]['value'];
+      $content_bg_classes[] = ($text_color == 'black') ? 'background-white' : 'background-black';
+      $content_bg_classes[] = 'block-section-content-bg-' . $vars['field_block_section_content_bg'][0]['value'];
+      $vars['content_bg_classes'] = join(' ', $content_bg_classes);
+    }
+    else {
+      $vars['content_bg_classes'] = '';
+    }
+
     $vars['block_section_classes'] = join(' ', $classes);
-
-
-
 
 
     if (theme_get_setting('alpha_responsive', variable_get('theme_default'))) {

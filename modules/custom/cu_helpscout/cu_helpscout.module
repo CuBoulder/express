@@ -13,7 +13,7 @@ function cu_helpscout_menu() {
     'title' => 'HelpScout Configuration',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('cu_helpscout_config_form'),
-    'access arguments' => array('administer helpscout beacon'),
+    'access arguments' => array('administer site configuration'),
   );
 
   return $items;
@@ -54,7 +54,7 @@ function cu_helpscout_api_cache_save($key, $value) {
 function cu_helpscout_preprocess_page(&$vars) {
   $endpoint = cu_helpscout_endpoint() . '/helpscout/config';
 
-  if (user_access('use helpscout beacon')) {
+  if (user_access('access navbar')) {
 
     // Information to attach to beacon form
     global $user;
@@ -94,52 +94,5 @@ function cu_helpscout_preprocess_page(&$vars) {
       'weight' => 101,
     ));
     drupal_add_css('#hs-beacon iframe {background:rgba(0,0,0,.75) !important; }', 'inline');
-  }
-}
-
-/**
- * Implements hook_permission().
- */
-function cu_helpscout_permission() {
-  return array(
-    'use helpscout beacon' => array(
-      'title' => t('Use HelpScout Beacon'),
-    ),
-    'administer helpscout beacon' => array(
-      'title' => t('Administer HelpScout Beacon'),
-    ),
-  );
-}
-
-/**
- * Implements hook_secure_permissions().
- */
-function cu_helpscout_secure_permissions($role) {
-  $permissions = array(
-    'anonymous user' => array(
-    ),
-    'authenticated user' => array(
-    ),
-    'administrator' => array(
-      'use helpscout beacon',
-      'administer helpscout beacon',
-    ),
-    'content_editor' => array(
-      // 'use helpscout beacon',
-    ),
-    'developer' => array(
-      'use helpscout beacon',
-      'administer helpscout beacon',
-    ),
-    'site_editor' => array(
-      // 'use helpscout beacon',
-    ),
-    'site_owner' => array(
-      // 'use helpscout beacon',
-    ),
-  );
-
-  if (isset($permissions[$role])) {
-    return $permissions[$role];
   }
 }
