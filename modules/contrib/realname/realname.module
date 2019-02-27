@@ -331,12 +331,12 @@ function realname_update($account) {
   // Remove double spaces (if a token had no value).
   $realname = preg_replace('/ {2,}/', ' ', $realname);
 
+  // Allow other modules to alter the generated realname.
+  drupal_alter('realname', $realname, $account);
+
   // The name must be trimmed to 255 characters before inserting into the
   // database.
   $realname = truncate_utf8(trim($realname), 255);
-
-  // Allow other modules to alter the generated realname.
-  drupal_alter('realname', $realname, $account);
 
   // Save to the database and the static cache.
   db_merge('realname')
@@ -350,7 +350,14 @@ function realname_update($account) {
   // Allow modules to react to the realname being updated.
   module_invoke_all('realname_update', $realname, $account);
 
-  $account->realname = $realname;
+  // Only if the real name is a non-empty string the name is altered.
+  if (drupal_strlen($realname)) {
+    $account->realname = $realname;
+  }
+
+  // Clear the entity cache.
+  entity_get_controller('user')->resetCache(array($account->uid));
+
   return $realname;
 }
 

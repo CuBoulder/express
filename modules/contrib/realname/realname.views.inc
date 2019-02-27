@@ -9,7 +9,7 @@
  * Implements hook_views_data().
  */
 function realname_views_data() {
-  $data['realname']['table']['group']  = t('Realname');
+  $data['realname']['table']['group'] = t('Realname');
   $data['realname']['table']['join'] = array(
     'users' => array(
       'left_field' => 'uid',
