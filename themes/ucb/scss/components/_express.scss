@@ -118,9 +118,15 @@ html.js input.throbbing {
  .express-site-type-sport_club .site-name-wrapper {
    background-image:url(../images/cu-buffs-logo.png);
    background-repeat:no-repeat;
-   background-size: 55px 40px;
    background-position: left center;
-   padding-left:65px;
+   background-size: 30px 22px;
+   padding-left:40px;
+   min-height: 22px;
+   @media screen and (min-width: 768px) {
+     background-size: 45px 33px;
+     padding-left:55px;
+     min-height: 33px;
+   }
  }
 
  // Mega Menu
@@ -191,7 +197,50 @@ html.js input.throbbing {
   }
 }
 
-// Box shortcode
+/* generic view modes */
+.node-view-mode-teaser {
+  margin-bottom:20px;
+  border-bottom:1px solid $border;
+  padding-bottom: 20px;
+}
+.node-view-mode-teaser-content {
+  overflow: hidden;
+}
+.node-view-mode-title a {
+  display: block;
+  padding: 5px 0;
+}
+.node-summary {
+  padding:5px 0 20px;
+}
+.node-summary .more-link {
+  white-space: nowrap;
+}
+.node-summary .more-link:before {
+  content: " ";
+}
+
+.node-view-mode-sidebar {
+  margin-bottom: 10px;
+  padding-bottom:10px;
+  border-bottom:1px solid $border;
+}
+.list-node-list li:last-child .node-view-mode-sidebar {
+  border: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.node-view-mode-sidebar-content {
+  @include clearfloats;
+  overflow: hidden;
+}
+.node-view-mode-embed {
+  margin-bottom:20px;
+  border-bottom:1px solid $border;
+  padding-bottom: 20px;
+}
+
 .cu-box {
   overflow:hidden;
 }

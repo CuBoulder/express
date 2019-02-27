@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ * Schema, install and update functions for agrcache module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
+function agrcache_requirements($phase) {
+  $t = get_t();
+  $requirements = array();
+  if (!variable_get('clean_url', 0)) {
+    $requirements['agrcache_clean_url'] = array(
+      'title' => $t('Clean urls'),
+      'value' => $t('Aggregate cache requires clean URLs to be enabled in order to serve aggregates.'),
+      'severity' => REQUIREMENT_WARNING,
+    );
+  }
+  return $requirements;
+}
+
+/**
+ * Regenerate variables in case previous values were corrupt due to a race condition.
+ */
+function agrcache_update_7001() {
+  variable_del('agrcache_js_cache_files');
+  variable_del('agrcache_css_cache_files');
+}

@@ -1,0 +1,509 @@
+<?php
+
+/**
+ * @file
+ * Provides imagecache style generation of css/js aggregates.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function agrcache_menu() {
+  $directory_path = variable_get('file_public_path', conf_path() . '/files');
+
+  foreach (array('css', 'js') as $type) {
+    $items[$directory_path . "/$type/%"] = array(
+      'title' => "Generate $type aggregate",
+      'page callback' => 'agrcache_generate_aggregate',
+      'page arguments' => array(count(explode('/', $directory_path)) + 1, $type),
+      'access callback' => TRUE,
+      'type' => MENU_CALLBACK,
+    );
+  }
+  return $items;
+}
+
+/**
+ * Implements hook_element_info_alter().
+ */
+function agrcache_element_info_alter(&$type) {
+  // Swap in our own aggregation callback.
+  if (isset($type['styles']['#aggregate_callback'])) {
+    $type['styles']['#aggregate_callback'] = 'agrcache_aggregate_css';
+  }
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ */
+function agrcache_theme_registry_alter(&$theme_registry) {
+  // For JavaScript there is no nice hook_elements() implementation to hook
+  // into, aggregation is done inline in drupal_get_js(). So instead take over
+  // template_preprocess_html.
+  // @see http://drupal.org/node/330082
+  // @see http://drupal.org/node/352951
+  $index = array_search('template_process_html', $theme_registry['html']['process functions']);
+  $theme_registry['html']['process functions'][$index] = '_agrcache_process_html';
+}
+
+/**
+ * Replacement for template_process_html().
+ */
+function _agrcache_process_html(&$variables) {
+  // Render page_top and page_bottom into top level variables.
+  $variables['page_top'] = drupal_render($variables['page']['page_top']);
+  $variables['page_bottom'] = drupal_render($variables['page']['page_bottom']);
+  // Place the rendered HTML for the page body into a top level variable.
+  $variables['page']              = $variables['page']['#children'];
+  $variables['page_bottom'] .= agrcache_get_js('footer');
+
+  $variables['head']    = drupal_get_html_head();
+  $variables['css']     = drupal_add_css();
+  $variables['styles']  = drupal_get_css();
+  $variables['scripts'] = agrcache_get_js();
+}
+
+/**
+ * Replacement for drupal_get_js().
+ */
+function agrcache_get_js($scope = 'header', $javascript = NULL, $skip_alter = FALSE) {
+  if (!isset($javascript)) {
+    $javascript = drupal_add_js();
+  }
+  if (empty($javascript)) {
+    return '';
+  }
+
+  // Allow modules to alter the JavaScript.
+  if (!$skip_alter) {
+    drupal_alter('js', $javascript);
+  }
+
+  // Filter out elements of the given scope.
+  $items = array();
+  foreach ($javascript as $key => $item) {
+    if ($item['scope'] == $scope) {
+      $items[$key] = $item;
+    }
+  }
+
+  $output = '';
+  // The index counter is used to keep aggregated and non-aggregated files in
+  // order by weight.
+  $index = 1;
+  $processed = array();
+  $files = array();
+  $preprocess_js = (variable_get('preprocess_js', FALSE) && (!defined('MAINTENANCE_MODE') || MAINTENANCE_MODE != 'update'));
+
+  // A dummy query-string is added to filenames, to gain control over
+  // browser-caching. The string changes on every update or full cache
+  // flush, forcing browsers to load a new copy of the files, as the
+  // URL changed. Files that should not be cached (see drupal_add_js())
+  // get REQUEST_TIME as query-string instead, to enforce reload on every
+  // page request.
+  $default_query_string = variable_get('css_js_query_string', '0');
+
+  // For inline Javascript to validate as XHTML, all Javascript containing
+  // XHTML needs to be wrapped in CDATA. To make that backwards compatible
+  // with HTML 4, we need to comment out the CDATA-tag.
+  $embed_prefix = "\n<!--//--><![CDATA[//><!--\n";
+  $embed_suffix = "\n//--><!]]>\n";
+
+  // Since Javascript may look for arguments in the url and act on them, some
+  // third-party code might require the use of a different query string.
+  $js_version_string = variable_get('drupal_js_version_query_string', 'v=');
+
+  // Sort the JavaScript so that it appears in the correct order.
+  uasort($items, 'drupal_sort_css_js');
+
+  // Provide the page with information about the individual JavaScript files
+  // used, information not otherwise available when aggregation is enabled.
+  $setting['ajaxPageState']['js'] = array_fill_keys(array_keys($items), 1);
+  unset($setting['ajaxPageState']['js']['settings']);
+  drupal_add_js($setting, 'setting');
+
+  // If we're outputting the header scope, then this might be the final time
+  // that drupal_get_js() is running, so add the setting to this output as well
+  // as to the drupal_add_js() cache. If $items['settings'] doesn't exist, it's
+  // because drupal_get_js() was intentionally passed a $javascript argument
+  // stripped off settings, potentially in order to override how settings get
+  // output, so in this case, do not add the setting to this output.
+  if ($scope == 'header' && isset($items['settings'])) {
+    $items['settings']['data'][] = $setting;
+  }
+
+  // Loop through the JavaScript to construct the rendered output.
+  $element = array(
+    '#tag' => 'script', 
+    '#value' => '', 
+    '#attributes' => array(
+      'type' => 'text/javascript',
+    ),
+  );
+  foreach ($items as $item) {
+    $query_string =  empty($item['version']) ? $default_query_string : $js_version_string . $item['version'];
+
+    switch ($item['type']) {
+      case 'setting':
+        $js_element = $element;
+        $js_element['#value_prefix'] = $embed_prefix;
+        $js_element['#value'] = 'jQuery.extend(Drupal.settings, ' . drupal_json_encode(drupal_array_merge_deep_array($item['data'])) . ");";
+        $js_element['#value_suffix'] = $embed_suffix;
+        $output .= theme('html_tag', array('element' => $js_element));
+        break;
+
+      case 'inline':
+        $js_element = $element;
+        if ($item['defer']) {
+          $js_element['#attributes']['defer'] = 'defer';
+        }
+        $js_element['#value_prefix'] = $embed_prefix;
+        $js_element['#value'] = $item['data'];
+        $js_element['#value_suffix'] = $embed_suffix;
+        $processed[$index++] = theme('html_tag', array('element' => $js_element));
+        break;
+
+      case 'file':
+        $js_element = $element;
+        if (!$item['preprocess'] || !$preprocess_js) {
+          if ($item['defer']) {
+            $js_element['#attributes']['defer'] = 'defer';
+          }
+          $query_string_separator = (strpos($item['data'], '?') !== FALSE) ? '&' : '?';
+          $js_element['#attributes']['src'] = file_create_url($item['data']) . $query_string_separator . ($item['cache'] ? $query_string : REQUEST_TIME);
+          $processed[$index++] = theme('html_tag', array('element' => $js_element));
+        }
+        else {
+          // By increasing the index for each aggregated file, we maintain
+          // the relative ordering of JS by weight. We also set the key such
+          // that groups are split by items sharing the same 'group' value and
+          // 'every_page' flag. While this potentially results in more aggregate
+          // files, it helps make each one more reusable across a site visit,
+          // leading to better front-end performance of a website as a whole.
+          // See drupal_add_js() for details.
+          $key = 'aggregate_' . $item['group'] . '_' . $item['every_page'] . '_' . $index;
+          $processed[$key] = '';
+          $files[$key][$item['data']] = $item;
+        }
+        break;
+
+      case 'external':
+        $js_element = $element;
+        // Preprocessing for external JavaScript files is ignored.
+        if ($item['defer']) {
+          $js_element['#attributes']['defer'] = 'defer';
+        }
+        $js_element['#attributes']['src'] = $item['data'];
+        $processed[$index++] = theme('html_tag', array('element' => $js_element));
+        break;
+    }
+  }
+
+  // Aggregate any remaining JS files that haven't already been output.
+  // This is the only hunk of code change from drupal_get_js().
+  if ($preprocess_js && count($files) > 0) {
+    $map = array();
+    foreach ($files as $key => $file_set) {
+
+      $data = agrcache_build_aggregate_cache($file_set, 'js');
+      $uri = $data['uri'];
+      if (!empty($data['#write_cache'])) {
+        $map['files'][$data['key']] = $data['uri'];
+        $map['callbacks'][$data['uri']] = $file_set;
+      }
+      // Only include the file if was written successfully. Errors are logged
+      // using watchdog.
+      if ($uri) {
+        $preprocess_file = file_create_url($uri);
+        $js_element = $element;
+        $js_element['#attributes']['src'] = $preprocess_file;
+        $processed[$key] = theme('html_tag', array('element' => $js_element));
+      }
+    }
+  }
+
+  if (!empty($map)) {
+    agrcache_add_to_variable('agrcache_js_cache_files', $map);
+  }
+
+  // Keep the order of JS files consistent as some are preprocessed and others are not.
+  // Make sure any inline or JS setting variables appear last after libraries have loaded.
+  return implode('', $processed) . $output;
+}
+
+/**
+ * Replacement for drupal_aggregate_css().
+ */
+function agrcache_aggregate_css(&$css_groups) {
+  $preprocess_css = (variable_get('preprocess_css', FALSE) && (!defined('MAINTENANCE_MODE') || MAINTENANCE_MODE != 'update'));
+
+  $map = array();
+  // For each group that needs aggregation, aggregate its items.
+  foreach ($css_groups as $key => $group) {
+    switch ($group['type']) {
+      // If a file group can be aggregated into a single file, do so, and set
+      // the group's data property to the file path of the aggregate file.
+      case 'file':
+        if ($group['preprocess'] && $preprocess_css) {
+          $data = agrcache_build_aggregate_cache($group['items'], 'css');
+          if ($data) {
+            $css_groups[$key]['data'] = $data['uri'];
+            if (!empty($data['#write_cache'])) {
+              $map['files'][$data['key']] = $data['uri'];
+              $map['callbacks'][$data['uri']] = $group['items'];
+            }
+          }
+        }
+        break;
+        // Aggregate all inline CSS content into the group's data property.
+      case 'inline':
+        $css_groups[$key]['data'] = '';
+        foreach ($group['items'] as $item) {
+          $css_groups[$key]['data'] .= drupal_load_stylesheet_content($item['data'], $item['preprocess']);
+        }
+        break;
+    }
+  }
+  if (!empty($map)) {
+    agrcache_add_to_variable('agrcache_css_cache_files', $map);
+  }
+}
+
+/**
+ * Replacement for drupal_build_css_cache() and drupal_build_js_cache().
+ */
+function agrcache_build_aggregate_cache($files, $type) {
+  $data = '';
+  $uri = '';
+  $map = variable_get('agrcache_' . $type . '_cache_files', array());
+  $key = hash('sha256', serialize($files));
+  if (isset($map['files'][$key])) {
+    return array('uri' => $map['files'][$key]);
+  }
+  else {
+    // To ensure a new filenames are created only when the contents of the
+    // hashed files changes, use a hash of the contents for the filename.
+    $function = 'agrcache_collect_' . $type . '_group';
+    $data = $function($files);
+    if ($data) {
+
+      // Prefix filename to prevent blocking by firewalls which reject files
+      // starting with "ad*".
+      $filename = $type . '_' . drupal_hash_base64($data) . ".$type";
+      // Create the aggregate directory within the files folder.
+      $path = "public://$type";
+      $uri = $path . '/' . $filename;
+
+      return array(
+        'key' => $key,
+        'uri' => $uri,
+        '#write_cache' => TRUE,
+      );
+    }
+    else {
+      return FALSE;
+    }
+  }
+}
+
+/**
+ * Collect javascript files.
+ */
+function agrcache_collect_js_group($js) {
+  // JavaScript aggregation currently only collects the files together, so
+  // re-use agrcache_process_js_group();
+  return agrcache_process_js_group($js);
+}
+
+/**
+ * College CSS files.
+ */
+function agrcache_collect_css_group($css) {
+  $contents = '';
+  foreach ($css as $stylesheet) {
+    if ($stylesheet['type'] == 'file' && file_exists($stylesheet['data'])) {
+      $contents .= file_get_contents($stylesheet['data']);
+    }
+  }
+  return $contents;
+}
+
+/**
+ * Process a js group for aggregation.
+ */
+function agrcache_process_js_group($js) {
+  $data = '';
+  foreach ($js as $path => $info) {
+    if ($info['preprocess']) {
+      // Append a ';' and a newline after each JS file to prevent them from running together.
+      $data .= file_get_contents($path) . ";\n";
+    }
+  }
+  return $data;
+}
+
+/**
+ * Aggregate and compress css groups.
+ */
+function agrcache_process_css_group($css) {
+  // Build aggregate CSS file.
+  $data = '';
+  foreach ($css as $stylesheet) {
+    // Only 'file' stylesheets can be aggregated.
+    if ($stylesheet['type'] == 'file') {
+      $contents = drupal_load_stylesheet($stylesheet['data'], TRUE);
+
+      // Build the base URL of this CSS file: start with the full URL.
+      $css_base_url = file_create_url($stylesheet['data']);
+      // Move to the parent.
+      $css_base_url = substr($css_base_url, 0, strrpos($css_base_url, '/'));
+      // Simplify to a relative URL if the stylesheet URL starts with the
+      // base URL of the website.
+      if (substr($css_base_url, 0, strlen($GLOBALS['base_root'])) == $GLOBALS['base_root']) {
+        $css_base_url = substr($css_base_url, strlen($GLOBALS['base_root']));
+      }
+
+      _drupal_build_css_path(NULL, $css_base_url . '/');
+      // Anchor all paths in the CSS with its base URL, ignoring external and absolute paths.
+      $data .= preg_replace_callback('/url\(\s*[\'"]?(?![a-z]+:|\/+)([^\'")]+)[\'"]?\s*\)/i', '_drupal_build_css_path', $contents);
+    }
+  }
+
+  // Per the W3C specification at http://www.w3.org/TR/REC-CSS2/cascade.html#at-import,
+  // @import rules must proceed any other style, so we move those to the top.
+  $regexp = '/@import[^;]+;/i';
+  preg_match_all($regexp, $data, $matches);
+  $data = preg_replace($regexp, '', $data);
+  $data = implode('', $matches[0]) . $data;
+
+  return $data;
+}
+
+/**
+ * Menu callback to generate a css aggregate.
+ */
+function agrcache_generate_aggregate($filename, $type) {
+  // Recreate the full uri from the filename.
+  $path = "public://$type";
+  $uri = $path . '/' . $filename;
+  $map = variable_get('agrcache_' . $type . '_cache_files', array());
+  $compression = variable_get($type . '_gzip_compression', TRUE) && variable_get('clean_url', 0) && extension_loaded('zlib');
+
+  // This callback should only be called if the file does not already exist on
+  // disk since the webserver will serve the file directly, bypassing PHP when it does.
+  // However it is possible that the file was created during bootstrap by another request.
+  if (file_exists($uri)) {
+    $data = file_get_contents($uri);
+    if ($compression) {
+      $compressed = gzencode($data, 9, FORCE_GZIP);
+    }
+  }
+  elseif (isset($map['callbacks'][$uri])) {
+    // @todo: consider adding locking here.
+    // @see drupal.org/node/886488
+    $function = 'agrcache_process_' . $type . '_group';
+    $data = $function($map['callbacks'][$uri]);
+    // Check file_exists() again, in case the file was built during processing.
+    if (!file_exists($uri)) {
+      // Create the file.
+      file_prepare_directory($path, FILE_CREATE_DIRECTORY);
+      if (!file_exists($uri) && !file_unmanaged_save_data($data, $uri, FILE_EXISTS_REPLACE)) {
+        drupal_add_http_header('Status', '503 Service Unavailable');
+        print t('Error generating aggregate');
+        drupal_exit();
+      }
+      // If gzip compression is enabled, clean URLs are enabled (which means
+      // that rewrite rules are working) and the zlib extension is available then
+      // create a gzipped version of this file. This file is served conditionally
+      // to browsers that accept gzip using .htaccess rules.
+      if ($compression) {
+        $compressed = gzencode($data, 9, FORCE_GZIP);
+        if (!file_exists($uri . '.gz') && !file_unmanaged_save_data($compressed, $uri . '.gz', FILE_EXISTS_REPLACE)) {
+          drupal_add_http_header('Status', '503 Service Unavailable');
+          print t('Error generating aggregate');
+          drupal_exit();
+        }
+      }
+    }
+    $content_type = $type == 'css' ? 'text/css' : 'application/javascript';
+    $headers = array();
+    $headers['Content-Type'] = $content_type;
+    // Ensure this file can be cached by browsers and reverse proxies.
+    $headers['Cache-Control'] = 'public, max-age=1209600';
+    // Since the file name is based on a hash of file contents, there is no
+    // problem allowing the browser to cache it for as long as possible.
+    // Set this to two weeks since that's what .htaccess does if mod_expires
+    // is enabled.
+    $headers['Expires'] = gmdate(DATE_RFC1123, REQUEST_TIME + 1209600);
+
+    // When possible, serve the gzip version of the file via PHP.
+    if (!empty($compressed) && isset($_SERVER['HTTP_ACCEPT_ENCODING']) && strpos($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== FALSE) {
+      $headers['Content-Encoding'] = 'gzip';
+      $data = $compressed;
+      ini_set('zlib.output_compression', '0');
+    }
+    foreach ($headers as $key => $value) {
+      drupal_add_http_header($key, $value);
+    }
+    print $data;
+    drupal_exit();
+  }
+  else {
+    watchdog('agrcache', 'Received request for a non-existent css aggregate @uri', array('@uri' => $uri));
+  }
+}
+
+/**
+ * Merge the existing value of a variable from the database with new values.
+ *
+ * @param $name
+ *   The name of the variable.
+ * @param $values
+ *   An array of values to add.
+ * @param $default
+ *   The default value of the variable, as passed to variable_get().
+ *   This defaults to an empty array().
+ */
+function agrcache_add_to_variable($name, $values, $default = array()) {
+  // This function bypasses variable_get() on purpose. Since when dealing with
+  // 'volatile' variables such as css and javascript maps that may be updated
+  // by multiple threads, it is necessary to minimize the potential race
+  // condition where threads may overwrite the value of the variable with a
+  // version missing values that were just added by a previous process.
+  // This approach lowers the window for that race condition to the time
+  // between the database query and variable_set(), which should be only a
+  // couple of milliseconds compared to up to over a second between
+  // variable_initialize() and reaching this function.
+  $original = $default;
+  $result = db_query('SELECT value FROM {variable} WHERE name = :name', array(':name' => $name))->fetchField();
+  if ($result) {
+    $original = unserialize($result);
+  }
+  else {
+    $original = array('files' => array(), 'callbacks' => array());
+  }
+  $merged_values = array();
+  foreach (array_keys($values) as $key) {
+    $merged_values[$key] = array_merge($values[$key], $original[$key]);
+  }
+  variable_set($name, $merged_values);
+}
+
+/**
+ * Implements hook_flush_caches().
+ */
+function agrcache_flush_caches() {
+  // Core invokes hook_flush_caches() on both cron runs and cache clears.
+  // Clearing the variable every cron run would be very bad, so detect an
+  // explicit cache clear. The simplest way to do this is to run
+  // debug_backtrace() and find drupal_flush_all_caches() in there.
+  // @todo: http://drupal.org/node/1167144
+  // @todo: Require PHP 5.3.6 so this can use DEBUG_BACKTRACE_IGNORE_ARGS.
+  $backtrace = debug_backtrace(FALSE);
+  if (isset($backtrace[3]) && $backtrace[3]['function'] == 'drupal_flush_all_caches') {
+    foreach(array('css', 'js') as $type) {
+      variable_del('agrcache_' . $type . '_cache_files');
+    }
+  }
+}
+

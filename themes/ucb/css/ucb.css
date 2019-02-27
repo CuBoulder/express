@@ -369,8 +369,10 @@ img.image-small[style*="float:right"], img.image-small[style*="float:left"] { ma
 
 @media all and (min-width: 960px) { .image-square, .image-square_thumbnail { float: left; width: 100px; height: 100px; margin: 0 10px 10px 0; }
   .sidebar .image-square, .sidebar .image-square_thumbnail { width: 65px; height: 65px; } }
-.node-view-mode-sidebar img.image-square, .node-view-mode-sidebar img.image-square_thumbnail, .node-view-mode-sidebar img.image-small_thumbnail, .node-view-mode-sidebar img.image-small { margin-bottom: 0; float: left; margin: 0 10px 10px 0; width: 50px; height: auto; }
+.node-view-mode-sidebar img.image-square, .node-view-mode-sidebar img.image-square_thumbnail, .node-view-mode-sidebar img.image-small_thumbnail, .node-view-mode-sidebar img.image-small { margin-bottom: 0; float: left; margin: 0 10px 0 0; width: 50px; height: auto; }
 @media all and (min-width: 960px) { .node-view-mode-sidebar img.image-square, .node-view-mode-sidebar img.image-square_thumbnail, .node-view-mode-sidebar img.image-small_thumbnail, .node-view-mode-sidebar img.image-small { width: 75px; } }
+
+.node-view-mode-embed img.image-large_square_thumbnail, .node-view-mode-embed img.image-small { margin: 0 0 20px 20px; display: block; width: 25%; height: auto; float: right; }
 
 .image-small-square-thumbnail { float: left; width: 70px; height: 70px; margin: 0 10px 10px 0; }
 
@@ -781,7 +783,7 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: rgba
 
 .feature-layout-title-image .author-meta a:hover { color: #fff; }
 
-#search { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 100; background: rgba(0, 0, 0, 0.85); color: #fff; }
+#search { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 200; background: rgba(0, 0, 0, 0.85); color: #fff; }
 #search h2:before { content: '\f002'; font-family: FontAwesome; margin-right: 5px; }
 #search #search-inner { height: 100%; display: flex; align-items: center; padding: 20px 0; }
 #search .search-form { position: relative; }
@@ -1371,8 +1373,8 @@ h5, h6, .h5, .h6 { font-weight: bold; }
 
 h2.block-title, h2.node-title { font-weight: bold; }
 
-.headings-light h1, .headings-light .h1 h1#page-title, .headings-light #page-title-image-title, .headings-light .page-title-section h1, .headings-light h2, .headings-light h2.block-title, .headings-light h2.node-title, .headings-light h3, .headings-light h4, .headings-light h5, .headings-light h6 .h2, .headings-light .h3, .headings-light .h4, .headings-light .h5, .headings-light .h6 { font-weight: normal; }
-.headings-light h1 strong, .headings-light h1 b, .headings-light .h1 h1#page-title strong, .headings-light .h1 h1#page-title b, .headings-light #page-title-image-title strong, .headings-light #page-title-image-title b, .headings-light .page-title-section h1 strong, .headings-light .page-title-section h1 b, .headings-light h2 strong, .headings-light h2 b, .headings-light h2.block-title strong, .headings-light h2.block-title b, .headings-light h2.node-title strong, .headings-light h2.node-title b, .headings-light h3 strong, .headings-light h3 b, .headings-light h4 strong, .headings-light h4 b, .headings-light h5 strong, .headings-light h5 b, .headings-light h6 .h2 strong, .headings-light h6 .h2 b, .headings-light .h3 strong, .headings-light .h3 b, .headings-light .h4 strong, .headings-light .h4 b, .headings-light .h5 strong, .headings-light .h5 b, .headings-light .h6 strong, .headings-light .h6 b { font-weight: bold; }
+.headings-light h1, .headings-light .h1, .headings-light h1#page-title, .headings-light #page-title-image-title, .headings-light .page-title-section h1, .headings-light h2, .headings-light h2.block-title, .headings-light h2.node-title, .headings-light h3, .headings-light h4, .headings-light h5, .headings-light h6 .h2, .headings-light .h3, .headings-light .h4, .headings-light .h5, .headings-light .h6 { font-weight: normal; }
+.headings-light h1 strong, .headings-light h1 b, .headings-light .h1 strong, .headings-light .h1 b, .headings-light h1#page-title strong, .headings-light h1#page-title b, .headings-light #page-title-image-title strong, .headings-light #page-title-image-title b, .headings-light .page-title-section h1 strong, .headings-light .page-title-section h1 b, .headings-light h2 strong, .headings-light h2 b, .headings-light h2.block-title strong, .headings-light h2.block-title b, .headings-light h2.node-title strong, .headings-light h2.node-title b, .headings-light h3 strong, .headings-light h3 b, .headings-light h4 strong, .headings-light h4 b, .headings-light h5 strong, .headings-light h5 b, .headings-light h6 .h2 strong, .headings-light h6 .h2 b, .headings-light .h3 strong, .headings-light .h3 b, .headings-light .h4 strong, .headings-light .h4 b, .headings-light .h5 strong, .headings-light .h5 b, .headings-light .h6 strong, .headings-light .h6 b { font-weight: bold; }
 
 .brand-fonts h1, .brand-fonts .h1 h1#page-title, .brand-fonts #page-title-image-title, .brand-fonts .page-title-section h1, .brand-fonts h2, .brand-fonts h3, .brand-fonts h4, .brand-fonts .h2, .brand-fonts .h3, .brand-fonts .h4 { font-weight: 700; }
 .brand-fonts h1 strong, .brand-fonts h1 b, .brand-fonts .h1 h1#page-title strong, .brand-fonts .h1 h1#page-title b, .brand-fonts #page-title-image-title strong, .brand-fonts #page-title-image-title b, .brand-fonts .page-title-section h1 strong, .brand-fonts .page-title-section h1 b, .brand-fonts h2 strong, .brand-fonts h2 b, .brand-fonts h3 strong, .brand-fonts h3 b, .brand-fonts h4 strong, .brand-fonts h4 b, .brand-fonts .h2 strong, .brand-fonts .h2 b, .brand-fonts .h3 strong, .brand-fonts .h3 b, .brand-fonts .h4 strong, .brand-fonts .h4 b { font-weight: 700; }
@@ -2187,7 +2189,8 @@ html.js input.throbbing { background-image: url(../images/throbber.gif); backgro
 #cu-footer a.cu-boulder-homepage-link { color: #cfb87c; text-decoration: none; }
 #cu-footer a.cu-boulder-homepage-link:hover { color: #fff; }
 
-.express-site-type-sport_club .site-name-wrapper { background-image: url(../images/cu-buffs-logo.png); background-repeat: no-repeat; background-size: 55px 40px; background-position: left center; padding-left: 65px; }
+.express-site-type-sport_club .site-name-wrapper { background-image: url(../images/cu-buffs-logo.png); background-repeat: no-repeat; background-position: left center; background-size: 30px 22px; padding-left: 40px; min-height: 22px; }
+@media screen and (min-width: 768px) { .express-site-type-sport_club .site-name-wrapper { background-size: 45px 33px; padding-left: 55px; min-height: 33px; } }
 
 #navigation { position: relative; }
 #navigation nav { display: flex; flex-direction: row; justify-content: space-between; }
@@ -2205,6 +2208,28 @@ a.mega-menu-link:after { content: '\f107'; font-family: "Font Awesome 5 Free", "
 
 @media screen and (min-width: 768px) { .region-content-sidebar-right { width: 50%; float: right; padding-left: 20px; }
   .region-content-sidebar-left { width: 50%; float: left; padding-right: 20px; } }
+/* generic view modes */
+.node-view-mode-teaser { margin-bottom: 20px; border-bottom: 1px solid rgba(128, 128, 128, 0.333); padding-bottom: 20px; }
+
+.node-view-mode-teaser-content { overflow: hidden; }
+
+.node-view-mode-title a { display: block; padding: 5px 0; }
+
+.node-summary { padding: 5px 0 20px; }
+
+.node-summary .more-link { white-space: nowrap; }
+
+.node-summary .more-link:before { content: " "; }
+
+.node-view-mode-sidebar { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(128, 128, 128, 0.333); }
+
+.list-node-list li:last-child .node-view-mode-sidebar { border: none; margin-bottom: 0; padding-bottom: 0; }
+
+.node-view-mode-sidebar-content { overflow: hidden; }
+.node-view-mode-sidebar-content:after { content: ""; display: table; clear: both; }
+
+.node-view-mode-embed { margin-bottom: 20px; border-bottom: 1px solid rgba(128, 128, 128, 0.333); padding-bottom: 20px; }
+
 .cu-box { overflow: hidden; }
 
 /*# sourceMappingURL=ucb.css.map */
