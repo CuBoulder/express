@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * cu_block_section.features.field_instance.inc
@@ -45,7 +46,7 @@ function cu_block_section_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 11,
+      'weight' => 18,
     ),
   );
 
@@ -142,7 +143,7 @@ function cu_block_section_field_default_field_instances() {
         'progress_indicator' => 'throbber',
       ),
       'type' => 'image_image',
-      'weight' => 8,
+      'weight' => 15,
     ),
   );
 
@@ -254,7 +255,7 @@ function cu_block_section_field_default_field_instances() {
         'progress_indicator' => 'throbber',
       ),
       'type' => 'image_image',
-      'weight' => 10,
+      'weight' => 17,
     ),
   );
 
@@ -366,7 +367,7 @@ function cu_block_section_field_default_field_instances() {
         'progress_indicator' => 'throbber',
       ),
       'type' => 'image_image',
-      'weight' => 9,
+      'weight' => 16,
     ),
   );
 
@@ -405,7 +406,7 @@ function cu_block_section_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 15,
+      'weight' => 20,
     ),
   );
 
@@ -445,7 +446,7 @@ function cu_block_section_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 18,
+      'weight' => 24,
     ),
   );
 
@@ -458,7 +459,7 @@ function cu_block_section_field_default_field_instances() {
       ),
     ),
     'deleted' => 0,
-    'description' => 'Customize the padding of each block section. (Top, Right, Bottom, Left)',
+    'description' => 'Customize the spacing around the block section content. Use px (pixel) or % (percent) values. (Top, Right, Bottom, Left)',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -489,7 +490,7 @@ function cu_block_section_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 16,
+      'weight' => 22,
     ),
   );
 
@@ -529,7 +530,7 @@ function cu_block_section_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 17,
+      'weight' => 23,
     ),
   );
 
@@ -590,9 +591,9 @@ function cu_block_section_field_default_field_instances() {
       ),
     ),
     'default_value_function' => '',
-    'default_value_php' => '',
+    'default_value_php' => FALSE,
     'deleted' => 0,
-    'description' => '',
+    'description' => 'Choose a background color for the section. An accessible foreground color and link color will be automatically set.',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -655,7 +656,7 @@ function cu_block_section_field_default_field_instances() {
         'display_label' => 1,
       ),
       'type' => 'options_onoff',
-      'weight' => 12,
+      'weight' => 19,
     ),
   );
 
@@ -670,7 +671,7 @@ function cu_block_section_field_default_field_instances() {
     'default_value_function' => '',
     'default_value_php' => '',
     'deleted' => 0,
-    'description' => '',
+    'description' => 'This setting will only be used if a background image is added. Otherwise, the text color will be determined by the background color selected above.',
     'display' => array(
       'default' => array(
         'label' => 'hidden',
@@ -693,7 +694,7 @@ function cu_block_section_field_default_field_instances() {
       'module' => 'options',
       'settings' => array(),
       'type' => 'options_select',
-      'weight' => 14,
+      'weight' => 21,
     ),
   );
 
@@ -704,9 +705,10 @@ function cu_block_section_field_default_field_instances() {
   t('Background Effect');
   t('Background Image');
   t('Blocks');
+  t('Choose a background color for the section. An accessible foreground color and link color will be automatically set.');
   t('Choose an effect for the background image.');
   t('Content Background');
-  t('Customize the padding of each block section. (Top, Right, Bottom, Left)');
+  t('Customize the spacing around the block section content. Use px (pixel) or % (percent) values. (Top, Right, Bottom, Left)');
   t('Displays background for your content so it is easier to read.');
   t('Mobile Background Image');
   t('Mobile Padding');
@@ -714,6 +716,7 @@ function cu_block_section_field_default_field_instances() {
   t('Tablet Background Image');
   t('Tablet Padding');
   t('Text Color');
+  t('This setting will only be used if a background image is added. Otherwise, the text color will be determined by the background color selected above.');
 
   return $field_instances;
 }

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * cu_block_section.features.inc
