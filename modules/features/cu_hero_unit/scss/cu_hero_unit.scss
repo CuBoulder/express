@@ -143,7 +143,7 @@ $radius_small: 3px;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
-  z-index: 2;
+  z-index: 1;
 }
 
 
@@ -319,7 +319,7 @@ $radius_small: 3px;
 .hero-unit-overlay {
   position: relative;
   .hero-unit-content-wrapper {
-    z-index: 2;
+    z-index: 1;
     position: relative;
   }
 }
@@ -331,7 +331,7 @@ $radius_small: 3px;
   right:0;
   bottom:0;
   position: absolute;
-  z-index: 1;
+  z-index: 0;
 }
 // White text overlays
 .hero-align-center.hero-unit-overlay:after {
