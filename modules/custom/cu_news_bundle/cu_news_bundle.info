@@ -10,3 +10,9 @@ dependencies[] = cu_article_slider
 dependencies[] = cu_latest_article
 
 bundle_cache_clear = 1
+bundle_group = addon_bundles
+
+bundle_roles[] = developer
+bundle_roles[] = administrator
+bundle_roles[] = site_owner
+bundle_roles[] = configuration_manager
