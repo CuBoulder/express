@@ -16,7 +16,7 @@ body.layout-wide {
   @include rgbashadow(0px, 0px, 80px, #000, .25);
   overflow: hidden;
 }
-.layout-responsive.layout-boxed #page {
+.layout-responsive.layout-boxed .page {
   width: 100%;
   max-width: 1500px;
 }
