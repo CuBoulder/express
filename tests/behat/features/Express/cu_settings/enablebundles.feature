@@ -13,15 +13,15 @@ Then I should see <message>
 
 Examples:
 | role             | message |
-| developer        | "Configure Bundles" |
-| administrator    | "Configure Bundles" |
-| site_owner       | "Configure Bundles" |
+| developer        | "Bundles" |
+| administrator    | "Bundles" |
+| site_owner       | "Bundles" |
 | content_editor   | "Access denied" |
 | edit_my_content  | "Access denied" |
 | site_editor      | "Access denied" |
 | edit_only        | "Access denied" |
 | access_manager   | "Access denied" |
-| configuration_manager | "Configure Bundles" |
+| configuration_manager | "Bundles" |
 
 
 Scenario: The Bundle List page displays 2 tabs
