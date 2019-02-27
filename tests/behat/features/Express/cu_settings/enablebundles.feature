@@ -24,13 +24,12 @@ Examples:
 | configuration_manager | "Configure Bundles" |
 
 
-Scenario: The Bundle List page displays three tabs
+Scenario: The Bundle List page displays 2 tabs
   Given I am logged in as a user with the "site_owner" role
   And am on "admin/settings/bundles/list"
-  Then I should see "Configure Bundles"
-  And I should see "Core"
-  And I should see "Add-on"
-  And I should see "Request"
+  Then I should see "Bundles"
+  And I should see "Installed"
+  And I should see "Available"
 
 # THE FOLLOWING TEST WHITESCREENS FOR DEVELOPERS IN TEST ENVIRONMENT; TAGGING AS BROKEN FOR NOW 
  @broken
