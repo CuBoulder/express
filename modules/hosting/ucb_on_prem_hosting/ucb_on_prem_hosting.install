@@ -34,3 +34,12 @@ function ucb_on_prem_hosting_install() {
 function ucb_on_prem_hosting_update_7001() {
   variable_set('date_default_timezone', 'America/Denver');
 }
+
+/**
+ * Enable AgrCache
+ */
+function ucb_on_prem_hosting_update_7002() {
+  module_enable(array(
+    'agrcache'
+  ));
+}
