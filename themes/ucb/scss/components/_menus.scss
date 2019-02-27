@@ -135,7 +135,7 @@
 
 .action-blue ul#action-menu a {
   background-color: $blue;
-  color:#fff;
+  color:#fff !important;
   @include shadowtransition;
   @include rgbashadow(0, 0px, 3px, #000000, .24);
   &:hover,
@@ -151,7 +151,7 @@
 
 .action-gray ul#action-menu a {
   background-color: #444;
-  color:#fff;
+  color:#fff !important;
   @include shadowtransition;
   @include rgbashadow(0, 0px, 3px, #000000, .24);
   &:hover,
@@ -166,7 +166,7 @@
 }
 .action-gold ul#action-menu a {
   background-color: $cugold;
-  color:#000;
+  color:#000 !important;
   @include shadowtransition;
   @include rgbashadow(0, 0px, 3px, #000000, .24);
   &:hover,
