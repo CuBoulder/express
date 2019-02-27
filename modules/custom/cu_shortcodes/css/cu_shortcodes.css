@@ -86,6 +86,8 @@ blockquote.blockquote-icon > i.blockquote-icon { font-size: 400%; position: abso
 .cu-box.border-gray-dark .box-title { border-bottom: 1px solid #424242; }
 .cu-box.border-gray-light { border: 1px solid #eee; }
 .cu-box.border-gray-light .box-title { border-bottom: 1px solid #eee; }
+.cu-box.border-white { border: 1px solid rgba(128, 128, 128, 0.15); }
+.cu-box.border-white .box-title { border-bottom: 1px solid rgba(128, 128, 128, 0.15); }
 .cu-box .box-title { font-weight: bold; padding-bottom: 10px; }
 .cu-box.filled .box-title { background: rgba(128, 128, 128, 0.15); }
 
