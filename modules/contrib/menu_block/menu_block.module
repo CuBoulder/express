@@ -549,6 +549,13 @@ function menu_tree_build(array &$config) {
     $data['content']['#delta'] = $config['delta'];
   }
 
+
+  // Nullify the display of the panel, if the menu is empty and
+  // the 'display_empty' configuration is set to zero.
+  if ((!isset($data['content']['#content']) || $data['content']['#content'] == NULL) && empty($config['display_empty'])) {
+    $data['content'] = array();
+  }
+
   return $data;
 }
 

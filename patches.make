@@ -50,3 +50,5 @@ projects[video_filter][patch][] = https://www.drupal.org/files/issues/video_filt
 
 ; @see https://github.com/CuBoulder/express/issues/1679
 projects[video_filter][patch][] = https://www.drupal.org/files/issues/video_filter-2763737-8.patch
+ 
+projects[menu_block][patch][] = https://www.drupal.org/files/issues/2019-02-27/undefined-index-fix-3019808-4.patch
