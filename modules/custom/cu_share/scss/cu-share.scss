@@ -35,7 +35,10 @@ $email: #5887D8;
 .cu-share-inline,
 .cu-share-inline-mobile {
   display: block;
-
+  ul {
+    display: flex;
+    flex-direction: row;
+  }
   .soc li {
     margin:0;
     padding:0;
