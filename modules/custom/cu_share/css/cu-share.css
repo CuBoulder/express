@@ -10,6 +10,7 @@
 .cu-share-sidebar a:hover .socicon { width: 60px; }
 
 .cu-share-inline, .cu-share-inline-mobile { display: block; }
+.cu-share-inline ul, .cu-share-inline-mobile ul { display: flex; flex-direction: row; }
 .cu-share-inline .soc li, .cu-share-inline-mobile .soc li { margin: 0; padding: 0; }
 .cu-share-inline .soc li .socicon, .cu-share-inline-mobile .soc li .socicon { color: #666 !important; font-size: 13px; }
 .cu-share-inline .soc-twitter, .cu-share-inline .soc-facebook, .cu-share-inline .soc-googleplus, .cu-share-inline .soc-linkedin, .cu-share-inline .soc-email, .cu-share-inline-mobile .soc-twitter, .cu-share-inline-mobile .soc-facebook, .cu-share-inline-mobile .soc-googleplus, .cu-share-inline-mobile .soc-linkedin, .cu-share-inline-mobile .soc-email { background-color: #f5f5f5; }
