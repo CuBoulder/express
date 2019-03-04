@@ -62,6 +62,12 @@ function profile_module_manager_admin_settings() {
 function profile_module_manager_bundle_list() {
   $page = '';
 
+  if (variable_get('disable_bundle_ui', 0)) {
+    $message = variable_get('disable_bundle_ui_message', 'The bundle interface has been temporarily disabled.');
+    $output['#markup'] = $message;
+    return $output;
+  }
+
   // Get the bundles' info array.
   $bundles = profile_module_manager_get_bundles($status = 'all');
   foreach ($bundles as $key => $bundle) {
@@ -114,6 +120,12 @@ function profile_module_manager_bundle_list() {
  */
 function profile_module_manager_admin_page() {
   $page = '';
+
+  if (variable_get('disable_bundle_ui', 0)) {
+    $message = variable_get('disable_bundle_ui_message', 'The bundle interface has been temporarily disabled.');
+    $output['#markup'] = $message;
+    return $output;
+  }
 
   // Get the bundles' info array.
   $bundles = profile_module_manager_get_bundles($status = 'all');
