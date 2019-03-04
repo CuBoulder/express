@@ -53,7 +53,7 @@ function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $coll
     }
     else {
       $variables['enable_url'] = 'admin/settings/bundles/list/confirm/' . $bundle->name;
-      $variables['enable_text'] = 'Install';
+      $variables['enable_text'] = 'Enable';
     }
 
     // Demo url
