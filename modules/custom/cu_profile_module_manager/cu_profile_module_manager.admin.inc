@@ -1,6 +1,11 @@
 <?php
 
 function cu_profile_module_manager_bundles($enabled = FALSE, $type = NULL, $collection = NULL) {
+  if (variable_get('disable_bundle_ui', 0)) {
+    $message = variable_get('disable_bundle_ui_message', 'The bundle interface has been temporarily disabled.');
+    $output['#markup'] = $message;
+    return $output;
+  }
 
   $output = array();
 
