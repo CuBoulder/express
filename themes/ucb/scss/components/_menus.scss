@@ -79,7 +79,7 @@
 
 /* Secondary Navigation */
 #secondary-navigation {
-  font-size: 80%;
+  font-size: 85%;
   @include clearfix();
   nav {
     float: right;
@@ -87,7 +87,7 @@
     overflow:hidden;
     & > * {
       float:left;
-      line-height: 1;
+      line-height: 20px;
     }
     ul li {
       display: inline;

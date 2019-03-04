@@ -1217,10 +1217,10 @@ hr { margin: 0 0 20px 0; padding: 0; border: none; height: 1px; background: rgba
 #navigation-wrapper ul { padding: 0; margin: 0; display: block; }
 
 /* Secondary Navigation */
-#secondary-navigation { font-size: 80%; }
+#secondary-navigation { font-size: 85%; }
 #secondary-navigation:after { content: ""; display: table; clear: both; }
 #secondary-navigation nav { float: right; align-items: center; overflow: hidden; }
-#secondary-navigation nav > * { float: left; line-height: 1; }
+#secondary-navigation nav > * { float: left; line-height: 20px; }
 #secondary-navigation nav ul li { display: inline; list-style: none; list-style-image: none; margin: 0; padding: 0; }
 #secondary-navigation nav ul li a { padding: 0 10px; }
 #secondary-navigation h2.secondary-menu-label { display: inline; font-size: 100%; font-weight: 600; margin: 0; }
