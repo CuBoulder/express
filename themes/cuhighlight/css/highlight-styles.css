@@ -18,8 +18,10 @@ body { background-color: #000; border-top: 4px solid #cfb87c; }
 
 #navigation ul#main-menu > li > a { color: #666; font-weight: 600; padding: 0 12px; border-top: 1px solid #e7e7e7; }
 #navigation ul#main-menu > li > a:hover, #navigation ul#main-menu > li > a.active, #navigation ul#main-menu > li > a.active-trail { border-top: 1px solid #333; color: #222; }
+#navigation ul#main-menu > li > a:hover.home-link, #navigation ul#main-menu > li > a.active.home-link, #navigation ul#main-menu > li > a.active-trail.home-link { border-top: 1px solid #e7e7e7; }
 #navigation ul#action-menu > li > a { color: #666; }
 #navigation ul#action-menu > li > a:hover, #navigation ul#action-menu > li > a.active, #navigation ul#action-menu > li > a.active-trail { color: #222; }
+#navigation .home-link { margin-left: -12px; }
 
 .intro-wide-wrapper, .post-wide-wrapper { background: #fff; }
 
