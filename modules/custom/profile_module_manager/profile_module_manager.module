@@ -94,8 +94,8 @@ function profile_module_manager_permission() {
       'description' => t('Enable module bundles without administer modules permission.'),
     ),
    'skip bundle request step' => array(
-      'title' => t('Enable Module Bundles'),
-      'description' => t('Enable module bundles without administer modules permission.'),
+      'title' => t('Skip Request Step'),
+      'description' => t('Enable module bundles that are configure to require a request.'),
     ),
     'configure profile module manager' => array(
       'title' => t('Configure Profile Module Manager'),
@@ -427,12 +427,28 @@ function profile_module_manger_send_request($form, &$form_state) {
   $site_name = variable_get('site_name', '');
   $name = isset($user->realname) ? $user->realname : $user->name;
   $bundle = $form_state['values']['bundle'];
-  $body = "$name ($from) has requested the $bundle for the $site_name website ($base_url)";
+  $body = $name  . ' (' . $from . ') has requested the ' . $bundle  . ' for the ' . $site_name . ' website (' . $base_url .')';
   $params = array(
     'subject' => t('Bundle Request - ' . $bundle),
     'body' => $body,
   );
-  drupal_mail('profile_module_manger', 'profile_module_manger_request_bundle', $request_email, language_default(), $params, $from, TRUE);
+
+  drupal_mail('profile_module_manger', 'profile_module_manger_request_sent', $request_email, language_default(), $params, $from, TRUE);
+
+}
+
+/**
+ * Implements hook_mail().
+ */
+function profile_module_manger_mail($key, &$message, $params) {
+  switch ($key) {
+    // Request email.
+    case 'profile_module_manger_request_sent':
+      $message['body'] = array();
+      $message['body'][] = $params['body'];
+      $message['subject'] = $params['subject'];
+      break;
+  }
 }
 
 /**
