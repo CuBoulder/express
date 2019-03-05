@@ -186,13 +186,12 @@ function cu_block_section_preprocess_entity(&$vars) {
     }
     // Background & Foreground Colors.
     // If there is a background image or a content background, use text color.
+    $vars['content_bg_classes'] = '';
     if ($has_bg_image || $has_content_bg) {
-
       $classes[] = 'background-color-' . cu_block_section_bg_color_translate($vars['field_hero_unit_bg_color'][0]['value']);
     }
     // Otherwise, text color will be determined by background color.
     else {
-      $vars['content_bg_classes'] = '';
       $classes[] = 'background-' . cu_block_section_bg_color_translate($vars['field_hero_unit_bg_color'][0]['value']);
     }
 
