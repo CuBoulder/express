@@ -28,8 +28,10 @@ ul#action-menu > li > a:hover, ul#action-menu > li > a:focus { color: #333; }
 
 ul#main-menu > li > a { color: #656565; border-left: 1px solid rgba(128, 128, 128, 0.333); }
 ul#main-menu > li > a:hover, ul#main-menu > li > a:focus, ul#main-menu > li > a.active, ul#main-menu > li > a.active-trail { color: #fff; background-color: #4d4d4d; background-image: -webkit-gradient(linear, left top, left bottom, from(#4d4d4d), to(#333)); background-image: -webkit-linear-gradient(top, #4d4d4d, #333); background-image: -moz-linear-gradient(top, #4d4d4d, #333); background-image: -o-linear-gradient(top, #4d4d4d, #333); background-image: -ms-linear-gradient(top, #4d4d4d, #333); background-image: linear-gradient(top, #4d4d4d, #333); filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#FF4D4D4D', EndColorStr='#FF333333'); border-bottom: 1px solid #333; margin-bottom: -1px; position: relative; border-left-color: #333; }
+ul#main-menu > li > a:hover.home-link, ul#main-menu > li > a:focus.home-link, ul#main-menu > li > a.active.home-link, ul#main-menu > li > a.active-trail.home-link { border-bottom: none; margin-bottom: 0; }
+ul#main-menu .home-link { margin-left: -12px; }
 
-ul#main-menu a.home-link { background: transparent; filter: none; color: #757575; border: none; }
+ul#main-menu a.home-link { background: transparent; filter: none; color: #757575; border-left: none; }
 
 ul#main-menu a.home-link:hover, ul#main-menu a.home-link.active { color: #333; background: transparent; }
 
