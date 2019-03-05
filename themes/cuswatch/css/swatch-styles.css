@@ -19,6 +19,7 @@ body { background-color: #000; padding-bottom: 20px; }
 #main-menu-wrapper ul#main-menu > li > a.active, #main-menu-wrapper ul#main-menu > li > a.active-trail { background-color: #333; color: #fff; }
 #main-menu-wrapper ul#main-menu > li > a.active:hover, #main-menu-wrapper ul#main-menu > li > a.active-trail:hover { color: #fff; }
 #main-menu-wrapper ul#main-menu > li > a.home-link, #main-menu-wrapper ul#main-menu > li > a.home-link.active { color: #ccc; background-color: transparent; }
+#main-menu-wrapper ul#main-menu a.home-link { margin-left: -12px; }
 
 ul#action-menu a { line-height: 20px; margin: 20px 0 20px 10px; }
 

@@ -11,14 +11,14 @@ body.layout-wide {
   }
 }
 .layout-boxed .page {
-  width:1500px;
+  width:1200px;
   margin: 0 auto;
   @include rgbashadow(0px, 0px, 80px, #000, .25);
   overflow: hidden;
 }
 .layout-responsive.layout-boxed .page {
   width: 100%;
-  max-width: 1500px;
+  max-width: 1200px;
 }
 
 .banner-black {
@@ -83,7 +83,7 @@ ul#action-menu {
 }
 
 ul#main-menu {
-  & > li >a {
+  & > li > a {
     color:#656565;
     border-left:1px solid $border;
   }
@@ -97,6 +97,13 @@ ul#main-menu {
     margin-bottom: -1px;
     position: relative;
     border-left-color: #333;
+    &.home-link {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+  }
+  .home-link {
+    margin-left: -12px;
   }
 }
 
@@ -104,7 +111,7 @@ ul#main-menu a.home-link {
   background: transparent;
   filter:none;
   color:#757575;
-  border:none;
+  border-left:none;
 }
 ul#main-menu a.home-link:hover,
 ul#main-menu a.home-link.active {

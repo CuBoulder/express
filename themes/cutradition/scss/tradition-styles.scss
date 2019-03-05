@@ -100,8 +100,11 @@ body {
   & > li > a#home-link.active:before {
     background: transparent !important;
   }
+  a.home-link {
+    margin-left: -12px;
+  }
 }
-#action-menu {
+#navigation #action-menu {
   padding:10px 0;
   a {
     color: #656565;

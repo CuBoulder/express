@@ -19,6 +19,7 @@ body.layout-boxed { background: #e7e7e7; }
 #navigation ul#main-menu > li > a { color: #757575; font-weight: 600; border-top: 4px solid #fff; line-height: 60px; }
 #navigation ul#main-menu > li > a:hover, #navigation ul#main-menu > li > a:focus, #navigation ul#main-menu > li > a.active, #navigation ul#main-menu > li > a.active-trail { border-top: 4px solid rgba(128, 128, 128, 0.333); color: #363636; }
 #navigation ul#main-menu > li > a.home-link, #navigation ul#main-menu > li > a.home-link.active { background-color: transparent; background-image: none; color: #858585; border: none; border-top: 4px solid #fff; margin-bottom: 0; }
+#navigation ul#main-menu a.home-link { margin-left: -12px; }
 #navigation ul#action-menu a { line-height: 24px; margin: 22px 0 14px 10px; color: #858585; }
 
 #secondary-menu a { color: #757575; display: inline-block; border-bottom: 4px solid #fff; }

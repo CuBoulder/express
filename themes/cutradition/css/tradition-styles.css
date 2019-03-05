@@ -23,10 +23,11 @@ body { background-color: #000; padding-bottom: 20px; }
 #main-menu-wrapper #navigation #main-menu > li > a.active:before, #main-menu-wrapper #navigation #main-menu > li > a.active-trail:before, #main-menu-wrapper #navigation #main-menu > li > a:hover:before { background-color: #cfb87c !important; }
 #main-menu-wrapper #navigation #main-menu > li > a#home-link, #main-menu-wrapper #navigation #main-menu > li > a#home-link.active { color: #363636; background-color: transparent; }
 #main-menu-wrapper #navigation #main-menu > li > a#home-link:before, #main-menu-wrapper #navigation #main-menu > li > a#home-link.active:before { background: transparent !important; }
+#main-menu-wrapper #navigation #main-menu a.home-link { margin-left: -12px; }
 
-#action-menu { padding: 10px 0; }
-#action-menu a { color: #656565; }
-#action-menu a.active, #action-menu a.active-trail, #action-menu a:hover { color: #111; }
+#navigation #action-menu { padding: 10px 0; }
+#navigation #action-menu a { color: #656565; }
+#navigation #action-menu a.active, #navigation #action-menu a.active-trail, #navigation #action-menu a:hover { color: #111; }
 
 #main { padding-top: 0; }
 

@@ -54,6 +54,9 @@ body {
     & > li > a.active-trail {
       border-top:1px solid #333;
       color:#222;
+      &.home-link {
+        border-top:1px solid #e7e7e7;
+      }
     }
   }
   ul#action-menu {
@@ -65,6 +68,9 @@ body {
     & > li > a.active-trail {
       color:#222;
     }
+  }
+  .home-link {
+    margin-left: -12px;
   }
 }
 .intro-wide-wrapper,
