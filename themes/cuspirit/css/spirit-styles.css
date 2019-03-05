@@ -28,6 +28,7 @@ a:hover { color: #e51c23; }
 #main-menu-wrapper #navigation ul#main-menu > li > a.active, #main-menu-wrapper #navigation ul#main-menu > li > a.active-trail { background-color: #cfb87c; color: #000; }
 #main-menu-wrapper #navigation ul#main-menu > li > a.home-link.active { background: transparent; }
 #main-menu-wrapper #navigation ul.action-menu a { font-weight: 600; margin: 20px 5px; }
+#main-menu-wrapper .home-link { margin-left: -12px; }
 
 ul#action-menu a { color: #333; }
 
