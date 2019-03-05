@@ -11,14 +11,14 @@ body.layout-wide {
   }
 }
 .layout-boxed .page {
-  width:1500px;
+  width:1200px;
   margin: 0 auto;
   @include rgbashadow(0px, 0px, 80px, #000, .25);
   overflow: hidden;
 }
 .layout-responsive.layout-boxed .page {
   width: 100%;
-  max-width: 1500px;
+  max-width: 1200px;
 }
 
 .banner-black {
