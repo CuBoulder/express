@@ -68,6 +68,8 @@ body { background-color: #424242; }
 
 .footer-wrapper { padding-top: 40px; padding-bottom: 20px; }
 
+.site-info-wrapper { padding-top: 40px; }
+
 .footer-menu-wrapper + #site-info-wrapper { padding-top: 60px; }
 
 .feature-layout-wrapper { padding-top: 20px; }
