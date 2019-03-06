@@ -243,13 +243,17 @@ form input[type=checkbox] + label, form input[type=radio] + label { display: inl
 
 .icon-color-white.icon-wrapper-square, .icon-color-white.icon-wrapper-rounded, .icon-color-white.icon-wrapper-circle { background-color: #fff; color: #111111; }
 
-.icon-color-gray, .exbd-icon-color-gray, a .icon-color-gray, a .exbd-icon-color-gray { color: #808080; }
+.icon-color-gray, .exbd-icon-color-gray, a .icon-color-gray, a .exbd-icon-color-gray { color: gray; }
 
-.icon-color-gray.icon-wrapper-square, .icon-color-gray.icon-wrapper-rounded, .icon-color-gray.icon-wrapper-circle { background-color: #808080; color: #111111; }
+.icon-color-gray.icon-wrapper-square, .icon-color-gray.icon-wrapper-rounded, .icon-color-gray.icon-wrapper-circle { background-color: gray; color: #111111; }
 
-.icon-color-light-gray, .exbd-icon-color-light-gray, a .icon-color-light-gray, a .exbd-icon-color-light-gray { color: #EEEEEE; }
+.icon-color-light-gray, .exbd-icon-color-light-gray, a .icon-color-light-gray, a .exbd-icon-color-light-gray { color: #ccc; }
 
-.icon-color-light-gray.icon-wrapper-square, .icon-color-light-gray.icon-wrapper-rounded, .icon-color-light-gray.icon-wrapper-circle { background-color: #EEEEEE; color: #111111; }
+.icon-color-light-gray.icon-wrapper-square, .icon-color-light-gray.icon-wrapper-rounded, .icon-color-light-gray.icon-wrapper-circle { background-color: #ccc; color: #111111; }
+
+.icon-color-dark-gray, .exbd-icon-color-dark-gray, a .icon-color-dark-gray, a .exbd-icon-color-dark-gray { color: #333; }
+
+.icon-color-dark-gray.icon-wrapper-square, .icon-color-dark-gray.icon-wrapper-rounded, .icon-color-dark-gray.icon-wrapper-circle { background-color: #333; color: #fff; }
 
 .icon-color-gold, .exbd-icon-color-gold, a .icon-color-gold, a .exbd-icon-color-gold { color: #cfb87c; }
 

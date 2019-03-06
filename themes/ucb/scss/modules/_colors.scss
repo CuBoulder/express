@@ -123,8 +123,9 @@ $icon-brick: $brick;
 $icon_colors: (
   "black" : $icon-black,
   "white" : $icon-white,
-  "gray" : #808080,
-  "light-gray" : $gray-light,
+  "gray" : rgb(128,128,128),
+  "light-gray" : #ccc,
+  "dark-gray" : #333,
   "gold" : $gold,
   "blue" : $icon-blue,
   "red" : $icon-red,
