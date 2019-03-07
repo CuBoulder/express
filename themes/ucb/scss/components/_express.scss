@@ -244,3 +244,9 @@ html.js input.throbbing {
 .cu-box {
   overflow:hidden;
 }
+
+// Non-responsive layout
+
+.layout-fixed .mobile-menu-toggle {
+  display: none !important;
+}

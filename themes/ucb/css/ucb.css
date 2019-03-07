@@ -2232,4 +2232,6 @@ a.mega-menu-link:after { content: '\f107'; font-family: "Font Awesome 5 Free", "
 
 .cu-box { overflow: hidden; }
 
+.layout-fixed .mobile-menu-toggle { display: none !important; }
+
 /*# sourceMappingURL=ucb.css.map */
