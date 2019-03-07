@@ -10,7 +10,7 @@
   left:0;
   right:0;
   bottom:0;
-  z-index:200;
+  z-index:100;
   #search-inner {
     height:100%;
     display:flex;
@@ -144,7 +144,7 @@
   color:#202020 !important;
   text-decoration: none;
 
-  .brand-color-white &,
+  .brand-bar-color-white &,
   .brand-bar-reverse &,
   .brand-bar-dark &,
   .brand-bar-black & {

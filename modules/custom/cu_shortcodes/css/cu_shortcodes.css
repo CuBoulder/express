@@ -44,11 +44,11 @@ blockquote.blockquote-icon > i.blockquote-icon { font-size: 400%; position: abso
 .icon-color-gold, a:link .icon-color-gold, a:visited .icon-color-gold, a:hover .icon-color-gold { color: #cfb87c; border-color: #cfb87c; }
 
 /* icon wrapper */
-.icon-wrapper-square { width: 30px; height: 30px; text-align: center; line-height: 30px; vertical-align: middle; padding: 0px; }
+.icon-wrapper-square { width: 30px; height: 30px; text-align: center; line-height: 30px !important; vertical-align: middle; padding: 0px; }
 
-.icon-wrapper-rounded { width: 30px; height: 30px; border-radius: 5px; text-align: center; line-height: 30px; vertical-align: middle; padding: 0px; }
+.icon-wrapper-rounded { width: 30px; height: 30px; border-radius: 5px; text-align: center; line-height: 30px !important; vertical-align: middle; padding: 0px; }
 
-.icon-wrapper-circle { width: 30px; height: 30px; border-radius: 50%; text-align: center; line-height: 30px; vertical-align: middle; padding: 0px; }
+.icon-wrapper-circle { width: 30px; height: 30px; border-radius: 50%; text-align: center; line-height: 30px !important; vertical-align: middle; padding: 0px; }
 
 .icon-wrapper-ring { border-width: 1px; border-style: solid; }
 
@@ -64,15 +64,15 @@ blockquote.blockquote-icon > i.blockquote-icon { font-size: 400%; position: abso
 
 .icon-color-gold.icon-wrapper-square, .icon-color-gold.icon-wrapper-rounded, .icon-color-gold.icon-wrapper-circle, a:link .icon-color-gold.icon-wrapper-square, a:link .icon-color-gold.icon-wrapper-rounded, a:link .icon-color-gold.icon-wrapper-circle, a:visited .icon-color-gold.icon-wrapper-square, a:visited .icon-color-gold.icon-wrapper-rounded, a:visited .icon-color-gold.icon-wrapper-circle, a:hover .icon-color-gold.icon-wrapper-square, a:hover .icon-color-gold.icon-wrapper-rounded, a:hover .icon-color-gold.icon-wrapper-circle { background-color: #cfb87c; color: #000; }
 
-.icon-wrapper-square.fa-lg, .icon-wrapper-rounded.fa-lg, .icon-wrapper-circle.fa-lg, .icon-wrapper-ring.fa-lg { width: 40px; height: 40px; line-height: 40px; }
+.icon-wrapper-square.fa-lg, .icon-wrapper-rounded.fa-lg, .icon-wrapper-circle.fa-lg, .icon-wrapper-ring.fa-lg { width: 40px; height: 40px; line-height: 40px !important; }
 
-.icon-wrapper-square.fa-2x, .icon-wrapper-rounded.fa-2x, .icon-wrapper-circle.fa-2x, .icon-wrapper-ring.fa-2x { width: 60px; height: 60px; line-height: 60px; }
+.icon-wrapper-square.fa-2x, .icon-wrapper-rounded.fa-2x, .icon-wrapper-circle.fa-2x, .icon-wrapper-ring.fa-2x { width: 60px; height: 60px; line-height: 60px !important; }
 
-.icon-wrapper-square.fa-3x, .icon-wrapper-rounded.fa-3x, .icon-wrapper-circle.fa-3x, .icon-wrapper-ring.fa-3x { width: 90px; height: 90px; line-height: 90px; }
+.icon-wrapper-square.fa-3x, .icon-wrapper-rounded.fa-3x, .icon-wrapper-circle.fa-3x, .icon-wrapper-ring.fa-3x { width: 90px; height: 90px; line-height: 90px !important; }
 
-.icon-wrapper-square.fa-4x, .icon-wrapper-rounded.fa-4x, .icon-wrapper-circle.fa-4x, .icon-wrapper-ring.fa-4x { width: 120px; height: 120px; line-height: 120px; }
+.icon-wrapper-square.fa-4x, .icon-wrapper-rounded.fa-4x, .icon-wrapper-circle.fa-4x, .icon-wrapper-ring.fa-4x { width: 120px; height: 120px; line-height: 120px !important; }
 
-.icon-wrapper-square.fa-5x, .icon-wrapper-rounded.fa-5x, .icon-wrapper-circle.fa-5x, .icon-wrapper-ring.fa-5x { width: 150px; height: 150px; line-height: 150px; }
+.icon-wrapper-square.fa-5x, .icon-wrapper-rounded.fa-5x, .icon-wrapper-circle.fa-5x, .icon-wrapper-ring.fa-5x { width: 150px; height: 150px; line-height: 150px !important; }
 
 @media all and (min-width: 768px) { .cu-box.float-right { width: 40%; margin: 0 0 20px 20px; float: right; }
   .cu-box.float-left { width: 40%; margin: 0 20px 20px 0; float: left; } }

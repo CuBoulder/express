@@ -19,7 +19,9 @@
     .ucb-colors .background-#{$name},
     .nested-colors .background-#{$name},
     .exbd-block.exbd-style-#{$name},
-    .exbd-block .exbd-block.exbd-style-#{$name} {
+    .exbd-block .exbd-block.exbd-style-#{$name},
+    .exbd-block .cu-box.background-#{$name}
+     {
       background-color: $color;
       color: set-text-color($color);
       a:link,

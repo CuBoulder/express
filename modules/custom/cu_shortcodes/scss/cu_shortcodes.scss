@@ -126,7 +126,7 @@ a:hover .icon-color-gold {
   width: 30px;
   height: 30px;
   text-align: center;
-  line-height: 30px;
+  line-height: 30px !important;
   vertical-align: middle;
   padding: 0px;
 }
@@ -135,7 +135,7 @@ a:hover .icon-color-gold {
   height: 30px;
   border-radius: 5px;
   text-align: center;
-  line-height: 30px;
+  line-height: 30px !important;
   vertical-align: middle;
   padding: 0px;
 }
@@ -144,7 +144,7 @@ a:hover .icon-color-gold {
   height: 30px;
   border-radius: 50%;
   text-align: center;
-  line-height: 30px;
+  line-height: 30px !important;
   vertical-align: middle;
   padding: 0px;
 }
@@ -250,7 +250,7 @@ a:hover .icon-color-gold.icon-wrapper-circle {
 .icon-wrapper-ring.fa-lg {
   width:40px;
   height:40px;
-  line-height:40px;
+  line-height:40px !important;
 }
 .icon-wrapper-square.fa-2x,
 .icon-wrapper-rounded.fa-2x,
@@ -258,7 +258,7 @@ a:hover .icon-color-gold.icon-wrapper-circle {
 .icon-wrapper-ring.fa-2x {
   width:60px;
   height:60px;
-  line-height:60px;
+  line-height:60px !important;
 }
 .icon-wrapper-square.fa-3x,
 .icon-wrapper-rounded.fa-3x,
@@ -266,7 +266,7 @@ a:hover .icon-color-gold.icon-wrapper-circle {
 .icon-wrapper-ring.fa-3x {
   width:90px;
   height:90px;
-  line-height:90px;
+  line-height:90px !important;
 }
 .icon-wrapper-square.fa-4x,
 .icon-wrapper-rounded.fa-4x,
@@ -274,7 +274,7 @@ a:hover .icon-color-gold.icon-wrapper-circle {
 .icon-wrapper-ring.fa-4x {
   width:120px;
   height:120px;
-  line-height:120px;
+  line-height:120px !important;
 }
 .icon-wrapper-square.fa-5x,
 .icon-wrapper-rounded.fa-5x,
@@ -282,7 +282,7 @@ a:hover .icon-color-gold.icon-wrapper-circle {
 .icon-wrapper-ring.fa-5x {
   width:150px;
   height:150px;
-  line-height:150px;
+  line-height:150px !important;
 }
 
 @media all and (min-width:768px) {
