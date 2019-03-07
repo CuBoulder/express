@@ -1,5 +1,5 @@
 <div class="page-wrapper">
-  <div class="page">
+  <div class="page <?php print $classes; ?>">
     <!-- ALERTS -->
     <?php if (!empty($page['alerts'])): ?>
       <div id="alerts-wide-wrapper" class="section">
