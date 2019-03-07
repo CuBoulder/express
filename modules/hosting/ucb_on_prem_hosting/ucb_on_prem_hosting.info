@@ -17,4 +17,4 @@ dependencies[] = atlas
 dependencies[] = atlas_statistics
 dependencies[] = smtp
 dependencies[] = maillog
-dependencies[] = agrcache
+optional-dependencies[] = agrcache
