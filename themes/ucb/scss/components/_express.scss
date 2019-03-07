@@ -280,3 +280,9 @@ html.js input.throbbing {
     background-color: #0277BD;
   }
 }
+
+// Unpublished nodes
+
+.node-unpublished #main-content-wrapper {
+  background:$red-light;
+}
