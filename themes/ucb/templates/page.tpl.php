@@ -156,7 +156,7 @@
 
       <!-- SLIDER -->
       <?php if (!empty($page['slider'])): ?>
-        <div id="slider-wrapper" class="section slider-wrapper <?php print $section['footer-section']['class']; ?>">
+        <div id="slider-wrapper" class="section slider-wrapper <?php print $section['slider']['class']; ?>">
           <div id="slider" class="clearfix container">
             <?php print render($page['slider']); ?>
           </div>
