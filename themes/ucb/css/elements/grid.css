@@ -15,7 +15,7 @@
 @media (min-width: 1500px) { .container { max-width: 1460px; }
   .container.container-small { max-width: 960; }
   .container-full { max-width: 1500px; } }
-.layout-fixed .container { width: 1160px; max-width: none; }
+.layout-fixed .container { max-width: 1160px; }
 
 .container-fluid { width: 100%; padding-right: 20px; padding-left: 20px; margin-right: auto; margin-left: auto; }
 
