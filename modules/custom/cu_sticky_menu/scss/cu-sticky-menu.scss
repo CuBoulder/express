@@ -32,7 +32,9 @@ $cugold: #cfb87c;
   justify-content: space-between;
 }
 .sticky-menu-site-name {
-  max-width:300px;
+  flex-shrink: 1;
+  padding-right:40px;
+  min-width:300px;
   font-family: "Neue Helvetica W05", "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif;
   a:link,
   a:visited {
