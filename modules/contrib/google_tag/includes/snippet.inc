@@ -160,7 +160,7 @@ function _google_tag_variable_clean($variable, $default = '') {
   if ($variable == 'google_tag_container_id') {
     $google_tag_client_container_id = variable_get('google_tag_client_container_id', FALSE);
     if ($_ENV['OSR_ENV'] == 'test' && $google_tag_client_container_id) {
-      $clean_variable = trim(drupal_json_encode($google_tag_client_container_id));
+      $clean_variable = $google_tag_client_container_id;
     }
   }
   return $clean_variable;
