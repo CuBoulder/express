@@ -70,6 +70,15 @@ function profile_module_manager_menu() {
       'weight' => 10,
     );
 
+    $items['admin/settings/bundles/list/enable/%'] = array(
+      'title' => 'Enable Bundle',
+      'description' => 'Enable a bundle.',
+      'page callback' => 'profile_module_manager_bundle_enable',
+      'page arguments' => array(5),
+      'file' => 'profile_module_manager.admin.inc',
+      'access arguments' => array('enable module bundles'),
+    );
+
     $items['admin/settings/bundles/list/confirm/%'] = array(
       'title' => 'Confirm Enabling Bundle',
       'description' => 'Enable a bundle.',
@@ -78,15 +87,17 @@ function profile_module_manager_menu() {
       'file' => 'profile_module_manager.admin.inc',
       'access arguments' => array('enable module bundles'),
     );
+
+    $items['admin/settings/bundles/list/request/%'] = array(
+      'title' => 'Bundle Request',
+      'type' => MENU_CALLBACK,
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('profile_module_manager_request_bundle_form',5),
+      'access arguments' => array('enable module bundles'),
+    );
+
   }
 
-  $items['admin/settings/bundles/list/request/%'] = array(
-    'title' => 'Bundle Request',
-    'type' => MENU_CALLBACK,
-    'page callback' => 'drupal_get_form',
-    'page arguments' => array('profile_module_manager_request_bundle_form',5),
-    'access arguments' => array('enable module bundles'),
-  );
 
   $items['admin/config/system/module-manager'] = array(
     'title' => 'Profile Module Manager',
