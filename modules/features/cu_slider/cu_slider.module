@@ -142,7 +142,7 @@ function cu_slider_preprocess_entity(&$vars) {
         $vars['slide_image'] = l(render($vars['content']['field_slider_image']), $link, array('html' => TRUE));
       }
       if (!empty($vars['content']['field_slider_caption'])) {
-        $text = $vars['content']['field_slider_caption'][0]['#markup'] . '&nbsp;<i class="fa fa-external-link-square slider-link-icon"></i>';
+        $text = $vars['content']['field_slider_caption'][0]['#markup'];
         $vars['slide_caption'] = l($text, $link, array('html' => TRUE));
       }
     } else {

@@ -8,8 +8,13 @@ $cugold: #cfb87c;
 .cu-content-slider {
   overflow: hidden;
 }
-.slider-link-icon {
-  opacity: .5;
+.cu-slider-caption {
+  a:after {
+    content: '\f14c';
+    font-family: FontAwesome;
+    margin-left: 5px;
+    opacity: .5;
+  }
 }
 
 /* Font Styles */
@@ -58,7 +63,7 @@ $cugold: #cfb87c;
   }
   a:link,
   a:visited {
-    color:#fff;
+    color:#fff !important;
   }
   .cu-slider-teaser {
     a:link,
@@ -98,7 +103,7 @@ $cugold: #cfb87c;
   }
   a:link,
   a:visited {
-    color:#fff;
+    color:#fff !important;
   }
   .cu-slider-teaser {
     a:link,
@@ -138,7 +143,7 @@ $cugold: #cfb87c;
 
   a:link,
   a:visited {
-    color:#fff;
+    color:#fff !important;
   }
   .cu-slider-teaser {
     a:link,
@@ -169,14 +174,16 @@ $cugold: #cfb87c;
       font-size: 100%;
     }
   }
-  a:link,
-  a:visited {
-    color:#fff;
+  .cu-slider-caption {
+    a:link,
+    a:visited {
+      color:#fff !important;
+    }
   }
   .cu-slider-teaser {
     a:link,
     a:visited {
-      text-decoration: underline;
+      //text-decoration: underline;
     }
   }
 }
@@ -327,7 +334,7 @@ $cugold: #cfb87c;
   }
   a:link,
   a:visited {
-    color:#fff;
+    color:#fff !important;
   }
   .cu-slider-teaser {
     a:link,
