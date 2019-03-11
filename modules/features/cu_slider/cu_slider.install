@@ -54,3 +54,9 @@ function cu_slider_update_7014() {
   }
 }
 
+/**
+ * Delete old slider link field.
+ */
+function cu_slider_update_7015() {
+  field_delete_field('field_slider_url');
+}

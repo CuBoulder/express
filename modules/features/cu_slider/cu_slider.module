@@ -107,6 +107,26 @@ function cu_slider_form_bean_form_alter(&$form, &$form_state, &$form_id) {
   }
 }
 
+/**
+ * Implements hook_inline_entity_form_entity_form_alter().
+ *
+ * Hide old link field.
+ */
+function cu_slider_inline_entity_form_entity_form_alter(&$entity_form, &$form_state) {
+  if (isset($entity_form['field_slider_slide'])) {
+
+
+    // Hide old url field because we need to migrate date to new link field
+    foreach ($entity_form['field_slider_slide'][LANGUAGE_NONE] as $delta => $field) {
+      if (is_numeric($delta)) {
+        //$entity_form['field_slider_slide'][LANGUAGE_NONE][$delta]['field_slider_url']['#access'] = FALSE;
+      }
+    }
+  }
+
+
+}
+
 function cu_slider_preprocess_entity(&$vars) {
   $entity_type = $vars['elements']['#entity_type'];
   $bundle = $vars['elements']['#bundle'];

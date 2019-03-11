@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @file
  * cu_slider.features.field_instance.inc
@@ -348,42 +349,6 @@ function cu_slider_field_default_field_instances() {
       ),
       'type' => 'text_textarea',
       'weight' => 4,
-    ),
-  );
-
-  // Exported field_instance:
-  // 'field_collection_item-field_slider_slide-field_slider_url'.
-  $field_instances['field_collection_item-field_slider_slide-field_slider_url'] = array(
-    'bundle' => 'field_slider_slide',
-    'default_value' => NULL,
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'hidden',
-        'module' => 'text',
-        'settings' => array(),
-        'type' => 'text_default',
-        'weight' => 3,
-      ),
-    ),
-    'entity_type' => 'field_collection_item',
-    'fences_wrapper' => 'div',
-    'field_name' => 'field_slider_url',
-    'label' => 'Link',
-    'required' => 0,
-    'settings' => array(
-      'text_processing' => 0,
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'text',
-      'settings' => array(
-        'size' => 150,
-      ),
-      'type' => 'text_textfield',
-      'weight' => 32,
     ),
   );
 
