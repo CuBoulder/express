@@ -39,15 +39,14 @@ function profile_module_manager_menu() {
     'title' => 'Enable Bundles',
     'description' => 'Enable Bundles for additional functionality',
     'page callback' => 'drupal_goto',
-    'page arguments' => array('admin/settings/bundles/enabled'),
+    'page arguments' => array('admin/settings/bundles/list'),
     'access arguments' => array('enable module bundles'),
     'weight' => 50,
   );
-  //@TODO remove deprecated profile_module_manager_bundles_list
+
   if (variable_get('profile_module_manager_disable_enabling', 0) == 0) {
 
-
-    $items['admin/settings/bundles/enabled'] = array(
+    $items['admin/settings/bundles/list'] = array(
       'title' => 'Configure Bundles',
       'description' => 'Enabled',
       'page callback' => 'profile_module_manager_list_bundles',
@@ -65,7 +64,7 @@ function profile_module_manager_menu() {
       'title' => 'Available',
       'type' => MENU_LOCAL_TASK,
       'description' => 'Add and request additional bundles',
-      'page callback' => 'profile_module_manager_bundles',
+      'page callback' => 'profile_module_manager_list_bundles',
       'page arguments' => array(FALSE, NULL, NULL),
       'access arguments' => array('enable module bundles'),
       'weight' => 10,
@@ -488,7 +487,7 @@ function profile_module_manager_list_bundles($enabled = FALSE, $type = NULL, $co
     $info = drupal_parse_info_file($info_file);
 
     $request = !empty($info['bundle_request']) ? $info['bundle_request'] : 0;
-    dsm($request);
+    //dsm($request);
     // Build variables array for theming.
     $variables = array();
 
@@ -514,14 +513,14 @@ function profile_module_manager_list_bundles($enabled = FALSE, $type = NULL, $co
       $variables['demo_url'] = $info['project_demo_url'];
     }
 
-    dsm($variables);
+    //dsm($variables);
 
     // Add classes for bundle group
     $variables['bundle_classes'][] = ($bundle->status) ? 'express-bundle-enabled' : 'express-bundle-disabled';
     $variables['bundle_classes'][] = $request ? 'express-bundle-request' : 'express-bundle-install';
 
     if (isset($info['bundle_roles']) && profile_module_manager_user_has_role($info['bundle_roles'])) {
-      dsm('test');
+      //dsm('test');
       $output['bundles']['list'][$name_lc]['#markup'] = theme('express_bundle', $variables);
     }
 
