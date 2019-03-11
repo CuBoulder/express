@@ -5,38 +5,6 @@
  * @file
  */
 
-/**
- * Implements hook_menu().
- *
- * @return mixed
- */
-function cu_profile_module_manager_menu() {
-
-  $items['admin/settings/bundles/list/available'] = array(
-    'title' => 'Available',
-    'type' => MENU_LOCAL_TASK,
-    'description' => 'Add and request additional bundles',
-    'page callback' => 'cu_profile_module_manager_bundles',
-    'file' => 'cu_profile_module_manager.admin.inc',
-    'page arguments' => array(FALSE, NULL, NULL),
-    'access arguments' => array('enable module bundles'),
-    'weight' => 10,
-  );
-
-  return $items;
-}
-
-/**
- * Implementes hook_menu_alter().
- */
-function cu_profile_module_manager_menu_alter(&$items) {
-  $items['admin/settings/bundles/list']['page callback'] = 'cu_profile_module_manager_bundles';
-  $items['admin/settings/bundles/list']['page arguments'] = array(TRUE, NULL, NULL);
-  $items['admin/settings/bundles/list']['module'] = 'cu_profile_module_manager';
-  $items['admin/settings/bundles/list']['file'] = 'cu_profile_module_manager.admin.inc';
-  $items['admin/settings/bundles/list']['title'] = 'Bundles';
-  $items['admin/settings/bundles/list/core']['title'] = 'Installed';
-}
 
 /**
  * Implementes hook_theme().
