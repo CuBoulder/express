@@ -1,0 +1,110 @@
+<?php
+
+function secure_permissions_duplicate_menu() {
+  $items = array();
+
+  $items['admin/config/people/secure_permissions/duplicate'] = array(
+    'page callback' => 'secure_permissions_duplicate_report',
+    'access arguments' => array('export secure permissions'),
+    'title' => 'Duplicate Permissions',
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 10,
+  );
+
+  return $items;
+}
+
+
+function secure_permissions_duplicate_report() {
+  $output = array();
+  $duplicate_permissions = array();
+  $roles = secure_permissions_get_existing_roles();
+
+  // Get all modules with a hook_secure_permissions.
+  $modules = module_implements('secure_permissions');
+  $perm_count = array();
+  $all_permissions = array();
+  // Go through modules that call hook_secure_permissions.
+  foreach ($modules as $module) {
+    // Go through each role type.
+    foreach ($roles as $rid => $role) {
+      $permissions = module_invoke($module, 'secure_permissions', $role);
+      // Go through each permission returned.
+      if (is_array($permissions)) {
+        foreach ($permissions as $permission) {
+          // Create an array structured as array[$roles][$permissions][$modules].
+          $all_permissions[$role][$permission][] = $module;
+        }
+      }
+    }
+  }
+
+  $output['intro']['#markup'] = '<p>Permissions listed below are assigned multiple times to the same role. The module that assigns the permission is listed below the permission for each role.</p>';
+
+
+
+  // Sort by role.
+  ksort($all_permissions);
+  foreach ($all_permissions as $role => $permissions) {
+    $output['permissions'][$role]['#prefix'] = "<h2>$role</h2>";
+
+    $count = 0;
+    foreach ($permissions as $permission => $modules) {
+      $items = array();
+      // Check to see if more than one module adds a permission.
+      if (count($modules) > 1) {
+        $items[] = join(', ', $modules);
+        $output['permissions'][$role][$permission]['#prefix'] = "<strong>$permission</strong>";
+        $output['permissions'][$role][$permission]['#markup'] = theme('item_list', array('items' => $modules));
+        $count++;
+      }
+    }
+    // If there are no duplicate permissions for this role, remove it.
+    if ($count == 0) {
+      unset($output['permissions'][$role]);
+      //$output[$role]['#prefix'] = "<h2>EMPTY $role</h2>";
+    }
+  }
+
+  return $output;
+}
+
+function secure_permissions_duplicate_count($k, $v) {
+  return "$v : $k";
+}
+
+function secure_permissions_duplicate_secure_permissions($role) {
+  $permissions = array(
+    'anonymous user' => array(
+    ),
+    'authenticated user' => array(
+    ),
+    'administrator' => array(
+      'access express reports',
+
+    ),
+    'content_editor' => array(
+
+    ),
+    'developer' => array(
+      'access express reports',
+    ),
+    'edit_my_content' => array(
+    ),
+    'edit_only' => array(
+
+    ),
+    'site_editor' => array(
+      'access express reports',
+
+    ),
+    'site_owner' => array(
+      'access express reports',
+
+    ),
+  );
+
+  if (isset($permissions[$role])) {
+    return $permissions[$role];
+  }
+}
