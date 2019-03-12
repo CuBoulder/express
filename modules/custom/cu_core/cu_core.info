@@ -37,3 +37,6 @@ optional-dependencies[] = entityreference
 optional-dependencies[] = express_layout
 optional-dependencies[] = secure_permissions
 optional-dependencies[] = express_permissions
+optional-dependencies[] = cu_quicktab_styles
+optional-dependencies[] = quicktabs
+optional-dependencies[] = quicktab_beans
