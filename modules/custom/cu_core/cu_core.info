@@ -1,13 +1,12 @@
 name = CU Core
 description = Provides CU-specific functionality, like adding variables, to Express Core.
 core = 7.x
-version = 7.x-9.4
+version = 7.x-0.2
 package = CU-Core
 
 dependencies[] = cu_redirect
 dependencies[] = cu_help
 dependencies[] = user_external_invite
-dependencies[] = syslog
 dependencies[] = rave_alerts
 dependencies[] = cu_alerts
 dependencies[] = cu_atlas
@@ -19,6 +18,7 @@ dependencies[] = elysia_cron
 dependencies[] = cu_elysia_cron
 dependencies[] = cu_search
 dependencies[] = google_cse
+dependencies[] = google_tag
 dependencies[] = cu_update_ping
 dependencies[] = cu_unused_beans
 dependencies[] = xmlsitemap
@@ -28,6 +28,8 @@ dependencies[] = cu_helpscout
 dependencies[] = cu_inactive_users
 dependencies[] = match_redirect
 dependencies[] = express_content_edit_lock
+dependencies[] = r4032login
+dependencies[] = unpublished_404
 
 optional-dependencies[] = cu_users
 optional-dependencies[] = express_content_edit_lock

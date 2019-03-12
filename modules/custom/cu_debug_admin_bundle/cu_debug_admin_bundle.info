@@ -3,10 +3,6 @@ description = This bundle enables/disables modules and configures default settin
 core = 7.x
 package = CU-Development
 
-dependencies[] = devel
-dependencies[] = search_krumo
-dependencies[] = ds_ui
-
 optional-dependencies[] = devel
 optional-dependencies[] = search_krumo
 optional-dependencies[] = ds_ui

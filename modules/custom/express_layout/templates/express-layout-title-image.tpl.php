@@ -4,10 +4,10 @@
   <div class="feature-layout-title-image-overlay">
     <?php if ($breadcrumb): ?>
       <div class="title-image-breadcrumbs-wrapper">
-        <div class="title-image-breadcrumbs element-max-width-padding"><?php print $breadcrumb; ?></div>
+        <div class="title-image-breadcrumbs container"><?php print $breadcrumb; ?></div>
       </div>
     <?php endif; ?>
-    <div class="feature-layout-title-image-page-title element-max-width-padding">
+    <div class="feature-layout-title-image-page-title container">
       <h1><?php print $title; ?></h1>
       <div class="title-image-byline"></div>
 

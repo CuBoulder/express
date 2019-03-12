@@ -1,63 +1,20 @@
-<div id="print-header" class="clearfix">
-  <div class="print-site-name">
-    <?php print $site_name; ?>
-  </div>
-  <div class="print-site-logo">
-    <?php print $print_logo; ?>
+<?php
+  global $base_url;
+  $color = isset($logo_color) ? $logo_color : 'black';
+  $logo = $base_url . '/' . drupal_get_path('theme', 'expressbase') . '/images/cu-boulder-logo-text-' . $color . '.svg';
+
+?>
+<div class="brand-bar brand-color-<?php print $color; ?>">
+  <div class="element-max-width-padding">
+    <div class="brand-bar-container">
+      <div class="brand-logo">
+        <a href="http://www.colorado.edu"><img src="<?php print $logo; ?>" alt="University of Colorado Boulder" /></a>
+      </div>
+      <div class="brand-links">
+      </div>
+      <div class="search-toggle-wrapper menu-toggle">
+        <button id="search-toggle" class="search-toggle" aria-haspopup="true" aria-expanded="false" aria-controls="mobile-menu" aria-label="Search"><i class="fa fa-search fa-fw"></i><span class="element-invisible">Search </span></button>
+      </div>
+    </div>
   </div>
 </div>
-<?php
-  // Markup for site name
-  $site_name_tag = drupal_is_front_page() ? 'h1' : 'div';
-?>
-<?php if (variable_get('custom_white_logo') && variable_get('custom_black_logo')): ?>
-  <?php
-    // Load logo files
-    $custom_logo = array(
-      'white' => file_load(variable_get('custom_white_logo')),
-      'black' => file_load(variable_get('custom_black_logo')),
-    );
-    // Create img markup
-    $custom_logo['white']->markup = '<img class="custom-logo custom-logo-white" src="' . file_create_url($custom_logo['white']->uri) . '" alt="' . check_plain($site_name) . ' logo" />';
-    $custom_logo['black']->markup = '<img class="custom-logo custom-logo-black" src="' . file_create_url($custom_logo['black']->uri) . '" alt="' . check_plain($site_name) . ' logo" />';
-  ?>
-  <?php
-    // Link images to <front> and add site name
-    print l($custom_logo['white']->markup, '<front>', array('attributes' => array('rel' => 'home', 'class' => array('custom-logo-link')), 'html' => TRUE));
-    print l($custom_logo['black']->markup, '<front>', array('attributes' => array('rel' => 'home', 'class' => array('custom-logo-link')), 'html' => TRUE));
-  ?>
-  <div class="element-invisible">
-    <?php if ($site_name || $site_slogan): ?>
-      <div class="header__name-and-slogan" id="name-and-slogan">
-        <?php if ($site_name): ?>
-          <<?php print $site_name_tag; ?> class="header__site-name" id="site-name">
-            <a href="<?php print $front_page; ?>" class="header__site-link" rel="home"><span><?php print $site_name; ?></span></a>
-          </<?php print $site_name_tag; ?>>
-        <?php endif; ?>
-
-        <?php if ($site_slogan): ?>
-          <div class="header__site-slogan" id="site-slogan"><?php print $site_slogan; ?></div>
-        <?php endif; ?>
-      </div>
-    <?php endif; ?>
-  </div>
-<?php else: ?>
-
-  <?php if ($logo): ?>
-    <a href="<?php print $front_page; ?>" rel="home" class="header__logo"><img src="<?php print $svg_logo; ?>" alt="<?php print t('Home'); ?>" class="header__logo-image" id="logo" /></a>
-  <?php endif; ?>
-
-  <?php if ($site_name || $site_slogan): ?>
-    <div class="header__name-and-slogan" id="name-and-slogan">
-      <?php if ($site_name): ?>
-        <<?php print $site_name_tag; ?> class="header__site-name" id="site-name">
-          <a href="<?php print $front_page; ?>" class="header__site-link" rel="home"><span><?php print $site_name; ?></span></a>
-        </<?php print $site_name_tag; ?>>
-      <?php endif; ?>
-
-      <?php if ($site_slogan): ?>
-        <div class="header__site-slogan" id="site-slogan"><?php print $site_slogan; ?></div>
-      <?php endif; ?>
-    </div>
-  <?php endif; ?>
-<?php endif; ?>

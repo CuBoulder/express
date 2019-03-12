@@ -2,7 +2,7 @@ name = 'Layers'
 screenshot = screenshot.png
 engine = phptemplate
 core = 7.x
-base theme = 'expressbase'
+base theme = 'ucb'
 
 stylesheets[screen][] = css/layers-styles.css
 
@@ -33,3 +33,9 @@ regions[content_bottom] = 'Content Bottom'
 
 settings[layout_style] = 'layout-wide'
 settings[banner_color] = 'dark'
+
+; Region background colors
+settings[slider_class] = 'background-gray-800'
+settings[after_content2_class] = 'background-white'
+settings[footer_section_class] = 'background-gray-900'
+settings[site_info_class] = 'background-gray-800'

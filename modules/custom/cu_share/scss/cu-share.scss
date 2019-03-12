@@ -11,6 +11,10 @@ $email: #5887D8;
   left:0;
   z-index:1;
   display: none;
+  .soc a,
+  .soc a:hover {
+    background:none;
+  }
 }
 .cu-share-sidebar ul,
 .cu-share-sidebar ul li {
@@ -23,7 +27,7 @@ $email: #5887D8;
   display: block;
 }
 .cu-share-sidebar .socicon {
-  transition: all 0.5s ease;
+  transition: width 0.5s ease;
 }
 .cu-share-sidebar a:hover .socicon {
   width:60px;
@@ -31,11 +35,17 @@ $email: #5887D8;
 .cu-share-inline,
 .cu-share-inline-mobile {
   display: block;
+  ul {
+    display: flex;
+    flex-direction: row;
+  }
   .soc li {
-    display:inline-block;
+    margin:0;
+    padding:0;
   }
   .soc li .socicon {
     color:#666 !important;
+    font-size: 13px;
   }
   .soc-twitter,
   .soc-facebook,
@@ -68,15 +78,17 @@ $email: #5887D8;
     }
   }
 
-  .soc li .social-links-text,
-  .soc li .social-links-text {
+  .soc li .social-share-links-text,
+  .soc li .social-share-links-text {
     color:#666;
     background: #f5f5f5;
     margin:0;
     padding:0 10px;
-    font-size: 85%;
+    font-size: 13px;
     display: block;
     float: left;
+    height:24px;
+    line-height: 24px;
   }
 
 }

@@ -25,3 +25,12 @@ function cuspirit_preprocess_html(&$vars) {
   $layout = theme_get_setting('layout_style', 'cuspirit') ? theme_get_setting('layout_style', 'cuspirit') : 'layout-wide';
   $vars['classes_array'][]=$layout;
 }
+
+function cuspirit_preprocess_page(&$vars) {
+  // Section classes
+  //$vars['section']['slider']['class'] = '';
+  //$vars['section']['after-content2']['class'] = 'background-gray-light';
+  //$vars['section']['footer-section']['class'] = theme_get_setting('footer_section_class', 'cuspirit');
+  //$vars['section']['footer']['class'] = '';
+  //$vars['section']['site-info']['class'] = 'background-black';
+}

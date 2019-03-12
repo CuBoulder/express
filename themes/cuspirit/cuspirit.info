@@ -2,7 +2,7 @@ name = Spirit
 screenshot = screenshot.png
 engine = phptemplate
 core = 7.x
-base theme = 'expressbase'
+base theme = 'ucb'
 
 ; Stylesheets
 stylesheets[screen][] = css/spirit-styles.css
@@ -29,3 +29,8 @@ regions[alerts] = 'Alerts'
 regions[content_sidebar_right] = 'Content Sidebar Right'
 regions[content_sidebar_left] = 'Content Sidebar Left'
 regions[content_bottom] = 'Content Bottom'
+
+; Region background colors
+settings[after_content2_class] = 'background-gray-light'
+settings[footer_section_class] = 'background-gray-800'
+settings[site_info_class] = 'background-black'

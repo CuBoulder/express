@@ -51,16 +51,6 @@ function atlas_statistics_cron() {
 
       atlas_api_request('statistics', $statistics_id, 'PUT', $request_data);
 
-      // TEMP - DO EVERYTHING ABOVE A 2ND TIME UNTIL THE SITE IS MIGRATED
-      if (variable_get('atlas_url', FALSE) == "https://osr-atlas03.int.colorado.edu/atlas/" && $pool != 'pool-varnish-new') {
-
-        $statistics_array = atlas_api_request('statistics', $statistics_id, 'GET', FALSE, "https://osr-prod-util01.int.colorado.edu/atlas/");
-
-        // Set the etag from the form.
-        $request_data['_etag'] = $statistics_array['_etag'];
-
-        atlas_api_request('statistics', $statistics_id, 'PUT', $request_data, "https://osr-prod-util01.int.colorado.edu/atlas/");
-      }
     }
   }
 }
@@ -169,16 +159,6 @@ function atlas_statistics_submit($form, &$form_state) {
   $pool = $form_state['values']['atlas_pool'];
 
   atlas_api_request('statistics', $statistics_id, 'PUT', $request_data);
-
-  // TEMP - DO EVERYTHING ABOVE A 2ND TIME
-  if (variable_get('atlas_url') == "https://osr-atlas03.int.colorado.edu/atlas/" && $pool != 'pool-varnish-new') {
-
-    $statistics_array = atlas_api_request('statistics', $statistics_id, 'GET', FALSE, "https://osr-prod-util01.int.colorado.edu/atlas/");
-
-    // Set the etag from the form.
-    $request_data['_etag'] = $statistics_array['_etag'];
-    atlas_api_request('statistics', $statistics_id, 'PUT', $request_data, "https://osr-prod-util01.int.colorado.edu/atlas/");
-  }
 
 }
 

@@ -33,7 +33,9 @@ function cutradition_preprocess_page(&$vars) {
 function cutradition_breadcrumb($vars) {
   global $theme_key;
   $breadcrumb = $vars['breadcrumb'];
-
+  if (count($breadcrumb) < 2) {
+    $breadcrumb = array();
+  }
   if (!empty($breadcrumb) && theme_get_setting('use_breadcrumbs', $theme_key)) {
     // Replace the Home breadcrumb with a Home icon
     //$breadcrumb[0] = str_replace('Home','<i class="fa fa-home"></i> <span class="home-breadcrumb element-invisible">Home</span>',$breadcrumb[0]);
@@ -42,7 +44,7 @@ function cutradition_breadcrumb($vars) {
     // Provide a navigational heading to give context for breadcrumb links to
     // screen-reader users. Make the heading invisible with .element-invisible.
     $output = '<h2 class="element-invisible">' . t('You are here') . '</h2>';
-    $output .= '<div class="breadcrumb">' . implode('<span class="breadcumb-divider element-invisible">/</span>', $breadcrumb) . '</div>';
+    $output .= '<div class="breadcrumbs">' . implode('<span class="breadcumb-divider element-invisible">/</span>', $breadcrumb) . '</div>';
     return $output;
   }
 }

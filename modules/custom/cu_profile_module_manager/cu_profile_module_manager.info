@@ -4,3 +4,4 @@ core = 7.x
 package = CU-Core
 
 dependencies[] = profile_module_manager
+stylesheets[all][] = css/cu-profile-module-manager.css

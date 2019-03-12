@@ -389,17 +389,38 @@ function cu_shortcodes_box($attrs, $content = NULL) {
         'float' => '',
         'style' => '',
       ), $attrs));
-  $box_title = $title ? '<div class="box-title">' . $title . '</div>' : '';
+  $box_title = $title ? '<div class="box-title padding ">' . $title . '</div>' : '';
   $classes = array();
   $tag = 'div';
   $classes[] = 'cu-box';
+  $classes[] = 'margin-bottom';
   $classes[] = $color ? 'box-' . $color : 'box-white';
+
   $classes[] = $float ? 'float-' . $float : '';
-  $classes[] = $style ? 'box-style-' . $style : 'box-style-filled';
+  $classes[] = $style;
+  if ($style == 'filled') {
+    $classes[] = 'background-' . cu_shortcode_box_translate_class($color);
+  }
+  elseif ($style == 'border') {
+    $classes[] = 'border-' . cu_shortcode_box_translate_class($color);
+  }
   $classes[] = !empty($class) ? explode(' ', $class) : NULL;
   $classes = trim(implode(' ', $classes));
-  $content = $box_title . '<div class="box-content clearfix">' . $content . '</div>';
+  $content = $box_title . '<div class="box-content padding clearfix">' . $content . '</div>';
   return '<' . $tag . ' class="' . $classes . '">' . $content . '</' . $tag . '>';
+}
+
+function cu_shortcode_box_translate_class($color) {
+  $colors = array(
+    'lightgray' => 'gray-light',
+    'darkgray' => 'gray-dark',
+  );
+  if (!empty($colors[$color])) {
+    return $colors[$color];
+  }
+  else {
+    return $color;
+  }
 }
 
 /**
@@ -420,21 +441,24 @@ function cu_shortcodes_button($attrs, $content = NULL) {
         'color' => '',
         'icon' => '',
         'size' => '',
+        'id' => NULL,
       ), $attrs));
+  // Add button classes.
   $classes = array();
   $classes[] = 'button';
   $classes[] = $size ? 'button-' . $size : '';
   if ($style == 'full') {
     $classes[] = 'button-full';
   }
-
   $classes[] = $color ? 'button-' . $color : 'button-white';
+  // Add button attributes to array.
+  $attributes['class'] = $classes;
+  // Only add ID if ID exists.
+  if ($id) { $attributes['id'] = $id; }
 
   $content = $icon ? '<i class="fa ' . $icon . '"></i> ' . $content : $content;
   return l($content, $url, array(
-      'attributes' => array(
-        'class' => $classes,
-      ),
+      'attributes' => $attributes,
       'html' => TRUE,
     )
   );
@@ -457,7 +481,7 @@ function cu_shortcodes_buttongroup($attrs, $content = NULL) {
     'size' => 'regular',
   ), $attrs));
   $content = str_replace(array('<p>&nbsp;</p>','<p>', '</p>'), array('','',''), $content);
-  $output = '<div class="buttongroup buttongroup-color-' . $color . ' buttongroup-size-' . $size . '"><div class="element-max-width-padding"><div class="button-group-content">' . $content . '</div></div></div>';
+  $output = '<div class="buttongroup buttongroup-color-' . $color . ' buttongroup-size-' . $size . '"><div class="container padding-none"><div class="button-group-content">' . $content . '</div></div></div>';
   return $output;
 }
 
@@ -621,45 +645,49 @@ function cu_shortcodes_countup_tips($format, $long) {
 /**
  * Expand shortcodes.
  */
-function cu_shortcodes_expand($attrs, $content = NULL) {
-  extract(shortcode_attrs(array(
-        'type'       => 1,
-        'title' => '',
-        'style' => 'large',
-      ), $attrs));
-  $id = 'expand-' . drupal_html_id(rand(1000, 100000));
-  if ($style == 'small') {
-    $expand_title = $title ? '<a href="#' . $id . '" class="small-expand-title" aria-expanded="false">' . $title . '&nbsp;<i class="fa fa-plus-square"></i></a>' : '';
-    $classes = array();
-    $tag = 'div';
-    $classes[] = !empty($class) ? explode(' ', $class) : NULL;
-    $classes = trim(implode(' ', $classes));
-    $content = $expand_title . '<div id="' . $id . '" class="small-expand-content">' . $content . '</div>';
-    return '<' . $tag . ' class="small-expand-set">' . $content . "</$tag>";
-  } elseif ($style == 'tooltip') {
-    $expand_title = $title ? '<a href="#' . $id . '" class="tooltip-expand-title tipid-' . $id . '" aria-expanded="false">' . $title . '&nbsp;<i class="fa fa-plus-square"></i></a>' : '';
-    $classes = array();
-    $tag = 'span';
-    $classes[] = !empty($class) ? explode(' ', $class) : NULL;
-    $classes = trim(implode(' ', $classes));
-    $content = $expand_title . '<span id="' . $id . '" class="tooltip-expand-content"><span class="tooltip-inner">' . $content . '<br /><a href="#' . $id . '" class="close-tip" rel="tipid-' . $id . '"><i class="fa fa-times"></i></a></span></span>';
-    return '<' . $tag . ' class="tooltip-expand-set">' . $content . "</$tag>";
-  } else {
-    $expand_title = $title ? '<a href="#' . $id . '" class="expand-title expand-trigger" aria-expanded="false" ><span>' . $title . '</span></a>' : '';
-    $classes = array();
-    $tag = 'div';
-    $classes[] = !empty($class) ? explode(' ', $class) : NULL;
-    $classes = trim(implode(' ', $classes));
-    $content = $expand_title . '<div id="' . $id . '" class="expand-content">' . $content . '</div>';
-    return '<' . $tag . ' class="expand-set">' . $content . "</$tag>";
-  }
-}
+ function cu_shortcodes_expand($attrs, $content = NULL) {
+   extract(shortcode_attrs(array(
+         'type'       => 1,
+         'title' => '',
+         'style' => 'large',
+         'heading' => 'div',
+       ), $attrs));
+   $allowed_headings = array('h2','h3','h4','h5','h6','div');
+   $heading = in_array($heading, $allowed_headings) ? $heading : 'div';
+   $id = 'expand-' . drupal_html_id(rand(1000, 100000));
+   if ($style == 'small') {
+     $expand_title = $title ? '<a href="#' . $id . '" class="small-expand-title" aria-expanded="false">' . $title . '&nbsp;<i class="fa fa-plus-square"></i></a>' : '';
+     $classes = array();
+     $tag = 'div';
+     $classes[] = !empty($class) ? explode(' ', $class) : NULL;
+     $classes = trim(implode(' ', $classes));
+     $content = $expand_title . '<div id="' . $id . '" class="small-expand-content">' . $content . '</div>';
+     return '<' . $tag . ' class="small-expand-set">' . $content . "</$tag>";
+   } elseif ($style == 'tooltip') {
+     $expand_title = $title ? '<a href="#' . $id . '" class="tooltip-expand-title tipid-' . $id . '" aria-expanded="false">' . $title . '&nbsp;<i class="fa fa-plus-square"></i></a>' : '';
+     $classes = array();
+     $tag = 'span';
+     $classes[] = !empty($class) ? explode(' ', $class) : NULL;
+     $classes = trim(implode(' ', $classes));
+     $content = $expand_title . '<span id="' . $id . '" class="tooltip-expand-content"><span class="tooltip-inner">' . $content . '<br /><a href="#' . $id . '" class="close-tip" rel="tipid-' . $id . '"><i class="fa fa-times"></i></a></span></span>';
+     return '<' . $tag . ' class="tooltip-expand-set">' . $content . "</$tag>";
+   } else {
+     $expand_title = $title ? '<' . $heading . '><a href="#' . $id . '" class="expand-title expand-trigger" aria-expanded="false" ><span>' . $title . '</span></a></' . $heading . '>' : '';
+     $classes = array();
+     $tag = 'div';
+     $classes[] = !empty($class) ? explode(' ', $class) : NULL;
+     $classes = trim(implode(' ', $classes));
+     $content = $expand_title . '<div id="' . $id . '" class="expand-content">' . $content . '</div>';
+     return '<' . $tag . ' class="expand-set">' . $content . "</$tag>";
+   }
+ }
+
 
 /**
  * Expand tips.
  */
 function cu_shortcodes_expand_tips($format, $long) {
-  $output = '[expand title="Title goes here"]your content here[/expand]';
+  $output = '[expand title="Title goes here" heading="h2/h3/h4/h5/h6/div"]your content here[/expand]';
   return $output;
 }
 
@@ -782,6 +810,7 @@ function cu_shortcodes_map($attrs, $content = NULL) {
     'type' => 1,
     'size' => 'small',
   ), $attrs));
+  $embed_size = $size;
   $size = 'map-' . check_plain($size);
   if ((strpos($content, 'maps.google.com') !== FALSE) || (strpos($content, 'google.com/map') !== FALSE) || (strpos($content, 'mapsengine.google.com') !== FALSE)){
     $mapurl = $content . "&amp;ie=UTF8&amp;output=embed";
@@ -790,24 +819,49 @@ function cu_shortcodes_map($attrs, $content = NULL) {
   elseif (strpos($content, 'google.com/fusiontables') !== FALSE) {
     $map = '<iframe width="100%" class="' . $size . '" src="' . $content . '"></iframe>';
   }
-  elseif ((strpos($content, 'myatlascms.com') !== FALSE) || (strpos($content, 'colorado.edu/map') !== FALSE) || (strpos($content, 'map.colorado.edu') !== FALSE)){
+  elseif ((strpos($content, 'myatlascms.com') !== FALSE) || (strpos($content, 'colorado.edu/map') !== FALSE) || (strpos($content, 'cms.concept3d.com') !== FALSE)){
     // Parse url
     $url = parse_url($content);
-    // Hide print link for embeded map
-    //$url['query'] .= '&ph=1';
-    // Close the sidebar on embeded maps
+    // Parse query parameter
+    if (!empty($url['query'])) {
+      parse_str($url['query'], $params);
+    }
+    // parse url fragments
     if (!empty($url['fragment'])) {
-      $url['fragment'] .= '?sbc';
+      parse_str($url['fragment'], $fragments);
+    }
+    if (!empty($params['amp;mrkIid'])) {
+      $marker = $params['amp;mrkIid'];
+    }
+    elseif (strpos($content, '!m/') !== FALSE) {
+      // REGEX!!!
+      $re1='.*?';	# Non-greedy match on filler
+      $re2='\\d+';	# Uninteresting: int
+      $re3='.*?';	# Non-greedy match on filler
+      $re4='(\\d+)';	# Integer Number 1
+
+      if ($c=preg_match_all ("/".$re1.$re2.$re3.$re4."/is", $content, $matches))
+      {
+          $int1=$matches[1][0];
+          $marker = $int1;
+      }
+    }
+    if (isset($marker)) {
+      $static = 'https://staticmap.concept3d.com/map/static-map/?map=336&loc=' . $marker;
+      $map_link = 'https://www.colorado.edu/map/?id=336#!m/' . $marker;
+
+      // Build static map markup
+      $map = '<a href="' . $map_link . '" id="map-embed-' . $marker . '" class="embed-map-static embed-map-size-' . $embed_size . '" style="background-image:url(' . $static . ');"><span class="embed-map-label">View location on the Campus Map</span></a>';
     }
     else {
-      $url['fragment'] = '?sbc';
+      $map = '<iframe class="' . $size . '" src="https://map.concept3d.com/?id=336&tbh#!sbc' . $url['fragment'] . '" id="map_frame" width="100%" height="100%" frameborder="0" scrolling="no" border="0" allow="geolocation"></iframe><a href="' . $content . '" class="embed-map-label">View Larger Map</a>';
+
+      //$map = '<!-- URL did not match concept 3d shortcode specifications -->';
     }
-    // Build the map url
-    $mapurl = cu_shortcodes_join_url($url, FALSE);
-    $map = '<iframe width="100%" class="' . $size . '" src="' . $mapurl . '"></iframe><br /><a href="' . $mapurl . '" class="map-link">View Larger Map</a>';
+
   }
   else {
-    $map = '';
+    $map = '<!-- URL did not match shortcode specifications -->';
   }
   return $map;
 }

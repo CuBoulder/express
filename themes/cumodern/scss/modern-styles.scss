@@ -1,18 +1,18 @@
-@import "../../expressbase/scss/modules/_colors.scss";
-@import "../../expressbase/scss/modules/_global.scss";
+@import "../../ucb/scss/modules/_colors.scss";
+@import "../../ucb/scss/modules/_global.scss";
 
 body {
-  background-color: $bg_dark2;
+  background-color: #000;
 }
 .layout-wide #backstretch {
   display: none;
 }
 .layout-boxed.layout-fixed #page {
-  width: 1200px;
+  width: 1500px;
   margin: 0 auto;
 }
 .layout-boxed.layout-responsive #page {
-  max-width: 1200px;
+  max-width: 1500px;
   margin: 0 auto;
 }
 .layout-boxed #page {
@@ -61,25 +61,30 @@ h2.secondary-menu-label {
 
 // Main Menu
 #main-menu-wrapper {
-  background-color: $bg_dark1;
+  background-color: #222;
 }
-#main-menu-wrapper ul#main-menu a {
-  font-weight: 600;
-  color: #fff;
-  //transition: background-color 0.5s ease;
-}
-#main-menu-wrapper ul#main-menu a:hover {
-  background-color:#444;
-}
-#main-menu-wrapper ul#main-menu a.active,
-#main-menu-wrapper ul#main-menu a.active-trail {
-  background-color: $cugold;
-  color:#000;
-}
-#main-menu-wrapper ul#main-menu a.home-link,
-#main-menu-wrapper ul#main-menu a.home-link.active {
-  background-color: transparent;
-  color:#fff;
+#main-menu-wrapper ul#main-menu {
+  & > li > a {
+    font-weight: 600;
+    color: #fff;
+    //transition: background-color 0.5s ease;
+  }
+  & > li > a:hover {
+    background-color:#444;
+  }
+  & > li > a.active,
+  & > li > a.active-trail {
+    background-color: $cugold;
+    color:#000;
+  }
+  & > li > a.home-link,
+  & > li > a.home-link.active {
+    background-color: transparent;
+    color:#fff;
+  }
+  a.home-link {
+    margin-left: -12px;
+  }
 }
 ul.action-menu a {
   color:#fff;
@@ -94,47 +99,26 @@ ul.action-menu a.active-trail {
 .top-content {
   background: #fff;
 }
-.intro-wide-wrapper,
-.slider-wrapper {
-  background-color: $light_gray;
-}
+
 .slider-wrapper {
   padding: 20px;
 }
 #main-content-wrapper {
   padding: 0;
 }
-.content-wrapper,
-.after-content-wrapper {
-  background-color: #fff;
-}
-.after-content-wrapper {
-  padding-top: 40px;
-  padding-bottom: 20px;
-}
-// Footer
-.after-content2-wrapper {
-  background-color: $light_gray;
-  padding-top: 40px;
-  padding-bottom: 20px;
-}
-.footer-section {
-  background-color: $bg_dark2;
-  border-top: 5px solid $cugold;
 
-  color: #fff;
+
+// Footer
+
+.footer-section {
+  border-top: 5px solid $cugold;
 }
-.footer-section a,
-.footer-section a.active,
-.footer-section a.active-trail {
-  color:$cugold;
-}
-.footer-section a:hover {
-  color:#fff;
-}
-.footer-wrapper {
-  background-color: $bg_dark1;
-  padding-top: 20px;
+
+.after-content-wrapper,
+.after-content2-wrapper,
+.footer-wrapper,
+.site-info-wrapper {
+  padding:40px 0px 20px;
 }
 
 // Mobile Menu

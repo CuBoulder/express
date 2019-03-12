@@ -96,13 +96,6 @@ function cu_slider_form_bean_form_alter(&$form, &$form_state, &$form_id) {
       if (array_key_exists('field_slider_style', $form)) {
         unset($form['field_slider_style']);
       }
-
-      // Hide old url field because we need to migrate date to new link field
-      foreach ($form['field_slider_slide'][LANGUAGE_NONE] as $delta => $field) {
-        if (is_numeric($delta)) {
-          $form['field_slider_slide'][LANGUAGE_NONE][$delta]['field_slider_url']['#access'] = FALSE;
-        }
-      }
     }
   }
 }
@@ -142,7 +135,7 @@ function cu_slider_preprocess_entity(&$vars) {
         $vars['slide_image'] = l(render($vars['content']['field_slider_image']), $link, array('html' => TRUE));
       }
       if (!empty($vars['content']['field_slider_caption'])) {
-        $text = $vars['content']['field_slider_caption'][0]['#markup'] . '&nbsp;<i class="fa fa-external-link-square slider-link-icon"></i>';
+        $text = $vars['content']['field_slider_caption'][0]['#markup'];
         $vars['slide_caption'] = l($text, $link, array('html' => TRUE));
       }
     } else {

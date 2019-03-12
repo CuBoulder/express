@@ -1,12 +1,16 @@
 @font-face { font-family: 'Socicon'; src: url("../fonts/Socicon.eot?484r1f"); src: url("../fonts/Socicon.eot?484r1f#iefix") format("embedded-opentype"), url("../fonts/Socicon.woff2?484r1f") format("woff2"), url("../fonts/Socicon.ttf?484r1f") format("truetype"), url("../fonts/Socicon.woff?484r1f") format("woff"), url("../fonts/Socicon.svg?484r1f#Socicon") format("svg"); font-weight: normal; font-style: normal; }
 [class^="socicon-"], [class*=" socicon-"] { /* use !important to prevent issues with browser extensions that change fonts */ font-family: 'Socicon' !important; speak: none; font-style: normal; font-weight: normal; font-variant: normal; text-transform: none; line-height: 1; /* Better Font Rendering =========== */ -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
-@media screen and (-webkit-min-device-pixel-ratio: 0) { @font-face { font-family: 'Socicon'; src: url(../fonts/socicon.svg) format(svg); } }
+@media screen and (-webkit-min-device-pixel-ratio: 0) { @font-face { font-family: 'Socicon'; src: url("../fonts/Socicon.svg") format(svg); } }
 .social-links-type1 { font-family: Helvetica, Arial; }
 
 .soc, .item-list .soc { overflow: hidden; margin: 0; padding: 0; list-style: none; }
+.soc a, .item-list .soc a { display: flex; text-decoration: none; background: #333; }
+.soc a:hover, .item-list .soc a:hover { background: #666; color: #fff; }
 
-.soc li, .item-list .soc li { display: inline-block; *display: inline; zoom: 1; margin: 0; overflow: hidden; }
+.soc li, .item-list .soc li { display: inline-block; *display: inline; zoom: 1; margin: 0 5px 5px 0; overflow: hidden; }
+
+.social-links-vertical { display: inline-block; }
 
 .social-links-vertical li, .item-list .social-links-vertical li, .social-links-vertical-bars li, .item-list .social-links-vertical-bars li { display: block; margin-bottom: 10px; }
 
@@ -28,9 +32,9 @@
 
 .social-links-64 li .social-links-text { line-height: 64px; height: 64px; }
 
-.soc li .social-links-text { display: inline-block; margin-right: 10px; white-space: nowrap; padding-left: 10px; }
+.soc li .social-links-text { display: inline-block; margin-right: 10px; white-space: nowrap; padding-left: 10px; color: #fff !important; font-size: 85%; font-weight: bold; }
 
-.social-links-vertical-bars li .social-links-text { margin: 0; padding: 0 10px 0 0; color: #fff !important; float: none; font-weight: 500; }
+.social-links-vertical-bars li .social-links-text { margin: 0; padding: 0 10px 0 0; color: #fff !important; float: none; font-weight: bold; }
 
 .soc li .socicon { font-family: Socicon !important; font-style: normal; font-weight: 400; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; -ms-box-sizing: border-box; -o-box-sizing: border-box; box-sizing: border-box; overflow: hidden; text-decoration: none; text-align: center; display: block; position: relative; z-index: 1; float: left; -webkit-border-radius: 0px; -moz-border-radius: 0px; border-radius: 0px; color: #ffffff !important; background-color: none; }
 
@@ -82,6 +86,12 @@
 .social-links-vertical-bars .social-links-text-blogger { background-color: #953d0d; }
 .social-links-vertical-bars .social-links-text-flickr { background-color: black; }
 .social-links-vertical-bars .social-links-text-vimeo { background-color: #1984b9; }
+
+.socicon-feed:before, .socicon-email:before { font-family: FontAwesome; }
+
+.socicon-feed:before { content: "\f09e"; }
+
+.socicon-email:before { content: "\f0e0"; }
 
 .socicon-internet:before { content: "\e957"; }
 

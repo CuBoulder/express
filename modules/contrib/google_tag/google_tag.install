@@ -11,7 +11,9 @@
  * Implements hook_enable().
  */
 function google_tag_enable() {
-  google_tag_assets_create($count);
+  global $google_tag_display_message;
+  $google_tag_display_message = TRUE;
+  google_tag_assets_create();
 }
 
 /**
@@ -70,13 +72,15 @@ function google_tag_requirements($phase) {
   if ($phase == 'runtime' || $phase == 'update' || $phase == 'install') {
     // Adapted from system_requirements().
     $directory = 'public://google_tag';
-    if (!is_dir($directory) || !is_writable($directory)) {
-      file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS);
+    module_load_include('inc', 'google_tag', 'includes/admin');
+    if (!is_dir($directory) || !_google_tag_is_writable($directory) || !_google_tag_is_executable($directory)) {
+      __file_prepare_directory($directory, FILE_CREATE_DIRECTORY | FILE_MODIFY_PERMISSIONS);
     }
-    $is_writable = is_writable($directory);
+    $is_executable = _google_tag_is_executable($directory);
+    $is_writable = _google_tag_is_writable($directory);
     $is_directory = is_dir($directory);
-    if (!$is_writable || !$is_directory) {
-      // The snippet directory does not exist or is not writable.
+    if (!$is_executable || !$is_writable || !$is_directory) {
+      // The snippet directory does not exist or is not writable or searchable.
 
       // If applicable, get the directory path of stream wrapper.
       $wrapper = file_stream_wrapper_get_instance_by_uri($directory);
@@ -95,10 +99,15 @@ function google_tag_requirements($phase) {
         $description = $t('An automated attempt to create the directory failed, possibly due to a permissions problem. Create the directory and make it writable.');
         $value = $t('Does not exist');
       }
-      else {
+      elseif (!$is_writable) {
         $error = $t('The directory %directory is not writable.', array('%directory' => $path));
         $description = $t('An automated attempt to make the directory writable failed, possibly due to a permissions problem. Make the directory writable.');
         $value = $t('Not writable');
+      }
+      else {
+        $error = $t('The directory %directory is not searchable.', array('%directory' => $path));
+        $description = $t('An automated attempt to make the directory searchable failed, possibly due to a permissions problem. Make the directory searchable.');
+        $value = $t('Not searchable');
       }
       if ($phase == 'install') {
         $description .= $t(' For more information, see INSTALL.txt or the <a href=":handbook_url">online handbook</a>.', array(':handbook_url' => 'https://www.drupal.org/server-permissions'));
@@ -237,26 +246,17 @@ function google_tag_update_7104(&$sandbox) {
 }
 
 /**
- * Save snippet files and data layer classes based on current settings.
+ * Deprecated update hook; no changes will be made.
  */
 function google_tag_update_7105(&$sandbox) {
-  // This applies if the module is updated from 1.0 release to this commit and
-  // the settings have not been updated manually.
-  // This should have been done in 1.1 release which added the file option and
-  // made it the default over inline. Without snippet files, a site using the
-  // 1.0 release will no longer have anything inserted on any page after update.
-  // (Given the scope of the setting changes, it is arguable whether manual
-  // intervention to update the settings should be required; and hence why this
-  // was omitted in the first place.)
-  google_tag_assets_create($count);
-  return t('Created @count snippet files based on configuration', array('@count' => 3 * $count));
+  // This update used to [re]create the snippet files, but this is no longer
+  // necessary here as hook_enable() and hook_cron() were implemented.
 }
 
 /**
- * Save snippet files and data layer classes based on current settings.
+ * Deprecated update hook; no changes will be made.
  */
 function google_tag_update_7106(&$sandbox) {
-  // Recreate the snippet files in the 'google_tag' directory.
-  // Leave files in the 'js' directory as they will eventually be flushed.
-  return google_tag_update_7105($sandbox);
+  // This update used to [re]create the snippet files, but this is no longer
+  // necessary here as hook_enable() and hook_cron() were implemented.
 }

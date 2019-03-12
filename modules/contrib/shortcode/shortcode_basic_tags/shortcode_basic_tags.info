@@ -4,9 +4,8 @@ package = Shortcode
 core = 7.x
 dependencies[] = shortcode
 
-; Information added by Drupal.org packaging script on 2018-02-21
-version = "7.x-2.26"
+; Information added by Drupal.org packaging script on 2018-11-21
+version = "7.x-2.27"
 core = "7.x"
 project = "shortcode"
-datestamp = "1519254638"
-
+datestamp = "1542819491"

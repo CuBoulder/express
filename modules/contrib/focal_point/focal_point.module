@@ -667,8 +667,6 @@ function _focal_point_flush($fid) {
  *   A render array for the focal point indicator crosshair.
  */
 function _focal_point_indicator($indicator_id = 'focal-point') {
-  drupal_add_library('system', 'ui.draggable');
-
   $indicator = array(
     '#theme_wrappers' => array('container'),
     '#attributes' => array(
@@ -676,6 +674,14 @@ function _focal_point_indicator($indicator_id = 'focal-point') {
       'id' => $indicator_id,
     ),
     '#markup' => '',
+    '#attached' => array(
+      'library' => array(
+        array(
+          'system',
+          'ui.draggable',
+        ),
+      )
+    ),
   );
 
   return $indicator;
@@ -749,7 +755,9 @@ function _focal_point_preview($fid, $focal_point, $show_original = TRUE) {
         '#theme' => 'image',
         '#path' => $file->uri,
         '#theme_wrappers' => array('container'),
-        '#attributes' => array(),
+        '#attributes' => array(
+          'class' => array('focal-point-preview--original'),
+        ),
       );
     }
     $styles = _focal_point_get_image_styles();
@@ -771,7 +779,9 @@ function _focal_point_preview($fid, $focal_point, $show_original = TRUE) {
           '#path' => $file->uri,
           '#focal_point' => $focal_point,
           '#theme_wrappers' => array('container'),
-          '#attributes' => array(),
+          '#attributes' => array(
+            'class' => array('focal-point-preview--' . $style['name']),
+          ),
         );
       }
     }

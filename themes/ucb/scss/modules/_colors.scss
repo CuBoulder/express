@@ -1,0 +1,138 @@
+//
+// Global color variables
+// https://material.io/design/color/the-color-system.html#tools-for-picking-colors
+//
+
+// Neutrals
+$white: #fff;
+$black: #000;
+$text-black: #111111;
+$gray-dark:#424242;
+$gray-light:#EEEEEE;
+$gray: $gray-light;
+
+
+
+// Brand
+$cugold: #cfb87c;
+$gold: $cugold;
+$gold-gray: #a6a6a6;
+
+// Links
+$blue: #0277BD;
+$blue-contrast: darken($blue, 10);
+
+// Secondary
+$blue-dark: #01579B;
+$blue-medium:#4FC3F7;
+$blue-light:#E1F5FE;
+$gold-light:lighten($cugold, 25%);
+$green-light:#DCEDC8;
+$brick: #ae5a39;
+
+// Other
+$red:#B71C1C;
+$green:#2E7D32;
+$amber:#FFD740;
+
+$yellow:#FFF9C4;
+$red-light:#FFEBEE;
+
+$purple: #5E35B1;
+$orange: #FF9800;
+$brick: #ae5a39;
+
+// Utility
+$border:#e0e0e0;
+$border: rgba(128,128,128,.333);
+
+$all_colors: (
+  "white" : $white,
+  "black" : $black,
+  "gray-dark" : $gray-dark,
+  "gray-light" : $gray-light,
+  "gray" : $gray-light,
+  "blue" : $blue,
+  "blue-medium" : $blue-medium,
+  "blue-light" : $blue-light,
+  "gold-light" : $gold-light,
+  "green-light" : $green-light,
+  "brick" : $brick,
+  "tan" : $gold-light,
+  "red" : $red,
+  "green" : $green,
+  "amber" : $amber,
+  "yellow" : $yellow,
+  "red-light" : $red-light,
+  "gold" : $gold,
+);
+
+$brand: (
+  "gold" : $gold,
+);
+$neutrals: (
+  "white" : $white,
+  "black" : $black,
+  "gray-dark" : $gray-dark,
+  "gray-light" : $gray-light,
+  "gray" : $gray-light,
+);
+$secondary: (
+  "blue-light" : $blue-light,
+  "gold-light" : $gold-light,
+  "tan" : $gold-light,
+  "green-light" : $green-light,
+);
+$tertiary: (
+  "blue" : $blue,
+  "blue-medium" : $blue-medium,
+  "blue-dark" : $blue-dark,
+  "brick" : $brick,
+);
+$alert: (
+  "red" : $red,
+  "green" : $green,
+  "amber" : $amber,
+);
+$message: (
+  "yellow" : $yellow,
+  "red-light" : $red-light,
+);
+
+$ucb_colors: (
+  "neutrals" : $neutrals,
+  "secondary" : $secondary,
+  "tertiary" : $tertiary,
+  "alert" : $alert,
+  "message" : $message,
+  "brand" : $brand,
+);
+
+
+// Icons
+$icon-black: #000;
+$icon-white: #fff;
+$icon-blue : $blue-medium;
+$icon-red : $red;
+$icon-yellow : $amber;
+$icon-green : $green;
+$icon-purple: $purple;
+$icon-orange : $orange;
+$icon-brick: $brick;
+
+$icon_colors: (
+  "black" : $icon-black,
+  "white" : $icon-white,
+  "gray" : rgb(128,128,128),
+  "light-gray" : #ccc,
+  "dark-gray" : #333,
+  "gold" : $gold,
+  "blue" : $icon-blue,
+  "red" : $icon-red,
+  "yellow" : $icon-yellow,
+  "green" : $icon-green,
+  "purple" : $icon-purple,
+  "orange" : $icon-orange,
+  "brick" : $icon-brick,
+
+);

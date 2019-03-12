@@ -554,10 +554,17 @@ function express_block_designer_preprocess_block(&$vars) {
     foreach ($exbd_settings as $key => $setting) {
       // All settings except excluded, because these are applied as css classes.
       if (!in_array($key, $excluded_settings)) {
+        // Translate style value
+        if ($key == 'exbd_style') {
+           $setting = express_block_designer_style_translate($setting);
+        }
+
+
         $prefix = str_replace("_", "-", $key);
         $vars['classes_array'][$prefix] = $prefix . '-' . str_replace("_", "-", $setting);
       }
     }
+
     // Icon Classes
     // Icon color.
     if ($exbd_settings['exbd_icon_color'] == 'default') {
@@ -755,5 +762,24 @@ function express_block_designer_delete_orphans() {
         express_block_designer_delete($delta);
       }
     }
+  }
+}
+
+function express_block_designer_style_translate($value) {
+  $styles = array(
+    'default' => 'default',
+    'white' => 'white',
+    'light_gray' => 'gray-light',
+    'dark_gray' => 'gray-dark',
+    'tan' => 'tan',
+    'lightblue' => 'blue-light',
+    'outline' => 'outline',
+    'underline' => 'underline',
+  );
+  if (!empty($styles[$value])) {
+    return $styles[$value];
+  }
+  else {
+    return $value;
   }
 }

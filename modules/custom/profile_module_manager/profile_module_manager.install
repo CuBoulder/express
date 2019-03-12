@@ -36,3 +36,10 @@ function profile_module_manager_requirements($phase) {
 
   return $requirements;
 }
+
+/**
+ * Enable express_content_edit_lock for 2.9.4.
+ */
+function profile_module_manager_update_7001() {
+  menu_rebuild();
+}

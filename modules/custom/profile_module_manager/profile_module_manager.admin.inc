@@ -33,14 +33,12 @@ function profile_module_manager_admin_settings() {
       ),
     ),
   );
-
-  $bundles = array_keys(profile_module_manager_get_bundles('all'));
-  $form['profile_module_manager_bundle_ignore'] = array(
-    '#title' => t('Hidden Bundles'),
-    '#type' => 'checkboxes',
-    '#description' => t('You can select which bundles you want to be hidden from the end user on the bundles list page. This can be useful for soft launches or other use cases where you don\'t want certain users to be able to enable the bundle.'),
-    '#default_value' => variable_get('profile_module_manager_bundle_ignore'),
-    '#options' => drupal_map_assoc($bundles),
+  $form['site_name'] = array(
+    '#title' => t('Request Email'),
+    '#type' => 'textfield',
+    '#default_value' => variable_get('profile_module_manager_request_bundle_email', 'test@test.com'),
+    '#required' => TRUE,
+    '#description' => t('When bundles are configured to require a request an email will be sent to this address.'),
   );
 
   $form['actions'] = array(

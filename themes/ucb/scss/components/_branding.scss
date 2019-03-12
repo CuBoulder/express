@@ -1,0 +1,240 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+/**
+ * Branding styles
+ */
+
+ #print-header {
+   display: none;
+ }
+
+ // Banner Colors
+ .banner-white .header-wrapper,
+ header.white {
+   background: $white;
+   color:$text-black;
+   a:link, a:visited, a:hover {
+     color:$text-black;
+   }
+   .menu-toggle {
+     button {
+       color:$text-black;
+       border-color: rgba(128,128,128,.5);
+     }
+   }
+   a.search-toggle:link,
+   a.search-toggle:visited {
+     color:$text-black;
+   }
+ }
+ .banner-light .header-wrapper,
+ header.light {
+   background: $gray-light;
+   color:$text-black;
+   a:link, a:visited, a:hover {
+     color:$text-black;
+   }
+   .menu-toggle {
+     button {
+       color:$text-black;
+       border-color: rgba(128,128,128,.5);
+     }
+   }
+   a.search-toggle:link,
+   a.search-toggle:visited {
+     color:$text-black;
+   }
+ }
+ .banner-dark .header-wrapper,
+ header.dark {
+   background: $gray-dark;
+   color:$white;
+   a:link, a:visited, a:hover {
+     color:$white;
+   }
+   .menu-toggle {
+     button {
+       color:$white;
+       border-color: rgba(128,128,128,.5);
+     }
+   }
+   a.search-toggle:link,
+   a.search-toggle:visited {
+     color:$white;
+   }
+ }
+ .banner-black .header-wrapper,
+ header.black {
+   background: $black;
+   color:$white;
+   a:link, a:visited, a:hover {
+     color:$white;
+   }
+   .menu-toggle {
+     button {
+       color:$white;
+       border-color: rgba(128,128,128,.5);
+     }
+   }
+   a.search-toggle:link,
+   a.search-toggle:visited {
+     color:$white;
+   }
+ }
+ header {
+
+ }
+
+
+ #branding {
+   position: relative;
+ }
+
+
+
+
+
+
+
+
+
+
+
+ /* NEW BRANDING */
+ .brand-bar {
+   background: #000;
+   color:#fff;
+   padding:10px 0px;
+   a:link,
+   a:visited {
+     color:#fff;
+   }
+   &.brand-bar-color-white {
+     background:#000;
+     color:#fff;
+     a:link,
+     a:visited {
+       color:#fff;
+     }
+   }
+   &.brand-bar-color-black {
+     background:#fff;
+     color:#000;
+     a:link,
+     a:visited {
+       color:#000;
+     }
+   }
+ }
+ .brand-bar-container {
+
+   display:flex;
+   flex-direction: row;
+   justify-content: space-between;
+   align-items:center;
+   width:100%;
+
+   .brand-logo img {
+     width:100%;
+     max-width: 200px;
+     min-width:160px;
+     height: auto;
+     display: block;
+     @media screen and (min-width:768px) {
+       & {
+         max-width:240px;
+         // margin:5px 0;
+       }
+     }
+   }
+ }
+
+ .brand-color-white,
+ .brand-bar-reverse,
+ .brand-bar-dark ,
+ .brand-bar-black  {
+   color:#fff !important;
+   a:link, a:visited {
+     color:#fff !important;
+   }
+ }
+
+
+ .header-wrapper {
+   background: $white;
+   color:$text-black;
+ }
+ header.ucb {
+   position: relative;
+   display:flex;
+   align-items:center;
+   font-size:20px;
+   padding: 15px 0;
+   font-weight: 750;
+   font-family: $base_font_condensed;
+   line-height: 1.1;
+   .site-name,
+   h1.site-name {
+     font-size:20px;
+     font-weight: 750;
+     font-family: $base_font_condensed;
+   }
+   @media screen and (min-width:768px) {
+     &,
+     & .site-name,
+     & h1.site-name {
+       font-size: 30px;
+     }
+   }
+   .site-name-wrapper {
+     flex-grow: 1;
+     padding-right:40px;
+
+   }
+ }
+ .site-name {
+   padding:0;
+   margin: 0;
+ }
+
+ .affiliation {
+   text-transform:uppercase;
+   font-size:50%;
+
+   padding-top:5px;
+   font-weight: bold;
+   .banner-black .header-wrapper &,
+   .banner-black .header-wrapper & a:link,
+   .banner-black .header-wrapper & a:visited,
+   header.ucb.black &,
+   header.ucb.black a:link,
+   header.ucb.black a:visited {
+     color:#aaa;
+   }
+   .banner-dark .header-wrapper &,
+   .banner-dark .header-wrapper & a:link,
+   .banner-dark .header-wrapper & a:visited,
+   header.ucb.dark &,
+   header.ucb.dark & a:link,
+   header.ucb.dark & a:visited {
+     color:#9b9b9b;
+   }
+   .banner-white .header-wrapper &,
+   .banner-white .header-wrapper & a:link,
+   .banner-white .header-wrapper & a:visited,
+   header.ucb.white &,
+   header.ucb.white & a:link,
+   header.ucb.white & a:visited  {
+     color:#757575;
+   }
+   .banner-light .header-wrapper &,
+   .banner-light .header-wrapper & a:link,
+   .banner-light .header-wrapper & a:visited,
+   header.ucb.light &,
+   header.ucb.light & a:link,
+   header.ucb.light & a:visited  {
+     color:#6e6e6e;
+   }
+ }

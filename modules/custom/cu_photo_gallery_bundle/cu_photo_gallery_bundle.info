@@ -4,3 +4,10 @@ core = 7.x
 package = CU-Photo Gallery
 project_demo_url = http://www.colorado.edu/webcentral/node/940
 dependencies[] = photo_gallery
+
+bundle_group = addon_bundles
+
+bundle_roles[] = developer
+bundle_roles[] = administrator
+bundle_roles[] = site_owner
+bundle_roles[] = configuration_manager

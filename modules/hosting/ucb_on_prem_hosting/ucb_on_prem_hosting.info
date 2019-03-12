@@ -4,14 +4,17 @@ core = 7.x
 version = 7.x-1.0
 package = Hosting
 
+dependencies[] = memcache
 dependencies[] = varnish
 dependencies[] = ldap_authentication
 dependencies[] = ldap_servers
 dependencies[] = ldap_user
 dependencies[] = cu_ldap
+dependencies[] = syslog
 dependencies[] = noreqnewpass
 dependencies[] = cu_atlas
 dependencies[] = atlas
 dependencies[] = atlas_statistics
 dependencies[] = smtp
 dependencies[] = maillog
+optional-dependencies[] = agrcache

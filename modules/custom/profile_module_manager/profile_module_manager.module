@@ -15,6 +15,20 @@ function profile_module_manager_page_alter(&$page) {
 }
 
 /**
+ * Implementes hook_theme().
+ */
+function profile_module_manager_theme() {
+  $registry = array();
+  $template_dir = drupal_get_path('module', 'profile_module_manager') . '/templates';
+  $registry['express_bundle'] = array(
+    'template' => 'express-bundle',
+    'path' => $template_dir,
+    'render element' => 'elements',
+  );
+  return $registry;
+}
+
+/**
  * Implements hook_menu().
  *
  * @return mixed
@@ -23,7 +37,7 @@ function profile_module_manager_menu() {
   // Admin/settings ui provided by express_admin or custom solution.
   $items['admin/settings/site-configuration/bundles'] = array(
     'title' => 'Enable Bundles',
-    'description' => 'Enable Add-on Bundles for additional functionality',
+    'description' => 'Enable Bundles for additional functionality',
     'page callback' => 'drupal_goto',
     'page arguments' => array('admin/settings/bundles/list'),
     'access arguments' => array('enable module bundles'),
@@ -31,29 +45,29 @@ function profile_module_manager_menu() {
   );
 
   if (variable_get('profile_module_manager_disable_enabling', 0) == 0) {
+
     $items['admin/settings/bundles/list'] = array(
       'title' => 'Configure Bundles',
-      'description' => 'List of bundles.',
-      'page callback' => 'profile_module_manager_bundle_list',
-      'file' => 'profile_module_manager.admin.inc',
+      'description' => 'Enabled',
+      'page callback' => 'profile_module_manager_list_bundles',
+      'page arguments' => array(TRUE, NULL, NULL),
       'access arguments' => array('enable module bundles'),
     );
 
-    $items['admin/settings/bundles/list/core'] = array(
-      'title' => 'Core',
+    $items['admin/settings/bundles/list/enabled'] = array(
+      'title' => 'Enabled',
       'type' => MENU_DEFAULT_LOCAL_TASK,
       'weight' => -10
     );
 
-    $items['admin/settings/bundles/list/admin'] = array(
-      'title' => 'Admin',
+    $items['admin/settings/bundles/list/available'] = array(
+      'title' => 'Available',
       'type' => MENU_LOCAL_TASK,
       'description' => 'Add and request additional bundles',
-      'page callback' => 'profile_module_manager_admin_page',
-      'file' => 'profile_module_manager.admin.inc',
-      //'page arguments' => array(1),
-      'access arguments' => array('enable admin bundles'),
-      'weight' => 100
+      'page callback' => 'profile_module_manager_list_bundles',
+      'page arguments' => array(FALSE, NULL, NULL),
+      'access arguments' => array('enable module bundles'),
+      'weight' => 10,
     );
 
     $items['admin/settings/bundles/list/enable/%'] = array(
@@ -73,7 +87,18 @@ function profile_module_manager_menu() {
       'file' => 'profile_module_manager.admin.inc',
       'access arguments' => array('enable module bundles'),
     );
+
+    $items['admin/settings/bundles/list/request/%'] = array(
+      'title' => 'Bundle Request',
+      'type' => MENU_CALLBACK,
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('profile_module_manager_request_bundle_form',5),
+      'access arguments' => array('enable module bundles'),
+    );
+
   }
+
+
   $items['admin/config/system/module-manager'] = array(
     'title' => 'Profile Module Manager',
     'description' =>  'Configure Module Manager',
@@ -86,6 +111,7 @@ function profile_module_manager_menu() {
   return $items;
 }
 
+
 /**
  * Implements hook_permission().
  *
@@ -95,15 +121,15 @@ function profile_module_manager_permission() {
   return array(
     'enable module bundles' => array(
       'title' => t('Enable Module Bundles'),
-      'description' => t('Enable modules in bundles without administer modules permission.'),
+      'description' => t('Enable module bundles without administer modules permission.'),
     ),
-    'enable admin bundles' => array(
-      'title' => t('Enable Admin Bundles'),
-      'description' => t('Enable modules in admin bundles without administer modules permission.'),
+   'skip bundle request step' => array(
+      'title' => t('Skip Request Step'),
+      'description' => t('Enable module bundles that are configure to require a request.'),
     ),
     'configure profile module manager' => array(
       'title' => t('Configure Profile Module Manager'),
-      'description' => t('Manage hidden bundles and access to UI.'),
+      'description' => t('Manage all bundles and access to UI.'),
     ),
   );
 }
@@ -168,14 +194,19 @@ function profile_module_manager_add_to_ignore($new_ignore) {
  */
 function profile_module_manager_get_bundles($status = 'all') {
   if ($status == 'all') {
-    $bundles = db_query("SELECT name, filename FROM {system} WHERE type = 'module' ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
+    $bundles = db_query("SELECT name, filename, status FROM {system} WHERE type = 'module' ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
   }
   if ($status == 'enabled') {
-    $bundles = db_query("SELECT name, filename FROM {system} WHERE type = 'module' AND status = 1 ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
+    $bundles = db_query("SELECT name, filename, status FROM {system} WHERE type = 'module' AND status = 1 ORDER BY weight ASC, name ASC")->fetchAllAssoc('name');
   }
 
   foreach ($bundles as $key => $bundle) {
     if (!strpos($bundle->name, '_bundle')) {
+      unset($bundles[$key]);
+    }
+    // @TODO find a better way to handle admin bundles
+    // causes problems in admin/reports/status with profile_module_manager_build_ideal
+    if (strpos($bundle->name, '_admin_bundle')) {
       unset($bundles[$key]);
     }
   }
@@ -329,42 +360,185 @@ function profile_module_manager_modules_enabled($modules) {
   }
 }
 
+function profile_module_manager_user_has_role($roles) {
+    //checks if user has role/roles
+    return !!count(array_intersect(is_array($roles)? $roles : array($roles), array_values($GLOBALS['user']->roles)));
+};
+
+// @TODO: Make configurable
+
 /**
- * Implements hook_theme().
+ * Implements hook_form().
  *
- * @param $existing
- * @param $type
- * @param $theme
- * @param $path
- * @return array
+ * Form for requesting a bundle.
+ * This emails the request to a support email account for follow up.
  */
-function profile_module_manager_theme(&$existing, $type, $theme, $path) {
-  $registry = array();
-  $template_dir = drupal_get_path('module', 'profile_module_manager') . '/templates';
-  $registry['profile_module_manager_bundle_page'] = array(
-    'template' => 'profile-module-manager-bundle-page',
-    'path' => $template_dir,
-    'render element' => 'elements',
+function profile_module_manager_request_bundle_form($form, &$form_state, $name) {
+  $form = array();
+  $name = check_plain($name);
+  $form['confirmation'] = array(
+    '#type' => 'markup',
+    '#markup' => "<p>Are you sure you want to request the $name bundle be added to your site?</p>",
   );
-  $registry['profile_module_manager_bundle_group'] = array(
-    'template' => 'profile-module-manager-bundle-group',
-    'path' => $template_dir,
-    'render element' => 'elements',
+  $form['bundle'] = array(
+    '#type' => 'hidden',
+    '#value' => $name,
   );
-  $registry['profile_module_manager_bundle'] = array(
-    'template' => 'profile-module-manager-bundle',
-    'path' => $template_dir,
-    'render element' => 'elements',
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Request Bundle',
+    '#submit' => array(
+      'profile_module_manger_send_request',
+      'profile_module_manager_request_bundle_form_submit'
+    ),
   );
-  $registry['profile_module_manager_bundle_actions_disabled'] = array(
-    'template' => 'profile-module-manager-bundle-actions-disabled',
-    'path' => $template_dir,
-    'render element' => 'elements',
+
+  $form['cancel'] = array(
+    '#type' => 'submit',
+    '#value' => 'Cancel',
+    '#submit' => array('profile_module_manager_request_bundle_form_cancel')
   );
-  $registry['profile_module_manager_bundle_actions_enabled'] = array(
-    'template' => 'profile-module-manager-bundle-actions-enabled',
-    'path' => $template_dir,
-    'render element' => 'elements',
-  );
-  return $registry;
+
+  return $form;
 }
+
+/**
+ * Email function to send support email when a bundle has been requested.
+ */
+function profile_module_manger_send_request($form, &$form_state) {
+  global $base_url;
+  global $user;
+  $site_name = variable_get('site_name', 'Site name missing');
+  $request_email = variable_get('profile_module_manager_request_bundle_email', 'websupport@colorado.edu');
+
+  $from = $user->mail;
+  $site_name = variable_get('site_name', '');
+  $name = isset($user->realname) ? $user->realname : $user->name;
+  $bundle = $form_state['values']['bundle'];
+  $body = $name  . ' (' . $from . ') has requested the ' . $bundle  . ' for the ' . $site_name . ' website (' . $base_url .')';
+  $params = array(
+    'subject' => t('Bundle Request - ' . $bundle),
+    'body' => $body,
+  );
+
+  drupal_mail('profile_module_manger', 'profile_module_manger_request_sent', $request_email, language_default(), $params, $from, TRUE);
+
+}
+
+/**
+ * Implements hook_mail().
+ */
+function profile_module_manger_mail($key, &$message, $params) {
+  switch ($key) {
+    // Request email.
+    case 'profile_module_manger_request_sent':
+      $message['body'] = array();
+      $message['body'][] = $params['body'];
+      $message['subject'] = $params['subject'];
+      break;
+  }
+}
+
+/**
+ * Submit function for cu_profile_module_manager_request_bundle_form().
+ *
+ * Notify user that request has been submitted and return them to bundle list.
+ */
+function profile_module_manager_request_bundle_form_submit($form, &$form_state) {
+  drupal_set_message('Your bundle request has been sent.');
+  drupal_goto('admin/settings/bundles/list');
+}
+
+/**
+ * Cancel function for bundle request form.
+ */
+function profile_module_manager_request_bundle_form_cancel($form, &$form_state) {
+  drupal_goto('admin/settings/bundles/list');
+}
+
+function profile_module_manager_list_bundles($enabled = FALSE, $type = NULL, $collection = NULL) {
+
+  if (variable_get('disable_bundle_ui', 0)) {
+    $message = variable_get('disable_bundle_ui_message', 'The bundle interface has been temporarily disabled.');
+    $output['#markup'] = $message;
+    return $output;
+  }
+
+  $output = array();
+
+  // Get all bundles
+  $bundles = profile_module_manager_get_bundles('all');
+
+  // Filter bundle list based on whether we are displaying for enabled or avaiable.
+  foreach ($bundles as $key => $bundle) {
+    if($enabled != $bundle->status) {
+      unset($bundles[$key]);
+    }
+  }
+
+  if (count($bundles) == 0) {
+    if ($enabled) {
+      drupal_set_message(t("None of the available bundles have been enabled. Click the Available tab to see the list of bundles you can enable or request."), 'warning');
+    } else {
+      drupal_set_message(t("All available bundles have already been enabled."), 'warning');
+    }
+    return $output;
+  }
+
+  $output['bundles'] = array();
+  $output['bundles']['#prefix'] = '<div class="express-cards">';
+  $output['bundles']['#suffix'] = '</div>';
+
+  //dsm($bundles);
+  // Loop through bundles and evaluate how they should be displayed
+  foreach ($bundles as $key => $bundle) {
+
+    // Get content from .info file.
+    $info_file = str_replace(".module", ".info", $bundle->filename);
+    $info = drupal_parse_info_file($info_file);
+
+    $request = !empty($info['bundle_request']) ? $info['bundle_request'] : 0;
+    //dsm($request);
+    // Build variables array for theming.
+    $variables = array();
+
+    $name = isset($info['name']) ? $info['name'] : $key;
+    $name_lc = strtolower($name);
+    $variables['name'] = $name;
+    $variables['description'] = (isset($info['description']) ? $info['description'] : 'No description available.');
+
+    // Users with the "skip bundle request step" permission can enable these
+    // directly enable request bundles.
+    // All other users have a request submitted to support email for follow up.
+    if ($request && !user_access('skip bundle request step')) {
+      $variables['enable_url'] = 'admin/settings/bundles/list/request/' . $name;
+      $variables['enable_text'] = 'Request';
+    }
+    else {
+      $variables['enable_url'] = 'admin/settings/bundles/list/confirm/' . $bundle->name;
+      $variables['enable_text'] = 'Enable';
+    }
+
+    // Demo url
+    if (!empty($info['project_demo_url'])) {
+      $variables['demo_url'] = $info['project_demo_url'];
+    }
+
+    //dsm($variables);
+
+    // Add classes for bundle group
+    $variables['bundle_classes'][] = ($bundle->status) ? 'express-bundle-enabled' : 'express-bundle-disabled';
+    $variables['bundle_classes'][] = $request ? 'express-bundle-request' : 'express-bundle-install';
+
+    if (isset($info['bundle_roles']) && profile_module_manager_user_has_role($info['bundle_roles'])) {
+      //dsm('test');
+      $output['bundles']['list'][$name_lc]['#markup'] = theme('express_bundle', $variables);
+    }
+
+  }
+  // Sort bundles alphabetically
+  ksort($output['bundles']['list']);
+
+  return $output;
+}
+

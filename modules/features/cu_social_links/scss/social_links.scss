@@ -45,7 +45,7 @@ $snapchat: #fffa37;
 @media screen and (-webkit-min-device-pixel-ratio:0) {
     @font-face {
         font-family:'Socicon';
-        src: url(../fonts/socicon.svg) format(svg);
+        src: url('../fonts/Socicon.svg') format(svg);
     }
 }
 .social-links-type1 {
@@ -57,6 +57,16 @@ $snapchat: #fffa37;
     overflow:hidden;
     margin:0; padding:0;
     list-style:none;
+
+    a {
+      display: flex;
+      text-decoration: none;
+      background:#333;
+      &:hover {
+        background:#666;
+        color:#fff;
+      }
+    }
 }
 
 .soc li,
@@ -64,8 +74,12 @@ $snapchat: #fffa37;
     display:inline-block;
     *display:inline;
     zoom:1;
-    margin: 0;
+    margin: 0 5px 5px 0;
     overflow: hidden;
+
+}
+.social-links-vertical {
+  display: inline-block;
 }
 .social-links-vertical li,
 .item-list .social-links-vertical li,
@@ -78,7 +92,6 @@ $snapchat: #fffa37;
   margin:0 10px 10px 0;
   display: inline-block;
 }
-
 
 .social-links-24 li .socicon {
   width: 24px;
@@ -126,13 +139,16 @@ $snapchat: #fffa37;
   margin-right: 10px;
   white-space: nowrap;
   padding-left: 10px;
+  color:#fff !important;
+  font-size: 85%;
+  font-weight: bold;
 }
 .social-links-vertical-bars li .social-links-text {
   margin: 0;
   padding:0 10px 0 0;
   color:#fff !important;
   float: none;
-  font-weight: 500;
+  font-weight: bold;
 }
 
 .soc li .socicon {
@@ -276,7 +292,19 @@ $snapchat: #fffa37;
   }
 }
 
+// Font awesome replacements
+.socicon-feed:before,
+.socicon-email:before {
+  font-family: FontAwesome;
+}
+.socicon-feed:before {
+  content: "\f09e";
+}
+.socicon-email:before {
+  content: "\f0e0";
+}
 
+// Icons
 
 .socicon-internet:before {
   content: "\e957";

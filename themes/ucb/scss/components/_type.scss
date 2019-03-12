@@ -1,0 +1,380 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+/**
+ * Typography styles
+ */
+
+body {
+  font-size: $base_font_size;
+  line-height: 1.5;
+  font-family: $base_font;
+  color:$text_black;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-style: normal;
+  font-variant:normal;
+  -webkit-text-size-adjust: none;
+}
+
+/**
+ * Headings
+ */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  line-height: 1.3;
+  margin: 0 0 $spacing/2 0;
+  a {
+    //text-decoration: none;
+  }
+}
+.footer-section {
+  h1, h2, h3, h4, h5, h6,
+  .h1, .h2, .h3, .h4, .h5, .h6  {
+    margin: 0 0 $spacing/2 0;
+  }
+}
+
+// Headings
+$base-font-size: 100%;
+$heading-scale: 10; // amount of px headings grow  - h2 = 160%
+
+@for $i from 2 through 6 {
+  h#{$i},
+  .h#{$i} {
+    font-size: $base-font-size + $heading-scale * (6 - $i);
+  }
+}
+// Slightly smaller sizes for sidebars
+.sidebar {
+  @for $i from 2 through 6 {
+    h#{$i},
+    .h#{$i} {
+      font-size: $base-font-size + $heading-scale * (6 - $i);
+    }
+  }
+}
+
+$heading-scale: 15;
+@media screen and (min-width:960px) {
+  $base-font-size: 100%;
+  @for $i from 2 through 6 {
+    h#{$i},
+    .h#{$i} {
+      font-size: $base-font-size + $heading-scale * (6 - $i);
+    }
+  }
+  // Slightly smaller sizes for sidebars
+  .sidebar {
+    //$base-font-size: 75%;
+    $heading-scale: 8;
+    @for $i from 2 through 6 {
+      h#{$i},
+      .h#{$i} {
+        font-size: $base-font-size + $heading-scale * (6 - $i);
+      }
+    }
+  }
+}
+// Smaller headings for after content regions
+#after-content,
+#after-content-2 {
+  //$base-font-size: 75%;
+  $heading-scale: 10;
+  @for $i from 2 through 6 {
+    h#{$i},
+    .h#{$i} {
+      font-size: $base-font-size + $heading-scale * (6 - $i);
+    }
+  }
+}
+// Even smaller headings for footer section
+.footer-section {
+  font-size:90%;
+  line-height: 1.5;
+  //$base-font-size: 75%;
+  $heading-scale: 10;
+  @for $i from 2 through 6 {
+    h#{$i},
+    .h#{$i} {
+      font-size: $base-font-size + $heading-scale * (6 - $i);
+    }
+  }
+}
+
+
+
+.node-view-mode-teaser {
+  h2,h3 {
+    font-size:120%;
+  }
+}
+
+// Page Title
+h1,
+h1#page-title,
+#page-title-image-title,
+.page-title-section h1,
+.h1 {
+  font-size: 180%;
+  font-family:$base_font;
+  i, em {
+    font-style: italic;
+  }
+}
+@media screen and (min-width: $breakpoint_tablet) {
+  h1,
+  h1#page-title,
+  #page-title-image-title,
+  .page-title-section h1,
+  .h1 {
+    font-size: 220%;
+  }
+}
+
+// Font Weights
+h1,
+.h1,
+h1#page-title,
+#page-title-image-title,
+.page-title-section h1,
+h2, h3, h4,
+.h2, .h3, .h4 {
+  font-weight:bold;
+  strong,
+  b {
+    font-weight: bold;
+  }
+}
+h5, h6,
+.h5, .h6 {
+  font-weight: bold;
+}
+h2.block-title, h2.node-title {
+  font-weight:bold;
+}
+.headings-light {
+  h1,
+  .h1,
+  h1#page-title,
+  #page-title-image-title,
+  .page-title-section h1,
+  h2, h2.block-title, h2.node-title,
+  h3, h4, h5, h6
+  .h2,.h3, .h4, .h5, .h6 {
+    font-weight:normal;
+    strong,
+    b {
+      font-weight: bold;
+    }
+  }
+}
+
+// Change weights if .brand-fonts is set
+.brand-fonts {
+  h1,
+  .h1
+  h1#page-title,
+  #page-title-image-title,
+  .page-title-section h1, h2, h3, h4,
+  .h2, .h3, .h4 {
+    font-weight:700;
+    strong,
+    b {
+      font-weight: 700;
+    }
+  }
+  h5, h6,
+  .h5, .h6
+   {
+    font-weight: 600;
+  }
+  h2.block-title, h2.node-title {
+    font-weight:700;
+  }
+  &.headings-light {
+    h1,
+    .h1
+    h1#page-title,
+    #page-title-image-title,
+    .page-title-section h1,
+    h2, h2.block-title, h2.node-title,
+    h3, h4, h5, h6,
+    .h2, .h3, .h4, .h5, .h6 {
+      font-weight:200;
+      strong,
+      b {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.type-size {
+  font-size: 100% !important;
+}
+
+// Add margin to bottom of some elements
+p, dl, hr, ol, ul, pre, table, address, fieldset {
+  margin: 0 0 $spacing 0;
+}
+p:empty {
+  margin: 0;
+}
+.content > *:last-child {
+  margin-bottom: 0;
+}
+dt, .admin h3 {
+  font-weight: 600;
+  margin: 0;
+}
+
+dd {
+  padding-left: 10px;
+  font-style: italic;
+  margin-bottom: $spacing;
+  p {
+    margin-bottom: $spacing/2;
+  }
+}
+
+blockquote {
+  font-size: 110%;
+  margin: 0px 0px $spacing*2 $spacing;
+  padding-left: $spacing;
+  border-left: 4px solid $border;
+}
+// Smaller text
+small,
+.small-text {
+  font-size:80%;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+// Subscript and superscript
+sub, sup {
+  /* Specified in % so that the sup/sup is the
+     right size relative to the surrounding text */
+  font-size: 75%;
+  /* Zero out the line-height so that it doesn't
+     interfere with the positioning that follows */
+  line-height: 0;
+  /* Where the magic happens: makes all browsers position
+     the sup/sup properly, relative to the surrounding text */
+  position: relative;
+  /* Note that if you're using Eric Meyer's reset.css, this
+     is already set and you can remove this rule */
+  vertical-align: baseline;
+}
+sup {
+  /* Move the superscripted text up */
+  top: -0.5em;
+}
+sub {
+  /* Move the subscripted text down, but only
+     half as far down as the superscript moved up */
+  bottom: -0.25em;
+}
+
+/**
+ * Font weights
+ * 600 is a good bold, 700 is extra black, 900 is extra black condensed
+ */
+strong {
+  font-weight: bold;
+}
+.lead {
+  font-size: 130%;
+  line-height: 1.4;
+  strong {
+    font-weight: bold;
+  }
+}
+.hero,
+h2.hero,
+h3.hero,
+.exbd-heading-style-hero > .block-inner > .exbd-block-title > .block-title,
+.exbd-heading-style-hero-bold > .block-inner > .exbd-block-title > .block-title {
+  font-size:200%;
+  line-height: 1.3;
+  font-weight:normal;
+  strong {
+    font-weight: bold;
+  }
+  .brand-fonts & {
+    font-weight:100;
+    strong {
+      font-weight:750;
+      font-family: $base_font_condensed;
+    }
+  }
+}
+.exbd-heading-style-hero-bold > .block-inner > .exbd-block-title > .block-title {
+  font-weight: 750;
+  font-family: $base_font_condensed;
+}
+
+.supersize,
+h2.supersize,
+h3.supersize,
+.exbd-heading-style-supersize > .block-inner > .exbd-block-title > .block-title,
+.exbd-heading-style-supersize-bold > .block-inner > .exbd-block-title > .block-title {
+  font-size:320%;
+  line-height: 1.3;
+  font-weight: normal;
+  strong {
+    font-weight: bold;
+  }
+  .brand-fonts & {
+    font-weight:100;
+    strong {
+      font-weight:750;
+      font-family: $base_font_condensed;
+    }
+  }
+}
+.exbd-heading-style-supersize-bold > .block-inner > .exbd-block-title > .block-title {
+  font-weight: 750;
+  font-family: $base_font_condensed;
+}
+// Breadcumbs
+.breadcrumb {
+  font-size: 85%;
+  margin:0;
+  padding: 0;
+  @media screen and (max-width:$breakpoint_tablet) {
+    font-size: 75%;
+  }
+}
+
+// Emphasis
+em {
+  font-style: italic;
+}
+
+// Code
+code {
+  font-family: monospace;
+  font-size: 85%;
+}
+pre {
+  white-space: pre-wrap;
+
+}
+h1, h2, h3, h4, h5, h6 {
+  & + pre {
+    margin-top: -($spacing + ($spacing/2));
+  }
+}
+.messages .element-invisible + pre {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+// Last Children
+.field-type-text-with-summary > *:last-child,
+.field-type-text-long > *:last-child {
+  margin-bottom: 0;
+}

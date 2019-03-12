@@ -6,7 +6,7 @@
 ?>
 
   <div id="page-title-image-section" class="page-title-image-boxed ">
-    <div id="page-title-image-wrapper" class="element-max-width-padding" style="background-image:url(<?php print $title_image; ?>);">
+    <div id="page-title-image-wrapper" class="container" style="background-image:url(<?php print $title_image; ?>);">
       <div id="page-title-image-overlay">
         <div id="page-title-image-inner">
           <h1 id="page-title-image-title"><?php print drupal_get_title(); ?></h1>
@@ -18,7 +18,7 @@
   <div id="page-title-image-section" class="page-title-image-wide">
     <div id="page-title-image-wrapper" class=" " style="background-image:url(<?php print $title_image; ?>);">
       <div id="page-title-image-overlay">
-        <div id="page-title-image-inner" class="element-max-width-padding">
+        <div id="page-title-image-inner" class="container">
           <h1 id="page-title-image-title">
             <?php print drupal_get_title(); ?></h1>
         </div>
@@ -27,7 +27,7 @@
   </div>
 <?php endif; ?>
 <div class="page-title-breadcrumbs container-fluid">
-  <div class="element-max-width-padding">
+  <div class="container">
     <?php print theme('breadcrumb', array('breadcrumb'=>drupal_get_breadcrumb())); ?>
   </div>
 </div>

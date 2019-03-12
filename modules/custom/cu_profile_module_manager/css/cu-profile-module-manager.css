@@ -1,18 +1,15 @@
-.atlas-package-list {
-  clear: both;
-}
-.atlas-add-bundle {
-  float: left;
-  width: 24%;
-}
-.bundle-enable, .atlas-enable-bundle {
-  border-width: 0 0 0 0.5px;
-  border-style: solid;
-  border-color: #ddd;
-}
-.atlas-enable-bundle a.btn {
-  margin-top: 5%;
-}
-.alakazaam {
-  border: 1px solid red;
-}
+.express-bundle h2 { font-size: 100%; margin: 0; padding: 0; }
+.express-bundle h2:before { content: '\f1e6'; font-family: FontAwesome; margin-right: 5px; opacity: .5; }
+.express-bundle.express-bundle-request.express-bundle-disabled h2:before { content: '\f023'; }
+.express-bundle.express-bundle-disabled h2:before { content: '\f055'; }
+.express-bundle.admin-bundles h2:before { content: '\f071'; color: red; opacity: 1; }
+.express-bundle.request-bundles h2:before { content: '\f023'; }
+.express-bundle .content { display: flex; flex-direction: column; flex-grow: 1; }
+.express-bundle .content .express-bundle-description { padding: 10px 0 0; }
+.express-bundle .content .express-bundle-actions { margin-top: auto; padding-top: 10px; }
+.express-bundle .content .express-bundle-actions .btn { margin: 0; font-size: 11px; }
+.express-bundle .content .express-bundle-actions span.btn-info:before { content: '\f058'; font-family: FontAwesome; margin-right: 5px; }
+.express-bundle .content .express-bundle-actions a.btn-primary:before { content: '\f055'; font-family: FontAwesome; margin-right: 5px; }
+.express-bundle .content .express-bundle-actions a.btn-default:before { content: '\f05a'; font-family: FontAwesome; margin-right: 5px; }
+.express-bundle.set-excluded { display: none !important; }
+.express-bundle.express-bundle-enabled .express-bundle-description1, .express-bundle.express-bundle-enabled .express-bundle-actions { display: none; }

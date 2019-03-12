@@ -110,6 +110,10 @@ function express_permissions_role_settings($type = NULL, $exclude = array()) {
     'label' => 'Form Manager',
     'type' => 'bundle_addon',
   );
+  $settings['form_submitter'] = array(
+    'label' => 'Form Submitter',
+    'type' => 'bundle_addon',
+  );
   // Get all the roles.
   $roles = user_roles(TRUE);
   // Combine new role info(labels/types) with stored role info(role ids).
@@ -217,6 +221,7 @@ function express_permissions_secure_permissions($role) {
       'edit own faqs content',
       'edit own file content',
       'edit own page content',
+      'edit site affiliation',
       'edit users with role authenticated user',
       'edit users with role authenticated user',
       'edit users with role content_editor',
@@ -227,17 +232,23 @@ function express_permissions_secure_permissions($role) {
       'edit users with role access_manager',
       'edit users with role configuration_manager',
       'execute node_assign_owner_action',
-      'execute node_make_sticky_action',
-      'execute node_make_unsticky_action',
       'execute node_promote_action',
       'execute node_publish_action',
       'execute node_unpromote_action',
       'execute node_unpublish_action',
       'execute node_unpublish_by_keyword_action',
+      'execute system_block_ip_action',
+      'execute system_message_action',
+      'execute system_send_email_action',
+      'execute user_block_user_action',
+      'execute views_bulk_operations_change_owner_action',
       'execute views_bulk_operations_delete_item',
+      'execute views_bulk_operations_user_cancel_action',
+      'execute views_bulk_operations_user_roles_action',
       'invite new user',
       'preview focal point',
       'revert revisions',
+      'schedule publishing of nodes',
       'use bigmenu',
       'use text format wysiwyg',
       'view any block bean',
@@ -256,10 +267,13 @@ function express_permissions_secure_permissions($role) {
       'view warning messages',
       'view error messages',
       'administer cache settings',
+      'administer permissions',
+      'administer users',
       'configure profile module manager',
       'view unused beans',
       'diff view changes',
       'view redirects',
+      'view scheduled content',
       'administer matchredirect',
     ),
     'anonymous user' => array(
@@ -287,6 +301,45 @@ function express_permissions_secure_permissions($role) {
       'view status messages',
       'view warning messages',
       'view error messages',
+    ),
+    'edit_only' => array(
+      'access administration pages',
+      'access bean overview',
+      'access ckeditor link',
+      'access content overview',
+      'access contextual links',
+      'access express settings',
+      'access navbar',
+      'administer nodes',
+      'check out documents',
+      'clear path caches',
+      'create url aliases',
+      'customize shortcut links',
+      'diff view changes',
+      'edit any block bean',
+      'edit any faqs content',
+      'edit any file content',
+      'edit any hero_unit bean',
+      'edit any page content',
+      'edit any slider bean',
+      'edit own faqs content',
+      'edit own file content',
+      'edit own page content',
+      'preview focal point',
+      'revert revisions',
+      'schedule publishing of nodes',
+      'use text format wysiwyg',
+      'view any hero_unit bean',
+      'view any slider bean',
+      'view any unpublished content',
+      'view bean page',
+      'view bean revisions',
+      'view error messages',
+      'view revisions',
+      'view scheduled content',
+      'view status messages',
+      'view the administration theme',
+      'view warning messages',
     ),
     'content_editor' => array(
       'access administration pages',
@@ -332,8 +385,6 @@ function express_permissions_secure_permissions($role) {
       'edit own file content',
       'edit own page content',
       'execute node_assign_owner_action',
-      'execute node_make_sticky_action',
-      'execute node_make_unsticky_action',
       'execute node_promote_action',
       'execute node_publish_action',
       'execute node_unpromote_action',
@@ -342,6 +393,7 @@ function express_permissions_secure_permissions($role) {
       'execute views_bulk_operations_delete_item',
       'preview focal point',
       'revert revisions',
+      'schedule publishing of nodes',
       //'use bigmenu',
       'use text format wysiwyg',
       'view any hero_unit bean',
@@ -352,6 +404,7 @@ function express_permissions_secure_permissions($role) {
       'view revisions',
       'view the administration theme',
       'access navbar',
+      'view scheduled content',
       'view status messages',
       'view warning messages',
       'view error messages',
@@ -413,6 +466,7 @@ function express_permissions_secure_permissions($role) {
       'administer recaptcha',
       'administer redirect settings',
       'administer redirects',
+      'administer scheduler',
       'administer shortcuts',
       'administer site configuration',
       'administer software updates',
@@ -472,15 +526,21 @@ function express_permissions_secure_permissions($role) {
       'edit own faqs content',
       'edit own file content',
       'edit own page content',
+      'edit site affiliation',
       'execute node_assign_owner_action',
-      'execute node_make_sticky_action',
-      'execute node_make_unsticky_action',
       'execute node_promote_action',
       'execute node_publish_action',
       'execute node_unpromote_action',
       'execute node_unpublish_action',
       'execute node_unpublish_by_keyword_action',
+      'execute system_block_ip_action',
+      'execute system_message_action',
+      'execute system_send_email_action',
+      'execute user_block_user_action',
+      'execute views_bulk_operations_change_owner_action',
       'execute views_bulk_operations_delete_item',
+      'execute views_bulk_operations_user_cancel_action',
+      'execute views_bulk_operations_user_roles_action',
       'export secure permissions',
       'generate features',
       'invite new user',
@@ -489,6 +549,7 @@ function express_permissions_secure_permissions($role) {
       'opt-in or out of tracking',
       'preview focal point',
       'revert revisions',
+      'schedule publishing of nodes',
       'select account cancellation method',
       'switch shortcut sets',
       'use bigmenu',
@@ -517,6 +578,7 @@ function express_permissions_secure_permissions($role) {
       'administer elysia_cron',
       'execute elysia_cron',
       'view elysia_cron',
+      'view scheduled content',
       'view unused beans',
       'diff view changes',
       'view redirects',
@@ -596,8 +658,6 @@ function express_permissions_secure_permissions($role) {
       'edit own file content',
       'edit own page content',
       'execute node_assign_owner_action',
-      'execute node_make_sticky_action',
-      'execute node_make_unsticky_action',
       'execute node_promote_action',
       'execute node_publish_action',
       'execute node_unpromote_action',
@@ -606,6 +666,7 @@ function express_permissions_secure_permissions($role) {
       'execute views_bulk_operations_delete_item',
       'preview focal point',
       'revert revisions',
+      'schedule publishing of nodes',
       'use bigmenu',
       'use text format wysiwyg',
       'view any block bean',
@@ -618,6 +679,7 @@ function express_permissions_secure_permissions($role) {
       'view revisions',
       'view the administration theme',
       'access navbar',
+      'view scheduled content',
       'view status messages',
       'view warning messages',
       'view error messages',
@@ -701,17 +763,20 @@ function express_permissions_secure_permissions($role) {
       'edit users with role access_manager',
       'edit users with role configuration_manager',
       'execute node_assign_owner_action',
-      'execute node_make_sticky_action',
-      'execute node_make_unsticky_action',
       'execute node_promote_action',
       'execute node_publish_action',
       'execute node_unpromote_action',
       'execute node_unpublish_action',
       'execute node_unpublish_by_keyword_action',
+      'execute user_block_user_action',
+      'execute views_bulk_operations_change_owner_action',
       'execute views_bulk_operations_delete_item',
+      'execute views_bulk_operations_user_cancel_action',
+      'execute views_bulk_operations_user_roles_action',
       'invite new user',
       'preview focal point',
       'revert revisions',
+      'schedule publishing of nodes',
       'use block designer',
       'use bigmenu',
       'use text format wysiwyg',
@@ -723,6 +788,7 @@ function express_permissions_secure_permissions($role) {
       'view bean revisions',
       'view own unpublished content',
       'view revisions',
+      'view scheduled content',
       'view the administration theme',
       'access navbar',
       'enable module bundles',
@@ -732,44 +798,6 @@ function express_permissions_secure_permissions($role) {
       'diff view changes',
       'view redirects',
       'view express environment indicator',
-      'administer express site status',
-    ),
-    'edit_only' => array(
-      'access administration pages',
-      'access bean overview',
-      'access ckeditor link',
-      'access content overview',
-      'access contextual links',
-      'access express settings',
-      'access navbar',
-      'administer nodes',
-      'check out documents',
-      'clear path caches',
-      'create url aliases',
-      'customize shortcut links',
-      'diff view changes',
-      'edit any block bean',
-      'edit any faqs content',
-      'edit any file content',
-      'edit any hero_unit bean',
-      'edit any page content',
-      'edit any slider bean',
-      'edit own faqs content',
-      'edit own file content',
-      'edit own page content',
-      'preview focal point',
-      'revert revisions',
-      'use text format wysiwyg',
-      'view any hero_unit bean',
-      'view any slider bean',
-      'view any unpublished content',
-      'view bean page',
-      'view bean revisions',
-      'view error messages',
-      'view revisions',
-      'view status messages',
-      'view the administration theme',
-      'view warning messages',
     ),
     'access_manager' => array(
       'access administration pages',
@@ -829,6 +857,7 @@ function express_permissions_secure_permissions($role) {
       'clear path caches',
       'create url aliases',
       'revert revisions',
+      'schedule publishing of nodes',
       'use bigmenu',
       'view any block bean',
       'view any hero_unit bean',
@@ -861,35 +890,25 @@ function express_permissions_form_user_profile_form_alter(&$form, &$form_state) 
   global $user;
   $form['#validate'][] = 'express_permissions_site_owner_cap';
 
-  $new_role_options = array();
+  $new_role_options = [];
   // Get Roles of user being edited.
-  $original_role_options = $form['account']['roles']['#options'];
-
-  foreach ($original_role_options as $rid => $role_name) {
-    // Format role name to be  more readable.
-    $new_role_name = check_plain($role_name);
-    $new_role_name = ucwords(str_replace('_', ' ', $new_role_name));
-     if ($role_name == 'content_editor') {
-      $new_role_name =  'Content Editor (deprecated)';
-    }
-    if ($role_name == 'edit_only') {
-      $new_role_name =  'Content Editor (edit only)';
-    }
-    if ($role_name == 'access_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    if ($role_name == 'configuration_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    if ($role_name == 'campaign_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    if ($role_name == 'form_manager') {
-      $new_role_name =  '<i>' . $new_role_name . ' (Add-on Role)</i>';
-    }
-    $new_role_options[$rid] = $new_role_name;
-
+  // If user has a certain role, limit role options.
+  $available_roles = express_permissions_role_settings($type = NULL, $exclude = array());
+  if (user_has_role($available_roles['names']['administrator']['rid']) || user_has_role($available_roles['names']['site_owner']['rid'])) {
+    $available_roles = express_permissions_role_settings($type = NULL, $exclude = array('developer', 'administrator'));
+  } else if (user_has_role($available_roles['names']['developer']['rid']) || $user->uid === '1') {
+    $available_roles = express_permissions_role_settings($type = NULL, $exclude = array());
+  } else {
+    $available_roles = [];
   }
+
+  $original_role_options = $available_roles;
+
+  // Let's make it look like the original options.
+  foreach ($original_role_options['names'] as $option) {
+    $new_role_options[$option['rid']] = $option['label'];
+  }
+
   $form['account']['roles']['#options'] = $new_role_options;
 }
 
@@ -1066,7 +1085,6 @@ function express_permissions_form_user_admin_permissions_alter(&$form, &$form_st
   }
 
   // Add some css to make the permissions table headers smaller.
-  // @TODO: fix to work with sticky header
   drupal_add_css(drupal_get_path('module','express_permissions') . '/css/express-permissions.css');
 }
 
@@ -1135,3 +1153,4 @@ function express_permissions_order_roles() {
   }
 
 }
+

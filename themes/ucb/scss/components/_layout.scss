@@ -1,0 +1,229 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+/**
+ * Layout styles
+ */
+.layout-boxed .page {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+// Max width containers
+.element-max-width {
+  max-width: $max_width;
+}
+.element-max-width-padding {
+  max-width: $max_width - (2 * $spacing);
+}
+
+// Containers
+.container {
+  width: 100%;
+  padding-right: $spacing;
+  padding-left: $spacing;
+  margin-right: auto;
+  margin-left: auto;
+}
+// Fluid containers for tablet & mobile
+@media (min-width: 576px) {
+  .container {
+    //max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    //max-width: 720px;
+  }
+  .container.container-small {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+  .container.container-small {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1160px;
+  }
+  .container.container-small {
+    max-width: 960;
+  }
+}
+@media (min-width: 1500px) {
+  .container {
+    max-width: 1460px;
+  }
+  .container.container-small {
+    max-width: 960;
+  }
+  .container-full {
+    max-width: 1500px;
+  }
+}
+.layout-fixed {
+  .container {
+    max-width:1160px;
+  }
+}
+
+.container-fluid {
+  width: 100%;
+  padding-right: $spacing;
+  padding-left: $spacing;
+  margin-right: auto;
+  margin-left: auto;
+}
+// Full width element
+
+.bleed {
+  left: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  position: relative;
+  right: 50%;
+  width: 100vw;
+}
+
+// Grid wrappers
+.row {
+  margin-left: -$spacing;
+  margin-right: -$spacing;
+}
+
+// Flexbox ordering
+
+.row.direction-xs-column {
+  flex-direction: column;
+}
+.row.direction-xs-column-reverse {
+  flex-direction: column-reverse;
+}
+.row.direction-xs-row {
+  flex-direction: row;
+}
+.row.direction-xs-row-reverse {
+  flex-direction: row-reverse;
+}
+@media (min-width: $breakpoint_small) {
+  .row.direction-sm-column {
+    flex-direction: column;
+  }
+  .row.direction-sm-column-reverse {
+    flex-direction: column-reverse;
+  }
+  .row.direction-sm-row {
+    flex-direction: row;
+  }
+  .row.direction-sm-row-reverse {
+    flex-direction: row-reverse;
+  }
+}
+@media (min-width: $breakpoint_medium) {
+  .row.direction-md-column {
+    flex-direction: column;
+  }
+  .row.direction-md-column-reverse {
+    flex-direction: column-reverse;
+  }
+  .row.direction-md-row {
+    flex-direction: row;
+  }
+  .row.direction-md-row-reverse {
+    flex-direction: row-reverse;
+  }
+}
+@media (min-width: $breakpoint_large) {
+  .row.direction-lg-column {
+    flex-direction: column;
+  }
+  .row.direction-lg-column-reverse {
+    flex-direction: column-reverse;
+  }
+  .row.direction-lg-row {
+    flex-direction: row;
+  }
+  .row.direction-lg-row-reverse {
+    flex-direction: row-reverse;
+  }
+}
+
+
+// For elements that do not include grid elements, but need the spacing to
+// align properly.
+.element-spacing {
+  padding:0 $spacing;
+}
+
+// variables
+$responsiveMax: 1200px;
+$fixedMax: 1200px;
+$gutter: 40px;
+$padding: 20px;
+
+@mixin clearfloats {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+/* Max width classes for elements */
+.layout-responsive .element-max-width {
+  max-width: $max_width;
+  margin-right: auto;
+  margin-left: auto;
+  @include clearfloats;
+  clear:both;
+}
+.layout-responsive .element-max-width-gutter,
+.layout-responsive .element-max-width-padding {
+  max-width: ($max_width - $gutter);
+  margin-right: auto;
+  margin-left: auto;
+  @include clearfloats;
+  clear:both;
+}
+
+.layout-fixed .element-max-width {
+  max-width: $max_width;
+  margin-right: auto;
+  margin-left: auto;
+  @include clearfloats;
+  clear:both;
+}
+.layout-fixed .element-max-width-gutter,
+.layout-fixed .element-max-width-padding {
+  max-width: ($max_width - $gutter);
+  margin-right: auto;
+  margin-left: auto;
+  @include clearfloats;
+  clear:both;
+}
+
+
+
+.layout-responsive .container-max {
+  margin-right: auto;
+  margin-left: auto;
+  max-width:$max_width;
+  @include clearfloats;
+}
+.layout-fixed .container-max {
+  margin-right: auto;
+  margin-left: auto;
+  width:$max_width;
+  @include clearfloats;
+}
+.layout-fixed {
+  min-width: $max_width;
+}

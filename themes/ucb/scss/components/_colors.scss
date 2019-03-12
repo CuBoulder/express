@@ -1,0 +1,164 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+/**
+ * Color styles
+ */
+@each $type, $colors in $ucb_colors {
+  @each $name, $color in $colors {
+    // Background color only.
+    .background-color-#{$name} {
+      background-color: $color;
+      &.color-border {
+        border: 1px solid rgba(darken($color, 20), .4);
+      }
+    }
+    // Background color with adjusted text and link colors.
+    .background-#{$name},
+    .ucb-colors .background-#{$name},
+    .nested-colors .background-#{$name},
+    .exbd-block.exbd-style-#{$name},
+    .exbd-block .exbd-block.exbd-style-#{$name},
+    .exbd-block .cu-box.background-#{$name}
+     {
+      background-color: $color;
+      color: set-text-color($color);
+      a:link,
+      a:visited {
+        @if ($type == 'brand') or ($type == 'alert') or ($type == 'tertiary') {
+          color: set-text-color($color);
+          text-decoration: underline;
+          text-decoration-color: rgba(set-link-color($color), .65);
+          -webkit-text-decoration-color: rgba(set-link-color($color), .65);
+        }
+        @else {
+          color: set-link-color($color);
+        }
+
+      }
+      a:hover,
+      a:active,
+      a:focus {
+        @if ($type == 'brand') or ($type == 'alert') or ($type == 'tertiary') {
+          color: set-text-color($color);
+          text-decoration-color: rgba(set-link-color($color), 1);
+          -webkit-text-decoration-color: rgba(set-link-color($color), 1);
+        }
+        @else {
+          color: set-link-hover-color($color);
+        }
+
+
+      }
+      &.color-border {
+        border: 1px solid rgba(darken($color, 20), .4);
+      }
+      &.background-transparent {
+        background-color: rgba($color, .7);
+      }
+      a.button-ghost {
+        color: set-text-color($color) !important;
+        border:1px solid set-text-color($color);
+        $background: invert(set-text-color($color));
+        @if (lightness($color) > 40) {
+          background: rgba($background, .15);
+        }
+        @else {
+          background: rgba($background, .15);
+        }
+        &:hover {
+          $hover: invert(set-text-color($color));
+          color: $hover !important;
+          background: set-text-color($color);
+        }
+      }
+    }
+    .exbd-block.exbd-style-#{$name} {
+      padding:10px;
+     @media screen and (min-width:960px) {
+       padding:20px;
+     }
+     //color:#fff;
+     & > *:last-child {
+       margin-bottom: 0;
+     }
+    }
+    .text-#{$name} {
+      color: $color !important;
+    }
+  }
+}
+ @each $name, $color in $all_colors {
+
+ }
+
+ @for $i from 1 through 9 {
+  .background-gray-#{$i}00 {
+    $color: darken(#fff, $i * 10);
+    background: $color;
+    color: set-text-color($color);
+    a:link,
+    a:visited {
+      color: set-link-color($color);
+      //text-decoration-color: rgba(set-link-color($color), .65);
+      //-webkit-text-decoration-color: rgba(set-link-color($color), .65);
+    }
+    a:hover,
+    a:active,
+    a:focus {
+      color: set-link-hover-color($color);
+      //text-decoration-color: rgba(set-link-hover-color($color), .65);
+      //-webkit-text-decoration-color: rgba(set-link-hover-color($color), .65);
+    }
+  }
+  .background-color-gray-#{$i}00 {
+    $color: darken(#fff, $i * 10);
+    background: $color;
+  }
+}
+
+.text-color-black {
+  color: $text-black;
+  a:link,
+  a:visited {
+    color: set-link-color($white);
+  }
+  a:hover,
+  a:active,
+  a:focus {
+    color: set-link-hover-color($white);
+  }
+}
+
+.text-color-white {
+  color: $white;
+  a:link,
+  a:visited {
+    color: set-link-color($black);
+  }
+  a:hover,
+  a:active,
+  a:focus {
+    color: set-link-hover-color($black);
+  }
+}
+
+a.text-color-black {
+  &:link,
+  &:visited,
+  &:hover,
+  &:active,
+  &:focus {
+    color: $text-black !important;
+  }
+}
+a.text-color-white {
+  &:link,
+  &:visited,
+  &:hover,
+  &:active,
+  &:focus {
+    color: $white !important;
+  }
+}

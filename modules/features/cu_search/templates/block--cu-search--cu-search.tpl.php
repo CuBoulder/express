@@ -13,9 +13,19 @@ $active_option = key($options);
 $active_configs = $configs[$active_option];
 ?>
   <div class="cu-search-box cu-search-box-small animated" role="search">
-    <h2 class="element-invisible"><?php print t('Search'); ?></h2>
+    <h2><?php print t('Search'); ?></h2>
     <form class="cu-search-form" action="<?php print $active_configs['action']; ?>" method="get">
       <div class="search-form-wrapper">
+        <div class="search-fields">
+          <div class="cu-search">
+            <div class="form-item form-type-textfield form-item-search-keys">
+              <label class="element-invisible" for="edit-search-keys">Enter the terms you wish to search for. </label>
+              <input placeholder="<?php print $active_configs['placeholder']; ?>" type="search" id="edit-search-keys" name="cse" value="" size="15" maxlength="128" class="form-text">
+            </div>
+            <div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Search" class="form-submit"></div>
+          </div>
+        </div>
+
         <?php if (count($options) > 1): ?>
           <div class="search-options">
             <?php foreach ($options as $option): ?>
@@ -34,15 +44,16 @@ $active_configs = $configs[$active_option];
             <?php endforeach; ?>
           </div>
         <?php endif; ?>
-        <div class="search-fields">
-          <div class="cu-search clearfix">
-            <div class="form-item form-type-textfield form-item-search-keys">
-              <label class="element-invisible" for="edit-search-keys">Enter the terms you wish to search for. </label>
-              <input placeholder="<?php print $active_configs['placeholder']; ?>" type="search" id="edit-search-keys" name="cse" value="" size="15" maxlength="128" class="form-text">
-            </div>
-            <div class="form-actions form-wrapper" id="edit-actions"><input type="submit" id="edit-submit" name="op" value="Search" class="form-submit"></div>
-          </div>
+        <?php if (!empty($block->options['all'])): ?>
+        <div class="campus-links">
+          <h3 class="display-inline">Other ways to search: </h3>
+          <ul class="inline inline-menu">
+            <li><a href="https://calendar.colorado.edu">Events Calendar</a></li>
+            <li><a href="https://www.colorado.edu/map">Campus Map</a></li>
+          </ul>
+
         </div>
+      <?php endif; ?>
       </div>
     </form>
   </div>

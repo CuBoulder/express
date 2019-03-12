@@ -1,0 +1,38 @@
+@import "modules/global";
+@import "modules/colors";
+@import "modules/functions";
+
+/**
+ * A11Y styles
+ */
+
+// Keyboard Focus
+.focus--keyboard {
+	//outline: $blue solid 2px;
+	text-decoration: none;
+	outline: rgb(128,128,128) dotted 2px;
+	outline-offset: 3px;
+}
+.focus--mouse {
+	outline: none;
+	text-decoration: none;
+}
+// Set focus styles to links, buttons, and form elements
+a,
+button,
+input,
+textarea {
+	&:focus {
+		@extend .focus--keyboard;
+	}
+
+	&:focus.focus--mouse {
+		@extend .focus--mouse;
+	}
+}
+
+#skip-link {
+	margin: 0 !important;
+	padding: 0 !important;
+	background:#fff;
+}

@@ -283,11 +283,13 @@ function cu_redirect_form_match_redirect_list_form_alter(&$form, &$form_state, $
   $role_access = array_intersect_key($user->roles, $roles['rid']);
   // Hide fields if user does not have service level role.
   if (empty($role_access)) {
+    $form['actions']['#type'] = 'hidden';
+    $form['#prefix'] = l('Add match redirect', 'admin/config/search/match_redirect/add');
     $redirects_count = $form['redirects'] ?? [];
+
     foreach ($redirects_count as $key => $redirect) {
       $form['redirects'][$key]['operations']['#type'] = 'hidden';
     }
-    $form['actions']['#type'] = 'hidden';
   }
 }
 
@@ -297,21 +299,21 @@ function cu_redirect_form_match_redirect_list_form_alter(&$form, &$form_state, $
  * Prevent users from entering absolute paths on node forms.
  */
 function cu_redirect_node_validate($node, $form, &$form_state) {
-    $path_info = $form_state['values']['path'] ?? NULL;
-    $validation_error_message = "Enter a custom path by which this content can be accessed. Do not enter the full url.";
+  $path_info = $form_state['values']['path'] ?? NULL;
+  $validation_error_message = "Enter a custom path by which this content can be accessed. Do not enter the full url.";
 
-    if (isset($path_info['alias']) && !empty($path_info['alias'])) {
-        if (strpos($path_info['alias'], '://') !== FALSE) {
-            form_set_error('path', $validation_error_message);
-        }
-
-        $parsed_path = parse_url($path_info['alias']);
-
-        // Look for periods in URLs before a slash.
-        // if ((int)strpos($parsed_path['path'], '.') < (int)strpos($parsed_path['path'], '/')) {
-        // Looking only for periods might be good enough for now?
-        if ((int)strpos($parsed_path['path'], '.')) {
-            form_set_error('path', $validation_error_message);
-        }
+  if (isset($path_info['alias']) && !empty($path_info['alias'])) {
+    if (strpos($path_info['alias'], '://') !== FALSE) {
+        form_set_error('path', $validation_error_message);
     }
+
+    $parsed_path = parse_url($path_info['alias']);
+
+    // Look for periods in URLs before a slash.
+    // if ((int)strpos($parsed_path['path'], '.') < (int)strpos($parsed_path['path'], '/')) {
+    // Looking only for periods might be good enough for now?
+    if ((int)strpos($parsed_path['path'], '.')) {
+        form_set_error('path', $validation_error_message);
+    }
+  }
 }

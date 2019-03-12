@@ -102,6 +102,11 @@ function cu_block_section_preprocess_entity(&$vars) {
         $output .= render($bean);
       }
     }
+    // Set these options to false - will use them later to configure
+    // background and foreground colors.
+    $has_bg_image = FALSE;
+    $has_content_bg = FALSE;
+
     $vars['content']['blocks'] = $output;
 
     // Add paddings for responsive output
@@ -135,6 +140,7 @@ function cu_block_section_preprocess_entity(&$vars) {
       $vars['content']['field_block_section_bg_image'][0]['#image_style'] = 'medium';
       $image_small = render($vars['content']['field_block_section_bg_image']);
       $vars['image_small'] = trim(preg_replace('/\s+/', ' ', $image_small));
+      $has_bg_image = TRUE;
     }
     // Render image for medium displays
     if (!empty($vars['content']['field_block_section_bg_image_t'])) {
@@ -153,15 +159,17 @@ function cu_block_section_preprocess_entity(&$vars) {
     $block_section_bg_effect = !empty($vars['content']['field_block_section_bg_effect']) ? 'block-section-bg-effect-' . $vars['content']['field_block_section_bg_effect'][0]['#markup'] : 'block-section-bg-effect-fixed';
 
     // CSS Classes
+
     $classes = array();
     $vars['parallax_data'] = '';
     $classes[] = 'block-section';
     $classes[] = 'block-section-text-' . $vars['field_hero_unit_text_color'][0]['value'];
-    $classes[] = 'block-section-background-' . $vars['field_hero_unit_bg_color'][0]['value'];
+    //$classes[] = 'text-color-' . $vars['field_hero_unit_text_color'][0]['value'];
+
     $classes[] = !empty($vars['field_block_section_bg_effect']) ? 'block-section-bg-effect-' . $vars['field_block_section_bg_effect'][0]['value'] : 'block-section-bg-effect-fixed';
 
     // Overlay
-    if (!empty($vars['field_hero_unit_overlay']) && $vars['field_hero_unit_overlay'][0]['value']) {
+    if ($has_bg_image && !empty($vars['field_hero_unit_overlay']) && $vars['field_hero_unit_overlay'][0]['value']) {
       $classes[] = 'block-section-overlay';
     }
     // Parallax
@@ -173,10 +181,32 @@ function cu_block_section_preprocess_entity(&$vars) {
       $classes[] = 'parallax-window';
       $vars['parallax_data'] = "data-parallaxie='{\"speed\": 1}'";
     }
+    if ($vars['field_block_section_content_bg'][0]['value'] != 'hidden') {
+      $has_content_bg = TRUE;
+    }
+    // Background & Foreground Colors.
+    // If there is a background image or a content background, use text color.
+    $vars['content_bg_classes'] = '';
+    if ($has_bg_image || $has_content_bg) {
+      $classes[] = 'background-color-' . cu_block_section_bg_color_translate($vars['field_hero_unit_bg_color'][0]['value']);
+    }
+    // Otherwise, text color will be determined by background color.
+    else {
+      $classes[] = 'background-' . cu_block_section_bg_color_translate($vars['field_hero_unit_bg_color'][0]['value']);
+    }
+
+    // Content Background
+    if ($has_content_bg) {
+      $text_color = $vars['field_hero_unit_text_color'][0]['value'];
+      $content_bg_classes[] = ($text_color == 'black') ? 'background-white' : 'background-black';
+      $content_bg_classes[] = 'block-section-content-bg-' . $vars['field_block_section_content_bg'][0]['value'];
+      $vars['content_bg_classes'] = join(' ', $content_bg_classes);
+    }
+    else {
+
+    }
+
     $vars['block_section_classes'] = join(' ', $classes);
-
-
-
 
 
     if (theme_get_setting('alpha_responsive', variable_get('theme_default'))) {
@@ -264,6 +294,13 @@ function cu_block_section_bg_effect_options() {
   );
 }
 
+function cu_block_section_text_color_options() {
+  return array(
+    'white' => 'White',
+    'black' => 'Black',
+  );
+}
+
 /**
  * Implements hook_field_widget_form_alter.
  *
@@ -272,5 +309,23 @@ function cu_block_section_bg_effect_options() {
 function cu_block_section_field_widget_form_alter(&$element, &$form_state, $context)	{
   if (!empty($element['#bundle']) && $element['#bundle'] == 'block_section' && $element['#field_name'] == 'field_blocks_section_blocks') {
     express_layout_format_ief($element);
+  }
+}
+
+function cu_block_section_bg_color_translate($color) {
+  $colors = array(
+    'white' => 'white',
+    'gray' => 'gray-light',
+    'black' => 'black',
+    'dark_gray' => 'gray-dark',
+    'gold' => 'gold',
+    'tan' => 'tan',
+    'light_blue' => 'blue-light',
+  );
+  if (!empty($colors[$color])) {
+    return $colors[$color];
+  }
+  else {
+    return $color;
   }
 }
