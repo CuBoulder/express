@@ -157,7 +157,7 @@ function _set_external_invite_variables() {
   variable_set('user_external_invite_core_roles', $core_role_ids);
 
   // Set Content Editor as the default role to invite.
-  variable_set('user_external_invite_default_role', $core_roles['names']['edit_only']['rid']);
+  variable_set('user_external_invite_default_role', $core_roles['names']['site_editor']['rid']);
 
   // Set addon invite roles.
   $addon_roles = express_permissions_role_settings(array('core_addon'));
@@ -368,8 +368,8 @@ function cu_core_update_7059() {
 function cu_core_update_7060() {
   secure_permissions_rebuild();
   // Set new Content Editor as the default role to invite.
-  $edit_only_role = user_role_load_by_name('edit_only');
-  variable_set('user_external_invite_default_role', $edit_only_role->rid);
+  $site_editor_role = user_role_load_by_name('site_editor');
+  variable_set('user_external_invite_default_role', $site_editor_role->rid);
 }
 
 /**
