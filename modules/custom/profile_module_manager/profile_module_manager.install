@@ -38,7 +38,7 @@ function profile_module_manager_requirements($phase) {
 }
 
 /**
- * Enable express_content_edit_lock for 2.9.4.
+ * Rebuild menu for 3.0.2 changes.
  */
 function profile_module_manager_update_7001() {
   menu_rebuild();
