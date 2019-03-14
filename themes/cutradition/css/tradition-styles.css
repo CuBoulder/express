@@ -31,7 +31,7 @@ body { background-color: #000; padding-bottom: 20px; }
 
 #main { padding-top: 0; }
 
-.content-wrapper { background-color: #fff; padding-bottom: 20px; }
+.content-wrapper { padding-bottom: 20px; }
 
 #post-title-wide-wrapper, #post-title-wrapper { padding-bottom: 0; }
 
