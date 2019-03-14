@@ -356,8 +356,29 @@ function cu_core_requirements($phase) {
 }
 
 /**
- * Express 3.0.0 Update - TBD
+ * Express 3.0.0 Update - Revert Features
  */
 function cu_core_update_7059() {
   cu_core_revert_features();
+}
+
+/**
+ * Express 3.0.2 Update - Rebuild permssions to force discovery of new roles
+ */
+function cu_core_update_7060() {
+  secure_permissions_rebuild();
+}
+
+/**
+ * Express 3.0.2 Update - Add Form Manager to "invitable" roles if Form Bundle is enabled
+ */
+function cu_core_update_7061() {
+  if (module_exists('cu_forms_bundle')) {
+    $form_manager_role = user_role_load_by_name('form_manager');
+
+    $invite_roles = variable_get('user_external_invite_addon_roles', array());
+    $invite_roles[] = $form_manager_role->rid;
+
+    variable_set('user_external_invite_addon_roles', $invite_roles);
+  }
 }
