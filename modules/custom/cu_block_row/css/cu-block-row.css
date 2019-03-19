@@ -15,8 +15,7 @@ table.cu-block-row-table-example td { border: 3px solid #fff; }
 @media screen and (min-width: 768px) { .block-row-inner { flex-direction: row; }
   .block-row-match-height { display: flex; flex-direction: row; margin: 0 -20px; }
   .block-row-match-height .block-row-column, .block-row-match-height .block-row-column-inner { display: flex; justify-content: stretch; flex-direction: column; flex-grow: 1; }
-  .block-row-match-height .block-row-column .block:only-child, .block-row-match-height .block-row-column-inner .block:only-child { flex-grow: 1; display: flex; justify-content: stretch; flex-direction: column; }
-  .block-row-match-height .block-row-column .block .block-inner, .block-row-match-height .block-row-column-inner .block .block-inner { flex-grow: 1; display: flex; justify-content: stretch; flex-direction: column; } }
+  .block-row-match-height .block-row-column .block:only-child, .block-row-match-height .block-row-column-inner .block:only-child { flex-grow: 1; display: flex; justify-content: stretch; flex-direction: column; } }
 /* Default Widths */
 .block-row-inner .block-row-column { width: 100%; }
 

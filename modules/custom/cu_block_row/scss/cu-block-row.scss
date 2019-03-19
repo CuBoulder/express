@@ -25,14 +25,6 @@ table.cu-block-row-table-example {
   flex-direction: column;
   margin:0 -20px;
   flex-wrap: wrap;
-  .block-row-column  {
-    .block {
-
-      .block-inner {
-
-      }
-    }
-  }
 }
 
 @media screen and (min-width:768px) {
@@ -54,15 +46,6 @@ table.cu-block-row-table-example {
         display: flex;
         justify-content: stretch;
         flex-direction: column;
-      }
-      .block {
-
-        .block-inner {
-          flex-grow:1;
-          display: flex;
-          justify-content: stretch;
-          flex-direction: column;
-        }
       }
     }
   }
