@@ -135,6 +135,15 @@ function cu_users_menu() {
     'weight' => 1,
   );
 
+  $items['test-purge'] = array(
+    'title' => 'Edited Content',
+    'page callback' => 'cu_users_purge_user',
+    'page arguments' => array(1, 2),
+    'access arguments' => array('access users overview'),
+    'type' => MENU_CALLBACK,
+    'weight' => 1,
+  );
+
   return $items;
 }
 
@@ -845,4 +854,117 @@ function cu_users_mail_alter(&$message) {
     $str = str_replace($role_names, $edited_role_names, $message['body'][0]);
     $message['body'][0] = $str;
   }
+}
+
+
+function cu_users_purge_user(string $identifier = 'alfi2595', string $type = 'identikey'): string {
+
+  $user = [];
+  $approved_types = [
+    'identikey',
+    'realname'
+  ];
+
+  if (in_array($type, $approved_types)) {
+    $lookup_function = 'cu_users_find_by_'. $type;
+
+    // Could try to do lookup to see LDAP properties?
+    $user = $lookup_function($identifier);
+  }
+
+  if ($user === []) {
+    return t('No user found to purge.');
+  }
+
+  // Reassign content. user_cancel_reassign places the content into the anonymous user so manually doing it beforehand
+  // allows for more control in how the content is reassigned.
+  if ($content = cu_users_user_has_content($user)) {
+    $user_name = (string) variable_get('cu_users_reassign_content_user', array_keys(cu_users_get_users($type = 'site_owner'))[0]);
+    $reassign_user = cu_users_find_by_identikey($user_name);
+    cu_users_reassign_user_content($user, $reassign_user, $content);
+  }
+
+  // Use regular Drupal user cancel method to clean up.
+  //  user_cancel(array(), $user['uid'], 'user_cancel_reassign');
+
+  // Taken from the _user_cancel() function.
+  //  _user_mail_notify('status_canceled', $account);
+  user_delete($user['uid']);
+//  drupal_set_message(t('%name has been deleted.', array('%name' => $user['name'])));
+//  watchdog('user', 'Deleted user: %name %email.', array('%name' => $user['name'], '%email' => '<' . $user['email'] . '>'), WATCHDOG_NOTICE);
+
+  watchdog('cu_users', 'Purging User {@user} - Successfully completed purge.', ['@user' => $identifier]);
+  drupal_set_message(t('Purged user: @user', ['@user' => $identifier]));
+}
+
+
+function cu_users_find_by_identikey(string $identikey): array {
+  $user = [];
+  try {
+    $user = db_query('SELECT * FROM users u LEFT JOIN realname rn ON rn.uid = u.uid WHERE u.name = :name',
+      [':name' => $identikey])->fetchAssoc();
+  } catch (Exception $exception) {
+    watchdog('cu_users', $exception->getMessage());
+    return [];
+  }
+  return $user;
+}
+
+function cu_users_find_by_realname(string $real_name): array {
+  $user = [];
+  try {
+    $user = db_query('SELECT * FROM users u LEFT JOIN realname rn ON rn.uid = u.uid WHERE rn.realname = :name',
+      [':name' => $real_name])->fetchAssoc();
+  } catch (Exception $exception) {
+    watchdog('cu_users', $exception->getMessage());
+    return [];
+  }
+  return $user;
+}
+
+
+function cu_users_user_has_content(array $user) {
+  $tables = cu_users_get_content_tables();
+  $all_content = [];
+
+  try {
+    foreach ($tables as $name => $column_id) {
+      $content = db_query("SELECT * FROM $name tb WHERE uid = :uid",
+        [
+          ':uid' => $user['uid'],
+        ])->fetchAllAssoc($column_id);
+      $all_content[$name] = array_map(function($el) { return (array) $el; },$content);
+    }
+  } catch (Exception $exception) {
+
+  }
+
+  return $all_content;
+}
+
+function cu_users_reassign_user_content(array $user, array $new_owner, array $contents) {
+  $tables = cu_users_get_content_tables();
+  $all_content = [];
+
+  try {
+    foreach ($contents as $table_name => $content) {
+      $num_updated = db_update($table_name)
+      ->fields(['uid' => $new_owner['uid']])
+      ->condition('uid', $user['uid'], '=')
+      ->execute();
+    }
+  } catch (Exception $exception) {
+
+  }
+}
+
+function cu_users_get_content_tables() {
+  return [
+    'node' => 'title',
+//    'node_revision',
+    'bean' => 'title',
+//    'bean_revision',
+    'user_external_invite' => 'mail',
+    'redirect' => 'redirect',
+  ];
 }
