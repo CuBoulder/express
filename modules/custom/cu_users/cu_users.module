@@ -856,7 +856,14 @@ function cu_users_mail_alter(&$message) {
   }
 }
 
-
+/**
+ * Purges a user by reassigning content and then deleting the user.
+ *
+ * @param string $identifier
+ * @param string $type
+ *
+ * @return string
+ */
 function cu_users_purge_user(string $identifier = 'alfi2595', string $type = 'identikey'): string {
   $user = [];
   $approved_types = [
@@ -872,13 +879,23 @@ function cu_users_purge_user(string $identifier = 'alfi2595', string $type = 'id
   }
 
   if ($user === []) {
-    return t('No user found to purge.');
+    watchdog('cu_users', 'Purging User {@user} - No user found with @type.', [
+      '@user' => $identifier,
+      '@type' => $type,
+    ]);
+    drupal_set_message(t('Purging User {@user} - No user found with @type.', [
+      '@user' => $identifier,
+      '@type' => $type,
+    ]));
   }
 
   // Reassign content. user_cancel_reassign places the content into the anonymous user so manually doing it beforehand
   // allows for more control in how the content is reassigned.
   if ($content = cu_users_user_has_content($user)) {
-    $user_name = (string) variable_get('cu_users_reassign_content_user', array_keys(cu_users_get_users($type = 'site_owner'))[0]);
+    // The user search function will return an array with the identikey as the key of the first array element.
+    $default_site_owner = array_keys(cu_users_get_users($type = 'site_owner'))[0];
+
+    $user_name = (string) variable_get('cu_users_reassign_content_user', $default_site_owner);
     $reassign_user = cu_users_find_by_identikey($user_name);
     cu_users_reassign_user_content($user, $reassign_user, $content);
   }
@@ -901,10 +918,17 @@ function cu_users_purge_user(string $identifier = 'alfi2595', string $type = 'id
   }
 
   watchdog('cu_users', 'Purging User {@user} - Successfully completed purge.', ['@user' => $user['name']]);
-  drupal_set_message(t('Purged user: @user', ['@user' => $user['name']]));
+  drupal_set_message(t('Purging User {@user} - Successfully completed purge.', ['@user' => $user['name']]));
+  return '';
 }
 
-
+/**
+ * Find a user by their CU Identikey.
+ *
+ * @param string $identikey
+ *
+ * @return array The user table's columns plus realname if user found or an empty array.
+ */
 function cu_users_find_by_identikey(string $identikey): array {
   $user = [];
   try {
@@ -917,6 +941,13 @@ function cu_users_find_by_identikey(string $identikey): array {
   return $user;
 }
 
+/**
+ * Find a user by their more readable realname.
+ *
+ * @param string $real_name
+ *
+ * @return array The user table's columns plus realname if user found or an empty array.
+ */
 function cu_users_find_by_realname(string $real_name): array {
   $user = [];
   try {
@@ -929,7 +960,13 @@ function cu_users_find_by_realname(string $real_name): array {
   return $user;
 }
 
-
+/**
+ * Check and see if a user has any content and return the content the user owns.
+ *
+ * @param array $user
+ *
+ * @return array An array of content keyed by content tables or an empty array if none found.
+ */
 function cu_users_user_has_content(array $user) {
   $tables = cu_users_get_content_tables();
   $all_content = [];
@@ -948,7 +985,14 @@ function cu_users_user_has_content(array $user) {
   return $all_content;
 }
 
-function cu_users_reassign_user_content(array $user, array $new_owner, array $contents) {
+/**
+ * Reassigns user content to a new owner.
+ *
+ * @param array $user The user who currently owns the content.
+ * @param array $new_owner The user who will own the content.
+ * @param array $contents The content to be updated keyed by
+ */
+function cu_users_reassign_user_content(array $user, array $new_owner, array $contents): void {
   try {
     foreach ($contents as $table_name => $content) {
       $num_updated = db_update($table_name)
@@ -967,7 +1011,12 @@ function cu_users_reassign_user_content(array $user, array $new_owner, array $co
   }
 }
 
-function cu_users_get_content_tables() {
+/**
+ * Contains the database tables that have user information in them: a column named "uid".
+ *
+ * @return array
+ */
+function cu_users_get_content_tables(): array {
   return [
     'node' => 'title',
 //    'node_revision',
