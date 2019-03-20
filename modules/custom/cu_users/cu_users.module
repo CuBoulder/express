@@ -135,15 +135,6 @@ function cu_users_menu() {
     'weight' => 1,
   );
 
-  $items['test-purge'] = array(
-    'title' => 'Edited Content',
-    'page callback' => 'cu_users_purge_user',
-    'page arguments' => array(1, 2),
-    'access arguments' => array('access users overview'),
-    'type' => MENU_CALLBACK,
-    'weight' => 1,
-  );
-
   return $items;
 }
 
@@ -913,6 +904,7 @@ function cu_users_purge_user(string $identifier = 'alfi2595', string $type = 'id
       ->condition('uid', $user['uid'])
       ->execute();
     watchdog('cu_users', 'Purging User {@user} - Deleted sessions.', ['@user' => $user['name']]);
+    drupal_set_message(t('Purging User {@user} - Deleted sessions.', ['@user' => $identifier]));
   } catch (Exception $exception) {
     watchdog('cu_users', $exception->getMessage());
   }
@@ -1001,6 +993,11 @@ function cu_users_reassign_user_content(array $user, array $new_owner, array $co
       ->execute();
 
       watchdog('cu_users', 'Purging User {@user} - Reassigned @number @table contents.', [
+        '@user' => $user['name'],
+        '@table' => $table_name,
+        '@number' => $num_updated,
+      ]);
+      drupal_set_message('Purging User {@user} - Reassigned @number @table contents.', [
         '@user' => $user['name'],
         '@table' => $table_name,
         '@number' => $num_updated,

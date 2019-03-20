@@ -1,0 +1,22 @@
+<?php
+/**
+ * @file
+ * Drupal hooks for cu_users_tests module.
+ */
+
+
+/**
+ * Implements hook_menu().
+ */
+function cu_users_tests_menu(): array {
+  return [
+    'test-purge' => [
+      'title' => 'Purge User',
+      'page callback' => 'cu_users_purge_user',
+      'page arguments' => [1, 2],
+      'access arguments' => ['access users overview'],
+      'type' => MENU_CALLBACK,
+      'weight' => 1,
+    ],
+  ];
+}
