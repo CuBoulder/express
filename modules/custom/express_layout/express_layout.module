@@ -348,8 +348,8 @@ function express_layout_page_alter(&$page) {
       if (!empty($layout->field_feature_title_image[LANGUAGE_NONE][0]['uri']) && isset($settings['field_feature_title_image'])) {
         // Add node title to variables
         $vars['title'] = $node->title;
-        if (function_exists('expressbase_breadcrumb')) {
-          $vars['breadcrumb'] = expressbase_breadcrumb();
+        if (function_exists('ucb_breadcrumb')) {
+          $vars['breadcrumb'] = ucb_breadcrumb();
         }
         else {
           $vars['breadcrumb'] = NULL;
