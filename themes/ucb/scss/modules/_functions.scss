@@ -21,6 +21,19 @@
   }
 }
 
+@function set-link-text-color($color) {
+  $r: red($color);
+  $g: green($color);
+  $b: blue($color);
+
+  $yiq: (($r*299) + ($g*587) + ($b*114))/1000;
+  @if ($yiq >= 128) {
+    @return lighten($text-black, 20); // Lighter backgorund, return dark color
+  } @else {
+    @return darken(#fff, 20); // Darker background, return light color
+  }
+}
+
 @function set-link-color($color) {
   $r: red($color);
   $g: green($color);

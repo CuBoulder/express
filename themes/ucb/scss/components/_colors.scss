@@ -17,10 +17,18 @@
     // Background color with adjusted text and link colors.
     .background-#{$name},
     .ucb-colors .background-#{$name},
+    .exbd-block .ucb-colors .background-#{$name},
     .nested-colors .background-#{$name},
     .exbd-block.exbd-style-#{$name},
     .exbd-block .exbd-block.exbd-style-#{$name},
-    .exbd-block .cu-box.background-#{$name}
+    .exbd-block .cu-box.background-#{$name},
+    *[class*="background-"] .background-#{$name},
+    *[class*="background-"] *[class*="background-"] .background-#{$name},
+    *[class*="background-"] *[class*="background-"] *[class*="background-"] .background-#{$name},
+    *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] .background-#{$name},
+    *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] .background-#{$name},
+    *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] .background-#{$name},
+    *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"]*[class*="background-"] *[class*="background-"] .background-#{$name},
      {
       background-color: $color;
       color: set-text-color($color);
@@ -50,6 +58,19 @@
         }
 
 
+      }
+      a.link-text-color {
+        &:link,
+        &:visited {
+          color: set-link-text-color($color);
+        }
+        &:hover,
+        &:active,
+        &:focus
+        &.is-active:link,
+        &.is-active:visited {
+          color: set-text-color($color);
+        }
       }
       &.color-border {
         border: 1px solid rgba(darken($color, 20), .4);
@@ -161,4 +182,21 @@ a.text-color-white {
   &:focus {
     color: $white !important;
   }
+}
+
+// Default a.link-text-color
+
+a.link-text-color {
+  &:link,
+  &:visited {
+    color: set-link-text-color(#fff);
+  }
+  &:hover,
+  &:active,
+  &:focus,
+  &.is-active:link,
+  &.is-active:visited {
+    color: set-text-color(#fff);
+  }
+
 }
