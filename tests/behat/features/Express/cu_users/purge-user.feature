@@ -7,7 +7,7 @@ Feature: Purge Users
     When I go to "test-create-user/foo_bar/site_editor/FooBar"
     Then I should see "Created User {name: 'foo_bar', roles: 'authenticated user,site_editor', realname: 'FooBar'."
     When I go to "admin/people?combine=FooBar&rid_op=or&rid=All&status=All"
-    Then I should see "FooBar"
+    Then I should see "Member for"
 
   Scenario: Create content for user to be purged.
     Given I am logged in as a developer
