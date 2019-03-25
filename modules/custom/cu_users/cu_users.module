@@ -852,8 +852,6 @@ function cu_users_mail_alter(&$message) {
  *
  * @param string $identifier
  *   String to find user by.
- * @param string $type
- *   Type of identifier to check.
  *
  * @return string
  *   Message of success or errors.
@@ -870,7 +868,7 @@ function cu_users_purge_user(string $identifier): string {
   // allows for more control in how the content is reassigned.
   if ($content = cu_users_user_has_content($user)) {
     // The user search function will return an array with the identikey as the key of the first array element.
-    $default_site_owner = array_keys(cu_users_get_users($type = 'site_owner'))[0];
+    $default_site_owner = array_keys(cu_users_get_users('site_owner'))[0];
 
     $user_name = (string) variable_get('cu_users_reassign_content_user', $default_site_owner);
     $reassign_user = cu_users_find_user($user_name);

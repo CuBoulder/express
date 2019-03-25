@@ -54,17 +54,17 @@ function cu_users_create_user(string $user_name, string $role_name, string $real
 
   // Get role ID.
   $role = user_role_load_by_name($role_name);
-  $new_user = array(
+  $new_user = [
     'name' => $user_name,
     'pass' => $user_name,
     'mail' => 'noreply@nowhere.com',
     'status' => 1,
     'init' => 'noreply@nowhere.com',
-    'roles' => array(
+    'roles' => [
       DRUPAL_AUTHENTICATED_RID => 'authenticated user',
       $role->rid => $role_name,
-    ),
-  );
+    ],
+  ];
 
   try {
     // The first parameter is sent blank so a new user is created.
@@ -73,10 +73,10 @@ function cu_users_create_user(string $user_name, string $role_name, string $real
     db_merge('realname')
       ->key(['uid' => $user->uid])
       ->fields([
-      'uid' => $user->uid,
-      'realname' => $realname,
-      'created' => $user->created,
-        ])
+        'uid' => $user->uid,
+        'realname' => $realname,
+        'created' => $user->created,
+      ])
       ->execute();
 
     $new_user = user_load($user->uid);
@@ -84,14 +84,14 @@ function cu_users_create_user(string $user_name, string $role_name, string $real
     return t("Created User {name: '@name', roles: '@role', realname: '@realname'.", [
       '@name' => $new_user->name,
       '@role' => implode(',', array_values($new_user->roles)),
-      '@realname' => $new_user->realname
+      '@realname' => $new_user->realname,
     ]);
   } catch (Exception $exception) {
     watchdog('cu_users_test', $exception->getMessage());
     return t("Error creating User {name: '@name', roles: '@role', realname: '@realname'.", [
       '@name' => $new_user->name,
       '@role' => implode(',', array_values($new_user->roles)),
-      '@realname' => $new_user->realname
+      '@realname' => $new_user->realname,
     ]);
   }
 }
@@ -106,42 +106,37 @@ function cu_users_create_user(string $user_name, string $role_name, string $real
  *   Message of success or error.
  */
 function cu_users_create_content(string $username): string {
-
-  try {
-    $user = db_query('SELECT * FROM users u LEFT JOIN realname rn ON rn.uid = u.uid WHERE u.name = :name OR rn.realname = :name',
-      [':name' => $username])->fetchAssoc();
-  } catch (Exception $exception) {
-    watchdog('cu_users', $exception->getMessage());
-    return t('No user found for @name.', ['@name', $username]);
-  }
+  $user = cu_users_find_user($username);
 
   // Create content.
   try {
     // Install text block beans.
     $beans = [];
-    $beans[] = array(
+    $beans[] = [
       'title' => 'Testy Text Block 1',
       'content' => 'Text Block A Content AAA',
-      'delta' => 'block-'. $user['uid']. '01',
-    );
+      'delta' => 'block-' . $user['uid'] . '01',
+    ];
 
-    $beans[] = array(
+    $beans[] = [
       'title' => 'Testy Text Block 2',
       'content' => 'Text Block B Content BBB',
-      'delta' => 'block-'. $user['uid']. '02',
-    );
+      'delta' => 'block-' . $user['uid'] . '02',
+    ];
 
     foreach ($beans as $value) {
-      $bean = bean_create(array('type' => 'block'));
+      $bean = bean_create(['type' => 'block']);
       $bean->label = $value['title'];
       $bean->title = $value['title'];
       $bean->delta = $value['delta'];
       $bean->uid = $user['uid'];
-      $bean->field_block_text = array(
-        LANGUAGE_NONE => array(array(
-          'value' => $value['content'],
-        )),
-      );
+      $bean->field_block_text = [
+        LANGUAGE_NONE => [
+          [
+            'value' => $value['content'],
+          ],
+        ],
+      ];
       $bean->save();
     }
 
