@@ -30,4 +30,4 @@ Feature: Purge Users
     Then I should not see "No blocks available."
     # Check user is deleted.
     When I go to "admin/people?combine=FooBar&rid_op=or&rid=All&status=All"
-    Then I should not see "FooBar"
+    Then I should not see "Member for"

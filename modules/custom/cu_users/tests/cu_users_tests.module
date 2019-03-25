@@ -86,7 +86,8 @@ function cu_users_create_user(string $user_name, string $role_name, string $real
       '@role' => implode(',', array_values($new_user->roles)),
       '@realname' => $new_user->realname,
     ]);
-  } catch (Exception $exception) {
+  }
+  catch (Exception $exception) {
     watchdog('cu_users_test', $exception->getMessage());
     return t("Error creating User {name: '@name', roles: '@role', realname: '@realname'.", [
       '@name' => $new_user->name,
@@ -159,7 +160,8 @@ function cu_users_create_content(string $username): string {
     node_save($node);
 
     return t("Created content for '@name'.", ['@name' => $user['name']]);
-  } catch (Exception $exception) {
+  }
+  catch (Exception $exception) {
     return t("Error creating content for '@name': @error.", [
       '@error' => $exception->getMessage(),
       '@name' => $user['name'],
