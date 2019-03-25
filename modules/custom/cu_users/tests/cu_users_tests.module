@@ -1,9 +1,9 @@
 <?php
+
 /**
  * @file
  * Drupal hooks for cu_users_tests module.
  */
-
 
 /**
  * Implements hook_menu().
@@ -13,7 +13,7 @@ function cu_users_tests_menu(): array {
     'test-purge-user' => [
       'title' => 'Purge User',
       'page callback' => 'cu_users_purge_user',
-      'page arguments' => [1, 2],
+      'page arguments' => [1],
       'access arguments' => ['access users overview'],
       'type' => MENU_CALLBACK,
       'weight' => 1,
@@ -40,14 +40,17 @@ function cu_users_tests_menu(): array {
 /**
  * Creates a user with an "identikey" and realname.
  *
- * @param string $username
+ * @param string $user_name
+ *   String used for user->name property.
+ * @param string $role_name
+ *   Role name out of Express user roles.
  * @param string $realname
+ *   String used for $user->realname property.
+ *
+ * @return string
+ *   Message of success or error.
  */
 function cu_users_create_user(string $user_name, string $role_name, string $realname = ''): string {
-
-//  $user = user_load(21);
-//  dpm();
-//  return '';
 
   // Get role ID.
   $role = user_role_load_by_name($role_name);
@@ -77,15 +80,19 @@ function cu_users_create_user(string $user_name, string $role_name, string $real
       ->execute();
 
     $new_user = user_load($user->uid);
-    drupal_set_message(t("Created User {name: '@name', roles: '@role', realname: '@realname'.", [
+
+    return t("Created User {name: '@name', roles: '@role', realname: '@realname'.", [
       '@name' => $new_user->name,
       '@role' => implode(',', array_values($new_user->roles)),
       '@realname' => $new_user->realname
-    ]));
-
-    return '';
+    ]);
   } catch (Exception $exception) {
     watchdog('cu_users_test', $exception->getMessage());
+    return t("Error creating User {name: '@name', roles: '@role', realname: '@realname'.", [
+      '@name' => $new_user->name,
+      '@role' => implode(',', array_values($new_user->roles)),
+      '@realname' => $new_user->realname
+    ]);
   }
 }
 
@@ -93,6 +100,10 @@ function cu_users_create_user(string $user_name, string $role_name, string $real
  * Creates content for a user based on tables from cu_users_get_content_tables().
  *
  * @param string $username
+ *   User name or realname for which to create content.
+ *
+ * @return string
+ *   Message of success or error.
  */
 function cu_users_create_content(string $username): string {
 
@@ -101,8 +112,7 @@ function cu_users_create_content(string $username): string {
       [':name' => $username])->fetchAssoc();
   } catch (Exception $exception) {
     watchdog('cu_users', $exception->getMessage());
-    drupal_set_message('No user found.', 'error');
-    return '';
+    return t('No user found for @name.', ['@name', $username]);
   }
 
   // Create content.
@@ -121,7 +131,7 @@ function cu_users_create_content(string $username): string {
       'delta' => 'block-'. $user['uid']. '02',
     );
 
-    foreach ($beans as $key => $value) {
+    foreach ($beans as $value) {
       $bean = bean_create(array('type' => 'block'));
       $bean->label = $value['title'];
       $bean->title = $value['title'];
@@ -153,18 +163,11 @@ function cu_users_create_content(string $username): string {
     ];
     node_save($node);
 
-    drupal_set_message(t("Created content for '@name'.", [
-      '@name' => $user['name'],
-      //    '@role' => implode(',', array_values($new_user->roles)),
-      //    '@realname' => $new_user->realname
-    ]));
-    return '';
+    return t("Created content for '@name'.", ['@name' => $user['name']]);
   } catch (Exception $exception) {
-    drupal_set_message(t("Error creating content for '@name': @error.", [
+    return t("Error creating content for '@name': @error.", [
       '@error' => $exception->getMessage(),
       '@name' => $user['name'],
-      //    '@realname' => $new_user->realname
-    ]));
-    return '';
+    ]);
   }
 }

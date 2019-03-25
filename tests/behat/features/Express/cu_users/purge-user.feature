@@ -6,6 +6,8 @@ Feature: Purge Users
     Given I am logged in as a developer
     When I go to "test-create-user/foo_bar/site_editor/FooBar"
     Then I should see "Created User {name: 'foo_bar', roles: 'authenticated user,site_editor', realname: 'FooBar'."
+    When I go to "admin/people?combine=FooBar&rid_op=or&rid=All&status=All"
+    Then I should see "FooBar"
 
   Scenario: Create content for user to be purged.
     Given I am logged in as a developer
@@ -14,7 +16,7 @@ Feature: Purge Users
 
   Scenario: Purge user and check reassigned content.
     Given I am logged in as a developer
-    When I go to "test-purge-user/foo_bar/identikey"
+    When I go to "test-purge-user/foo_bar"
     Then I should see "Purging User {foo_bar} - Successfully completed purge."
     # Check page content is reassigned to other users.
     When I go to "admin/content?title=Testy+Page&type=All&status=All&realname=foo_bar"
@@ -26,3 +28,6 @@ Feature: Purge Users
     Then I should see "No blocks available."
     When I go to "admin/content/blocks?title=Testy+Text&label=&type=All&realname=site_owner"
     Then I should not see "No blocks available."
+    # Check user is deleted.
+    When I go to "admin/people?combine=FooBar&rid_op=or&rid=All&status=All"
+    Then I should not see "FooBar"
