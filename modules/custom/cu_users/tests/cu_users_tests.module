@@ -10,7 +10,7 @@
  */
 function cu_users_tests_menu(): array {
   return [
-    'test-purge' => [
+    'test-purge-user' => [
       'title' => 'Purge User',
       'page callback' => 'cu_users_purge_user',
       'page arguments' => [1, 2],
@@ -18,5 +18,153 @@ function cu_users_tests_menu(): array {
       'type' => MENU_CALLBACK,
       'weight' => 1,
     ],
+    'test-create-user' => [
+      'title' => 'Create Test User',
+      'page callback' => 'cu_users_create_user',
+      'page arguments' => [1, 2, 3],
+      'access arguments' => ['access users overview'],
+      'type' => MENU_CALLBACK,
+      'weight' => 1,
+    ],
+    'test-create-content' => [
+      'title' => 'Create Content For User',
+      'page callback' => 'cu_users_create_content',
+      'page arguments' => [1],
+      'access arguments' => ['access users overview'],
+      'type' => MENU_CALLBACK,
+      'weight' => 1,
+    ],
   ];
+}
+
+/**
+ * Creates a user with an "identikey" and realname.
+ *
+ * @param string $username
+ * @param string $realname
+ */
+function cu_users_create_user(string $user_name, string $role_name, string $realname = ''): string {
+
+//  $user = user_load(21);
+//  dpm();
+//  return '';
+
+  // Get role ID.
+  $role = user_role_load_by_name($role_name);
+  $new_user = array(
+    'name' => $user_name,
+    'pass' => $user_name,
+    'mail' => 'noreply@nowhere.com',
+    'status' => 1,
+    'init' => 'noreply@nowhere.com',
+    'roles' => array(
+      DRUPAL_AUTHENTICATED_RID => 'authenticated user',
+      $role->rid => $role_name,
+    ),
+  );
+
+  try {
+    // The first parameter is sent blank so a new user is created.
+    $user = user_save('', $new_user);
+
+    db_merge('realname')
+      ->key(['uid' => $user->uid])
+      ->fields([
+      'uid' => $user->uid,
+      'realname' => $realname,
+      'created' => $user->created,
+        ])
+      ->execute();
+
+    $new_user = user_load($user->uid);
+    drupal_set_message(t("Created User {name: '@name', roles: '@role', realname: '@realname'.", [
+      '@name' => $new_user->name,
+      '@role' => implode(',', array_values($new_user->roles)),
+      '@realname' => $new_user->realname
+    ]));
+
+    return '';
+  } catch (Exception $exception) {
+    watchdog('cu_users_test', $exception->getMessage());
+  }
+}
+
+/**
+ * Creates content for a user based on tables from cu_users_get_content_tables().
+ *
+ * @param string $username
+ */
+function cu_users_create_content(string $username): string {
+
+  try {
+    $user = db_query('SELECT * FROM users u LEFT JOIN realname rn ON rn.uid = u.uid WHERE u.name = :name OR rn.realname = :name',
+      [':name' => $username])->fetchAssoc();
+  } catch (Exception $exception) {
+    watchdog('cu_users', $exception->getMessage());
+    drupal_set_message('No user found.', 'error');
+    return '';
+  }
+
+  // Create content.
+  try {
+    // Install text block beans.
+    $beans = [];
+    $beans[] = array(
+      'title' => 'Testy Text Block 1',
+      'content' => 'Text Block A Content AAA',
+      'delta' => 'block-'. $user['uid']. '01',
+    );
+
+    $beans[] = array(
+      'title' => 'Testy Text Block 2',
+      'content' => 'Text Block B Content BBB',
+      'delta' => 'block-'. $user['uid']. '02',
+    );
+
+    foreach ($beans as $key => $value) {
+      $bean = bean_create(array('type' => 'block'));
+      $bean->label = $value['title'];
+      $bean->title = $value['title'];
+      $bean->delta = $value['delta'];
+      $bean->uid = $user['uid'];
+      $bean->field_block_text = array(
+        LANGUAGE_NONE => array(array(
+          'value' => $value['content'],
+        )),
+      );
+      $bean->save();
+    }
+
+    $node = (object) [
+      'type' => 'page',
+      'status' => 1,
+      'title' => 'Testy Page 1',
+      'body' => 'Body for Test Page 1',
+      'uid' => $user['uid'],
+    ];
+    node_save($node);
+
+    $node = (object) [
+      'type' => 'page',
+      'status' => 1,
+      'title' => 'Testy Page 2',
+      'body' => 'Body for Test Page 2',
+      'uid' => $user['uid'],
+    ];
+    node_save($node);
+
+    drupal_set_message(t("Created content for '@name'.", [
+      '@name' => $user['name'],
+      //    '@role' => implode(',', array_values($new_user->roles)),
+      //    '@realname' => $new_user->realname
+    ]));
+    return '';
+  } catch (Exception $exception) {
+    drupal_set_message(t("Error creating content for '@name': @error.", [
+      '@error' => $exception->getMessage(),
+      '@name' => $user['name'],
+      //    '@realname' => $new_user->realname
+    ]));
+    return '';
+  }
 }

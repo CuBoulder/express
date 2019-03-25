@@ -888,6 +888,7 @@ function cu_users_purge_user(string $identifier = 'alfi2595', string $type = 'id
 
     $user_name = (string) variable_get('cu_users_reassign_content_user', $default_site_owner);
     $reassign_user = cu_users_find_by_identikey($user_name);
+
     cu_users_reassign_user_content($user, $reassign_user, $content);
   }
 
@@ -930,7 +931,7 @@ function cu_users_find_by_identikey(string $identikey): array {
     watchdog('cu_users', $exception->getMessage());
     return [];
   }
-  return $user;
+  return (array) $user;
 }
 
 /**

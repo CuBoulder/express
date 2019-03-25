@@ -17,35 +17,6 @@ use Behat\Behat\Hook\Scope\AfterStepScope;
 class FeatureContext extends MinkContext
 {
 
-  /*
-   * @AfterScenario
-   * @param \Behat\Behat\Hook\Scope\AfterScenarioScope $scope
-
-  public function after(AfterScenarioScope $scope)
-  {
-    $this->getSession()->visit($this->locatePath('/user/logout'));
-  } */
-
-  /*
-   * After every step in a @javascript scenario, we want to wait for AJAX
-   * loading to finish. If a test failure, then take a screenshot of failed step.
-   *
-   * @AfterStep
-   *
-   * @param \Behat\Behat\Hook\Scope\AfterStepScope $scope
-
-  /*
-  public function afterStep(AfterStepScope $scope)
-  {
-    if (0 === $scope->getTestResult()->getResultCode()) {
-      $driver = $this->getSession()->getDriver();
-      if (!($driver instanceof Selenium2Driver)) {
-        return;
-      }
-      $this->iWaitForAjax();
-    }
-  } */
-
   /**
    * Wait for AJAX to finish.
    *
@@ -221,6 +192,8 @@ class FeatureContext extends MinkContext
    *
    * @param string $arg1
    *   The CSS selector you are waiting to appear.
+   *
+   * @throws \Exception
    */
   public function iWaitForTheElementToAppear($arg1) {
     $this->spinner(function($context, $arg1) {
