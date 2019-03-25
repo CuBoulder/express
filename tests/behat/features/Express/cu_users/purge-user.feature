@@ -23,6 +23,6 @@ Feature: Purge Users
     Then I should not see "No content available."
     # Check block content is reassigned to other users.
     When I go to "admin/content/blocks?title=Testy+Text&label=&type=All&realname=foo_bar"
-    Then I should see "No content available."
+    Then I should see "No blocks available."
     When I go to "admin/content/blocks?title=Testy+Text&label=&type=All&realname=site_owner"
-    Then I should not see "No content available."
+    Then I should not see "No blocks available."
