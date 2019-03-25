@@ -5,7 +5,7 @@ Feature: Purge Users
   Scenario: Create user to be purged.
     Given I am logged in as a site_owner
     When I go to "test-create-user/foo_bar/site_editor/FooBar"
-    Then I should see "Created User {name: 'foo_bar', roles: 'authenticated user,site_editor', realname: 'FooBar'."\
+    Then I should see "Created User {name: 'foo_bar', roles: 'authenticated user,site_editor', realname: 'FooBar'."
 
   Scenario: Create content for user to be purged.
     Given I am logged in as a site_owner
