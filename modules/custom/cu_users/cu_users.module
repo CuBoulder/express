@@ -21,7 +21,6 @@ function cu_users_get_users($type = 'all') {
     'sniderc' => 'Catherine.Snider@Colorado.EDU',
     'kere7580' => 'Kevin.Reynen@Coloardo.EDU',
     'jafu6031' => 'James.W.Fuller@Colorado.EDU',
-    'alfi2595' => 'alexander.finnarn@colorado.edu',
     'jeor0980' => 'Jesus.OrtizTovar@colorado.edu',
     'osr-test-sis' => 'osr-test-sis@colorado.edu',
   );
