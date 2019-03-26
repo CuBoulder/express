@@ -6,6 +6,7 @@ Feature: Purge Users
     Given I am logged in as a developer
     When I go to "test-create-user/foo_bar/site_editor/FooBar"
     Then I should see "Created User {name: 'foo_bar', roles: 'authenticated user,site_editor', realname: 'FooBar'."
+    # Go to people overview with "FooBar" in the search criteria.
     When I go to "admin/people?combine=FooBar&rid_op=or&rid=All&status=All"
     Then I should see "Member for"
 
@@ -28,6 +29,6 @@ Feature: Purge Users
     Then I should see "No blocks available."
     When I go to "admin/content/blocks?title=Testy+Text&label=&type=All&realname=site_owner"
     Then I should not see "No blocks available."
-    # Check user is deleted.
+    # No users found on people overview with "FooBar" in the search criteria.
     When I go to "admin/people?combine=FooBar&rid_op=or&rid=All&status=All"
     Then I should not see "Member for"

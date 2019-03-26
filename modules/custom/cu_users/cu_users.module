@@ -873,11 +873,19 @@ function cu_users_purge_user(string $identifier): string {
     $user_name = (string) variable_get('cu_users_reassign_content_user', $default_site_owner);
     $reassign_user = cu_users_find_user($user_name);
 
+    // If no user, then make anonymous.
+    $reassign_user = $reassign_user !== [] ? $reassign_user : ['uid' => 0];
+
     cu_users_reassign_user_content($user, $reassign_user, $content);
   }
 
   // Taken from the _user_cancel() function.
+  // Invoking the hook only calls a function in the Node module which reassigns content to the anonymous user.
+  // module_invoke_all('user_cancel', [], user_load($user['uid']), 'user_cancel_reassign');
   user_delete($user['uid']);
+
+  watchdog('cu_users', 'Purging User {@user} - Deleted user.', ['@user' => $user['name']]);
+  drupal_set_message(t('Purging User {@user} - Deleted user.', ['@user' => $identifier]));
 
   // Destroy session.
   try {
@@ -965,12 +973,14 @@ function cu_users_reassign_user_content(array $user, array $new_owner, array $co
         ->condition('uid', $user['uid'], '=')
         ->execute();
 
-      watchdog('cu_users', 'Purging User {@user} - Reassigned @number @table contents.', [
+      // Fix for when reassign user not there...
+
+      watchdog('cu_users', 'Purging User {@user} - Reassigned @number items in @table table.', [
         '@user' => $user['name'],
         '@table' => $table_name,
         '@number' => $num_updated,
       ]);
-      drupal_set_message('Purging User {@user} - Reassigned @number @table contents.', [
+      drupal_set_message('Purging User {@user} - Reassigned @number items in @table table.', [
         '@user' => $user['name'],
         '@table' => $table_name,
         '@number' => $num_updated,
@@ -990,7 +1000,9 @@ function cu_users_reassign_user_content(array $user, array $new_owner, array $co
 function cu_users_get_content_tables(): array {
   return [
     'node' => 'title',
+    'node_revision' => 'title',
     'bean' => 'title',
+    'bean_revision' => 'title',
     'user_external_invite' => 'mail',
     'redirect' => 'redirect',
   ];
