@@ -880,7 +880,7 @@ function cu_users_purge_user(string $identifier): string {
 
   // Taken from the _user_cancel() function.
   // Invoking the hook only calls a function in the Node module which reassigns content to the anonymous user.
-  // module_invoke_all('user_cancel', [], user_load($user['uid']), 'user_cancel_reassign');
+  // module_invoke_all('user_cancel', [], user_load($user['uid']), 'user_cancel_reassign');.
   user_delete($user['uid']);
 
   watchdog('cu_users', 'Purging User {@user} - Deleted user.', ['@user' => $user['name']]);
