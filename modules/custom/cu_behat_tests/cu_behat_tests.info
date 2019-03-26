@@ -17,3 +17,6 @@ dependencies[] = cu_social_media_bundle
 
 ; Create users for tests.
 dependencies[] = cu_local_users
+
+; Enable any test helper modules
+dependencies[] = cu_users_tests

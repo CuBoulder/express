@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for the cu_users_tests module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function cu_users_tests_install() {
+  // Set default user to local 'site_owner' test user.
+  variable_set('cu_users_reassign_content_user', 'site_owner');
+}
