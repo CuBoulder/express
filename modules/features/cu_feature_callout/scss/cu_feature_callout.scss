@@ -143,6 +143,7 @@ $text: #202020;
 .content-grid-style-large_teaser.row,
 .content-grid-style-large_teaser_alt.row {
   margin:0;
+  flex-direction: column;
 }
 
 .content-grid-style-large_teaser_alt {
@@ -435,6 +436,7 @@ $text: #202020;
 }
 .content-grid-style-teaser.row {
   margin:0;
+  flex-direction: column;
 }
 .content-grid-style-teaser {
   @include headers;
