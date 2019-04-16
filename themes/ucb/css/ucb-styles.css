@@ -74,7 +74,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 .header-wrapper { background: #fff; color: #111111; }
 
 header.ucb { position: relative; display: flex; align-items: center; font-size: 20px; padding: 15px 0; font-weight: 750; font-family: "Neue Helvetica W05", "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 1.1; }
-header.ucb .site-name, header.ucb h1.site-name { font-size: 20px; font-weight: 750; font-family: "Neue Helvetica W05", "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+header.ucb .site-name, header.ucb h1.site-name { font-size: 20px; font-weight: 750; font-family: "Neue Helvetica W05", "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif; line-height: 1.1; }
 @media screen and (min-width: 768px) { header.ucb, header.ucb .site-name, header.ucb h1.site-name { font-size: 30px; } }
 header.ucb .site-name-wrapper { flex-grow: 1; padding-right: 40px; }
 
