@@ -28,7 +28,8 @@
     *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] .background-#{$name},
     *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] .background-#{$name},
     *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] .background-#{$name},
-    *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"]*[class*="background-"] *[class*="background-"] .background-#{$name},
+    *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] .background-#{$name}
+
      {
       background-color: $color;
       color: set-text-color($color);

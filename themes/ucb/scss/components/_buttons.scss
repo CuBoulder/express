@@ -196,21 +196,30 @@ a.button-ghost {
   a.button-ghost.button-ghost-#{$name},
   .buttons-color-outline-#{$name} a,
   .buttons-color-outline-#{$name} a.button {
-    border:1px solid $color;
-    @include rounded($radius: 0px);
-    color: $color !important;
-    text-decoration: none;
-    @if (lightness($color) > 40) {
-      background: rgba(#000, .15);
+    &,
+    *[class*="background-"] &,
+    *[class*="background-"] *[class*="background-"] &,
+    *[class*="background-"] *[class*="background-"] *[class*="background-"] &,
+    *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] &,
+    *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] &,
+    *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] &, *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] & {
+      border:1px solid $color;
+      @include rounded($radius: 0px);
+      color: $color !important;
+      text-decoration: none;
+      @if (lightness($color) > 40) {
+        background: rgba(#000, .15);
+      }
+      @else {
+        background: rgba(#FFF, .15);
+      }
+      &:hover,
+      &:active,
+      &:focus {
+        background: $color;
+        color: set-text-color($color) !important;
+      }
     }
-    @else {
-      background: rgba(#FFF, .15);
-    }
-    &:hover,
-    &:active,
-    &:focus {
-      background: $color;
-      color: set-text-color($color) !important;
-    }
+
   }
 }
