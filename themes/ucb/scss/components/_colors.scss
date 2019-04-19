@@ -116,7 +116,14 @@
  }
 
  @for $i from 1 through 9 {
-  .background-gray-#{$i}00 {
+  .background-gray-#{$i}00,
+  *[class*="background-"] .background-gray-#{$i}00,
+  *[class*="background-"] *[class*="background-"] .background-gray-#{$i}00,
+  *[class*="background-"] *[class*="background-"] *[class*="background-"] .background-gray-#{$i}00,
+  *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] .background-gray-#{$i}00,
+  *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] .background-gray-#{$i}00,
+  *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] .background-gray-#{$i}00,
+  *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] *[class*="background-"] .background-gray-#{$i}00, {
     $color: darken(#fff, $i * 10);
     background: $color;
     color: set-text-color($color);
