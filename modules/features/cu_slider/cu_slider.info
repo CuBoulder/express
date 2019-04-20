@@ -11,6 +11,7 @@ dependencies[] = fences
 dependencies[] = field_collection
 dependencies[] = field_group
 dependencies[] = image
+dependencies[] = libraries
 dependencies[] = link
 dependencies[] = list
 dependencies[] = options
