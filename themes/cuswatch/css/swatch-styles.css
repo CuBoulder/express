@@ -25,11 +25,7 @@ ul#action-menu a { line-height: 20px; margin: 20px 0 20px 10px; }
 
 #navigation ul.action-menu a { margin: 18px 5px; color: #ccc; }
 
-.intro-wide-wrapper, .slider-wrapper { background-color: #171717; }
-
-.slider-wrapper { padding: 20px; color: #fff; }
-.slider-wrapper a { color: #cfb87c; }
-.slider-wrapper a:hover { color: #fff; }
+.slider-wrapper { padding: 20px; }
 
 #page-title-wrapper { background-color: #171717; color: #fff; padding: 20px; }
 #page-title-wrapper a { color: #cfb87c; }

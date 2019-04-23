@@ -300,6 +300,7 @@ function ucb_preprocess_page(&$vars) {
   $vars['search_mobile'] = _block_get_renderable_array(_block_render_blocks(array($block)));
 
   // Section classes
+  $vars['section']['intro']['class'] = theme_get_setting('intro_class');
   $vars['section']['slider']['class'] = theme_get_setting('slider_class');
   $vars['section']['after-content2']['class'] = theme_get_setting('after_content2_class');
   $vars['section']['footer-section']['class'] = theme_get_setting('footer_section_class');

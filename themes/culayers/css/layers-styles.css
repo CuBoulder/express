@@ -22,9 +22,7 @@ body { background-color: #333; }
 #navigation ul#action-menu > li > a { color: #ccc; }
 #navigation ul#action-menu > li > a.active, #navigation ul#action-menu > li > a.active-trail, #navigation ul#action-menu > li > a:hover, #navigation ul#action-menu > li > a:focus { color: #cfb87c; }
 
-.slider-wrapper { background-color: #171717; padding: 20px; color: #fff; }
-.slider-wrapper a { color: #cfb87c; }
-.slider-wrapper a:hover { color: #fff; }
+.slider-wrapper { padding: 20px; }
 
 .top-content-wrapper { background-color: #f1f1f1; }
 

@@ -33,7 +33,7 @@ regions[content_bottom] = 'Content Bottom'
 settings[layout_style] = 'layout-wide'
 
 ; Region background colors
-settings[slider_class] = 'background-gray-light'
+settings[slider_class] = 'background-gray-dark'
 settings[after_content2_class] = 'background-gray-light'
 settings[footer_section_class] = 'background-gray-dark'
 settings[site_info_class] = 'background-black'
