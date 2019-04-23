@@ -31,6 +31,7 @@ regions[content_sidebar_left] = 'Content Sidebar Left'
 regions[content_bottom] = 'Content Bottom'
 
 ; Region background colors
+settings[intro_class] = 'background-gray-dark'
 settings[slider_class] = 'background-gray-800'
 settings[after_content2_class] = 'background-gray-light'
 settings[footer_section_class] = 'background-gray-800'

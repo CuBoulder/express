@@ -23,11 +23,9 @@ body { background-color: #000; border-top: 4px solid #cfb87c; }
 #navigation ul#action-menu > li > a:hover, #navigation ul#action-menu > li > a.active, #navigation ul#action-menu > li > a.active-trail { color: #222; }
 #navigation .home-link { margin-left: -12px; }
 
-.intro-wide-wrapper, .post-wide-wrapper { background: #fff; }
+.post-wide-wrapper { background: #fff; }
 
-.slider-wrapper { padding: 20px; color: #fff; }
-.slider-wrapper a { color: #cfb87c; }
-.slider-wrapper a:hover { color: #fff; }
+.slider-wrapper { padding: 20px; }
 
 .page-title-image-boxed { padding-top: 20px; }
 

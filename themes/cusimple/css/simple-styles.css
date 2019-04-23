@@ -10,7 +10,7 @@ body { background-color: #000; }
 
 #navigation nav { background-color: #333; }
 
-#intro-wide-wrapper { background: #fff; padding-bottom: 20px; }
+#intro-wide-wrapper { padding-bottom: 20px; }
 
 #main { padding-top: 0; }
 
@@ -48,8 +48,6 @@ h2.secondary-menu-label { margin-left: 8px; }
 #main-menu-wrapper ul#main-menu > li > a.active, #main-menu-wrapper ul#main-menu > li > a.active-trail { background-color: #cfb87c; background-image: -webkit-gradient(linear, left top, left bottom, from(#cfb87c), to(#bd9e4c)); background-image: -webkit-linear-gradient(top, #cfb87c, #bd9e4c); background-image: -moz-linear-gradient(top, #cfb87c, #bd9e4c); background-image: -o-linear-gradient(top, #cfb87c, #bd9e4c); background-image: -ms-linear-gradient(top, #cfb87c, #bd9e4c); background-image: linear-gradient(top, #cfb87c, #bd9e4c); filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#FFCFB87C', EndColorStr='#FFBD9E4C'); color: #000; }
 
 #main-menu-wrapper ul#action-menu > li > a { color: #fff; }
-
-.intro-wide-wrapper { background-color: #fff; }
 
 .slider-wrapper { padding: 20px; }
 

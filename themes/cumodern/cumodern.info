@@ -35,6 +35,7 @@ settings[layout_style] = 'layout-wide'
 settings[banner_color] = 'black'
 
 ; Region background colors
+settings[intro_class] = 'background-gray-dark'
 settings[slider_class] = 'background-gray-light'
 settings[after_content2_class] = 'background-gray-light'
 settings[footer_section_class] = 'background-gray-dark'
