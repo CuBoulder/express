@@ -2,7 +2,7 @@ $closed: #0277BD;
 $blue: #0277BD;
 $open: #999;
 $background:#f2f2f2;
-$border: #e7e7e7;
+$border: rgba(128,128,128,.333);
 $cugold: #CFB87C;
 
 @mixin listReset {
@@ -41,7 +41,8 @@ $cugold: #CFB87C;
   .expandable-tab-group {
     background: $background;
     width:25%;
-    min-width:200px;
+    border: 1px solid $border;
+    border-right: none;
   }
   ul.expandable-tablist,
   ul.expandable-tablist > li {
@@ -53,23 +54,21 @@ $cugold: #CFB87C;
   ul.expandable-tablist {
 
 
-    border: 1px solid $border;
-    border-right:none;
+
     li {
       display: block;
     }
     a {
       display: block;
       padding:10px;
-      border:1px solid $background;
-      border-right: none;
+      background: #e7e7e7;
       color: #6a6a6a;
       font-weight: 600;
     }
     li.is-active a {
       background-color: #fff;
       color:#202020;
-      border: 1px solid $background;
+      //border: 1px solid $background;
       border-right: none;
     }
   }
@@ -80,6 +79,10 @@ $cugold: #CFB87C;
       border-left:none;
       flex-grow:1;
       background:#fff;
+      width:75%;
+      .expandable-panel {
+        width: 100%;
+      }
     }
   }
 }
@@ -90,16 +93,18 @@ $cugold: #CFB87C;
     border-bottom:1px solid $border;
     margin-bottom:-1px;
     a:link,a:visited {
-      color:#202020;
+      //color:#202020;
       font-weight: normal;
       padding:10px 0;
       display: block;
+      text-decoration: none !important;
     }
     a:before {
       content: '\f0fe';
       font-family: FontAwesome;
       margin-right:10px;
-      color: $closed;
+      //color: $closed;
+      opacity: .75;
     }
     a.is-active:before {
         content: '\f146';
@@ -166,7 +171,7 @@ $cugold: #CFB87C;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    border-bottom:1px solid #333;
+    border-bottom:1px solid rgba(128,128,128,.75);
     li {
       display: flex;
       flex-grow: 1;
@@ -174,7 +179,7 @@ $cugold: #CFB87C;
       align-self: flex-end;
     }
     a {
-      color: $blue;
+      //color: $blue;
       display: block;
       padding:5px 10px;
       font-weight: bold;
@@ -182,10 +187,13 @@ $cugold: #CFB87C;
       z-index: 1;
       margin:0 auto;
       line-height: 1.2;
+      text-decoration: none !important;
+      opacity: .75;
     }
     li.is-active a {
       // background:#fff;
-      color:#202020;
+      //color:#202020;
+      opacity: 1;
       position: relative;
       &:after {
         content: "";
@@ -193,7 +201,7 @@ $cugold: #CFB87C;
         height: 0;
         border-left: 10px solid transparent;
         border-right: 10px solid transparent;
-        border-top: 6px solid #333;
+        border-top: 6px solid rgba(128,128,128,.75);
         bottom: -6px;
         left: 0;
         right: 0;

@@ -2,7 +2,7 @@
   $label = trim(render($variables['expandable']['label']));
 ?>
 
-<div id="<?php print cu_expandable_system_label($label); ?>-<?php print $variables['expandable']['bid']; ?>" class="expandable-tabcontent expandable-panel">
+<div id="<?php print cu_expandable_system_label($label); ?>-<?php print $variables['expandable']['bid']; ?>" class="<?php if ($variables['expandable']['display'] == 'tabs-vertical') { print 'background-white'; } ?> expandable-tabcontent expandable-panel">
   <?php print render($variables['expandable']['text']); ?>
   <?php
     if (!empty($variables['expandable']['block'])) {

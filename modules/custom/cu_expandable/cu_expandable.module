@@ -128,7 +128,11 @@ function cu_expandable_system_label($string) {
 function cu_expandable_field_widget_form_alter(&$element, &$form_state, $context)	{
   // Get entity layout fields
   if (!empty($element['#bundle']) && $element['#bundle'] == 'field_expandable_section' && $element['#field_name'] == 'field_expandable_block') {
+    if (!empty($element['actions']['bundle']['#options']['expandable'])) {
+      unset($element['actions']['bundle']['#options']['expandable']);
+    }
     express_layout_format_ief($element);
+
   }
 }
 

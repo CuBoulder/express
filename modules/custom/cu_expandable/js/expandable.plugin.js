@@ -38,7 +38,7 @@
 
         var id = $($tab).data('expandable-panel');
         var label = $($tab).text();
-        var link = '<a href="#' + id +'" role="tab" tabindex="0" aria-controls="' + id + '" aria-expanded="false" id="accordion-section-' + id + '">' + label + '</a>';
+        var link = '<a href="#' + id +'" role="tab" tabindex="0" aria-controls="' + id + '" aria-expanded="false" id="accordion-section-' + id + '" class="text-color">' + label + '</a>';
         $('.expandable-tabcontent:eq(' + i + ')', $tabs).before('<strong class="expandable-accordion-heading">' + link + '</strong>');
         // $('.expandable-accordion-heading', $tabs).hide();
 
@@ -71,13 +71,14 @@
 
         $('.expandable-tabcontent', $tabs).hide().attr({'aria-hidden':'true'});
         $('.expandable-tablist li', $tabs).removeClass('is-active');
+        $('.expandable-tablist li a', $tabs).removeClass('is-active');
         $('.expandable-tablist li a', $tabs).attr({
           'aria-selected': 'false',
         });
 
         $tab.attr({
           'aria-selected': 'true',
-        }).parent().addClass('is-active');
+        }).addClass('is-active').parent().addClass('is-active');
         $tab.focus();
 
         var $panel = $tab.attr('href');
@@ -168,7 +169,7 @@
           $('.expandable-accordion-heading a', $tabs).removeClass('is-active').attr({'aria-expanded':'false'});
           // show panel
           $($hash, $tabs).show().attr({'aria-expanded':'true'});
-          $('.expandable-tablist li a[href="' + $hash + '"]', $tabs).addClass('isActive').attr({
+          $('.expandable-tablist li a[href="' + $hash + '"]', $tabs).addClass('is-active').attr({
             'aria-selected': 'true',
           }).parent().addClass('is-active');
           $('.expandable-accordion-heading a[href="' + $hash + '"]', $tabs).addClass('is-active').attr({'aria-expanded':'true'});
