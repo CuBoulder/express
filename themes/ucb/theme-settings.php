@@ -7,6 +7,21 @@ function ucb_form_system_theme_settings_alter(&$form, &$form_state) {
 		'#title' => t('Theme Settings'),
     '#description' => 'Customizable options for the design and layout of site content.',
 	);
+  $form['expressbase_theme_settings']['branding'] = array(
+		'#type' => 'fieldset',
+		'#title' => t('Branding'),
+		'#collapsible' => TRUE,
+		'#collapsed' => TRUE,
+	);
+	$form['expressbase_theme_settings']['branding']['brand_bar_color'] = array(
+	  '#type' => 'select',
+	  '#title' => t('Choose a color for the brand bar.'),
+	  '#default_value' => theme_get_setting('brand_bar_color', $theme),
+    '#options' => array(
+      'black' => 'White Background/Black Logo',
+      'white' => 'Black Background/White Logo',
+    ),
+	);
   $collapsed = isset($_GET['responsive']) ? FALSE : TRUE;
   $form['expressbase_theme_settings']['responsive'] = array(
 		'#type' => 'fieldset',
