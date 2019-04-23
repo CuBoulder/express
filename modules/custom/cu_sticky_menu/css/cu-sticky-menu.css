@@ -6,6 +6,7 @@
 
 .sticky-menu-site-name { flex-shrink: 1; padding-right: 40px; min-width: 300px; font-family: "Neue Helvetica W05", "Roboto Condensed", "Helvetica Neue", Helvetica, Arial, sans-serif; }
 .sticky-menu-site-name a:link, .sticky-menu-site-name a:visited { color: #fff; }
+.sticky-menu-site-name img { width: 100%; height: auto; max-width: 240px !important; }
 
 .sticky-menu-menu { font-size: 75%; font-weight: bold; }
 .sticky-menu-menu a:link, .sticky-menu-menu a:visited { color: #fff; }

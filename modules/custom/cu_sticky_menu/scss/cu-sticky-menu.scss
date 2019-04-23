@@ -40,6 +40,11 @@ $cugold: #cfb87c;
   a:visited {
     color:#fff;
   }
+  img {
+    width:100%;
+    height: auto;
+    max-width: 240px !important;
+  }
 }
 .sticky-menu-menu {
   font-size: 75%;
