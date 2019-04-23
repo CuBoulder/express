@@ -1,8 +1,8 @@
 <?php
   global $base_url;
-  $color = isset($logo_color) ? $logo_color : 'black';
+  // Get logo/brand bar color.
+  $color = !empty(theme_get_setting('brand_bar_color')) ? theme_get_setting('brand_bar_color') : 'black';
   $logo = $base_url . '/' . drupal_get_path('theme', 'ucb') . '/images/cu-boulder-logo-text-' . $color . '.svg';
-
 ?>
 <div class="brand-bar brand-bar-color-<?php print $color; ?> no-underline">
   <div class="container">
