@@ -40,15 +40,35 @@ function cu_sticky_menu_preprocess_html(&$variables) {
       $site_name = variable_get('site_name', '');
       global $base_url;
       $logo = $base_url . '/' . drupal_get_path('theme', 'ucb') . '/images/cu-boulder-logo-text-white.svg';
-      $variables['page']['page_top']['sticky_menu']['#markup'] = '<div id="sticky-menu" class="clearfix shadow-large">
+
+      // Custom logo.
+      $custom_logo = array();
+      // Load logo files
+      if (variable_get('cu_custom_white_logo', NULL) && variable_get('cu_custom_black_logo', NULL)) {
+        $custom_logo = array(
+          'white' => file_load(variable_get('cu_custom_white_logo')),
+          'black' => file_load(variable_get('cu_custom_black_logo')),
+        );
+        // Create img markup
+        $custom_logo['white']->markup = '<img class="cu-custom-logo custom-logo-white" src="' . file_create_url($custom_logo['white']->uri) . '" alt="' . check_plain($site_name) . ' logo" />';
+        $custom_logo['black']->markup = '<img class="cu-custom-logo custom-logo-black" src="' . file_create_url($custom_logo['black']->uri) . '" alt="' . check_plain($site_name) . ' logo" />';
+        $sticky_site_name = '<a href="' . $base_url . '">' . $custom_logo['white']->markup . '</a>';
+      }
+      else {
+        $sticky_site_name = '<a href="' . $base_url . '"><span class="site-name clearfix">' . strip_tags($site_name) . '</span></a>';
+      }
+
+
+
+      $variables['page']['page_top']['sticky_menu']['#markup'] = '<div id="sticky-menu" class="clearfix shadow-large"><div class="container">
         <img src="' . $logo . '" alt="University of Colorado Boulder"/>
         <div class="sticky-menu-inner">
           <div class="sticky-menu-site-name">
-            <a href="' . $base_url . '"><span class="site-name clearfix">' . strip_tags($site_name) . '</span></a>
+            ' . $sticky_site_name . '
           </div>
           <div class="sticky-menu-menu">' . _cu_sticky_menu_build($menu) . '</div>
         </div>
-      </div>';
+      </div></div>';
   }
 }
 
