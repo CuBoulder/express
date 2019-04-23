@@ -73,6 +73,20 @@
           background: set-text-color($color);
         }
       }
+      a.text-color {
+        &:link,
+        &:visited,
+        &:hover,
+        &:active,
+        &:focus {
+          color: set-text-color($color);
+        }
+        &:hover,
+        &:active,
+        &:focus {
+          text-decoration: underline;
+        }
+      }
     }
     .exbd-block.exbd-style-#{$name} {
       padding:10px;
