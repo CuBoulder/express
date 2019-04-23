@@ -143,6 +143,9 @@ function cu_related_articles_block_output($view_mode) {
       $query->condition('tags.field_tags_tid', $tags, 'in');
       // Get results
       $results = $query->execute()->fetchAll();
+      // Makes sure to only return unique results.
+      // Autocomplete/Tagging term reference field is creating MultipleIterator/// rows with the same term id.
+      $results = array_map("unserialize", array_unique(array_map("serialize", $results)));
       // Build new array with values of count of node id and created date,
       // keyed by node id.
       $results2 = array();
@@ -190,6 +193,9 @@ function cu_related_articles_block_output($view_mode) {
       $query->condition('cats.field_article_categories_tid', $categories, 'in');
       // Get results
       $results = $query->execute()->fetchAll();
+      // Makes sure to only return unique results.
+      // Autocomplete/Tagging term reference field is creating MultipleIterator/// rows with the same term id.
+      $results = array_map("unserialize", array_unique(array_map("serialize", $results)));
       // Build new array with values of count of node id and created date,
       // keyed by node id.
       $results2 = array();
@@ -237,6 +243,9 @@ function cu_related_articles_block_output($view_mode) {
       $query->condition('tags.field_tags_tid', $tags, 'in');
       // Get results
       $results = $query->execute()->fetchAll();
+      // Makes sure to only return unique results.
+      // Autocomplete/Tagging term reference field is creating MultipleIterator/// rows with the same term id.
+      $results = array_map("unserialize", array_unique(array_map("serialize", $results)));
       // Build new array with values of count of node id and created date,
       // keyed by node id.
       $results2 = array();
