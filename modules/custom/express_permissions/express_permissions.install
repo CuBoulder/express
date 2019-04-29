@@ -1,6 +1,36 @@
 <?php
 
 /**
+ * Implements hook_requirements().
+ */
+function express_permissions_requirements($phase) {
+  $requirements = array();
+
+  // Ensure translations don't break during installation.
+  $t = get_t();
+
+  if ($phase === 'runtime') {
+    if (!variable_get('secure_permissions_disable_forms')) {
+      $requirements['express_permissions_forms'] = array(
+        'value' => $t('Not disabled'),
+        'description' => $t('In production, permissions and roles forms should be disabled. Go to the <a href="@url">Secure Permissions settings page</a> to disable them.', array('@url' => 'admin/config/people/secure_permissions')),
+        'severity' => variable_get('express_core_version') === 'cu_core' ? REQUIREMENT_ERROR : REQUIREMENT_INFO,
+      );
+    }
+    else {
+      $requirements['express_permissions_forms'] = array(
+        'value' => $t('Disabled'),
+        'severity' => REQUIREMENT_OK,
+      );
+    }
+
+    $requirements['express_permissions_forms']['title'] = $t('Permissions and roles forms');
+  }
+
+  return $requirements;
+}
+
+/**
  * Implements hook_install().
  *
  * Creates a set of default users with specified roles.
