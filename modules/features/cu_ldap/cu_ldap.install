@@ -1,6 +1,37 @@
 <?php
 
 /**
+ * Implements hook_requirements().
+ */
+function cu_ldap_requirements($phase) {
+  $requirements = array();
+
+  // Ensure translations don't break during installation.
+  $t = get_t();
+
+  if ($phase === 'runtime') {
+    $ldap_authentication_conf = variable_get('ldap_authentication_conf', array());
+    if (!(isset($ldap_authentication_conf['authenticationMode']) && $ldap_authentication_conf['authenticationMode'] === LDAP_AUTHENTICATION_EXCLUSIVE)) {
+      $requirements['cu_ldap_authentication_mode'] = array(
+        'value' => $t('Mixed'),
+        'description' => $t('When the authentication mode is mixed, Drupal authentication takes precedence over LDAP authentication. Change the authentication mode to LDAP only on the <a href="@url">LDAP Authentication settings page</a>.', array('@url' => url('admin/config/people/ldap/authentication'))),
+        'severity' => REQUIREMENT_ERROR,
+      );
+    }
+    else {
+      $requirements['cu_ldap_authentication_mode'] = array(
+        'value' => $t('Exclusive'),
+        'severity' => REQUIREMENT_OK,
+      );
+    }
+
+    $requirements['cu_ldap_authentication_mode']['title'] = $t('LDAP Authentication mode');
+  }
+
+  return $requirements;
+}
+
+/**
  * Add record to 'ldap_servers' so that features can compare code to db.
  */
 function cu_ldap_update_7001() {
