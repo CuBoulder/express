@@ -217,6 +217,27 @@ $directions: (
       margin-#{$direction}: $spacing*2;
     }
   }
+  .padding-xs {
+    padding: $spacing;
+  }
+  .padding-xs-small {
+    padding: $spacing/2;
+  }
+  .padding-xs-large {
+    padding: $spacing*2;
+  }
+  .padding-xs-vertical {
+    padding-top: $spacing;
+    padding-bottom: $spacing;
+  }
+  .padding-xs-small-vertical {
+    padding-top: $spacing/2;
+    padding-bottom: $spacing/2;
+  }
+  .padding-xs-large-vertical {
+    padding-top: $spacing*2;
+    padding-bottom: $spacing*2;
+  }
 }
 
 @media (min-width: $breakpoint_small) and (max-width: $breakpoint_medium - 1) {
@@ -231,6 +252,27 @@ $directions: (
       margin-#{$direction}: $spacing*2;
     }
   }
+  .padding-sm {
+    padding: $spacing;
+  }
+  .padding-sm-small {
+    padding: $spacing/2;
+  }
+  .padding-sm-large {
+    padding: $spacing*2;
+  }
+  .padding-sm-vertical {
+    padding-top: $spacing;
+    padding-bottom: $spacing;
+  }
+  .padding-sm-small-vertical {
+    padding-top: $spacing/2;
+    padding-bottom: $spacing/2;
+  }
+  .padding-sm-large-vertical {
+    padding-top: $spacing*2;
+    padding-bottom: $spacing*2;
+  }
 }
 @media (min-width: $breakpoint_medium) and (max-width: $breakpoint_large - 1) {
   @each $direction in $directions {
@@ -243,6 +285,27 @@ $directions: (
     .margin-md-#{$direction}-large {
       margin-#{$direction}: $spacing*2;
     }
+  }
+  .padding-md {
+    padding: $spacing;
+  }
+  .padding-md-small {
+    padding: $spacing/2;
+  }
+  .padding-md-large {
+    padding: $spacing*2;
+  }
+  .padding-md-vertical {
+    padding-top: $spacing;
+    padding-bottom: $spacing;
+  }
+  .padding-md-small-vertical {
+    padding-top: $spacing/2;
+    padding-bottom: $spacing/2;
+  }
+  .padding-md-large-vertical {
+    padding-top: $spacing*2;
+    padding-bottom: $spacing*2;
   }
 }
 
@@ -257,6 +320,27 @@ $directions: (
     .margin-lg-#{$direction}-large {
       margin-#{$direction}: $spacing*2;
     }
+  }
+  .padding-lg {
+    padding: $spacing;
+  }
+  .padding-lg-small {
+    padding: $spacing/2;
+  }
+  .padding-lg-large {
+    padding: $spacing*2;
+  }
+  .padding-lg-vertical {
+    padding-top: $spacing;
+    padding-bottom: $spacing;
+  }
+  .padding-lg-small-vertical {
+    padding-top: $spacing/2;
+    padding-bottom: $spacing/2;
+  }
+  .padding-lg-large-vertical {
+    padding-top: $spacing*2;
+    padding-bottom: $spacing*2;
   }
 }
 
